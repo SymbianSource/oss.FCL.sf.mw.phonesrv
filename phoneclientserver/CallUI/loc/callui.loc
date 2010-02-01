@@ -1,0 +1,177 @@
+/*
+* Copyright (c) 2004-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file contains the localised strings for CallUI.
+*
+*/
+
+
+
+//  LOCALISATION STRINGS
+
+// d: It is text for a menu option. If it is selected, 
+// d: normal, i.e. voice call will be made.
+// l: list_single_popup_submenu_pane_t1
+//
+#define qtn_call_sub_voice "Voice call"
+
+
+// d: It is text for a menu option. If it is selected, 
+// d: video call will be made.
+// l: list_single_popup_submenu_pane_t1
+//
+#define qtn_call_sub_video "Video call"
+
+// d: It is text for a menu option. If it is selected, 
+// d: an internet call will be made.
+// d: %U is replaced with the VoIP service name.
+// l: list_single_popup_submenu_pane_t1
+// r: 5.0
+//
+#define qtn_call_sub_voip_with_name "%U call"
+
+
+// d: Defines list query header for call type inquiry.
+// l: heading_pane_t1
+//
+#define qtn_popup_title_create "Create:"
+
+
+// d: In list query selecting this option
+// d: means that normal, i.e. voice call is created.
+// l: list_single_pane_t1_cp2
+//
+#define qtn_popup_create_voice "Voice call"
+
+
+// d: In list query selecting this option
+// d: means that video call is created.
+// l: list_single_pane_t1_cp2
+//
+#define qtn_popup_create_video "Video call"
+
+
+// d: In list query selecting this option
+// d: means that internet call is created.
+// l: list_single_pane_t1_cp2
+// w:
+// r: 3.0
+//
+//
+#define qtn_popup_create_internet "Internet call"
+
+
+// d: Defines the information note text shown to user when there is 
+// d: no network support for video call. 
+// l: popup_note_window
+//
+#define qtn_tel_no_video_network "No network support for video call."
+
+
+// d: Defines list query header for reconnect type inquiry.
+// l: heading_pane_t1
+//
+#define qtn_tel_retry_voicevideo_call "Reconnect via:"
+
+
+// d: In reconnect query selecting this option means that
+// d: voice call is created.
+// l: list_single_pane_t1_cp2
+//
+#define qtn_tel_retry_voice_call_item "Voice call"
+
+
+// d: In reconnect query selecting this option means that
+// d: video call is created.
+// l: list_single_pane_t1_cp2
+//
+#define qtn_tel_retry_video_call_item "Video call"
+
+
+// d: In reconnect query selecting this option means that
+// d: multimedia messaging service editor is opened.
+// l: list_single_pane_t1_cp2
+//
+#define qtn_tel_retry_mms_call_item "Multimedia message"
+
+
+// d: In reconnect query selecting this option means that
+// d: short message service editor is opened.
+// l: list_single_pane_t1_cp2
+//
+#define qtn_tel_retry_sms_call_item "Short message"
+
+// d: It is text for a menu option. If it is selected, 
+// d: internet call will be made.
+// l: list_single_popup_submenu_pane_t1
+// r: 3.0
+//
+#define qtn_call_sub_internet "Internet call"
+
+// d: In reconnect query selecting this option means that
+// d: Send message service editor is opened.
+// l: list_single_pane_t1_cp2
+// r: 3.1
+#define qtn_tel_retry_message_call_item "Message"
+
+
+// d: Text for query dialog 
+// l: popup_info_list_pane_t1 
+// r: 3.2
+#define qtn_incal_set_long_press_call_video "By long pressing the Call creation key, a video call can be created if defined in Call settings as the default action. Activate now?"
+
+// This is only used for Phone NG development. 
+// Will be fixed/removed
+#ifdef RD_PHONE_NG
+
+// LOCALISATION STRINGS
+
+//d: When user personalize the softkey on idle state to be "New message",
+//d: after press softkey, a menu with following text will appear. User chose
+//d: one item to activate corresponding message editor. This is the same text
+//d: appeared on Message Center application.
+//l: list_single_pane_t1_cp2 
+// r: 3.2 
+//
+#define qtn_mce_pop_up_email "Email"
+
+//d: When user personalize the softkey on idle state to be "New message",
+//d: after press softkey, a menu with following text will appear. User chose
+//d: one item to activate corresponding message editor. This is the same text
+//d: appeared on Message Center application.
+//l: list_single_pane_t1_cp2 
+// r: 3.2 
+//
+#define qtn_mce_pop_up_sms "Short message"
+
+//d: When user personalize the softkey on idle state to be "New message",
+//d: after press softkey, a menu with following text will appear. User chose
+//d: one item to activate corresponding message editor. This is the same text
+//d: appeared on Message Center application.
+//l: list_single_pane_t1_cp2 
+// r: 3.2
+//
+#define qtn_mce_pop_up_mms "Multimedia message"
+
+//d: When user personalize the softkey on idle state to be "New message",
+//d: after press softkey, a menu with following text will appear. User chose
+//d: one item to activate corresponding message editor. This is the same text
+//d: appeared on Message Center application.
+//l: list_single_pane_t1_cp2 
+// r: 3.2 
+//
+#define qtn_mce_pop_up_PostCard "Postcard"
+
+#endif
+
+//  End of File  

@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  General Service Request module
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+// Capability assignment.
+CAPABILITY CAP_GENERAL_DLL
+
+TARGET          servicerequest.dll
+TARGETTYPE      DLL
+UID             0x1000008d 0x10005A3D
+
+SOURCEPATH	    ../src
+SOURCE          CServiceRequest.cpp
+
+// Resource files
+START RESOURCE ../data/ServiceRequest.rss
+TARGETPATH RESOURCE_FILES_DIR
+HEADER
+LANGUAGE_IDS
+END
+
+USERINCLUDE     ../inc
+
+SYSTEMINCLUDE   ../../../inc
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY	        euser.lib cone.lib avkon.lib commonengine.lib
+LIBRARY         aknnotify.lib
+
+// End of file

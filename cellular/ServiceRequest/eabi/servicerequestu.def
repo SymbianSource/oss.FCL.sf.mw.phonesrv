@@ -1,0 +1,10 @@
+EXPORTS
+	_ZN15CServiceRequest19ShowCompletionNoteLEiiNS_13TSerqNoteTypeERK7TDesC16 @ 1 NONAME
+	_ZN15CServiceRequest4NewLER23MServiceRequestObserver @ 2 NONAME
+	_ZN15CServiceRequest6StartLERK7TDesC16 @ 3 NONAME
+	_ZN15CServiceRequestD0Ev @ 4 NONAME
+	_ZN15CServiceRequestD1Ev @ 5 NONAME
+	_ZN15CServiceRequestD2Ev @ 6 NONAME
+	_ZTI15CServiceRequest @ 7 NONAME
+	_ZTV15CServiceRequest @ 8 NONAME
+

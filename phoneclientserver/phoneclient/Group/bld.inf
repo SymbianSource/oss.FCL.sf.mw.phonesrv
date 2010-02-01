@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  build file for PhoneClient.
+*
+*/
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+
+PRJ_EXPORTS
+
+  ../Inc/EmergencyNumber/EmergencyNumber_Aiw/RPhCltEmergencyCall.h  |../../inc/rphcltemergencycall.h
+  ../Inc/misc/telservicesinternalcrkeys.h                           |../../../inc/telservicesinternalcrkeys.h
+  ../Inc/misc/telservicesvariant.hrh                                  |../../../inc/telservicesvariant.hrh
+  ../Inc/ExtCall/ExtCall_Aiw/CPhCltExtPhoneDialData.h  |../../inc/cphcltextphonedialdata.h
+  ../Inc/ExtCallWrapper/ExtCallWrapper_Aiw/MPhCltExtPhoneObserver.h  |../../inc/mphcltextphoneobserver.h
+  ../Inc/ExtCallWrapper/ExtCallWrapper_Aiw/CPhCltExtPhoneBase.h  |../../inc/cphcltextphonebase.h
+  ../Inc/ExtCallWrapper/ExtCallWrapper_Aiw/CPhCltDialer.h  |../../inc/cphcltdialer.h
+
+../Data/Phoneclient_stub.SIS                 /epoc32/data/z/system/install/phoneclient_stub.sis
+
+// IBY files
+../rom/PhoneClient.iby                      CORE_MW_LAYER_IBY_EXPORT_PATH(PhoneClient.iby)
+
+// Generic configuration interface for component cenrep settings  
+../conf/telephonyservices.confml                  MW_LAYER_CONFML(telephonyservices.confml)
+../conf/telephonyservices_102029AC.crml 	        MW_LAYER_CRML(telephonyservices_102029AC.crml)
+../conf/telephonyservices_102078F1.crml 	        MW_LAYER_CRML(telephonyservices_102078F1.crml)
+
+PRJ_MMPFILES
+../Group/PhoneClient.mmp
+
+PRJ_TESTMMPFILES
+// specify the .mmp files required for building any test programs here
+
+
+//  End of File  

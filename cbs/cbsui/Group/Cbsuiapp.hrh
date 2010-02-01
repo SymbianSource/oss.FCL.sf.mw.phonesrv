@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*  Enumerations for commands, control and view id's.
+*
+*
+*/
+
+
+
+
+#ifndef CBSUIAPP_HRH
+#define CBSUIAPP_HRH
+
+//  CONSTANTS  
+//
+enum TCbsUiCommands
+	{
+	ECbsUiappCmdSwitchOpen = 1,
+	ECbsUiappCmdSwitchSubscribe,
+	ECbsUiappCmdSwitchUnsubscribe,
+	ECbsUiappCmdSwitchHotmark,
+	ECbsUiappCmdSwitchUnhotmark,
+	ECbsUiappCmdSwitchSettings,
+	ECbsUiappCmdSwitchTopic,
+	ECbsUiappCmdSwitchAddManually,
+	ECbsUiappCmdSwitchAddFromIndex,
+	ECbsUiappCmdSwitchEdit,
+	ECbsUiappCmdSwitchDelete,
+	ECbsUiappCmdSwitchDeleteAll,	
+	ECbsUiCmdCopyToClipboard,
+	ECbsUiappCmdOkKey,
+	ECbsUiappCmdTopicMenuRead,
+	ECbsUiappCmdTopicMenuKeep,
+	ECbsUiappCmdMessageDelete,
+	ECbsUiappCmdMsgMenuKeep,
+	ECbsUiappTopicViewReadMessage,
+	ECbsUiappTopicViewKeepMessage,
+	ECbsUiappTopicViewCmdGoToPrevTopic,
+	ECbsUiappTopicViewCmdGoToNextTopic,
+	ECbsUiappCmdMsgMenuDelete,
+	ECbsUiappSettingsViewCmdChange,
+	ECbsUiCmdFindItem,
+	ECbsUiappCmdTopicMSKRead,
+	ECbsUiappNullCmd
+	};
+
+// CbsUi Control id's
+enum TCbsUiControlIds
+	{
+	ECbsUiAddFromIndexDlgLine = 1,
+	ECbsUiLanguageDlg,
+	ECbsMemoryFullNote,	
+	ECbsCannotSubscribeErrorNote,
+	ECbsMessageKeptNote,
+	ECbsMessageCopiedNote,
+	ECbsChangeNumberErrorNote,
+	ECbsLowMemoryErrorNote,
+	ENewTopicAddedDlg
+	};
+	
+// CbsUi application view ID's
+enum TCbsUiViewIds
+    {
+    /// Names list view
+    ECbsUiTopicViewId = 1,
+	ECbsUiTopicListViewId,
+    ECbsUiListAppColumnViewId,
+	ECbsUiMsgViewId,
+	ECbsUiAddFromIndexViewId,
+	ECbsUiSettingsViewId
+    };
+
+enum { EMaxTopicNumberLength = 3};
+
+#endif
+
+// End of File

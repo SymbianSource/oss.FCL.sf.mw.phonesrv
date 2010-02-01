@@ -1,0 +1,7 @@
+EXPORTS
+	_Z23CreateDialUtilsFactoryLv @ 1 NONAME
+	_ZTI14CDialUtilsImpl @ 2 NONAME ; #<TI>#
+	_ZTI18CDialUtilsFactImpl @ 3 NONAME ; #<TI>#
+	_ZTV14CDialUtilsImpl @ 4 NONAME ; #<VT>#
+	_ZTV18CDialUtilsFactImpl @ 5 NONAME ; #<VT>#
+

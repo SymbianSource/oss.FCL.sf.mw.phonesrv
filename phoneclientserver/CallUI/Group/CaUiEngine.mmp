@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2004-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project specification for CaUiEngine.
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+// Capability assignment.
+CAPABILITY CAP_GENERAL_DLL
+
+TARGET          cauiengine.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101F868F
+
+SOURCEPATH      ../Src/CaUiEngine
+SOURCE          CaUiEngFactImpl.cpp
+
+SOURCE          CaUiQuery.cpp
+SOURCE          CaUiEngine.cpp
+SOURCE          CaUiActiveObject.cpp
+SOURCE          CaUiMessageSender.cpp
+SOURCE          CaUiDialogs.cpp
+
+SOURCE          CaUiVoIPExtension.cpp
+SOURCE          ccauireconnectquery.cpp
+SOURCE          ccauireconnectqueryimpl.cpp
+
+SOURCEPATH      ../Data
+START RESOURCE  CallUI.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+END
+
+// TEMPORARY DEFINITION FOR CONTACT FINDER HEADERS
+SYSTEMINCLUDE    ../../../../../app/phone/inc
+
+USERINCLUDE     ../Inc
+USERINCLUDE     ../Inc/CaUiEngine
+USERINCLUDE     ../Data
+USERINCLUDE     ../loc
+
+APP_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   ../../../inc
+SYSTEMINCLUDE   ../../inc // phoneclientserver inc
+
+LIBRARY         cone.lib
+LIBRARY         euser.lib
+LIBRARY         commonengine.lib
+LIBRARY         phoneclient.lib
+LIBRARY         featmgr.lib // FeatureManager
+LIBRARY         pbkeng.lib  // PhoneBook engine
+LIBRARY         pbkview.lib
+LIBRARY         centralrepository.lib
+LIBRARY         cenrepnotifhandler.lib  // Cenrep notifier
+LIBRARY         flogger.lib
+LIBRARY         phonecntfinder.lib
+
+LIBRARY         avkon.lib
+LIBRARY         aknnotify.lib
+LIBRARY         eikcore.lib  // For test printing.
+LIBRARY         sendui.lib 
+LIBRARY         eikcoctl.lib 
+LIBRARY         eikdlg.lib
+LIBRARY         bafl.lib // CDesC16ArrayFlat
+LIBRARY         mmscli.lib
+LIBRARY         msgs.lib
+LIBRARY         muiu.lib
+LIBRARY         serviceselector.lib
+LIBRARY         serviceprovidersettings.lib 
+
+LIBRARY         aiwdialdata.lib
+
+LANGUAGE_IDS
+
+// End of file

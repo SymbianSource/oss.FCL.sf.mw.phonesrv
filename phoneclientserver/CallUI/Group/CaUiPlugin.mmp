@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project specification for CallUI plugin.
+*
+*/
+
+
+#include <platform_paths.hrh>
+// Capability assignment.
+CAPABILITY CAP_ECOM_PLUGIN
+
+TARGET          cauiplugin.dll
+
+TARGETTYPE      PLUGIN
+
+UID             0x10009D8D 0x101F868E
+
+SOURCEPATH      ../Src/CaUiPlugin
+SOURCE          CaUiPlugin.cpp
+SOURCE          CaUIMain.cpp
+
+
+SOURCEPATH      ../Data
+
+START RESOURCE  101F868E.rss
+TARGET          cauiplugin.rsc
+END
+
+
+USERINCLUDE     ../Inc
+USERINCLUDE     ../Inc/CaUiPlugin
+
+MW_LAYER_SYSTEMINCLUDE 
+SYSTEMINCLUDE   /epoc32/include/ecom
+SYSTEMINCLUDE   ../../../inc
+
+LIBRARY         euser.lib
+LIBRARY         servicehandler.lib
+LIBRARY	        flogger.lib
+LIBRARY         commonengine.lib
+LIBRARY         featmgr.lib // FeatureManager
+
+LANGUAGE_IDS
+
+// End of file

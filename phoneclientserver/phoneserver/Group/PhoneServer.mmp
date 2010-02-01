@@ -1,0 +1,139 @@
+/*
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Phone Server project specification file.
+*
+*/
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+#include <bldvariant.hrh>
+
+// Capability assignment.
+CAPABILITY CAP_SERVER NetworkControl
+// Assign Vendor ID.
+VENDORID VID_DEFAULT
+
+TARGET          phoneserver.exe
+EPOCSTACKSIZE	0x5000
+
+TARGETPATH      /system/programs
+TARGETTYPE      EXE
+
+UID             0x1000008d 0x10000850
+
+SOURCEPATH     .
+START RESOURCE ../Src/Resources/PhoneServer.rss
+HEADER
+TARGETPATH   RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END  // RESOURCE
+
+SOURCEPATH      ../Src/Standard
+SOURCE          PhSrvStartUp.cpp
+SOURCE          PhSrvSubSessionFactory.cpp
+SOURCE          PhSrvUtils.cpp
+
+SOURCE          CPhSrvScheduler.cpp
+SOURCE          CPhSrvServer.cpp
+SOURCE          CPhSrvSession.cpp
+SOURCE          CPhSrvResourceManager.cpp
+SOURCE          CPhSrvPhoneController.cpp
+SOURCE          CPhSrvEmergencyNumberManager.cpp
+
+SOURCE          CPhSrvSubSessionBase.cpp
+SOURCE          CPhSrvSubSessionUssd.cpp
+
+SOURCE          PhSrvDebugInfo.cpp
+
+SOURCEPATH	../Src/Standard/Standard_Aiw
+SOURCE			CPhCltExtPhoneDialData.cpp
+SOURCE          cphcltdialdata.cpp
+SOURCE          CPhSrvEmergencyRequestManager.cpp
+SOURCE          CPhSrvCallRequest.cpp
+SOURCE          CPhSrvCallRequestManager.cpp
+SOURCE          CPhSrvSubSessionNotifier.cpp
+SOURCE          CPhSrvSubSessionExtCall.cpp
+SOURCE          CPhSrvSubSessionEmergencyNum.cpp
+
+SOURCEPATH	../Src/ImageHandler
+SOURCE		CPhSrvSubSessionImageHandler.cpp
+SOURCE		cphsrvimagesaver.cpp
+
+SOURCEPATH      ../Src/Ussd
+SOURCE          CPhSrvUssdReplyTimer.cpp
+SOURCE          CPhSrvUssdSendHandler.cpp
+SOURCE          CPhSrvUssdReceiveHandler.cpp
+SOURCE          CPhSrvUssdManager.cpp
+SOURCE 		CPhSrvUssdNotifyNWRelease.cpp
+
+SOURCEPATH      ../Src/CommandHandler
+#if defined( __AT_HANDLER )
+SOURCE          CPhSrvSubSessionCommandHandler.cpp
+SOURCE          CPhSrvComHandRequest.cpp
+#else  // No __AT_HANDLER defined, so stub version is used.
+SOURCE          CPhSrvSubSessionCommandHandlerStub.cpp
+SOURCE          CPhSrvSubSessionCommandHandlerNotifyStub.cpp
+#endif // __AT_HANDLER
+
+SOURCEPATH      ../Src/CommandHandler/Commandhandler_Aiw
+
+#if defined( __AT_HANDLER )
+SOURCE          CPhSrvComHandRequestManager.cpp
+#else  // No __AT_HANDLER defined, so stub version is used.
+SOURCE          CPhSrvComHandRequestManagerStub.cpp
+#endif // __AT_HANDLER
+
+SOURCEPATH      ../Src/Messenger
+SOURCE          CPhSrvMessengerObject.cpp
+SOURCE          CPhSrvMessengerRequestManager.cpp
+SOURCE          CPhSrvSubSessionMessenger.cpp
+
+USERINCLUDE     ../Inc/Standard
+USERINCLUDE     ../Inc/Standard/Standard_Aiw
+USERINCLUDE     ../Inc/Ussd
+USERINCLUDE     ../Inc/CommandHandler
+USERINCLUDE     ../Inc/Messenger
+USERINCLUDE     ../Inc/ImageHandler
+
+USERINCLUDE     ../../phoneclient/Inc/SharedClientServer
+
+APP_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   ../../../inc
+SYSTEMINCLUDE    ../../inc // for RPhCltEmergencyCall.h, CPhCltExtPhoneDialData.h
+
+// TEMPORARY DEFINITION FOR TELEPHONY VARIATION HEADERS
+SYSTEMINCLUDE	../../../../../app/phone/inc
+
+LIBRARY        efsrv.lib
+LIBRARY        apgrfx.lib
+LIBRARY        charconv.lib
+LIBRARY        euser.lib
+LIBRARY        ws32.lib
+LIBRARY        etel.lib
+LIBRARY        bafl.lib
+LIBRARY        aknnotify.lib
+LIBRARY        gsmu.lib
+LIBRARY        avkon.lib
+LIBRARY        apparc.lib
+LIBRARY        customapi.lib
+LIBRARY        etelmm.lib 
+LIBRARY        commonengine.lib
+LIBRARY        featmgr.lib
+LIBRARY        fbscli.lib 
+LIBRARY		   estor.lib	
+LIBRARY        centralrepository.lib
+LIBRARY        imageconversion.lib 	
+LIBRARY        bitmaptransforms.lib 
+
+//  End of File  

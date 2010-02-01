@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="6f32967a8971f50379a5af918d2ac9ed" dataversion="1.0">
+<name>CallUI Reconnect Query API</name>
+<description>An interface for showing reconnect query in case of unsuccessfull dial request.</description>
+<type>c++</type>
+<subsystem>phoneclientserver</subsystem>
+<libs><lib name="CaUiEngine.lib"/>
+</libs>
+<release category="domain" sinceversion="5.0"/>
+<attributes>
+<htmldocprovided>no</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

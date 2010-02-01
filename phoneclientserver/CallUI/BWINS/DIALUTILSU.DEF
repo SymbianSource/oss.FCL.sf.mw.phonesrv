@@ -1,0 +1,3 @@
+EXPORTS
+	?CreateDialUtilsFactoryL@@YAPAVCDialUtilsFactory@@XZ @ 1 NONAME ; class CDialUtilsFactory * __cdecl CreateDialUtilsFactoryL(void)
+

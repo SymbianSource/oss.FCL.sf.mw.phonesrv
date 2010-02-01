@@ -1,0 +1,43 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Phone Settings API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/PSetConstants.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetConstants.h)
+../inc/PsetCallWaiting.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCallWaiting.h)
+../inc/MPsetNetworkMode.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetNetworkMode.h)
+../inc/MPsetCallWaiting.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetCallWaiting.h)
+../inc/MPsetCli.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetCli.h)
+../inc/PsetCSP.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCSP.h)
+../inc/PsetNetwork.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetNetwork.h)
+../inc/MPsetCallDiverting.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetCallDiverting.h)
+../inc/PSetRefreshHandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(PSetRefreshHandler.h)
+../inc/nwdefs.h     MW_LAYER_PLATFORM_EXPORT_PATH(nwdefs.h)
+../inc/PsetContainer.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetContainer.h)
+../inc/PsetCallDiverting.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCallDiverting.h)
+../inc/MPsetNetworkSelect.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetNetworkSelect.h)
+../inc/PsetCallBarring.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCallBarring.h)
+../inc/PsetSAObserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetSAObserver.h)
+../inc/MPsetCallBarring.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetCallBarring.h)
+../inc/PsetCli.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCli.h)

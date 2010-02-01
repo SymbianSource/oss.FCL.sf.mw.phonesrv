@@ -1,0 +1,69 @@
+/*
+* Copyright (c) 2004-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Defines UIDs used in CallUI.
+*
+*/
+
+
+#ifndef CAUI_HRH
+#define CAUI_HRH
+
+
+// CONSTANTS
+
+// Connection utility implementation uid.
+#define KCallUIImplementationUid 0x101F868E
+#define KCallUIImplementationUid2 0x102029A1 
+
+// Create list query listbox height.
+enum
+    {
+    ECaUiCreateListQueryHeight = 3
+    };
+
+// Create list query listbox width.
+enum
+    {
+    ECaUiCreateListQueryWidth = 3
+    };
+
+
+// Values for different kinds of call commands.
+enum
+    {
+    ECallUIVoice    = 500,  // Normal, i.e. voice call.
+    ECallUIVideo    = 501,  // Video call.
+    ECallUIInternet = 502   // Internet call ( VoIP )
+    };
+
+// Values used in communication between CaUiEngine and CaUiPlugin.
+enum TCaUiCallType
+    {
+    ECaUiCallTypeUnknown  = 0, // Call type is unknown.
+    ECaUiCallTypeVoice    = 1, // Call type is voice call.
+    ECaUiCallTypeVideo    = 2, // Call type is video call.
+    ECaUiCallTypeInternet = 3  // Call type is Internet call
+    };
+
+enum EMenuItemType {
+    ECSVoice,
+    ECSVideo,
+    EInternet,
+    EInternetWithName
+};
+
+#endif // CAUI_HRH
+
+
+// End of File

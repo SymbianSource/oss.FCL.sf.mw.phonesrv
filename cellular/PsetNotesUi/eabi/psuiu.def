@@ -1,0 +1,29 @@
+EXPORTS
+	_ZN14CPsuiContainer12CreateCBObsLEv @ 1 NONAME
+	_ZN14CPsuiContainer12CreateCFObsLEv @ 2 NONAME
+	_ZN14CPsuiContainer12CreateCWObsLEv @ 3 NONAME
+	_ZN14CPsuiContainer13CreateCliObsLEv @ 4 NONAME
+	_ZN14CPsuiContainer4NewLEv @ 5 NONAME
+	_ZN14CPsuiDivertObs4NewLER14CPsuiContainer @ 6 NONAME
+	_ZN15CPsuiBarringObs4NewLER14CPsuiContainer @ 7 NONAME
+	_ZN15CPsuiWaitingObs4NewLER14CPsuiContainer @ 8 NONAME
+	_ZN16CPsuiCliObserver4NewLER14CPsuiContainer @ 9 NONAME
+	_ZN19CPsuiResourceLoader4NewLEv @ 10 NONAME
+	_ZN19CPsuiResourceLoader5NewLCEv @ 11 NONAME
+	_ZTI14CPsuiContainer @ 12 NONAME
+	_ZTI14CPsuiDivertObs @ 13 NONAME
+	_ZTI15CPsuiBarringObs @ 14 NONAME
+	_ZTI15CPsuiNoteMaster @ 15 NONAME
+	_ZTI15CPsuiWaitingObs @ 16 NONAME
+	_ZTI16CPsuiCliObserver @ 17 NONAME
+	_ZTI19CPsuiNoteController @ 18 NONAME
+	_ZTI19CPsuiResourceLoader @ 19 NONAME
+	_ZTV14CPsuiContainer @ 20 NONAME
+	_ZTV14CPsuiDivertObs @ 21 NONAME
+	_ZTV15CPsuiBarringObs @ 22 NONAME
+	_ZTV15CPsuiNoteMaster @ 23 NONAME
+	_ZTV15CPsuiWaitingObs @ 24 NONAME
+	_ZTV16CPsuiCliObserver @ 25 NONAME
+	_ZTV19CPsuiNoteController @ 26 NONAME
+	_ZTV19CPsuiResourceLoader @ 27 NONAME
+

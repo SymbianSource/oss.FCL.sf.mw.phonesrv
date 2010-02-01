@@ -1,0 +1,305 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localization strings for Phone Settings UI Notes
+*
+*/
+
+
+//  LOCALISATION STRINGS
+
+//SUCCESFUL ACTIVATION
+//d: confirmation note when divert succesfully actived
+//l: popup_note_window
+#define text_divert_activated "Divert activated"
+
+//d: confirmation note when several diverts succesfully actived
+//l: popup_note_window
+#define qtn_div_conf_activateall "Diverts activated"
+
+//d: left sofktey
+//l: control_pane_t1/opt7
+#define qtn_div_softk_number "Number"
+
+//d: softkey text
+//l: control_pane_t1/opt7
+#define qtn_div_softk_detail "Details"
+
+//d: item when divert succesfully activated
+//d: (was previously qtn_div_check_number)
+//l: popup_note_image_window
+#define qtn_div_quest_number "To number: "
+
+//d: item when divert succesfully activated
+//d: (was previously qtn_div_check_delay)
+//l: popup_note_image_window
+#define qtn_div_quest_delay_time "Delay time: "
+
+//d: item when divert succesfully activated
+//l: popup_note_image_window
+#define text_ss_detail_delay_sec "%N seconds"
+
+//d: confirmation note when inquiry for divert active status
+//l: popup_note_window
+#define qtn_divert_active "Divert active"
+
+//DEACTIVATION OF CALL FORWARDING
+//d: confirmation note when divert is not active
+//l: popup_note_window
+#define text_divert_deactivated "Divert deactivated"
+
+//d: confirmation note when divert cancelled
+//l: popup_note_window
+#define text_divert_canceled "Divert cancelled"
+
+//d: confirmation note when several diverts cancelled
+//l: popup_note_window
+#define qtn_div_conf_cancelall "Diverts cancelled"
+
+//d: heading to the list of services divert is inactive for
+//l: heading_pane_t1
+#define qtn_div_heading_inactive "Inactive for:"
+
+//INTERROGATION OF CALL FORWARDING
+//d: confirmation note when divert is not active
+//l: popup_note_window
+#define text_divert_inactive "Divert not active"
+
+//    STATUS QUERY    
+//d: information note 1st row when receiving status from the network
+//l: popup_note_image_window
+#define qtn_div_info_easy "Divert to: "
+
+//d: information note 2nd row when diverted to voice mailbox 
+//l: popup_note_image_window
+#define qtn_div_info_voice_mailbox "Voice mailbox"
+
+//d: information note 2nd row when diverted to none 
+//l: popup_note_image_window
+#define qtn_div_info_to_none "None"
+
+//d: heading to the list where cf is active
+//l: heading_pane_t1
+#define qtn_div_heading_active "Active for:"
+
+//ERROR CASES
+//d: information note text when network has lost some cf information
+//l: popup_note_window
+#define text_net_info_lost "Check network services"
+
+//d: information note text when voice unconditional cf active 
+//d: and in call setup state
+//l: popup_note_window
+#define text_incoming_calls_diverted "Note: all incoming calls diverted"
+
+//d: information note text when voice conditional cf active 
+//d: and in call setup state
+//l: popup_note_window
+#define text_some_inc_calls_diverted "Note: you have active diverts"
+
+//d: error note text when entering invalid phone number
+//l: popup_note_window
+#define text_invalid_number "Invalid phone number"
+
+//d: information note that divert does not affect Internet calls 
+//d: when divert is actived
+//l: popup_note_window
+//w:
+//r: 3.0
+//
+#define qtn_voip_divert_not_supported "Diverting calls does not affect Internet calls"
+
+//TELECOMMUNICATION SERVICES
+//d: basic service group name, all tele and bearer services
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_0 "All services"
+
+//d: basic service group name, all teleservices
+//l: list_single_pane_t1_cp2
+#define text_bs_alpha_10 "Voice, fax and messages"
+
+//d: basic service group name, telephony services
+//l: list_single_pane_t1_cp2
+#define text_bs_alpha_11 "Voice calls"
+
+//d: basic service group name, all data teleservices
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_12 "Fax and messages"
+
+//d: basic service group name, facsimile services
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_13 "Fax"
+
+//d: basic service group name, short message services
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_16 "Messages"
+
+//d: basic service group name, all teleservices except sms
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_19 "Voice calls and fax"
+
+//d: basic service group name, bearer services
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_20 "Data services"
+
+//d: basic service group name, all async services
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_21 "Asynchronous services"
+
+//d: basic service group name, all sync services
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_22 "Synchronous services"
+
+//d: basic service group name, all data circuit sync
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_24 "Synchronous data services"
+
+//d: basic service group name, all data circuit async
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_25 "Asynchronous data services"
+
+//d: basic service group name, all dedicated packet accesses
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_26 "Packet data"
+
+//d: basic service group name, all dedicated PAD accesses
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_27 "PAD access"
+
+//d: basic service group name, alternate line services
+//l: list_single_pane_t1_cp2 
+#define text_bs_alpha_89 "Alternate line services"
+
+//d: basic service group name, video telephony services
+//l: list_single_pane_t1_cp2
+#define qtn_bs_alpha_30 "Video calls"
+
+//d: basic service group name, data and video services
+//l: list_single_pane_t1_cp2
+#define qtn_bs_alpha_20_vt "Data and video services"
+
+
+//CALL WAITING 
+//d: information note when call waiting is succesfully activated
+//l: popup_note_window
+#define text_call_waiting_activated "Call waiting activated"
+
+//d: information note when call waiting is succesfully cancelled
+//l: popup_note_window
+#define text_call_waiting_cancelled "Call waiting cancelled"
+
+//d: heading to the popup window displaying the result of call waiting inquiry
+//l: heading_pane_t1
+#define qtn_cw_status_heading "Active for:" 
+
+//d: information note when call waiting status asked, but no service active
+//l: popup_note_window
+#define text_call_waiting_not_active "Call waiting not active"
+
+//d: information note when call waiting status asked, 
+//d: but no basic service groups available
+//l: popup_note_window
+#define text_call_waiting_active "Call waiting active"
+
+
+//d: information note when call waiting status asked, but not provisioned
+//l: popup_note_window
+//r: 3.1
+#define qtn_cw_note_not_provisioned "Call waiting not provisioned"
+
+
+
+//CALL BARRING
+//d: heading to the popup window displaying the result of call barring inquiry
+//l: heading_pane_t1
+#define qtn_barr_heading_active "Active for:"
+          
+//d: confirmation note when barring is activated
+//l: popup_note_window
+#define text_barring_activated "Barring activated"
+
+//d: confirmation note when barring is cancelled
+//l: popup_note_window
+#define text_barring_canceled "Barring cancelled"
+
+//d: confirmation note when several barrings are cancelled
+//l: popup_note_window
+#define qtn_barr_conf_cancelall "Barrings cancelled"
+
+//d: result when interrogation of call barring reveals that barring not active
+//l: popup_note_window
+#define text_barring_not_active "Barring not active"
+
+//d: result when interrogation of call barring reveals that barring is active
+//l: popup_note_window
+#define text_barring_active "Barring active"
+
+//d: the barring password is incorrect
+//l: popup_note_window
+#define text_password_error "Password error"
+
+//d: barring password has been changed
+//l: popup_note_window
+#define text_password_changed "Password changed"
+
+//d: barring password has been blocked
+//l: popup_note_window
+#define qtn_paswd_info_code_blocked "Password blocked"
+
+//d: barring contact service needed
+//l: popup_note_window
+#define qtn_ss_barring_operation_not_successfull "Barring operation not successful. Contact your service provider"
+
+
+//CLI-notes
+//d: confirmation note when clir queried, positive answer
+//l: popup_note_window
+#define text_clir_active "Own No. not sent on calling"
+
+//d: confirmation note when clir queried, negative answer
+//l: popup_note_window
+#define text_clir_not_active "Own No. sent on calling"
+
+//d: confirmation note when clip queried, positive answer
+//l: popup_note_window
+#define text_clip_active "Number of caller is shown"
+
+//d: confirmation note when clip queried, negative answer
+//l: popup_note_window
+#define text_clip_not_active "Number of caller is not shown"
+
+//d: confirmation note when colp queried, positive answer
+//l: popup_note_window
+#define text_colp_active "Answering number is shown"
+
+//d: confirmation note when colp queried, negative answer
+//l: popup_note_window
+#define text_colp_not_active "Answering number is not shown"
+
+//d: confirmation note when colr queried, positive answer
+//l: popup_note_window
+#define text_colr_active "Own No. not sent on answering"
+
+//d: confirmation note when colr queried, negative answer
+//l: popup_note_window
+#define text_colr_not_active "Own No. sent on answering"
+
+//d: confirmation note when cnap queried, positive answer
+//l: popup_note_window
+#define qtn_cnap_active "Name of caller is shown" 
+
+//d: confirmation note when cnap queried, negative answer
+//l: popup_note_window
+#define qtn_cnap_not_active "Name of caller is not shown"
+
+// End of File

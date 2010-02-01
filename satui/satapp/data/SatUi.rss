@@ -1,0 +1,1760 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*    This file contains all the resources for the module.
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME    SATU
+
+//  INCLUDES
+#include <eikon.rsg>
+#include <eikon.rh>
+
+#include <avkon.rsg>
+#include <avkon.hrh>
+#include <avkon.rh>
+#include <avkon.loc>
+#include <avkon.mbg>
+#include <AvkonIcons.hrh>   // AVKON_ICON_FILE
+#include <appinfo.rh>       //2.8 SCALABLE UI 
+
+#include <satui.mbg>
+#include "satui.hrh"
+#include <satui.loc>
+#include <data_caging_paths_strings.hrh>
+
+
+#define satui_bitmap_file APP_BITMAP_DIR"\\satui.mbm"
+
+#define avkon_bitmap_file AVKON_ICON_FILE   
+
+#define space " "
+
+//  RESOURCE DEFINITIONS 
+
+// ---------------------------------------------------------
+//
+//    Standard resource signature.
+//
+// ---------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE { }
+
+// ---------------------------------------------------------
+//
+//    Unique name-identifier.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF16 { buf = "SATU"; }
+
+// ---------------------------------------------------------
+//
+//    This is used when you enter first time to
+//    the application.
+//
+// ---------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    }
+
+RESOURCE LOCALISABLE_APP_INFO r_satui_localisable_app_info
+    {
+    short_caption = qtn_apps_simapps_grid;
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_simapps_list;
+#ifdef __SCALABLE_ICONS
+    number_of_icons = 1;
+
+	icon_file = APP_BITMAP_DIR"\\Satui_aif.mif";
+
+#else
+    number_of_icons = 2;
+
+	icon_file = APP_BITMAP_DIR"\\Satui_aif.mbm";
+
+#endif	//__SCALABLE_ICONS
+        };
+    }
+
+
+/******************** SET UP MENU *************************/
+
+//----------------------------------------------------------
+//
+//    r_satui_setupmenu_view
+//    Defines the main view
+//
+//----------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_satui_setupmenu_view
+    {
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    menubar = r_satui_setupmenu_menubar;
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_setupmenu_menubar
+//    Defines the menu bar on the view
+//
+//----------------------------------------------------------
+//
+RESOURCE MENU_BAR r_satui_setupmenu_menubar
+    {
+    titles=
+        {
+        MENU_TITLE {menu_pane = r_satui_setupmenu_options_menu;}
+        };
+    }
+
+// ---------------------------------------------------------
+//
+//    r_satui_setupmenu_options_menu
+//    Defines the menu pane on the view
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_satui_setupmenu_options_menu
+    {
+    items=
+        {
+        MENU_ITEM 
+            { command = ESatUiCmdSelect;
+              txt = qtn_sat_option_select;
+              flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM 
+            { command = EAknCmdHelp;
+              txt = qtn_options_help;
+              flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM
+            { command = EAknCmdExit;
+              txt = qtn_options_exit;
+            }
+        };
+    }
+
+/******************** SELECT ITEM *************************/
+
+// ---------------------------------------------------------
+//
+//    r_satui_selectitem_view
+//    Defines the SelectItem view
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_satui_selectitem_view
+    {
+    cba = R_AVKON_SOFTKEYS_SELECTION_LIST;
+    menubar = r_satui_selectitem_menubar;
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_selectitem_menubar
+//    Defines the menu bar on the view
+//
+//----------------------------------------------------------
+//
+RESOURCE MENU_BAR r_satui_selectitem_menubar
+    {
+    titles=
+        {
+        MENU_TITLE {menu_pane = r_satui_selectitem_options_menu;}
+        };
+    }
+
+// ---------------------------------------------------------
+//
+//    r_satui_selectitem_options_menu
+//    Defines the menu pane on the view
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_satui_selectitem_options_menu
+    {
+    items=
+        {
+        MENU_ITEM 
+            { command = ESatUiCmdSelect;
+              txt = qtn_sat_option_select;
+              flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM
+            { command = EAknCmdHelp;
+             txt = qtn_options_help;
+             flags = EEikMenuItemSpecific; 
+            },
+        MENU_ITEM 
+            { command = ESatUiCmdExit;
+              txt = qtn_options_exit;
+            }
+        };
+    }
+
+// ---------------------------------------------------------
+//
+//    r_satui_listbox
+//    Defines the listbox on the main pane
+//
+// ---------------------------------------------------------
+//
+RESOURCE LISTBOX r_satui_listbox
+    {
+    flags = EAknListBoxSelectionList;
+    }
+
+/******************** EMPTY MENU **************************/
+
+//----------------------------------------------------------
+//
+//    r_satui_emptymenu_view
+//    Defines the main view
+//
+//----------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_satui_emptymenu_view
+    {
+    cba = R_AVKON_SOFTKEYS_EMPTY;
+    menubar = r_satui_setupmenu_menubar;
+    }
+
+/********************** DIALOGS ***************************/
+
+//----------------------------------------------------------
+//
+//    r_satui_wait_note
+//    Defines the wait note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiWaitNote;
+            control = AVKON_NOTE 
+                {
+                layout = EWaitLayout;
+                singular_label = qtn_gen_note_processing;
+                imagefile = satui_bitmap_file;
+                imageid = EMbmSatuiQgn_note_sim;
+                imagemask = EMbmSatuiQgn_note_sim_mask;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_wait_note_with_cancel
+//    Defines the wait note with cancel (modal dialog)
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_wait_note_with_cancel
+    {
+    flags = EAknWaitNoteFlags | EEikDialogFlagWait;
+
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiWaitNoteWithCancel;
+            control = AVKON_NOTE 
+                {
+                layout = EWaitLayout;
+                singular_label = qtn_gen_note_processing;
+                imagefile = satui_bitmap_file;
+                imageid = EMbmSatuiQgn_note_sim;
+                imagemask = EMbmSatuiQgn_note_sim_mask;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_refresh_wait_note
+//    Defines the refresh wait note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_refresh_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiRefreshWaitNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = qtn_sat_wait_refresh_update;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_sms_wait_note
+//    Defines the sms sending wait note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_sms_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiSmsWaitNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_ss_wait_note
+//    Defines the ss sending wait note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_ss_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiSsWaitNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = qtn_sat_sending_sms;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_dtmf_wait_note
+//    Defines the dtmf sending wait note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_dtmf_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiDtmfWaitNote;
+            control = AVKON_NOTE 
+                {
+                // text will be set at run-time 
+                layout = EWaitLayout;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_permanent_note
+//    Defines the permanent note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_permanent_note
+    {
+    flags = EEikDialogFlagNoDrag |
+            EEikDialogFlagNoTitleBar |
+            EEikDialogFlagCbaButtons;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiPermanentNote;
+            control = AVKON_NOTE 
+                {
+                layout = EGeneralLayout;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_confirm_yes_no_query
+//    Defines the yes/no confirmation query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_confirm_yes_no_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+    
+//----------------------------------------------------------
+//
+//    r_satui_confirm_yes_no_query_with_icon
+//    Defines the yes/no confirmation query with icon
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_confirm_yes_no_query_with_icon
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label = space;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_immediate_digit_query
+//    Defines the immediate digit response query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_immediate_digit_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+    
+//----------------------------------------------------------
+//
+//    r_satui_immediate_digit_note_with_icon
+//    Defines the immediate digit response note with icon
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_immediate_digit_note_with_icon
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label = space;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_confirm_ok_cancel_query
+//    Defines the ok/cancel confirmation query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_confirm_ok_cancel_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+    
+//----------------------------------------------------------
+//
+//    r_satui_confirm_ok_cancel_query_with_icon
+//    Defines the ok/cancel confirmation query with icon
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_confirm_ok_cancel_query_with_icon
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label = space;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        
+        };
+    }    
+
+//----------------------------------------------------------
+//
+//    r_satui_confirm_send_cancel_query
+//    Defines the send/cancel confirmation query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_confirm_send_cancel_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = r_satui_softkeys_send_cancel;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+
+
+
+//----------------------------------------------------------
+//
+//    r_satui_confirm_call_cancel_query
+//    Defines the call/cancel confirmation query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_confirm_call_cancel_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = r_satui_softkeys_call_cancel;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+    
+//----------------------------------------------------------
+//
+//    r_satui_confirm_call_cancel_query_with_icon
+//    Defines the call/cancel confirmation query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_confirm_call_cancel_query_with_icon
+    {
+    flags = EGeneralQueryFlags;
+    buttons = r_satui_softkeys_call_cancel;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label = space;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        
+        };
+    }   
+
+//----------------------------------------------------------
+//
+//    r_satui_information_note
+//    Defines the information note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_information_note
+    {
+    flags = EEikDialogFlagNoDrag |
+            EEikDialogFlagNoTitleBar |
+            EEikDialogFlagCbaButtons |
+	    EEikDialogFlagWait;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiInformationNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EGeneralLayout;
+                singular_label = space;
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_call_control_note
+//    Defines the call control
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_call_control_note
+    {
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiInformationNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EGeneralLayout;
+                singular_label = space;
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_mosm_control_note
+//    Defines the mo sm control note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_mosm_control_note
+    {
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiInformationNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EGeneralLayout;
+                singular_label = space;
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//   
+//    r_satui_message
+//    Defines the message query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_message
+    {
+    flags = EGeneralQueryFlags|
+            EEikDialogFlagNoBorder|
+            EEikDialogFlagNoShadow|
+            EEikDialogFlagWait;
+
+    buttons = R_AVKON_SOFTKEYS_OK_BACK;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtMessageQuery;
+            id = EAknMessageQueryContentId;   
+            control = AVKON_MESSAGE_QUERY    
+                {
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//   
+//    r_satui_message_text_icon
+//    Defines the message query with icon and text
+//
+//----------------------------------------------------------
+//
+
+
+RESOURCE DIALOG r_satui_message_text_icon
+    {
+    flags= EEikDialogFlagWait;
+    buttons=R_AVKON_SOFTKEYS_OK_BACK;
+    items=
+        {
+        DLG_LINE 
+            {
+            type = EEikCtLabel;
+            id = ESatUiDisplayTextIconLabel;
+            control = LABEL 
+                {
+                };
+            },
+        DLG_LINE 
+            {
+            type = EEikCtSpacer;
+            id = ESatUiDisplayTextIconSpacer;
+            control = SPACER 
+                {
+                color=EEikSpacerBlack;
+                };
+            },
+        DLG_LINE
+            {
+            type=EEikCtRichTextEditor;
+            id = ESatUiDisplayTextIconRTxtEd;
+            control = RTXTED
+                {
+                width=170;
+                height=150;
+                numlines = 10;
+                max_view_height_in_lines=6;
+                flags= EEikEdwinNoHorizScrolling | EEikEdwinDisplayOnly | 
+                    EEikEdwinReadOnly | EEikEdwinNoAutoSelection | 
+                    EEikEdwinAvkonDisableCursor;
+                };
+            }
+        };
+    }
+
+
+//----------------------------------------------------------
+//
+//    r_satui_text_query_without_label
+//    Defines the text query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_text_query_without_label
+    {
+    flags = EEikDialogFlagWait|
+            EEikDialogFlagNoDrag|
+            EEikDialogFlagNoTitleBar|
+            EEikDialogFlagCbaButtons|
+            EEikDialogFlagNoShadow;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                layout = EDataLayout;
+                control = EDWIN
+                    {
+                    width=16; 
+                    lines=1; 
+                    maxlength = 256;
+
+                    };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_number_query_without_label
+//    Defines the number query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_number_query_without_label
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                {
+                layout = EPhoneLayout;
+                label = space;
+                control = EDWIN 
+                    { 
+                    numeric_keymap = EAknEditorSATNumberModeKeymap;
+                    maxlength=256; 
+                    width=16; 
+                    lines=1; 
+                    };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_hidden_number_query_without_label
+//    Defines the hidden number query
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_hidden_number_query_without_label
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                layout = EPinLayout;
+                control = SECRETED
+                    {
+                    num_letters = 32;
+                    };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//    
+//    r_satui_number_query_with_label_and_icon
+//    Defines the number query with label and icon
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_number_query_with_label_and_icon
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label = space;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                {
+                layout = EPhoneLayout;
+                control = EDWIN 
+                    { 
+                    numeric_keymap = EAknEditorSATNumberModeKeymap;
+                    maxlength=256; 
+                    width=16; 
+                    lines=1; 
+                    };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//    
+//    r_satui_text_query_with_label_and_icon
+//    Defines the text query with label and icon
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_text_query_with_label_and_icon
+    {
+    flags=EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label = space;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                layout = EDataLayout;
+                control = EDWIN
+                    {
+                    width=16; 
+                    lines=1; 
+                    maxlength = 256;
+                    };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//      
+//    r_satui_hidden_number_query_with_label_and_icon
+//    Defines the hidden number query with label and icon
+//        
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_hidden_number_query_with_label_and_icon
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                label = space;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY 
+                { 
+                layout = EPinLayout;
+                control = SECRETED
+                    {
+                    num_letters = 32;
+                    };
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------
+//
+//    r_satui_bip_wait_note
+//    Defines send data wait dialog
+//
+// ---------------------------------------------------------
+RESOURCE DIALOG r_satui_bip_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiWaitNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                //singular_label = qtn_sat_conf_send_data_bip;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+    
+//----------------------------------------------------------
+//
+//    r_satui_close_channel_icon_note
+//    Defines the information note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_close_channel_icon_note
+    {
+    flags = EEikDialogFlagNoDrag |
+            EEikDialogFlagNoTitleBar |
+            EEikDialogFlagCbaButtons;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiInformationNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EGeneralLayout;
+                singular_label = space;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_close_channel_note
+//    Defines the information note
+//
+//----------------------------------------------------------
+//
+RESOURCE DIALOG r_satui_close_channel_note
+    {
+    flags = EEikDialogFlagNoDrag |
+            EEikDialogFlagNoTitleBar |
+            EEikDialogFlagCbaButtons;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiInformationNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EGeneralLayout;
+                singular_label = space;
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------
+//   
+//    r_satui_requesting_wait_note
+//    Wait note for requesting.
+//
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_satui_requesting_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ESatUiWaitNote;
+            control = AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = text_sending;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+/******************* Additional CBA ***********************/
+
+//----------------------------------------------------------
+//
+//    r_satui_softkeys_send_cancel
+//    Defines Send softkey and Cancel softkey
+//
+//----------------------------------------------------------
+//
+RESOURCE CBA r_satui_softkeys_send_cancel
+    {
+    buttons =
+        {
+        CBA_BUTTON {id = ESatUiSoftkeySend; txt = text_softkey_send;},
+        CBA_BUTTON {id = EAknSoftkeyCancel; txt = text_softkey_cancel;}
+        };
+    }
+
+//----------------------------------------------------------
+//
+//    r_satui_softkeys_call_cancel
+//    Defines Call softkey and Cancel softkey
+//
+//----------------------------------------------------------
+//
+RESOURCE CBA r_satui_softkeys_call_cancel
+    {
+    buttons =
+        {
+        CBA_BUTTON {id = ESatUiSoftkeyCall; txt = text_softkey_call;},
+        CBA_BUTTON {id = EAknSoftkeyCancel; txt = text_softkey_cancel;}
+        };
+    }
+
+
+//----------------------------------------------------
+//   
+//    r_satui_softkey_quit
+//
+//
+//----------------------------------------------------
+//
+RESOURCE CBA r_satui_softkey_quit
+    {
+    buttons =
+        {
+        CBA_BUTTON {},
+        CBA_BUTTON {id=EAknSoftkeyClose; txt=text_softkey_quit;}
+        };
+    }
+
+/******************* Localized texts **********************/
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_title
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_title
+    {
+    buf = qtn_sat_title;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_message_header
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_message_header
+    {
+    buf = qtn_sat_message_header;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_help_header
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_help_header
+    {
+    buf = qtn_sat_help_header;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_simatk_enter_char
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_simatk_enter_char
+    {
+    buf = text_simatk_enter_char;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_simatk_enter_char_string
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_simatk_enter_char_string
+    {
+    buf = text_simatk_enter_char_string;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_simatk_enter_nbr
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_simatk_enter_nbr
+    {
+    buf = text_simatk_enter_nbr;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_simatk_enter_nbr_string
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_simatk_enter_nbr_string
+    {
+    buf = text_simatk_enter_nbr_string;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_done
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_done
+    {
+    buf = text_done;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_not_done
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_not_done
+    {
+    buf = text_not_done;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_simatk_send_sms;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_simatk_send_sms
+    {
+    buf = text_simatk_send_sms;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_note_sms_send;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_note_sms_send
+    {
+    buf = qtn_sat_note_sms_send;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_note_sending_dtmf_template;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE TBUF r_qtn_sat_note_sending_dtmf_template
+    {
+    buf = qtn_sat_note_sending_dtmf_template;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_cc_not_allowed;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE TBUF r_qtn_sat_cc_not_allowed
+    {
+    buf = qtn_sat_cc_not_allowed;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_cc_modified;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE TBUF r_qtn_sat_cc_modified
+    {
+    buf = qtn_sat_cc_modified;
+    }
+
+// ---------------------------------------------------------
+
+//    r_qtn_sat_mosm_not_allowed;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_mosm_not_allowed
+    {
+    buf = text_request_rejected;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_mosm_modified;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_mosm_modified
+    {
+    buf = qtn_sat_request_modified;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_simatk_send_ss;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_simatk_send_ss
+    {
+    buf = text_simatk_send_ss;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_text_call_setup_by_simatk
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_call_setup_by_simatk
+    {
+    buf = text_call_setup_by_simatk;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_query_title
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_query_title
+    {
+    buf = qtn_sat_query_title;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_query_allow_reset
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_query_allow_reset
+    {
+    buf = qtn_sat_query_allow_reset;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_timeout;
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE TBUF r_qtn_sat_timeout
+    {
+    buf = qtn_sat_timeout;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_conf_receive_data_bip
+//    Defines receive data localized text
+//
+// ---------------------------------------------------------
+RESOURCE TBUF r_qtn_sat_conf_receive_data_bip
+    {
+    buf = qtn_sat_conf_receive_data_bip;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_conf_send_data_bip
+//    Defines send data localized text
+//
+// ---------------------------------------------------------
+RESOURCE TBUF r_qtn_sat_conf_send_data_bip
+    {
+    buf = qtn_sat_conf_send_data_bip;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_services_not_available
+//    Defines SAT not available localized text
+//
+// ---------------------------------------------------------
+RESOURCE TBUF r_qtn_sat_services_not_available
+    {
+    buf = qtn_sat_services_not_available;
+    }
+
+/****** Localized texts for the Next Action Indicator *****/
+/************ (an item in the Options menu) ***************/
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_option_call
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_option_call
+    {
+    buf = qtn_options_call;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_option_send
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_option_send
+    {
+    buf = qtn_sat_option_send;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_option_play
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_option_play_tone
+    {
+    buf = qtn_sat_option_play_tone;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_option_read
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_option_read
+    {
+    buf = qtn_sat_option_read;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_option_select
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_option_select
+    {
+    buf = qtn_cffh_options_select;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_option_open
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_option_open
+    {
+    buf = qtn_options_open;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_option_goto
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_option_goto
+    {
+    buf = qtn_sat_option_goto;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_conf_open_channel_bip
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_conf_open_channel_bip
+    {
+    buf = qtn_sat_conf_open_channel_bip;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_conf_close_channel_bip
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_conf_close_channel_bip
+	{
+	buf = qtn_sat_conf_close_channel_bip;
+	}
+
+// ---------------------------------------------------------
+//
+//    r_qtn_sat_sending_sms
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_sending_sms
+    {
+    buf = qtn_sat_sending_sms;
+    }
+
+// ---------------------------------------------------------
+//
+//    qtn_sat_conf_launch_brow
+//    Defines localized text
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_sat_conf_launch_brow
+    {
+    buf = qtn_sat_conf_launch_brow;
+    }
+
+// ---------------------------------------------------------
+//   
+//    r_qtn_offline_not_possible_sap
+//    The note that is shown when the user attempts to connect 
+//    the network when in SIM Access Profile mode.
+//	  
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_offline_not_possible_sap
+    { 
+    buf = qtn_offline_not_possible_sap; 
+    }
+    
+// ---------------------------------------------------------
+//   
+//    r_qtn_msk_call_sat
+//    Defines localized text
+//	  
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_msk_call_sat
+    { 
+    buf = qtn_msk_call_sat; 
+    }
+    
+// ---------------------------------------------------------
+//   
+//    r_qtn_msk_read_sat
+//    Defines localized text
+//	  
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_msk_read_sat
+    { 
+    buf = qtn_msk_read_sat; 
+    }
+
+// ---------------------------------------------------------
+//   
+//    r_qtn_msk_open_sat
+//    Defines localized text
+//	  
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_msk_open_sat
+    { 
+    buf = qtn_msk_open;
+    }
+
+// ---------------------------------------------------------
+//   
+//    r_qtn_msk_goto_sat
+//    Defines localized text
+//	  
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_msk_goto_sat
+    { 
+    buf = qtn_msk_goto_sat;
+    }

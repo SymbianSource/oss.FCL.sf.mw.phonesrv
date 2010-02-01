@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="bc5ea00a4653ae7d09479956f1d9a6e6" dataversion="1.0">
+  <name>Dial Utils API</name>
+  <description>An interface for checking if telephony number should be modified prior a call. Supports Japanese prefix insertion.</description>
+  <type>c++</type>
+  <subsystem>phoneclientserver</subsystem>
+  <libs>
+    <lib name="DialUtils.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

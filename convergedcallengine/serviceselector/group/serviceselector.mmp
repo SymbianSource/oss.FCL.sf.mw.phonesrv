@@ -1,0 +1,79 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project specification file for Service Selector dll
+*
+*/
+
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+TARGET          serviceselector.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x20019532    
+VENDORID		VID_DEFAULT
+
+CAPABILITY		CAP_GENERAL_DLL
+
+SOURCEPATH      ../src
+
+SOURCE          cconvergedserviceselector.cpp
+SOURCE          cssconnectionhandler.cpp
+SOURCE          cssuiutilities.cpp
+SOURCE          cssserviceutilities.cpp
+SOURCE          cssservicehandlergsm.cpp
+SOURCE          cssservicehandlervoice.cpp
+SOURCE          cssservicehandlervoip.cpp
+SOURCE          csslistquerydialog.cpp 
+SOURCE          csssettingshandler.cpp
+SOURCE 	        cssnotedialog.cpp
+SOURCE 	        cssbshandler.cpp
+SOURCE          cssiconfileprovider.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../srcdata
+USERINCLUDE     ../loc
+
+MW_LAYER_SYSTEMINCLUDE         // MW layer includes
+
+LANG            SC
+SOURCEPATH      ../srcdata
+       
+START RESOURCE  serviceselector.rss
+TARGETPATH      RESOURCE_FILES_DIR
+HEADER
+LANGUAGE_IDS
+END
+
+LIBRARY     euser.lib
+LIBRARY     featmgr.lib // Feature manager. 
+LIBRARY     flogger.lib // For logging.
+LIBRARY     cch.lib // Converged connection handler client API
+LIBRARY     serviceprovidersettings.lib // For service settings
+LIBRARY     avkon.lib // For UI queries
+LIBRARY     eikdlg.lib // For UI queries
+LIBRARY	    eikctl.lib // For UI queries
+LIBRARY	    cone.lib
+LIBRARY     eikcoctl.lib // menu bar
+LIBRARY	    eikcore.lib
+LIBRARY	    bafl.lib // For CDesArrays
+LIBRARY	    commonengine.lib // For stringloader
+LIBRARY     aknicon.lib
+LIBRARY     egul.lib
+LIBRARY     bsclient.lib
+LIBRARY     aknskins.lib
+LIBRARY     efsrv.lib
+
+// End of file
+

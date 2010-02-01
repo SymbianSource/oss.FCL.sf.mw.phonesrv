@@ -1,0 +1,5 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI15CVmbxEngineTest @ 2 NONAME
+	_ZTV15CVmbxEngineTest @ 3 NONAME
+

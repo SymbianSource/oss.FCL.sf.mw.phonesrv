@@ -1,0 +1,139 @@
+/*
+* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Phone Client DLL defines the API for Phone server.
+*
+*/
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+// Capability assignment.
+CAPABILITY CAP_CLIENT_DLL
+
+// Assign Vendor ID.
+VENDORID VID_DEFAULT
+
+TARGET          phoneclient.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x1000084F
+
+SOURCEPATH      ../Src/Notifier/Notifier_Aiw
+SOURCE          CPhCltCallNotify.cpp 
+SOURCE          RPhCltCallNotify.cpp
+SOURCE          cphcltdialrequestmonitor.cpp
+SOURCE          cphcltdialemergencyrequestmonitor.cpp
+SOURCE          cphcltcomhandrequestmonitor.cpp
+
+
+SOURCEPATH      ../Src/ExtCall/ExtCall_Aiw
+SOURCE          RPhCltExtCall.cpp
+SOURCE          CPhCltExtPhoneDialData.cpp
+SOURCE          cphcltdialdata.cpp
+
+SOURCEPATH      ../Src/ExtCallWrapper/ExtCallWrapper_Aiw
+SOURCE          CPhCltExtPhone.cpp
+SOURCE          CPhCltExtPhoneBase.cpp
+
+SOURCEPATH      ../Src/Ussd/ussd_ext
+SOURCE          rphcltussd.cpp
+
+SOURCEPATH      ../Src/UssdWrapper
+SOURCE          CPhCltUssdRequestHandler.cpp
+
+SOURCE          CPhCltUssdSatClient.cpp
+  
+SOURCE          CPhCltUssdInt.cpp
+SOURCE          CPhCltUssdImp.cpp
+SOURCE          CPhCltUssdExt.cpp
+
+SOURCE		CPhCltUssdNoteController.cpp
+
+SOURCEPATH      ../Src/EmergencyNumber/EmergencyNumber_Aiw
+SOURCE          CPhCltEmergencyCall.cpp
+SOURCE          RPhCltEmergencyCall.cpp
+SOURCE          CPhCltEmergencyCallImpl.cpp
+
+SOURCEPATH      ../Src/Session
+SOURCE          RPhCltServer.cpp
+
+SOURCEPATH      ../Src
+SOURCE          PhCltUtils.cpp
+SOURCE          RPhCltResourceFile.cpp
+
+SOURCEPATH      ../Src/CommandHandler
+SOURCE          CPhCltCommandHandler.cpp
+SOURCE          CPhCltComHandImplementation.cpp
+SOURCE          RPhCltCommandHandler.cpp
+SOURCEPATH      ../Src/ImageHandler
+SOURCE          CPhCltImageHandler.cpp
+SOURCE          CPhCltBaseImageParams.cpp
+SOURCE          CPhCltOperatorLogoContainer.cpp
+SOURCE          CPhCltImageHandlerImplementation.cpp
+SOURCE          RPhCltImageHandler.cpp
+SOURCEPATH      ../Src/Messenger
+SOURCE          CPhCltMessenger.cpp
+SOURCE          RPhCltMessenger.cpp
+SOURCE          CPhCltMessengerImplementation.cpp
+
+
+
+SOURCEPATH      ../Src
+START RESOURCE ../Data/PhoneClient.rss
+HEADER
+TARGETPATH   RESOURCE_FILES_DIR  
+LANGUAGE_IDS
+END  // RESOURCE
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE   ../../../inc
+
+USERINCLUDE     ../Inc/ExtCall/ExtCall_Aiw
+USERINCLUDE     ../Inc/Notifier/Notifier_Aiw
+USERINCLUDE     ../Inc/ExtCallWrapper/ExtCallWrapper_Aiw
+USERINCLUDE     ../Inc/EmergencyNumber/EmergencyNumber_Aiw
+
+USERINCLUDE     ../Inc/Session
+USERINCLUDE     ../Inc/SharedClientServer
+
+USERINCLUDE     ../Inc/UssdWrapper/Ussd_Ext
+USERINCLUDE     ../Inc/Ussd/ussd_ext
+USERINCLUDE     ../Inc/CommandHandler
+USERINCLUDE     ../Inc/ImageHandler
+USERINCLUDE     ../Inc/Messenger
+USERINCLUDE     ../Inc/UssdWrapper
+USERINCLUDE     ../Inc 
+
+
+LIBRARY         euser.lib
+LIBRARY         aknnotify.lib
+LIBRARY         avkon.lib
+LIBRARY         cone.lib
+LIBRARY         estor.lib
+LIBRARY         commonengine.lib 
+LIBRARY         eikdlg.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         etelmm.lib
+LIBRARY         gsmu.lib
+LIBRARY         efsrv.lib
+LIBRARY         charconv.lib
+LIBRARY         fbscli.lib
+
+
+#ifdef WINSCW
+    DEFFILE ../Bwins/PHONECLIENT_AiwExt.DEF
+#else
+    DEFFILE ../EABI/PHONECLIENT_AiwExt.DEF
+#endif
+
+// End of File

@@ -1,0 +1,68 @@
+/*
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is project specification file for the Phone Settings.
+*     
+*
+*/
+
+#include <platform_paths.hrh>
+#include "../Logger/PhoneSettingsLoggingConf.h"
+
+// Capability assignment.
+CAPABILITY CAP_GENERAL_DLL
+VENDORID    VID_DEFAULT
+
+TARGET    phonesettings.dll
+TARGETTYPE dll
+UID 0x1000008d 0x100058e3
+
+SOURCEPATH ../src
+SOURCE PsetCallWaiting.cpp
+SOURCE PsetContainer.cpp
+SOURCE PsetCallBarring.cpp    
+SOURCE PsetCallDiverting.cpp
+SOURCE PsetTelephony.cpp         
+SOURCE PsetCli.cpp
+SOURCE PsetVariationProxy.cpp
+SOURCE PsetNetwork.cpp
+SOURCE PsetSAObserver.cpp
+SOURCE PsetCSP.cpp
+SOURCE PSetUtility.cpp
+SOURCE PSetRefreshHandlerImpl.cpp
+SOURCE PSetCallDivertingBase.cpp 
+SOURCE PSetSubscriberIdCheck.cpp 
+SOURCE PSetCallDivertingBasicImpl.cpp
+SOURCE PSetCallDivertingCreator.cpp 
+SOURCE PSetCallDivertingDualAffectImpl.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../Logger
+SYSTEMINCLUDE	../../../inc
+// APP include needed because telephonysettings 
+// uses vmbx headers from APP layer.
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY euser.lib
+LIBRARY etel.lib
+LIBRARY etelmm.lib
+LIBRARY customapi.lib
+LIBRARY bafl.lib         
+LIBRARY sssettings.lib
+LIBRARY vmbx.lib
+LIBRARY featmgr.lib
+
+LIBRARY centralrepository.lib
+LIBRARY    flogger.lib      // logging
+
+// End of File

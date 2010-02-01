@@ -1,0 +1,74 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project Phone Parser.
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET          phoneparser.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x100058E4
+
+CAPABILITY CAP_GENERAL_DLL
+
+SOURCEPATH      ../src
+SOURCE          PhoneGsmParser.cpp
+SOURCE          CPhoneGsmParser.cpp
+SOURCE          CPhoneGsmParserBase.cpp
+SOURCE          CPhoneGsmParserResult.cpp
+SOURCE          CPhoneGsmSsParser.cpp
+SOURCE          CPhoneGsmSsHandler.cpp
+SOURCE          CPhoneGsmSimControlParser.cpp
+SOURCE          CPhoneGsmSimControlHandler.cpp
+SOURCE          CPhoneGsmPhoneNumberParser.cpp
+SOURCE          CPhoneGsmPhoneNumberHandler.cpp
+SOURCE          CPhoneGsmOptionContainer.cpp
+SOURCE          CPhoneGsmHandlerContainer.cpp
+SOURCE          CPhoneGsmDummyParser.cpp
+SOURCE          CPhoneGsmMiscHandler.cpp
+SOURCE          CPhoneGsmParserContainer.cpp
+SOURCE          CPhoneGsmSsCallParser.cpp
+SOURCE          CPhoneGsmSsCallHandler.cpp
+SOURCE          CPhoneGsmManufacturerParser.cpp
+SOURCE          CPhoneGsmManufacturerHandler.cpp
+SOURCE          CPhoneGsmPcnProcedureParser.cpp
+SOURCE          CPhoneGsmPcnProcedureHandler.cpp
+SOURCE          CPhoneGsmEmergencyNumberParser.cpp
+SOURCE          CPhoneGsmEmergencyNumberHandler.cpp
+SOURCE          CPhoneParserFeatures.cpp
+SOURCE          CPhoneVoipNumberParser.cpp
+SOURCE          CPhoneVoipNumberHandler.cpp
+SOURCE          CPhoneGsmImeiParser.cpp
+
+USERINCLUDE     ../inc 
+
+// Default system include paths for MW layer modules.
+APP_LAYER_SYSTEMINCLUDE	//for Phone Settings domain API headers
+SYSTEMINCLUDE   ../../../inc    // Telephonyservices internal headers
+
+LIBRARY         euser.lib
+
+// For shared data connection
+LIBRARY         commonengine.lib
+
+// For feature manager
+LIBRARY         featmgr.lib
+
+// For phone client
+LIBRARY         phoneclient.lib 
+
+// For central repository
+LIBRARY         centralrepository.lib

@@ -1,0 +1,15 @@
+EXPORTS
+	NewL__19CPsuiResourceLoader @ 1 NONAME R3UNUSED ; CPsuiResourceLoader::NewL(void)
+	CreateCFObsL__14CPsuiContainer @ 2 NONAME R3UNUSED ; CPsuiContainer::CreateCFObsL(void)
+	CreateCWObsL__14CPsuiContainer @ 3 NONAME R3UNUSED ; CPsuiContainer::CreateCWObsL(void)
+	CreateCliObsL__14CPsuiContainer @ 4 NONAME R3UNUSED ; CPsuiContainer::CreateCliObsL(void)
+	NewLC__19CPsuiResourceLoader @ 5 NONAME R3UNUSED ; CPsuiResourceLoader::NewLC(void)
+	NewL__14CPsuiContainer @ 6 NONAME R3UNUSED ; CPsuiContainer::NewL(void)
+	NewL__14CPsuiDivertObsR14CPsuiContainer @ 7 NONAME R3UNUSED ; CPsuiDivertObs::NewL(CPsuiContainer &)
+	NewL__15CPsuiBarringObsR14CPsuiContainer @ 8 NONAME R3UNUSED ; CPsuiBarringObs::NewL(CPsuiContainer &)
+	NewL__15CPsuiWaitingObsR14CPsuiContainer @ 9 NONAME R3UNUSED ; CPsuiWaitingObs::NewL(CPsuiContainer &)
+	NewL__16CPsuiCliObserverR14CPsuiContainer @ 10 NONAME R3UNUSED ; CPsuiCliObserver::NewL(CPsuiContainer &)
+	CreateCBObsL__14CPsuiContainer @ 11 NONAME R3UNUSED ; CPsuiContainer::CreateCBObsL(void)
+	DeleteAndCreateNoteMaster__14CPsuiContainer @ 12 NONAME R3UNUSED ; CPsuiContainer::DeleteAndCreateNoteMaster(void)
+	GetNoteMaster__14CPsuiContainer @ 13 NONAME R3UNUSED ; CPsuiContainer::GetNoteMaster(void)
+

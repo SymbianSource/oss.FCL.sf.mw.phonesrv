@@ -1,0 +1,1481 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Resource file for cbs ui application.
+*
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME LIST
+
+
+//  INCLUDES
+#include <bldvariant.hrh>
+#include <eikon.rh>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.loc>
+#include <cbsuiapp.mbg>
+#include <AvkonIcons.hrh>   // AVKON_ICON_FILE( Path to avkon.mbm file )
+#include <appinfo.rh>
+#include "Cbsuiapp.hrh"
+#include <cbsuiapp.loc>
+
+
+#define cbs_image_library "Z:\\resource\\apps\\cbsuiapp.mbm"
+
+
+
+// ---------------------------------------------------------
+//   
+//    Standard resource file signature
+//
+// ---------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE { }
+
+// ---------------------------------------------------------
+//   
+//    App caption and default filename
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF 
+    { 
+    buf = "Cbsuiapp"; 
+    }
+
+// ---------------------------------------------------------
+//   
+//    App information
+//
+// ---------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    }
+
+
+//----------------------------------------------------
+//   
+//    r_cbsuiapp_localisable_app_info
+//    Localisable app info
+//
+//----------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_cbsuiapp_localisable_app_info
+    {
+    short_caption = qtn_cb_title_grid;
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_cb_title_cbs;
+#ifdef __SCALABLE_ICONS
+        number_of_icons = 1;
+        icon_file = "Z:\\resource\\apps\\CBSUIAPP_aif.mif";
+#else // !__SCALABLE_ICONS
+        number_of_icons = 2;
+        icon_file = "Z:\\resource\\apps\\CBSUIAPP_aif.mbm";
+#endif // __SCALABLE_ICONS
+        };
+    }
+
+
+
+
+//  RESOURCE DEFINITIONS 
+// ---------------------------------------------------------
+//   
+//    r_cbsui_msgview
+//    Message view.
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_cbsui_msgview
+    {
+    menubar = r_cbsui_msgview_menubar;
+    cba = r_cbs_softkeys_options_back__contextoptions;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_msgview_menubar
+//    Message view menu bar definition.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_BAR r_cbsui_msgview_menubar
+    {
+    titles =
+        {
+        MENU_TITLE 
+        { 
+        menu_pane = r_cbsui_msgview_menu; 
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_msgview_menu
+//    Message view menu.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_cbsui_msgview_menu
+    {
+    items =
+    {
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdMsgMenuKeep;
+        txt = qtn_cb_cmd_keep_topic;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdMsgMenuDelete;
+        txt = qtn_cb_cmd_del_msg;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiCmdCopyToClipboard; 
+        txt = qtn_cb_cmd_copy_clip;
+        },
+    MENU_ITEM
+        {
+        command = EAknCmdHelp;
+        txt = qtn_options_help;
+        },
+    MENU_ITEM 
+        { 
+        command = EAknCmdExit;
+        txt = qtn_cb_cmd_exit;
+        }
+        };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_topicview
+//    Topic view.
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_cbsui_topicview
+    {
+    menubar = r_cbsui_topicview_menubar; 
+    cba = r_cbs_softkeys_options_back__open;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_topicview_menubar
+//    Topic view menu bar.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_BAR r_cbsui_topicview_menubar
+    {
+     titles=
+    {
+    MENU_TITLE 
+        { 
+        menu_pane = r_cbsui_topicview_menu;
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_topicview_menu
+//    Topic view menu.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_cbsui_topicview_menu
+    {
+    items=
+    {
+    MENU_ITEM 
+        {  
+        command = ECbsUiappCmdTopicMenuRead;
+        txt=qtn_cb_cmd_msg_open;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        {  
+        command = ECbsUiappCmdTopicMenuKeep;
+        txt=qtn_cb_cmd_keep_topic;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        {  
+        command = ECbsUiappCmdMessageDelete;
+        txt=qtn_cb_cmd_del_msg;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM
+        {
+        command = EAknCmdHelp;
+        txt = qtn_options_help;
+        },
+    MENU_ITEM 
+        {  
+        command = EAknCmdExit;
+        txt=qtn_cb_cmd_exit;
+        }
+    };
+    }
+
+// ---------------------------------------------------------
+//   
+//    r_cbs_softkeys_options_exit__open
+//    Topic list view softkeys.
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE CBA r_cbs_softkeys_options_exit__open
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id=EAknSoftkeyOptions; txt=text_softkey_option;},
+        CBA_BUTTON {id=EAknSoftkeyExit; txt= text_softkey_exit;},
+        CBA_BUTTON {id=ECbsUiappCmdSwitchOpen; txt=qtn_msk_open;}
+        };
+    }
+    
+// ---------------------------------------------------------
+//   
+//    r_cbs_softkeys_options_back__open
+//    Topic view softkeys.
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE CBA r_cbs_softkeys_options_back__open
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id=EAknSoftkeyOptions; txt=text_softkey_option;},
+        CBA_BUTTON {id=EAknSoftkeyBack; txt= text_softkey_back;},
+        CBA_BUTTON {id=ECbsUiappCmdTopicMSKRead; txt=qtn_msk_open;}
+        };
+    }    
+
+// ---------------------------------------------------------
+//   
+//    r_cbs_softkeys_options_back__contextoptions
+//    Message view context sensitive softkeys.
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE CBA r_cbs_softkeys_options_back__contextoptions
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id=EAknSoftkeyOptions; txt=text_softkey_option;},
+        CBA_BUTTON {id=EAknSoftkeyBack; txt= text_softkey_back;},
+        CBA_BUTTON {id=EAknSoftkeyContextOptions; txt=text_softkey_option;}
+        };
+    }
+    
+// ---------------------------------------------------------
+//   
+//    r_cbs_softkeys_options_back__change
+//    Settings view softkeys.
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE CBA r_cbs_softkeys_options_back__change
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id=EAknSoftkeyOptions; txt=text_softkey_option;},
+        CBA_BUTTON {id=EAknSoftkeyBack; txt= text_softkey_back;},
+        CBA_BUTTON {id=EAknSoftkeyChange; txt=qtn_msk_change;}
+        };
+    }
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_topiclistview
+//    Topic list view.
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_cbsui_topiclistview
+    {
+    menubar = r_cbsui_topiclistview_menubar; 
+    cba = r_cbs_softkeys_options_exit__open;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_topiclistview_menubar
+//    Topic list view menu bar.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_BAR r_cbsui_topiclistview_menubar
+    {
+    titles=
+    {
+    MENU_TITLE 
+        {   
+        menu_pane = r_cbsui_topiclistview_menu; 
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_topiclistview_menu
+//    Topic list view menu.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_cbsui_topiclistview_menu
+    {
+    items=
+    {
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchOpen; 
+        txt=qtn_cb_cmd_open;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchSubscribe;
+        txt=qtn_cb_cmd_subscribe;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchUnsubscribe;
+        txt=qtn_cb_cmd_unsubscribe;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchHotmark;
+        txt=qtn_cb_cmd_hotmark;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchUnhotmark; 
+        txt=qtn_cb_cmd_unhotmark;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        {
+        command = ECbsUiappCmdSwitchTopic;
+        cascade = r_cbsui_topic_menu;
+        txt = qtn_cb_cmd_topic;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchSettings;
+        txt=qtn_cb_cmd_settings;
+        },
+    MENU_ITEM
+        {
+        command = EAknCmdHelp;
+        txt = qtn_options_help;
+        },
+    MENU_ITEM 
+        {
+        command = EAknCmdExit;
+        txt = qtn_cb_cmd_exit;
+        }
+    };
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_cbsui_topic_menu
+//    Topic sub menu.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_cbsui_topic_menu
+    {
+    items=
+    {
+        MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchAddManually;
+        txt = qtn_cb_topic_add_man;
+        },
+        MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchAddFromIndex;
+        txt = qtn_cb_topic_add_f_index;
+        },
+        MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchEdit;
+        txt = qtn_cb_topic_edit;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchDelete;
+        txt = qtn_cb_topic_delete;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdSwitchDeleteAll;
+        txt = qtn_cb_topic_delete_all;
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_delete_topic_confirmation_query
+//    Query for topic deletion.
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_delete_topic_confirmation_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+
+    items =
+    {
+    DLG_LINE
+        {
+        type = EAknCtQuery;
+        id = EGeneralQuery;
+        control = AVKON_CONFIRMATION_QUERY
+        { 
+        layout = EConfirmationLayout;
+        label = qtn_cb_query_delete_topic;
+        };
+        }
+    };
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_delete_msg_confirmation_query
+//    Query for message deletion.
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_delete_msg_confirmation_query
+    {
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+
+    items=
+    {
+    DLG_LINE
+        {
+        type=EAknCtQuery;
+        id=EGeneralQuery;
+        control= AVKON_CONFIRMATION_QUERY
+        { 
+        layout = EConfirmationQueryLayout;
+        label = qtn_cb_note_delete_msg;
+        };
+        }
+    };
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_delete_all_topics_confirmation_query
+//    Query for all topics deletion.
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_delete_all_topics_confirmation_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+    items =
+    {
+    DLG_LINE
+        {
+        type = EAknCtQuery;
+        id = EGeneralQuery;
+        control = AVKON_CONFIRMATION_QUERY
+        { 
+        layout = EConfirmationLayout;
+        label = qtn_cb_query_delete_all_topic;
+        };
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//
+//    r_cbs_add_from_index_dialog
+//    Add from index dialog.
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_cbs_add_from_index_dialog
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar | 
+        EEikDialogFlagFillAppClientRect |
+        EEikDialogFlagCbaButtons | EEikDialogFlagWait;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__MARK;
+    items =
+    {
+    DLG_LINE
+        {
+        id = ECbsUiAddFromIndexDlgLine;     
+        type = EAknCtSingleGraphicListBox;
+        itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control = LISTBOX 
+        {
+        flags = EAknListBoxMultiselectionList;
+                height = 5;
+        };
+        }
+        };
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_qtn_cb_title_cbs
+//    Text for cbs title pane.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TITLE_PANE r_qtn_cb_title_cbs 
+    { 
+    txt = qtn_cb_title_cbs; 
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_qtn_cb_title_add_topics
+//    Title pane for add from index dialog.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TITLE_PANE r_qtn_cb_title_add_topics 
+    { 
+    txt = qtn_cb_title_addtopics; 
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_qtn_cb_ad_sel_top
+//    In add from index dialog. (Select topics...)
+//
+// ---------------------------------------------------------
+//
+RESOURCE NAVI_DECORATOR r_qtn_cb_ad_sel_top
+    {
+    type = ENaviDecoratorLabel;  
+    control = NAVI_LABEL 
+    { 
+    txt = qtn_cb_ad_sel_top; 
+    };
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_cb_tl_no_new_messages
+//    Text No new messages.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_cb_tl_no_new_messages
+    {
+    buf = qtn_cb_tl_no_new_messages; 
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cb_tl_one_new_message
+//    Text One new message.
+//
+// ---------------------------------------------------------
+//  
+RESOURCE TBUF r_cb_tl_one_new_message
+    {
+    buf = qtn_cb_tl_one_new_message; 
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cb_tl_new_messages
+//    Text ´%N new messages.
+//
+// ---------------------------------------------------------
+//  
+RESOURCE TBUF r_cb_tl_new_messages
+    {
+    buf = qtn_cb_tl_new_messages; 
+    }
+
+/******* NOTES ******/
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_note_msg_to_clip
+//    Note text.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_note_msg_to_clip 
+    { 
+    buf = qtn_cb_note_msg_to_clip; 
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_note_number_error
+//    Note text.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_note_number_error 
+    { 
+    buf = qtn_cb_note_change_number; 
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_note_memory_full_error
+//    Note text.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_note_memory_full_error 
+    { 
+    buf = qtn_cb_note_mem_full_del_msg; 
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_note_cannot_subscribe_error
+//    Note text.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_note_cannot_subscribe_error 
+    { 
+    buf = qtn_cb_note_can_not_subs; 
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_note_msg_kept
+//    Note text.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_note_msg_kept 
+    { 
+    buf = qtn_logs_info_msg_kept; 
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_note_new_topic_added
+//    Note text.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_note_new_topic_added 
+    { 
+    buf = qtn_cb_note_new_to_added; 
+    }
+
+/******* NOTES END ******/
+
+
+
+// ---------------------------------------------------------
+//   
+//    r_edit_topic_query
+//    Dialog for editing topic.
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_edit_topic_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+    {
+    DLG_LINE
+        {
+        type = EAknCtMultilineQuery;
+        id = EMultilineFirstLine;
+        control = AVKON_DATA_QUERY
+        { 
+        layout = EMultiDataFirstEdwinAllowEmpty;
+        label = qtn_cb_litext_name;
+        control = EDWIN
+            {
+            flags = 0;
+            width = 5;
+            lines = 1;
+            maxlength = 20;
+            };
+        };
+        },
+    DLG_LINE
+        {
+        type = EAknCtMultilineQuery;
+        id = EMultilineSecondLine;
+        control = AVKON_DATA_QUERY
+        { 
+        layout = EMultiDataSecondEdwin;
+        label = qtn_cb_litext_number;
+        control = EDWIN
+            {
+            flags = 0;
+            avkon_flags = EAknEditorFlagSupressShiftMenu;
+            width = 5;
+            lines = 1;
+            maxlength = EMaxTopicNumberLength;
+            allowed_input_modes = EAknEditorNumericInputMode;
+            default_input_mode = EAknEditorNumericInputMode;
+            numeric_keymap = EAknEditorPlainNumberModeKeymap;
+            };
+        };
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_msg_reader
+//    Resource definition for message reading component.
+//
+// ---------------------------------------------------------
+//
+RESOURCE RTXTED r_msg_reader
+    {
+    width = 176;
+    height = 142; // 144 for whole window
+    numlines = 7;
+    
+    flags = EEikEdwinNoHorizScrolling | EEikEdwinNoAutoSelection | 
+                      EEikEdwinWidthInPixels | EEikEdwinInclusiveSizeFixed;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_plural_topic_added
+//    Topic count information
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_plural_topic_added 
+    { 
+    buf = qtn_cb_note_new_tos_added; 
+    }
+
+
+
+// ---------------------------------------------------------
+//   
+//    r_checkbox_icons
+//    Array for check box icons
+//
+// ---------------------------------------------------------
+//
+RESOURCE AKN_ICON_ARRAY r_checkbox_icons
+    {
+    bmpfile = AVKON_ICON_FILE;
+    icons =
+    {
+    AKN_ICON
+        {                    
+        iconId = EMbmAvkonQgn_indi_checkbox_on;
+        maskId = EMbmAvkonQgn_indi_checkbox_on_mask;
+        },
+    AKN_ICON
+        {
+        iconId = EMbmAvkonQgn_indi_checkbox_off;
+        maskId = EMbmAvkonQgn_indi_checkbox_off_mask;
+        }
+    };
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_cbs_image_library
+//    Locations to the cbs image library.
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_cbs_image_library 
+    { 
+    buf = cbs_image_library; 
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_cbsui_msg_keep_and_delete_context_menubar
+//    Context menu bar for delete and keep.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_BAR r_cbsui_msg_keep_and_delete_context_menubar
+    {
+    titles=
+    {
+    MENU_TITLE 
+        { 
+        menu_pane = r_cbsui_msg_keep_and_delete_context_menu;
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_msg_keep_and_delete_context_menu
+//    Context menu for keep and delete.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_cbsui_msg_keep_and_delete_context_menu
+    {
+    items=
+    {
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdMsgMenuKeep;
+        txt = qtn_cb_cmd_keep_topic;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdMsgMenuDelete;
+        txt = qtn_cb_cmd_del_msg;
+        flags = EEikMenuItemSpecific;
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_msg_delete_context_menubar
+//    Context menu bar for delete.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_BAR r_cbsui_msg_delete_context_menubar
+    {
+    titles =
+    {
+    MENU_TITLE 
+        { 
+        menu_pane = r_cbsui_msg_delete_context_menu;
+        }
+    };
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_cbsui_msg_delete_context_menu
+//    Context menu pane for delete.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_cbsui_msg_delete_context_menu
+    {
+    items=
+    {
+    MENU_ITEM 
+        { 
+        command = ECbsUiappCmdMsgMenuDelete;
+        txt = qtn_cb_cmd_del_msg;
+        flags = EEikMenuItemSpecific;
+        }
+    };
+    }
+
+
+/**
+* Settings view.
+*/
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_settingsview
+//    Settings view.
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_cbsui_settingsview
+    {
+    menubar = r_cbsui_settingsview_menubar;
+    cba = r_cbs_softkeys_options_back__change;
+    }
+
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_cbsui_settingsview_menubar
+//    Settings view.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_BAR r_cbsui_settingsview_menubar
+    {
+    titles =
+        {
+        MENU_TITLE 
+        { 
+        menu_pane = r_cbsui_settingsview_file_menu; 
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbsui_settingsview_file_menu
+//    Settings view.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MENU_PANE r_cbsui_settingsview_file_menu
+    {
+    items=
+    {
+    MENU_ITEM 
+        { 
+        command = ECbsUiappSettingsViewCmdChange;
+        txt = qtn_mce_settings_change;
+        flags = EEikMenuItemSpecific;
+        },
+    MENU_ITEM
+        {
+        command = EAknCmdHelp;
+        txt = qtn_options_help;
+        },
+    MENU_ITEM 
+        { 
+        command = EAknCmdExit; 
+        txt = qtn_mce_settings_exit;
+        }
+        };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    cbs_long_array
+//    Array for LONG items.
+//
+// ---------------------------------------------------------
+//
+
+STRUCT CBS_LONG_ARRAY
+    {
+    LONG elements[];
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbs_date_format_array
+//    Array for date and time formats, which are added
+//    to the end of each CBS message and in this order.
+// ---------------------------------------------------------
+//
+RESOURCE CBS_LONG_ARRAY r_cbs_date_format_array
+    {
+    elements = 
+    { 
+    R_QTN_DATE_USUAL,
+    R_QTN_TIME_USUAL
+    };
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_text_reception
+//    Text reception on.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_reception
+    {
+    buf = qtn_mce_settings_cb_reception;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_topic_detection
+//    Text Topic detection.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_topic_detection
+    {
+    buf = qtn_mce_settings_cb_topic;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_reception_on
+//    Text reception on.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_reception_on 
+    {
+    buf = " \t"qtn_mce_settings_cb_reception"\t\t"qtn_mce_settings_cb_re_on;
+    }
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_text_reception_off
+//    Text reception off.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_reception_off 
+    {
+    buf = " \t"qtn_mce_settings_cb_reception"\t\t"qtn_mce_settings_cb_re_off;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_detection_on
+//    Text detection on.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_detection_on 
+    {
+    buf = " \t"qtn_mce_settings_cb_topic"\t\t"qtn_mce_settings_cb_topic_detection_on;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_detection_off
+//    Text detection off.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_detection_off 
+    {
+    buf = " \t"qtn_mce_settings_cb_topic"\t\t"qtn_mce_settings_cb_topic_detection_off;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_language
+//    Text language.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_language 
+    {
+    buf = " \t"qtn_mce_settings_cb_language"\t\t";
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_language_all
+//    Text Language all.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_language_all 
+    {
+    buf = " \t"qtn_mce_settings_cb_language"\t\t"qtn_mce_settings_cb_all;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_language_selected
+//    Text language selected.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_language_selected 
+    {
+    buf = " \t"qtn_mce_settings_cb_language"\t\t"qtn_mce_settings_cb_selected;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_text_language_other
+//    Text Language Other.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_text_language_other
+    {
+    buf = " \t"qtn_mce_settings_cb_language"\t\t"qtn_mce_settings_cb_other;
+    }
+
+
+
+
+// ---------------------------------------------------------
+//   
+//    r_listbox_language
+//    List box for languages.
+//
+// ---------------------------------------------------------
+//
+RESOURCE LISTBOX r_listbox_language
+    {
+    flags = EEikListBoxMultipleSelection;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_language_setting_page
+//    Dialog for the All and Selected values.
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_language_setting_page
+    { 
+    label = qtn_mce_settings_cb_language;
+    softkey_resource = R_AVKON_SOFTKEYS_OK_CANCEL;
+    type = EAknSetListBox;
+    editor_resource_id = r_listbox_language;
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_on_off_setting_page
+//    Dialog for the All, Selected and Other.
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_on_off_setting_page
+    { 
+    label = qtn_mce_settings_cb_reception;
+    softkey_resource = R_AVKON_SOFTKEYS_OK_CANCEL;
+    type = EAknSetListBox;
+    editor_resource_id = r_listbox_language;
+    }
+
+
+
+// ---------------------------------------------------------
+//   
+//    r_language_multiselection_list_query
+//    Resource structure for CCbsUiListQueryDialog.
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_MULTISELECTION_LIST_QUERY r_language_multiselection_list_query
+    {
+    softkeys = R_AVKON_SOFTKEYS_OK_CANCEL__MARK;
+
+    items =
+    {
+    AVKON_MULTISELECTION_LIST_QUERY_DLG_LINE 
+        {
+        control = AVKON_LIST_QUERY_CONTROL
+        {
+        listtype = EAknCtSingleGraphicPopupMenuListBox;
+        listbox = AVKON_MULTISELECTION_LIST_QUERY_LIST
+            {
+            flags = EAknListBoxMultiselectionList | EAknListBoxPointerMultiselectionList;
+            array_id = r_cbs_languages_array;
+            };
+        heading = qtn_mce_settings_cb_quest_langu;
+        };
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbs_languages_array
+//    Array for languages.
+//
+// ---------------------------------------------------------
+//
+RESOURCE ARRAY r_cbs_languages_array
+    {
+    items =
+    {
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_german; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_english; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_italian; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_french; 
+        },
+    LBUF
+        { 
+        txt = "1\t" qtn_mce_settings_cb_spanish; 
+        },
+    LBUF
+        { 
+        txt = "1\t" qtn_mce_settings_cb_dutch; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_swedish; 
+        },
+    LBUF
+        { 
+        txt = "1\t" qtn_mce_settings_cb_danish; 
+        },
+    LBUF
+        { 
+        txt = "1\t" qtn_mce_settings_cb_portuguese; 
+        },
+    LBUF
+        { 
+        txt = "1\t" qtn_mce_settings_cb_finnish; 
+        },
+    LBUF
+        { 
+        txt = "1\t" qtn_mce_settings_cb_norwegian; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_greek;
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_turkish; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_hungarian; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_polish; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_czech; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_hebrew; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_arabic; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_russian; 
+        },
+    LBUF 
+        { 
+        txt = "1\t" qtn_mce_settings_cb_icelandic; 
+        }
+    };
+    }
+
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbs_language_setting_page_array
+//    Array for languages.
+//
+// ---------------------------------------------------------
+//
+RESOURCE ARRAY r_cbs_language_setting_page_array
+    {
+    items =
+    {
+    LBUF
+        {
+        txt = qtn_mce_settings_cb_all;
+        },
+    LBUF
+        {
+        txt = qtn_mce_settings_cb_selected;
+        },
+    LBUF
+        {
+        txt = qtn_mce_settings_cb_other;
+        }
+    };
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_cbs_on_off_array
+//    Array for on and off values.
+//
+// ---------------------------------------------------------
+//
+RESOURCE ARRAY r_cbs_on_off_array
+    {
+    items =
+    {
+    LBUF
+        {
+        txt = qtn_mce_settings_cb_re_on;
+        },
+    LBUF
+        {
+        txt = qtn_mce_settings_cb_re_off;
+        }           
+    };
+    }
+
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_cbs_topic_detection_on_off_array
+//    Array for topic detection on and off values.
+//
+// ---------------------------------------------------------
+//
+RESOURCE ARRAY r_cbs_topic_detection_on_off_array
+    {
+    items =
+    {
+    LBUF
+        {
+        txt = qtn_mce_settings_cb_topic_detection_on;
+        },
+    LBUF
+        {
+        txt = qtn_mce_settings_cb_topic_detection_off;
+        }           
+    };
+    }
+
+
+ 
+// ---------------------------------------------------------
+//   
+//    r_message_location_in_topic
+//    Text in navi pane in message view.
+//    
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_message_location_in_topic 
+    { 
+    buf = qtn_cb_msg_message; 
+    }
+
+
+
+// ---------------------------------------------------------
+//   
+//    r_qtn_offline_not_possible
+//    Error note text when offline mode is on and user try 
+//    to set reception on.
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_offline_not_possible
+    { 
+    buf = qtn_offline_not_possible; 
+    }
+
+
+// ---------------------------------------------------------
+//   
+//    r_qtn_offline_not_possible_sap
+//    The note that is shown when the user attempts to connect 
+//    the network when in SIM Access Profile mode.
+//
+//    
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_qtn_offline_not_possible_sap
+    { 
+    buf = qtn_offline_not_possible_sap; 
+    }
+
+
+// End of File

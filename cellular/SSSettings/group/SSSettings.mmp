@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is project specification file for the SSSettings.
+*
+*/
+
+#include <platform_paths.hrh>
+#include "../Logger/SSSettingsLoggingConf.h"
+
+
+TARGET          sssettings.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x10005A01
+
+VENDORID		VID_DEFAULT
+
+// Capability assignment.
+CAPABILITY      CAP_GENERAL_DLL
+
+sourcepath    ../src
+SOURCE        RSSSettings.cpp
+SOURCE        CSSSettingsNotifier.cpp
+SOURCE        CSSSettingsAlsNotifier.cpp
+SOURCE        RCustomerServiceProfileCache.cpp
+SOURCE        CSSSettingsRefreshContainer.cpp
+SOURCE        CSSSettingsRefreshHandler.cpp
+SOURCE        CSSSettingsActiveObject.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../Logger
+SYSTEMINCLUDE   ../inc
+
+MW_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE	../../../inc
+
+LIBRARY    euser.lib
+LIBRARY    etel.lib         // ETel connection
+LIBRARY    customapi.lib    // Custom ETel API
+LIBRARY    etelmm.lib
+LIBRARY    featmgr.lib 
+LIBRARY    satclient.lib
+LIBRARY    centralrepository.lib
+LIBRARY    cenrepnotifhandler.lib
+LIBRARY    flogger.lib      // logging
+
+// End of File

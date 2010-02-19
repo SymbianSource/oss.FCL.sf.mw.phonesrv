@@ -23,7 +23,7 @@
 
 //  INCLUDES
 #include <MSSSettingsRefreshObserver.h>
-#include <MSatRefreshObserver.h>
+#include <msatrefreshobserver.h>
 
 
 // DATA TYPES

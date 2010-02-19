@@ -120,19 +120,22 @@ void CCaUiVoIPExtension::GetVoIPServiceIdsL( RIdArray& aVoipServiceIds ) const
             // check if the service supports internet call                     	                                        
             CSPProperty* property = CSPProperty::NewLC();
             // get attribute mask of the service
-            User::LeaveIfError( settingsApi->FindPropertyL( idArray[i], 
-                EPropertyServiceAttributeMask, *property ) );
-            
+
+            TInt error = settingsApi->FindPropertyL( idArray[i], 
+                EPropertyServiceAttributeMask, *property );
             // read the value of mask property
-            TInt mask = 0;                    
-            if ( KErrNone == property->GetValue( mask ) )
+            if ( KErrNone == error )
                 {
-                if ( ( mask & ESupportsInternetCall )
-                    && ( mask & EIsVisibleInCallMenu ) ) 
+                TInt mask = 0;                    
+                if ( KErrNone == property->GetValue( mask ) )
                     {
-                    aVoipServiceIds.Append( idArray[i] );
+                    if ( ( mask & ESupportsInternetCall )
+                        && ( mask & EIsVisibleInCallMenu ) ) 
+                        {
+                        aVoipServiceIds.Append( idArray[i] );
+                        }
                     }
-                }
+                }   
             CleanupStack::PopAndDestroy( property );     
             }                                   
         }

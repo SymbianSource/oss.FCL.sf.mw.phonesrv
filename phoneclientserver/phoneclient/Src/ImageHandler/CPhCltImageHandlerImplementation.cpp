@@ -271,8 +271,8 @@ void CPhCltImageHandlerImplementation::CVtImageSaver::DoSave(
 void CPhCltImageHandlerImplementation::CVtImageSaver::RunL()
     {
     MPhCltImageObserver& observer = iObserver;
+    TRAP_IGNORE( observer.HandleImageSaveCompleteL( iStatus.Int() ) );
     delete this;
-    TRAP_IGNORE( observer.HandleImageSaveCompleteL( iStatus.Int() ) );    
     }
 
 // -----------------------------------------------------------------------------

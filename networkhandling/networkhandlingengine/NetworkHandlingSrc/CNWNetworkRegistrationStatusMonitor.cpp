@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -18,6 +18,7 @@
 
 
 //  INCLUDE FILES
+#include    <featmgr.h>
 #include    "CNWNetworkRegistrationStatusMonitor.h"
 #include    "CNWMessageHandler.h"
 #include    "NetworkHandlingDomainPSKeys.h"
@@ -66,6 +67,7 @@ void CNWNetworkRegistrationStatusMonitor::ConstructL()
         "NW: CNWNetworkRegistrationStatusMonitor::\
         ConstructL() Begin." );
     
+    FeatureManager::InitializeLibL();
     RProperty::TType type( RProperty::EInt );
     TSecurityPolicy readPolicy( ECapability_None );
     TSecurityPolicy writePolicy( ECapabilityWriteDeviceData );
@@ -146,6 +148,8 @@ CNWNetworkRegistrationStatusMonitor::~CNWNetworkRegistrationStatusMonitor()
     NWLOGSTRING( KNWOBJECT, 
         "NW: CNWNetworkRegistrationStatusMonitor::\
         ~CNWNetworkRegistrationStatusMonitor() End." );
+    FeatureManager::UnInitializeLib();
+    NWLOGSTRING( KNWOBJECT, "NW: CNWNetworkRegistrationStatusMonitor::~CNWNetworkRegistrationStatusMonitor complete." );
     }
 
 // ----------------------------------------------------------------------------
@@ -209,6 +213,13 @@ void CNWNetworkRegistrationStatusMonitor::RunL()
         NWLOGSTRING2( KNWERROR,
             "NW: CNWNetworkRegistrationStatusMonitor::RunL, Unknown error \
             situation, iStatus = %d", iStatus.Int() );
+   
+        if ( FeatureManager::FeatureSupported( KFeatureIdFfManualSelectionPopulatedPlmnList ) )
+            {
+            iOwner.SendErrorMessage( MNWMessageObserver::ENWNotifyNetworkRegistrationStatusChange, 
+                                     iStatus.Int() );
+            }
+        
         IssueRequest();
         }
     else

@@ -21,7 +21,7 @@
 #define CSOSEMERGENCYNUMBERPOLICYMANAGER_H
 
 // INCLUDES
-#include <CEmergencyNumberPolicy.h>
+#include <cemergencynumberpolicy.h>
 
 // FORWARD DECLARATIONS
 class CSosEmergencyNumberPolicyHandler;

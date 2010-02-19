@@ -25,7 +25,7 @@
 
 #include <vmnumber.h>
 #include <centralrepository.h>
-#include <SettingsInternalCRKeys.h>
+#include <settingsinternalcrkeys.h>
 
 #include "PsetCallDiverting.h"
 #include "PsetContainer.h"

@@ -19,8 +19,7 @@
 #ifndef CAISATPLUGIN_H
 #define CAISATPLUGIN_H
 
-#include <aicontentpublisher.h>
-#include <aipropertyextension.h>
+#include <hscontentpublisher.h>
 #include <aicontentmodel.h>
 
 #include "mpluginapi.h"
@@ -34,8 +33,7 @@ class MAiContentItemIterator;
  *
  *  @since S60 v3.2
  */
-class CAiSatPlugin : public CAiContentPublisher,
-                     public MAiPropertyExtension,
+class CAiSatPlugin : public CHsContentPublisher,                     
                      public MPluginAPI
     {
 
@@ -56,97 +54,43 @@ public:
      */
     void PublishSatL();
 
-// from base class CAiContentPublisher
+// from base class CHsContentPublisher
   
     /**
-     * From CAiContentPublisher
-     * The method is called by the framework to request the plug-in free all
-     * memory and CPU resources and close all its open files, e.g. the plug-in 
-     * should unload its engines due backup operation. The method transits the 
-     * plug-in to "Idle" state.
-     *
-     * @param aReason Reason for state change, see TAiTransitionChange.
+     * @see CHsContentPublisher
      */
-    void Stop( TAiTransitionReason aReason );
+    void Start( TStartReason aReason );
 
     /**
-     * From CAiContentPublisher
-     * The method is called by the framework to instruct plug-in that it is
-     * allowed to consume CPU resources, e.g plug-in is able to run timers,
-     * perform asynchronous operations, etc. The method transits the plug-in
-     * to "Alive" state.
-     *
-     * @param aReason Reason for state change, see TAiTransitionChange.
-     */
-    void Resume( TAiTransitionReason aReason );
-
+     * @see CHsContentPublisher
+     */    
+    void Stop( TStopReason aReason );
+    
     /**
-     * From CAiContentPublisher
-     * The method is called by the framework to instruct plug-in that it is
-     * not allowed to consume CPU resources, e.g plug-in MUST stop each
-     * timers, cancel outstanding asynchronous operations, etc. The method
-     * transits the plug-in to "Suspendend" state.
-     *
-     * @param aReason Reason for state change, see TAiTransitionChange.
-     */
-    void Suspend( TAiTransitionReason aReason );
-
+     * @see CHsContentPublisher
+     */    
+    void Resume( TResumeReason aReason );
+    
     /**
-     * From CAiContentPublisher
-     * Adds the content observer / subscriber to plug-in. The plug-in MUST
-     * maintain a registry of subscribers and send notification to all them
-     * whenever the plug-in changes state or new content available.
-     *
-     * @param aObserver Content observer to register.
-     */
+     * @see CHsContentPublisher
+     */    
+    void Suspend( TSuspendReason aReason );
+    
+    /**
+     * @see CHsContentPublisher
+     */    
     void SubscribeL( MAiContentObserver& aObserver );
     
     /**
-     * From CAiContentPublisher
-     * Configures the plug-in.
-     * Plug-ins take ownership of the settings array, so it must either
-     * store it in a member or free it. Framework has put the array in cleanup
-     * stack so the plugin shouldn't do that.
-     * If this leaves, the plug-in will be destroyed by AI FW.
-     * Plug-in must support LaunchByValue-event even if normal shortcuts don't
-     * work. The only allowed serious enough leave is KErrNotFound from CenRep.
-     *
-     * @param aSettings Setting items defined in the UI definition.
-     */
+     * @see CHsContentPublisher
+     */    
     void ConfigureL( RAiSettingsItemArray& aSettings );
-
+    
     /**
-     * From CAiContentPublisher
-     * Returns interface extension. In Series 60 3.1 only event & property
-     * extensions are supported. See MAiEventExtension & MAiPropertyExtension
-     * interfaces.
-     *
-     * @param  aUid UID of the extension interface to access.
-     * @return The extension interface. Actual type depends on the passed aUid 
-     *         argument.
-     */
-    TAny* Extension( TUid aUid );  
-
-// from base class MAiPropertyExtension
-
-    /**
-     * From MAiPropertyExtension.
-     * Read property of publisher plug-in.
-     *
-     * @param aProperty Identification of property.
-     * @return Pointer to property value.
-     */
-    TAny* GetPropertyL( TInt aProperty );
-
-    /**
-     * From MAiPropertyExtension.
-     * Write property value.
-     *
-     * @param aProperty Identification of property.
-     * @param aValue Contains pointer to property value.
-     */
-    void SetPropertyL( TInt aProperty, TAny* aValue );
-     
+     * @see CHsContentPublisher
+     */    
+    TAny* GetProperty( TProperty aProperty );
+         
     /**
      * Receives a notification of the content update event
      */
@@ -235,11 +179,6 @@ private: // data
      * Array of content observers
      */    
     RPointerArray<MAiContentObserver> iObservers;
-
-    /**
-     * Information about the content publisher (this plug-in)
-     */    
-    TAiPublisherInfo iInfo;
     
     /**
      * Whether the icon is the same with previous one.
@@ -250,6 +189,11 @@ private: // data
      * Whether the text is the same with previous one.
      */      
     TBool iDupText;
+    
+    /**
+     * ETrue, if data should be published in Resume()
+     */
+    TBool iPublishRequired;
     };
 
 #endif // CAISATPLUGIN_H

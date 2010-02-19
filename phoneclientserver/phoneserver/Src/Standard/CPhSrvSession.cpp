@@ -65,15 +65,14 @@ CPhSrvSession::~CPhSrvSession()
     if ( iServer )
         {
         iServer->CancelCreateAll( *this );
+        
+        if ( iContainer )
+             {
+             iServer->RemoveContainer( iContainer );
+             iContainer = NULL;
+             }
         }
-
     delete iObjectIx;
-   
-   if ( iContainer )
-        {
-        iServer->RemoveContainer( iContainer );
-        iContainer = NULL;
-        }
     }
 
 

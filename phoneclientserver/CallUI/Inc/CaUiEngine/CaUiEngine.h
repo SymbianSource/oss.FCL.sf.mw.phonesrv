@@ -23,8 +23,8 @@
 #include    <e32std.h>
 #include    <ConeResLoader.h>           // RConeResourceLoader.
 #include    <mphcltextphoneobserver.h>  // MPhCltExtPhoneObserver.
-#include    "CaUiEng.h"
-#include    "CaUiDialResultObserver.h"
+#include    "cauieng.h"
+#include    "cauidialresultobserver.h"
 #include    "CaUiQueryObserver.h"
 #include    <PhCltTypes.h>
 #include    <MPhCltEmergencyCallObserver.h>

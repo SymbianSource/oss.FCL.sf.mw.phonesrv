@@ -36,11 +36,6 @@
 #include <RemConCallHandlingTarget.h>
 #include <CPbkContactEngine.h>
 #include <ctsydomainpskeys.h>
-
-#if 0
-#include <VoiceUIDomainPSKeys.h>
-#endif
-
 #include <connect/sbdefs.h>
 #include <coreapplicationuisdomainpskeys.h>
 
@@ -302,64 +297,20 @@ void CPhoneHandlerControl::AnswerEndCall()
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerControl::VoiceDial
+// Dummy implementation. Operation implemented in SIND 
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-#if 0 // SCB CR EHSA-7APJWF: SIND subscribes to RemCon directly	
-void CPhoneHandlerControl::VoiceDial( const TBool aActivate )
-    {
-    COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::VoiceDial() aActivate=%d", aActivate );
-
-    TInt callState( EPSCTsyCallStateUninitialized );
-    iProperty.Get( KPSUidCtsyCallInformation, KCTsyCallState, callState ); 
-
-    COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() call state = %d", callState );
-
-    if( callState == EPSCTsyCallStateUninitialized ||
-        callState == EPSCTsyCallStateNone )
-        {
-        TInt voiceUiState( KVoiceUiIsClose );
-        iProperty.Get( KPSUidVoiceUiAccMonitor, KVoiceUiOpenKey, voiceUiState ); 
-
-        if( voiceUiState == KVoiceUiIsOpen )
-	        {
-	        COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::VoiceDial() voice UI is open!" );
-	        iProperty.Set( KPSUidVoiceUiAccMonitor , KVoiceUiAccessoryEvent, ERemConExtVoiceDial );
-	        iResponse->SetResponse( ERemConExtVoiceDial, KErrNone );
-	        iResponse->Process();
-	        }
-        else
-	        {
-	        iActivate = aActivate;
-	        StartProcessing( ERemConExtVoiceDial );
-	        }
-        }
-    else
-        {
-        iResponse->SetResponse( ERemConExtVoiceDial, KErrNone );
-        iResponse->Process();
-        }
-
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::VoiceDial() end" );
-    }
-#else	
 void CPhoneHandlerControl::VoiceDial( const TBool /*aActivate*/ )
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::VoiceDial()" );
-
-    if ( IsAutoLockOn() && !IsBTAccessoryCmd() )
-        {
-        iResponse->SetResponse( ERemConExtVoiceDial, KErrAccessDenied );
-        iResponse->Process();
-        return;
-        }
-        
+ 
     iResponse->SetResponse( ERemConExtVoiceDial, KErrNone );
     iResponse->Process();
 
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::VoiceDial() end" );
     }
-#endif
+ 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerControl::LastNumberRedial
 // (other items were commented in a header).

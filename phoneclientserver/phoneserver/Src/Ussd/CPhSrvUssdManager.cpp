@@ -709,7 +709,6 @@ void CPhSrvUssdManager::UssdNetworkObserverHandleSendEventL( TInt aError )
     _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleSendEventL.End" );
     }
 
-
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::UssdAppTaskExists
 //
@@ -1556,16 +1555,23 @@ void CPhSrvUssdManager::CheckArray()
 // CPhSrvUssdManager::NotifyCount()
 // -----------------------------------------------------------------------------
 //
-  TInt CPhSrvUssdManager:: NotifyCount()
+  TInt CPhSrvUssdManager::NotifyCount()
   {
-  return iNotifyArray->Count();
+  if( iNotifyArray )
+      {
+      return iNotifyArray->Count();
+      }
+  else
+      {
+      return 0;
+      }
   }
 
   // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::UpdateNotifyMessage()
 // -----------------------------------------------------------------------------
 //
-  void CPhSrvUssdManager:: UpdateNotifyMessage()
+  void CPhSrvUssdManager::UpdateNotifyMessage()
   	{
   	_DDPRINT( 4, "PhSrv.UpdateNotifyMessage.Start, clear: ", iClearArray );     // debug print
   	if (NotifyCount() > 1 && !iClearArray )

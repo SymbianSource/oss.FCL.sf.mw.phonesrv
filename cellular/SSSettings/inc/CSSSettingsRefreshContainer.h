@@ -21,7 +21,7 @@
 
 
 //  INCLUDES
-#include <MSSSettingsRefreshHandler.h>
+#include <msssettingsrefreshhandler.h>
 
 
 // FORWARD DECLARATIONS

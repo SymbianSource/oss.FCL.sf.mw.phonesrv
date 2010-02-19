@@ -481,11 +481,7 @@ TBool CPhSrvMessengerRequestManager::HandleSendRequest(
                         // Reservation was successful, so use reserved buffer
                         // as a new default buffer. 
                         // But first delete the old buffer.
-                        if( iDefaultSizeBuffer )
-                            {
-                            delete iDefaultSizeBuffer;
-                            iDefaultSizeBuffer = NULL;
-                            }
+                        delete iDefaultSizeBuffer;
                         iDefaultSizeBuffer = variableSizeBuffer;
                         }
                     }

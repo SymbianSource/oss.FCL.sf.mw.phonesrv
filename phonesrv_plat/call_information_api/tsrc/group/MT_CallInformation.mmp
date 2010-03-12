@@ -41,6 +41,7 @@ SOURCE                  CActiveWait.cpp
 USERINCLUDE             ../src
 
 MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE // cntdef.h
 SYSTEMINCLUDE           /epoc32/include/Digia/EUnit
 #if defined(WINSCW)
 SYSTEMINCLUDE           ../../../../../../app/phone/inc

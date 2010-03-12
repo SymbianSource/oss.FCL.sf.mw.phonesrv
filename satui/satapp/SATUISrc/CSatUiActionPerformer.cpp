@@ -45,7 +45,7 @@
 #include    <cenrepnotifyhandler.h>
 
 // General Settings Cen Rep Keys.
-#include    <SettingsInternalCRKeys.h>
+#include    <settingsinternalcrkeys.h>
 
 // CONSTANTS
 

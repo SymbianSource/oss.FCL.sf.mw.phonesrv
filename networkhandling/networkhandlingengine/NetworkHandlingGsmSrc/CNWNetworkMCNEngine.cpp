@@ -16,8 +16,6 @@
 *
 */
 
-
-
 // INCLUDE FILES
 #include "CNWGsmSessionImplementation.h"
 #include "CNWGsmMessageHandler.h"
@@ -28,13 +26,12 @@
 #include <CMcn.h>
 #include <CMcnTopicArray.h>
 #include <centralrepository.h>
-#include <SettingsInternalCRKeys.h>
+#include <settingsinternalcrkeys.h>
 
 // CONSTANTS
 const TUint KNWzero = 0;
 const TInt KMCNOn = 1;
 const TInt KMCNOff = 0;
-
 
 // ============================ MEMBER FUNCTIONS ==============================
 

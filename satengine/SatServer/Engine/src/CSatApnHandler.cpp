@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -15,8 +15,6 @@
 *
 */
 
-
-
 // INCLUDE FILES
 #include <cmmanager.h>
 #include <cmmanagerext.h>
@@ -29,13 +27,7 @@
 #include    "CSatApnHandler.h"
 #include    "SatLog.h"
 
-
-const TInt KMaxAccessPointName( 50 );
-// Granularity for getting connection methods from CM session
 const TUint32 KSatCMGranularity( 5 );
-// The max length of access point name
-const TUint32 KSatMaxApnName( 236 );
-
 
 // ============================ MEMBER FUNCTIONS ===============================
 

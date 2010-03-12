@@ -29,6 +29,7 @@
 #include <rmmcustomapi.h>
 
 // FORWARD DECLARATIONS
+class CNetworkResetHandler;
 class CPsetSAObserver;
 class CRetrieveMobilePhoneDetectedNetworks;
 class RMmCustomAPI;
@@ -37,7 +38,6 @@ class RMmCustomAPI;
 /**
 *  CPsetNetwork class is used to handle network change requests.
 *  @lib phonesettings.lib
-*  @since 1.0
 */
 class   CPsetNetwork :  public CActive, 
                         public MPsetNetworkSelect,
@@ -52,10 +52,6 @@ class   CPsetNetwork :  public CActive,
         * @param aObserver Reference to network observer.
         * @return Returns the CPsetNetwork-object
         */
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
         IMPORT_C static CPsetNetwork* NewL( RMobilePhone& aPhone, 
             MPsetNetworkInfoObserver& aObserver );
 
@@ -66,10 +62,6 @@ class   CPsetNetwork :  public CActive,
         * @param aObserver Reference to network observer.
         * @return Returns the CPsetNetwork-object
         */
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
         IMPORT_C static CPsetNetwork* NewL( RMobilePhone& aPhone, 
             MPsetNetworkModeObserver& aObserver );
 
@@ -166,10 +158,6 @@ class   CPsetNetwork :  public CActive,
         // this is required for the net container to create a pointer
         void ConstructL( MPsetNetworkModeObserver& aObserver );
 
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
         CPsetNetwork( RMobilePhone& aPhone );        
 
     private: //new
@@ -188,52 +176,38 @@ class   CPsetNetwork :  public CActive,
 
     private:
         //Latest network settings information
-        TNetworkInfo iTempNetInfo;        
+        TNetworkInfo iTempNetInfo;
+        
         //Provides client access to mobile phone functionality provided by TSY.
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
         RMobilePhone& iPhone;
+		
         //Currently active request.
         MPsetNetworkInfoObserver::TServiceRequest iServiceRequest;
+		
         //Observer
         CPsetSAObserver* iSAObserver;
+		
         //Network information observer
-        MPsetNetworkInfoObserver* iObserver;       
+        MPsetNetworkInfoObserver* iObserver; 
+		
         //Fetched network information (names, IDs)
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
         CRetrieveMobilePhoneDetectedNetworks* iNetworkRetrieve;
+		
         //Current registartion status
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
         RMobilePhone::TMobilePhoneRegistrationStatus iRegStatus;
-
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
+		
         //Selected network information
         RMobilePhone::TMobilePhoneNetworkManualSelection iNwInfo;
-
+		
         //
         // Network Mode related variables
         //
         //Network mode observer
         MPsetNetworkModeObserver* iNetworkModeObserver;
-
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
+		
         // Custom phone.
         RMmCustomAPI iCustomPhone;
-        
+     
         //Currently active request.
         MPsetNetworkModeObserver::TServiceRequest iModeRequest;
 
@@ -242,6 +216,10 @@ class   CPsetNetwork :  public CActive,
 
         //Currently active observer, for assert handling
         TInt iActiveObserver;
+		
+        //Active object observer for reseting network search handling
+        CNetworkResetHandler* iResetNetworkSearch;
     };
+
 #endif // PSETNETWORK_H
 // end of file

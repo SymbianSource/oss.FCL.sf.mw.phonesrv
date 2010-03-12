@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include    <FeatMgr.h>
+#include    <featmgr.h>
 #include    "NWHandlingEngine.h"
 #include    "CNWMessageHandler.h"
 #include    "CNWNetworkCurrentNetworkMonitor.h"
@@ -43,7 +43,6 @@ const TInt KNWNetworkMonitorDynamicCaps = 4;
 #else // RD_PHONE_NG
 const TInt KNWNetworkMonitorDynamicCaps = 3;
 #endif // RD_PHONE_NG
-
 
 // ============================ MEMBER FUNCTIONS ==============================
 

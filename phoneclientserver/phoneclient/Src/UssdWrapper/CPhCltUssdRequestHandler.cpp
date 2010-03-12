@@ -74,7 +74,6 @@ CPhCltUssdRequestHandler::~CPhCltUssdRequestHandler()
     {
     Cancel();
 
-    iUssdClient.CancelSend();
     iUssdClient.Close();
 
     iPhClient.Close();

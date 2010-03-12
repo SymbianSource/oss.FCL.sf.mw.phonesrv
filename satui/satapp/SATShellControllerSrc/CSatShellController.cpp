@@ -41,7 +41,7 @@
 // Browser Cen Rep Keys.
 #ifdef __SERIES60_NATIVE_BROWSER
     #include <browseruisdkcrkeys.h>
-    #include <BrowserUiInternalCRKeys.h>
+    #include <browseruiinternalcrkeys.h>
 #endif // __SERIES60_NATIVE_BROWSER
 #include "tflogger.h"
 

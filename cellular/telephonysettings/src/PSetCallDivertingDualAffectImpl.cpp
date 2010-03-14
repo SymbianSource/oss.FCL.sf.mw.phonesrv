@@ -27,7 +27,7 @@
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
-#include <SettingsInternalCRKeys.h>
+#include <settingsinternalcrkeys.h>
 
 #include "PsetCallDiverting.h"
 #include "PsetContainer.h"

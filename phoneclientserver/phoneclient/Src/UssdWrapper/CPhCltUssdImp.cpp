@@ -580,12 +580,15 @@ TInt CPhCltUssdImp::SendUssd(
 
     // Set this active object to wait the completion of the send request.
     iWait->Start();
-
-    // If not deleted:
-    if ( iWait )
+    
+    // Need to check iWait handle here because the destructor may be called
+    // while pending for completion of the send request.
+    // coverity[check_after_deref]
+    if( iWait )
         {
         iSendError = NULL;
         }
+    
     return error;
     }
 

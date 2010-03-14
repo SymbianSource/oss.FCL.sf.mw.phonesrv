@@ -19,15 +19,15 @@
 
 // INCLUDE FILES
 #include    "CaUiPlugin.h"  // This class interface.
-#include    "CaUiEng.h"     // CaUiEngine.
+#include    "cauieng.h"     // CaUiEngine.
 #include    <AiwCommon.hrh> // AIW constants.
 #include    "CaUI.hrh"      // CallUI constants.
 #include    <AiwMenu.h>     // AIW Menu pane.
 
 #include	<AiwServiceHandler.h>
 #include    <PhCltTypes.h>  // PhoneClient types.
-#include    "CaUiLogger.h"  // Call Ui Logger
-#include    <stringloader.h>
+#include    "cauilogger.h"  // Call Ui Logger
+#include    <StringLoader.h>
 #include    <CallUI.rsg>
 #include    <featmgr.h>      // FeatureManager.
 

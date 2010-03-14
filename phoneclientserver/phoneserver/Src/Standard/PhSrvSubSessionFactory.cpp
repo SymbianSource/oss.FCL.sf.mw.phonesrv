@@ -97,11 +97,11 @@ CPhSrvSubSessionBase* PhSrvSubSessionFactory::PhSrvSubSessionFactoryCreateLC(
             subSession = 
                 CPhSrvSubSessionMessenger::NewL( aSession );
             break;
-
         case EPhoneServerImageHandlerSubSessionOpen:
             subSession = CPhSrvSubSessionImageHandler::NewL( aSession );
             break;
         default:
+            User::Leave( KErrArgument );
             break;
         }
 

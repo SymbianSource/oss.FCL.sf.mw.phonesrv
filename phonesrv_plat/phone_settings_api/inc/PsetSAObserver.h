@@ -22,9 +22,9 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <e32Property.h>
-#include <psetcalldiverting.h>
-#include <psvariables.h>
+#include <e32property.h>
+#include <PsetCallDiverting.h>
+#include <PSVariables.h>
 #include <ctsydomaincrkeys.h>
 
 // FORWARD DECLARATIONS

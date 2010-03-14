@@ -29,7 +29,7 @@
 #include    <sendui.h>     		// CSendAppUi, CSendUi
 #include    <CMessageData.h>    // Message data for CSendUi
 #include    <featmgr.h>   		// Feature manager
-#include 	"CaUiLogger.h"		// Call Ui Logger
+#include 	"cauilogger.h"		// Call Ui Logger
 
 // CONSTANTS
 // The reconnect query options granularity.

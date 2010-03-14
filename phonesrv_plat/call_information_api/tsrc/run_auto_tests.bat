@@ -146,7 +146,8 @@ goto end
 pushd .
 call cd %1\group
 call bldmake bldfiles
-call abld test clean winscw udeb
+call abld -k test clean winscw udeb
+call abld -k test reallyclean winscw udeb
 if [%INSTRUMENT%] EQU [TRUE] (
 call ctcwrap -n %PATH_TO_COVERAGE_DATA%\%1 -i d -C "EXCLUDE=*" -C "NO_EXCLUDE=%TESTED_SRC%" %ABLD_CALL%
 ) else (

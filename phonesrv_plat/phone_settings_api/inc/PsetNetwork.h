@@ -26,7 +26,7 @@
 #include "MPsetNetworkModeObs.h"
 #include "MPsetNetworkMode.h"
 #include <etelmm.h>
-#include <RMmCustomApi.h>
+#include <rmmcustomapi.h>
 
 // FORWARD DECLARATIONS
 class CPsetSAObserver;

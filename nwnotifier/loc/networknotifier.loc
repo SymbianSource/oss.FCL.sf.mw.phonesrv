@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Resource localisation file.
+*
+*/
+
+// LOCALIZATION STRINGS
+
+// d:Popup menu for the sim not provisioned error
+// l:popup_note_window/opt1
+// r:5.0
+//
+#define qtn_note_smartchip_mm2 "SIM not provisioned MM #2"
+
+
+// d:Popup menu for the sim not provisioned error
+// l:popup_note_window/opt1
+// r:5.0
+//
+#define qtn_note_smartchip_mm3  "SIM not allowed MM #3"
+
+// d:Popup menu for the sim not provisioned error
+// l:popup_note_window/opt1
+// r:5.0
+//
+#define qtn_note_call_failed_mm4 "Call Failed MM #4"
+
+// d:Popup menu for the sim not provisioned error
+// l:popup_note_window/opt1
+// r:5.0
+//
+#define qtn_note_phone_not_allow_mm5  "Phone not allowed MM #5"
+
+// d:Popup menu for the sim not provisioned error
+// l:popup_note_window/opt1
+// r:5.0
+//
+#define qtn_note_phone_not_allow_mm6   "Phone not allowed MM #6"
+
+// d:Popup menu for the sim not provisioned error
+// l:popup_note_window/opt1
+// r:5.0
+//
+#define qtn_note_smartchip_not_allow   "SIM not allowed"

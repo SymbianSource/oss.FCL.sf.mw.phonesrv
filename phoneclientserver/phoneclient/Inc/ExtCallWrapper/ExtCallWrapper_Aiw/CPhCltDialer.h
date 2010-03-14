@@ -20,8 +20,8 @@
 #define CPHCLTDIALER_H
 
 //  INCLUDES
-#include    <CPhCltExtPhoneBase.h>
-#include    <CPhCltExtPhoneDialData.h>
+#include    <cphcltextphonebase.h>
+#include    <cphcltextphonedialdata.h>
 
 // FORWARD DECLARATIONS
 class CPhCltDialerDlg;

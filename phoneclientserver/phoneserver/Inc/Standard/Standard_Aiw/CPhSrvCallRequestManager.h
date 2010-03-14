@@ -24,7 +24,7 @@
 #include <e32base.h>
 #include "MPhSrvObjectNegotiators.h"
 #include "MPhSrvObjectInitiators.h"
-#include <CPhCltExtPhoneDialData.h>
+#include <cphcltextphonedialdata.h>
 
 // FORWARD DECLARATIONS
 class CPhSrvCallRequest;

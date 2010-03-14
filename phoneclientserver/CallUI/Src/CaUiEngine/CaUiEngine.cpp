@@ -21,12 +21,12 @@
 #include    "CaUiQuery.h"               // CCaUiQuery.
 #include    <mcauireconnectqueryobserver.h>  // MCaUiReconnectQueryObserver.
 #include    <CallUI.rsg>                // Resources.
-#include    <CPhCltDialer.h>            // CPhCltDialer.
+#include    <cphcltdialer.h>            // CPhCltDialer.
 #include    <cphonecntfactory.h>
 #include    <cphcntsingleitemfetch.h>
 #include    <aiwinternaldialdata.h>
 #include    <AiwServiceHandler.h>
-#include    <CPhCltExtPhoneDialData.h>  // CPhCltExtPhoneDialData
+#include    <cphcltextphonedialdata.h>  // CPhCltExtPhoneDialData
 
 #include    "callui.loc"                // Localized strings.
 
@@ -35,7 +35,7 @@
 #include    <AknGlobalListQuery.h>      // CAknGlobalListQuery.
 #include    <featmgr.h>                 // FeatureManager.
 
-#include    <aknglobalconfirmationquery.h> // Confirmation query.
+#include    <AknGlobalConfirmationQuery.h> // Confirmation query.
 
 #include    <PhCltUtils.h>              // Character removal.
 #include    <AiwCommon.h>               // AIW dialdata.
@@ -46,10 +46,10 @@
 #include    "CaUiVoIPExtension.h"        // VoIP/SCCP profile store
 
 #include    <centralrepository.h>
-#include    <SettingsInternalCRKeys.h>
-#include     "CaUiLogger.h"        // Call Ui Logger
+#include    <settingsinternalcrkeys.h>
+#include     "cauilogger.h"        // Call Ui Logger
 #include    <aknmessagequerydialog.h> 
-#include    <aknglobalnote.h>
+#include    <AknGlobalNote.h>
 #include    <mphcntstoreloader.h>
 #include    <MVPbkContactStore.h>
 

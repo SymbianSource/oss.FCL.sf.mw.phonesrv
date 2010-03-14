@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -83,7 +83,6 @@ CAiSatPlugin::~CAiSatPlugin()
     iEvents = NULL;
 
     delete iEngine;
-    iEngine = NULL;
     
     iObservers.Close();
 
@@ -183,7 +182,7 @@ TInt CAiSatPlugin::CleanText( MAiContentObserver& aObserver )
 void CAiSatPlugin::PublishSatL()
     {
     TFLOGSTRING( "CAiSatPlugin::PublishSatL() starts" )
-
+    
     TInt error( KErrNone );
     TInt iconError( KErrNone );
     TInt textError( KErrNone );
@@ -286,56 +285,71 @@ void CAiSatPlugin::PublishSatL()
     }
 
 // ---------------------------------------------------------------------------
-// From class CAiContentPublisher
-// Plug-in is requested to unload its engines due backup operation
+// CAiSatPlugin::Start
+// 
 // ---------------------------------------------------------------------------
 //
-void CAiSatPlugin::Stop( TAiTransitionReason /* aReason */ )
-    {
-    TFLOGSTRING( "CAiSatPlugin::Stop starts - exits" )
+void CAiSatPlugin::Start( TStartReason /*aReason*/ )
+    {    
+    TFLOGSTRING( "CAiSatPlugin::Start() starts" )
+    
+    iPublishRequired = ETrue;
+    
+    TFLOGSTRING( "CAiSatPlugin::Start() exits" )
     }
 
 // ---------------------------------------------------------------------------
-// From class CAiContentPublisher
-// Plug-in is instructed that it is allowed to consume CPU resources
+// CAiSatPlugin::Stop
+// 
 // ---------------------------------------------------------------------------
 //
-void CAiSatPlugin::Resume( TAiTransitionReason aReason )
+void CAiSatPlugin::Stop( TStopReason /*aReason*/ )
     {
-    TFLOGSTRING2( "CAiSatPlugin::Resume reason %d", aReason )
+    TFLOGSTRING( "CAiSatPlugin::Stop() starts - exits" )
+    }
 
-    if ( EAiIdleForeground == aReason && !iEngine )
+// ---------------------------------------------------------------------------
+// CAiSatPlugin::Resume
+// 
+// ---------------------------------------------------------------------------
+//
+void CAiSatPlugin::Resume( TResumeReason aReason )
+    {
+    TFLOGSTRING2( "CAiSatPlugin::Resume() reason %d", aReason )
+
+    if ( aReason == EForeground )
         {
-        TRAP_IGNORE( iEngine = CAiSatEngine::NewL( *this ) )
+        if ( iPublishRequired )
+            {
+            iPublishRequired = EFalse;
+            
+            TRAP_IGNORE( UpdateSatL() )                       
+            }
         }
-        
-    // If we change the Home Screen Theme we will got a EAiSystemStartup as 
-    // aReason.
-    else if ( ( EAiGeneralThemeChanged == aReason || 
-                EAiSystemStartup == aReason ) &&
-                iEngine )
-        {
-        TRAP_IGNORE( UpdateSatL() )
-        }
-        
+            
     TFLOGSTRING( "CAiSatPlugin::Resume() exits" )
     }
 
 // ---------------------------------------------------------------------------
-// From class CAiContentPublisher
-// Plug-in is instructed that it is not allowed to consume CPU resources
+// CAiSatPlugin::Suspend
+// 
 // ---------------------------------------------------------------------------
 //
-void CAiSatPlugin::Suspend( TAiTransitionReason /* aReason */ )
+void CAiSatPlugin::Suspend( TSuspendReason aReason )
     {
-    TFLOGSTRING( "CAiSatPlugin::Suspend starts - exits" )
+    TFLOGSTRING( "CAiSatPlugin::Suspend() starts" )
+    
+    if ( aReason == EGeneralThemeChange )
+        {
+        iPublishRequired = ETrue;
+        }
+    
+    TFLOGSTRING( "CAiSatPlugin::Suspend() exits" )
     }
 
 // ---------------------------------------------------------------------------
-// From class CAiContentPublisher
-// The plug-in MUST maintain a registry of subscribers and send
-// notification to all of them whenever the state changes or new content
-// is available
+// CAiSatPlugin::SubscribeL
+// 
 // ---------------------------------------------------------------------------
 //
 void CAiSatPlugin::SubscribeL( MAiContentObserver& aObserver )
@@ -348,9 +362,8 @@ void CAiSatPlugin::SubscribeL( MAiContentObserver& aObserver )
     }
 
 // ---------------------------------------------------------------------------
-// From class CAiContentPublisher
-// Plug-ins take ownership of the settings array, so it must either
-// store it in a member or free it.
+// CAiSatPlugin::ConfigureL
+// 
 // ---------------------------------------------------------------------------
 //
 void CAiSatPlugin::ConfigureL( RAiSettingsItemArray& aSettings )
@@ -370,97 +383,39 @@ void CAiSatPlugin::ConfigureL( RAiSettingsItemArray& aSettings )
             }
         TFLOGSTRING2( "CAiSatPlugin::ConfigureL  i: %d", i )    
         }
-
+	
     TFLOGSTRING( "CAiSatPlugin::ConfigureL() exits" )
     }
 
 // ---------------------------------------------------------------------------
-// From class CAiContentPublisher
-// Returns the extension interface. Actual type depends on the passed
-// aUid argument.
+// CAiSatPlugin::GetProperty
+// 
 // ---------------------------------------------------------------------------
 //
-TAny* CAiSatPlugin::Extension( TUid aUid )
+TAny* CAiSatPlugin::GetProperty( TProperty aProperty )
     {
-    TFLOGSTRING( "CAiSatPlugin::Extension() starts" )
+    TFLOGSTRING( "CAiSatPlugin::GetProperty() starts" )
+    
+    TAny* property( NULL );
+    
+    TFLOGSTRING2( "CAiSatPlugin::GetProperty aProperty: %d", aProperty )
 
-    MAiPropertyExtension* extension = NULL;
-
-    if ( KExtensionUidProperty == aUid )
+    if ( aProperty == EPublisherContent )
+        {            
+        property = iContent;            
+        }
+    else if ( aProperty == EPublisherResources )
         {
-        extension = static_cast<MAiPropertyExtension*>( this );
+        property = iResources;
+        }
+    else if ( aProperty == EPublisherEvents )
+        {
+        property = iEvents;
         }
 
-    TFLOGSTRING( "CAiSatPlugin::Extension() exits" )
-    return extension;
-    }
-
-// ---------------------------------------------------------------------------
-// From class MAiPropertyExtension
-// Read property of publisher plug-in.
-// ---------------------------------------------------------------------------
-//
-TAny* CAiSatPlugin::GetPropertyL( TInt aProperty )
-    {
-    TFLOGSTRING( "CAiSatPlugin::GetPropertyL() starts" )
-
-    TAny* property = NULL;
-    TFLOGSTRING2( "CAiSatPlugin::GetPropertyL  aProperty: %d", aProperty )
-    switch ( aProperty )
-        {
-        case EAiPublisherInfo:
-            {
-            property = static_cast<TAiPublisherInfo*>( &iInfo );
-            break;
-            }
-
-        case EAiPublisherContent:
-            {
-            property = static_cast<MAiContentItemIterator*>( iContent );
-            break;
-            }
-
-        case EAiPublisherResources:
-            {
-            property = static_cast<MAiContentItemIterator*>( iResources );
-            break;
-            }
-
-        case EAiPublisherEvents:
-            {
-            property = static_cast<MAiContentItemIterator*>( iEvents );
-            break;
-            }
-        default:
-            break;
-        }
-
-    TFLOGSTRING( "CAiSatPlugin::GetPropertyL() exits" )
+    TFLOGSTRING( "CAiSatPlugin::GetProperty() exits" )
 
     return property;
-    }
-
-// ---------------------------------------------------------------------------
-// From class MAiPropertyExtension
-// Write property value to optimize the content model.
-// ---------------------------------------------------------------------------
-//
-void CAiSatPlugin::SetPropertyL( TInt aProperty, TAny* aValue )
-    {
-    TFLOGSTRING( "CAiSatPlugin::SetPropertyL() starts" )
-
-    if ( EAiPublisherInfo == aProperty )
-        {
-        TFLOGSTRING( "CAiSatPlugin::SetPropertyL() EAiPublisherInfo" )
-        const TAiPublisherInfo* info =
-            static_cast<const TAiPublisherInfo*>( aValue );
-        if ( info )
-            {
-            iInfo = *info;
-            }
-        }
-
-    TFLOGSTRING( "CAiSatPlugin::SetPropertyL() exits" )
     }
 
 // ---------------------------------------------------------
@@ -504,11 +459,6 @@ CAiSatPlugin::CAiSatPlugin()
 void CAiSatPlugin::ConstructL()
     {
     TFLOGSTRING( "CAiSatPlugin::ConstructL() starts" )
-
-    _LIT(KSatName, "SAT");
-
-    iInfo.iUid.iUid = AI_UID_ECOM_IMPLEMENTATION_CONTENTPUBLISHER_SATPLUGIN;
-    iInfo.iName.Copy( KSatName );
 
     iContent = AiUtility::CreateContentItemArrayIteratorL( KSatContent );
     iResources = AiUtility::CreateContentItemArrayIteratorL( KSatResources );

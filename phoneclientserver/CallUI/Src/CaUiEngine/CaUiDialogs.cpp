@@ -29,10 +29,10 @@
 #include <AknGlobalNote.h>
 #include <mcauireconnectqueryobserver.h>
 #include "CaUiDialogs.h"
-#include "CaUiLogger.h"
+#include "cauilogger.h"
 #include "CaUiQuery.h"
 #include "CaUiEngine.h"
-#include "CPhCntMatcher.h"
+#include "cphcntmatcher.h"
 #include "CaUiActiveObject.h"
 
 // CLASS DECLARATION

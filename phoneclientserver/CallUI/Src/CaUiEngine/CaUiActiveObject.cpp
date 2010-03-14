@@ -25,10 +25,10 @@
 
 #include    <mcauireconnectqueryobserver.h>
 #include    <cphonecntfactory.h>
-#include    <CPhCntMatcher.h>
+#include    <cphcntmatcher.h>
 #include    <MPhCntMatch.h>
-#include	"CaUiMessageSender.h"
-#include	"CaUiLogger.h"
+#include	"cauimessagesender.h"
+#include	"cauilogger.h"
 // CONSTANTS
 
 

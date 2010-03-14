@@ -273,12 +273,12 @@ void CPsetNetwork::RunL()
     // resulting in a possible dead lock when CActive::Cancel()'s User::WaitForRequest( iStatus ) never gets signaled.
     ClearParams();
     
-    if ( iActiveObserver == ENetSelectObserver && iObserver )
+    if ( iActiveObserver == ENetSelectObserver )
         {
         __ASSERT_ALWAYS( iObserver, Panic( KPSNameOfClass, ENetNoObserver ) );
         HideRequestNoteL();
         }
-    else if ( iActiveObserver == ENetModeObserver && iNetworkModeObserver )
+    else if ( iActiveObserver == ENetModeObserver )
         {        
         __ASSERT_ALWAYS( iNetworkModeObserver, 
                      Panic( KPSNameOfClass, ENetNoNetworkObserver  ) );

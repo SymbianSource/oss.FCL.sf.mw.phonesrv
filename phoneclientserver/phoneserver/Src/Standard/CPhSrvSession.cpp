@@ -60,19 +60,22 @@ CPhSrvSession::CPhSrvSession()
 // Destructor.
 // -----------------------------------------------------------------------------
 //
+
 CPhSrvSession::~CPhSrvSession()
     {
     if ( iServer )
         {
         iServer->CancelCreateAll( *this );
-        
-        if ( iContainer )
-             {
-             iServer->RemoveContainer( iContainer );
-             iContainer = NULL;
-             }
         }
+
     delete iObjectIx;
+
+    if ( iContainer )
+        {
+        //coverity[var_deref_model]
+        iServer->RemoveContainer( iContainer );
+        iContainer = NULL;
+        }
     }
 
 

@@ -525,7 +525,15 @@ TSatUiResponse CSatUiViewAppUi::DisplayTextL(
         CEikCaptionedControl* capControl = 
             iDisplayTextIconDialog->GetControlByControlType
             ( EEikCtRichTextEditor );
-        CCoeControl* coeControl = capControl->iControl;
+        CCoeControl* coeControl = NULL;
+        if ( capControl )
+            {
+            coeControl = capControl->iControl;
+            }
+        if ( !coeControl )
+            {
+            User::Leave( KErrUnknown );
+            }
         CEikRichTextEditor* rtxtEditor = 
             reinterpret_cast<CEikRichTextEditor*>( coeControl );
 

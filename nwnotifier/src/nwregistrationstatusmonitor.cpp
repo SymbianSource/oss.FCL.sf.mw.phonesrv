@@ -20,7 +20,7 @@
 #include "nwregistrationstatusmonitor.h"
 // System 
 #include <exterror.h>
-#include <MmTsy_names.h> // KMmTsyModuleName
+#include <mmtsy_names.h> // KMmTsyModuleName
 
 // ================= MEMBER FUNCTIONS =======================================
 

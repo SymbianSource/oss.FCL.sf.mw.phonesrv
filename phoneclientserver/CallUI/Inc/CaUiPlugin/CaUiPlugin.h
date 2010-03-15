@@ -24,7 +24,7 @@
 #include    <AiwServiceIfMenu.h>
 #include    <AiwCommon.h>               // AIW dialdata.
 #include    <spdefinitions.h>  //TServiceId
-#include    "CaUiDialResultObserver.h"
+#include    "cauidialresultobserver.h"
 #include    "CaUI.hrh"
 
 // FORWARD DECLARATIONS

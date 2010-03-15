@@ -17,7 +17,7 @@
 
 // System includes
 #include <avkon.hrh>
-#include <aknglobalconfirmationquery.h> 
+#include <AknGlobalConfirmationQuery.h> 
 #include <bautils.h>
 #include <pathinfo.h>
 

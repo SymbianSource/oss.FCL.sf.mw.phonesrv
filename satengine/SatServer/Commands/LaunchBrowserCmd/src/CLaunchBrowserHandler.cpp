@@ -1527,7 +1527,7 @@ TInt CLaunchBrowserHandler::ValidateGatewayAddress(
     TInt ipvType( KSatInvalidPdpType );
     TInt length( aAddress.Length() );
     
-    if ( &aAddress && length )
+    if ( length )
         {
         // The maximum length of a IP address is less than 39.
         if ( KSatMaxIPv4AddressLength >= length && 

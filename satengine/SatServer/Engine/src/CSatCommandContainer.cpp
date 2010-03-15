@@ -318,7 +318,10 @@ void CSatCommandContainer::StopCommandHandlers()
     // to handle client responses. If SAT UI / Proactive command is executing
     // while Bluetooth SAP is enabled, SAT UI sends ClientResponse and that must
     // be preveted
-    iServiceReqs->Reset();
+    if ( iServiceReqs )
+        {
+        iServiceReqs->Reset();
+        }
 
     // Close all reserved BIP Data channels
     if ( iBipUtils )
@@ -338,7 +341,10 @@ void CSatCommandContainer::StopCommandHandlers()
 
 #ifdef SAT_USE_DUMMY_TSY
     // Close ATSY. This is needed when testin BT SAP in emulator
-    iUSatAPI->Close();
+    if ( iUSatAPI )
+        {
+        iUSatAPI->Close();
+        }
 #endif
 
     LOG( NORMAL,

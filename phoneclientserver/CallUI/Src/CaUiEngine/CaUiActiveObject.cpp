@@ -26,8 +26,8 @@
 #include    <mcauireconnectqueryobserver.h>
 #include    <cphonecntfactory.h>
 #include    <cphcntmatcher.h>
-#include    <MPhCntMatch.h>
-#include	"cauimessagesender.h"
+#include    <mphcntmatch.h>
+#include	"CaUiMessageSender.h"
 #include	"cauilogger.h"
 // CONSTANTS
 

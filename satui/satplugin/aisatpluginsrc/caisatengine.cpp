@@ -314,30 +314,37 @@ TInt CAiSatEngine::DuplicateBitmap( const CFbsBitmap* aDestBmp,
     {
     TFLOGSTRING( "CAiSatPlugin::DuplicateBitmap() called" )
 
+    TInt error( KErrGeneral );
+
+    // Get display mode about bitmap
+    TDisplayMode bmpDisplayMode = aSrcBmp->DisplayMode();
+
     // Get size and scan line length of the source bitmap.
     TSize size = aSrcBmp->SizeInPixels();
     TInt scanLineLength = CFbsBitmap::ScanLineLength( 
-                            size.iWidth, aSrcBmp->DisplayMode() );
-    TInt error( KErrNone );
-    // Copy the data area of the source bimap to the dest bitmap.
-    if ( aSrcBmp && aSrcBmp->DataAddress() )
+                            size.iWidth, bmpDisplayMode );
+    TInt bitmapHeight = size.iHeight;
+
+    TUint* bufUint = new TUint[ scanLineLength ];
+    if ( bufUint )
         {
-        TAny* bitmapData( NULL );
-        
-        bitmapData = memcpy(
-            (TAny*)aDestBmp->DataAddress(), 
-            (TAny*)aSrcBmp->DataAddress(), 
-            scanLineLength * size.iHeight );
-        
-        if ( NULL == bitmapData )
+        TPtr8 bufPtr ( ( TUint8* )bufUint, scanLineLength, scanLineLength );
+        // Initialize the pixel data for destination bitmap
+        for ( TInt pixelIndex = 0; pixelIndex < bitmapHeight; ++pixelIndex )
             {
-            TFLOGSTRING( "CAiSatPlugin::DuplicateBitmap() \
-                Failed to copy memory data of bitmap." )
-            error = KErrBadHandle;
+            TPoint pixelPoint( 0, pixelIndex );
+            aSrcBmp->GetScanLine( bufPtr, pixelPoint,
+            scanLineLength, bmpDisplayMode );
+            aDestBmp->SetScanLine( bufPtr, pixelIndex );
             }
+        error = KErrNone;
+        TFLOGSTRING3( "CAiSatPlugin::DuplicateBitmap() \
+        scanLineLength = %d bitmapHeight = %d", scanLineLength, bitmapHeight )
         }
 
-    TFLOGSTRING( "CAiSatPlugin::DuplicateBitmap() exits" )
+    delete bufUint;
+    bufUint = NULL;
 
+    TFLOGSTRING( "CAiSatPlugin::DuplicateBitmap() exits" )
     return error;
     }  

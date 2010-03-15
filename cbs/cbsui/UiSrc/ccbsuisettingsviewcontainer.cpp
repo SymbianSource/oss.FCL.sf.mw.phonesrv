@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -632,12 +632,12 @@ void CCbsUiSettingsViewContainer::SetLanguageSelectionL(
 // Gets the control's help context.
 // ---------------------------------------------------------
 //
-void CCbsUiSettingsViewContainer::GetHelpContext( TCoeHelpContext& aContext ) const
+void CCbsUiSettingsViewContainer::GetHelpContext( 
+    TCoeHelpContext& aContext ) const
     {
-    aContext.iMajor = TUid::Uid(KUidCbsUiappDef);
+    aContext.iMajor = TUid::Uid(0x100058C5); // Messaging MCE UID
     aContext.iContext = KMCE_HLP_SETTINGS_CB;
     }
-
 
 
 // ----------------------------------------------------

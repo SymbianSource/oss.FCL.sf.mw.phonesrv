@@ -744,9 +744,15 @@ void CSetUpCallHandler::DoSetupCallL()
 
     dialData->SetCallType( CAiwDialData::EAIWVoice );
     dialData->SetWindowGroup( AIWDialData::KAiwGoToIdle );
+    // coverity static analysis tool generates a false finding here 
+    // eliminating that 
+    // coverity[use_after_free]
     dialData->SetPhoneNumberL( telNumber );
     dialData->SetSATCall( ETrue );
     dialData->SetShowNumber( EFalse );
+    // coverity static analysis tool generates a false finding here 
+    // eliminating that 
+    // coverity[use_after_free]
     dialData->SetNameL( name );
     dialData->SetAllowMatch( EFalse );
     // Remove the redial mechanism from S60 5.x.
@@ -766,6 +772,9 @@ void CSetUpCallHandler::DoSetupCallL()
         {
         LOG( NORMAL, 
         "SETUPCALL: CSetUpCallHandler::DoSetupCallL SetBearerL" )
+        // coverity static analysis tool generates a false finding here 
+        // eliminating that
+        // coverity[use_after_free]
         dialData->SetBearerL( iSetUpCallData.iCapabilityConfigParams );
         }
 
@@ -774,10 +783,16 @@ void CSetUpCallHandler::DoSetupCallL()
         {
         LOG( NORMAL, 
         "SETUPCALL: CSetUpCallHandler::DoSetupCallL SetSubAddressL" )
+        // coverity static analysis tool generates a false finding here 
+        // eliminating that 
+        // coverity[use_after_free]
         dialData->SetSubAddressL( iSetUpCallData.iSubAddress );
         }
 
     CAiwGenericParamList& paramList = iServiceHandler->InParamListL();
+    // coverity static analysis tool generates a false finding here 
+    // eliminating that
+    // coverity[use_after_free]
     dialData->FillInParamListL( paramList );
 
     iServiceHandler->ExecuteServiceCmdL(

@@ -1374,8 +1374,14 @@ TBool RVmbxNumber::QuerySimNumberL( TDes& aNumber, TVmbxNumberEntry aEntry )
                 iVMSimQueryDialog = CVMSimQueryDilaog::NewL();
                 iVMSimQueryDialog->SetVMSimPromptL( *label );
                 CleanupStack::PopAndDestroy( label );
+                //coverity static analysis tool generates a warning finding here
+                //ignore that
+                //coverity[deref_ptr_in_call]
                 retVal= iVMSimQueryDialog->ExecuteLD(
                                               R_VMBX_TAKE_SIM_NUMBER_INTO_USE );
+                //coverity static analysis tool generates a warning finding here
+                //ignore that
+                //coverity[check_after_deref] 
                 if ( iVMSimQueryDialog == NULL )
                     {
                     VMBLOGSTRING( "VMBX: RVmbxNumber::QuerySimNumberL: \

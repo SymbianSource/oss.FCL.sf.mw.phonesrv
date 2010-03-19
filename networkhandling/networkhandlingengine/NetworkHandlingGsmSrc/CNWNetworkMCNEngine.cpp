@@ -28,7 +28,7 @@
 #include <CMcn.h>
 #include <CMcnTopicArray.h>
 #include <centralrepository.h>
-#include <SettingsInternalCRKeys.h>
+#include <settingsinternalcrkeys.h>
 
 // CONSTANTS
 const TUint KNWzero = 0;

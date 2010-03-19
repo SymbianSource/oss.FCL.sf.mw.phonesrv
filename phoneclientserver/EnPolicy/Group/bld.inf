@@ -22,11 +22,11 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../Inc/CEmergencyNumberPolicy.h         |../../../inc/cemergencynumberpolicy.h
+../inc/CEmergencyNumberPolicy.h         |../../../inc/CEmergencyNumberPolicy.h
 #ifdef __EN_POLICY_DOS
-DosEnPolicy_stub.SIS                 /epoc32/data/z/system/install/dosenpolicy_stub.sis
+DosEnPolicy_stub.SIS                 /epoc32/data/z/system/install/DosEnPolicy_stub.SIS
 #else
-SosEnPolicy_stub.sis                 /epoc32/data/z/system/install/SosEnPolicy_stub.sis
+sosenpolicy_stub.sis                 /epoc32/data/z/system/install/sosenpolicy_stub.sis
 #endif
 
 // IBY files

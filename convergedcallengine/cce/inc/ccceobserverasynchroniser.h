@@ -104,7 +104,7 @@ public:
     /**
     * From MCCEObserver
     */
-	void DataPortName( TName& aPortName );
+    void DataPortName( TName& aPortName );
 
     /**
     * From MCCEObserver
@@ -114,30 +114,30 @@ public:
     /**
     * From MCCESsObserver
     */
-	void BarringEventOccurred( const MCCESsObserver::TCCESsBarringEvent aBarringEvent );
-								  
+    void BarringEventOccurred( const MCCESsObserver::TCCESsBarringEvent aBarringEvent );
+                                  
     /**
     * From MCCESsObserver
     */
-	void CLIEventOccurred( const MCCESsObserver::TCCESsCLIEvent aCallLineEvent );
-								  
+    void CLIEventOccurred( const MCCESsObserver::TCCESsCLIEvent aCallLineEvent );
+                                  
 
     /**
     * From MCCESsObserver
     */
-	void CallForwardEventOccurred( 
-						const MCCESsObserver::TCCESsCallForwardEvent aCallForwardEvent,
-						const TDesC& aRemoteAddress );
+    void CallForwardEventOccurred( 
+                        const MCCESsObserver::TCCESsCallForwardEvent aCallForwardEvent,
+                        const TDesC& aRemoteAddress );
 
     /**
     * From MCCESsObserver
     */
-	void CallCugEventOccurred( const MCCESsObserver::TCCESsCugEvent aCugEvent );
+    void CallCugEventOccurred( const MCCESsObserver::TCCESsCugEvent aCugEvent );
 
     /**
     * From MCCESsObserver
     */
-	void NotifyCurrentActiveALSLine( TInt aLine );
+    void NotifyCurrentActiveALSLine( TInt aLine );
 
     /**
     * From MCCEConferenceCallObserver
@@ -164,22 +164,22 @@ public:
     */
     void ErrorOccurred( TCCPConferenceCallError aError  );
 
-	/**
+    /**
     * From MCCEConferenceCallObserver
     */
-	void CallDurationChanged( const TTimeIntervalSeconds aDuration );
+    void CallDurationChanged( const TTimeIntervalSeconds aDuration );
    
     /**
     * From MCCEDtmfObserver
-    */	
-	void HandleDTMFEvent( const MCCEDtmfObserver::TCCEDtmfEvent aEvent, 
+    */  
+    void HandleDTMFEvent( const MCCEDtmfObserver::TCCEDtmfEvent aEvent, 
                                   const TInt aError, 
                                   const TChar aTone );
     /**
     * From MCCEExtensionObserver
     */                                  
     void HandleExtensionEvents( TUint32 aServiceId,
-    	TInt aEvent,
+        TInt aEvent,
         TInt aStatus );
         
 private:

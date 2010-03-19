@@ -28,68 +28,68 @@ TARGET          phoneclient.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x1000084F
 
-SOURCEPATH      ../Src/Notifier/Notifier_Aiw
+SOURCEPATH      ../src/notifier/Notifier_Aiw 
 SOURCE          CPhCltCallNotify.cpp 
-SOURCE          RPhCltCallNotify.cpp
+SOURCE          RPhCltCallNotify.cpp 
 SOURCE          cphcltdialrequestmonitor.cpp
 SOURCE          cphcltdialemergencyrequestmonitor.cpp
 SOURCE          cphcltcomhandrequestmonitor.cpp
 
 
-SOURCEPATH      ../Src/ExtCall/ExtCall_Aiw
-SOURCE          RPhCltExtCall.cpp
-SOURCE          CPhCltExtPhoneDialData.cpp
+SOURCEPATH      ../src/extcall/ExtCall_Aiw 
+SOURCE          RPhCltExtCall.cpp 
+SOURCE          CPhCltExtPhoneDialData.cpp 
 SOURCE          cphcltdialdata.cpp
 
-SOURCEPATH      ../Src/ExtCallWrapper/ExtCallWrapper_Aiw
-SOURCE          CPhCltExtPhone.cpp
-SOURCE          CPhCltExtPhoneBase.cpp
+SOURCEPATH      ../src/extcallwrapper/ExtCallWrapper_Aiw 
+SOURCE          CPhCltExtPhone.cpp 
+SOURCE          CPhCltExtPhoneBase.cpp 
 
-SOURCEPATH      ../Src/Ussd/ussd_ext
+SOURCEPATH      ../src/ussd/ussd_ext 
 SOURCE          rphcltussd.cpp
 
-SOURCEPATH      ../Src/UssdWrapper
-SOURCE          CPhCltUssdRequestHandler.cpp
+SOURCEPATH      ../src/UssdWrapper 
+SOURCE          CPhCltUssdRequestHandler.cpp 
 
-SOURCE          CPhCltUssdSatClient.cpp
+SOURCE          CPhCltUssdSatClient.cpp 
   
-SOURCE          CPhCltUssdInt.cpp
-SOURCE          CPhCltUssdImp.cpp
-SOURCE          CPhCltUssdExt.cpp
+SOURCE          CPhCltUssdInt.cpp 
+SOURCE          CPhCltUssdImp.cpp 
+SOURCE          CPhCltUssdExt.cpp 
 
-SOURCE		CPhCltUssdNoteController.cpp
+SOURCE      CPhCltUssdNoteController.cpp 
 
-SOURCEPATH      ../Src/EmergencyNumber/EmergencyNumber_Aiw
-SOURCE          CPhCltEmergencyCall.cpp
-SOURCE          RPhCltEmergencyCall.cpp
-SOURCE          CPhCltEmergencyCallImpl.cpp
+SOURCEPATH      ../src/emergencynumber/EmergencyNumber_Aiw 
+SOURCE          CPhCltEmergencyCall.cpp 
+SOURCE          RPhCltEmergencyCall.cpp 
+SOURCE          CPhCltEmergencyCallImpl.cpp 
 
-SOURCEPATH      ../Src/Session
-SOURCE          RPhCltServer.cpp
+SOURCEPATH      ../src/Session 
+SOURCE          RPhCltServer.cpp 
 
-SOURCEPATH      ../Src
-SOURCE          PhCltUtils.cpp
-SOURCE          RPhCltResourceFile.cpp
+SOURCEPATH      ../Src 
+SOURCE          PhCltUtils.cpp 
+SOURCE          RPhCltResourceFile.cpp 
 
-SOURCEPATH      ../Src/CommandHandler
-SOURCE          CPhCltCommandHandler.cpp
-SOURCE          CPhCltComHandImplementation.cpp
-SOURCE          RPhCltCommandHandler.cpp
-SOURCEPATH      ../Src/ImageHandler
-SOURCE          CPhCltImageHandler.cpp
-SOURCE          CPhCltBaseImageParams.cpp
-SOURCE          CPhCltOperatorLogoContainer.cpp
-SOURCE          CPhCltImageHandlerImplementation.cpp
-SOURCE          RPhCltImageHandler.cpp
-SOURCEPATH      ../Src/Messenger
-SOURCE          CPhCltMessenger.cpp
-SOURCE          RPhCltMessenger.cpp
-SOURCE          CPhCltMessengerImplementation.cpp
+SOURCEPATH      ../src/CommandHandler 
+SOURCE          CPhCltCommandHandler.cpp 
+SOURCE          CPhCltComHandImplementation.cpp 
+SOURCE          RPhCltCommandHandler.cpp 
+SOURCEPATH      ../src/ImageHandler 
+SOURCE          CPhCltImageHandler.cpp 
+SOURCE          CPhCltBaseImageParams.cpp 
+SOURCE          CPhCltOperatorLogoContainer.cpp 
+SOURCE          CPhCltImageHandlerImplementation.cpp 
+SOURCE          RPhCltImageHandler.cpp 
+SOURCEPATH      ../src/Messenger 
+SOURCE          CPhCltMessenger.cpp 
+SOURCE          RPhCltMessenger.cpp 
+SOURCE          CPhCltMessengerImplementation.cpp 
 
 
 
-SOURCEPATH      ../Src
-START RESOURCE ../Data/PhoneClient.rss
+SOURCEPATH      ../Src 
+START RESOURCE ../data/PhoneClient.rss 
 HEADER
 TARGETPATH   RESOURCE_FILES_DIR  
 LANGUAGE_IDS
@@ -98,20 +98,20 @@ END  // RESOURCE
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE   ../../../inc
 
-USERINCLUDE     ../Inc/ExtCall/ExtCall_Aiw
-USERINCLUDE     ../Inc/Notifier/Notifier_Aiw
-USERINCLUDE     ../Inc/ExtCallWrapper/ExtCallWrapper_Aiw
-USERINCLUDE     ../Inc/EmergencyNumber/EmergencyNumber_Aiw
+USERINCLUDE     ../inc/extcall/ExtCall_Aiw 
+USERINCLUDE     ../inc/notifier/Notifier_Aiw 
+USERINCLUDE     ../inc/extcallwrapper/ExtCallWrapper_Aiw 
+USERINCLUDE     ../inc/emergencynumber/EmergencyNumber_Aiw 
 
-USERINCLUDE     ../Inc/Session
-USERINCLUDE     ../Inc/SharedClientServer
+USERINCLUDE     ../inc/Session 
+USERINCLUDE     ../inc/SharedClientServer 
 
-USERINCLUDE     ../Inc/UssdWrapper/Ussd_Ext
-USERINCLUDE     ../Inc/Ussd/ussd_ext
-USERINCLUDE     ../Inc/CommandHandler
-USERINCLUDE     ../Inc/ImageHandler
-USERINCLUDE     ../Inc/Messenger
-USERINCLUDE     ../Inc/UssdWrapper
+USERINCLUDE     ../inc/ussdwrapper/Ussd_Ext 
+USERINCLUDE     ../inc/ussd/ussd_ext 
+USERINCLUDE     ../inc/CommandHandler 
+USERINCLUDE     ../inc/ImageHandler 
+USERINCLUDE     ../inc/Messenger 
+USERINCLUDE     ../inc/UssdWrapper 
 USERINCLUDE     ../Inc 
 
 

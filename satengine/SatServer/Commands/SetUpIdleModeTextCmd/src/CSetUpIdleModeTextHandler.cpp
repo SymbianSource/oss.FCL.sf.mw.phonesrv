@@ -18,7 +18,7 @@
 
 #include    <e32property.h>
 #include    <centralrepository.h>
-#include    <NetworkHandlingDomainPSKeys.h>
+#include    <networkhandlingdomainpskeys.h>
 #include    "SATPrivateCRKeys.h"
 #include    "MSatApi.h"
 #include    "MSatUtils.h"

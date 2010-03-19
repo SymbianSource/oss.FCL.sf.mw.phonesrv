@@ -19,10 +19,10 @@
 
 // INCLUDE FILES
 #include    <e32std.h>
-#include    "RPhCltExtCall.h"
-#include    "RPhCltServer.h"
-#include    "MPhCltExtPhoneObserver.h"
-#include    "CPhCltExtPhone.h"
+#include    "rphcltextcall.h" 
+#include    "rphcltserver.h" 
+#include    "mphcltextphoneobserver.h" 
+#include    "cphcltextphone.h" 
 
 
 // LOCAL CONSTANTS AND MACROS

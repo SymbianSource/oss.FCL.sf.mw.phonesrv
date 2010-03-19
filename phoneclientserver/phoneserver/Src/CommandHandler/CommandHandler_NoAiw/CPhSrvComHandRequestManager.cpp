@@ -18,12 +18,12 @@
 
 
 // INCLUDES
-#include "CPhSrvComHandRequestManager.h"
-#include "CPhSrvComHandRequest.h"
-#include "CPhSrvSubSessionBase.h"
-#include "PhSrvUtils.h"
-#include "CPhSrvServer.h"
-#include "MPhSrvEmergencyNumberManager.h"
+#include "cphsrvcomhandrequestmanager.h" 
+#include "cphsrvcomhandrequest.h" 
+#include "cphsrvsubsessionbase.h" 
+#include "phsrvutils.h" 
+#include "cphsrvserver.h" 
+#include "mphsrvemergencynumbermanager.h" 
 
 
 // CONSTANTS

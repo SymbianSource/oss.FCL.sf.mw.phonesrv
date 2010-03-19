@@ -25,7 +25,7 @@ PRJ_EXPORTS
 ../inc/aiwinternaldialdata.h    |../../../inc/aiwinternaldialdata.h
 
 ../group/aiwdialdata_stub.SIS\
-    /epoc32/data/z/system/install/aiwdialdata_stub.SIS
+    /epoc32/data/z/system/install/aiwdialdata_stub.sis
     
 // IBY files
 ../rom/aiwdialdata.iby          CORE_MW_LAYER_IBY_EXPORT_PATH(aiwdialdata.iby)

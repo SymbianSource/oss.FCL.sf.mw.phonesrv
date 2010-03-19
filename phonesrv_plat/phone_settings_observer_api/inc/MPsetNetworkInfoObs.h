@@ -22,7 +22,7 @@
 #define     MPSETNETWORKINFOOBS_H
 
 //  INCLUDES
-#include "MPsetNetworkSelect.h"
+#include "mpsetnetworkselect.h" 
 #include <etelmm.h>
 
 //  DATA TYPES  

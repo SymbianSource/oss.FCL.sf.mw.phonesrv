@@ -20,8 +20,8 @@
 
 
 // INCLUDES
-#include "CPhSrvSubSessionBase.h"
-#include <CPhCltMessenger.h>
+#include "CPhSrvSubSessionBase.h" 
+#include <cphcltmessenger.h> 
 
 // FORWARD DECLARATIONS
 class MPhSrvMessengerNegotiator;

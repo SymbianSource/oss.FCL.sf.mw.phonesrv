@@ -23,23 +23,23 @@ DEFAULT
 
 PRJ_EXPORTS
 
-  ../Inc/EmergencyNumber/EmergencyNumber_Aiw/RPhCltEmergencyCall.h  |../../inc/rphcltemergencycall.h
-  ../Inc/misc/telservicesinternalcrkeys.h                           |../../../inc/telservicesinternalcrkeys.h
-  ../Inc/misc/telservicesvariant.hrh                                  |../../../inc/telservicesvariant.hrh
-  ../Inc/ExtCall/ExtCall_Aiw/CPhCltExtPhoneDialData.h  |../../inc/cphcltextphonedialdata.h
-  ../Inc/ExtCallWrapper/ExtCallWrapper_Aiw/MPhCltExtPhoneObserver.h  |../../inc/mphcltextphoneobserver.h
-  ../Inc/ExtCallWrapper/ExtCallWrapper_Aiw/CPhCltExtPhoneBase.h  |../../inc/cphcltextphonebase.h
-  ../Inc/ExtCallWrapper/ExtCallWrapper_Aiw/CPhCltDialer.h  |../../inc/cphcltdialer.h
+  ../inc/emergencynumber/emergencynumber_aiw/RPhCltEmergencyCall.h  |../../inc/RPhCltEmergencyCall.h
+  ../inc/misc/telservicesinternalcrkeys.h                           |../../../inc/telservicesinternalcrkeys.h
+  ../inc/misc/telservicesvariant.hrh                                  |../../../inc/telservicesvariant.hrh
+  ../inc/extcall/extcall_aiw/CPhCltExtPhoneDialData.h  |../../inc/CPhCltExtPhoneDialData.h
+  ../inc/extcallwrapper/extcallwrapper_aiw/MPhCltExtPhoneObserver.h  |../../inc/MPhCltExtPhoneObserver.h
+  ../inc/extcallwrapper/extcallwrapper_aiw/CPhCltExtPhoneBase.h  |../../inc/CPhCltExtPhoneBase.h
+  ../inc/extcallwrapper/extcallwrapper_aiw/CPhCltDialer.h  |../../inc/CPhCltDialer.h
 
-../Data/Phoneclient_stub.SIS                 /epoc32/data/z/system/install/phoneclient_stub.sis
+../data/Phoneclient_stub.SIS                 /epoc32/data/z/system/install/Phoneclient_stub.SIS
 
 // IBY files
 ../rom/PhoneClient.iby                      CORE_MW_LAYER_IBY_EXPORT_PATH(PhoneClient.iby)
 
 // Generic configuration interface for component cenrep settings  
 ../conf/telephonyservices.confml                  MW_LAYER_CONFML(telephonyservices.confml)
-../conf/telephonyservices_102029AC.crml 	        MW_LAYER_CRML(telephonyservices_102029AC.crml)
-../conf/telephonyservices_102078F1.crml 	        MW_LAYER_CRML(telephonyservices_102078F1.crml)
+../conf/telephonyservices_102029AC.crml             MW_LAYER_CRML(telephonyservices_102029AC.crml)
+../conf/telephonyservices_102078F1.crml             MW_LAYER_CRML(telephonyservices_102078F1.crml)
 
 PRJ_MMPFILES
 ../Group/PhoneClient.mmp

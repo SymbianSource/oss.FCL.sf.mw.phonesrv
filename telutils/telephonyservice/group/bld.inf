@@ -23,7 +23,7 @@ DEFAULT
 PRJ_EXPORTS
 
 // IBY file exports
-../rom/telephonyservice.iby                  CORE_MW_LAYER_IBY_EXPORT_PATH(TelephonyService.iby)
+../rom/telephonyservice.iby                  CORE_MW_LAYER_IBY_EXPORT_PATH(telephonyservice.iby)
 
 // SIS stubs
 

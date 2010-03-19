@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <PhCltTypes.h>
+#include <phclttypes.h> 
 
 
 // CONSTANTS

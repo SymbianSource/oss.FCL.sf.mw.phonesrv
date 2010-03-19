@@ -38,14 +38,16 @@ SOURCE                  spsbufferedpublisher.cpp
 
 USERINCLUDE             ../inc
 
-APP_LAYER_SYSTEMINCLUDE 
+// <-- QT PHONE START-->
+MW_LAYER_SYSTEMINCLUDE 
+// <-- QT PHONE END-->
 
 LIBRARY                 euser.lib
 LIBRARY                 centralrepository.lib
 LIBRARY                 bafl.lib // CDesCArray
 
 LIBRARY                 flogger.lib     // for logging
-LIBRARY					featmgr.lib
-LIBRARY					cenrepdatabase.lib
+LIBRARY                 featmgr.lib
+LIBRARY                 cenrepdatabase.lib
 
 //DEFFILE                 ?filename

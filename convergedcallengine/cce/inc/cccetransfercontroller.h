@@ -72,7 +72,7 @@ public:
     * An error has occurred concerning a specific call.
     * @since S60 3.2
     * @param aError Error code.
-	* @param aCall Current MCCPCall.
+    * @param aCall Current MCCPCall.
     * @return none
     */
     void ErrorOccurred( const TCCPError aError, MCCPCall* aCall ); 
@@ -90,7 +90,7 @@ public:
     * The state of the call has changed.
     * @since S60 3.2
     * @param aState Call state.
-	* @param aCall Current MCCPCall.
+    * @param aCall Current MCCPCall.
     * @return none
     */
     void CallStateChangedWithInband( TCCPCallState aState, MCCPCall* aCall ); 
@@ -99,7 +99,7 @@ public:
     * An event has occurred concerning a specific call.
     * @since S60 3.2
     * @param aEvent Occurred event.
-	* @param aCall Current MCCPCall.
+    * @param aCall Current MCCPCall.
     * @return none
     */
     void CallEventOccurred( const MCCPCallObserver::TCCPCallEvent aEvent, 
@@ -111,7 +111,7 @@ public:
     * Notifies changed call capabilities
     * @since S60 3.2
     * @param aCaps New capabilities for the call
-	* @param aCall Current MCCPCall.
+    * @param aCall Current MCCPCall.
     * @return none
     */
     void CallCapsChanged( const TUint32 aCapsFlags, MCCPCall* aCall ); 

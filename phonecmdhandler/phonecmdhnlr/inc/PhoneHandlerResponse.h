@@ -20,9 +20,9 @@
 #define CPHONEHANDLERRESPONSE_H
 
 //  INCLUDES
-#include "PhoneHandlerService.h"
-#include "PhoneHandlerObserver.h"
-#include <RemConExtensionApi.h>
+#include "PhoneHandlerService.h" 
+#include "PhoneHandlerObserver.h" 
+#include <RemConExtensionApi.h> 
 
 // CONSTANTS
 
@@ -45,9 +45,9 @@ class CPhoneHandlerActive;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerResponse ) : public CBase,
-											 public MPhoneHandlerService,
-											 public MPhoneHandlerObserver
-											   
+                                             public MPhoneHandlerService,
+                                             public MPhoneHandlerObserver
+                                               
     {
     public:  // Constructors and destructor
         
@@ -63,7 +63,7 @@ NONSHARABLE_CLASS( CPhoneHandlerResponse ) : public CBase,
 
     public: // New functions
     
-    	/**
+        /**
         * Sets response message. This method has to be called before Process() 
         * is called.
         * @since S60 3.1
@@ -72,8 +72,8 @@ NONSHARABLE_CLASS( CPhoneHandlerResponse ) : public CBase,
         * @return void
         */
         void SetResponse( TRemConExtCallHandlingApiOperationId aOperation, 
-    					  TInt aError );
-	            
+                          TInt aError );
+                
     public: // Functions from base classes
         
         /**

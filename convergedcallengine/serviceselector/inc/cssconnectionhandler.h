@@ -22,7 +22,9 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <cch.h>
+// <-- QT PHONE START -->
+//#include <cch.h>
+// <-- QT PHONE END-->
 
 // FORWARD DECLARATIONS
 // None
@@ -74,7 +76,10 @@ NONSHARABLE_CLASS( CSsConnectionHandler )
     private:    // Data
     
         // Converged Connection Handler client interface
-        CCch* iCch;
+        // <-- QT PHONE START -->
+        //CCch* iCch;
+        // <-- QT PHONE END-->
+
 
     };
 

@@ -20,6 +20,6 @@
 #define __SERVICESELECTOR_IBY__
 
 file=ABI_DIR\BUILD_DIR\serviceselector.dll              SHARED_LIB_DIR\serviceselector.dll
-data=ZSYSTEM\install\serviceselector_stub.sis   		System\Install\serviceselector_stub.sis
+data=ZSYSTEM\install\serviceselector_stub.sis           System\Install\serviceselector_stub.sis
 
 #endif

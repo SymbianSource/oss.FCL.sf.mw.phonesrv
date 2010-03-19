@@ -52,7 +52,7 @@ public:
 
 
 
-	/**
+    /**
     * Set new MCCECallObserver observer to MCCECall object.
     * Called in case of incoming call. In that case call has no observer yet when it 
     * is created. In MO case observer is set when call is created. Repleces current observer 
@@ -273,24 +273,24 @@ public:
     virtual const TDesC& DialledParty() const = 0;
 
     /**
-	* Set call parameters.
-	* @since S60 3.2
-	* @param aNewParams New call paramater information.
-	* @return none
-	*/
+    * Set call parameters.
+    * @since S60 3.2
+    * @param aNewParams New call paramater information.
+    * @return none
+    */
     virtual void SetParameters( const CCCECallParameters& aNewParams ) = 0;
 
     /**
-	* Get call parameters.
-	* @since S60 3.2
-	* @param None
-	* @return Current call paramater information.
-	*/
+    * Get call parameters.
+    * @since S60 3.2
+    * @param None
+    * @return Current call paramater information.
+    */
     virtual const CCCPCallParameters& Parameters() const = 0;
 
     /**
     * Returns the inband tone associated to an error condition or a state transition of a call.
-	* See defenition for TCCPTone.
+    * See defenition for TCCPTone.
     * @since S60 3.2
     * @param None.
     * @return TCCPTone Used tone.
@@ -298,13 +298,13 @@ public:
     virtual TCCPTone Tone() const = 0;
 
    /**
-	* Get call information. NOTE: will be removed shortly. Stop using this call use relevant getters instead!
-	* TODO this needs to be rechecked if params are to be defined in CCE as a struct for example and to return that!
-	* @since S60 3.2
-	* @param aCallInfo TMobileCallInfoV3 - TODO check this
-	* @return none
-	*/
-	virtual void GetMobileCallInfo( TDes8& aCallInfo ) const = 0;
+    * Get call information. NOTE: will be removed shortly. Stop using this call use relevant getters instead!
+    * TODO this needs to be rechecked if params are to be defined in CCE as a struct for example and to return that!
+    * @since S60 3.2
+    * @param aCallInfo TMobileCallInfoV3 - TODO check this
+    * @return none
+    */
+    virtual void GetMobileCallInfo( TDes8& aCallInfo ) const = 0;
  
 /************************************************************************/
 /*                             Emergency call                           */

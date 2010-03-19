@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include "RPhCltServer.h"
-#include "CPhCltEmergencyCallImpl.h"
-#include "MPhCltEmergencyCallObserver.h"
+#include "rphcltserver.h" 
+#include "CPhCltEmergencyCallImpl.h" 
+#include "mphcltemergencycallobserver.h" 
 
 _LIT( KEmNumber, "112" );
 
@@ -105,8 +105,8 @@ TInt CPhCltEmergencyCallImpl::IsEmergencyPhoneNumber(
     TBool& aIsEmergencyNumber )
     {
     return iEmergencyCall.IsEmergencyPhoneNumber( 
-    	aNumber, 
-    	aIsEmergencyNumber );
+        aNumber, 
+        aIsEmergencyNumber );
     }
 
 // -----------------------------------------------------------------------------
@@ -121,9 +121,9 @@ TInt CPhCltEmergencyCallImpl::IsEmergencyPhoneNumber(
     {
    
     return iEmergencyCall.IsEmergencyPhoneNumber( 
-    	aNumber,
+        aNumber,
         aMatchedEmergencyNumber, 
-    	aIsEmergencyNumber );
+        aIsEmergencyNumber );
     }
 
 // -----------------------------------------------------------------------------
@@ -136,8 +136,8 @@ TInt CPhCltEmergencyCallImpl::FindEmergencyPhoneNumber(
     TBool& aIsEmergencyNumber )
     {
     return iEmergencyCall.FindEmergencyPhoneNumber( 
-    	aNumber, 
-    	aIsEmergencyNumber );
+        aNumber, 
+        aIsEmergencyNumber );
     }
 
 // -----------------------------------------------------------------------------

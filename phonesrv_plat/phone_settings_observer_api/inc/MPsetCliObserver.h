@@ -22,9 +22,9 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <Psuiconstants.h>
-#include "PSetConstants.h"
-#include "MPsetCli.h"
+#include <psuiconstants.h> 
+#include "psetconstants.h" 
+#include "mpsetcli.h" 
 
 //  CLASS DEFINITIONS 
 /**

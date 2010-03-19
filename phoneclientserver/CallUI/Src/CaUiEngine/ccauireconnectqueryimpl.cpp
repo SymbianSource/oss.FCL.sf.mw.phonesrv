@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include    "ccauireconnectqueryimpl.h"
-#include    "CaUiEngine.h"
+#include    "cauiengine.h" 
 
 CCaUiReconnectQueryImpl* CCaUiReconnectQueryImpl::NewL( 
     MCaUiReconnectQueryObserver& aObserver )

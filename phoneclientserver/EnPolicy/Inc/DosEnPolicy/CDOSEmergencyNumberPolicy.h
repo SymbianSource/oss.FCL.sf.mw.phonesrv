@@ -21,7 +21,7 @@
 #define CDOSEMERGENCYNUMBERPOLICY_H
 
 // INCLUDES
-#include    <CEmergencyNumberPolicy.h>
+#include    <cemergencynumberpolicy.h> 
 #include    <rmmcustomapi.h>
 #include    <cenrepnotifyhandler.h>
 

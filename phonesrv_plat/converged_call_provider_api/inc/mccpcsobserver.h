@@ -57,7 +57,7 @@ public:
     * @param aConferenceCall Created conference
     * @return none
     */
-	virtual void ConferenceCallCreated( MCCPConferenceCall& aConferenceCall ) = 0;
+    virtual void ConferenceCallCreated( MCCPConferenceCall& aConferenceCall ) = 0;
 
     /**
     * Notify data port information for video telephony.
@@ -65,7 +65,7 @@ public:
     * @param aPortName Dataport information.
     * @return none
     */
-	virtual void DataPortName( TName& aPortName ) = 0;
+    virtual void DataPortName( TName& aPortName ) = 0;
     };
 
 #endif // MCCPCSOBSERVER_H

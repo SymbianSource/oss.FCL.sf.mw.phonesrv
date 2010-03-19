@@ -17,11 +17,11 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvUssdSendHandler.h"
-#include "MPhSrvUssdNetworkObserver.h"
-#include "MPhSrvPhoneInterface.h"
-#include "CPhSrvUssdSessionCancelWaiter.h"
-#include "PhSrvDebugInfo.h" //debug prints
+#include "CPhSrvUssdSendHandler.h" 
+#include "MPhSrvUssdNetworkObserver.h" 
+#include "MPhSrvPhoneInterface.h" 
+#include "CPhSrvUssdSessionCancelWaiter.h" 
+#include "PhSrvDebugInfo.h" //debug prints 
 
 #include <gsmuelem.h>
 #include <f32file.h>
@@ -188,19 +188,19 @@ void CPhSrvUssdSendHandler::RunL()
 // -----------------------------------------------------------------------------
 //
 void CPhSrvUssdSendHandler::SendReleaseSession()
-	{
-	_DPRINT( 4, "PhSrv.Sendhandler.SendReleaseSession.Start" );         // debug print
-	if ( !iSessionCancelWaiter->IsActive() )
-		{
-		_DPRINT( 4, "PhSrv.Sendhandler.SendReleaseSession" );           // debug print
-		iUssdMessaging.SendRelease(
+    {
+    _DPRINT( 4, "PhSrv.Sendhandler.SendReleaseSession.Start" );         // debug print
+    if ( !iSessionCancelWaiter->IsActive() )
+        {
+        _DPRINT( 4, "PhSrv.Sendhandler.SendReleaseSession" );           // debug print
+        iUssdMessaging.SendRelease(
             iSessionCancelWaiter->iStatus,
             iSessionCancelWaiter->iSSRequestPckg );
-		_DPRINT( 4, "PhSrv.Sendhandler.SendReleaseSession2" ); 
+        _DPRINT( 4, "PhSrv.Sendhandler.SendReleaseSession2" ); 
         iSessionCancelWaiter->SetActive();
         _DDPRINT( 4, "PhSrv.Sendhandler.SRS.iUssdMessaging", iStatus.Int() );
-		}
-	_DPRINT( 4, "PhSrv.Sendhandler.SendReleaseSession.End" );           // debug print
-	}
+        }
+    _DPRINT( 4, "PhSrv.Sendhandler.SendReleaseSession.End" );           // debug print
+    }
 
 //  End of File

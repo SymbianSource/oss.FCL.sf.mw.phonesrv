@@ -21,9 +21,9 @@
 
 
 // INCLUDES
-#include "MPhSrvPhoneInterface.h"
-#include "PhCltClientServer.h"
-#include <RPhCltServer.h>
+#include "MPhSrvPhoneInterface.h" 
+#include "PhCltClientServer.h" 
+#include <rphcltserver.h> 
 #include <fbs.h>
 #include <f32file.h>
 

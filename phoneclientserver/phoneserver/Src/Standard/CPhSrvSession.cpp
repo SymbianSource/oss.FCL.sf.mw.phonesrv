@@ -18,11 +18,11 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvServer.h"
-#include "CPhSrvSession.h"
-#include "CPhSrvSubSessionBase.h"
-#include "PhSrvSubSessionFactory.h"
-#include "PhCltClientServer.h"
+#include "CPhSrvServer.h" 
+#include "CPhSrvSession.h" 
+#include "CPhSrvSubSessionBase.h" 
+#include "PhSrvSubSessionFactory.h" 
+#include "PhCltClientServer.h" 
 
 // CONSTANTS
 
@@ -181,18 +181,18 @@ void CPhSrvSession::ProcessRequestL( const RMessage2& aMessage )
         
         if ( subSession )
             {
-	        // Check that the subsession can handle this request
-	        if ( !subSession->PhSrvMessageDecoderCanProcessMessage( function ) )
-	            {
-	            PanicClient(
-	                aMessage,
-	                EPhCltServerInitiatedPanicInvalidHandle );
-	            }
-	        else
-	            {
-	            // Get it to process this request
-	            subSession->PhSrvMessageProcessorHandleMessageL( aMessage );
-	            }
+            // Check that the subsession can handle this request
+            if ( !subSession->PhSrvMessageDecoderCanProcessMessage( function ) )
+                {
+                PanicClient(
+                    aMessage,
+                    EPhCltServerInitiatedPanicInvalidHandle );
+                }
+            else
+                {
+                // Get it to process this request
+                subSession->PhSrvMessageProcessorHandleMessageL( aMessage );
+                }
             }            
         }
     }

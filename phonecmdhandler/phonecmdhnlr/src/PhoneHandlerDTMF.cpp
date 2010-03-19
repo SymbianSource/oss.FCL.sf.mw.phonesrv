@@ -17,12 +17,12 @@
 
 
 // INCLUDE FILES
-#include    "PhoneHandlerDTMF.h"
-#include 	"PhoneHandlerControl.h"
-#include 	"PhoneHandlerDebug.h"
-#include 	<RemConCallHandlingTarget.h>
+#include    "PhoneHandlerDTMF.h" 
+#include    "PhoneHandlerControl.h" 
+#include    "PhoneHandlerDebug.h" 
+#include    <RemConCallHandlingTarget.h> 
 
-#include	<CPhCltCommandHandler.h>
+#include    <cphcltcommandhandler.h> 
 
 
 // EXTERNAL DATA STRUCTURES
@@ -52,8 +52,8 @@
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerDTMF::CPhoneHandlerDTMF( 
-							CPhoneHandlerControl& aControl,
-							TRemConExtCallHandlingApiOperationId aOperation )
+                            CPhoneHandlerControl& aControl,
+                            TRemConExtCallHandlingApiOperationId aOperation )
 : iControl( aControl ), 
   iOperation( aOperation )
     {
@@ -67,11 +67,11 @@ CPhoneHandlerDTMF::CPhoneHandlerDTMF(
 void CPhoneHandlerDTMF::ConstructL()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::ConstructL() start" );
-	    
+        
     LoadServiceL();
     
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::ConstructL() end" );
-	}
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerDTMF::NewL
@@ -79,13 +79,13 @@ void CPhoneHandlerDTMF::ConstructL()
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerDTMF* CPhoneHandlerDTMF::NewL(  
-			CPhoneHandlerControl& aControl,
-			TRemConExtCallHandlingApiOperationId aOperation )
+            CPhoneHandlerControl& aControl,
+            TRemConExtCallHandlingApiOperationId aOperation )
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::NewL()" );
-	    
+        
     CPhoneHandlerDTMF* self = new( ELeave ) CPhoneHandlerDTMF( aControl, 
-    														   aOperation );
+                                                               aOperation );
     
     CleanupStack::PushL( self );
     self->ConstructL();
@@ -99,7 +99,7 @@ CPhoneHandlerDTMF* CPhoneHandlerDTMF::NewL(
 CPhoneHandlerDTMF::~CPhoneHandlerDTMF()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::~CPhoneHandlerDTMF()" );
-	
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -109,14 +109,14 @@ CPhoneHandlerDTMF::~CPhoneHandlerDTMF()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerDTMF::Process()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::Process()" );
-		
-	iCommandHandler->Vts( GetStatus(), 
-						  iControl.Tone(), 
-						  EPhCltDtmfNotUsed );
-	Activate();	
-	}
+    {
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::Process()" );
+        
+    iCommandHandler->Vts( GetStatus(), 
+                          iControl.Tone(), 
+                          EPhCltDtmfNotUsed );
+    Activate(); 
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerDTMF::Delete
@@ -124,11 +124,11 @@ void CPhoneHandlerDTMF::Process()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerDTMF::Delete()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::Delete()" );
-		
-	delete this;
-	}
+    {
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::Delete()" );
+        
+    delete this;
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerDTMF::RequestCompleted
@@ -139,33 +139,33 @@ void CPhoneHandlerDTMF::Delete()
 void CPhoneHandlerDTMF::RequestCompleted( const TInt aError )
     {
     COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerDTMF::RequestCompleted() aError=%d, iState=%d", aError, iState );
-	    
-	switch( iState )
-		{
-		case EPhoneHandlerState1:
-			{
-			NextState();
-			iControl.CommandInitiator().SendResponse( GetStatus(), 
-													  iOperation,
-													  aError );
-			Activate();
-			break;
-			}
-			
-		case EPhoneHandlerState2:
-			{
-			IdleState();
-			delete this;
-			break;
-			}
-			
-		default:
-			{
-			COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::RequestCompleted() Unspecified state" );
-			break;
-			}
-		};
-	}
+        
+    switch( iState )
+        {
+        case EPhoneHandlerState1:
+            {
+            NextState();
+            iControl.CommandInitiator().SendResponse( GetStatus(), 
+                                                      iOperation,
+                                                      aError );
+            Activate();
+            break;
+            }
+            
+        case EPhoneHandlerState2:
+            {
+            IdleState();
+            delete this;
+            break;
+            }
+            
+        default:
+            {
+            COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDTMF::RequestCompleted() Unspecified state" );
+            break;
+            }
+        };
+    }
     
 // ========================== OTHER EXPORTED FUNCTIONS =========================
 

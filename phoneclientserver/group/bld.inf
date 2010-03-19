@@ -21,7 +21,8 @@
 #include "../dialutils/group/bld.inf"
 #include "../phoneclient/Group/bld.inf"
 #include "../phoneserver/Group/bld.inf"
-#include "../CallUI/Group/bld.inf"
-
+// <-- QT PHONE START -->
+//#include "../CallUI/Group/bld.inf"
+// <-- QT PHONE END -->
 
 // End of File

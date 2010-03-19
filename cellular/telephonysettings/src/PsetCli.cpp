@@ -18,10 +18,10 @@
 
 
 //INCLUDE FILES
-#include "PsetCli.h"
-#include "PSetPanic.h"
-#include "PsetConstants.h"
-#include "MPsetRequestObs.h"
+#include "psetcli.h" 
+#include "PSetPanic.h" 
+#include "psetconstants.h" 
+#include "mpsetrequestobs.h" 
 #include <bldvariant.hrh>
 #include <featmgr.h>
 

@@ -21,8 +21,8 @@
 
 //  INCLUDES
 #include <e32std.h>
-#include "PhCltTypes.h"
-#include "RPhCltServer.h"
+#include "phclttypes.h" 
+#include "rphcltserver.h" 
 
 // FORWARD DECLARATIONS
 class CPhCltExtPhoneDialData;
@@ -59,7 +59,7 @@ class RPhCltExtCall : public RSubSessionBase
          * Closes the subsession.
          */       
         void Close();
-            	
+                
         /**
         * Makes a call (asynchronous).
         *
@@ -84,7 +84,7 @@ class RPhCltExtCall : public RSubSessionBase
         // Prohibit assigment operator
         RPhCltExtCall& operator= ( const RPhCltExtCall& );
         
-	
+    
 
        
    

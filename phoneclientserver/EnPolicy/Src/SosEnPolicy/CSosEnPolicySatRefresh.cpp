@@ -20,11 +20,11 @@
 
 // INCLUDE FILES
 #include  <e32std.h>
-#include "CSOSEmergencyNumberPolicyHandler.h"
-#include "CSosEnPolicySatRefresh.h"
+#include "CSOSEmergencyNumberPolicyHandler.h" 
+#include "CSosEnPolicySatRefresh.h" 
 
-#include <RSatRefresh.h>
-#include <RSatSession.h>
+#include <RSatRefresh.h> 
+#include <RSatSession.h> 
 
 #include  <startupdomainpskeys.h> // Property values
 
@@ -40,7 +40,7 @@ _LIT( KENPolicyPanicCategory, "ENPolicyFault" );
 // -----------------------------------------------------------------------------
 //
 CSosEnPolicySatRefresh::CSosEnPolicySatRefresh( CSosEmergencyNumberPolicyHandler& aCSosEmergencyNumberPolicyHandler ): 
-	CActive( EPriorityStandard ), iCSosEmergencyNumberPolicyHandler ( aCSosEmergencyNumberPolicyHandler )
+    CActive( EPriorityStandard ), iCSosEmergencyNumberPolicyHandler ( aCSosEmergencyNumberPolicyHandler )
     {
     CActiveScheduler::Add( this );
     }
@@ -82,17 +82,17 @@ CSosEnPolicySatRefresh::~CSosEnPolicySatRefresh()
     if ( iSatRefresh )
         {
         // Cancel notifications.
-        iSatRefresh->Cancel();	
+        iSatRefresh->Cancel();  
         // Close SubSession.
         iSatRefresh->Close();
         }
-	delete iSatRefresh;
-	
-	if ( iSatSession )
-		{
-		iSatSession->Close();
-		}
-	  delete iSatSession;
+    delete iSatRefresh;
+    
+    if ( iSatSession )
+        {
+        iSatSession->Close();
+        }
+      delete iSatSession;
 
     Cancel();
     iProperty.Close();
@@ -104,9 +104,9 @@ CSosEnPolicySatRefresh::~CSosEnPolicySatRefresh()
 // -----------------------------------------------------------------------------
 //
 TBool CSosEnPolicySatRefresh::AllowRefresh( TSatRefreshType /*aType*/, const TSatRefreshFiles& /*aFiles*/ )
- 	{
- 	// Refresh is always allowed
-	return ETrue;
+    {
+    // Refresh is always allowed
+    return ETrue;
     }
  
 // -----------------------------------------------------------------------------
@@ -116,12 +116,12 @@ TBool CSosEnPolicySatRefresh::AllowRefresh( TSatRefreshType /*aType*/, const TSa
 // -----------------------------------------------------------------------------
 //     
 void CSosEnPolicySatRefresh::Refresh( TSatRefreshType /*aType*/, const TSatRefreshFiles& /*aFiles*/ )
-	{
-	// Reload SIM Topics in case of refresh     		
+    {
+    // Reload SIM Topics in case of refresh             
     iCSosEmergencyNumberPolicyHandler.CpsssmHandleSimStatusEvent( CSosEmergencyNumberPolicyHandler::ESosEnPolicySimEmergencyNumberRead );
     iSatRefresh->RefreshEFRead( EFalse );
-	}
-	
+    }
+    
     
 // -----------------------------------------------------------------------------
 // CSosEnPolicySimStatusMonitor::IssueRequest
@@ -155,11 +155,11 @@ void CSosEnPolicySatRefresh::RunL()
             case KErrNone:
                 {
                 iSatSession->ConnectL();
-                iSatRefresh->OpenL( *iSatSession );   	
+                iSatRefresh->OpenL( *iSatSession );     
                 TSatRefreshFiles file;
                 file.Append( KEccEf );
                 iSatRefresh->NotifyFileChangeL( file );
-                break;	
+                break;  
                 }
             default:
                 break;
@@ -167,7 +167,7 @@ void CSosEnPolicySatRefresh::RunL()
         }
     else
         {
-        IssueRequest();	
+        IssueRequest(); 
         }
     }
 

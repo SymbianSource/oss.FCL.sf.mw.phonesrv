@@ -22,20 +22,21 @@
 #include <e32math.h>
 #include <e32svr.h>
 #include <badesca.h>
-
-#include <vmnumber.h>
+// <-- QT PHONE START -->
+//#include <vmnumber.h>
+// <-- QT PHONE END-->
 #include <centralrepository.h>
-#include <SettingsInternalCRKeys.h>
+#include <settingsinternalcrkeys.h> 
 
-#include "PsetCallDiverting.h"
-#include "PsetContainer.h"
-#include "MPsetDivertObs.h"
-#include "PsetTelephony.h"
-#include "PSetPanic.h"
-#include "PhoneSettingsLogger.h"
+#include "psetcalldiverting.h" 
+#include "psetcontainer.h" 
+#include "mpsetdivertobs.h" 
+#include "PsetTelephony.h" 
+#include "PSetPanic.h" 
+#include "PhoneSettingsLogger.h" 
 
-#include "PSetCallDivertingCreator.h"
-#include "MCallDiverting.h"
+#include "PSetCallDivertingCreator.h" 
+#include "MCallDiverting.h" 
 
 //  MEMBER FUNCTIONS
 // ---------------------------------------------------------------------------
@@ -261,15 +262,20 @@ EXPORT_C HBufC* CPsetCallDiverting::GetUsedFaxNumberLC()
 EXPORT_C void CPsetCallDiverting::SetRequestObserver( MPsetRequestObserver* aObs )
     {
     iReqObserver = aObs;
+// <-- QT PHONE START -->
+    iDivert->SetRequestObserver(aObs);
+// <-- QT PHONE END -->
     }
 
 // ---------------------------------------------------------------------------
 // Queries for voice mail box number
 // ---------------------------------------------------------------------------
 //
-EXPORT_C void CPsetCallDiverting::VoiceMailQueryL( TDes& aTelNumber )
+EXPORT_C void CPsetCallDiverting::VoiceMailQueryL( TDes& /*aTelNumber*/ )
     {
     __PHSLOGSTRING("[PHS]--> CPsetCallDiverting::VoiceMailQueryL" );
+// <-- QT PHONE START -->
+/*
     RVmbxNumber vmbxConnection;
     TBool vmbxNrChanged = ETrue;
     TInt retValue = iDivert->OpenVmbxLC( aTelNumber, vmbxConnection );
@@ -290,6 +296,8 @@ EXPORT_C void CPsetCallDiverting::VoiceMailQueryL( TDes& aTelNumber )
         User::Leave( KErrCancel );
         }
     CleanupStack::PopAndDestroy(); // vmbxConnection
+    */
+// <-- QT PHONE END-->
 
     __PHSLOGSTRING("[PHS] <--CPsetCallDiverting::VoiceMailQueryL" );
     }
@@ -298,9 +306,11 @@ EXPORT_C void CPsetCallDiverting::VoiceMailQueryL( TDes& aTelNumber )
 // Queries for voice mail box number
 // ---------------------------------------------------------------------------
 //
-EXPORT_C void CPsetCallDiverting::VideoMailQueryL( TDes& aTelNumber )
+EXPORT_C void CPsetCallDiverting::VideoMailQueryL( TDes& /*aTelNumber*/ )
     {
     __PHSLOGSTRING("[PHS]--> CPsetCallDiverting::VideoMailQueryL" );
+    // <-- QT PHONE START -->
+    /*
     RVmbxNumber vmbxConnection;
     TBool vmbxNrChanged = ETrue;
     TInt retValue = OpenVideoMailboxLC( aTelNumber, vmbxConnection );
@@ -321,6 +331,8 @@ EXPORT_C void CPsetCallDiverting::VideoMailQueryL( TDes& aTelNumber )
         User::Leave( KErrCancel );
         }
     CleanupStack::PopAndDestroy(); // vmbxConnection
+    */
+    // <-- QT PHONE END-->
 
     __PHSLOGSTRING("[PHS] <--CPsetCallDiverting::VideoMailQueryL" );
     }    
@@ -329,13 +341,18 @@ EXPORT_C void CPsetCallDiverting::VideoMailQueryL( TDes& aTelNumber )
 // Opens Vmbx. Leaves vmbx to the stack. 
 // ---------------------------------------------------------------------------
 //
-TInt CPsetCallDiverting::OpenVideoMailboxLC( TDes& aTelNumber, RVmbxNumber& aVmbx )
+// <-- QT PHONE START -->
+TInt CPsetCallDiverting::OpenVideoMailboxLC( TDes& /*aTelNumber*/, RVmbxNumber& /*aVmbx*/ )
     {
+/*
     __PHSLOGSTRING("[PHS]--> CPsetCallDiverting::OpenVideoMailboxLC" );
     User::LeaveIfError( aVmbx.Open( iPhone ) );
     CleanupClosePushL( aVmbx );         
-	__PHSLOGSTRING("[PHS]<-- CPsetCallDiverting::OpenVideoMailboxLC" );
+    __PHSLOGSTRING("[PHS]<-- CPsetCallDiverting::OpenVideoMailboxLC" );
     return aVmbx.GetVideoMbxNumber( aTelNumber );
+*/
+    return 0;
+// <-- QT PHONE END -->
     }
     
 // End of File

@@ -21,11 +21,11 @@
 #include    <featmgr.h>
 #include    <nwdefs.h>
 
-#include    "CPhoneGsmSsParser.h"
-#include    "CPhoneGsmParserResult.h"
-#include    "PhoneGsmParser.h"
-#include    "CPhoneGsmOptionContainer.h"
-#include    "CPhoneParserFeatures.h"
+#include    "CPhoneGsmSsParser.h" 
+#include    "cphonegsmparserresult.h" 
+#include    "phonegsmparser.h" 
+#include    "CPhoneGsmOptionContainer.h" 
+#include    "CPhoneParserFeatures.h" 
 
 // CONSTANTS
 

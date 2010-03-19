@@ -26,7 +26,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <RCustomerServiceProfileCache.h>
+#include <rcustomerserviceprofilecache.h> 
 
 // CLASS DECLARATION
 /**

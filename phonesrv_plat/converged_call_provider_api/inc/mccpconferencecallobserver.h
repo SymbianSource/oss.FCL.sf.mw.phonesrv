@@ -115,8 +115,8 @@ public:
     * @param aCaps New capabilities for the conference call.
     * @return none
     */
-	virtual void ConferenceCallCapsChanged( 
-	             const MCCPConferenceCallObserver::TCCPConferenceCallCaps aCaps ) = 0;
+    virtual void ConferenceCallCapsChanged( 
+                 const MCCPConferenceCallObserver::TCCPConferenceCallCaps aCaps ) = 0;
     
     /**
     * An error has occurred concerning a conference call.

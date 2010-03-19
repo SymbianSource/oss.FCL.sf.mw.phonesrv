@@ -20,11 +20,11 @@
 
 
 // INCLUDE FILES
-#include    "CPhSrvSubSessionCommandHandlerNotify.h"
-#include    "CPhSrvSession.h"
-#include    "CPhSrvServer.h"
-#include    <PhCltTypes.h>
-#include    "MPhSrvComHandNegotiators.h"
+#include    "cphsrvsubsessioncommandhandlernotify.h" 
+#include    "cphsrvsession.h" 
+#include    "cphsrvserver.h" 
+#include    <phclttypes.h> 
+#include    "mphsrvcomhandnegotiators.h" 
 
 
 

@@ -35,17 +35,17 @@ public:
     /** Tone to play enumeration. Used in MCCECallObserver::PlayInbandTone*/
     enum TCCETone
         {
-	    ECCENoTone,
-	    ECCEUserBusy,
-	    ECCERadioPathNotAvailable,
-	    ECCECongestion,
-	    ECCESpecialInformation,
-	    ECCEReorder,
-	    ECCERemoteAlerting,
-	    ECCEDataCallTone,
-	    ECCENoSoundSequence,
-	    ECCEBeepSequence, /** ENoSoundSequence handled the same way */
-	    ECCECallWaiting
+        ECCENoTone,
+        ECCEUserBusy,
+        ECCERadioPathNotAvailable,
+        ECCECongestion,
+        ECCESpecialInformation,
+        ECCEReorder,
+        ECCERemoteAlerting,
+        ECCEDataCallTone,
+        ECCENoSoundSequence,
+        ECCEBeepSequence, /** ENoSoundSequence handled the same way */
+        ECCECallWaiting
         };
    
  
@@ -53,7 +53,7 @@ public:
     /** MCCE call events*/
     enum TCCECallEvent
         {
-        /** The call has been placed on hold as a result of a local action. 	*/
+        /** The call has been placed on hold as a result of a local action.     */
         ELocalHold,
         /** The call has been placed on hold by the remote connected party. */
         ERemoteHold,
@@ -77,7 +77,7 @@ public:
         ERemoteTerminated,
 
         /** The call has been joined by the remote connected party to other call(s) to create/add 
-         * to a conference call. */ 	
+         * to a conference call. */     
         /* Call has been added to remote conference call at remote end */
         ERemoteConferenceCreate,
 
@@ -85,7 +85,7 @@ public:
         ERemoteBarred,
         /** The call is being forwarded by the remote party. */
         ERemoteForwarding,
-		/** Call is waiting at the remote end. Obsolote, use supplementary service ESsCallWaiting */
+        /** Call is waiting at the remote end. Obsolote, use supplementary service ESsCallWaiting */
         ERemoteWaiting,
         /** The outgoing call has been barred by the local party. */
         ELocalBarred,
@@ -107,19 +107,19 @@ public:
         // CS call specific events
         ///////////////////////////        
        
-        /** Call has been deflected to another remote party as a result of a local action.	*/
+        /** Call has been deflected to another remote party as a result of a local action.  */
         ECCECSLocalDeflectCall,
         /** CS call specific event */
-	    ECCECSDataPortLoaned, 
+        ECCECSDataPortLoaned, 
         /** CS call specific event */
-   		ECCECSDataPortRecovered,
+        ECCECSDataPortRecovered,
 
-		/** One or more of following information has been changed
+        /** One or more of following information has been changed
          *  - Remote party name
          *  - Remote party number/address
          *  - Call parameters ( ie. service id )
-		 */	
-		ECCENotifyRemotePartyInfoChange,
+         */ 
+        ECCENotifyRemotePartyInfoChange,
 
         /** Call secure status cannot be determined */
         ECCESecureNotSpecified
@@ -145,7 +145,7 @@ public:
         /** The Loan Data Port request is currently a valid action. */
         ECCECapsLoanDataPort   =   0x00000080,
         /** The Recover Data Port request is currently a valid action. */
-        ECCECapsRecoverDataPort=   0x00000100,	
+        ECCECapsRecoverDataPort=   0x00000100,  
         /** Indicates that this call can be put on hold. This implies that the call is currently 
         active and that there is no other held call. */
         ECCECapsHold           =   0x00000200,
@@ -157,11 +157,11 @@ public:
         in the opposite state and if this is the case then both calls will be simultaneously 
         swapped to their opposite state. */
         ECCECapsSwap           =   0x00000800,
-        /** Indicates that this incoming call can be deflected to another destination.*/ 	
+        /** Indicates that this incoming call can be deflected to another destination.*/    
         ECCECapsDeflect        =   0x00001000,
         /** Indicates that this call can be transferred to the remote party of another call. 
         For this capability to be set there must be one active call and one held or 
-        dialing call.*/	
+        dialing call.*/ 
         ECCECapsTransfer       =   0x00002000,
         /** Indicates that this call can be joined either to another single call to form 
         a conference call or to an existing conference call.*/
@@ -169,7 +169,7 @@ public:
         /** Indicates that this call (within a conference call) can go into One to One mode. 
         This action would put the rest of the conference call on hold. */
         ECCECapsOneToOne       =   0x00008000,
-        /** Indicates that the user can activate a CCBS request on this failed call set-up.*/ 	
+        /** Indicates that the user can activate a CCBS request on this failed call set-up.*/   
         ECCECapsActivateCCBS   =   0x00010000,
         /** Indicates that this call is part of an alternating call and the client can call 
         SwitchAlternatingCall() on this call in order to switch it to its other mode.*/
@@ -195,7 +195,7 @@ public:
     * @param aError Occurred error as integer,
     * return none
     */
-	virtual void ErrorOccurred( const TCCPError aError ) = 0;
+    virtual void ErrorOccurred( const TCCPError aError ) = 0;
     
     /**
     * Call state notificfation. 

@@ -20,8 +20,8 @@
 #define MPHSRVEMERGENCYNUMBERMANAGER_H
 
 // INCLUDES
-#include "PhCltClientServer.h"
-#include <rphcltemergencycall.h>
+#include "PhCltClientServer.h" 
+#include <RPhCltEmergencyCall.h> 
 
 // FORWARD DECLARATIONS
 

@@ -25,39 +25,41 @@ UID             0x1000008d 0x100058E4
 CAPABILITY CAP_GENERAL_DLL
 
 SOURCEPATH      ../src
-SOURCE          PhoneGsmParser.cpp
-SOURCE          CPhoneGsmParser.cpp
-SOURCE          CPhoneGsmParserBase.cpp
-SOURCE          CPhoneGsmParserResult.cpp
-SOURCE          CPhoneGsmSsParser.cpp
-SOURCE          CPhoneGsmSsHandler.cpp
-SOURCE          CPhoneGsmSimControlParser.cpp
-SOURCE          CPhoneGsmSimControlHandler.cpp
-SOURCE          CPhoneGsmPhoneNumberParser.cpp
-SOURCE          CPhoneGsmPhoneNumberHandler.cpp
-SOURCE          CPhoneGsmOptionContainer.cpp
-SOURCE          CPhoneGsmHandlerContainer.cpp
-SOURCE          CPhoneGsmDummyParser.cpp
-SOURCE          CPhoneGsmMiscHandler.cpp
-SOURCE          CPhoneGsmParserContainer.cpp
-SOURCE          CPhoneGsmSsCallParser.cpp
-SOURCE          CPhoneGsmSsCallHandler.cpp
-SOURCE          CPhoneGsmManufacturerParser.cpp
-SOURCE          CPhoneGsmManufacturerHandler.cpp
-SOURCE          CPhoneGsmPcnProcedureParser.cpp
-SOURCE          CPhoneGsmPcnProcedureHandler.cpp
-SOURCE          CPhoneGsmEmergencyNumberParser.cpp
-SOURCE          CPhoneGsmEmergencyNumberHandler.cpp
-SOURCE          CPhoneParserFeatures.cpp
-SOURCE          CPhoneVoipNumberParser.cpp
-SOURCE          CPhoneVoipNumberHandler.cpp
-SOURCE          CPhoneGsmImeiParser.cpp
+SOURCE          PhoneGsmParser.cpp 
+SOURCE          CPhoneGsmParser.cpp 
+SOURCE          CPhoneGsmParserBase.cpp 
+SOURCE          CPhoneGsmParserResult.cpp 
+SOURCE          CPhoneGsmSsParser.cpp 
+SOURCE          CPhoneGsmSsHandler.cpp 
+SOURCE          CPhoneGsmSimControlParser.cpp 
+SOURCE          CPhoneGsmSimControlHandler.cpp 
+SOURCE          CPhoneGsmPhoneNumberParser.cpp 
+SOURCE          CPhoneGsmPhoneNumberHandler.cpp 
+SOURCE          CPhoneGsmOptionContainer.cpp 
+SOURCE          CPhoneGsmHandlerContainer.cpp 
+SOURCE          CPhoneGsmDummyParser.cpp 
+SOURCE          CPhoneGsmMiscHandler.cpp 
+SOURCE          CPhoneGsmParserContainer.cpp 
+SOURCE          CPhoneGsmSsCallParser.cpp 
+SOURCE          CPhoneGsmSsCallHandler.cpp 
+SOURCE          CPhoneGsmManufacturerParser.cpp 
+SOURCE          CPhoneGsmManufacturerHandler.cpp 
+SOURCE          CPhoneGsmPcnProcedureParser.cpp 
+SOURCE          CPhoneGsmPcnProcedureHandler.cpp 
+SOURCE          CPhoneGsmEmergencyNumberParser.cpp 
+SOURCE          CPhoneGsmEmergencyNumberHandler.cpp 
+SOURCE          CPhoneParserFeatures.cpp 
+SOURCE          CPhoneVoipNumberParser.cpp 
+SOURCE          CPhoneVoipNumberHandler.cpp 
+SOURCE          CPhoneGsmImeiParser.cpp 
 
 USERINCLUDE     ../inc 
 
+// <-- QT PHONE START-->
 // Default system include paths for MW layer modules.
-APP_LAYER_SYSTEMINCLUDE	//for Phone Settings domain API headers
-SYSTEMINCLUDE   ../../../inc    // Telephonyservices internal headers
+MW_LAYER_SYSTEMINCLUDE  
+// <-- QT PHONE END-->
+SYSTEMINCLUDE   ../../../inc // telephonyservices internal headers 
 
 LIBRARY         euser.lib
 

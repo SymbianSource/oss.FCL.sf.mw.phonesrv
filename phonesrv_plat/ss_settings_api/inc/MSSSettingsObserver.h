@@ -20,7 +20,7 @@
 #define MSSSETTINGSOBSERVER_H
 
 //  INCLUDES
-#include <RSSSettings.h>
+#include <RSSSettings.h> 
 
 // CLASS DECLARATION
 

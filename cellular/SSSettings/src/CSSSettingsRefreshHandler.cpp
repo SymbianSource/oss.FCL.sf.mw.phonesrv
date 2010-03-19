@@ -19,13 +19,13 @@
 
 // INCLUDE FILES
 #include    <centralrepository.h>
-#include    <RSatRefresh.h>
-#include    <BTSapDomainPSKeys.h>     // BT SAP Central Repository key.
+#include    <RSatRefresh.h> 
+#include    <BTSapDomainPSKeys.h> // bt sap central repository key. 
 #include    <featmgr.h>
 
-#include    "CSSSettingsRefreshHandler.h"
-#include    "SSSettingsLogger.h"
-#include    "CSSSettingsActiveObject.h"
+#include    "CSSSettingsRefreshHandler.h" 
+#include    "SSSettingsLogger.h" 
+#include    "CSSSettingsActiveObject.h" 
 
 // ============================= LOCAL FUNCTIONS ===============================
 
@@ -266,17 +266,17 @@ TBool CSSSettingsRefreshHandler::DoHandleRefresh(
                         ( TSatElementaryFiles ) changedFiles  );
                         
                     if ( aFiles.Locate( KCsp1Ef ) != KErrNotFound )
-	                    {
-	                    iRSatRefresh->RefreshEFRead( ETrue );
-	                    }
-	                else if( aFiles.Locate( KCsp2Ef ) != KErrNotFound )
-	                	{
-	                	iRSatRefresh->RefreshEFRead( ETrue );
-	                	}
-	                else
-	                	{
-	                	iRSatRefresh->RefreshEFRead( EFalse );
-	                	}
+                        {
+                        iRSatRefresh->RefreshEFRead( ETrue );
+                        }
+                    else if( aFiles.Locate( KCsp2Ef ) != KErrNotFound )
+                        {
+                        iRSatRefresh->RefreshEFRead( ETrue );
+                        }
+                    else
+                        {
+                        iRSatRefresh->RefreshEFRead( EFalse );
+                        }
                     }
                 else // ESSSettingsAllowRefresh
                     {
@@ -291,20 +291,20 @@ TBool CSSSettingsRefreshHandler::DoHandleRefresh(
             // check if some CSP file is into the list and send right response
             // since itself reads CSP files.    
             if ( !changedFiles )
-            	{
-            	if ( aFiles.Locate( KCsp1Ef ) != KErrNotFound )
+                {
+                if ( aFiles.Locate( KCsp1Ef ) != KErrNotFound )
                     {
                     iRSatRefresh->RefreshEFRead( EFalse );
                     }
                 else if( aFiles.Locate( KCsp2Ef ) != KErrNotFound )
-                	{
-                	iRSatRefresh->RefreshEFRead( EFalse );
-                	}
+                    {
+                    iRSatRefresh->RefreshEFRead( EFalse );
+                    }
                 else
-                	{
-                	iRSatRefresh->RefreshEFRead( ETrue );
-                	}
-            	}
+                    {
+                    iRSatRefresh->RefreshEFRead( ETrue );
+                    }
+                }
             __SSSLOGSTRING1("[SSS]    DoHandleRefresh: changedFiles: %d", changedFiles);
             }
         else
@@ -314,23 +314,23 @@ TBool CSSSettingsRefreshHandler::DoHandleRefresh(
         }
 
     if ( !iNotifyInfo->iObserver && ( aType == EFileChangeNotification 
-    	|| aType == ESimInitFileChangeNotification 
-    	|| aType == ESimInit ) )
-    	{
+        || aType == ESimInitFileChangeNotification 
+        || aType == ESimInit ) )
+        {
         if ( aFiles.Locate( KCsp1Ef ) != KErrNotFound )
-        	{
+            {
             iRSatRefresh->RefreshEFRead( EFalse );
             }
         else if( aFiles.Locate( KCsp2Ef ) != KErrNotFound )
-          	{
-           	iRSatRefresh->RefreshEFRead( EFalse );
-          	}           
+            {
+            iRSatRefresh->RefreshEFRead( EFalse );
+            }           
         else 
             {
             iRSatRefresh->RefreshEFRead( ETrue );
             }
-    	}	
-    	    	
+        }   
+                
     __SSSLOGSTRING("[SSS] <--CSSSettingsRefreshHandler::DoHandleRefresh");
     return allow;
     }

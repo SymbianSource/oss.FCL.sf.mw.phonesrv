@@ -20,10 +20,10 @@
 
 // INCLUDES
 
-#include    "RPhCltCommandHandler.h"
-#include    <RPhCltServer.h>
-#include    <PhCltTypes.h>
-#include    "PhCltClientServer.h"
+#include    "RPhCltCommandHandler.h" 
+#include    <rphcltserver.h> 
+#include    <phclttypes.h> 
+#include    "PhCltClientServer.h" 
 #include    <e32std.h>
 #include    <e32base.h>
 
@@ -90,7 +90,7 @@ void RPhCltCommandHandler::Atd(
 
     // This is Atd function call.
     iComHandParams().iCommandHandlerCommand = EPhCltCommandAtd;
-	iComHandParams().iTelNumber = aTPhCltTelephoneNumber;
+    iComHandParams().iTelNumber = aTPhCltTelephoneNumber;
     SendReceive( 
         EPhoneServerComHandSubSessionAtd, 
         TIpcArgs( &iComHandParams ), 

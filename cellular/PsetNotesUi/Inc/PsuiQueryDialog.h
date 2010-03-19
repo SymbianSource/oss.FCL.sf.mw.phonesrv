@@ -22,7 +22,7 @@
 #define CPSUIQUERYDIALOG_H
 
 //  INCLUDES
-#include <AknQueryDialog.h>
+#include <AknQueryDialog.h> 
 
 NONSHARABLE_CLASS ( CPsuiQueryDialog ) : public CAknQueryDialog
     {

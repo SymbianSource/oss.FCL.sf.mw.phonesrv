@@ -20,8 +20,8 @@
 #define CPSUIBARRINGOBS_H
 
 // INCLUDES
-#include <MPsetBarringObs.h>
-#include "PsuiConstants.h"
+#include <mpsetbarringobs.h> 
+#include "psuiconstants.h" 
 
 // FORWARD DECLARATION
 class MPsetCallBarring;

@@ -25,7 +25,7 @@ CAPABILITY CAP_SERVER NetworkControl
 VENDORID VID_DEFAULT
 
 TARGET          phoneserver.exe
-EPOCSTACKSIZE	0x5000
+EPOCSTACKSIZE   0x5000
 
 TARGETPATH      /system/programs
 TARGETTYPE      EXE
@@ -33,87 +33,95 @@ TARGETTYPE      EXE
 UID             0x1000008d 0x10000850
 
 SOURCEPATH     .
-START RESOURCE ../Src/Resources/PhoneServer.rss
+START RESOURCE ../src/resources/PhoneServer.rss 
 HEADER
 TARGETPATH   RESOURCE_FILES_DIR
 LANGUAGE_IDS
 END  // RESOURCE
 
-SOURCEPATH      ../Src/Standard
-SOURCE          PhSrvStartUp.cpp
-SOURCE          PhSrvSubSessionFactory.cpp
-SOURCE          PhSrvUtils.cpp
+SOURCEPATH      ../src/Standard 
+SOURCE          PhSrvStartUp.cpp 
+SOURCE          PhSrvSubSessionFactory.cpp 
+SOURCE          PhSrvUtils.cpp 
 
-SOURCE          CPhSrvScheduler.cpp
-SOURCE          CPhSrvServer.cpp
-SOURCE          CPhSrvSession.cpp
-SOURCE          CPhSrvResourceManager.cpp
-SOURCE          CPhSrvPhoneController.cpp
-SOURCE          CPhSrvEmergencyNumberManager.cpp
+SOURCE          CPhSrvScheduler.cpp 
+SOURCE          CPhSrvServer.cpp 
+SOURCE          CPhSrvSession.cpp 
+SOURCE          CPhSrvResourceManager.cpp 
+SOURCE          CPhSrvPhoneController.cpp 
+SOURCE          CPhSrvEmergencyNumberManager.cpp 
 
-SOURCE          CPhSrvSubSessionBase.cpp
-SOURCE          CPhSrvSubSessionUssd.cpp
+SOURCE          CPhSrvSubSessionBase.cpp 
+SOURCE          CPhSrvSubSessionUssd.cpp 
 
-SOURCE          PhSrvDebugInfo.cpp
+SOURCE          PhSrvDebugInfo.cpp 
 
-SOURCEPATH	../Src/Standard/Standard_Aiw
-SOURCE			CPhCltExtPhoneDialData.cpp
+SOURCEPATH  ../src/standard/Standard_Aiw 
+SOURCE          CPhCltExtPhoneDialData.cpp 
 SOURCE          cphcltdialdata.cpp
-SOURCE          CPhSrvEmergencyRequestManager.cpp
-SOURCE          CPhSrvCallRequest.cpp
-SOURCE          CPhSrvCallRequestManager.cpp
-SOURCE          CPhSrvSubSessionNotifier.cpp
-SOURCE          CPhSrvSubSessionExtCall.cpp
-SOURCE          CPhSrvSubSessionEmergencyNum.cpp
+SOURCE          CPhSrvEmergencyRequestManager.cpp 
+SOURCE          CPhSrvCallRequest.cpp 
+SOURCE          CPhSrvCallRequestManager.cpp 
+SOURCE          CPhSrvSubSessionNotifier.cpp 
+SOURCE          CPhSrvSubSessionExtCall.cpp 
+SOURCE          CPhSrvSubSessionEmergencyNum.cpp 
 
-SOURCEPATH	../Src/ImageHandler
-SOURCE		CPhSrvSubSessionImageHandler.cpp
-SOURCE		cphsrvimagesaver.cpp
+SOURCEPATH  ../src/ImageHandler 
+SOURCE      CPhSrvSubSessionImageHandler.cpp 
+SOURCE      cphsrvimagesaver.cpp
 
-SOURCEPATH      ../Src/Ussd
-SOURCE          CPhSrvUssdReplyTimer.cpp
-SOURCE          CPhSrvUssdSendHandler.cpp
-SOURCE          CPhSrvUssdReceiveHandler.cpp
-SOURCE          CPhSrvUssdManager.cpp
-SOURCE 		CPhSrvUssdNotifyNWRelease.cpp
+SOURCEPATH      ../src/Ussd 
+SOURCE          CPhSrvUssdReplyTimer.cpp 
+SOURCE          CPhSrvUssdSendHandler.cpp 
+SOURCE          CPhSrvUssdReceiveHandler.cpp 
+SOURCE          CPhSrvUssdManager.cpp 
+SOURCE      CPhSrvUssdNotifyNWRelease.cpp 
 
-SOURCEPATH      ../Src/CommandHandler
+SOURCEPATH      ../src/CommandHandler 
 #if defined( __AT_HANDLER )
-SOURCE          CPhSrvSubSessionCommandHandler.cpp
-SOURCE          CPhSrvComHandRequest.cpp
+SOURCE          CPhSrvSubSessionCommandHandler.cpp 
+SOURCE          CPhSrvComHandRequest.cpp 
 #else  // No __AT_HANDLER defined, so stub version is used.
-SOURCE          CPhSrvSubSessionCommandHandlerStub.cpp
-SOURCE          CPhSrvSubSessionCommandHandlerNotifyStub.cpp
+SOURCE          cphsrvsubsessioncommandhandlerstub.cpp 
+SOURCE          cphsrvsubsessioncommandhandlernotifystub.cpp 
 #endif // __AT_HANDLER
 
-SOURCEPATH      ../Src/CommandHandler/Commandhandler_Aiw
+SOURCEPATH      ../src/commandhandler/Commandhandler_Aiw 
 
 #if defined( __AT_HANDLER )
-SOURCE          CPhSrvComHandRequestManager.cpp
+SOURCE          CPhSrvComHandRequestManager.cpp 
 #else  // No __AT_HANDLER defined, so stub version is used.
-SOURCE          CPhSrvComHandRequestManagerStub.cpp
+SOURCE          cphsrvcomhandrequestmanagerstub.cpp 
 #endif // __AT_HANDLER
 
-SOURCEPATH      ../Src/Messenger
-SOURCE          CPhSrvMessengerObject.cpp
-SOURCE          CPhSrvMessengerRequestManager.cpp
-SOURCE          CPhSrvSubSessionMessenger.cpp
+SOURCEPATH      ../src/Messenger 
+#if defined( __CS_VIDEO_TELEPHONY )
+SOURCE          CPhSrvMessengerObject.cpp 
+SOURCE          CPhSrvMessengerRequestManager.cpp 
+SOURCE          CPhSrvSubSessionMessenger.cpp 
+#else  // No __CS_VIDEO_TELEPHONY defined, so stub version is used.
+SOURCE          cphsrvmessengerrequestmanagerstub.cpp 
+SOURCE          cphsrvsubsessionmessengerstub.cpp 
+#endif // __CS_VIDEO_TELEPHONY
 
-USERINCLUDE     ../Inc/Standard
-USERINCLUDE     ../Inc/Standard/Standard_Aiw
-USERINCLUDE     ../Inc/Ussd
-USERINCLUDE     ../Inc/CommandHandler
-USERINCLUDE     ../Inc/Messenger
-USERINCLUDE     ../Inc/ImageHandler
+USERINCLUDE     ../inc/Standard 
+USERINCLUDE     ../inc/standard/Standard_Aiw 
+USERINCLUDE     ../inc/Ussd 
+USERINCLUDE     ../inc/CommandHandler 
+USERINCLUDE     ../inc/Messenger 
+USERINCLUDE     ../inc/ImageHandler 
 
-USERINCLUDE     ../../phoneclient/Inc/SharedClientServer
+USERINCLUDE     ../../phoneclient/inc/SharedClientServer 
 
-APP_LAYER_SYSTEMINCLUDE
+// <-- QT PHONE START-->
+MW_LAYER_SYSTEMINCLUDE
+// <-- QT PHONE END-->
+
 SYSTEMINCLUDE   ../../../inc
 SYSTEMINCLUDE    ../../inc // for RPhCltEmergencyCall.h, CPhCltExtPhoneDialData.h
 
 // TEMPORARY DEFINITION FOR TELEPHONY VARIATION HEADERS
-SYSTEMINCLUDE	../../../../../app/phone/inc
+SYSTEMINCLUDE   ../../../../../app/phone/inc
 
 LIBRARY        efsrv.lib
 LIBRARY        apgrfx.lib
@@ -131,9 +139,9 @@ LIBRARY        etelmm.lib
 LIBRARY        commonengine.lib
 LIBRARY        featmgr.lib
 LIBRARY        fbscli.lib 
-LIBRARY		   estor.lib	
+LIBRARY        estor.lib    
 LIBRARY        centralrepository.lib
-LIBRARY        imageconversion.lib 	
+LIBRARY        imageconversion.lib  
 LIBRARY        bitmaptransforms.lib 
 
 //  End of File  

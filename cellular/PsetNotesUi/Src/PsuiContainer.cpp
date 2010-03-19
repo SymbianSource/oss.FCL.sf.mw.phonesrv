@@ -17,7 +17,7 @@
 
 
 //INCLUDES
-#include <PsuiContainer.h>      
+#include <psuicontainer.h> 
 
 #include "PsuiResourceLoader.h" 
 

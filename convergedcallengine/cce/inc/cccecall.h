@@ -98,13 +98,13 @@ private:
     class TStateTransition
         {
     public:
-    	TStateTransition() 
-    		{
-    		iState = CCPCall::EStateIdle;
-    		iInband = EFalse;
-    		}
+        TStateTransition() 
+            {
+            iState = CCPCall::EStateIdle;
+            iInband = EFalse;
+            }
 
-    	CCPCall::TCallState iState;
+        CCPCall::TCallState iState;
         TBool iInband;
         };
 public:
@@ -262,7 +262,7 @@ public:
     TInt Release();
 
     /** @see MCCECall::ReplaceActive */
-	TInt ReplaceActive();
+    TInt ReplaceActive();
 
     /** @see MCCECall::Hold */
     TInt Hold();

@@ -23,9 +23,9 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <PhCltTypes.h>
-//#include "CPhCltCommandHandlerNotify.h"
-#include "CPhCltCommandHandler.h"
+#include <phclttypes.h> 
+//#include "cphcltcommandhandlernotify.h" 
+#include "cphcltcommandhandler.h" 
 
 // FORWARD DECLARATIONS
 class RPhCltServer;
@@ -77,10 +77,10 @@ class RPhCltCommandHandler
         * @param aTelephoneNumber The telephony number .
         */
             
-		void Atd(
+        void Atd(
             TRequestStatus& aStatus, 
             const TPhCltTelephoneNumber& aTelephoneNumber );
-		
+        
 
         /**
         * Answer the call. 

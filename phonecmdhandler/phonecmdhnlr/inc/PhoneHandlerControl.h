@@ -20,11 +20,11 @@
 #define CPHONEHANDLERCONTROL_H
 
 //  INCLUDES
-#include "PhoneHandlerService.h"
-#include <RemConExtensionApi.h>
-#include <RemConCallHandlingTargetObserver.h>
+#include "PhoneHandlerService.h" 
+#include <RemConExtensionApi.h> 
+#include <RemConCallHandlingTargetObserver.h> 
 #include <e32base.h>
-#include <PhCltTypes.h>	
+#include <phclttypes.h> 
 #include <e32property.h> 
 
 // CONSTANTS
@@ -51,15 +51,15 @@ class CPhoneHandlerCallState;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerControl ) : public CBase,
-											public MRemConCallHandlingTargetObserver
-	{
+                                            public MRemConCallHandlingTargetObserver
+    {
     public:  // Constructors and destructor
     
         /**
         * Two-phased constructor.
         */
         static CPhoneHandlerControl* NewL( 
-        	CRemConInterfaceSelector* aIfSelector = NULL );
+            CRemConInterfaceSelector* aIfSelector = NULL );
 
         /**
         * Destructor.
@@ -68,7 +68,7 @@ NONSHARABLE_CLASS( CPhoneHandlerControl ) : public CBase,
 
     public: // New functions
     
-    	/**
+        /**
         * Returns phone number for dial or speed dial.
         * @since S60 3.1
         * @param void
@@ -107,36 +107,36 @@ NONSHARABLE_CLASS( CPhoneHandlerControl ) : public CBase,
         * @return TChar DTMF tone
         */
         const TChar& Tone() const;
-    	
-    	/**
+        
+        /**
         * Returns reference to API used to communicate with accessory who 
         * initiated key press.
         * @since S60 3.1
         * @param void
         * @return CRemConCallHandlingTarget& reference to API
-        */	
-		CRemConCallHandlingTarget& CommandInitiator() const;
-		
-		/**
+        */  
+        CRemConCallHandlingTarget& CommandInitiator() const;
+        
+        /**
         * Informs the latest call state.
         * @since S60 3.1
         * @param aState Call state from KTelephonyCallState P&S key
         * @return void
         */
-		void NotifyCallState( const TInt aState );
+        void NotifyCallState( const TInt aState );
 
-		/**
+        /**
         * Get iSwitchCall flag, if this flag is ETrue, it means
         * "Send" key in remote target is pressed in multiparty call,
         * otherwise EFalse
         * @since S60 3.1
         * @return TBool
         */
-		TBool SwitchCall();
+        TBool SwitchCall();
 
-	    	        
+                    
     public: // Functions from base classes
-    	        
+                
     protected:  // New functions
         
     protected:  // Functions from base classes
@@ -152,93 +152,84 @@ NONSHARABLE_CLASS( CPhoneHandlerControl ) : public CBase,
         * By default Symbian 2nd phase constructor is private.
         */
         void ConstructL( CRemConInterfaceSelector* aIfSelector = NULL );
-				
-		/**
-		* From MRemConCallHandlingTargetObserver. Answer an incoming phone call.
-		*/
-		virtual void AnswerCall();
+                
+        /**
+        * From MRemConCallHandlingTargetObserver. Answer an incoming phone call.
+        */
+        virtual void AnswerCall();
 
-		/**
-		* From MRemConCallHandlingTargetObserver. End an incoming/ongoing 
-		* phone call.
-		*/
-		virtual void EndCall();
-	
-		/**
-		* From MRemConCallHandlingTargetObserver. Answer an incoming phone call, 
-		* or end an ongoing call according to call status. 
-		*/
-		virtual void AnswerEndCall();
-		
-		/**
-		* From MRemConCallHandlingTargetObserver. Make a voice call.
-		*/
-		virtual void VoiceDial( const TBool aActivate );
-	
-		/**
-		* From MRemConCallHandlingTargetObserver. Redial last phone call.
-		*/
-		virtual void LastNumberRedial();
-	
-		/**
-		* From MRemConCallHandlingTargetObserver. Dial a phone call.
-		*/
-		virtual void DialCall( const TDesC8& aTelNumber );
-	
-		/**
-		* From MRemConCallHandlingTargetObserver. Make multiparty call.
-		*/
-		virtual void MultipartyCalling( const TDesC8& aData );
-	
-		/**
-		* Generates DTMF signal.
-		*/
-		virtual void GenerateDTMF( const TChar aChar );
-	
-		/**
-		* From MRemConCallHandlingTargetObserver. Make a speed dial call.
-		*/
-		virtual void SpeedDial( const TInt aIndex );
-		
-		/**
-		* Starts processing service corresponding to key press.
-		*/
-		void StartProcessing( 
-			const TRemConExtCallHandlingApiOperationId aOperation );
-		
-		/**
-		* Creates service.
-		*/
-		MPhoneHandlerService* CreateServiceL( 
-			const TRemConExtCallHandlingApiOperationId aOperation );
-		
-		/**
-		* Initializes speed dial.
-		*/
-		void InitializeSpeedDialL();
-		
-		/**
-		* Returns call status.
-		*/
-		void CallStatusL( RPhone::TLineInfo& aLineInfo );
-		
-		/**
-        * Returns autolock status
+        /**
+        * From MRemConCallHandlingTargetObserver. End an incoming/ongoing 
+        * phone call.
         */
-		TBool IsAutoLockOn() const;
-		
-		/**
-        * Returns BT accessory command status
+        virtual void EndCall();
+    
+        /**
+        * From MRemConCallHandlingTargetObserver. Answer an incoming phone call, 
+        * or end an ongoing call according to call status. 
         */
-		TBool IsBTAccessoryCmd() const;
-		
+        virtual void AnswerEndCall();
+        
+        /**
+        * From MRemConCallHandlingTargetObserver. Make a voice call.
+        */
+        virtual void VoiceDial( const TBool aActivate );
+    
+        /**
+        * From MRemConCallHandlingTargetObserver. Redial last phone call.
+        */
+        virtual void LastNumberRedial();
+    
+        /**
+        * From MRemConCallHandlingTargetObserver. Dial a phone call.
+        */
+        virtual void DialCall( const TDesC8& aTelNumber );
+    
+        /**
+        * From MRemConCallHandlingTargetObserver. Make multiparty call.
+        */
+        virtual void MultipartyCalling( const TDesC8& aData );
+    
+        /**
+        * Generates DTMF signal.
+        */
+        virtual void GenerateDTMF( const TChar aChar );
+    
+        /**
+        * From MRemConCallHandlingTargetObserver. Make a speed dial call.
+        */
+        virtual void SpeedDial( const TInt aIndex );
+        
+        /**
+        * Starts processing service corresponding to key press.
+        */
+        void StartProcessing( 
+            const TRemConExtCallHandlingApiOperationId aOperation );
+        
+        /**
+        * Creates service.
+        */
+        MPhoneHandlerService* CreateServiceL( 
+            const TRemConExtCallHandlingApiOperationId aOperation );
+        
+        /**
+        * Initializes speed dial.
+        */
+        void InitializeSpeedDialL();
+        
+        /**
+        * Returns call status.
+        */
+        void CallStatusL( RPhone::TLineInfo& aLineInfo );
+        
+                
     private:    // Data
         
         // Provides e.g. service to listen accessory key presses.
-        CRemConInterfaceSelector* iInterfaceSelector;	// owned
+        CRemConInterfaceSelector* iInterfaceSelector;   // owned
         
         //  API notifying PhoneCmdHandler about call handling key presses.
-        CRemConCallHandlingTarget* iTarget;	// owned
+        CRemConCallHandlingTarget* iTarget; // owned
                 
         // Phone number for dial call/speed dial.
         TPhCltTelephoneNumber iTelNumber;

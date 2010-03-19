@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include    "CaUiEngFactImpl.h"
-#include    "CaUiEngine.h"
+#include    "cauiengfactimpl.h" 
+#include    "cauiengine.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

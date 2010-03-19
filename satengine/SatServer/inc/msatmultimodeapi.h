@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -138,6 +138,34 @@ public:
      * @return ETrue if there is an incoming call
      */
     virtual TBool IsCallIncoming() = 0;
+
+    /**
+     * Access RMobileCall::NotifyMobileCallStatusChange
+     */
+    virtual void NotifyMobileCallStatusChange( TRequestStatus& aReqStatus,
+                    RMobileCall::TMobileCallStatus& aStatus) = 0; 
+
+    /**
+     * Access RMobileCall::NotifyStatusChangeCancel
+     */
+    virtual void NotifyCallStatusChangeCancel() = 0;
+
+    /**
+     * Access RMobilePhone::TerminateAllCalls
+     */
+    virtual void TerminateAllCalls(TRequestStatus& aReqStatus) = 0;
+    
+    /**
+     * Access RMboileCall::GetMobileCallInfo
+     */
+    virtual TInt GetMobileCallInfo(TDes8& aCallInfo) = 0;
+
+    /**
+     * Access RMboileCall::DialEmergencyCall
+     */
+    virtual void DialEmergencyCall(TRequestStatus& aReqStatus, 
+                const TDesC& aNumber) = 0;
+    
     };
 
 #endif // MSATMULTIMODEAPI_H

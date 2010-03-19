@@ -18,14 +18,14 @@
 
 
 // INCLUDE FILES
-#include    "PSetCallDivertingBasicImpl.h"
-#include    "PSetCallDivertingDualAffectImpl.h"
-#include    "PSetCallDivertingCreator.h"
-#include    "PsetVariationProxy.h"
+#include    "PSetCallDivertingBasicImpl.h" 
+#include    "PSetCallDivertingDualAffectImpl.h" 
+#include    "PSetCallDivertingCreator.h" 
+#include    "PsetVariationProxy.h" 
 
-#include    <PsetCallDiverting.h>
+#include    <psetcalldiverting.h> 
 #include    <centralrepository.h>
-#include    <telservicesinternalcrkeys.h> // Telephony service local variation keys.
+#include    <telservicesinternalcrkeys.h> // telephony service local variation keys. 
 #include    <telservicesvariant.hrh>
 
 

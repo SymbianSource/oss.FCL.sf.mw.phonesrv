@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneGsmEmergencyNumberHandler.h"
-#include    "CPhoneGsmEmergencyNumberParser.h"
-#include    "CPhoneGsmParserResult.h"
+#include    "cphonegsmemergencynumberhandler.h" 
+#include    "CPhoneGsmEmergencyNumberParser.h" 
+#include    "cphonegsmparserresult.h" 
 
 // CONSTANTS
 const TInt KPhoneEmergencyNumberDialParam = 0;

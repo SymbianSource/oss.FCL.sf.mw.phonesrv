@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_4_0.dtd" [
+<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_5_1.dtd" [
   <!ENTITY layer_real_source_path "sf/mw/phonesrv" >
 ]>
 
-<SystemDefinition name="phonesrv" schema="1.4.0">
+<SystemDefinition name="phonesrv" schema="1.5.1">
   <systemModel>
     <layer name="mw_layer">
       <module name="phonesrv">
-	      <unit name="phonesrv" unitID="tedo.phonesrv" bldFile="&layer_real_source_path;/group" mrp="" />
+	     <unit name="phonesrv" unitID="tedo.phonesrv" bldFile="&layer_real_source_path;" mrp="" proFile="phonesrv.pro" />
       </module>
     </layer>
 
@@ -22,7 +22,7 @@
         <unit unitID="tedo.dialutils.test" name="dialutils.test" bldFile="&layer_real_source_path;/phoneclientserver/dialutils/tsrc/public/basic/group" mrp="" />
         <unit unitID="tedo.phoneclient.test" name="phoneclient.test" bldFile="&layer_real_source_path;/phoneclientserver/phoneclient/tsrc/public/basic/group" mrp="" />
         <unit unitID="tedo.call_information_api.test" name="call_information_api.test" bldFile="&layer_real_source_path;/phonesrv_plat/call_information_api/tsrc/group" mrp="" />
-	<unit unitID="tedo.sat_client_api.test" name="sat_client_api.test" bldFile="&layer_real_source_path;/phonesrv_plat/sat_client_api/tsrc/group" mrp="" />
+        <unit unitID="tedo.sat_client_api.test" name="sat_client_api.test" bldFile="&layer_real_source_path;/phonesrv_plat/sat_client_api/tsrc/group" mrp="" />
         <unit unitID="tedo.sat_refresh_api.test" name="sat_refresh_api.test" bldFile="&layer_real_source_path;/phonesrv_plat/sat_refresh_api/tsrc/group" mrp="" />
         <unit unitID="tedo.sat_service_api.test" name="sat_service_api.test" bldFile="&layer_real_source_path;/phonesrv_plat/sat_service_api/tsrc/group" mrp="" />
         <unit unitID="tedo.telephony_mediator_api.test" name="telephony_mediator_api.test" bldFile="&layer_real_source_path;/phonesrv_plat/telephony_mediator_api/tsrc/ut_telephony_mediator_api/group" mrp="" /> 		

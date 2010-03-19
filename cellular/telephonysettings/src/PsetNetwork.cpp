@@ -18,18 +18,18 @@
 
 
 //  INCLUDE FILES
-#include "MPsetNetworkInfoObs.h"
-#include "PsetNetwork.h"
-#include "PsetSAObserver.h"     
-#include "PSetPanic.h"          
-#include "PsetConstants.h"
-#include "MPsetNetworkSelect.h"
+#include "mpsetnetworkinfoobs.h" 
+#include "psetnetwork.h" 
+#include "psetsaobserver.h" 
+#include "PSetPanic.h" 
+#include "psetconstants.h" 
+#include "mpsetnetworkselect.h" 
 #include <etelmm.h>
 #include <mmretrieve.h>
 #include <rmmcustomapi.h>
 
 #include <e32svr.h>
-#include "PhoneSettingsLogger.h"
+#include "PhoneSettingsLogger.h" 
 
 //  LOCAL CONSTANTS AND MACROS  
 _LIT( KPSNameOfClass, "CPsetNetwork" );
@@ -564,7 +564,7 @@ EXPORT_C TInt CPsetNetwork::ResetNetworkSearch()
     __PHSLOGSTRING("[PHS]--> CPsetNetwork::ResetNetworkSearch");
     RMmCustomAPI customApi;
     TInt error = customApi.Open( iPhone );
-    if	(error == KErrNone)
+    if  (error == KErrNone)
         {
         customApi.ResetNetServer();
         }

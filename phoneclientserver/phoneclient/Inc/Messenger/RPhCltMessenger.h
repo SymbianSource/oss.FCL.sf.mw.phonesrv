@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <CPhCltMessenger.h>
+#include <cphcltmessenger.h> 
 
 // FORWARD DECLARATIONS
 class RPhCltServer;

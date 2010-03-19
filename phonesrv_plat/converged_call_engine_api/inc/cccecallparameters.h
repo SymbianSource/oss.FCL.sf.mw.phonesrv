@@ -102,11 +102,11 @@ class CCCECallParameters: public CCCPCallParameters
         TBuf<KCCPUUSIdSize> iUUSId;
         /** Capability configuration parameters for the first bearer. */
         TBuf8<KCCEBearerMaxSize> iBearer;
-    	/** A buffer to hold the sub-address of a telephone number.  */
-    	TBuf<KCCESubAddressMaxSize> iSubAddress;
-    	/** Call origin.  */
-    	TCCECallOrigin iOrigin;
-	
+        /** A buffer to hold the sub-address of a telephone number.  */
+        TBuf<KCCESubAddressMaxSize> iSubAddress;
+        /** Call origin.  */
+        TCCECallOrigin iOrigin;
+    
     };
 
 #endif

@@ -18,16 +18,16 @@
 
 
 // INCLUDE FILES
-#include    "CServiceRequest.h"
-#include    "MServiceRequestObserver.h"
-#include    <ServiceRequest.rsg>
+#include    "CServiceRequest.h" 
+#include    "MServiceRequestObserver.h" 
+#include    <servicerequest.rsg> 
 
-#include    <AknWaitDialog.h>
-#include    <AknGlobalNote.h>
+#include    <AknWaitDialog.h> 
+#include    <AknGlobalNote.h> 
 #include    <aknnotewrappers.h>
 #include    <avkon.hrh>
 
-#include    <StringLoader.h>
+#include    <StringLoader.h> 
 #include    <gsmerror.h>
 #include    <exterror.h>
 #include    <ConeResLoader.h> 

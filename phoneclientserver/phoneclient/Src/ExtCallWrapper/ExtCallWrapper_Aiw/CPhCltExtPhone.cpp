@@ -19,9 +19,9 @@
 
 // INCLUDE FILES
 #include    <e32std.h>
-#include    "MPhCltExtPhoneObserver.h"
-#include    "CPhCltExtPhone.h"
-#include    "CPhCltExtPhoneDialData.h"
+#include    "MPhCltExtPhoneObserver.h" 
+#include    "CPhCltExtPhone.h" 
+#include    "CPhCltExtPhoneDialData.h" 
 
 // LOCAL CONSTANTS AND MACROS
 

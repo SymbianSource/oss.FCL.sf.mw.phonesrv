@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include "TPhCltExtPhoneDialData.h"
+#include "tphcltextphonedialdata.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -600,7 +600,7 @@ EXPORT_C void TPhCltExtPhoneDialData::AsIPCStruct( TPhCltCallArgs& aReturn )
     aReturn.iNumberType = iNumberType;
     aReturn.iSubAddress = iSubAddress;
     aReturn.iBearer = iBearer;
-	aReturn.iRedialMaximumDuration = iRedialMaximumDuration;
+    aReturn.iRedialMaximumDuration = iRedialMaximumDuration;
     // Flags
     aReturn.iFlags = TPhCltCallArgs::EPhCltCallFlagsDefault;
 

@@ -73,10 +73,10 @@ void CCCEPluginManager::ConstructL()
 #if 0
 // capabilities still todo here
 
-	static _LIT_SECURITY_POLICY_PASS( KAllowAllPolicy );
-	static _LIT_SECURITY_POLICY_C2(	KICMPolicy, 
-									ECapabilityNetworkControl,
-									ECapabilityWriteDeviceData);	
+    static _LIT_SECURITY_POLICY_PASS( KAllowAllPolicy );
+    static _LIT_SECURITY_POLICY_C2( KICMPolicy, 
+                                    ECapabilityNetworkControl,
+                                    ECapabilityWriteDeviceData);    
 
         
     // define first property to be integer type

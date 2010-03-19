@@ -22,7 +22,7 @@
 
 
 //  INCLUDES
-#include    <DialUtils.h>
+#include    <dialutils.h> 
 
 
 /**

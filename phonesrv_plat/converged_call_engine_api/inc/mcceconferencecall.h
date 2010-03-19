@@ -56,39 +56,39 @@ public:
     */
     virtual TInt Release() = 0;
 
-	/**
-	* Adds new call to conference call.
-	* @since S60 3.2
-	* @param aCall Call to be added to conference.
-	* @return none 
-	* @leave In case of an error system wide error code
-	* @leave KErrAlreadyExists call is already part of conference.
-	* @leave KErrNotReady In case conference is not on hold or idle.
-	* @pre Conference call state is MCCEConferenceCallObserver::ECCEConferenceHold or 
-	* MCCEConferenceCallObserver::ECCEConferenceIdle. 
-	* @post Added call is notified calling MCCEConferenceCallObserver::CallEventOccurred.
-	* @post If conference becomes active regarding its internal plug-in based logic state is 
-	* MCCEConferenceCallObserver::ECCEConferenceActive.
-	*/
+    /**
+    * Adds new call to conference call.
+    * @since S60 3.2
+    * @param aCall Call to be added to conference.
+    * @return none 
+    * @leave In case of an error system wide error code
+    * @leave KErrAlreadyExists call is already part of conference.
+    * @leave KErrNotReady In case conference is not on hold or idle.
+    * @pre Conference call state is MCCEConferenceCallObserver::ECCEConferenceHold or 
+    * MCCEConferenceCallObserver::ECCEConferenceIdle. 
+    * @post Added call is notified calling MCCEConferenceCallObserver::CallEventOccurred.
+    * @post If conference becomes active regarding its internal plug-in based logic state is 
+    * MCCEConferenceCallObserver::ECCEConferenceActive.
+    */
     virtual void AddCallL( MCCECall& aCall ) = 0;
      
-	/**
-	* Removes call from conference call. 
-	* @since S60 3.2
-	* @param aCall Call to be removed from conference
-	* @return none
-	* @leave In case of an error system wide error code
-	* @leave KErrNotFound call was not part of conference
-	* @leave KErrNotReady In case conference is not connected 
-	* (MCCEConferenceCallObserver::ECCEConferenceActive) state.
-	* @pre Conference call state is MCCEConferenceCallObserver::ECCEConferenceActive or 
-	* MCCEConferenceCallObserver::ECCEConferenceIdle. 
-	* @post Removed call is notified calling MCCEConferenceCallObserver::CallEventOccurred.
-	* @post If conference becomes idle regarding its internal plug-in based logic state is 
-	* MCCEConferenceCallObserver::ECCEConferenceIdle. 
-	* 
-	*/
-	virtual void RemoveCallL( MCCECall& aCall ) = 0;
+    /**
+    * Removes call from conference call. 
+    * @since S60 3.2
+    * @param aCall Call to be removed from conference
+    * @return none
+    * @leave In case of an error system wide error code
+    * @leave KErrNotFound call was not part of conference
+    * @leave KErrNotReady In case conference is not connected 
+    * (MCCEConferenceCallObserver::ECCEConferenceActive) state.
+    * @pre Conference call state is MCCEConferenceCallObserver::ECCEConferenceActive or 
+    * MCCEConferenceCallObserver::ECCEConferenceIdle. 
+    * @post Removed call is notified calling MCCEConferenceCallObserver::CallEventOccurred.
+    * @post If conference becomes idle regarding its internal plug-in based logic state is 
+    * MCCEConferenceCallObserver::ECCEConferenceIdle. 
+    * 
+    */
+    virtual void RemoveCallL( MCCECall& aCall ) = 0;
 
     /**
     * Returns call count of the conference call. 
@@ -136,15 +136,15 @@ public:
      
     /**
     * Private call with one call from conference call.
-	* @since S60 3.2
-	* @param aCall
+    * @since S60 3.2
+    * @param aCall
     * @return none
-	* @leave In case of an error system wide error code
-	* @leave KErrNotFound call was not part of conference
-	* @post After successful actions conference call state is MCCEConferenceCallObserver::ECCEConferenceHold 
-	* (if idle state will not be applied as call count decreases) and private call will become active one. 
-	*/
-	virtual void GoOneToOneL( MCCECall& aCall ) = 0;
+    * @leave In case of an error system wide error code
+    * @leave KErrNotFound call was not part of conference
+    * @post After successful actions conference call state is MCCEConferenceCallObserver::ECCEConferenceHold 
+    * (if idle state will not be applied as call count decreases) and private call will become active one. 
+    */
+    virtual void GoOneToOneL( MCCECall& aCall ) = 0;
 
     /**
     * Gets conference participants
@@ -165,15 +165,15 @@ public:
     */
     virtual void SetObserver( const MCCEConferenceCallObserver& aObserver ) = 0;
 
-	/**
-	* Returns duration of a conference call. 
-	* CCE will count duration from connected state to idle state.
-	*
-	* @since S60 v3.2
-	* @param none
-	* @return On return contains the call duration in seconds.
-	*/
-	virtual TTimeIntervalSeconds CallDuration() const = 0;
+    /**
+    * Returns duration of a conference call. 
+    * CCE will count duration from connected state to idle state.
+    *
+    * @since S60 v3.2
+    * @param none
+    * @return On return contains the call duration in seconds.
+    */
+    virtual TTimeIntervalSeconds CallDuration() const = 0;
     };
 
 

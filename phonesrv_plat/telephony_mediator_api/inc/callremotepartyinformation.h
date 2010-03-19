@@ -20,7 +20,7 @@
 #define CALLREMOTEPARTYINFORMATION_H
 
 #include <e32base.h>
-#include <MCallRemotePartyInfo.h>
+#include <mcallremotepartyinfo.h> 
 
 class RWriteStream;
 

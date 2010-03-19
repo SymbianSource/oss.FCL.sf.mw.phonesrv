@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneGsmOptionContainer.h"
-#include    "PhoneGsmParser.h"
-#include    "CPhoneParserFeatures.h"
+#include    "CPhoneGsmOptionContainer.h" 
+#include    "phonegsmparser.h" 
+#include    "CPhoneParserFeatures.h" 
 
 // CONSTANTS
 const TInt KPhoneGsmOptionGranularity = 5;

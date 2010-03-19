@@ -23,7 +23,7 @@
 //  INCLUDES
 #include <e32base.h>
 #include <badesca.h>
-#include <PhCltTypes.h>
+#include <phclttypes.h> 
 #include <spdefinitions.h>  //RIdArray
 
 /**

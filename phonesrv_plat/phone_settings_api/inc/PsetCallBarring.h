@@ -21,9 +21,9 @@
 #define     PSETCALLBARRING_H
 
 // INCLUDES
-#include "MPsetBarringObs.h"    
-#include "MPsetCallBarring.h"   
-#include "MSSSettingsObserver.h"
+#include "mpsetbarringobs.h" 
+#include "MPsetCallBarring.h" 
+#include "msssettingsobserver.h" 
 #include "nwdefs.h"             
 #include <mmretrieve.h>
 #include <etelmm.h>
@@ -39,8 +39,8 @@ class RSSSettings;
 *  @since 1.0
 */
 class CPsetCallBarring : public CActive,
-						 public MPsetCallBarring,
-						 public MSSSettingsObserver
+                         public MPsetCallBarring,
+                         public MSSSettingsObserver
     {
     public:
 
@@ -143,7 +143,7 @@ class CPsetCallBarring : public CActive,
 
     private:
     
-    	void ValidateBsc( TBasicServiceGroups& aBsc );
+        void ValidateBsc( TBasicServiceGroups& aBsc );
 
         void SetObserver( MPsetBarringObserver& aObserver );
 

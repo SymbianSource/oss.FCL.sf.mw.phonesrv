@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -14,13 +14,9 @@
 * Description:  Handles SetUpCall command
 *
 */
-
-
-#include    <aiwinternaldialdata.h>
-#include    <aiwdialdataext.h>
-
+#include    <e32base.h>
+#include    <etelmm.h>
 #include    <exterror.h>
-#include    <ccpdefs.h>
 
 #include    "MSatApi.h"
 #include    "MSatUtils.h"
@@ -28,6 +24,7 @@
 #include    "MSatUiSession.h"
 #include    "SatSOpcodes.h"
 #include    "MSatSUiClientHandler.h"
+#include    "csetupcallrequesthandler.h"
 #include    "CSetUpCallHandler.h"
 #include    "TSatExtErrorUtils.h"
 #include    "SatLog.h"
@@ -45,9 +42,6 @@ const TUint8 KWildChar( 0x77 );
 const TUint8 KExpansionChar( 0x2E );
 
 _LIT( KFixedSimEmergencyNumber, "112" );
-_LIT8( KContentType, "*" );
-// 3GPP TS 24.008
-const TInt KMaximumPhoneNumberLength( 80 );
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -80,17 +74,9 @@ CSetUpCallHandler::~CSetUpCallHandler()
 
     Cancel();
 
-    if ( iServiceHandler )
-        {
-        delete iServiceHandler;
-        iServiceHandler = NULL;
-        }
-
-    if ( iEmergencyCallApi )
-        {
-        delete iEmergencyCallApi;
-        iEmergencyCallApi = NULL;
-        }
+    
+    delete iRequestHandler;
+    iRequestHandler = NULL;
 
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::~CSetUpCallHandler exiting" )
     }
@@ -145,15 +131,15 @@ void CSetUpCallHandler::ClientResponse()
     if ( iQueryRsp.iAccepted )
         {
         // User accepted the call, make the call
-        TRAPD( error, DoSetupCallL() );
-
-        if ( KErrNone != error )
+        if( iRequestHandler )
             {
-            LOG2( NORMAL, 
-            "SETUPCALL: CSetUpCallHandler::ClientResponse Dial failed: %i", 
-            error )
-
-            CompleteSetupCall( RSat::KCmdDataNotUnderstood );
+            DoSetupCall( *iRequestHandler );
+            }
+        else
+            {
+            CompleteSetupCall(
+                RSat::KMeUnableToProcessCmd,
+                RSat::KNoSpecificMeProblem );
             }
         }
     else
@@ -188,6 +174,10 @@ void CSetUpCallHandler::DoCancel()
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::DoCancel calling" )
 
     iUtils->USatAPI().NotifySetUpCallCancel();
+    if( iRequestHandler )
+        {
+        iRequestHandler->Cancel();
+        }
 
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::DoCancel exiting" )
     }
@@ -391,15 +381,13 @@ void CSetUpCallHandler::HandleCommand()
         {
         LOG( SIMPLE, 
         "SETUPCALL: CSetUpCallHandler::HandleCommand iEmergencyCall true" )
-        TRAPD( err, CreateEmergencyCallL() );
-        if ( KErrNone != err )
+        if ( iRequestHandler )
             {
-            LOG2( SIMPLE, 
-            "SETUPCALL: CSetUpCallHandler::HandleCommand DialEmergencyCallL \
-            failed: %d", err )
-
+            CreateEmergencyCall( *iRequestHandler );
+            }
+        else
+            {
             iEmergencyCall = EFalse;
-
             // Set the terminal response info.
             CompleteSetupCall(
                 RSat::KMeUnableToProcessCmd,
@@ -520,123 +508,52 @@ void CSetUpCallHandler::UiLaunchFailed()
     }
 
 // -----------------------------------------------------------------------------
-// From class MAiwNotifyCallback.
-// Called when dial request is completed.
+// CSetUpCallHandler::SetupCallRequestComplete
+// (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-TInt CSetUpCallHandler::HandleNotifyL(
-    const TInt aCmdId,
-    const TInt aEventId,
-    CAiwGenericParamList& aEventParamList,
-    const CAiwGenericParamList& /*aInParamList*/ )
+void CSetUpCallHandler::SetupCallRequestComplete( TInt aErrCode )
     {
-    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::HandleNotifyL calling" )
+    LOG( SIMPLE,
+    "SETUPCALL: CSetUpCallHandler::SetupCallRequestComplete calling" )
 
-    if ( KAiwCmdCall == aCmdId )
+    LOG2( NORMAL,
+    "SETUPCALL: CSetUpCallHandler::SetupCallRequestComplete aErrCode %d",
+    aErrCode )
+    
+    if( !iEmergencyCall )
         {
-        LOG2( SIMPLE, 
-        "SETUPCALL: CSetUpCallHandler::HandleNotifyL  event: %d", aEventId )
-        switch ( aEventId )
-            {
-            case KAiwEventError:
-            case KAiwEventCompleted:
-            case EGenericParamError: // This is due CCaUiPlugin behaviour.
-                                     // Also overlaps event KAiwEventStarted.
-                {
-                LOG( SIMPLE, 
-                "SETUPCALL: CSetUpCallHandler::HandleNotifyL SetupCall \
-                Completed" )
-
-                // Fetch completion status.
-                TInt index( 0 );
-                const TAiwGenericParam* param = aEventParamList.FindFirst(
-                    index, EGenericParamError );
-
-                if ( param )
-                    {
-                    LOG( SIMPLE, 
-                    "SETUPCALL: CSetUpCallHandler::HandleNotifyL param true" )
-                    
-                    // Converts error number to symbian-formatted before 
-                    // calling CompleteSetupCallWithStatus.
-                    TInt error = TccpErrorToSymbianError( 
-                        param->Value().AsTInt32() );
-                    CompleteSetupCallWithStatus( error );
-                    }
-                else
-                    {
-                    CompleteSetupCall( RSat::KSuccess );
-                    }
-                }
-                break;
-
-            case KAiwEventCanceled:
-            case KAiwEventStopped:
-            case KAiwEventQueryExit:
-                {
-                LOG( SIMPLE, 
-                "SETUPCALL: CSetUpCallHandler::HandleNotifyL SetupCall \
-                cancelled" )
-
-                CompleteSetupCallWithStatus( KErrAbort );
-                }
-                break;
-
-            case KAiwEventOutParamCheck:
-            case KAiwEventInParamCheck:
-                {
-                LOG( SIMPLE, 
-                "SETUPCALL: CSetUpCallHandler::HandleNotifyL SetupCall param \
-                fail" )
-
-                CompleteSetupCall( RSat::KCmdDataNotUnderstood );
-                }
-                break;
-
-            default:
-                {
-                LOG( SIMPLE, 
-                "SETUPCALL: CSetUpCallHandler::HandleNotifyL Unknown event \
-                id" )
-                }
-                break;
-
-            }
-        }
-
-    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::HandleNotifyL exiting" )
-    return KErrNone;
-    }
-
-// -----------------------------------------------------------------------------
-// From class MAiwNotifyCallback.
-// Called when dial request is completed.
-// -----------------------------------------------------------------------------
-//
-void CSetUpCallHandler::HandleEmergencyDialL( const TInt aStatus )
-    {
-    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::HandleEmergencyDialL calling" )
-
-    iEmergencyCall = EFalse;
-
-    if ( KErrNone == aStatus )
-        {
-        // Set result
-        CompleteSetupCall( RSat::KSuccess );
+        iSetUpCallStatus = ESetupCallIdle;
+        CompleteSetupCallWithStatus( aErrCode );
         }
     else
         {
-        CompleteSetupCall(
-            RSat::KNetworkUnableToProcessCmd,
-            RSat::KNoSpecificMeProblem );
+        iEmergencyCall = EFalse;
 
-        LOG( SIMPLE, 
-        "SETUPCALL: CSetUpCallHandler::HandleEmergencyDialL Network unable \
-        to process this" )
+        if ( KErrNone == aErrCode )
+            {
+            // Set result
+            CompleteSetupCall( RSat::KSuccess );
+            }
+        else
+            {
+            // The emergency call implementation 
+            // before S60 SAT migration from AIW to EtelMM
+            // According current information, no requirement for this.
+            // We don't return extended network error.
+            CompleteSetupCall(
+                RSat::KNetworkUnableToProcessCmd,
+                RSat::KNoSpecificMeProblem );
+
+            LOG( SIMPLE,
+            "SETUPCALL: CSetUpCallHandler::HandleEmergencyDialL Network unable \
+            to process this" )
+            }
         }
-
-    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::HandleEmergencyDialL exiting" )
+    LOG2( NORMAL,
+        "SETUPCALL: CSetUpCallHandler::SetupCallRequestComplete exiting %d", aErrCode )
     }
+
 
 // -----------------------------------------------------------------------------
 // C++ default constructor can NOT contain any code, that
@@ -669,6 +586,9 @@ void CSetUpCallHandler::ConstructL()
     {
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::ConstructL calling" )
 
+    
+    iRequestHandler = CSetupCallRequestHandler::NewL( iUtils->MultiModeApi(),
+            this ); 
     // Create request handler. This is same that LaunchBrowser uses, so this
     // is needed also in HandleCommand - function.
     iUtils->RegisterServiceRequestL(
@@ -679,27 +599,6 @@ void CSetUpCallHandler::ConstructL()
     iUtils->RegisterL( this, MSatUtils::ECallControlExecuting );
     iUtils->RegisterL( this, MSatUtils::ECallControlDone );
 
-    // Create service handler for normal call setup.
-    iServiceHandler = CAiwServiceHandler::NewL();
-
-    // Create dynamic resource to attach service handler.
-    RCriteriaArray interest;
-    CAiwCriteriaItem* item = CAiwCriteriaItem::NewLC(
-        KAiwCmdCall,
-        KAiwCmdCall,
-        KContentType );
-
-    TUid serviceClassBase;
-    serviceClassBase.iUid = KAiwClassBase;
-    item->SetServiceClass( serviceClassBase );
-
-    interest.AppendL( item );
-
-    // Attach to call service.
-    iServiceHandler->AttachL( interest );
-
-    CleanupStack::PopAndDestroy( item );
-
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::ConstructL exiting" )
     }
 
@@ -707,7 +606,24 @@ void CSetUpCallHandler::ConstructL()
 // Performs the request to dial
 // -----------------------------------------------------------------------------
 //
-void CSetUpCallHandler::DoSetupCallL()
+//ETel MM API Usage for SAT Todo
+//
+//2 RSAT::TSetUpCallV6 iCapabilityConfigParams we only have one TCcp and there
+//  are two in RMobilePhone::TMobileCallParamsV7 ( according the study of tommi
+//  the second TCcp in in TMobileCallParamsV7 will be ignored )
+//3 RMobilePhone::TMobileCallParamsV7 has TBCRepeatIndicator iBCRepeatIndicator
+//  RSat::TSetUpCallV6 don't have it. Does it needed from RSat
+//4 RMobilePhone::TMobileCallParamsV7 has TMobileCallMulticallBearerMode
+//  iBearerMode, RSat::TSetUpCallV6 does not have it. can we just use the
+//  default value?
+//5 SetShowNumber in AIW not provided by ETel MM, support needed?
+//6 SetAllowMach in AIW not provided by ETel MM, support needed?
+//8 Convert the return value from RMobilePhone::DialNoFdnCheck to the SAT error
+//  code, the return value is not enough, we need get more information from
+//  GetLineInfo.
+
+
+void CSetUpCallHandler::DoSetupCall( CSetupCallRequestHandler& aHandler )
     {
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::DoSetupCallL calling" )
 
@@ -716,79 +632,44 @@ void CSetUpCallHandler::DoSetupCallL()
     TDes& telNumber( iSetUpCallData.iAddress.iTelNumber );
     CheckNumber( telNumber );
 
-    // 80 is max length in SAT calls, AIW max length is 100
-    if ( telNumber.Length() > KMaximumPhoneNumberLength )
-        {
-        LOG( SIMPLE, 
-        "SETUPCALL: CSetUpCallHandler::DoSetupCallL telNumber too long" )
-        User::Leave( KErrArgument );
-        }
+    RMobileCall::TMobileCallParamsV7 dialParams;
+    RMobileCall::TMobileCallParamsV7Pckg package( dialParams );
 
-    TBuf< AIWDialDataExt::KMaximumNameLength > name;
-    if ( RSat::EAlphaIdProvided ==
-         iSetUpCallData.iAlphaIdCallSetUpPhase.iStatus )
-        {
-        LOG( SIMPLE, 
-        "SETUPCALL: CSetUpCallHandler::DoSetupCallL EAlphaIdProvided" )
-        name = iSetUpCallData.iAlphaIdCallSetUpPhase.iAlphaId;
-        }
-    else
-        {
-        LOG( SIMPLE, 
-        "SETUPCALL: CSetUpCallHandler::DoSetupCallL set AlphaId" )
-        name = iUtils->SatAppName();
-        }
-
-    // Make the phone call parameters.
-    CAiwInternalDialData* dialData = CAiwInternalDialData::NewLC();
-
-    dialData->SetCallType( CAiwDialData::EAIWVoice );
-    dialData->SetWindowGroup( AIWDialData::KAiwGoToIdle );
-    dialData->SetPhoneNumberL( telNumber );
-    dialData->SetSATCall( ETrue );
-    dialData->SetShowNumber( EFalse );
-    dialData->SetNameL( name );
-    dialData->SetAllowMatch( EFalse );
-    // Remove the redial mechanism from S60 5.x.
-    dialData->SetRedial( AIWDialDataExt::KAIWRedialOff );
-
+    //Redail has been removed from MCL, no redail support.
+    dialParams.iAutoRedial = EFalse;
+    //TODO: check do we need to set bearer model
+    dialParams.iBearerMode = RMobileCall::EMulticallNewBearer;
+    dialParams.iCallParamOrigin = RMobileCall::EOriginatorSIM;
+    dialParams.iSubAddress = iSetUpCallData.iSubAddress;
+    dialParams.iBearerCap1 = iSetUpCallData.iCapabilityConfigParams;
+    
+    dialParams.iBCRepeatIndicator = RMobileCall::EBCAlternateMode;
+    
+    dialParams.iIconId.iQualifier = RMobileCall::ENoIconId;
+    
+    
+    dialParams.iAlphaId = iSetUpCallData.iAlphaIdCallSetUpPhase.iAlphaId;
+    LOG2( NORMAL, 
+        "SETUPCALL: CSetUpCallHandler::DoSetupCallL id:%S",
+        &dialParams.iAlphaId )
+    
+    LOG2( NORMAL, 
+        "SETUPCALL: CSetUpCallHandler::DoSetupCallL number:%S",
+        &iSetUpCallData.iAddress.iTelNumber )
+    
+    TBool terminateOtherCall( EFalse );
     // check if we need to disconnect other calls
     if ( ( RSat::EDisconnectOtherCalls == callType ) ||
          ( RSat::EDisconnectOtherCallsWithRedial == callType ) )
         {
         LOG( SIMPLE, 
         "SETUPCALL: CSetUpCallHandler::DoSetupCallL end other call" )
-        dialData->SetEndOtherCalls( ETrue );
+        terminateOtherCall = ETrue ;
         }
-
-    if ( AIWInternalDialData::KAiwBearerLength >=
-         iSetUpCallData.iCapabilityConfigParams.Length() )
-        {
-        LOG( NORMAL, 
-        "SETUPCALL: CSetUpCallHandler::DoSetupCallL SetBearerL" )
-        dialData->SetBearerL( iSetUpCallData.iCapabilityConfigParams );
-        }
-
-    if ( AIWInternalDialData::KAiwSubAddressLength >=
-         iSetUpCallData.iSubAddress.Length() )
-        {
-        LOG( NORMAL, 
-        "SETUPCALL: CSetUpCallHandler::DoSetupCallL SetSubAddressL" )
-        dialData->SetSubAddressL( iSetUpCallData.iSubAddress );
-        }
-
-    CAiwGenericParamList& paramList = iServiceHandler->InParamListL();
-    dialData->FillInParamListL( paramList );
-
-    iServiceHandler->ExecuteServiceCmdL(
-        KAiwCmdCall,
-        paramList,
-        iServiceHandler->OutParamListL(),
-        0,
-        this );
-
-    CleanupStack::PopAndDestroy( dialData );
-
+    
+    aHandler.DialNumber( package, iSetUpCallData.iAddress.iTelNumber,
+            terminateOtherCall, iUtils->CreateAsyncToSyncHelper() );
+    
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::DoSetupCallL exiting" )
     }
 
@@ -930,6 +811,8 @@ void CSetUpCallHandler::CompleteSetupCallWithStatus(
         else if ( ( RSat::ESelfExplanatory == qualifier2 ) ||
                   ( RSat::ENotSelfExplanatory == qualifier2 ) )
             {
+            // Until 2009-10 the phone and NTSY not support the icon.
+            // to be updated after the updating of the phone and NTSY
             result = RSat::KSuccessRequestedIconNotDisplayed;
             LOG( SIMPLE, 
             "SETUPCALL: CSetUpCallHandler::CompleteSetupCallWithStatus Icon \
@@ -951,7 +834,6 @@ void CSetUpCallHandler::CompleteSetupCallWithStatus(
                 result = RSat::KSuccessRequestedIconNotDisplayed;
                 }
             }
-
         // Set result
         CompleteSetupCall( result );
         }
@@ -1059,297 +941,17 @@ void CSetUpCallHandler::CheckNumber( TDes& aNumber ) const
     }
 
 // -----------------------------------------------------------------------------
-// Converts a TCCP error to the corresponding symbian error.
-// -----------------------------------------------------------------------------
-//
-TInt CSetUpCallHandler::TccpErrorToSymbianError( const TInt aTccpError ) const
-    {
-    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::TccpErrorToSymbianError \
-        calling" )
-    
-    // Error to be returned after mapped from aTccpError;
-    // Initialized with default value KErrAccessDenied.
-    TInt retValue( KErrAccessDenied );
-    
-    // Convert TCCP Error to Symbian Error in the switch braces.
-    switch ( aTccpError )
-        {
-        case ECCPErrorNone:
-        case ECCPErrorNotFound:
-        case ECCPErrorGeneral:
-        case ECCPErrorCancel:
-        case ECCPErrorNoMemory:
-        case ECCPErrorNotSupported:
-        case ECCPErrorAlreadyInUse:
-        case ECCPErrorNotReady:
-            {
-            retValue = aTccpError;
-            break;
-            }
-            
-        case ECCPErrorCCCallRejected:
-            {
-            retValue = KErrGsmCCCallRejected;
-            break;
-            }
-            
-        case ECCPRequestFailure:
-            {
-            retValue = KErrGsmMMCongestion;
-            break;
-            }
-            
-        case ECCPErrorCCBearerCapabilityNotAuthorised:
-        case ECCPErrorBadRequest:
-            {
-            retValue = KErrGsmCCBearerCapabilityNotAuthorised;
-            break;
-            }
-            
-        case ECCPErrorAccessDenied:
-            {
-            retValue = KErrAccessDenied;
-            break;
-            }
-        
-         //The following are KErrGsmCallControlBase group.
-        case ECCPErrorNotReached:
-            {
-            retValue = KErrGsmCCUnassignedNumber;
-            break;
-            }
-            
-        case ECCPErrorBusy:
-            {
-            retValue = KErrGsmCCUserBusy;
-            break;
-            }
-            
-        case ECCPErrorMovedPermanently:
-            {
-            retValue = KErrGsmCCNumberChanged;
-            break;
-            }
-            
-        case ECCPErrorInvalidURI:
-            {
-            retValue = KErrGsmCCInvalidNumberFormat;
-            break;
-            }
-            
-        case ECCPErrorNetworkOutOfOrder:
-            {
-            retValue = KErrGsmCCNetworkOutOfOrder;
-            break;
-            }
-            
-        case ECCPErrorCCNoRouteToDestination:
-            {
-            retValue = KErrGsmCCNoRouteToDestination;
-            break;
-            }
-
-        case ECCPErrorCCDestinationOutOfOrder:
-            {
-            retValue = KErrGsmCCDestinationOutOfOrder;
-            break;
-            }
-            
-        case ECCPErrorCCResourceNotAvailable:
-            {
-            retValue = KErrGsmCCResourceNotAvailable;
-            break;
-            }
-            
-
-        case ECCPErrorCCInvalidTransitNetworkSelection:
-            {
-            retValue = KErrGsmCCInvalidTransitNetworkSelection;
-            break;
-            }
-            
-        case ECCPErrorCCIncompatibleDestination:
-            {
-            retValue = KErrGsmCCIncompatibleDestination;
-            break;
-            }
-            
-        case ECCPErrorCCIncompatibleMessageInCallState:
-            {
-            retValue = KErrGsmCCIncompatibleMessageInCallState;
-            break;
-            }
-
-        case ECCPErrorCCIncompatibleMessageInProtocolState:
-            {
-            retValue = KErrGsmCCIncompatibleMessageInProtocolState;
-            break;
-            }
-            
-        case ECCPErrorCCNormalCallClearing:
-            {
-            retValue = KErrGsmCCNormalCallClearing;
-            break;
-            }
-            
-        case ECCPErrorCCUserAlertingNoAnswer:
-            {
-            retValue = KErrGsmCCUserAlertingNoAnswer;
-            break;
-            }
-
-        case ECCPErrorCCUserNotResponding:
-            {
-            retValue = KErrGsmCCUserNotResponding;
-            break;
-            }
-
-        case ECCPErrorCCPreemption:
-            {
-            retValue = KErrGsmCCPreemption;
-            break;
-            }
-            
-        case ECCPErrorCCFacilityRejected:
-            {
-            retValue = KErrGsmCCFacilityRejected;
-            break;
-            }
-
-        case ECCPErrorCCResponseToStatusEnquiry:
-            {
-            retValue = KErrGsmCCResponseToStatusEnquiry;
-            break;
-            }
-            
-        case ECCPErrorCCInvalidMandatoryInformation:
-            {
-            retValue = KErrGsmCCInvalidMandatoryInformation;
-            break;
-            }
-            
-        case ECCPErrorCCNonExistentMessageType:
-            {
-            retValue = KErrGsmCCNonExistentMessageType;
-            break;
-            }
-
-        case ECCPErrorCCNonExistentInformationElement:
-            {
-            retValue = KErrGsmCCNonExistentInformationElement;
-            break;
-            }
-
-        case ECCPErrorCCNoChannelAvailable:
-            {
-            retValue = KErrGsmCCNoChannelAvailable;
-            break;
-            }
-
-        case ECCPErrorCCRequestedFacilityNotSubscribed:
-            {
-            retValue = KErrGsmCCRequestedFacilityNotSubscribed;
-            break;
-            }
-
-        case ECCPErrorCCIncomingCallsBarredInCug:
-            {
-            retValue = KErrGsmCCIncomingCallsBarredInCug;
-            break;
-            }
-            
-        case ECCPErrorUserNotInCug:
-            {
-            retValue = KErrGsmCCUserNotInCug;
-            break;
-            }
-            
-        case ECCPErrorCCRecoveryOnTimerExpiry:
-            {
-            retValue = KErrGsmCCRecoveryOnTimerExpiry;
-            break;
-            }
-
-        case ECCPErrorCCBearerCapabilityNotCurrentlyAvailable:
-            {
-            retValue = KErrGsmCCBearerCapabilityNotCurrentlyAvailable;
-            break;
-            }
-
-        case ECCPErrorCCServiceNotAvailable:
-            {
-            retValue = KErrGsmCCServiceNotAvailable;
-            break;
-            }
-
-        case ECCPErrorCCBearerServiceNotImplemented:
-            {
-            retValue = KErrGsmCCBearerServiceNotImplemented;
-            break;
-            }
-
-        case ECCPErrorCCOnlyRestrictedDigitalInformationBCAvailable:
-            {
-            retValue = KErrGsmCCOnlyRestrictedDigitalInformationBCAvailable;
-            break;
-            }
-            
-        case ECCPErrorCCServiceNotImplemented:
-            {
-            retValue = KErrGsmCCServiceNotImplemented;
-            break;
-            }
-            
-        case ECCPErrorCCUnspecifiedInterworkingError:
-            {
-            retValue = KErrGsmCCUnspecifiedInterworkingError;
-            break;
-            }
-            
-        case ECCPErrorSatControl:
-            {
-            retValue = KErrSatControl;
-            break;
-            }
-                
-        default:
-            {
-            retValue = KErrAccessDenied;
-            break;
-            }
-        }
-        
-    LOG2( SIMPLE, 
-        "SETUPCALL: CSetUpCallHandler::TccpErrorToSymbianError TCCP error:%d",
-         aTccpError)
-    LOG2( SIMPLE, 
-        "SETUPCALL: CSetUpCallHandler::TccpErrorToSymbianError \
-        mapped Symbian Error:%d", retValue)
-    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::TccpErrorToSymbianError \
-        exiting" )
-    
-    return retValue;
-    }
-
-// -----------------------------------------------------------------------------
 // Create emergency call
 // -----------------------------------------------------------------------------
 //
-void CSetUpCallHandler::CreateEmergencyCallL()
+void CSetUpCallHandler::CreateEmergencyCall( 
+        CSetupCallRequestHandler& aHandler )
     {
-    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CreateEmergencyCallL calling" )
+    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CreateEmergencyCall calling" )
+   
+    aHandler.DialEmergencyCall( iSetUpCallData.iAddress.iTelNumber );
     
-    if( !iEmergencyCallApi )
-        {
-        // Create service handler for emergency call setup..
-        LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CreateEmergencyCallL\
-         create emergency call handler" )
-        iEmergencyCallApi = CPhCltEmergencyCall::NewL( this );
-        }
-    
-    iEmergencyCallApi->DialEmergencyCallL( 
-        iSetUpCallData.iAddress.iTelNumber );
-    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CreateEmergencyCallL exiting" )    
+    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CreateEmergencyCall exiting" )    
     }
 
 // End Of File

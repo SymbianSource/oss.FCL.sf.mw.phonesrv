@@ -29,7 +29,13 @@
 class MCallDiverting
     {
     public:
-
+// <-- QT PHONE START -->
+        /**
+         * Sets observer which informs when request is completed
+         */
+        virtual void SetRequestObserver( MPsetRequestObserver* aObs ) = 0;
+// <-- QT PHONE END -->
+    
         /**
         * Sets diverting to the network.
         * 
@@ -115,8 +121,9 @@ class MCallDiverting
         * @param aVmbx vmbx connection.
         * @return used vmbx number.
         */ 
-        virtual TInt OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx ) = 0;
-        
+        // <-- QT PHONE START-->
+        //virtual TInt OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx ) = 0;
+        // <-- QT PHONE END-->
         /*
         * Virtual destructor. 
         */ 

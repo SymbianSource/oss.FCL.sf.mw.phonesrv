@@ -26,20 +26,20 @@ TARGETTYPE      PLUGIN
 
 UID             0x10009D8D 0x101F868E
 
-SOURCEPATH      ../Src/CaUiPlugin
-SOURCE          CaUiPlugin.cpp
-SOURCE          CaUIMain.cpp
+SOURCEPATH      ../src/cauiplugin 
+SOURCE          cauiplugin.cpp 
+SOURCE          cauimain.cpp 
 
 
-SOURCEPATH      ../Data
+SOURCEPATH      ../data 
 
-START RESOURCE  101F868E.rss
+START RESOURCE  101f868e.rss 
 TARGET          cauiplugin.rsc
 END
 
 
-USERINCLUDE     ../Inc
-USERINCLUDE     ../Inc/CaUiPlugin
+USERINCLUDE     ../inc 
+USERINCLUDE     ../inc/cauiplugin 
 
 MW_LAYER_SYSTEMINCLUDE 
 SYSTEMINCLUDE   /epoc32/include/ecom
@@ -47,9 +47,8 @@ SYSTEMINCLUDE   ../../../inc
 
 LIBRARY         euser.lib
 LIBRARY         servicehandler.lib
-LIBRARY	        flogger.lib
+LIBRARY         flogger.lib
 LIBRARY         commonengine.lib
-LIBRARY         featmgr.lib // FeatureManager
 
 LANGUAGE_IDS
 

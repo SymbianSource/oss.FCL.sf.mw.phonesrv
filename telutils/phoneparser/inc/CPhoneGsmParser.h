@@ -21,7 +21,7 @@
 
 // INCLUDES
 #include    <e32base.h>
-#include    "CPhoneGsmParserBase.h"
+#include    "cphonegsmparserbase.h" 
 
 // FORWARD DECLARATIONS
 class CPhoneGsmParserResult;

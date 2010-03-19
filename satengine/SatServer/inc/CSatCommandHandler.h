@@ -15,15 +15,13 @@
 *
 */
 
-
-
 #ifndef CSATCOMMANDHANDLER_H
 #define CSATCOMMANDHANDLER_H
 
 //  INCLUDES
 #include <e32base.h>
 #include <etelsat.h>
-#include <SecondaryDisplay/secondarydisplaysatapi.h>
+#include <secondarydisplay/secondarydisplaysatapi.h>
 #include "MSatUtils.h"
 #include "MSatEventObserver.h"
 #include "MSatCommand.h"

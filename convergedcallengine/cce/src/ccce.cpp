@@ -247,7 +247,7 @@ EXPORT_C void CCCE::GetAirTimeDuration( TTimeIntervalSeconds& aCSDuration,
 // -----------------------------------------------------------------------------
 // 
 EXPORT_C TBool CCCE::GetLifeTime( TDes8& aLifeTimeInfo )
-	{
+    {
     CCELOGSTRING("CCCE::GetLifeTime()");
     return iCallContainer->GetLifeTime(aLifeTimeInfo);
     }
@@ -257,9 +257,9 @@ EXPORT_C TBool CCCE::GetLifeTime( TDes8& aLifeTimeInfo )
 // -----------------------------------------------------------------------------
 // 
 EXPORT_C TBool CCCE::GetCSInfo( CSInfo& aCSInfo )
-	{
+    {
     CCELOGSTRING("CCCE::GetCSInfo()");
     return iCallContainer->GetCSInfo(aCSInfo);
-	}
+    }
 
 

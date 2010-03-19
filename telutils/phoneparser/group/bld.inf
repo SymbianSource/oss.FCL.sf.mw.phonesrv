@@ -24,7 +24,7 @@ PRJ_EXPORTS
 
 
 ../group/phoneparser_stub.SIS\
-    /epoc32/data/z/system/install/phoneparser_stub.SIS
+    /epoc32/data/z/system/install/phoneparser_stub.sis
     
 // IBY file exports
 ../rom/Phoneparser.iby                  CORE_MW_LAYER_IBY_EXPORT_PATH(Phoneparser.iby)

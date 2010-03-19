@@ -21,12 +21,12 @@
 #define     PSETNETWORK_H
 
 //  INCLUDES
-#include "MPsetNetworkSelect.h"
-#include "MPsetNetworkInfoObs.h"
-#include "MPsetNetworkModeObs.h"
-#include "MPsetNetworkMode.h"
+#include "MPsetNetworkSelect.h" 
+#include "mpsetnetworkinfoobs.h" 
+#include "mpsetnetworkmodeobs.h" 
+#include "MPsetNetworkMode.h" 
 #include <etelmm.h>
-#include <RMmCustomApi.h>
+#include <rmmcustomapi.h> 
 
 // FORWARD DECLARATIONS
 class CPsetSAObserver;

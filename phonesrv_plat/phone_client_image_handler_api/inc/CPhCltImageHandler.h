@@ -20,7 +20,7 @@
 #define CPHCLTIMAGEHANDLER_H
 
 #include <e32base.h>
-#include "CPhCltImageParams.h"
+#include "cphcltimageparams.h" 
 
 // FORWARD DECLARATIONS
 class RPhCltServer;

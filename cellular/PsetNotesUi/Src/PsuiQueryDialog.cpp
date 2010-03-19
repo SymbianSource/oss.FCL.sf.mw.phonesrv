@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include "PsuiQueryDialog.h"
+#include "PsuiQueryDialog.h" 
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -25,7 +25,7 @@
 // might leave.
 //
 CPsuiQueryDialog::CPsuiQueryDialog( CAknQueryDialog::TTone aTone ) :
-	CAknQueryDialog( aTone ) 
+    CAknQueryDialog( aTone ) 
     {
     }
 
@@ -53,14 +53,14 @@ CPsuiQueryDialog::~CPsuiQueryDialog()
 TKeyResponse CPsuiQueryDialog::OfferKeyEventL( const TKeyEvent& aKeyEvent,
     TEventCode aType )
     {
-	if ( ( aKeyEvent.iScanCode == EStdKeyNo || aKeyEvent.iCode == EKeyNo  ) &&
-		 aType == EEventKeyUp )
-		{
-		// End -key was pressed, so exit this query dialog
-		TryExitL( EKeyNo );
-		}
+    if ( ( aKeyEvent.iScanCode == EStdKeyNo || aKeyEvent.iCode == EKeyNo  ) &&
+         aType == EEventKeyUp )
+        {
+        // End -key was pressed, so exit this query dialog
+        TryExitL( EKeyNo );
+        }
 
-	return EKeyWasNotConsumed;
+    return EKeyWasNotConsumed;
     }
 
 // ---------------------------------------------------------------------------
@@ -69,7 +69,7 @@ TKeyResponse CPsuiQueryDialog::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 //
 TBool CPsuiQueryDialog::OkToExitL( TInt /*aCommand*/ )
     {
-	// Dismiss query
+    // Dismiss query
     return ETrue;
     }
 

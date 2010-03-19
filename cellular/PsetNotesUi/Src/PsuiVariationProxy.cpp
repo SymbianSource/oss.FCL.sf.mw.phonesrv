@@ -17,40 +17,40 @@
 */
 
 
-#include "PsuiVariationProxy.h"
+#include "PsuiVariationProxy.h" 
 #include <centralrepository.h>
-#include <settingsinternalcrkeys.h>
+#include <settingsinternalcrkeys.h> 
 
 CPSuiVariationProxy::CPSuiVariationProxy()
-	{	
-	}
-	
+    {   
+    }
+    
 CPSuiVariationProxy::~CPSuiVariationProxy()
-	{		
-	}
-	
+    {       
+    }
+    
 CPSuiVariationProxy* CPSuiVariationProxy::NewL()
-	{
-	CPSuiVariationProxy* self = new ( ELeave ) CPSuiVariationProxy();  
+    {
+    CPSuiVariationProxy* self = new ( ELeave ) CPSuiVariationProxy();  
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );         
     return self;
-	}
-	
+    }
+    
 void CPSuiVariationProxy::ConstructL()
-	{
-	TInt setting = 0;
-	CRepository* centralRepository = CRepository::NewLC( KCRUidPhoneSettings );
-	centralRepository->Get( KPSetCallWaiting, setting );
-	if( setting )
-		{
-		iFeatures |= KCallWaitingDistiquishNotProvisioned;	
-		}
-	CleanupStack::PopAndDestroy( centralRepository );
-	}
-	
+    {
+    TInt setting = 0;
+    CRepository* centralRepository = CRepository::NewLC( KCRUidPhoneSettings );
+    centralRepository->Get( KPSetCallWaiting, setting );
+    if( setting )
+        {
+        iFeatures |= KCallWaitingDistiquishNotProvisioned;  
+        }
+    CleanupStack::PopAndDestroy( centralRepository );
+    }
+    
 TBool CPSuiVariationProxy::FeatureEnabled( TUint aFeature ) const
-	{
-	return aFeature&iFeatures;
-	}
+    {
+    return aFeature&iFeatures;
+    }

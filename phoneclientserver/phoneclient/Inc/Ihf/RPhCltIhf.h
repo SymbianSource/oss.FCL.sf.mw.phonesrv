@@ -21,7 +21,7 @@
 // INCLUDES
 #include    <etelmm.h>            // ETel
 
-#include "PhCltTypes.h"
+#include "phclttypes.h" 
 
 // FORWARD DECLARATIONS
 class RWsSession;

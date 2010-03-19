@@ -17,10 +17,10 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneGsmSimControlHandler.h"
-#include    "CPhoneGsmSimControlParser.h"
-#include    "CPhoneGsmParserResult.h"
-#include    "PhoneGsmParser.h"
+#include    "cphonegsmsimcontrolhandler.h" 
+#include    "CPhoneGsmSimControlParser.h" 
+#include    "cphonegsmparserresult.h" 
+#include    "phonegsmparser.h" 
 
 // CONSTANTS
 const TInt KPhoneSimControlOldPinPukParam = 0;

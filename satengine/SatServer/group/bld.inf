@@ -22,7 +22,7 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-SatServer_Stub.SIS               /epoc32/data/z/system/install/SatServer_stub.sis
+satserver_stub.sis               /epoc32/data/z/system/install/SatServer_stub.sis
 ../rom/satserver.iby             CORE_MW_LAYER_IBY_EXPORT_PATH( satserver.iby )
 ../rom/SatServerResources.iby    LANGUAGE_MW_LAYER_IBY_EXPORT_PATH( SatServerResources.iby )
 

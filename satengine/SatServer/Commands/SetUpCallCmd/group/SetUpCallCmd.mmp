@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -30,6 +30,8 @@ VENDORID                VID_DEFAULT
 SOURCEPATH              ../src
 SOURCE                  std.cpp
 SOURCE                  CSetUpCallHandler.cpp
+SOURCE                  csetupcallrequesthandler.cpp
+SOURCE                  csetupcallstatushandler.cpp
 
 START RESOURCE          1000f005.rss
 TARGET                  SetUpCallCmd.rsc
@@ -43,11 +45,10 @@ SYSTEMINCLUDE           /epoc32/include/ecom
 SYSTEMINCLUDE           ../../../../../inc      // Domain telephony
 SYSTEMINCLUDE           ../../../../inc         // Subsystem satengine
 
-LIBRARY                 aiwdialdata.lib
-LIBRARY                 ServiceHandler.lib
-LIBRARY                 phoneclient.lib
 LIBRARY                 euser.lib
 LIBRARY                 etelsat.lib
+LIBRARY                 etelmm.lib
+LIBRARY                 etel.lib
 LIBRARY                 SatEngine.lib
 
 #ifdef ENABLE_SAT_LOGGING

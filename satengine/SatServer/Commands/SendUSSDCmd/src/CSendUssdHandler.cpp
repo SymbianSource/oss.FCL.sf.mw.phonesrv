@@ -16,8 +16,8 @@
 */
 
 
-#include    <CPhCltUssdSatClient.h>
-#include	<CPhCltUssd.h>
+#include    <cphcltussdsatclient.h>
+#include	<cphcltussd.h>
 
 #include    "MSatSystemState.h"
 #include    "MSatApi.h"

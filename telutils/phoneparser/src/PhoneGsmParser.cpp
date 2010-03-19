@@ -17,24 +17,24 @@
 
 
 // INCLUDE FILES
-#include    "PhoneGsmParser.h"
-#include    "CPhoneGsmParser.h"
-#include    "CPhoneGsmParserBase.h"
-#include    "CPhoneGsmParserResult.h"
-#include    "CPhoneGsmOptionContainer.h"
+#include    "phonegsmparser.h" 
+#include    "CPhoneGsmParser.h" 
+#include    "cphonegsmparserbase.h" 
+#include    "cphonegsmparserresult.h" 
+#include    "CPhoneGsmOptionContainer.h" 
 
-#include    "CPhoneGsmParserContainer.h"
-#include    "CPhoneGsmSsParser.h"
-#include    "CPhoneGsmSimControlParser.h"
-#include    "CPhoneGsmPhoneNumberParser.h"
-#include    "CPhoneGsmSsCallParser.h"
-#include    "CPhoneGsmManufacturerParser.h"
-#include    "CPhoneGsmPcnProcedureParser.h"
-#include    "CPhoneGsmManufacturerHandler.h"
-#include    "CPhoneGsmEmergencyNumberParser.h"
-#include    "CPhoneParserFeatures.h"
-#include    "CPhoneVoipNumberParser.h"
-#include    "CPhoneGsmImeiParser.h"
+#include    "CPhoneGsmParserContainer.h" 
+#include    "CPhoneGsmSsParser.h" 
+#include    "CPhoneGsmSimControlParser.h" 
+#include    "CPhoneGsmPhoneNumberParser.h" 
+#include    "CPhoneGsmSsCallParser.h" 
+#include    "CPhoneGsmManufacturerParser.h" 
+#include    "CPhoneGsmPcnProcedureParser.h" 
+#include    "cphonegsmmanufacturerhandler.h" 
+#include    "CPhoneGsmEmergencyNumberParser.h" 
+#include    "CPhoneParserFeatures.h" 
+#include    "CPhoneVoipNumberParser.h" 
+#include    "CPhoneGsmImeiParser.h" 
 
 
 // CONSTANTS
@@ -375,7 +375,7 @@ CPhoneGsmParserBase*
         KPhoneCodeWLANMAC, 
         CPhoneGsmManufacturerParser::EFlagCode,
         CPhoneGsmManufacturerHandler::EShowWlanMac,
-        KFeatureIdProtocolWlan );		
+        KFeatureIdProtocolWlan );       
 
     if ( CPhoneParserFeatures::LifeTimerEnabled())
         {

@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "RPhCltServer.h"
-#include "RPhCltIhf.h"
+#include "rphcltserver.h" 
+#include "rphcltihf.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

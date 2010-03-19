@@ -33,14 +33,14 @@ class MCCPExtensionObserver;
 *  @since S60 3.2
 */
 class MCCPExtensionProvider
-	{
+    {
 protected:
     /** 
     * Protected destructor. Object cannot be deleted from plug-in client (CCE).
     * @since S60 3.2
     */
     virtual inline ~MCCPExtensionProvider() {};
-	
+    
 public:
     /**
     * Request a custom command from the plug-in. Result returned via MCCPExtensionObserver.
@@ -78,7 +78,7 @@ public:
     */
     virtual TInt RemoveObserver( const MCCPExtensionObserver& aObserver ) = 0;
     
-	};
+    };
 
 #endif // MCCPEXTENSIONPROVIDER_H
 

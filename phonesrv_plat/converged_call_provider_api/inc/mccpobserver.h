@@ -80,7 +80,7 @@ public:
 
     /**
     * Incoming call invitation in attended transfer case. Occurs at transfer target end.
-	* For incoming transfer at transferor end see MCCPObserver::CallCreated.
+    * For incoming transfer at transferor end see MCCPObserver::CallCreated.
     * @since S60 3.2
     * @param aCall IncomingCall transfer call.
     * @param aTempCall Pointer to the held call.
@@ -89,11 +89,11 @@ public:
                                MCCPCall& aTempCall ) = 0;
 
     /**
-	* Indicate an arrived transfer request. 
-	* Called at the transfer request receiver end, after receiving a transfer request .     
-	* For incoming transfer at transfer target end see MCCPObserver::IncomingCall with two call 
-	 objects as parameters.
-	* @since S60 3.2
+    * Indicate an arrived transfer request. 
+    * Called at the transfer request receiver end, after receiving a transfer request .     
+    * For incoming transfer at transfer target end see MCCPObserver::IncomingCall with two call 
+     objects as parameters.
+    * @since S60 3.2
     * @param aNewTransferCall The call that has been created with the new transfer target.
     * @param aOriginator Pointer to originator of the transfer request.
     * @param aAttended Transfer requested was attented (ETrue) or un-attented(EFalse)

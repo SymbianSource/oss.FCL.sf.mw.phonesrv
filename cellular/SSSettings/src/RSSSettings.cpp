@@ -23,18 +23,18 @@
 #include    <e32base.h>
 #include    <rmmcustomapi.h>
 #include    <mmtsy_names.h>
-#include    <PSVariables.h>
+#include    <PSVariables.h> 
 #include    <startupdomainpskeys.h>
-#include    <centralrepository.h>       // Central repository
-#include    <SSSettingsPrivateCRKeys.h>  // Settings Central Repository keys.
+#include    <centralrepository.h> // central repository 
+#include    <SSSettingsPrivateCRKeys.h> // settings central repository keys. 
 #include    <telservicesinternalcrkeys.h>
 #include    <telservicesvariant.hrh>
 
-#include    "RSSSettings.h"
-#include    "MSSSettingsObserver.h"
-#include    "CSSSettingsNotifier.h"
-#include    "CSSSettingsAlsNotifier.h"
-#include    "SSSettingsLogger.h"
+#include    "rsssettings.h" 
+#include    "msssettingsobserver.h" 
+#include    "CSSSettingsNotifier.h" 
+#include    "CSSSettingsAlsNotifier.h" 
+#include    "SSSettingsLogger.h" 
 
 // CONSTANTS
 _LIT( KPanicCat, "SSSettings" );
@@ -706,41 +706,41 @@ TInt RSSSettings::IsALSSupported( TInt aPpAlsValue, TInt aSimAlsValue,
     __SSSLOGSTRING1("[SSS]    RSSSettings::IsALSSupported alsCSPError value: %d", aAlsCspError );
     
     // When PP ALS is on and used SIM card suppports CSP ALS then alsCSPSupport returns EFALSE and alsCSPError KErrNotSupported but ALS functionality
-	// needs to be shown therefore KErrNone is returned.
+    // needs to be shown therefore KErrNone is returned.
     if ( aPpAlsValue && !aSimAlsValue && aAlsCspSupport == FALSE && aAlsCspError == KErrNotSupported  )
         {
         error = KErrNone;
-    	}		   
+        }          
     else if ( aPpAlsValue && aSimAlsValue && aAlsCspSupport == FALSE )
-    	{
-    	error = KErrNone;
-    	}
+        {
+        error = KErrNone;
+        }
     else if ( aPpAlsValue && aSimAlsValue && aAlsCspSupport == TRUE  )
         {
-    	error = KErrNone;
-    	}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+        error = KErrNone;
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
     else if ( aPpAlsValue && !aSimAlsValue && aAlsCspSupport == FALSE  )
-    	{
-    	error = KErrNone;
-    	}
+        {
+        error = KErrNone;
+        }
     else if ( aPpAlsValue && !aSimAlsValue && aAlsCspSupport == TRUE  )
-    	{
-    	error = KErrNone;
-    	}
+        {
+        error = KErrNone;
+        }
     else if ( !aPpAlsValue && aSimAlsValue && aAlsCspSupport == TRUE  )
-    	{
-    	error = KErrNone;
-    	}
+        {
+        error = KErrNone;
+        }
     else if ( !aPpAlsValue && aSimAlsValue && aAlsCspSupport == FALSE  )
-   		{
-    	error = KErrNotSupported;
-   		}
+        {
+        error = KErrNotSupported;
+        }
     else if ( !aPpAlsValue && !aSimAlsValue && aAlsCspSupport == TRUE  )
-		{
-		error = KErrNone;
-		}
-							
-   	return error;   
+        {
+        error = KErrNone;
+        }
+                            
+    return error;   
     }
     
 // ---------------------------------------------------------

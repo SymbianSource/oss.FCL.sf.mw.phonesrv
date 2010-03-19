@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <e32Property.h>
+#include <e32property.h> 
 #include <psetcalldiverting.h>
 #include <psvariables.h>
 #include <ctsydomaincrkeys.h>

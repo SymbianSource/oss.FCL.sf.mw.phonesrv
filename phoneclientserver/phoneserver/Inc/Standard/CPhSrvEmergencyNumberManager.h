@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>                        // cbase
-#include "MPhSrvEmergencyNumberManager.h"   // interface
+#include "MPhSrvEmergencyNumberManager.h" // interface 
 
 // FORWARD DECLARATIONS
 class MPhSrvPhoneInterface;
@@ -74,7 +74,7 @@ class CPhSrvEmergencyNumberManager :
         MPhSrvPhoneInterface&          iPhone;
       
         // Contains Emergency policy DLL interface.
-        RLibrary                       iEnPolicyLib;	
+        RLibrary                       iEnPolicyLib;    
 
         // Pointer to Emergency policy interface.
         CEmergencyNumberPolicy*        iEmergencyNumberPolicy;

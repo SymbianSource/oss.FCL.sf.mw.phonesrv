@@ -18,10 +18,10 @@
 
 
 // INCLUDE FILES
-#include "CPhCltUssdImp.h"
-#include "CPhCltUssdRequestHandler.h"
-#include "PhCltClientServer.h"
-#include <PhCltTypes.h>
+#include "CPhCltUssdImp.h" 
+#include "CPhCltUssdRequestHandler.h" 
+#include "PhCltClientServer.h" 
+#include <phclttypes.h> 
 
 #include <etelmm.h>
 #include <f32file.h>
@@ -32,14 +32,14 @@
 #include <avkon.hrh>
 #include <avkon.rsg> 
 
-#include <PhoneClient.rsg>
+#include <phoneclient.rsg> 
 #include <exterror.h>
 
 #include <gsmerror.h>
 #include <etelsat.h>
 
-#include "MPhCltUssdNoteControllerCallBack.h"
-#include "CPhCltUssdNoteController.h"
+#include "MPhCltUssdNoteControllerCallBack.h" 
+#include "CPhCltUssdNoteController.h" 
 
 // CONSTANTS
 
@@ -534,7 +534,7 @@ TInt CPhCltUssdImp::SendUssd(
     __ASSERT_ALWAYS( aMsgData.Length() <= KPhCltUssdMax7BitCharacterOctets,
         User::Invariant() );
 
-	RMobileUssdMessaging::TMobileUssdAttributesV1 attribute;
+    RMobileUssdMessaging::TMobileUssdAttributesV1 attribute;
 
     attribute.iFlags = 
         RMobileUssdMessaging::KUssdDataFormat + 
@@ -549,13 +549,13 @@ TInt CPhCltUssdImp::SendUssd(
         }
         
     if ( iSendDcs == KPhCltUssdDcsNotSet  ) // 0x00
-		{
-		attribute.iDcs = KPhCltUssdDcsDefaultAlphabet;
- 		}
- 	else
- 		{
- 		attribute.iDcs = iSendDcs;
- 		} 
+        {
+        attribute.iDcs = KPhCltUssdDcsDefaultAlphabet;
+        }
+    else
+        {
+        attribute.iDcs = iSendDcs;
+        } 
     
     RMobileUssdMessaging::TMobileUssdAttributesV1Pckg 
         attributePckg( attribute );
@@ -569,12 +569,12 @@ TInt CPhCltUssdImp::SendUssd(
     TInt error = KErrNone;
     iSendError = &error;
   
-  	iRequestHandler->SendUssd( aMsgData , attributePckg );
+    iRequestHandler->SendUssd( aMsgData , attributePckg );
     // iNoteController is allocated only if notes are shown.
     if ( iNoteController )
         {
         TRAP_IGNORE( iNoteController->ShowGlobalWaitNoteL( 
-        	R_TEXT_SENDING, 
+            R_TEXT_SENDING, 
             R_AVKON_SOFTKEYS_QUIT ) );
         }
 

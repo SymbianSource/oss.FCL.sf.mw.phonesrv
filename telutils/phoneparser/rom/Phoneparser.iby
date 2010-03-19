@@ -18,7 +18,7 @@
 #ifndef __PhoneParser_IBY__
 #define __PhoneParser_IBY__
 
-file=ABI_DIR\BUILD_DIR\PhoneParser.dll	     System\libs\PhoneParser.dll
+file=ABI_DIR\BUILD_DIR\PhoneParser.dll       System\libs\PhoneParser.dll
 data=ZSYSTEM\install\phoneparser_stub.SIS    System\Install\phoneparser_stub.SIS
 
 #endif

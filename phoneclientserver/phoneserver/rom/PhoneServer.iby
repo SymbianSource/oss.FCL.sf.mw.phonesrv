@@ -25,6 +25,6 @@ data=ZSYSTEM\install\PhoneServer_stub.sis           system\install\PhoneServer_s
   define DATAZ_ EPOCROOT##epoc32\data\Z
 #endif
 
-  data = ZPRIVATE\10000850\backup_registration.xml	PRIVATE\10000850\backup_registration.xml
+  data = ZPRIVATE\10000850\backup_registration.xml  PRIVATE\10000850\backup_registration.xml
 
 #endif

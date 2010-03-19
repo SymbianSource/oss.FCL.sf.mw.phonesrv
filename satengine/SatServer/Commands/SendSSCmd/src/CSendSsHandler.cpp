@@ -16,10 +16,10 @@
 */
 
 
-#include    <CPhoneGsmParserBase.h>
-#include    <CPhoneGsmParserResult.h>
-#include    <PhoneGsmParser.h>
-#include    <CPhoneGsmOptionContainerBase.h>
+#include    <cphonegsmparserbase.h>
+#include    <cphonegsmparserresult.h>
+#include    <phonegsmparser.h>
+#include    <cphonegsmoptioncontainerbase.h>
 
 #include    "MSatSystemState.h"
 #include    "MSatApi.h"

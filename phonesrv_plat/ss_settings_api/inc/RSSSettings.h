@@ -23,7 +23,7 @@
 
 //  INCLUDES
 #include <etelmm.h>
-#include <RCustomerServiceProfileCache.h>
+#include <RCustomerServiceProfileCache.h> 
 
 // DATA TYPES
 
@@ -193,7 +193,7 @@ class RSSSettings
         * @param aObserver observer.
         * @return error code. KErrNone: observer is added
         *                     KErrAlreadyExists: observer is already added
-		*					  KErrNotReady: Possible when BT SAP is on.
+        *                     KErrNotReady: Possible when BT SAP is on.
         *                     KErrNotSupported: Possible with ALS.
         *                     other: observer not registered
         */
@@ -301,8 +301,8 @@ class RSSSettings
         */    
         TInt IsALSSupported( TInt aPpAlsValue, TInt aSimAlsValue, 
             TBool aAlsCspSupport, TInt aAlsCspError ) const;
-			
-	    // Gets ALS setting value.
+            
+        // Gets ALS setting value.
         TInt GetALSSettingValue( TInt& aValue, const TInt aSimState );
 
         // Prohibit copy constructor if not deriving from CBase.

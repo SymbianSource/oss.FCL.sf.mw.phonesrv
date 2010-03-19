@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:  Receives and executes call handling related key presses 
-*				 (e.g. answer call, end call) from accessories.
+*                (e.g. answer call, end call) from accessories.
 *
 *
 */

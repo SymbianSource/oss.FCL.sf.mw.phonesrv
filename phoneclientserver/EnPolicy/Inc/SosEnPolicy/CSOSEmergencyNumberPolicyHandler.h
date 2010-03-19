@@ -21,9 +21,9 @@
 #define CSOSEMERGENCYNUMBERPOLICYHANDLER_H
 
 // INCLUDES
-#include    "CSOSEmergencyNumberPolicyManager.h"
-#include    "CSosEnPolicySimStatusMonitor.h"
-#include    "CSosEnPolicyENListHandler.h"
+#include    "CSOSEmergencyNumberPolicyManager.h" 
+#include    "CSosEnPolicySimStatusMonitor.h" 
+#include    "CSosEnPolicyENListHandler.h" 
 #include    <mmretrieve.h>
 #include    <e32property.h>
 
@@ -211,7 +211,7 @@ NONSHARABLE_CLASS( CSosEmergencyNumberPolicyHandler ) :
         
         //Sim state
         TInt iSimState;
-		
+        
     };
 
 #endif  // CSOSEMERGENCYNUMBERPOLICYHANDLER_H

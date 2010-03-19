@@ -17,26 +17,28 @@
 
 
 // INCLUDE FILES
-#include "PSetCallDivertingBasicImpl.h"
+#include "PSetCallDivertingBasicImpl.h" 
 
 #include <badesca.h>
 #include <etelmm.h>           
 #include <e32math.h>
-#include <vmnumber.h>
+// <-- QT PHONE START -->
+//#include <vmnumber.h>
+// <-- QT PHONE END-->
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
-#include <SettingsInternalCRKeys.h>
+#include <settingsinternalcrkeys.h> 
 
-#include "PsetCallDiverting.h"
-#include "PsetContainer.h"
-#include "MPsetDivertObs.h"
-#include "PsetTelephony.h"
-#include "PSetPanic.h"
-#include "MPsetRequestObs.h"
-#include "PSetUtility.h"
-#include "PhoneSettingsLogger.h"
-#include "PsetSAObserver.h"
+#include "psetcalldiverting.h" 
+#include "psetcontainer.h" 
+#include "mpsetdivertobs.h" 
+#include "PsetTelephony.h" 
+#include "PSetPanic.h" 
+#include "mpsetrequestobs.h" 
+#include "PSetUtility.h" 
+#include "PhoneSettingsLogger.h" 
+#include "psetsaobserver.h" 
 
 //  LOCAL CONSTANTS AND MACROS
 _LIT( KPSetIntNbr, "+" );
@@ -203,7 +205,11 @@ void CPSetCallDivertingBasicImpl::RunL()
            __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBasicImpl::RunL: EPSetChangeDivert" );
            //Notify Observer            
            iDivertStatus.iStatus = PSetUtility::GetChangeInfoStatus( iChangeInfo.iAction );
-           
+// <-- QT PHONE START -->
+           iDivertStatus.iNumber = iChangeInfo.iNumber.iTelNumber;
+           iDivertStatus.iCondition = PSetUtility::GetDivertReason(iReason);
+           iDivertStatus.iNoReplyTimer = iChangeInfo.iTimeout;
+// <-- QT PHONE END -->
             // Check is done because of VOIP notification functionality(PSetNotesUI).
            if ( iVoiceDivert && !iVideoDivert )
                {

@@ -18,9 +18,9 @@
 
 
 // INCLUDES
-#include    "CSosEnPolicySimStatusMonitor.h"
+#include    "CSosEnPolicySimStatusMonitor.h" 
 #include    <startupdomainpskeys.h> // Property values
-#include    <PSVariables.h>
+#include    <PSVariables.h> 
 
 
 
@@ -194,15 +194,15 @@ TBool CSosEnPolicySimStatusMonitor::TranslateState( TInt aState )
     {
     switch ( aState )
         {
-    	case ESimUsable:         
-    	case ESimReadable:
-			return ETrue;
-    	case  ESimStatusUninitialized:
-    	case ESimNotReady:
-    	case ESimNotSupported:
-    	case ESimNotPresent:
-    		return EFalse;
-    	default:
+        case ESimUsable:         
+        case ESimReadable:
+            return ETrue;
+        case  ESimStatusUninitialized:
+        case ESimNotReady:
+        case ESimNotSupported:
+        case ESimNotPresent:
+            return EFalse;
+        default:
             return EFalse;
         }
     }

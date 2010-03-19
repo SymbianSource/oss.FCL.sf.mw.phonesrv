@@ -17,11 +17,11 @@
 
 
 // INCLUDE FILES
-#include    "PhoneHandlerMultipartyCall.h"
-#include 	"PhoneHandlerControl.h"
-#include 	"PhoneHandlerDebug.h"
-#include 	<RemConCallHandlingTarget.h>
-#include	<CPhCltCommandHandler.h>
+#include    "PhoneHandlerMultipartyCall.h" 
+#include    "PhoneHandlerControl.h" 
+#include    "PhoneHandlerDebug.h" 
+#include    <RemConCallHandlingTarget.h> 
+#include    <cphcltcommandhandler.h> 
 
 // EXTERNAL DATA STRUCTURES
 
@@ -50,8 +50,8 @@
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerMultipartyCall::CPhoneHandlerMultipartyCall(
-							CPhoneHandlerControl& aControl,
-							TRemConExtCallHandlingApiOperationId aOperation )
+                            CPhoneHandlerControl& aControl,
+                            TRemConExtCallHandlingApiOperationId aOperation )
 : iControl( aControl ), 
   iOperation( aOperation )
     {
@@ -65,11 +65,11 @@ CPhoneHandlerMultipartyCall::CPhoneHandlerMultipartyCall(
 void CPhoneHandlerMultipartyCall::ConstructL()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::ConstructL() start" );
-	    
+        
     LoadServiceL();
     
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::ConstructL() end" );
-	}
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerMultipartyCall::NewL
@@ -77,13 +77,13 @@ void CPhoneHandlerMultipartyCall::ConstructL()
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerMultipartyCall* CPhoneHandlerMultipartyCall::NewL( 
-			CPhoneHandlerControl& aControl,
-			TRemConExtCallHandlingApiOperationId aOperation )
+            CPhoneHandlerControl& aControl,
+            TRemConExtCallHandlingApiOperationId aOperation )
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::NewL()" );
-	    
+        
     CPhoneHandlerMultipartyCall* self = 
-    	new( ELeave ) CPhoneHandlerMultipartyCall( aControl, aOperation );
+        new( ELeave ) CPhoneHandlerMultipartyCall( aControl, aOperation );
     
     CleanupStack::PushL( self );
     self->ConstructL();
@@ -97,7 +97,7 @@ CPhoneHandlerMultipartyCall* CPhoneHandlerMultipartyCall::NewL(
 CPhoneHandlerMultipartyCall::~CPhoneHandlerMultipartyCall()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::~CPhoneHandlerMultipartyCall()" );
-	
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -107,29 +107,29 @@ CPhoneHandlerMultipartyCall::~CPhoneHandlerMultipartyCall()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerMultipartyCall::Process()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::Process()" );
-	
-	/*
-	if( iControl.SwitchCall() )
-		{
-		iCommandHandler->Chld( GetStatus(), EPhCltChldTwo, 0 ); 
-		}
-	else
-		{ */
-		// get command
-		TInt command = const_cast<TInt&>( iControl.ChldCommand() );
+    {
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::Process()" );
+    
+    /*
+    if( iControl.SwitchCall() )
+        {
+        iCommandHandler->Chld( GetStatus(), EPhCltChldTwo, 0 ); 
+        }
+    else
+        { */
+        // get command
+        TInt command = const_cast<TInt&>( iControl.ChldCommand() );
 
-		// get number
-		TInt number = const_cast<TInt&>( iControl.ChldCallNumber() );
-		
-		iCommandHandler->Chld( GetStatus(),
-							   static_cast<TPhCltChldCommand>( command ),
-							   number ); 
-		//}
-		
-	Activate();		
-	}
+        // get number
+        TInt number = const_cast<TInt&>( iControl.ChldCallNumber() );
+        
+        iCommandHandler->Chld( GetStatus(),
+                               static_cast<TPhCltChldCommand>( command ),
+                               number ); 
+        //}
+        
+    Activate();     
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerMultipartyCall::Delete
@@ -137,11 +137,11 @@ void CPhoneHandlerMultipartyCall::Process()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerMultipartyCall::Delete()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::Delete()" );
-		
-	delete this;
-	}
+    {
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::Delete()" );
+        
+    delete this;
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerMultipartyCall::RequestCompleted
@@ -152,33 +152,33 @@ void CPhoneHandlerMultipartyCall::Delete()
 void CPhoneHandlerMultipartyCall::RequestCompleted( const TInt aError )
     {
     COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::RequestCompleted() aError=%d, iState=%d", aError, iState );
-	    
-	switch( iState )
-		{
-		case EPhoneHandlerState1:
-			{
-			NextState();
-			iControl.CommandInitiator().SendResponse( GetStatus(), 
-													  iOperation,
-													  aError );
-			Activate();
-			break;
-			}
-			
-		case EPhoneHandlerState2:
-			{
-			IdleState();
-			delete this;
-			break;
-			}
-			
-		default:
-			{
-			COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::RequestCompleted() Unspecified state" );
-			break;
-			}
-		};
-	}
+        
+    switch( iState )
+        {
+        case EPhoneHandlerState1:
+            {
+            NextState();
+            iControl.CommandInitiator().SendResponse( GetStatus(), 
+                                                      iOperation,
+                                                      aError );
+            Activate();
+            break;
+            }
+            
+        case EPhoneHandlerState2:
+            {
+            IdleState();
+            delete this;
+            break;
+            }
+            
+        default:
+            {
+            COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerMultipartyCall::RequestCompleted() Unspecified state" );
+            break;
+            }
+        };
+    }
     
 // ========================== OTHER EXPORTED FUNCTIONS =========================
 

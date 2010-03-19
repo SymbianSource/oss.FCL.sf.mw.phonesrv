@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <cphcltextphonedialdata.h>
+#include <CPhCltExtPhoneDialData.h> 
 
 // CONSTANTS
 
@@ -100,7 +100,7 @@ class CPhSrvCallRequest : public CBase
         * @return The call arguments.
         */
          CPhCltExtPhoneDialData& CallArguments() const;
-	
+    
         /**
         * Update Emergency call status
         * @param aMessage The outstanding client request which will be completed
@@ -146,7 +146,7 @@ class CPhSrvCallRequest : public CBase
         // The object responsible for processing external client call requests. 
         // This is essentially an interface to the phone app engine.
         
-		CPhCltExtPhoneDialData* iCallArguments;
+        CPhCltExtPhoneDialData* iCallArguments;
 
         // A handle to the subsession that initiated this request.
         TInt            iSubSessionHandle;

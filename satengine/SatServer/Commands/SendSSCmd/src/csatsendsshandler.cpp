@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -15,18 +15,12 @@
 *
 */
 
-
 #include "csatsendsshandler.h"
-#include <PsuiWaitingObs.h>
-#include <PsuiContainer.h>
 #include <PsetCallWaiting.h>
 #include <PsetContainer.h>
 #include <PsetCallBarring.h>
-#include <PsuiBarringObs.h>
 #include <PsetCallDiverting.h>
-#include <PsuiDivertObs.h>
 #include <PsetCli.h>
-#include <PsuiCliObserver.h>
 
 #include "csatsendssbarringnouiobs.h"
 #include "csatsendssdivertnouiobs.h"

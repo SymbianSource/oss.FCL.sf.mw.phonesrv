@@ -16,26 +16,26 @@
 */
 
 // INCLUDE FILES
-#include "CPhSrvUssdManager.h"
-#include "PhSrvUtils.h"
-#include "CPhSrvUssdSendHandler.h"
-#include "CPhSrvUssdReceiveHandler.h"
-#include "CPhSrvUssdNotifyNWRelease.h"
-#include "CPhSrvResourceManager.h"
-#include "CPhSrvUssdReplyTimer.h"
-#include "MPhSrvUssdMessageSentObserver.h"
-#include "MPhSrvPhoneInterface.h"
-#include "CPhSrvUssdSessionCancelWaiter.h"
+#include "CPhSrvUssdManager.h" 
+#include "PhSrvUtils.h" 
+#include "CPhSrvUssdSendHandler.h" 
+#include "CPhSrvUssdReceiveHandler.h" 
+#include "CPhSrvUssdNotifyNWRelease.h" 
+#include "CPhSrvResourceManager.h" 
+#include "CPhSrvUssdReplyTimer.h" 
+#include "MPhSrvUssdMessageSentObserver.h" 
+#include "MPhSrvPhoneInterface.h" 
+#include "CPhSrvUssdSessionCancelWaiter.h" 
 
-#include <AknGlobalNote.h>
+#include <AknGlobalNote.h> 
 #include <aknnotedialog.h>
 #include <aknstaticnotedialog.h>
-#include <AknProgressDialog.h>
+#include <AknProgressDialog.h> 
 #include <apacmdln.h>
 #include <apgtask.h>
 #include <bautils.h>
-#include <StringLoader.h>
-#include <AknGlobalMsgQuery.h>
+#include <StringLoader.h> 
+#include <AknGlobalMsgQuery.h> 
 #include <textresolver.h>
 #include <charconv.h>
 #include <gsmuelem.h>
@@ -44,24 +44,30 @@
 
 #include <w32std.h>
 #include <apgcli.h>
-#include <CPhCltUssd.h>
+#include <cphcltussd.h> 
 #include <avkon.rsg>
-#include <PhoneServer.rsg>
-#include <telephonyvariant.hrh>
-#include "PhSrvDebugInfo.h"
+#include <phoneserver.rsg> 
+// <-- QT PHONE START-->
+//#include <telephonyvariant.hrh>
+// <-- QT PHONE END-->
+#include "PhSrvDebugInfo.h" 
 #include <e32property.h>
-
-#include <NcnListInternalPSKeys.h>
+// <-- QT PHONE START-->
+//#include <ncnlistinternalpskeys.h> 
+// <-- QT PHONE END-->
 #include <centralrepository.h>
-#include <telinternalcrkeys.h>
+// <-- QT PHONE START-->
+//#include <telinternalcrkeys.h>
+// <-- QT PHONE  END-->
 #include <coreapplicationuisdomainpskeys.h>
 
 
 // CONSTANTS
 const TInt KPhSrvDefaultValue = 0x00000000;
 // const TInt KPhSrvUssdNoTone = 0; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
-const TInt KPhSrvUssdTone   = 2; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
-
+// <-- QT PHONE START-->
+//const TInt KPhSrvUssdTone   = 2; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
+// <-- QT PHONE END-->
 // const TInt KPhSrvUssdTimeOutObserverGranularity = 2;
 // const TInt KPhSrvUssdSentMessageObserverGranularity = 2;
 const TInt KPhSrvUssdAppUID = 0x10005955;
@@ -489,7 +495,7 @@ void CPhSrvUssdManager::ConstructL( MPhSrvPhoneInterface& aPhoneInterface )
         R_PHSRV_USSD_MESQUERY_MESSAGE);
     CleanupStack::Pop( iMeQuHeaderText );
 
-	_DDPRINT( 4, "PhSrv.ConstructL.iSatCanceled ", iSatCanceled );
+    _DDPRINT( 4, "PhSrv.ConstructL.iSatCanceled ", iSatCanceled );
     _DDPRINT( 4, "PhSrv.ConstructL.iShowDone ", iShowDone );
     iNotifyArray = new( ELeave ) CDesCArrayFlat( KPhrUssdNotifyArraySize );
     _DPRINT( 4, "PhSrv.ConstructL.End" );       // debug print
@@ -581,7 +587,7 @@ void CPhSrvUssdManager::SendUssdL(
         if ( NetworkWaitingForAnAnswer() )
             {
             // Network is waiting for an answer
-            _DPRINT( 4, "PhSrv.SendUssdL.EUssdMOReply" );	// debug print
+            _DPRINT( 4, "PhSrv.SendUssdL.EUssdMOReply" );   // debug print
             aMsgAttribute.iType = RMobileUssdMessaging::EUssdMOReply;
             }
         else
@@ -781,15 +787,15 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
     // This always is either ongoing transaction or starting a new based
     // on incoming message, mark transaction to be open.
     iNetworkReleased = EFalse;
-		
+        
     // 2. Complete Send with some positive value.
-	if ( iObserver )
+    if ( iObserver )
         {
         // debug print
         _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Observer" );
         UssdNetworkObserverHandleSendEventL( 1 ); // some positive value
         }
-	
+    
     if ( aMsgAttributes.iFlags&RMobileUssdMessaging::KUssdMessageType &&
          aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTRequest )
         {
@@ -842,7 +848,7 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
         }
     else
         {
-       	_DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.String" );
+        _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.String" );
         iNotifyMessage = ( aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTNotify );
         _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
         _DDPRINT( 4, "PhSrv.UssdNOHREventL.iNotifyMessage: ", iNotifyMessage );
@@ -856,29 +862,29 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
             }
         
         if ( iNotifyMessage || iMsgTypeReply )
-        	{
-        	//This is for reply message in notifyarray
-        	iNotifyMessage = ETrue;
-        	_DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
+            {
+            //This is for reply message in notifyarray
+            iNotifyMessage = ETrue;
+            _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
 
-	        //Notify added to array
-        	iNotifyArray->AppendL( iReceivedMessage );
+            //Notify added to array
+            iNotifyArray->AppendL( iReceivedMessage );
 
-        	_DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.AppendL" );       // debug print
-        	UpdateNotifyMessage();
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.AppendL" );       // debug print
+            UpdateNotifyMessage();
 
-        	if ( !iSendRelease && NotifyCount() <= 1 )
-				{
-				_DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.!SendRelease.Cancel" );       // debug print
-				Cancel();
-				}
-        	}
+            if ( !iSendRelease && NotifyCount() <= 1 )
+                {
+                _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.!SendRelease.Cancel" );       // debug print
+                Cancel();
+                }
+            }
         else
-       		{
-       		// New message deletes old message, i.e. Cancel existing query.
-       		Cancel();
-			_DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NewAnswerable" );       // debug print
-       		}
+            {
+            // New message deletes old message, i.e. Cancel existing query.
+            Cancel();
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NewAnswerable" );       // debug print
+            }
 
         if ( !iGlobalMsgQuery )
             {
@@ -905,12 +911,15 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
 
         // Play the USSD tone if needed. Logically should be in RunL, but here
         // to give better balancing with voice and visible message.
+        // <-- QT PHONE START-->
+        /*
         if ( IsTelephonyFeatureSupported( KTelephonyLVFlagUssdTone ) )
             {
             _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.PlayTone" );
             PlayUssdTone();
             }
-
+        */
+            // <-- QT PHONE END-->
         // Launch the new message query
         if ( !IsActive() )
             {
@@ -963,31 +972,31 @@ void CPhSrvUssdManager::RestartReplyTimerL()
 void CPhSrvUssdManager::UssdNetworkObserverHandleNotifyNWReleaseL(
 const RMobilePhone::TMobilePhoneSendSSRequestV3 & aReturnResult,
 TInt aError )
-	{
- 	_DDPRINT( 4, "PhSrv.UssdNotifyNWRelease ##### ", aError ); // debug print
+    {
+    _DDPRINT( 4, "PhSrv.UssdNotifyNWRelease ##### ", aError ); // debug print
     _DPRINT_FLAGS();
- 	TBool showNotes = ShowNotesL();
- 	iNetworkReleased = ETrue;
- 	iSendingAck = EFalse;
+    TBool showNotes = ShowNotesL();
+    iNetworkReleased = ETrue;
+    iSendingAck = EFalse;
     iSendRelease = EFalse;
- 	iAcksToBeSent = 0;
- 	
- 	if ( iHavePendingSatMessagePointer )
- 		{
- 		iReturnResult = aReturnResult;
- 		if ( !iSatCanceled )
- 			{
- 			CompleteSatL(&iReceivedMessage, aError );
-			_DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.CompleteSat" );       // debug print
- 			}
- 		}
- 	if ( iUssdReplyTimer && iUssdReplyTimer->IsTimerActive() )
-    	{
-    	_DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.Timer.Stop" );
-    	iUssdReplyTimer->Stop();
-    	Cancel();
-    	CheckArray();
-    	}
+    iAcksToBeSent = 0;
+    
+    if ( iHavePendingSatMessagePointer )
+        {
+        iReturnResult = aReturnResult;
+        if ( !iSatCanceled )
+            {
+            CompleteSatL(&iReceivedMessage, aError );
+            _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.CompleteSat" );       // debug print
+            }
+        }
+    if ( iUssdReplyTimer && iUssdReplyTimer->IsTimerActive() )
+        {
+        _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.Timer.Stop" );
+        iUssdReplyTimer->Stop();
+        Cancel();
+        CheckArray();
+        }
     if ( showNotes && iShowDone )
         {
         ShowDoneNoteL();
@@ -1004,7 +1013,7 @@ TInt aError )
     _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.Ending" );
     _DPRINT_FLAGS();
     _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.End" );
-	}
+    }
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::ShowDoneNoteL
@@ -1483,74 +1492,74 @@ void CPhSrvUssdManager::CloseSession()
 // -----------------------------------------------------------------------------
 //
 void CPhSrvUssdManager::CheckArray()
-	{
-	_DPRINT( 4, "PhSrv.CheckArray.Start" );     // debug print
- 	if (iNotifyArray  && NotifyCount() > 0)
-		{
-		if 	( !iNotifyMessage && !iClearArray )
-			{
-			iLaunchGMQ = ETrue;
-			iNotifyMessage = ETrue;
-			_DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.ETrue" );
-			iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
-			_DDPRINT( 4, "PhSrv.CheckArray.SetActive.NoNotifyMessage ", iStatus.Int() );
-			SetActive();
-			}
-		else if( NotifyCount() > 1 )
-			{
-			( iNotifyArray )->Delete( 0 );
-			( iNotifyArray )->Compress();
-			iLaunchGMQ = ETrue;
-			iNotifyMessage = ETrue;
-			_DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.ETrue" );
-			iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
-			_DDPRINT( 4, "PhSrv.CheckArray.SetActive.NotifyCount>1 ", iStatus.Int() );
-			SetActive();
-			}
- 		else
-     		{
-			iNotifyArray->Reset();
-     		iNotifyMessage = EFalse;
-     		_DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.EFalse" );
-     		}
-  		}
+    {
+    _DPRINT( 4, "PhSrv.CheckArray.Start" );     // debug print
+    if (iNotifyArray  && NotifyCount() > 0)
+        {
+        if  ( !iNotifyMessage && !iClearArray )
+            {
+            iLaunchGMQ = ETrue;
+            iNotifyMessage = ETrue;
+            _DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.ETrue" );
+            iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
+            _DDPRINT( 4, "PhSrv.CheckArray.SetActive.NoNotifyMessage ", iStatus.Int() );
+            SetActive();
+            }
+        else if( NotifyCount() > 1 )
+            {
+            ( iNotifyArray )->Delete( 0 );
+            ( iNotifyArray )->Compress();
+            iLaunchGMQ = ETrue;
+            iNotifyMessage = ETrue;
+            _DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.ETrue" );
+            iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
+            _DDPRINT( 4, "PhSrv.CheckArray.SetActive.NotifyCount>1 ", iStatus.Int() );
+            SetActive();
+            }
+        else
+            {
+            iNotifyArray->Reset();
+            iNotifyMessage = EFalse;
+            _DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.EFalse" );
+            }
+        }
     _DPRINT_FLAGS();
-  	_DPRINT( 4, "PhSrv.CheckArray.End" );     // debug print
- 	}
+    _DPRINT( 4, "PhSrv.CheckArray.End" );     // debug print
+    }
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::ClearArray()
 // -----------------------------------------------------------------------------
 //
   void CPhSrvUssdManager::ClearArrayL()
-  	{
-  	_DPRINT( 4, "PhSrv.ClearArrayL.Start" );     // debug print
-  	if (iNotifyArray && NotifyCount() > 0)
-	  	{
-	  	if (iNotifyMessage && NotifyCount()== 1 )
-	  		{
-	  		iNotifyArray->Reset();
-	  		}
-	  	else
-	  		{
-	  		iReceivedMessage.Zero();
-	  		HBufC* unreadText = iResourceManager.ReadResourceLC( R_PHSRV_TEXT_UNREAD );
-	  		TPtr pMessage( unreadText->Des() );
-	  		iReceivedMessage.Append( pMessage );
-	  		iNotifyArray->InsertL( 0, iReceivedMessage );
-	        CleanupStack::PopAndDestroy( unreadText );
-	  		iLaunchGMQ = ETrue;
-	  		iNotifyMessage = ETrue;
-	  		_DPRINT( 4, "PhSrv.ClearArrayL.iNotifyMessage.ETrue" );
-	  		iClearArray = ETrue;
-	  		iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
-	  		_DDPRINT( 4, "PhSrv.ClearArrayL.iTimer ", iStatus.Int() );
-			SetActive();
-	  		}
-	  	}
+    {
+    _DPRINT( 4, "PhSrv.ClearArrayL.Start" );     // debug print
+    if (iNotifyArray && NotifyCount() > 0)
+        {
+        if (iNotifyMessage && NotifyCount()== 1 )
+            {
+            iNotifyArray->Reset();
+            }
+        else
+            {
+            iReceivedMessage.Zero();
+            HBufC* unreadText = iResourceManager.ReadResourceLC( R_PHSRV_TEXT_UNREAD );
+            TPtr pMessage( unreadText->Des() );
+            iReceivedMessage.Append( pMessage );
+            iNotifyArray->InsertL( 0, iReceivedMessage );
+            CleanupStack::PopAndDestroy( unreadText );
+            iLaunchGMQ = ETrue;
+            iNotifyMessage = ETrue;
+            _DPRINT( 4, "PhSrv.ClearArrayL.iNotifyMessage.ETrue" );
+            iClearArray = ETrue;
+            iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
+            _DDPRINT( 4, "PhSrv.ClearArrayL.iTimer ", iStatus.Int() );
+            SetActive();
+            }
+        }
     _DPRINT_FLAGS();
-	_DPRINT( 4, "PhSrv.ClearArrayL.End" );     // debug print
-  	}
+    _DPRINT( 4, "PhSrv.ClearArrayL.End" );     // debug print
+    }
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::NotifyCount()
@@ -1566,15 +1575,15 @@ void CPhSrvUssdManager::CheckArray()
 // -----------------------------------------------------------------------------
 //
   void CPhSrvUssdManager:: UpdateNotifyMessage()
-  	{
-  	_DDPRINT( 4, "PhSrv.UpdateNotifyMessage.Start, clear: ", iClearArray );     // debug print
-  	if (NotifyCount() > 1 && !iClearArray )
-  		{
-  		_DPRINT( 4, "PhSrv.UpdateNotifyMessage" );     // debug print
-  		iGlobalMsgQuery->UpdateMsgQuery( R_AVKON_SOFTKEYS_NEXT_EXIT__NEXT );
-  		}
-  	_DPRINT( 4, "PhSrv.UpdateNotifyMessage.End" );     // debug print
-  	}
+    {
+    _DDPRINT( 4, "PhSrv.UpdateNotifyMessage.Start, clear: ", iClearArray );     // debug print
+    if (NotifyCount() > 1 && !iClearArray )
+        {
+        _DPRINT( 4, "PhSrv.UpdateNotifyMessage" );     // debug print
+        iGlobalMsgQuery->UpdateMsgQuery( R_AVKON_SOFTKEYS_NEXT_EXIT__NEXT );
+        }
+    _DPRINT( 4, "PhSrv.UpdateNotifyMessage.End" );     // debug print
+    }
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::DoCancel
@@ -1883,8 +1892,8 @@ void CPhSrvUssdManager::CompleteSatL(
                     }
                 iHavePendingSatMessagePointer = EFalse;
                 }
-			else
-				{
+            else
+                {
             _DPRINT( 4, "PhSrv.CompleteSatL.recString.Write" );  // debug print
             iPendingSatMessagePointer.WriteL(
                 2,
@@ -1927,7 +1936,7 @@ void CPhSrvUssdManager::CompleteSatL(
 TBool CPhSrvUssdManager::IsTelephonyFeatureSupported(
     const TInt aFeatureId )
     {
-	return ( aFeatureId & iVariantReadOnlyValues );
+    return ( aFeatureId & iVariantReadOnlyValues );
     }
 
 
@@ -1941,9 +1950,10 @@ TInt CPhSrvUssdManager::PlayUssdTone()
     _DPRINT( 4, "PhSrv.UssdM.PlayTone.start" );           // debug print
 
     TInt err = KErrNone;
-
-    RProperty::Define( KPSUidNcnList, KNcnPlayAlertTone, RProperty::EInt, ECapability_None , ECapabilityWriteDeviceData );
-    RProperty::Set( KPSUidNcnList, KNcnPlayAlertTone, KPhSrvUssdTone );
+// <-- QT PHONE  START-->
+//    RProperty::Define( KPSUidNcnList, KNcnPlayAlertTone, RProperty::EInt, ECapability_None , ECapabilityWriteDeviceData );
+//    RProperty::Set( KPSUidNcnList, KNcnPlayAlertTone, KPhSrvUssdTone );
+// <-- QT PHONE END-->
 
     // debug print
     _DDPRINT(
@@ -1962,7 +1972,8 @@ TInt CPhSrvUssdManager::GetTelephonyVariantData()
     {
     _DPRINT( 4, "PhSrv.UssdM.GetTelephonyVariantData.Start" );
     TInt err = KErrNone;
-
+// <-- QT PHONE START-->
+/*
     // Variation data should be unchangable during run-time,
     // therefore, if once succesfully read, later reads are
     // not allowed.
@@ -1981,6 +1992,8 @@ TInt CPhSrvUssdManager::GetTelephonyVariantData()
 
     _DDPRINT( 4, "PhSrv.UssdM.variant", iVariantReadOnlyValues ); // debug print
     _DPRINT( 4, "PhSrv.UssdM.GetTelephonyVariantData.End" );
+    */
+// <-- QT PHONE END-->
     return err;
     }
 

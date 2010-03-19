@@ -17,10 +17,10 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneVoipNumberParser.h"
-#include    "CPhoneGsmParserResult.h"
-#include    "CPhoneGsmOptionContainer.h"
-#include    "phoneParserCommon.h"
+#include    "CPhoneVoipNumberParser.h" 
+#include    "cphonegsmparserresult.h" 
+#include    "CPhoneGsmOptionContainer.h" 
+#include    "phoneParserCommon.h" 
 
 // CONSTANTS
 
@@ -141,8 +141,7 @@ void CPhoneVoipNumberParser::TakeNumberPartL(
         
         if ( !dtmfFound )
             {
-            if ( !nextChar.IsDigit() &&
-                  nextChar != KPhonePlus )
+            if ( !nextChar.IsDigit() )
                 {
                 allDigits = EFalse;
                 }

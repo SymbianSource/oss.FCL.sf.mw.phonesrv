@@ -27,7 +27,7 @@ NAME    CSSE
 #include    <eikon.rh>  
 #include    <avkon.hrh>
 #include    <avkon.rh>
-#include 	<avkon.rsg>
+#include    <avkon.rsg>
 #include    "serviceselector.loc"
 
 

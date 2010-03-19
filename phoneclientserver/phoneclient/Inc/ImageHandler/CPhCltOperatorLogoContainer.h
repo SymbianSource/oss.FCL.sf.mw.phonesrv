@@ -19,7 +19,7 @@
 #define CPHCLTOPERATORLOGOCONTAINER_H
 
 // INCLUDES
-#include   <CPhCltBaseImageParams.h>
+#include   <cphcltbaseimageparams.h> 
 #include    <fbs.h>
 
 // CLASS DECLARATION

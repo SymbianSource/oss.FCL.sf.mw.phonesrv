@@ -12,9 +12,9 @@
 * Contributors:
 *
 * Description:  
-*		CPsuiVariationProxy class is proxy class for 
-*		central repository variation
-*		(Call waiting/distinguish between not provisioned and not activated).
+*       CPsuiVariationProxy class is proxy class for 
+*       central repository variation
+*       (Call waiting/distinguish between not provisioned and not activated).
 *  
 *
 */
@@ -42,39 +42,39 @@ NONSHARABLE_CLASS ( CPSuiVariationProxy ): public CBase
 {
 public: //constructor & destructor
 
-	/* Symbian OS 2-phase Constructor. */
-	static CPSuiVariationProxy* NewL();
-	
-	/* Destructor */
-	~CPSuiVariationProxy();
-	
+    /* Symbian OS 2-phase Constructor. */
+    static CPSuiVariationProxy* NewL();
+    
+    /* Destructor */
+    ~CPSuiVariationProxy();
+    
 public:
-	/**
+    /**
     * Check from member variable 'iFeatures' is the requested feature active.
-	*
-	* @param aFeature is uid for used central repository variable.
-	* @return returns TBool type ETrue/EFalse is current feature enabled or not
-	*/
-	
-	TBool FeatureEnabled( TUint aFeature ) const;
+    *
+    * @param aFeature is uid for used central repository variable.
+    * @return returns TBool type ETrue/EFalse is current feature enabled or not
+    */
+    
+    TBool FeatureEnabled( TUint aFeature ) const;
 
 private:
-	
-	/**
+    
+    /**
     * Constructor
-	*
-	* Open CenRep, read data into 'iFeatures' and close CenRep
-	* 
-	*/
-	void ConstructL();
-	
+    *
+    * Open CenRep, read data into 'iFeatures' and close CenRep
+    * 
+    */
+    void ConstructL();
+    
 private:
-	/* Default constructor */
-	CPSuiVariationProxy();
+    /* Default constructor */
+    CPSuiVariationProxy();
 private:
-	// Saves cen rep data. Readed in ConstructL()
-	TInt iFeatures;
-	
+    // Saves cen rep data. Readed in ConstructL()
+    TInt iFeatures;
+    
 };
 
 #endif

@@ -17,27 +17,29 @@
 
 
 // INCLUDE FILES
-#include "PSetCallDivertingBasicImpl.h"
+#include "PSetCallDivertingBasicImpl.h" 
 
 #include <badesca.h>
 #include <etelmm.h>           
 #include <e32math.h>
-#include <vmnumber.h>
+// <-- QT PHONE START -->
+//include <vmnumber.h>
+// <-- QT PHONE END -->
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
-#include <SettingsInternalCRKeys.h>
+#include <settingsinternalcrkeys.h> 
 
-#include "PsetCallDiverting.h"
-#include "PsetContainer.h"
-#include "MPsetDivertObs.h"
-#include "PsetTelephony.h"
-#include "PSetPanic.h"
-#include "MPsetRequestObs.h"
-#include "PSetUtility.h"
-#include "PhoneSettingsLogger.h"
-#include "PsetSAObserver.h"
-#include "PSetCallDivertingBase.h"
+#include "psetcalldiverting.h" 
+#include "psetcontainer.h" 
+#include "mpsetdivertobs.h" 
+#include "PsetTelephony.h" 
+#include "PSetPanic.h" 
+#include "mpsetrequestobs.h" 
+#include "PSetUtility.h" 
+#include "PhoneSettingsLogger.h" 
+#include "psetsaobserver.h" 
+#include "PSetCallDivertingBase.h" 
 
 //  LOCAL CONSTANTS AND MACROS
 
@@ -166,6 +168,17 @@ void CPSetCallDivertingBase::DoCancel()
     {
     // Empty implementation.
     }
+
+// <-- QT PHONE START -->
+// ---------------------------------------------------------------------------
+// SetRequestObserver
+// ---------------------------------------------------------------------------
+//
+void CPSetCallDivertingBase::SetRequestObserver( MPsetRequestObserver* aObs )
+    {
+    iReqObserver = aObs;
+    }
+// <-- QT PHONE END -->
 
 // ---------------------------------------------------------------------------
 // SetDivertingL
@@ -808,12 +821,15 @@ void CPSetCallDivertingBase::RequestCompleted( const TInt& aError )
 // Verifies whether the divert-to number is to voice mail box.
 // ---------------------------------------------------------------------------
 //
-TBool CPSetCallDivertingBase::IsVMBXDivertL( TDesC& aTelNumber )
+TBool CPSetCallDivertingBase::IsVMBXDivertL( TDesC& /*aTelNumber*/ )
     {
+
     __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBase::IsVMBXDivertL" );
     
     TBool result = EFalse;
-    
+ // <-- QT PHONE START -->   
+ 
+ /*
     if ( FeatureManager::FeatureSupported ( KFeatureIdVmbxCallDivertIcon ) )
         {
         RVmbxNumber vmbxConnection;
@@ -847,6 +863,8 @@ TBool CPSetCallDivertingBase::IsVMBXDivertL( TDesC& aTelNumber )
                 }
             }
         }
+*/
+    // <-- QT PHONE END-->
     __PHSLOGSTRING("[PHS] <--CPSetCallDivertingBase::IsVMBXDivertL" );
     return result;
     }
@@ -854,6 +872,8 @@ TBool CPSetCallDivertingBase::IsVMBXDivertL( TDesC& aTelNumber )
 // ---------------------------------------------------------------------------
 // Opens Vmbx. Leaves vmbx to the stack.  
 // ---------------------------------------------------------------------------
+// <-- QT PHONE START-->
+/*
 TInt CPSetCallDivertingBase::OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx )
     {
     __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBase::OpenVmbxLC" );
@@ -861,8 +881,10 @@ TInt CPSetCallDivertingBase::OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx )
     CleanupClosePushL( aVmbx );         
     __PHSLOGSTRING("[PHS]<-- CPSetCallDivertingBase::OpenVmbxLC" );
     return aVmbx.GetVmbxNumber( aTelNumber );
+    
     }
-
+*/
+// <-- QT PHONE END-->
 // ---------------------------------------------------------------------------
 // If SsSettings notifies of settings change, copy new value to member variable. 
 // ---------------------------------------------------------------------------

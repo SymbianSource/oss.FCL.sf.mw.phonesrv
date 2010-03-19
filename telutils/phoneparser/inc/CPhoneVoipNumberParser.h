@@ -20,8 +20,8 @@
 #define CPHONEVOIPNUMBERPARSER_H
 
 // INCLUDES
-#include    "CPhoneGsmParserBase.h"
-#include    <PhCltTypes.h>
+#include    "cphonegsmparserbase.h" 
+#include    <phclttypes.h> 
 
 // FORWARD DECLARATIONS
 class CPhoneGsmOptionContainer;

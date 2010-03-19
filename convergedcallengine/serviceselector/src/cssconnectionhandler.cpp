@@ -57,13 +57,19 @@ CSsConnectionHandler* CSsConnectionHandler::NewL()
 //
 void CSsConnectionHandler::ConstructL()
     {
-    iCch = CCch::NewL(); 
+    // <-- QT PHONE START -->
+    //iCch = CCch::NewL(); 
+    // <-- QT PHONE END -->
+
     }
 
 // Destructor
 CSsConnectionHandler::~CSsConnectionHandler()
     {
-    delete iCch;
+    // <-- QT PHONE START -->
+    //delete iCch;
+    // <-- QT PHONE END-->
+
     }
 
 // -----------------------------------------------------------------------------
@@ -73,11 +79,14 @@ CSsConnectionHandler::~CSsConnectionHandler()
 //
 TBool CSsConnectionHandler::IsVoipServiceRegistered
         ( 
-        TUint aServiceId 
+        TUint /*aServiceId */
         ) const
     {
-    TCchServiceStatus serviceStatus;
+   
     TBool registered( EFalse );
+    // <-- QT PHONE START -->
+/*
+    TCchServiceStatus serviceStatus;
     CCchService* service = iCch->GetService( aServiceId );
     if ( service )
         {
@@ -90,6 +99,10 @@ TBool CSsConnectionHandler::IsVoipServiceRegistered
                 (TInt) aServiceId,
                 (TInt) ECCHEnabled == serviceStatus.State(),
                 (TInt) serviceStatus.Error());
+                */
+                
+    // <-- QT PHONE END-->
+
      
     return registered;        
     }

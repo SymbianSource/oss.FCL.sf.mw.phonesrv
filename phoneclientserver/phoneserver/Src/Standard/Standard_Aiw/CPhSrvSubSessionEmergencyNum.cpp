@@ -18,15 +18,15 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvSubSessionEmergencyNum.h"
+#include "CPhSrvSubSessionEmergencyNum.h" 
 #include <s32mem.h>
-#include <PhCltTypes.h>
-#include "CPhSrvSession.h"
-#include "CPhSrvServer.h"
-#include "MPhSrvPhoneInterface.h"
-#include "MPhSrvEmergencyNumberManager.h"
-#include "MPhSrvEmergencyNegotiators.h"
-#include "PhSrvDebugInfo.h"
+#include <phclttypes.h> 
+#include "CPhSrvSession.h" 
+#include "CPhSrvServer.h" 
+#include "MPhSrvPhoneInterface.h" 
+#include "MPhSrvEmergencyNumberManager.h" 
+#include "MPhSrvEmergencyNegotiators.h" 
+#include "PhSrvDebugInfo.h" 
 
 // CONSTANTS
 

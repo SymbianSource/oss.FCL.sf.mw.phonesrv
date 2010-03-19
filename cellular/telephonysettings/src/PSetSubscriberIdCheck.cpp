@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include    "PSetSubscriberIdCheck.h"
+#include    "PSetSubscriberIdCheck.h" 
 
 _LIT( KRogersImsi, "30272" );
 const TInt KMinImsiLength = 5;

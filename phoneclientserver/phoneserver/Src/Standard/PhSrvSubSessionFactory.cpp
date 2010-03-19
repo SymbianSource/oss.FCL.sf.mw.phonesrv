@@ -19,16 +19,16 @@
 
 
 // INCLUDES
-#include "PhCltClientServer.h"
+#include "PhCltClientServer.h" 
 
-#include "PhSrvSubSessionFactory.h"
-#include "CPhSrvSubSessionNotifier.h"
-#include "CPhSrvSubSessionExtCall.h"
-#include "CPhSrvSubSessionUssd.h"
-#include "CPhSrvSubSessionEmergencyNum.h"
-#include "CPhSrvSubSessionCommandHandler.h"
-#include "CPhSrvSubSessionMessenger.h"
-#include "CPhSrvSubSessionImageHandler.h"
+#include "PhSrvSubSessionFactory.h" 
+#include "CPhSrvSubSessionNotifier.h" 
+#include "CPhSrvSubSessionExtCall.h" 
+#include "CPhSrvSubSessionUssd.h" 
+#include "CPhSrvSubSessionEmergencyNum.h" 
+#include "CPhSrvSubSessionCommandHandler.h" 
+#include "CPhSrvSubSessionMessenger.h" 
+#include "CPhSrvSubSessionImageHandler.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -132,10 +132,10 @@ TBool PhSrvSubSessionFactory::PhSrvSubSessionFactoryIsCreationAllowed(
         case EPhoneServerComHandNotifySubSessionOpen:
             if ( aSID == KPhoneSecureId.iUid 
 #if defined(__WINSCW__)
-							// To enable module testing using EUnit
-								|| aSID == KEunitExeRunnerId.iUid 
+                            // To enable module testing using EUnit
+                                || aSID == KEunitExeRunnerId.iUid 
 #endif // __WINSCW__
-								)
+                                )
                 {       
                 return ETrue;   
                 }

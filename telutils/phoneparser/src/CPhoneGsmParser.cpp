@@ -20,13 +20,13 @@
 // INCLUDE FILES
 #include    <bldvariant.hrh>
 
-#include    "CPhoneGsmParser.h"
-#include    "CPhoneGsmParserResult.h"
-#include    "CPhoneGsmParserBase.h"
-#include    "CPhoneGsmDummyParser.h"
-#include    "CPhoneGsmOptionContainer.h"
-#include    "CPhoneParserFeatures.h"
-#include    "CPhoneGsmOptionContainerBase.h"
+#include    "CPhoneGsmParser.h" 
+#include    "cphonegsmparserresult.h" 
+#include    "cphonegsmparserbase.h" 
+#include    "CPhoneGsmDummyParser.h" 
+#include    "CPhoneGsmOptionContainer.h" 
+#include    "CPhoneParserFeatures.h" 
+#include    "cphonegsmoptioncontainerbase.h" 
 
 // CONSTANTS
 

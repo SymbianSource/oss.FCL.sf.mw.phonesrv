@@ -145,7 +145,7 @@ void CCCEDurationTimer::Start(TInt aBeatsOffset)
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-//	
+//  
 void CCCEDurationTimer::RestartAirTimeDuration(TInt aBeatsOffset)
     {
     //Check if active 
@@ -161,7 +161,7 @@ void CCCEDurationTimer::RestartAirTimeDuration(TInt aBeatsOffset)
         iAirTimeDuration = ETrue;
         }
     }
-	
+    
 // -----------------------------------------------------------------------------
 // CCCEDurationTimer::StartAirTimeDuration
 //    if timer is not already active
@@ -199,7 +199,7 @@ void CCCEDurationTimer::StartAirTimeDuration()
 //
 TDateTime CCCEDurationTimer::StartTime()
     {
-	return iStartTime.DateTime();
+    return iStartTime.DateTime();
     }
 
 // -----------------------------------------------------------------------------

@@ -21,7 +21,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <PhCltTypes.h>
+#include <phclttypes.h> 
 
 //  FORWARD DECLARATIONS
 class RPhCltServer;
@@ -60,7 +60,7 @@ NONSHARABLE_CLASS( CPhCltDialRequestMonitor ): public CActive
         * @param aObserver dial request observer
         */
         void NotifyDialRequest( 
-			MPhCltDialRequestObserver* aObserver );
+            MPhCltDialRequestObserver* aObserver );
 
         /**
         * Respond to client request to make a call

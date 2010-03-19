@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -148,12 +148,39 @@ public:
     void GetCurrentActiveUSimApplication( TRequestStatus& aReqStatus, 
                     RMobilePhone::TAID& aAID );
 
-
     /**
      * Check if there is an incoming call 
      * @return ETrue if there is an incoming call
      */
     TBool IsCallIncoming();
+    
+    /**
+     * Access RMobileCall::NotifyMobileCallStatusChange
+     */
+    void NotifyMobileCallStatusChange( TRequestStatus& aReqStatus,
+                    RMobileCall::TMobileCallStatus& aStatus) ; 
+
+    /**
+     * Access RMobileCall::NotifyStatusChangeCancel
+     */
+    void NotifyCallStatusChangeCancel();
+    /**
+     * Access RMobilePhone::TerminateAllCalls NotifyMobileCallStatusChange
+     */
+    void TerminateAllCalls(TRequestStatus& aReqStatus);
+
+    
+    /**
+     * Access RMboileCall::GetMobileCallInfo
+     */
+    TInt GetMobileCallInfo(TDes8& aCallInfo);
+    
+    /**
+     * Access RMboileCall::DialEmergencyCall
+     */
+    virtual void DialEmergencyCall(TRequestStatus& aReqStatus, 
+                const TDesC& aNumber);
+            
 private:
 
     /**
@@ -181,16 +208,16 @@ private:
      */
     void LoadPhoneModuleL( RMobilePhone& aPhone, const TDesC& aModuleName,
             const TDesC& aPhoneName );
-                           
-    /**
-     * Open the RMobileCall
-     */
-    void LoadMobileCallL();
-    
+
     /**
      * Open the RMobileUssdMessaging
      */ 
     void LoadUssdMessagingL();
+    
+    /**
+     * Open the RMobileCall
+     */
+    TInt LoadMobileCall();
     
 
 private: // data

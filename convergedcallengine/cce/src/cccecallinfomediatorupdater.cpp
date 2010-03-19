@@ -19,7 +19,7 @@
 #include "cccecallinfomediatorupdater.h"
 
 #include <callinformation.h>
-#include <MediatorDomainUIDs.h>
+#include <MediatorDomainUIDs.h> 
 
 #include "mccecallinfomediator.h"
 #include "cccecall.h"

@@ -21,7 +21,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <PhCltTypes.h>
+#include <phclttypes.h> 
 
 
 //  FORWARD DECLARATIONS
@@ -78,7 +78,7 @@ class CPhCltCallNotify : public CBase
         * @param aObserver dial request observer
         */
         IMPORT_C void NotifyDialRequest( 
-			MPhCltDialRequestObserver* aObserver );
+            MPhCltDialRequestObserver* aObserver );
 
         /**
         * Cancel pending call attempt notification.
@@ -104,14 +104,14 @@ class CPhCltCallNotify : public CBase
         /**
         * Cancel pending emergency call attempt notification.
         */
-		IMPORT_C void CancelNotifyEmergencyCall() const;
+        IMPORT_C void CancelNotifyEmergencyCall() const;
 
         /**
         * Respond to client request to make emergency call
         *
         * @param aResultCode Result of the response.
         */
-		IMPORT_C TInt RespondEmergencyToClient( const TInt aResultCode );
+        IMPORT_C TInt RespondEmergencyToClient( const TInt aResultCode );
         
         /**
         * Notifies when a Command handler request arrives.

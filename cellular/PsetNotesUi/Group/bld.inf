@@ -25,12 +25,12 @@ PRJ_MMPFILES
 ../Group/Psui.mmp
 
 PRJ_EXPORTS
-../Inc/PsuiResourceLoader.h |../../../inc/psuiresourceloader.h
-../Data/psui_stub.SIS       /epoc32/data/z/system/install/psui_stub.sis
+../inc/PsuiResourceLoader.h |../../../inc/PsuiResourceLoader.h
+../data/psui_stub.SIS       /epoc32/data/z/system/install/psui_stub.SIS
 
 // IBY Files
-../Rom/Psui.iby             CORE_APP_LAYER_IBY_EXPORT_PATH(Psui.iby)
-../Rom/PsuiResources.iby    LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(PsuiResources.iby)
+../rom/Psui.iby             CORE_APP_LAYER_IBY_EXPORT_PATH(Psui.iby)
+../rom/PsuiResources.iby    LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(PsuiResources.iby)
 
 // LOC files
 ../loc/psui.loc             MW_LAYER_LOC_EXPORT_PATH(psui.loc)

@@ -17,12 +17,12 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneParserFeatures.h"
+#include    "CPhoneParserFeatures.h" 
 #include    <featmgr.h>
 #include    <centralrepository.h>
 #include    <telservicesvariant.hrh>
 #include    <telservicesinternalcrkeys.h>
-#include    <CPhCltEmergencyCall.h>
+#include    <cphcltemergencycall.h> 
 
 // FORWARD DECLARATION
 

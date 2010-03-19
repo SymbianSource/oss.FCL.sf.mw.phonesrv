@@ -29,7 +29,7 @@ NAME SERQ
 #include <avkon.mbg>
 
 #include <avkon.loc>
-#include "ServiceRequest.hrh"
+#include "ServiceRequest.hrh" 
 
 RESOURCE RSS_SIGNATURE { }
 

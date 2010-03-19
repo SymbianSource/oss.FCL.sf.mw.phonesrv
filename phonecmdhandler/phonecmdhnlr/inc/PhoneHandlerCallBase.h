@@ -20,10 +20,10 @@
 #define CPHONEHANDLERCALLBASE
 
 //  INCLUDES
-#include "PhoneHandlerService.h"
-#include "PhoneHandlerObserver.h"
+#include "PhoneHandlerService.h" 
+#include "PhoneHandlerObserver.h" 
 #include <e32base.h>
-#include <RPhCltServer.h>
+#include <rphcltserver.h> 
 
 // CONSTANTS
 
@@ -46,8 +46,8 @@ class CPhCltCommandHandler;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerCallBase ) : public CBase,
-											 public MPhoneHandlerService, 
-											 public MPhoneHandlerObserver
+                                             public MPhoneHandlerService, 
+                                             public MPhoneHandlerObserver
     {
     protected:  // Constructors and destructor
         
@@ -65,7 +65,7 @@ NONSHARABLE_CLASS( CPhoneHandlerCallBase ) : public CBase,
     
     public: // Functions from base classes
     
-    	/**
+        /**
         * From MPhoneHandlerService. Starts to process an asynchronous request.
         * @since Series 60 3.1
         * @param 
@@ -81,7 +81,7 @@ NONSHARABLE_CLASS( CPhoneHandlerCallBase ) : public CBase,
         */
         virtual void Delete() = 0;
     
-    	/**
+        /**
         * From MPhoneHandlerObserver. Notifies when asynchronous request has
         * been completed.
         * @since S60 3.1
@@ -89,7 +89,7 @@ NONSHARABLE_CLASS( CPhoneHandlerCallBase ) : public CBase,
         * @return void
         */
         virtual void RequestCompleted( const TInt aError ) = 0;
-	        
+            
     protected:  // New functions
         
         /**
@@ -107,31 +107,31 @@ NONSHARABLE_CLASS( CPhoneHandlerCallBase ) : public CBase,
         * @return void
         */
         void NextState();
-		
-		/**
+        
+        /**
         * Called when service isn't running (e.g. when it's completed).
         * @since S60 3.1
         * @param void
         * @return void
         */
-		void IdleState();
-		
-		/**
+        void IdleState();
+        
+        /**
         * Returns an active object's TRequestStatus for asynchronous calls.
         * @since S60 3.1
         * @param void
         * @return void
         */
-		TRequestStatus& GetStatus();
-		
-		/**
+        TRequestStatus& GetStatus();
+        
+        /**
         * Activates an active object for asynchronous calls.
         * @since S60 3.1
         * @param void
         * @return void
         */
-		void Activate(); 	
-		
+        void Activate();    
+        
     protected:  // Functions from base classes
     
     private:
@@ -140,20 +140,20 @@ NONSHARABLE_CLASS( CPhoneHandlerCallBase ) : public CBase,
            
     protected:  // Data
        
-       	// call handling service states 
+        // call handling service states 
         enum TPhoneHandlerServiceState
-		{
-    	EPhoneHandlerStateIdle		= 0,
-    	EPhoneHandlerState1			= 1,		   
-    	EPhoneHandlerState2			= 2,
-    	EPhoneHandlerState3			= 3
-     	};
-    	
-    	// stores service state
-    	TPhoneHandlerServiceState iState;
-    	
-    	// pointer to API providing call handling services
-    	CPhCltCommandHandler* iCommandHandler; // owned
+        {
+        EPhoneHandlerStateIdle      = 0,
+        EPhoneHandlerState1         = 1,           
+        EPhoneHandlerState2         = 2,
+        EPhoneHandlerState3         = 3
+        };
+        
+        // stores service state
+        TPhoneHandlerServiceState iState;
+        
+        // pointer to API providing call handling services
+        CPhCltCommandHandler* iCommandHandler; // owned
 
     private:    // Data
                         

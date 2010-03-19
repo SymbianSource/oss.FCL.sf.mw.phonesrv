@@ -17,13 +17,13 @@
 
 
 // INCLUDE FILES
-#include <AknGlobalNote.h> //CAknGlobalNote
+#include <AknGlobalNote.h> //CAknGlobalNote 
 #include <aknnotewrappers.h>
-#include <ConeResLoader.h>
-#include <StringLoader.h>
+#include <ConeResLoader.h> 
+#include <StringLoader.h> 
 
-#include "PhCltClientServer.h"
-#include "CPhCltUssdNoteController.h"
+#include "PhCltClientServer.h" 
+#include "CPhCltUssdNoteController.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

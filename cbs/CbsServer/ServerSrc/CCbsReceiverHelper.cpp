@@ -49,7 +49,9 @@
 #include <AknSoftNotifier.h>    // Soft Notification API
 #include <e32property.h>
 #include <coreapplicationuisdomainpskeys.h>
-#include <NcnListDomainPSKeys.h>
+// <-- QT PHONE START -->
+//#include <NcnListDomainPSKeys.h> 
+// <-- QT PHONE END -->
 
 #include <data_caging_path_literals.hrh>
 #include "CbsLogger.h"
@@ -66,9 +68,9 @@ const TUid KUidCbsUiappApp = { KUidCbsUiappDef };
 
 const TInt KCbsImmediateMessageIdInt = 313;
 const TUid KCbsImmediateMessageId = { KCbsImmediateMessageIdInt };
-
-const TInt KCbsMessageTone  = 2; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
-
+// <-- QT PHONE START -->
+//const TInt KCbsMessageTone  = 2; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
+// <-- QT PHONE END -->
 // DATA TYPES
 // CbsUi application view ID's
 enum TCbsUiViewIds
@@ -888,9 +890,13 @@ void CCbsReceiverHelper::TurnLightsOn()
 //
 void CCbsReceiverHelper::PlayCbsTone()
     {
+    // <-- QT PHONE START -->
+    /*
     RProperty::Define( KPSUidNcnList, KNcnPlayAlertTone, RProperty::EInt,
         ECapability_None , ECapabilityWriteDeviceData );
     RProperty::Set( KPSUidNcnList, KNcnPlayAlertTone, KCbsMessageTone );
+    */
+    // <-- QT PHONE END-->
     }
 
 // ================= OTHER EXPORTED FUNCTIONS ==============

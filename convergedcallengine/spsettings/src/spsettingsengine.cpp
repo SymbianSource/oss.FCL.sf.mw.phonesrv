@@ -19,7 +19,7 @@
 #include <centralrepository.h>
 #include <e32property.h>
 #include <featmgr.h>
-#include <settingsinternalcrkeys.h>
+#include <settingsinternalcrkeys.h> 
 #include <cenrepdatabaseutil.h>
 
 #include "spsettingsengine.h"
@@ -192,10 +192,10 @@ void CSPSettingsEngine::ConvertSpArrayToCenRepArrayL( const RPropertyArray& aSpA
     }
     
 void CSPSettingsEngine::CleanupPointerArray(  TAny* aPointer )
-	{
-	RIpAppPropArray* array = static_cast<RIpAppPropArray*>( aPointer );
-	array->ResetAndDestroy();
-	}
+    {
+    RIpAppPropArray* array = static_cast<RIpAppPropArray*>( aPointer );
+    array->ResetAndDestroy();
+    }
 
 // ---------------------------------------------------------------------------
 // Stores new service provider settings entry
@@ -207,14 +207,14 @@ void CSPSettingsEngine::AddEntryL( CSPEntry& aEntry )
     
     // check the service name is not empty
     if( aEntry.GetServiceName().Length() == 0 )
-    	{
-    	User::LeaveIfError( KErrArgument );
-    	}
+        {
+        User::LeaveIfError( KErrArgument );
+        }
 
     // construct RIpAppPropArray
     RIpAppPropArray array;
-	TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
-	CleanupStack::PushL( cleanup );
+    TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
+    CleanupStack::PushL( cleanup );
     
     ConvertSpEntryToCenRepArrayL( aEntry, array );
 
@@ -237,8 +237,8 @@ void CSPSettingsEngine::AddEntryL( CSPEntry& aEntry )
     XSPSLOGSTRING2( "CSPSettingsEngine::FindEntryL( %d ) - IN", aServiceId );
     
     RIpAppPropArray array;
-	TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
-	CleanupStack::PushL( cleanup );
+    TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
+    CleanupStack::PushL( cleanup );
 
     TInt err = iCenRepUtils->FindEntryL( aServiceId, array );
     
@@ -292,21 +292,21 @@ TInt CSPSettingsEngine::UpdateEntryL( const CSPEntry& aEntry )
 
     // construct RIpAppPropArray
     RIpAppPropArray array;
-	TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
-	CleanupStack::PushL( cleanup );
+    TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
+    CleanupStack::PushL( cleanup );
     
     ConvertSpEntryToCenRepArrayL( aEntry, array );
 
     TInt err = iCenRepUtils->UpdateEntryL( (TInt) serviceId, array );
     
     CleanupStack::PopAndDestroy( &array );
-	
+    
     XSPSLOGSTRING( "CSPSettingsEngine::UpdateEntry() - OUT" );
     
     return err;
     }
 
-	
+    
 // ---------------------------------------------------------------------------
 // Deletes service provider settings entry by service ID
 // ---------------------------------------------------------------------------
@@ -328,8 +328,8 @@ TInt CSPSettingsEngine::DeleteEntryL( TServiceId aServiceId )
 // ---------------------------------------------------------------------------
 //
 TInt CSPSettingsEngine::FindPropertyL( TServiceId aServiceId, 
-    								   TServicePropertyName aPropertyName, 
-    								   CSPProperty& aProperty )
+                                       TServicePropertyName aPropertyName, 
+                                       CSPProperty& aProperty )
     {
     XSPSLOGSTRING2( "CSPSettingsEngine::FindPropertyL(%d) - IN", aServiceId );
 
@@ -355,14 +355,14 @@ TInt CSPSettingsEngine::FindPropertyL( TServiceId aServiceId,
 // ---------------------------------------------------------------------------
 //
 TInt CSPSettingsEngine::AddOrUpdatePropertiesL( TServiceId aServiceId,
-												const RPropertyArray& aPropertyArray )
+                                                const RPropertyArray& aPropertyArray )
     {
     XSPSLOGSTRING2( "CSPSettingsEngine::AddOrUpdatePropertiesL(%d) - IN", aServiceId );
 
     // construct RIpAppPropArray
     RIpAppPropArray array;
-	TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
-	CleanupStack::PushL( cleanup );
+    TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
+    CleanupStack::PushL( cleanup );
     
     ConvertSpArrayToCenRepArrayL( aPropertyArray, array );
     
@@ -543,7 +543,7 @@ void CSPSettingsEngine::PropertyNameArrayFromItemTypeL( TSPItemType aPropertyTyp
 // ---------------------------------------------------------------------------
 //
 TInt CSPSettingsEngine::FindSubServicePropertiesL( TServiceId aServiceId, 
-	TSPItemType aPropertyType,
+    TSPItemType aPropertyType,
     RPropertyArray& aPropertyArray )
     {
     XSPSLOGSTRING2( 
@@ -586,7 +586,7 @@ TInt CSPSettingsEngine::FindSubServicePropertiesL( TServiceId aServiceId,
 // ---------------------------------------------------------------------------
 //
 TInt CSPSettingsEngine::DeleteServicePropertiesL( TServiceId aServiceId,
-    											  const RPropertyNameArray& aNameArray  )
+                                                  const RPropertyNameArray& aNameArray  )
     {
     XSPSLOGSTRING2( 
         "CSPSettingsEngine::FindSubServicePropertyL( %d ) - IN", aServiceId );
@@ -616,16 +616,16 @@ TInt CSPSettingsEngine::DeleteServicePropertiesL( TServiceId aServiceId,
 // ---------------------------------------------------------------------------
 //
 void CSPSettingsEngine::FindServiceIdsFromPropertiesL( const RPropertyArray& aPropertyArray, 
-													   RIdArray& aServiceIds )
-	{
-	XSPSLOGSTRING( "CSPSettingsEngine::FindServiceIdsFromPropertiesL() - IN" );
-	
+                                                       RIdArray& aServiceIds )
+    {
+    XSPSLOGSTRING( "CSPSettingsEngine::FindServiceIdsFromPropertiesL() - IN" );
+    
     RArray<TInt> entryIds;
     CleanupClosePushL( entryIds );
     
     RIpAppPropArray array;
-	TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
-	CleanupStack::PushL( cleanup );
+    TCleanupItem cleanup( CSPSettingsEngine::CleanupPointerArray, &array );
+    CleanupStack::PushL( cleanup );
     
     // todo custom cleanup stack
     ConvertSpArrayToCenRepArrayL( aPropertyArray, array );  
@@ -647,8 +647,8 @@ void CSPSettingsEngine::FindServiceIdsFromPropertiesL( const RPropertyArray& aPr
     CleanupStack::PopAndDestroy( &array );
     CleanupStack::PopAndDestroy( &entryIds );
     
-	XSPSLOGSTRING( "CSPSettingsEngine::FindServiceIdsFromPropertiesL() - OUT" );
-	}
+    XSPSLOGSTRING( "CSPSettingsEngine::FindServiceIdsFromPropertiesL() - OUT" );
+    }
 
 
 
@@ -658,214 +658,214 @@ void CSPSettingsEngine::FindServiceIdsFromPropertiesL( const RPropertyArray& aPr
 //
 TBool CSPSettingsEngine::IsFeatureSupportedL( TSPServiceFeature aFeature,
                                               TBool aWriteAllowed )
-	{
+    {
     XSPSLOGSTRING( "CSPSettingsEngine::IsFeatureSupportedL() - IN" );
 
     TBool ret = EFalse;
     
-	// First check P&S key, if P&S key is defined, use the value from P&S key.
-	// if not defined, then walk through all the sevices and check there is any service match
-	TInt mask = 0;
-	TInt value = 0;
-	TInt psFlag = 0;
-	TInt retProperty = 0;
-	
+    // First check P&S key, if P&S key is defined, use the value from P&S key.
+    // if not defined, then walk through all the sevices and check there is any service match
+    TInt mask = 0;
+    TInt value = 0;
+    TInt psFlag = 0;
+    TInt retProperty = 0;
+    
     switch( aFeature )
-    	{
-    	case ESupportInternetCallFeature:
-    		{
-    		retProperty = RProperty::Get( KUidSystemCategory, KSPSupportInternetCallKey, psFlag );
-    		if( retProperty == KErrNone && psFlag != KSPInitFeatureValue )
-    			{
-    			ret = psFlag;
-    			}
-    		else
-    			{
-				mask = ESupportsInternetCall | ESupportsAlphanumericAddressing | EIsVisibleInCallMenu;
-				value = mask;
-				ret = CheckFeatureL( mask, value );
-				if ( aWriteAllowed )
-				    {				    
-				    User::LeaveIfError( RProperty::Set( KUidSystemCategory, 
-				        KSPSupportInternetCallKey, ret ) );
-				    }
-    			}
-    		
-    		break;
-    		}
-    	case ESupportCallOutFeature:
-    		{
-    		retProperty = RProperty::Get( KUidSystemCategory, KSPSupportCallOutKey, psFlag );
-    		if( retProperty == KErrNone && psFlag != KSPInitFeatureValue )
-    			{
-    			ret = psFlag;
-    			}
-    		else
-    			{
-				mask = ESupportsInternetCall | ESupportsMSISDNAddressing | EIsVisibleInCallMenu;
-				value = mask;
-				ret = CheckFeatureL( mask, value );
-				if ( aWriteAllowed )
-				    {				    
-    				User::LeaveIfError( RProperty::Set( 
-    				    KUidSystemCategory, 
-    				    KSPSupportCallOutKey, ret ) );
-				    }
-    			}
-    		break;
-    		}
-    	
-    	case ESupportVoIPSSFeature:
-    		{
-    		retProperty = RProperty::Get( KUidSystemCategory, KSPSupportVoIPSSKey, psFlag );
-    		if( retProperty == KErrNone && psFlag != KSPInitFeatureValue )
-    			{
-    			ret = psFlag;
-    			}
-    		else
-    			{
-				mask = ESupportVoIPSS;
-				value = mask;
-				ret = CheckFeatureL( mask, value );
-				if ( aWriteAllowed )
-				    {				    
-    				User::LeaveIfError( RProperty::Set( 
-    				    KUidSystemCategory, 
-    				    KSPSupportVoIPSSKey, ret ) );
-				    }
-    			}
-    		break;
-    		}
-    	
-    	case ESupportVoIPFeature:
-    		{
-    		TBool bFeatureMgr = EFalse;
-    		TBool bDynVoIP = EFalse;
-    		TBool bSubVoIP = EFalse;
-    		
-    		//check FeatureManager
-    		FeatureManager::InitializeLibL();
-    		bFeatureMgr = FeatureManager::FeatureSupported( KFeatureIdCommonVoip );
-    		FeatureManager::UnInitializeLib();
-    		
-    		//check dynamic voip flag
-			CRepository* repository = CRepository::NewLC( KCRUidTelephonySettings );
-			TInt value = 0;
-			TInt err = repository->Get( KDynamicVoIP, value );
-			if( value != 0 )
-				{
-				bDynVoIP = ETrue;
-				}
-			
-			CleanupStack::PopAndDestroy( repository );
-    		
-    		//check subservice voip
-			RIdArray serviceIds;
-			CleanupClosePushL( serviceIds );
-			FindServiceIdsL( serviceIds );
-			CSPProperty* property = CSPProperty::NewLC();
-			
-			for( TInt i = 0; i < serviceIds.Count(); i++ )
-				{
-				TServiceId serviceId = serviceIds[i];
-				TInt retProperty = FindPropertyL( serviceId, EPropertyVoIPSubServicePluginId, *property );
-				if( retProperty == KErrNone )
-					{
-					bSubVoIP = ETrue;
-					break;
-					}
-				}
-			CleanupStack::PopAndDestroy( property );
-			CleanupStack::PopAndDestroy( &serviceIds );
-			
-			ret = bFeatureMgr && bDynVoIP && bSubVoIP;
-			
-    		break;
-    		}
-		default:
-			{
-			User::Leave( KErrNotSupported );    	
-			}
-    	}
+        {
+        case ESupportInternetCallFeature:
+            {
+            retProperty = RProperty::Get( KUidSystemCategory, KSPSupportInternetCallKey, psFlag );
+            if( retProperty == KErrNone && psFlag != KSPInitFeatureValue )
+                {
+                ret = psFlag;
+                }
+            else
+                {
+                mask = ESupportsInternetCall | ESupportsAlphanumericAddressing | EIsVisibleInCallMenu;
+                value = mask;
+                ret = CheckFeatureL( mask, value );
+                if ( aWriteAllowed )
+                    {                   
+                    User::LeaveIfError( RProperty::Set( KUidSystemCategory, 
+                        KSPSupportInternetCallKey, ret ) );
+                    }
+                }
+            
+            break;
+            }
+        case ESupportCallOutFeature:
+            {
+            retProperty = RProperty::Get( KUidSystemCategory, KSPSupportCallOutKey, psFlag );
+            if( retProperty == KErrNone && psFlag != KSPInitFeatureValue )
+                {
+                ret = psFlag;
+                }
+            else
+                {
+                mask = ESupportsInternetCall | ESupportsMSISDNAddressing | EIsVisibleInCallMenu;
+                value = mask;
+                ret = CheckFeatureL( mask, value );
+                if ( aWriteAllowed )
+                    {                   
+                    User::LeaveIfError( RProperty::Set( 
+                        KUidSystemCategory, 
+                        KSPSupportCallOutKey, ret ) );
+                    }
+                }
+            break;
+            }
+        
+        case ESupportVoIPSSFeature:
+            {
+            retProperty = RProperty::Get( KUidSystemCategory, KSPSupportVoIPSSKey, psFlag );
+            if( retProperty == KErrNone && psFlag != KSPInitFeatureValue )
+                {
+                ret = psFlag;
+                }
+            else
+                {
+                mask = ESupportVoIPSS;
+                value = mask;
+                ret = CheckFeatureL( mask, value );
+                if ( aWriteAllowed )
+                    {                   
+                    User::LeaveIfError( RProperty::Set( 
+                        KUidSystemCategory, 
+                        KSPSupportVoIPSSKey, ret ) );
+                    }
+                }
+            break;
+            }
+        
+        case ESupportVoIPFeature:
+            {
+            TBool bFeatureMgr = EFalse;
+            TBool bDynVoIP = EFalse;
+            TBool bSubVoIP = EFalse;
+            
+            //check FeatureManager
+            FeatureManager::InitializeLibL();
+            bFeatureMgr = FeatureManager::FeatureSupported( KFeatureIdCommonVoip );
+            FeatureManager::UnInitializeLib();
+            
+            //check dynamic voip flag
+            CRepository* repository = CRepository::NewLC( KCRUidTelephonySettings );
+            TInt value = 0;
+            TInt err = repository->Get( KDynamicVoIP, value );
+            if( value != 0 )
+                {
+                bDynVoIP = ETrue;
+                }
+            
+            CleanupStack::PopAndDestroy( repository );
+            
+            //check subservice voip
+            RIdArray serviceIds;
+            CleanupClosePushL( serviceIds );
+            FindServiceIdsL( serviceIds );
+            CSPProperty* property = CSPProperty::NewLC();
+            
+            for( TInt i = 0; i < serviceIds.Count(); i++ )
+                {
+                TServiceId serviceId = serviceIds[i];
+                TInt retProperty = FindPropertyL( serviceId, EPropertyVoIPSubServicePluginId, *property );
+                if( retProperty == KErrNone )
+                    {
+                    bSubVoIP = ETrue;
+                    break;
+                    }
+                }
+            CleanupStack::PopAndDestroy( property );
+            CleanupStack::PopAndDestroy( &serviceIds );
+            
+            ret = bFeatureMgr && bDynVoIP && bSubVoIP;
+            
+            break;
+            }
+        default:
+            {
+            User::Leave( KErrNotSupported );        
+            }
+        }
     
     XSPSLOGSTRING( "CSPSettingsEngine::IsFeatureSupportedL() - OUT" );
 
     return ret;
-	}
+    }
 
 // ---------------------------------------------------------------------------
 // When service table is changed, update the P&S key
 // ---------------------------------------------------------------------------
 //
 void CSPSettingsEngine::UpdateSupportFeaturePSKeyL()
-	{
-	TInt mask = 0;
-	TInt value = 0;
-	TBool ret = EFalse;
-	
-	//ESupportInternetCallFeature
-	//ESupportsInternetCall + ESupportsAlphanumericAddressing + EIsVisibleInCallMenu
-	mask = ESupportsInternetCall | ESupportsAlphanumericAddressing | EIsVisibleInCallMenu;
-	value = mask;
-	ret = CheckFeatureL( mask, value );
-	User::LeaveIfError( RProperty::Set( KUidSystemCategory, KSPSupportInternetCallKey, ret ) );
-	
-	//ESupportCallOutFeature
-	//ESupportsInternetCall + ESupportsMSISDNAddressing + EIsVisibleInCallMenu
-	mask = ESupportsInternetCall | ESupportsMSISDNAddressing | EIsVisibleInCallMenu;
-	value = mask;
-	ret = CheckFeatureL( mask, value );
-	User::LeaveIfError( RProperty::Set( KUidSystemCategory, KSPSupportCallOutKey, ret ) );
-	
-	//ESupportVoIPSSFeature
-	//ESupportVoIPSS
-	mask = ESupportVoIPSS;
-	value = mask;
-	ret = CheckFeatureL( mask, value );
-	User::LeaveIfError( RProperty::Set( KUidSystemCategory, KSPSupportVoIPSSKey, ret ) );
-	}
+    {
+    TInt mask = 0;
+    TInt value = 0;
+    TBool ret = EFalse;
+    
+    //ESupportInternetCallFeature
+    //ESupportsInternetCall + ESupportsAlphanumericAddressing + EIsVisibleInCallMenu
+    mask = ESupportsInternetCall | ESupportsAlphanumericAddressing | EIsVisibleInCallMenu;
+    value = mask;
+    ret = CheckFeatureL( mask, value );
+    User::LeaveIfError( RProperty::Set( KUidSystemCategory, KSPSupportInternetCallKey, ret ) );
+    
+    //ESupportCallOutFeature
+    //ESupportsInternetCall + ESupportsMSISDNAddressing + EIsVisibleInCallMenu
+    mask = ESupportsInternetCall | ESupportsMSISDNAddressing | EIsVisibleInCallMenu;
+    value = mask;
+    ret = CheckFeatureL( mask, value );
+    User::LeaveIfError( RProperty::Set( KUidSystemCategory, KSPSupportCallOutKey, ret ) );
+    
+    //ESupportVoIPSSFeature
+    //ESupportVoIPSS
+    mask = ESupportVoIPSS;
+    value = mask;
+    ret = CheckFeatureL( mask, value );
+    User::LeaveIfError( RProperty::Set( KUidSystemCategory, KSPSupportVoIPSSKey, ret ) );
+    }
 
 // ---------------------------------------------------------------------------
 // Walk through all the sevices and check there is any service match 
 // ---------------------------------------------------------------------------
 //
 TBool CSPSettingsEngine::CheckFeatureL( TInt aMask, TInt aValue )
-	{
-	RArray<TInt> entryIds;
-	CleanupClosePushL( entryIds );
-	iCenRepUtils->FindEntryIdsL( entryIds );
-	CCenRepDatabaseProperty* property = CCenRepDatabaseProperty::NewLC();
-	TBool ret = EFalse;
-	
-	for( TInt i = 0; i < entryIds.Count(); i++ )
-		{
-		TInt entryId = entryIds[i];
-		if( entryId == KSPDefaultVoIPServiceId )
-		    {
-		    continue;
-		    }
-		    
-		TInt retProperty = iCenRepUtils->FindPropertyL( entryId, EPropertyServiceAttributeMask, *property );
-		if( retProperty == KErrNone )
-			{
-			TInt maskValue = 0;
-			TInt err = property->GetValue( maskValue );
-			if( err == KErrNone )
-				{
-				if( ( maskValue & aMask ) == (aValue & aMask) )
-					{
-					// Find matched servcie
-					ret = ETrue;
-					break;
-					}
-				}
-			}
-		}
-	
-	CleanupStack::PopAndDestroy( property );
-	CleanupStack::PopAndDestroy( &entryIds );
-	return ret;
-	}
+    {
+    RArray<TInt> entryIds;
+    CleanupClosePushL( entryIds );
+    iCenRepUtils->FindEntryIdsL( entryIds );
+    CCenRepDatabaseProperty* property = CCenRepDatabaseProperty::NewLC();
+    TBool ret = EFalse;
+    
+    for( TInt i = 0; i < entryIds.Count(); i++ )
+        {
+        TInt entryId = entryIds[i];
+        if( entryId == KSPDefaultVoIPServiceId )
+            {
+            continue;
+            }
+            
+        TInt retProperty = iCenRepUtils->FindPropertyL( entryId, EPropertyServiceAttributeMask, *property );
+        if( retProperty == KErrNone )
+            {
+            TInt maskValue = 0;
+            TInt err = property->GetValue( maskValue );
+            if( err == KErrNone )
+                {
+                if( ( maskValue & aMask ) == (aValue & aMask) )
+                    {
+                    // Find matched servcie
+                    ret = ETrue;
+                    break;
+                    }
+                }
+            }
+        }
+    
+    CleanupStack::PopAndDestroy( property );
+    CleanupStack::PopAndDestroy( &entryIds );
+    return ret;
+    }
 
 // ---------------------------------------------------------------------------
 // Check if it is VoIP Service ID
@@ -960,7 +960,7 @@ TBool CSPSettingsEngine::HasVoIPAndVmbxPropertyName(  const RPropertyNameArray& 
 // ---------------------------------------------------------------------------
 //
 void CSPSettingsEngine::NameArrayFromPropertyArrayL( RPropertyNameArray& aNameArray, 
-												const RPropertyArray& aPropertyArray )
+                                                const RPropertyArray& aPropertyArray )
     {
     aNameArray.Reset();
     

@@ -18,10 +18,10 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvEmergencyNumberManager.h"
-#include "MPhSrvPhoneInterface.h"
-#include "PhSrvDebugInfo.h"
-#include <CEmergencyNumberPolicy.h>
+#include "CPhSrvEmergencyNumberManager.h" 
+#include "MPhSrvPhoneInterface.h" 
+#include "PhSrvDebugInfo.h" 
+#include <cemergencynumberpolicy.h> 
 
 // CONSTANTS
 _LIT(KPhSrvDosEnPolicyLibName, "DosEnPolicy.dll");  // DOS emergency number policy

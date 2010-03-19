@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "PhCltClientServer.h"
-#include <CPhCltCommandHandler.h>
+#include "PhCltClientServer.h" 
+#include <cphcltcommandhandler.h> 
 // FORWARD DECLARATIONS
 
 

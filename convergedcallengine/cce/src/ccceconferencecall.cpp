@@ -194,7 +194,7 @@ void CCCEConferenceCall::AddCallL( MCCECall& aCall )
 
         iConferenceCall = iPluginManager.GetPluginL(
             call->ImplementationUid() )->NewConferenceL( ServiceId(), *this );
-			
+            
         if(iConferenceCall)
             {
             iConferenceCall->AddCallL( &call->GetCCPCall() );
@@ -631,8 +631,8 @@ void CCCEConferenceCall::DeActivate()
 // ---------------------------------------------------------------------------
 // 
 TTimeIntervalSeconds CCCEConferenceCall::CallDuration() const
-	{
+    {
     return iCCEDurationTimer->NumberOfBeats();
-	}
+    }
     
 // End of file

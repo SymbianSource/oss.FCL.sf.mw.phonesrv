@@ -21,9 +21,9 @@
 
 // INCLUDES
 #include <etelmm.h>            // ETel
-#include "PhCltClientServer.h"
-#include "MPhSrvUssdNetworkObserver.h"
-#include "MPhSrvUssdReplyTimerObserver.h"
+#include "PhCltClientServer.h" 
+#include "MPhSrvUssdNetworkObserver.h" 
+#include "MPhSrvUssdReplyTimerObserver.h" 
 #include <badesca.h>
 
 
@@ -404,7 +404,7 @@ class CPhSrvUssdManager :
         // Show Done note
         TBool iShowDone;
 
-		// Checks if received message type is Reply
+        // Checks if received message type is Reply
         TBool iMsgTypeReply;
         
         // Has the transaction been closed or not

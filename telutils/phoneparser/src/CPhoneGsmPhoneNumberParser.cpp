@@ -17,12 +17,12 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneGsmPhoneNumberParser.h"
-#include    "CPhoneGsmParserResult.h"
-#include    "CPhoneGsmOptionContainer.h"
-#include    "CPhoneVoipNumberParser.h"
-#include    "CPhoneParserFeatures.h"
-#include    "phoneParserCommon.h"
+#include    "CPhoneGsmPhoneNumberParser.h" 
+#include    "cphonegsmparserresult.h" 
+#include    "CPhoneGsmOptionContainer.h" 
+#include    "CPhoneVoipNumberParser.h" 
+#include    "CPhoneParserFeatures.h" 
+#include    "phoneParserCommon.h" 
 // CONSTANTS
 _LIT( KPhoneClirSuppress, "*31#" );
 _LIT( KPhoneClirInvoke, "#31#" );

@@ -42,10 +42,10 @@ SOURCE          cccecallobserverasynchroniser.cpp
 SOURCE          ccceobserverasynchroniser.cpp
 SOURCE          cccespsettingshandler.cpp
 SOURCE          cccecallparameters.cpp
-SOURCE			cccecallinfomediator.cpp
-SOURCE	        cccecallinfomediatorupdater.cpp
+SOURCE          cccecallinfomediator.cpp
+SOURCE          cccecallinfomediatorupdater.cpp
 SOURCE          cccecallinfoconverter.cpp
-SOURCE			tccecallindex.cpp
+SOURCE          tccecallindex.cpp
 
 USERINCLUDE     ../inc
 USERINCLUDE     ../api

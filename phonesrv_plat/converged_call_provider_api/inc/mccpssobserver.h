@@ -42,43 +42,43 @@ public:
     enum TCCPSsBarringEvent
         {
         /** Incoming call is barred. (DoCoMo) */
-		ECCPSsIncomingCallBarred,	
-		/** Anonymous call barring. */
-		ECCPSsAnonymousCallBarred,	
-		/** Outgoing call barring */
-		ECCPSsOutgoingCallBarred,
-		/** Barring active notification. */
-		ECCPSsActiveBarrings 	
- 		};
+        ECCPSsIncomingCallBarred,   
+        /** Anonymous call barring. */
+        ECCPSsAnonymousCallBarred,  
+        /** Outgoing call barring */
+        ECCPSsOutgoingCallBarred,
+        /** Barring active notification. */
+        ECCPSsActiveBarrings    
+        };
 
     /** CLI (Call Line Information) related event. */
     enum TCCPSsCLIEvent
         {
         /** Temporary CLIR suppression was unsuccessful */
-        ECCPSsTempClirSuppressUnsuccessful,		
+        ECCPSsTempClirSuppressUnsuccessful,     
         /** Temporary CLIR activation was unsuccessful*/
-        ECCPSsTempClirActivationUnsuccessful	
+        ECCPSsTempClirActivationUnsuccessful    
         };
 
     /** Call forward related events that are not call related to an existing call. */
     enum TCCPSsCallForwardEvent
         {
         /** Incoming call is forwarded */
-		ECCPSsIncCallIsForw, 	
-		/** Incoming call was forwarded because of user own settings. */
-        ECCPSsIncCallForwToC,	
+        ECCPSsIncCallIsForw,    
+        /** Incoming call was forwarded because of user own settings. */
+        ECCPSsIncCallForwToC,   
         /** Outgoing call was forwarded because of user own settings. */
         ECCPSsOutCallForwToC,
         /** Forward unconditional mode active */
-		ECCPSsForwardUnconditionalModeActive,  	
-		/** Forward unconditional mode deactive */
-		ECCPSsForwardUnconditionalModeNotActive,
-		/** Forward conditional mode active */
-		ECCPSsForwardConditionallyModeActive,	
-		/** Forward conditional mode deactive */
-		ECCPSsForwardConditionallyModeNotActive,
-		/** Remote call waiting. TODO rename TCCPSsCallForwardEvent to TCCPSsCallEvent*/
-		ESsCallWaiting
+        ECCPSsForwardUnconditionalModeActive,   
+        /** Forward unconditional mode deactive */
+        ECCPSsForwardUnconditionalModeNotActive,
+        /** Forward conditional mode active */
+        ECCPSsForwardConditionallyModeActive,   
+        /** Forward conditional mode deactive */
+        ECCPSsForwardConditionallyModeNotActive,
+        /** Remote call waiting. TODO rename TCCPSsCallForwardEvent to TCCPSsCallEvent*/
+        ESsCallWaiting
         };
 
 
@@ -97,26 +97,26 @@ public:
     * @return none
     * @since S60 v3.2
     */
-	virtual void BarringEventOccurred( const MCCPSsObserver::TCCPSsBarringEvent aBarringEvent ) = 0;
-								  
+    virtual void BarringEventOccurred( const MCCPSsObserver::TCCPSsBarringEvent aBarringEvent ) = 0;
+                                  
     /**
     * Supplementary service call line identification event occurred.
     * @param aCallLineEvent Event that occurred.
     * @return none
     * @since S60 v3.2
     */
-	virtual void CLIEventOccurred( const MCCPSsObserver::TCCPSsCLIEvent aCallLineEvent ) = 0;
+    virtual void CLIEventOccurred( const MCCPSsObserver::TCCPSsCLIEvent aCallLineEvent ) = 0;
 
     /**
     * Supplementary service related call forward event occurred. 
     * @param aCallForwardEvent Event that occurred.
-	* @param aRemoteAddress Remote address.
+    * @param aRemoteAddress Remote address.
     * @return none
     * @since S60 v3.2
     */
-	virtual void CallForwardEventOccurred( 
-					const MCCPSsObserver::TCCPSsCallForwardEvent aCallForwardEvent,
-					const TDesC& aRemoteAddress ) = 0;
+    virtual void CallForwardEventOccurred( 
+                    const MCCPSsObserver::TCCPSsCallForwardEvent aCallForwardEvent,
+                    const TDesC& aRemoteAddress ) = 0;
 
     /**
     * Supplementary service related active closed user group indications.
@@ -124,16 +124,16 @@ public:
     * @return none
     * @since S60 v3.2
     */
-	virtual void CallCugEventOccurred( const MCCPSsObserver::TCCPSsCugEvent aCugEvent ) = 0;
+    virtual void CallCugEventOccurred( const MCCPSsObserver::TCCPSsCugEvent aCugEvent ) = 0;
 
     /**
     * Notifies active ALS line. CS plugin must notify this every time line changes 
-	* and at startup.
+    * and at startup.
     * @param aLine Used ALS line.
     * @return none
     * @since S60 v3.2
     */
-	virtual void NotifyCurrentActiveALSLine( TInt aLine ) = 0;
+    virtual void NotifyCurrentActiveALSLine( TInt aLine ) = 0;
     };
 
 

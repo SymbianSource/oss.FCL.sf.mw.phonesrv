@@ -112,18 +112,18 @@ public:
     /** @see MCCEConferenceCall::HangUp */
     TInt HangUp();
 
-	/** @see MCCECall::CallDuration */
-	TTimeIntervalSeconds CallDuration() const;
+    /** @see MCCECall::CallDuration */
+    TTimeIntervalSeconds CallDuration() const;
 
    /** @see MCCECall::Parameters */
-	const CCCPCallParameters& Parameters() const;
+    const CCCPCallParameters& Parameters() const;
     
 
 private:
 
 // from base class MCCEConferenceCall
 
-	/** @see MCCEConferenceCall::Release */
+    /** @see MCCEConferenceCall::Release */
     TInt Release();
 
     /** @see MCCEConferenceCall::ServiceId */

@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include <e32std.h>
-#include    <PhCltTypes.h>
+#include    <phclttypes.h> 
 
 // CONSTANTS
 // A version must be specified when creating a session with the server

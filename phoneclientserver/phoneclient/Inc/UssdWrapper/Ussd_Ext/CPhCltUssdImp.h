@@ -21,12 +21,12 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include "MPhCltUssdRequestHandler.h"
-#include "MPhCltUssdNoteControllerCallBack.h"
+#include "MPhCltUssdRequestHandler.h" 
+#include "MPhCltUssdNoteControllerCallBack.h" 
 #include "rphcltussd.h"
 
-#include "RPhCltServer.h"
-#include "CPhCltUssdInt.h"
+#include "rphcltserver.h" 
+#include "cphcltussdint.h" 
 
 
 // FORWARD DECLARATIONS

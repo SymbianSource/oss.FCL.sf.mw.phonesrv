@@ -58,7 +58,7 @@ public:
      * @since S60 3.2
      * @param aPanic Panic code
      */
-    static void CCCEUtility::Panic( const TCCEPanic aPanic );
+    static void Panic( const TCCEPanic aPanic );
 
     };
 

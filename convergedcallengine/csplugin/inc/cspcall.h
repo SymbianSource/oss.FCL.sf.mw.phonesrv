@@ -477,7 +477,7 @@ class CSPCall : public CBase,
         * @return corresponding CCP state
         */
         MCCPCallObserver::TCCPCallState 
-            CSPCall::CCPStateFromETelState(
+            CCPStateFromETelState(
                 RMobileCall::TMobileCallStatus aEtelState );
                 
         /**

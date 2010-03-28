@@ -150,7 +150,7 @@ class CSPEtelCallRequester
         * Cancel dial (applies both emergency and normal calls)
         * @return result of cancel (system wide error code)
         */
-        TInt CSPEtelCallRequester::DialCancel();
+        TInt DialCancel();
         
     protected: // From CActive
         /**

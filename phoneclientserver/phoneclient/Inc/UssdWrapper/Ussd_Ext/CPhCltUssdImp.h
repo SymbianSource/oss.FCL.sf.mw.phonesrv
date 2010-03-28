@@ -188,7 +188,7 @@ class CPhCltUssdImp:
         void EncodeL( const TDesC& aSrc, TDes8& aDes );
         
         // Finds CR character        
-        void CPhCltUssdImp::FindFirstCarriageReturnL( 
+        void FindFirstCarriageReturnL( 
         const TDesC& aBuffer ,
         TUint& aSkipChars , 
         TUint& aStartBit );

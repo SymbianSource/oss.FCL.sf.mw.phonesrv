@@ -82,7 +82,7 @@ class CSPAudioHandler: public CBase,
         * @param aUid uid of setting 
         * @param aVal value
         */
-        virtual void CSPAudioHandler::HandleNotifyCenRepL( 
+        virtual void HandleNotifyCenRepL( 
                 const TUid aUid, 
                 const TUint32 aKey,
                 TInt aVal );

@@ -109,8 +109,7 @@ NONSHARABLE_CLASS( CCenRepDatabaseProperty ): public CBase
 	     * @param aProperty property to be compared
 	     * @return ETrue if properties have same data
 	     */
-	    IMPORT_C TBool CCenRepDatabaseProperty::operator==( 
-	                const CCenRepDatabaseProperty& aProperty ) const;
+	    IMPORT_C TBool operator==( const CCenRepDatabaseProperty& aProperty ) const;
 
 	private:
 

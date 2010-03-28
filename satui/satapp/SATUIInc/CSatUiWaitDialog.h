@@ -58,7 +58,7 @@ class CSatUiWaitDialog : public CAknWaitDialog
          * @param aButtonId The ID of the button that was activated
          * @return ETrue to validate and exit the dialog
          */
-        TBool CSatUiWaitDialog::OkToExitL( TInt aButtonId );
+        TBool OkToExitL( TInt aButtonId );
         
     private:    // Data
 

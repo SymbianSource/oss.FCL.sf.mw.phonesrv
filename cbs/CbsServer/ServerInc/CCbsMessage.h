@@ -36,7 +36,7 @@ struct TCbsIso639ToLangMapElement
     const TLitC< 3 > iCode;
     const TCbsDbLanguage iLang;
 
-    TCbsIso639ToLangMapElement::TCbsIso639ToLangMapElement( 
+    TCbsIso639ToLangMapElement( 
         const TLitC< 3 > aCode, 
         TCbsDbLanguage aLang )
         :iCode( aCode ), 

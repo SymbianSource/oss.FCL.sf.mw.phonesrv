@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -53,7 +53,7 @@ const TInt KSSRequestCallbackInterval = 5000000;
 const TInt KSsOperationShowFDNLIst = 0x05;
 const TInt KSsOperationPasswordRegistration = 0x06;
 // Ss error
-const TInt KSsSimAtkCcRejected = 0x0D;
+const TInt KSsSimAtkCcRejected = 0x13;
 const TInt KTwo = 2;
 
 // ======== MEMBER FUNCTIONS ========

@@ -30,7 +30,7 @@ class CAknGlobalConfirmationQuery;
 
 // CONSTANTS
                            
-_LIT( KResFile, "\\resource\\NWNotifier_0x20026826.rsc" );   
+_LIT( KResFile, "\\resource\\apps\\NWNotifier_0x20026826.rsc" );   
 
     
 // OBSERVER DECLARATION

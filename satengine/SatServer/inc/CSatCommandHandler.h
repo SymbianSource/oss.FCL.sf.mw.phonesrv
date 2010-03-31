@@ -23,7 +23,7 @@
 //  INCLUDES
 #include <e32base.h>
 #include <etelsat.h>
-#include <secondarydisplay/secondarydisplaysatapi.h>
+#include <SecondaryDisplay/secondarydisplaysatapi.h>
 #include "MSatUtils.h"
 #include "MSatEventObserver.h"
 #include "MSatCommand.h"

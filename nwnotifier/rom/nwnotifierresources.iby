@@ -18,7 +18,9 @@
 #ifndef NWNOTIFIERRESOURCES_IBY
 #define NWNOTIFIERRESOURCES_IBY
 
-data = DATAZ_\RESOURCE_FILES_DIR\NWNotifier_0x20026826.rsc    RESOURCE_FILES_DIR\NWNotifier_0x20026826.rsc
+#include <data_caging_paths_for_iby.hrh>
+
+data = DATAZ_\APP_RESOURCE_DIR\NWNotifier_0x20026826.rsc    APP_RESOURCE_DIR\NWNotifier_0x20026826.rsc
 
 #endif // NWNOTIFIERRESOURCES_IBY
 

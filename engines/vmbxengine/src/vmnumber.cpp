@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -171,7 +171,6 @@ EXPORT_C RVmbxNumber::RVmbxNumber() : iNotifyCallBack( NULL ),
                                 iSynchronize( EFalse ),
                                 iType( EVmbxNone ),
                                 iVMSimQueryDialog( NULL ),
-                                iUSimSupport( EFalse ),
                                 iVideoQuery( NULL ),
                                 iTypeSelectionQuery( NULL ),
                                 iAlphaStringFound( EFalse ),
@@ -392,10 +391,9 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
     TInt nValue;
     psErr = property.Get( nValue );
     TBool simStatus = EFalse;
-    iUSimSupport = IsUsimSupport();
-    VMBLOGSTRING2( "iUSimSupport = %d", iUSimSupport );
-        // Sim aceess test on startup
-        iStartUpTest = ETrue;
+
+    // Sim aceess test on startup
+    iStartUpTest = ETrue;
 #ifdef RD_STARTUP_CHANGE
 
     if ( ( FeatureManager::FeatureSupported( KFeatureIdSimCard ) )
@@ -412,86 +410,31 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
         simStatus = ETrue;
         }
 #endif // RD_STARTUP_CHANGE
-    if ( FeatureManager::FeatureSupported( KFeatureIdProtocolWcdma ) )
-        {
-        if ( iUSimSupport )
-            {
-            simStatus = ETrue;
-            }
-        }
 
     VMBLOGSTRING2( "simStatus = %d", simStatus );
     if ( simStatus )//Is simCard supproted and it is not removed
         {
         iSimCardFound = ETrue;
-        // If UICC supported, then open USIM phone book.
-        if ( iUSimSupport )
+
+        // Get identifiers from MBI-file
+        if ( EAlsLine1 == alsline )
             {
-            iMbdnPhonebookOk = EFalse;
-            // Get identifiers from MBI-file
-            if ( EAlsLine1 == alsline )
+            result = MailboxNumbersIdentifiers();
+            VMBLOGSTRING2( "Identifier result = %d", result );
+            if ( KErrPathNotFound == result )
                 {
-                result = MailboxNumbersIdentifiers();
-                VMBLOGSTRING2( "Identifier result = %d", result );
-                if ( KErrPathNotFound == result )
-                    {
-                    // try open vmbx-phonebook next
-                    iPhoneBookType = EVMBXPhoneBook;
-                    }
-                else
-                    {
-                    iPhoneBookType = EMBDNPhoneBook;
-                    // set ALS line, if identifier reading returns -1
-                    if ( KErrNotFound == result )
-                        {
-                        iPhoneVoicemailInfo.iVoice = alsline;
-                        }
-
-                    // try to open mbdn-type phonebook
-                    result = iPhoneBook.Open( iPhone, KETelIccMbdnPhoneBook );
-                    VMBLOGSTRING2( "Mbdn phonebook opening result = %I ", result );
-                    if ( KErrNone == result )
-                        {
-                        // Get phonebook info
-                        result = PhoneBookInfo();
-                        }
-                    // close phonebook when error in opening or GetInfo
-                    if ( KErrNone != result )
-                        {
-                        VMBLOGSTRING( "Close MBDN phonebook" );
-                        iPhoneBook.Close();
-                        }
-                    // close phonebook when no number founf to test vmbx-phonebook
-                    else if ( ( KErrNone == result ) && iNoNumberFound )
-                        {
-                        VMBLOGSTRING( "mbdn close, number not found" );
-                        iMbdnPhonebookOk = ETrue;
-                        iPhoneBook.Close();
-                        // try open vmbx-phonebook next
-                        iPhoneBookType = EVMBXPhoneBook;
-                        }
-                    }
-                }
-
-            if ( EAlsLine2 == alsline || EVMBXPhoneBook == iPhoneBookType )
-                {
-                // try to open vmbx-type phonebook
-                result = iPhoneBook.Open( iPhone, KETelIccVoiceMailBox );
-                VMBLOGSTRING2( "Vmbx phonebook opening result = %I ", result );
-                if ( KErrNone == result )
-                    {
-                    // check that this phonebook supports reading
-                    result = PhoneBookInfo();
-                    VMBLOGSTRING( "VmbxPhoneBook opened" );
-                    }
-                }
-             // reopen mbdn-phonebook when vmbx-phonebook has no number
-             if ( iMbdnPhonebookOk && iNoNumberFound )
-                {
-                VMBLOGSTRING( "reopen mbdn" );
-                iPhoneBook.Close();
                 // try open vmbx-phonebook next
+                iPhoneBookType = EVMBXPhoneBook;
+                }
+            else
+                {
                 iPhoneBookType = EMBDNPhoneBook;
+                // set ALS line, if identifier reading returns -1
+                if ( KErrNotFound == result )
+                    {
+                    iPhoneVoicemailInfo.iVoice = alsline;
+                    }
+
                 // try to open mbdn-type phonebook
                 result = iPhoneBook.Open( iPhone, KETelIccMbdnPhoneBook );
                 VMBLOGSTRING2( "Mbdn phonebook opening result = %I ", result );
@@ -499,6 +442,8 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
                     {
                     // Get phonebook info
                     result = PhoneBookInfo();
+                    VMBLOGSTRING2( "Mbdn phonebook opening again \
+                    result = %I ", result );
                     }
                 // close phonebook when error in opening or GetInfo
                 if ( KErrNone != result )
@@ -506,22 +451,53 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
                     VMBLOGSTRING( "Close MBDN phonebook" );
                     iPhoneBook.Close();
                     }
+                // close phonebook when no number founf to test vmbx-phonebook
+                else if ( ( KErrNone == result ) && iNoNumberFound )
+                    {
+                    VMBLOGSTRING( "mbdn close, number not found" );
+                    iMbdnPhonebookOk = ETrue;
+                    iPhoneBook.Close();
+                    // try open vmbx-phonebook next 
+                    iPhoneBookType = EVMBXPhoneBook;
+                    }
                 }
             }
-        // open SIM book
-        else
-            {
-            // No need to prevent for changing memory location
-            iUSimFirstRoundTest = EFalse;
-            result = iPhoneBook.Open( iPhone, KETelIccVoiceMailBox );
-            iPhoneBookType = EVMBXPhoneBook;
-            VMBLOGSTRING( "VmbxPhoneBook opened" );
 
+        if ( EAlsLine2 == alsline || EVMBXPhoneBook == iPhoneBookType )
+            {
+            // try to open vmbx-type phonebook
+            result = iPhoneBook.Open( iPhone, KETelIccVoiceMailBox );
+            VMBLOGSTRING2( "Vmbx phonebook opening result = %I ", result );
             if ( KErrNone == result )
                 {
+                // check that this phonebook supports reading
                 result = PhoneBookInfo();
+                VMBLOGSTRING( "VmbxPhoneBook opened" );
                 }
             }
+        // reopen mbdn-phonebook when vmbx-phonebook has no number
+        if ( iMbdnPhonebookOk && iNoNumberFound )
+           {
+           VMBLOGSTRING( "reopen mbdn" );
+           iPhoneBook.Close();
+           // try open vmbx-phonebook next
+           iPhoneBookType = EMBDNPhoneBook;
+           // try to open mbdn-type phonebook
+           result = iPhoneBook.Open( iPhone, KETelIccMbdnPhoneBook );
+           VMBLOGSTRING2( "Mbdn phonebook opening result = %I ", result );
+           if ( KErrNone == result )
+               {
+               // Get phonebook info
+               result = PhoneBookInfo();
+               }
+           // close phonebook when error in opening or GetInfo
+           if ( KErrNone != result )
+               {
+               VMBLOGSTRING( "Close MBDN phonebook" );
+               iPhoneBook.Close();
+               }
+           }
+
 
         // set readonly state if aquired
         if ( IsReadOnlySIM() )
@@ -3460,41 +3436,6 @@ EXPORT_C TInt RVmbxNumber::SaveVideoMbxNumber( const TDesC& aNumber,
 // -----------------------------------------------------------------------------
 // RVmbxNumber::IsUsimSupport
 // -----------------------------------------------------------------------------
-TBool RVmbxNumber::IsUsimSupport()
-    {
-    VMBLOGSTRING( "VMBX: RVmbxNumber::IsUsimSupport: =>" );
-    TBool ret( EFalse );
-    TInt alsline( EAlsLine1 );
-
-    // get the current ALS line
-    if ( GetAlsLine( alsline ) != KErrNone )
-        {
-        alsline = EAlsLine1;  // if problems, assume primary line
-        }
-
-    // SIM access not supported for ALS line2
-    if ( FeatureManager::FeatureSupported( KFeatureIdProtocolWcdma ) &&
-        ( alsline == EAlsLine1 ) )
-        {
-        TUint32 capability;
-        TInt err = iPhone.GetIccAccessCaps( capability );
-        VMBLOGSTRING3( "VMBX: RVmbxNumber::IsUsimSupport: Err = %I,\
-        Capa = %I ", err, capability );
-
-        if ( ( err == KErrNone ) &&
-                ( capability & RMobilePhone::KCapsUSimAccessSupported ) )
-            {
-            VMBLOGSTRING( "USim access caps ok");
-            ret =  ETrue;
-            }
-        }
-    else
-        {
-        ret =  EFalse;
-        }
-    VMBLOGSTRING( "VMBX: RVmbxNumber::IsUsimSupport: <=" );
-    return ret;
-    }
 
 // -----------------------------------------------------------------------------
 //  Series 60 Customer / MSatRefreshOserver

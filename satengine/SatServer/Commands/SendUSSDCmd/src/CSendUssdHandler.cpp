@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -738,6 +738,16 @@ void CSendUssdHandler::HandleSendUssdResult( TInt aError )
         iSendUssdRsp.iInfoType = RSat::KMeProblem;
         iSendUssdRsp.iAdditionalInfo.SetLength( 1 );
         iSendUssdRsp.iAdditionalInfo[0] = RSat::KNoSpecificMeProblem;
+        }
+    else if ( KErrSatBusy == aError )
+        {
+        LOG( SIMPLE, 
+        "SENDUSSD: CSendUssdHandler::HandleSendUssdResult \
+        KInteractionWithCCTemporaryError" )
+        iSendUssdRsp.iGeneralResult = RSat::KInteractionWithCCTemporaryError;
+        iSendUssdRsp.iInfoType = RSat::KNoAdditionalInfo;
+        iSendUssdRsp.iAdditionalInfo.SetLength( 0 );
+        iSendUssdRsp.iAdditionalInfo.Zero();
         }
     else if ( KErrNone == aError )   //  Success case
         {

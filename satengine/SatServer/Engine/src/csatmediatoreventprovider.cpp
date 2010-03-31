@@ -21,7 +21,7 @@
 #include    <centralrepository.h>
 #include    <MediatorDomainUIDs.h>
 #include    <MediatorEventProvider.h>
-#include    <secondarydisplay/secondarydisplaysatapi.h>
+#include    <SecondaryDisplay/secondarydisplaysatapi.h>
 
 #include    "SATPrivateCRKeys.h"
 #include    "csatmediatoreventprovider.h"

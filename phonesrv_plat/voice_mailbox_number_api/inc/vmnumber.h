@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1018,12 +1018,6 @@ class RVmbxNumber : public MCenRepNotifyHandlerCallback,
         * @param aDlg Query dialog
         */
         void SetHeaderFromResourceL( TInt aResourceId, CAknQueryDialog& aDlg );
-        /**
-        * Checks whether there is support for USIM(WCDMA)
-        * @since
-        * @return ETrue if USim is used
-        */
-        TBool IsUsimSupport();
 
         /**
         * Subscribe SAT notifications
@@ -1332,9 +1326,6 @@ class RVmbxNumber : public MCenRepNotifyHandlerCallback,
 
         // Sim query dialog
         CVMSimQueryDilaog* iVMSimQueryDialog;
-
-        // USim supported when true
-        TBool iUSimSupport;
 
         // Text query dialog
         CVmTextQueryDialog* iVideoQuery;  // owned

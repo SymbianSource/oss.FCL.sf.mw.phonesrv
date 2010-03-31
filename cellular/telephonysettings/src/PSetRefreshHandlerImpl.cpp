@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include    "PSetRefreshHandlerImpl.h"
 #include    <etelmm.h>
-#include    <msssettingsrefreshhandler.h>
+#include    <MSSSettingsRefreshHandler.h>
 #include    <csssettingsrefreshcontainer.h>
 #include    <PsetCSP.h>
 #include    "PhoneSettingsLogger.h"

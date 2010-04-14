@@ -22,7 +22,7 @@
 #include    <centralrepository.h>
 #include    <etelsat.h>
 #include    <rsatservice.h>
-#include    <RSatSession.h>
+#include    <rsatsession.h>
 #include    <tsaticoninfo.h>
 
 #include    "tsatinternaliconinfo.h"

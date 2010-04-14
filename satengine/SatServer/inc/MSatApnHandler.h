@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -76,6 +76,13 @@ class MSatApnHandler
         */
         virtual void DeleteApnL( TUint32 aApnId ) = 0;
 
+        /**
+         * Find the default APN Id
+         * @param aPdpType, indicates the address type is IPv4  or IPv6
+         * @return a default iap id
+         */
+        virtual TUint32 FindDefaultApL(
+                const RPacketContext::TProtocolType& aPdpType ) = 0;
     private:
 
         // Prohibit copy constructor if not deriving from CBase.

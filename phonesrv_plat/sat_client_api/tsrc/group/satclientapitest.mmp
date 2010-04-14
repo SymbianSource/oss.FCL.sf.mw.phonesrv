@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description:  Test class for SAT Client API / RSatSession.h
+* Description:  Test class for SAT Client API / rsatsession.h
 *
 */
 

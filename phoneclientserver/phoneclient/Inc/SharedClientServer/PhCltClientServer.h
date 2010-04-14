@@ -58,7 +58,7 @@ _LIT( KPhClientPanicCategory, "PhoneClient" );
 _LIT( KPhClientAndServerResourceFileName, "PhoneServer" );
 _LIT( KPhCltServerZDrive, "z:" );
 
-_LIT( KPhClientAndServerResourceFileExtensionWild, ".R??" );
+_LIT( KPhClientAndServerResourceFileExtensionWild, ".R*" );
 _LIT( KPhClientAndServerResourceFileExtensionNoWild, ".RSC" );
 const TInt KPhSrvMagicResourceFileSignature = 0;
 

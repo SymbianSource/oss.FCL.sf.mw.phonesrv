@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description:  Test class for SAT Client API / RSatSession.h
+* Description:  Test class for SAT Client API / rsatsession.h
 *
 */
 
@@ -22,7 +22,7 @@
 #include <testscripterinternal.h>
 #include <stiftestmodule.h>
 // API under testing:
-#include <RSatSession.h>
+#include <rsatsession.h>
 
 // Logging path
 _LIT( KSatClientAPILogPath, "\\logs\\testframework\\SATClientAPITest\\" ); 
@@ -31,7 +31,7 @@ _LIT( KSatClientAPILogFile, "SATClientAPITest.txt" );
 
 
 /**
-*  Test class for SAT Client API / RSatSession.h
+*  Test class for SAT Client API / rsatsession.h
 *
 *  @lib satclientapitest.dll
 *  @since S60 5.0

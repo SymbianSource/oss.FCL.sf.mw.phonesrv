@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include    "CSatAllowRefreshMonitor.h"
 #include    "msatrefreshobserver.h"
-#include    "RSatRefresh.h"
+#include    "rsatrefresh.h"
 #include    "SatLog.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

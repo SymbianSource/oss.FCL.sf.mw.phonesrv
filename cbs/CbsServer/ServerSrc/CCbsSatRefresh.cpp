@@ -21,8 +21,8 @@
 // INCLUDE FILES
 #include "CCbsSatRefresh.h"
 #include "CCbsServer.h"
-#include <RSatRefresh.h>
-#include <RSatSession.h>
+#include <rsatrefresh.h>
+#include <rsatsession.h>
 
 #include "CbsLogger.h"
 

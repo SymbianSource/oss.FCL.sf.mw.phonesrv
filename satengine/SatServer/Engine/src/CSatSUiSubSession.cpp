@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include    <e32property.h>
-#include    <SATDomainPSKeys.h>
+#include    <satdomainpskeys.h>
 
 #include    "CSatSUiSubSession.h"
 #include    "CSatSSession.h"

@@ -23,7 +23,7 @@
 //  INCLUDES
 #include <msatuiobserver.h>
 #include <rsatuisession.h>
-#include <RSatSession.h>
+#include <rsatsession.h>
 
 #include <cenrepnotifyhandler.h>
 

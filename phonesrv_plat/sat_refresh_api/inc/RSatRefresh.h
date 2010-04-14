@@ -23,7 +23,7 @@
 //  INCLUDES
 #include <e32std.h>
 #include <Etelsat.h>
-#include <MSatRefreshObserver.h>
+#include <msatrefreshobserver.h>
 
 // FORWARD DECLARATIONS
 class RSatSession;

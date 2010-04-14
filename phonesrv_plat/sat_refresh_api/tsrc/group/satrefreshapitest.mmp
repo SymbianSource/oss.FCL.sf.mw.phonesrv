@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:  Test class for SAT Refresh API / 
-*                RSatRefresh.h, MSatRefreshObserver.h
+*                rsatrefresh.h, msatrefreshobserver.h
 *
 */
 

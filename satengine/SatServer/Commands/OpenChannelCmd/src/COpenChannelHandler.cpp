@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -633,6 +633,8 @@ void COpenChannelHandler::SetConnectionSettingsL(
         "OPENCHANNEL: COpenChannelHandler::SetConnectionSettingsL calling,\
         aBearerType: %d", aBearerType )
 
+    RPacketContext::TProtocolType pdpType = RPacketContext::EPdpTypeIPv4;
+    TUint32 defaultId( 0 );
     switch ( aBearerType )
         {
         case MSatBIPUtils::ESatGPRS:
@@ -648,9 +650,8 @@ void COpenChannelHandler::SetConnectionSettingsL(
                 TUint32 nwId( 0 );
                 TBool apnCreated( EFalse );
 
-                RPacketContext::TProtocolType pdpType = 
-                           RPacketContext::EPdpTypeIPv6;
-                
+                pdpType = RPacketContext::EPdpTypeIPv6;
+
                 if ( RSat::EIPv4Address ==
                     iOpenChannelData.iDestinationAddress.iType )
                     {
@@ -684,10 +685,14 @@ void COpenChannelHandler::SetConnectionSettingsL(
                 }
             else
                 {
-                LOG( NORMAL, "OPENCHANNEL: COpenChannelHandler::SetConnectionSettingsL \
+                LOG( NORMAL, "OPENCHANNEL: SetConnectionSettingsL \
                 No APN, using defaults" )
                 // No APN, use default settings
-                SetOverrideSettingsL( 0 );
+                TRAPD( err, defaultId = 
+                iUtils->BipUtils().ApnHandler().FindDefaultApL( pdpType ) );
+                LOG2( NORMAL, "OPENCHANNEL: SetConnectionSettingsL \
+                    No APN, using defaults err = %i", err )
+                SetOverrideSettingsL( defaultId );
                 }
             break;
             }
@@ -703,7 +708,11 @@ void COpenChannelHandler::SetConnectionSettingsL(
 
 #ifdef SAT_USE_DUMMY_TSY
     // No APN, use default settings
-    SetOverrideSettingsL( 0 );
+    TRAPD( err, 
+    defaultId = iUtils->BipUtils().ApnHandler().FindDefaultApL( pdpType ) );
+    LOG2( NORMAL, "OPENCHANNEL: COpenChannelHandler::SetConnectionSettingsL \
+        No APN, using defaults err = %i", err )
+    SetOverrideSettingsL( defaultId );
 #endif // SAT_USE_DUMMY_TSY
 
     LOG( SIMPLE,

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -109,6 +109,10 @@ _LIT( KSatEmptyDes, "" );
 const TUint8 KKeyZero = 0x30;
 const TUint8 KKeyNine = 0x39;
 const TUint8 KHwAsterisk = 0x2a;    // In hw scan code value for asterisk
+
+// The max volume value from settings.
+// From TProfileToneSettings.h
+const TInt KMaxVolumeFromProfile( 10 );
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -1559,6 +1563,8 @@ TSatUiResponse CSatUiViewAppUi::PlayStandardToneL(
 
     TInt volume( iPlayer->MaxVolume() );
     iPlayer->SetVolume( volume );
+    TFLOGSTRING2( "CSatUiViewAppUi::PlayStandardToneL SetVolume %d",
+        volume )    
 
     iPlayer->PrepareToPlayDesSequence( aSequence );
 
@@ -3221,6 +3227,22 @@ void CSatUiViewAppUi::GetProfileParamsL( TSatTone aTone /*= ESatToneNotSet*/,
     const TProfileToneSettings& ts = tones.ToneSettings();
     iWarningAndPlayTones = ts.iWarningAndGameTones;
     iVolume = ts.iRingingVolume;
+    TFLOGSTRING2( "CSatUiViewAppUi::GetProfileParamsL \
+        iVolume before mapping %d", iVolume )
+    
+    // Max volume from profile is KMaxVolumeFromProfile, Max volume from 
+    // CMdaAudioToneUtility is different, maybe 10,000. So, 
+    // rate = maxVolumeFromPlayer / KMaxVolumeFromProfile
+    // User may never hear the TONE, because volume is too small.
+    // iVolume times the rate make it can be heard.
+    
+    CMdaAudioToneUtility* toneUtl = CMdaAudioToneUtility::NewL( *this );
+    TInt maxVolumeFromPlayer( toneUtl->MaxVolume() );
+    iVolume *= maxVolumeFromPlayer / KMaxVolumeFromProfile;
+    delete toneUtl;
+    toneUtl = NULL;
+    TFLOGSTRING2( "CSatUiViewAppUi::GetProfileParamsL \
+        iVolume after mapping %d", iVolume )
     
     if ( ( ESatUserSelectedToneIncomingSms == aTone ) && ( aToneName ) )
         {

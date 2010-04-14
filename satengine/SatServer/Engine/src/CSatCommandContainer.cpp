@@ -25,7 +25,7 @@
 #include    <e32property.h>
 #include    <data_caging_path_literals.hrh>
 #include    <startupdomainpskeys.h>
-#include    <SATDomainPSKeys.h>
+#include    <satdomainpskeys.h>
 
 #include    "MSatSystemState.h"
 #include    "TSatSystemStateFactory.h"

@@ -19,7 +19,7 @@
 
 //  INCLUDE FILES
 #include <e32def.h>
-#include <RSatSession.h>
+#include <rsatsession.h>
 #include <data_caging_path_literals.hrh>
 
 #include "RSatUiSession.h"

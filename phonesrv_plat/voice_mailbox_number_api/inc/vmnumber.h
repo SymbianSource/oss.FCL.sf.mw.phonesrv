@@ -33,9 +33,9 @@
 #include <PhCltTypes.h>         // from PhoneClient
 
 #include <MSSSettingsObserver.h>
-#include <MSatRefreshObserver.h>
-#include <RSatSession.h>
-#include <RSatRefresh.h>
+#include <msatrefreshobserver.h>
+#include <rsatsession.h>
+#include <rsatrefresh.h>
 #include <centralrepository.h>
 #include <CenRepNotifyHandler.h>
 #include <aknappui.h>

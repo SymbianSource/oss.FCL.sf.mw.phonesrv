@@ -24,13 +24,12 @@
 #include    <CommonEngineDomainCRKeys.h>
 #include    <ProfileEngineSDKCRKeys.h>
 #include    <settingsinternalcrkeys.h>
-#include    <SATDomainPSKeys.h>
+#include    <satdomainpskeys.h>
 #include    <activeidle2domainpskeys.h>
 #include    <ScreensaverInternalPSKeys.h>
 #include    <ctsydomainpskeys.h>
 #include    <sbdefs.h>
 #include    <BTSapDomainPSKeys.h>
-#include    <SATDomainPSKeys.h>
 
 #include    "SATInternalPSKeys.h"
 #include    "CSatSystemState.h"

@@ -21,7 +21,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "MPhCltUssdNoteControllerCallBack.h" 
+#include "mphcltussdnotecontrollercallback.h" 
 
 // FORWARD DECLARATIONS
 class CAknGlobalNote;

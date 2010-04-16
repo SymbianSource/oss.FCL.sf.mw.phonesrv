@@ -19,7 +19,7 @@
 #define CPHCLTEMERGENCYCALLMOCK_H
 
 #include <e32base.h>
-#include <CPhCltEmergencyCall.h>
+#include <cphcltemergencycall.h>
 
 // FORWARD DECLARATIONS
 class MPhCltEmergencyCallObserver;

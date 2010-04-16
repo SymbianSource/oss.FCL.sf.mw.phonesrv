@@ -21,7 +21,7 @@
 #define PHONESETTINGSTESTCLIOBSERVER_H
 
 #include <e32base.h>
-#include <MPsetCliObserver.h>
+#include <mpsetcliobserver.h>
 
 // CLASS DECLARATION
 

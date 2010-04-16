@@ -34,7 +34,14 @@ call qmake^
  ..\%1\%1.pro
 call mingw32-make^
  debug
+if "%2"=="mt_keyhandler" (
+call qmake^
+ ..\%2\%2.pro
+call mingw32-make^
+ debug
+)
 call %1.exe
+call %2.exe
 ) 
 
 if not "%1"=="mt_dialpad" (

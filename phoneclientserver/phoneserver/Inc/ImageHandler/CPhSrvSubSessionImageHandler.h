@@ -19,7 +19,7 @@
 #define CPHSRVSUBSESSIONIMAGEHANDLER_H
 
 // INCLUDES
-#include    "CPhSrvSubSessionBase.h" 
+#include    "cphsrvsubsessionbase.h" 
 #include    "cphsrvimagesaver.h"
 #include    "mphsrvimagesaverobserver.h"
 #include   <cphcltbaseimageparams.h> 

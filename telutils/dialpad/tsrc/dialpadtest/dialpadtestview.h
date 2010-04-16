@@ -23,6 +23,7 @@
 class HbMainWindow;
 class HbListWidget;
 class Dialpad;
+class DialpadKeyHandler;
 
 class DialpadTestView : public HbView
 {
@@ -34,6 +35,7 @@ public:
 
 protected:
     bool eventFilter(QObject * watched, QEvent * event);
+    bool event(QEvent * event);
 
 private:
     void createListWidget();
@@ -47,13 +49,16 @@ private slots:
     void onOrientationChange(Qt::Orientation orientation);
     void onEditorContentChanged();
     void handleLongKeyPress();
+    void setTapOutsideDismiss();
 
 private:
     HbMainWindow& mMainWindow;
     HbListWidget* mListWidget;
     Dialpad* mDialpad;
+    DialpadKeyHandler *mKeyhandler;
     QTimer* mLongPressTimer;
     QString mPressedKey;
+    bool mTapOutsideDismiss;
 };
 
 #endif // DIALPADTESTVIEW_H

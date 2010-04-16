@@ -22,8 +22,8 @@
 #include <e32svr.h>
 #include <mmtsy_names.h>
 #include "psetconstants.h" 
-#include "PsetTelephony.h" 
-#include "PhoneSettingsLogger.h" 
+#include "psettelephony.h" 
+#include "phonesettingslogger.h" 
 
 //  MEMBER FUNCTIONS
 // ---------------------------------------------------------------------------

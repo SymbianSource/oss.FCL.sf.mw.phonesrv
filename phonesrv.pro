@@ -23,9 +23,9 @@ symbian: {
 SUBDIRS += telutils/xqtelephonyservice
 SUBDIRS += telutils/dialpad
 SUBDIRS += vmbx/vmbxcpplugin
+SUBDIRS += vmbx/vmbxengine
 SUBDIRS += cellular/SSSettings/xqbindings/sssettingswrapper
 SUBDIRS += cellular/telephonysettings/xqbindings/psetwrapper
-SUBDIRS += cbs/cbsui
+#SUBDIRS += cbs/cbsui
 SUBDIRS += satui/satapp
 }
-

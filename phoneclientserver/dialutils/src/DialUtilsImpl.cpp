@@ -20,7 +20,7 @@
 // INCLUDE FILES
 
 #include    <featmgr.h>                 // Feature Manager.
-#include    "DialUtilsImpl.h" // Interface. 
+#include    "dialutilsimpl.h" // Interface. 
 
 #include    <centralrepository.h>       // Central repository
 #include    <settingsinternalcrkeys.h> // Settings Central Repository keys. 

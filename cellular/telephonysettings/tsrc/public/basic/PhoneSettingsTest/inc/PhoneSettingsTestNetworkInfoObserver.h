@@ -21,7 +21,7 @@
 #define PHONESETTINGSTESTNETWORKINFOOBSERVER_H
 
 #include <e32base.h>
-#include <MPsetNetworkInfoObs.h>
+#include <mpsetnetworkinfoobs.h>
 
 // CLASS DECLARATION
 

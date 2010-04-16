@@ -22,8 +22,8 @@
 #include <exterror.h>
 #include <etelsat.h>
 
-#include "PsuiInternalConstants.h" 
-#include "PsuiNoteController.h" 
+#include "psuiinternalconstants.h" 
+#include "psuinotecontroller.h" 
 
 //  MEMBER FUNCTIONS
 // ---------------------------------------------------------------------------

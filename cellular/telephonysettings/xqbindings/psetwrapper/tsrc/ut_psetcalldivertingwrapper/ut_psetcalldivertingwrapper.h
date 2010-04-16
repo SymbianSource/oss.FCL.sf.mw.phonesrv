@@ -37,6 +37,7 @@ private slots:
 
     void init();
     void cleanup();
+    void t_construction();
     
     void t_setCallDivertingWithValidParameters();
     void t_setCallDivertingWithInvalidNumber();
@@ -51,7 +52,6 @@ private slots:
     void t_getDefaultNumbersException();
     void t_setNewDefaultNumber();
     void t_getVoiceMailBoxNumber();
-    void t_getVoiceMailBoxNumber2();
     void t_swapDefaultNumber();
 
     // tests for private implementation

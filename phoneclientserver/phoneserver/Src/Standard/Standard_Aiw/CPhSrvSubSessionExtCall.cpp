@@ -17,10 +17,10 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvSubSessionExtCall.h" 
-#include "CPhSrvSession.h" 
-#include "CPhSrvServer.h" 
-#include "MPhSrvObjectNegotiators.h" 
+#include "cphsrvsubsessionextcall.h" 
+#include "cphsrvsession.h" 
+#include "cphsrvserver.h" 
+#include "mphsrvobjectnegotiators.h" 
 
 // Hash mark
 _LIT( KPhoneHash, "#" );

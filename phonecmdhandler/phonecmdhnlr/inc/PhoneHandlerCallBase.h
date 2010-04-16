@@ -20,8 +20,8 @@
 #define CPHONEHANDLERCALLBASE
 
 //  INCLUDES
-#include "PhoneHandlerService.h" 
-#include "PhoneHandlerObserver.h" 
+#include "phonehandlerservice.h" 
+#include "phonehandlerobserver.h" 
 #include <e32base.h>
 #include <rphcltserver.h> 
 

@@ -36,7 +36,7 @@
 _LIT( KCaUiNullResFile, "" );
 
 // The library to be loaded.
-_LIT( KCaUiLoadedLib, "CaUiEngine.dll" );
+_LIT( KCaUiLoadedLib, "cauiengine.dll" );
 
 
 

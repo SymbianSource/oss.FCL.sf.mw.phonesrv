@@ -16,10 +16,10 @@
 */
 
 #include <PsetContainer.h>
-#include <MPsetCliObserver.h>
+#include <mpsetcliobserver.h>
 #include <psetwrappertypes.h>
 #include <PsetCli.h>
-#include <PsuiConstants.h>
+#include <psuiconstants.h>
 #include "ut_psetcliwrapper.h"
 #include "testutilities.h"
 #define private public
@@ -61,6 +61,12 @@ class CliObserver : public MPsetCliObserver
         Q_UNUSED(aError);
     }
 };
+
+void SimulateLeaveL()
+{
+    User::Leave(KErrGeneral);
+}
+
 
 /*!
   UT_PSetCliWrapper::UT_PSetCliWrapper
@@ -118,6 +124,25 @@ void UT_PSetCliWrapper::cleanup()
     delete m_wrapper;
     m_wrapper = NULL;
     m_cliMock = NULL;
+}
+
+/*!
+  UT_PSetCliWrapper::t_construction
+ */
+void UT_PSetCliWrapper::t_construction()
+{
+    if (qstrcmp(QTest::currentTestFunction(), "t_exceptionSafety") != 0) {
+        expect("CPsetContainer::CreateCliObjectL").
+            willOnce(invokeWithoutArguments(SimulateLeaveL));
+        
+        PSetCliWrapper *wrapper = NULL;
+        EXPECT_EXCEPTION(
+            wrapper = new PSetCliWrapper(*m_psetContainerMock, NULL);
+        )
+        delete wrapper;
+        
+        QVERIFY(verify());
+    }
 }
 
 /*!
@@ -329,19 +354,7 @@ void UT_PSetCliWrapper::t_exceptionSafety()
 {
     cleanup();
     
-    OomTestExecuter::runTest(*this, &t_getColpMode);
-    OomTestExecuter::runTest(*this, &t_getClipMode);
-    OomTestExecuter::runTest(*this, &t_getClirMode);
-    OomTestExecuter::runTest(*this, &t_getColrMode);
-    OomTestExecuter::runTest(*this, &t_getCnap);
-    OomTestExecuter::runTest(*this, &t_cancelAll);
-    
-//    OomTestExecuter::runTest(*this, &t_handleCliRequesting);
-//    OomTestExecuter::runTest(*this, &t_cliInformation);
-//    OomTestExecuter::runTest(*this, &t_handleCliStatus);
-//    OomTestExecuter::runTest(*this, &t_handleCnapStatus);
-//    OomTestExecuter::runTest(*this, &t_handleCliError);
-//    OomTestExecuter::runTest(*this, &t_setEngineContact);
+    OomTestExecuter::runAllTests(*this, "t_exceptionSafety");
 }
 
 void UT_PSetCliWrapper::SimulateLeaveAtMockMethodCallL()

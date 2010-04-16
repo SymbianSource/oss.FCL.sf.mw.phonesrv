@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include <e32std.h>
-#include "PSetConstants.h" 
+#include "psetconstants.h" 
 
 //  DATA TYPES  
 //basic service groups

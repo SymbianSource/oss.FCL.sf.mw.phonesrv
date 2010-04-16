@@ -16,7 +16,7 @@
  */
  
 #include <smcmockclassincludes.h>
-#include <RSSSettings.h>
+#include <rsssettings.h>
 
 // ============================ MEMBER FUNCTIONS ===============================
 

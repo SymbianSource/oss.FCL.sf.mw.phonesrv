@@ -19,7 +19,7 @@
 // INCLUDE FILES
 #include <psuicontainer.h> 
 
-#include "PsuiReqObserver.h" 
+#include "psuireqobserver.h" 
   
 // MACROS
 

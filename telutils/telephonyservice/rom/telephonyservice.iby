@@ -19,7 +19,7 @@
 #define __TelephonyService_IBY__
 
 file=ABI_DIR\BUILD_DIR\telephonyservice.dll    System\libs\telephonyservice.dll
-//data=ZSYSTEM\install\phoneparser_stub.SIS    System\Install\phoneparser_stub.SIS
+//data=ZSYSTEM\install\phoneparser_stub.sis    System\Install\phoneparser_stub.sis
 
 #endif
 

@@ -80,6 +80,15 @@ bool DialpadMultitapHandler::eventFilter(QObject *watched, QEvent *event)
                     ++mAsteriskMultitapIndex % DialpadAsteriskMultitapCount;
 
                 int key = DialpadAsteriskMultitapChars[mAsteriskMultitapIndex];
+
+                // Allow + character only as a first char in editor
+                int cursorPosition = mEditor.cursorPosition();
+                if(cursorPosition != 0 && key == Qt::Key_Plus) {
+                    mAsteriskMultitapIndex = ++mAsteriskMultitapIndex;
+                    Q_ASSERT(mAsteriskMultitapIndex < DialpadAsteriskMultitapCount);
+                    key = DialpadAsteriskMultitapChars[mAsteriskMultitapIndex];
+                }
+                
                 QKeyEvent generatedEvent(QEvent::KeyPress, key,
                                          Qt::KeypadModifier,
                                          mExtraChar.value(key));

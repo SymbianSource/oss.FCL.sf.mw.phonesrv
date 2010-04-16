@@ -19,9 +19,9 @@
 // INCLUDE FILES
 #include    <featmgr.h>
 
-#include    "CPhoneGsmParserContainer.h" 
+#include    "cphonegsmparsercontainer.h" 
 #include    "cphonegsmparserresult.h" 
-#include    "CPhoneGsmOptionContainer.h" 
+#include    "cphonegsmoptioncontainer.h" 
 #include    "phonegsmparser.h" 
 
 // CONSTANTS

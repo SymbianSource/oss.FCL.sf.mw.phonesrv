@@ -24,7 +24,7 @@
 #include <cenrepnotifyhandler.h>
 
 #include "rsssettings.h" 
-#include "CSSSettingsActiveObject.h" 
+#include "csssettingsactiveobject.h" 
 
 // FORWARD DECLARATIONS
 class RMmCustomAPI;

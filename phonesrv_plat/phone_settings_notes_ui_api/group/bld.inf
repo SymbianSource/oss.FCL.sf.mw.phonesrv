@@ -24,9 +24,9 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/PsuiContainer.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsuiContainer.h)
-../inc/PsuiBarringObs.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsuiBarringObs.h)
-../inc/PsuiCliObserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsuiCliObserver.h)
-../inc/PsuiConstants.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsuiConstants.h)
-../inc/PsuiWaitingObs.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsuiWaitingObs.h)
-../inc/PsuiDivertObs.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsuiDivertObs.h)
+../inc/psuicontainer.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuicontainer.h)
+../inc/psuibarringobs.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuibarringobs.h)
+../inc/psuicliobserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuicliobserver.h)
+../inc/psuiconstants.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuiconstants.h)
+../inc/psuiwaitingobs.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuiwaitingobs.h)
+../inc/psuidivertobs.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuidivertobs.h)

@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>                        // cbase
-#include "MPhSrvEmergencyNumberManager.h" // interface 
+#include "mphsrvemergencynumbermanager.h" // interface 
 
 // FORWARD DECLARATIONS
 class MPhSrvPhoneInterface;

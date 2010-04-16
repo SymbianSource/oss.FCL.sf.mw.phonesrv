@@ -17,14 +17,11 @@
 
 
 // INCLUDE FILES
-#include "PSetCallDivertingBasicImpl.h" 
+#include "psetcalldivertingbasicimpl.h" 
 
 #include <badesca.h>
 #include <etelmm.h>           
 #include <e32math.h>
-// <-- QT PHONE START -->
-//#include <vmnumber.h>
-// <-- QT PHONE END-->
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
@@ -33,11 +30,11 @@
 #include "psetcalldiverting.h" 
 #include "psetcontainer.h" 
 #include "mpsetdivertobs.h" 
-#include "PsetTelephony.h" 
-#include "PSetPanic.h" 
+#include "psettelephony.h" 
+#include "psetpanic.h" 
 #include "mpsetrequestobs.h" 
-#include "PSetUtility.h" 
-#include "PhoneSettingsLogger.h" 
+#include "psetutility.h" 
+#include "phonesettingslogger.h" 
 #include "psetsaobserver.h" 
 
 //  LOCAL CONSTANTS AND MACROS
@@ -205,11 +202,9 @@ void CPSetCallDivertingBasicImpl::RunL()
            __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBasicImpl::RunL: EPSetChangeDivert" );
            //Notify Observer            
            iDivertStatus.iStatus = PSetUtility::GetChangeInfoStatus( iChangeInfo.iAction );
-// <-- QT PHONE START -->
            iDivertStatus.iNumber = iChangeInfo.iNumber.iTelNumber;
            iDivertStatus.iCondition = PSetUtility::GetDivertReason(iReason);
            iDivertStatus.iNoReplyTimer = iChangeInfo.iTimeout;
-// <-- QT PHONE END -->
             // Check is done because of VOIP notification functionality(PSetNotesUI).
            if ( iVoiceDivert && !iVideoDivert )
                {

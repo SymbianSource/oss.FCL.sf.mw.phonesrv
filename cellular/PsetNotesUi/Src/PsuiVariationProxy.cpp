@@ -17,7 +17,7 @@
 */
 
 
-#include "PsuiVariationProxy.h" 
+#include "psuivariationproxy.h" 
 #include <centralrepository.h>
 #include <settingsinternalcrkeys.h> 
 

@@ -24,7 +24,7 @@
 #include <hbmessagebox.h> // DisplayText, ConfirmSend, SetUpCall
 #include <hblabel.h> // DisplayText, GetInput, SetUpCall
 #include <hbinputdialog.h> // GetInkey
-#include <hbprogressnote.h> // SendSms wait note
+#include <hbprogressdialog.h> // SendSms wait note
 #include <hblineedit.h> // For GetInput
 #include <hbinputeditorinterface.h> // GetInput
 #include "satappview.h" // SetUpMenu, SelectItem
@@ -304,7 +304,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
         mGetInkeyQuery->setPromptText(aHeading);
         // Set ContentText
         QVariant vContent(aContent);
-        mGetInkeyQuery->setTextValue(vContent);
+        mGetInkeyQuery->setValue(vContent);
 
         // Validation rule, what can be entered
         HbValidator *val =new HbValidator;
@@ -333,7 +333,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
         mGetInkeyQuery->exec();
         TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInkeyQuery end pop")
 
-        QString inputString = (mGetInkeyQuery->textValue()).toString();
+        QString inputString = (mGetInkeyQuery->value()).toString();
         TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetInkeyQuery \
            inputString=%s", inputString.utf16())
         aContent = inputString;
@@ -432,7 +432,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInputQuery(
     mGetInputQuery->setPromptText(heading);
     // Set ContentText
     QVariant vContent(content);
-    mGetInputQuery->setTextValue(vContent);
+    mGetInputQuery->setValue(vContent);
 
     // Validation rule, what can be entered
     HbValidator *val =new HbValidator;
@@ -476,7 +476,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInputQuery(
     mGetInputQuery->exec();
     TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInputQuery end pop")
 
-    content = (mGetInputQuery->textValue()).toString();
+    content = (mGetInputQuery->value()).toString();
     TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetInputQuery out content=%s",
     content.utf16())
 
@@ -578,7 +578,7 @@ void SatAppUiProvider::showSmsWaitNote(const QString &aText)
 {
     TFLOGSTRING("SATAPP: SatAppUiProvider::showSmsWaitNote")
 
-    mSmsWaitNote = new HbProgressNote(HbProgressNote::WaitNote);
+    mSmsWaitNote = new HbProgressDialog(HbProgressDialog::WaitDialog);
     //remove the default cancel softkey
     mSmsWaitNote->removeAction(mSmsWaitNote->primaryAction());
     if(aText.isEmpty()) {
@@ -608,7 +608,7 @@ void SatAppUiProvider::showDtmfWaitNote(
         mDtmfWaitNote = 0;
     }
 
-    mDtmfWaitNote = new HbProgressNote(HbProgressNote::WaitNote);
+    mDtmfWaitNote = new HbProgressDialog(HbProgressDialog::WaitDialog);
     //remove the default cancel softkey
     bool ret = connect(mDtmfWaitNote->primaryAction(), SIGNAL(triggered()),
                        this, SLOT(cancelDtmfResponse()));

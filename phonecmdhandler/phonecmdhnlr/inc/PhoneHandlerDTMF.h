@@ -21,8 +21,8 @@
 #define CPHONEHANDLERDTMF_H
 
 //  INCLUDES
-#include "PhoneHandlerCallBase.h" 
-#include <RemConExtensionApi.h> 
+#include "phonehandlercallbase.h" 
+#include <remconextensionapi.h> 
 
 // CONSTANTS
 

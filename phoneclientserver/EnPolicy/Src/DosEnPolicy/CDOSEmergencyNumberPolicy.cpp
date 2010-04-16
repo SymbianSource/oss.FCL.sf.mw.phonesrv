@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include "CDOSEmergencyNumberPolicy.h" 
+#include "cdosemergencynumberpolicy.h" 
 #include <mmtsy_names.h>
 #include <telservicesvariant.hrh>
 

@@ -21,7 +21,7 @@
 #define PHONESETTINGSTESTPSETREQUESTOBSERVER_H
 
 #include <e32base.h>
-#include <MPsetRequestObs.h> 
+#include <mpsetrequestobs.h> 
 
 // CLASS DECLARATION
 

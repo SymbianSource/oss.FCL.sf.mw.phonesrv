@@ -17,14 +17,11 @@
 
 
 // INCLUDE FILES
-#include "PSetCallDivertingBasicImpl.h" 
+#include "psetcalldivertingbasicimpl.h" 
 
 #include <badesca.h>
 #include <etelmm.h>           
 #include <e32math.h>
-// <-- QT PHONE START -->
-//include <vmnumber.h>
-// <-- QT PHONE END -->
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
@@ -33,13 +30,13 @@
 #include "psetcalldiverting.h" 
 #include "psetcontainer.h" 
 #include "mpsetdivertobs.h" 
-#include "PsetTelephony.h" 
-#include "PSetPanic.h" 
+#include "psettelephony.h" 
+#include "psetpanic.h" 
 #include "mpsetrequestobs.h" 
-#include "PSetUtility.h" 
-#include "PhoneSettingsLogger.h" 
+#include "psetutility.h" 
+#include "phonesettingslogger.h" 
 #include "psetsaobserver.h" 
-#include "PSetCallDivertingBase.h" 
+#include "psetcalldivertingbase.h" 
 
 //  LOCAL CONSTANTS AND MACROS
 
@@ -169,7 +166,6 @@ void CPSetCallDivertingBase::DoCancel()
     // Empty implementation.
     }
 
-// <-- QT PHONE START -->
 // ---------------------------------------------------------------------------
 // SetRequestObserver
 // ---------------------------------------------------------------------------
@@ -178,7 +174,6 @@ void CPSetCallDivertingBase::SetRequestObserver( MPsetRequestObserver* aObs )
     {
     iReqObserver = aObs;
     }
-// <-- QT PHONE END -->
 
 // ---------------------------------------------------------------------------
 // SetDivertingL
@@ -827,64 +822,10 @@ TBool CPSetCallDivertingBase::IsVMBXDivertL( TDesC& /*aTelNumber*/ )
     __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBase::IsVMBXDivertL" );
     
     TBool result = EFalse;
- // <-- QT PHONE START -->   
- 
- /*
-    if ( FeatureManager::FeatureSupported ( KFeatureIdVmbxCallDivertIcon ) )
-        {
-        RVmbxNumber vmbxConnection;
-        TTelNumber telNumber;
-        TInt retValue = OpenVmbxLC( telNumber, vmbxConnection );
-        __PHSLOGSTRING1("[PHS]    CPSetCallDivertingBase::IsVMBXDivertL: telNumber = %S", &telNumber );
-        __PHSLOGSTRING1("[PHS]    CPSetCallDivertingBase::IsVMBXDivertL: retValue = %d", retValue );
-
-        CleanupStack::PopAndDestroy(); //vmbxConnection is closed when popped    
-        if ( retValue == KErrNone ) //VMBX number found
-            {
-            
-            //Concatenate the existing number and add '*' to the beginning
-            TTelNumber tempStr;
-            tempStr.Zero();
-            tempStr.Append( KPSetAsterisk );
-        
-            //Match with seven characters
-            TInt matchChars = KPsetMatchingChars;
-            if ( telNumber.Length() < matchChars )
-                {                
-                matchChars = telNumber.Length();
-                }
-            tempStr.Append( telNumber.Right( matchChars ) );
-        
-            //Compare value with divert-to number
-            if ( aTelNumber.Match ( tempStr ) != KErrNotFound )
-                {
-                __PHSLOGSTRING("[PHS]    CPSetCallDivertingBase::IsVMBXDivertL: Match found" );
-                result = ETrue;
-                }
-            }
-        }
-*/
-    // <-- QT PHONE END-->
     __PHSLOGSTRING("[PHS] <--CPSetCallDivertingBase::IsVMBXDivertL" );
     return result;
     }
 
-// ---------------------------------------------------------------------------
-// Opens Vmbx. Leaves vmbx to the stack.  
-// ---------------------------------------------------------------------------
-// <-- QT PHONE START-->
-/*
-TInt CPSetCallDivertingBase::OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx )
-    {
-    __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBase::OpenVmbxLC" );
-    User::LeaveIfError( aVmbx.Open( iPhone ) );
-    CleanupClosePushL( aVmbx );         
-    __PHSLOGSTRING("[PHS]<-- CPSetCallDivertingBase::OpenVmbxLC" );
-    return aVmbx.GetVmbxNumber( aTelNumber );
-    
-    }
-*/
-// <-- QT PHONE END-->
 // ---------------------------------------------------------------------------
 // If SsSettings notifies of settings change, copy new value to member variable. 
 // ---------------------------------------------------------------------------

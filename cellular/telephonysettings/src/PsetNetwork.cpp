@@ -21,7 +21,7 @@
 #include "mpsetnetworkinfoobs.h" 
 #include "psetnetwork.h" 
 #include "psetsaobserver.h" 
-#include "PSetPanic.h" 
+#include "psetpanic.h" 
 #include "psetconstants.h" 
 #include "mpsetnetworkselect.h" 
 #include <etelmm.h>
@@ -29,7 +29,7 @@
 #include <rmmcustomapi.h>
 
 #include <e32svr.h>
-#include "PhoneSettingsLogger.h" 
+#include "phonesettingslogger.h" 
 
 //  LOCAL CONSTANTS AND MACROS  
 _LIT( KPSNameOfClass, "CPsetNetwork" );

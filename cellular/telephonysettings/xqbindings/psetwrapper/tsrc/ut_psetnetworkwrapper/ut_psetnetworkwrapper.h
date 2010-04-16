@@ -38,6 +38,7 @@ private slots:
     void init();
     void cleanup();
     
+    void t_construction();
     void t_getAvailableNetworks();
     void t_getNetworkSelectionMode();
     void t_selectNetwork();

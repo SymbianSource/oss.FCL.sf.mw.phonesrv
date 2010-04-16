@@ -23,7 +23,7 @@
 
 //  INCLUDES
 #include    <cphcltimagehandler.h> 
-#include    "RPhCltImageHandler.h" 
+#include    "rphcltimagehandler.h" 
 #include    "rphcltserver.h" 
 
 /**

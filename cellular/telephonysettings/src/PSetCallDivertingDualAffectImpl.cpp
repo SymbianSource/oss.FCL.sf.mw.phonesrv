@@ -17,15 +17,12 @@
 
 
 // INCLUDE FILES
-#include "PSetCallDivertingDualAffectImpl.h" 
-#include "PSetSubscriberIdCheck.h" 
+#include "psetcalldivertingdualaffectimpl.h" 
+#include "psetsubscriberidcheck.h" 
 
 #include <badesca.h>
 #include <etelmm.h>
 #include <e32math.h>
-// <-- QT PHONE START -->
-//#include <vmnumber.h>
-// <-- QT PHONE END -->
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
@@ -34,11 +31,11 @@
 #include "psetcalldiverting.h" 
 #include "psetcontainer.h" 
 #include "mpsetdivertobs.h" 
-#include "PsetTelephony.h" 
-#include "PSetPanic.h" 
+#include "psettelephony.h" 
+#include "psetpanic.h" 
 #include "mpsetrequestobs.h" 
-#include "PSetUtility.h" 
-#include "PhoneSettingsLogger.h" 
+#include "psetutility.h" 
+#include "phonesettingslogger.h" 
 #include "psetsaobserver.h" 
 
 //  LOCAL CONSTANTS AND MACROS

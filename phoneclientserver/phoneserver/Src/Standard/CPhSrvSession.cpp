@@ -18,11 +18,11 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvServer.h" 
-#include "CPhSrvSession.h" 
-#include "CPhSrvSubSessionBase.h" 
-#include "PhSrvSubSessionFactory.h" 
-#include "PhCltClientServer.h" 
+#include "cphsrvserver.h" 
+#include "cphsrvsession.h" 
+#include "cphsrvsubsessionbase.h" 
+#include "phsrvsubsessionfactory.h" 
+#include "phcltclientserver.h" 
 
 // CONSTANTS
 

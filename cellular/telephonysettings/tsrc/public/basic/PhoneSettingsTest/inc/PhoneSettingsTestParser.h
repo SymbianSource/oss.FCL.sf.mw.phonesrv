@@ -25,10 +25,10 @@
 #include    <e32base.h>
 #include    <etelmm.h>
 #include    <RMmCustomAPI.h>
-#include    <RSSSettings.h> 
-#include    <MPsetCallWaiting.h>
-#include    <MPsetNetworkSelect.h>
-#include    <PsetSAObserver.h>
+#include    <rsssettings.h> 
+#include    <mpsetcallwaiting.h>
+#include    <mpsetnetworkselect.h>
+#include    <psetsaobserver.h>
 #include    "PhoneSettingsTest.hrh"
 
 // FORWARD DECLARATIONS

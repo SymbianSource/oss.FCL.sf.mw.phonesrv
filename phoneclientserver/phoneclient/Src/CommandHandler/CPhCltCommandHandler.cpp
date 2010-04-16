@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include    "cphcltcommandhandler.h" 
-#include    "CPhCltComHandImplementation.h" 
+#include    "cphcltcomhandimplementation.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================
 

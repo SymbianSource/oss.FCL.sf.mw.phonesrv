@@ -23,7 +23,7 @@
 #include <e32std.h>
 #include "rphcltserver.h" 
 #include "cphcltemergencycall.h" 
-#include "RPhCltEmergencyCall.h" 
+#include "rphcltemergencycall.h" 
 
 
 // FORWARD DECLARATIONS

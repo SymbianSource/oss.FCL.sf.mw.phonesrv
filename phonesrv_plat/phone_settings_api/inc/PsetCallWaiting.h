@@ -25,9 +25,9 @@
 #include <mmretrieve.h>
 #include "msssettingsobserver.h" 
 #include "nwdefs.h"
-#include "MPsetCallWaiting.h" 
+#include "mpsetcallwaiting.h" 
 #include "mpsetcallwaitingobs.h" 
-#include "PSetConstants.h" 
+#include "psetconstants.h" 
  
 
 // FORWARD DECLARATIONS

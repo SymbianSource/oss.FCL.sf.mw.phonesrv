@@ -21,9 +21,9 @@
 
 // INCLUDES
 #include <etelmm.h>            // ETel
-#include "PhCltClientServer.h" 
-#include "MPhSrvUssdNetworkObserver.h" 
-#include "MPhSrvUssdReplyTimerObserver.h" 
+#include "phcltclientserver.h" 
+#include "mphsrvussdnetworkobserver.h" 
+#include "mphsrvussdreplytimerobserver.h" 
 #include <badesca.h>
 
 

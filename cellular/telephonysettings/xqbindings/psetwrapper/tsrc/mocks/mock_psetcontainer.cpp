@@ -16,7 +16,7 @@
 */
 #include <smcmockclassincludes.h>
 #include <mmtsy_names.h>
-#include <MPsetDivertObs.h>
+#include <mpsetdivertobs.h>
 #include "PsetContainer.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

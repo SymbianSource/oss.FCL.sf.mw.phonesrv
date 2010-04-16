@@ -21,10 +21,10 @@
 #define     PSETNETWORK_H
 
 //  INCLUDES
-#include "MPsetNetworkSelect.h" 
+#include "mpsetnetworkselect.h" 
 #include "mpsetnetworkinfoobs.h" 
 #include "mpsetnetworkmodeobs.h" 
-#include "MPsetNetworkMode.h" 
+#include "mpsetnetworkmode.h" 
 #include <etelmm.h>
 #include <rmmcustomapi.h> 
 

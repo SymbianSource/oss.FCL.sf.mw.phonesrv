@@ -21,8 +21,8 @@
 #include <rsssettings.h>
 #include <msssettingsobserver.h>
 #include <mpsetcliobserver.h>
-#include <PsetContainer.h>
-#include <PsetCli.h>
+#include <psetcontainer.h>
+#include <psetcli.h>
 
 /*!
   PSetCliWrapper::PSetCliWrapper

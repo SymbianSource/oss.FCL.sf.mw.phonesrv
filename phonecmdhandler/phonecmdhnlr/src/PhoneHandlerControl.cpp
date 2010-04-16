@@ -19,24 +19,21 @@
 
 
 // INCLUDE FILES
-#include "PhoneHandlerControl.h" 
-#include "PhoneHandlerService.h" 
-#include "PhoneHandlerAnswerCall.h" 
-#include "PhoneHandlerEndCall.h" 
-#include "PhoneHandlerDialCall.h" 
-#include "PhoneHandlerVoiceDial.h" 
-#include "PhoneHandlerRedial.h" 
-#include "PhoneHandlerMultipartyCall.h" 
-#include "PhoneHandlerDTMF.h" 
-#include "PhoneHandlerActive.h" 
-#include "PhoneHandlerResponse.h" 
-#include "PhoneHandlerCallState.h" 
-#include "PhoneHandlerDebug.h" 
+#include "phonehandlercontrol.h" 
+#include "phonehandlerservice.h" 
+#include "phonehandleranswercall.h" 
+#include "phonehandlerendcall.h" 
+#include "phonehandlerdialcall.h" 
+#include "phonehandlervoicedial.h" 
+#include "phonehandlerredial.h" 
+#include "phonehandlermultipartycall.h" 
+#include "phonehandlerdtmf.h" 
+#include "phonehandleractive.h" 
+#include "phonehandlerresponse.h" 
+#include "phonehandlercallstate.h" 
+#include "phonehandlerdebug.h" 
 #include <remconinterfaceselector.h>
 #include <RemConCallHandlingTarget.h> 
-// <-- QT PHONE START -->
-//#include <cpbkcontactengine.h> 
-// <-- QT PHONE END-->
 #include <ctsydomainpskeys.h>
 
 #if 0
@@ -727,37 +724,6 @@ MPhoneHandlerService* CPhoneHandlerControl::
 //
 void CPhoneHandlerControl::InitializeSpeedDialL()
     {
-    
-// <-- QT PHONE START -->
-/*
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::InitializeSpeedDialL() start" );
-    
-    // first check contack engine is not in busy
-  TInt cntEngState( 0 );
-    TInt err = iProperty.Get( KUidSystemCategory, conn::KUidBackupRestoreKey, cntEngState ); 
-  
-    if( err == KErrNotFound || cntEngState == 0 || 
-            cntEngState & conn::KBURPartTypeMask == conn::EBURNormal || 
-            cntEngState & conn::KBackupIncTypeMask == conn::ENoBackup )
-        {
-        // Get phone number from phonebook by index 
-        CPbkContactEngine* ptr = CPbkContactEngine::NewL();
-    CleanupStack::PushL( ptr );       
-        TRACE_ASSERT( ptr != NULL );
-        ptr->GetSpeedDialFieldL( iIndex, iTelNumber );
-        COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::InitializeSpeedDialL() speed dial number is %S", &iTelNumber );
-        CleanupStack::PopAndDestroy( ptr );
-        }
-    else
-        {
-        // contact engine is in busy
-        COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::InitializeSpeedDialL() contact engine is in backup/restore" );
-        User::Leave( KErrInUse );
-        }
-*/  
-// <-- QT PHONE END -->
-
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::InitializeSpeedDialL() end" );
     }
 
 // -----------------------------------------------------------------------------

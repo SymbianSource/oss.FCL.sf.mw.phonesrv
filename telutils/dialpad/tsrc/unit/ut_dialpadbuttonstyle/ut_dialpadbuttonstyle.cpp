@@ -69,15 +69,15 @@ void ut_DialpadButtonStyle::testPushButtonFrame()
 
     mStyle->setButtonStyle(DialpadButtonStyle::NormalButtonStyle);
     mStyle->updatePrimitive(item,HbStyle::P_PushButton_background,&option);
-    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_button_keypad_pressed");
+    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_input_btn_keypad_pressed");
 
     mStyle->setButtonStyle(DialpadButtonStyle::FunctionButtonStyle);
     mStyle->updatePrimitive(item,HbStyle::P_PushButton_background,&option);
-    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_button_function_pressed");
+    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_input_btn_function_pressed");
 
     mStyle->setButtonStyle(DialpadButtonStyle::CallButtonStyle);
     mStyle->updatePrimitive(item,HbStyle::P_PushButton_background,&option);
-    QVERIFY(item->frameDrawer().frameGraphicsName()==":/qtg_fr_btn_green_pressed");
+    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_btn_green_pressed");
 
     // Enabled OFF
     option.state &= ~QStyle::State_On;
@@ -85,15 +85,15 @@ void ut_DialpadButtonStyle::testPushButtonFrame()
 
     mStyle->setButtonStyle(DialpadButtonStyle::NormalButtonStyle);
     mStyle->updatePrimitive(item,HbStyle::P_PushButton_background,&option);
-    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_button_keypad_normal");
+    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_input_btn_keypad_normal");
 
     mStyle->setButtonStyle(DialpadButtonStyle::FunctionButtonStyle);
     mStyle->updatePrimitive(item,HbStyle::P_PushButton_background,&option);
-    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_button_function_normal");
+    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_input_btn_function_normal");
 
     mStyle->setButtonStyle(DialpadButtonStyle::CallButtonStyle);
     mStyle->updatePrimitive(item,HbStyle::P_PushButton_background,&option);
-    QVERIFY(item->frameDrawer().frameGraphicsName()==":/qtg_fr_btn_green_normal");
+    QVERIFY(item->frameDrawer().frameGraphicsName()=="qtg_fr_btn_green_normal");
 
     // Disabled
     option.state &= ~QStyle::State_Enabled;
@@ -119,7 +119,7 @@ void ut_DialpadButtonStyle::testTextColor()
     HbStyleOptionPushButton option;
     option.backgroundFrameDrawer = 0;
     QColor color;
-    color = HbColorScheme::color("input_button_normal");
+    color = HbColorScheme::color("qtc_input_button_normal");
 
     // Enabled ON
     option.state |= QStyle::State_On;
@@ -136,7 +136,7 @@ void ut_DialpadButtonStyle::testAdditionalTextColor()
     HbStyleOptionPushButton option;
     option.backgroundFrameDrawer = 0;
     QColor color;
-    color = HbColorScheme::color("input_button_normal");
+    color = HbColorScheme::color("qtc_input_button_normal");
 
     // Enabled ON
     option.state |= QStyle::State_On;
@@ -151,10 +151,10 @@ void ut_DialpadButtonStyle::testPushButtonIcon()
 {
     HbIconItem* item = new HbIconItem();
     HbStyleOptionPushButton option;
-    QColor funcColor(HbColorScheme::color("input_function_normal"));
-    QColor normColor(HbColorScheme::color("input_button_normal"));
-    QColor answerNormal(HbColorScheme::color("answer_normal"));
-    QColor answerPressed(HbColorScheme::color("answer_pressed"));
+    QColor funcColor(HbColorScheme::color("qtc_input_function_normal"));
+    QColor normColor(HbColorScheme::color("qtc_input_button_normal"));
+    QColor answerNormal(HbColorScheme::color("qtc_callhandling_answer_normal"));
+    QColor answerPressed(HbColorScheme::color("qtc_callhandling_answer_pressed"));
 
     // Normal
     option.state |= QStyle::State_Enabled;

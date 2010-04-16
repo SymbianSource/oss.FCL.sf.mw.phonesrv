@@ -16,19 +16,19 @@
 */
 
 #include "xqcallinfoimpl.h"
-#include <QDebug>
 #include <xqcallinfo.h>
+#include "qtphonesrvlog.h"
 
 
 XQCallInfo *XQCallInfo::create()
 {
-    qDebug()<<"XQCallInfo::create()";
+    PHONE_TRACE;
     return new XQCallInfoImpl();
 }
 
 void XQCallInfo::sendCallInfoChangedSignal()
 {
-    qDebug()<<"XQCallInfo::sendCallInfoChangedSignal()";
+    PHONE_TRACE;
     emit callInformationChanged ();
 }
 

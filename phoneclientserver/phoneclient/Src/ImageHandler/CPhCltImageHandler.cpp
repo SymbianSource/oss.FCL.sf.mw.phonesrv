@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include    "cphcltimagehandler.h" 
-#include    "CPhCltImageHandlerImplementation.h" 
+#include    "cphcltimagehandlerimplementation.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================
 

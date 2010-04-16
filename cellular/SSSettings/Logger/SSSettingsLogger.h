@@ -22,7 +22,7 @@
 #ifndef SSSETTINGSLOGGER_H
 #define SSSETTINGSLOGGER_H
 
-#include "SSSettingsLoggingConf.h" 
+#include "sssettingsloggingconf.h" 
 #include <e32std.h>
 #include <flogger.h>
 #include <e32svr.h>

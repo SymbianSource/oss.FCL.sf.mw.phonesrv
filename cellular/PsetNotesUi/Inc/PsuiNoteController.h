@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <coemain.h>
-#include "PsuiNoteMaster.h" 
+#include "psuinotemaster.h" 
 
 // CLASS DECLARATION
 

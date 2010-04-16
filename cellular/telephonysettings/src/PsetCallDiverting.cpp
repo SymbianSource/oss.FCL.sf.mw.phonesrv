@@ -22,21 +22,18 @@
 #include <e32math.h>
 #include <e32svr.h>
 #include <badesca.h>
-// <-- QT PHONE START -->
-//#include <vmnumber.h>
-// <-- QT PHONE END-->
 #include <centralrepository.h>
 #include <settingsinternalcrkeys.h> 
 
 #include "psetcalldiverting.h" 
 #include "psetcontainer.h" 
 #include "mpsetdivertobs.h" 
-#include "PsetTelephony.h" 
-#include "PSetPanic.h" 
-#include "PhoneSettingsLogger.h" 
+#include "psettelephony.h" 
+#include "psetpanic.h" 
+#include "phonesettingslogger.h" 
 
-#include "PSetCallDivertingCreator.h" 
-#include "MCallDiverting.h" 
+#include "psetcalldivertingcreator.h" 
+#include "mcalldiverting.h" 
 
 //  MEMBER FUNCTIONS
 // ---------------------------------------------------------------------------
@@ -262,9 +259,7 @@ EXPORT_C HBufC* CPsetCallDiverting::GetUsedFaxNumberLC()
 EXPORT_C void CPsetCallDiverting::SetRequestObserver( MPsetRequestObserver* aObs )
     {
     iReqObserver = aObs;
-// <-- QT PHONE START -->
     iDivert->SetRequestObserver(aObs);
-// <-- QT PHONE END -->
     }
 
 // ---------------------------------------------------------------------------
@@ -274,30 +269,6 @@ EXPORT_C void CPsetCallDiverting::SetRequestObserver( MPsetRequestObserver* aObs
 EXPORT_C void CPsetCallDiverting::VoiceMailQueryL( TDes& /*aTelNumber*/ )
     {
     __PHSLOGSTRING("[PHS]--> CPsetCallDiverting::VoiceMailQueryL" );
-// <-- QT PHONE START -->
-/*
-    RVmbxNumber vmbxConnection;
-    TBool vmbxNrChanged = ETrue;
-    TInt retValue = iDivert->OpenVmbxLC( aTelNumber, vmbxConnection );
-    __PHSLOGSTRING1("[PHS]    CPsetCallDiverting::VoiceMailQueryL: aTelNumber = %S", &aTelNumber );
-    __PHSLOGSTRING1("[PHS]    CPsetCallDiverting::VoiceMailQueryL: retValue = %d", retValue );
-
-    if ( retValue == KErrNotFound )
-        {
-        vmbxNrChanged = vmbxConnection.QueryNumberL( EVmbxNotDefinedQuery, aTelNumber );
-        }
-    else if ( retValue != KErrNone )
-        {
-        //Problem with vmbx application, better leave.
-        User::Leave( retValue );
-        }
-    if ( !vmbxNrChanged )
-        {
-        User::Leave( KErrCancel );
-        }
-    CleanupStack::PopAndDestroy(); // vmbxConnection
-    */
-// <-- QT PHONE END-->
 
     __PHSLOGSTRING("[PHS] <--CPsetCallDiverting::VoiceMailQueryL" );
     }
@@ -309,30 +280,6 @@ EXPORT_C void CPsetCallDiverting::VoiceMailQueryL( TDes& /*aTelNumber*/ )
 EXPORT_C void CPsetCallDiverting::VideoMailQueryL( TDes& /*aTelNumber*/ )
     {
     __PHSLOGSTRING("[PHS]--> CPsetCallDiverting::VideoMailQueryL" );
-    // <-- QT PHONE START -->
-    /*
-    RVmbxNumber vmbxConnection;
-    TBool vmbxNrChanged = ETrue;
-    TInt retValue = OpenVideoMailboxLC( aTelNumber, vmbxConnection );
-    __PHSLOGSTRING1("[PHS]    CPsetCallDiverting::VideoMailQueryL: aTelNumber = %S", &aTelNumber );
-    __PHSLOGSTRING1("[PHS]    CPsetCallDiverting::VideoMailQueryL: retValue = %d", retValue );
-
-    if ( retValue == KErrNotFound )
-        {
-        vmbxNrChanged = vmbxConnection.QueryVideoMbxNumberL( EVmbxNotDefinedQuery, aTelNumber );
-        }
-    else if ( retValue != KErrNone )
-        {
-        //Problem with vmbx application, better leave.
-        User::Leave( retValue );
-        }
-    if ( !vmbxNrChanged )
-        {
-        User::Leave( KErrCancel );
-        }
-    CleanupStack::PopAndDestroy(); // vmbxConnection
-    */
-    // <-- QT PHONE END-->
 
     __PHSLOGSTRING("[PHS] <--CPsetCallDiverting::VideoMailQueryL" );
     }    
@@ -341,18 +288,9 @@ EXPORT_C void CPsetCallDiverting::VideoMailQueryL( TDes& /*aTelNumber*/ )
 // Opens Vmbx. Leaves vmbx to the stack. 
 // ---------------------------------------------------------------------------
 //
-// <-- QT PHONE START -->
 TInt CPsetCallDiverting::OpenVideoMailboxLC( TDes& /*aTelNumber*/, RVmbxNumber& /*aVmbx*/ )
     {
-/*
-    __PHSLOGSTRING("[PHS]--> CPsetCallDiverting::OpenVideoMailboxLC" );
-    User::LeaveIfError( aVmbx.Open( iPhone ) );
-    CleanupClosePushL( aVmbx );         
-    __PHSLOGSTRING("[PHS]<-- CPsetCallDiverting::OpenVideoMailboxLC" );
-    return aVmbx.GetVideoMbxNumber( aTelNumber );
-*/
     return 0;
-// <-- QT PHONE END -->
     }
     
 // End of File

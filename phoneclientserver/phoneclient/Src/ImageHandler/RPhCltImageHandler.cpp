@@ -18,8 +18,8 @@
 
 // INCLUDES
 
-#include    "RPhCltImageHandler.h" 
-#include    "PhCltClientServer.h" 
+#include    "rphcltimagehandler.h" 
+#include    "phcltclientserver.h" 
 #include    <rphcltserver.h> 
 #include    <e32std.h>
 #include    <e32base.h>

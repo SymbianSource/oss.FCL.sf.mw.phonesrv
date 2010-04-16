@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <CPhCltExtPhoneDialData.h> 
+#include <cphcltextphonedialdata.h> 
 
 // CONSTANTS
 

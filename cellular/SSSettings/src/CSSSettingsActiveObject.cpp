@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include    "CSSSettingsActiveObject.h" 
+#include    "csssettingsactiveobject.h" 
 #include    <e32property.h>
 
 

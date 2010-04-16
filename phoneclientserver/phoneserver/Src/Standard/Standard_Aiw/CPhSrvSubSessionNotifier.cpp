@@ -19,12 +19,12 @@
 
 // INCLUDE FILES
 #include <phclttypes.h> 
-#include "CPhSrvSubSessionNotifier.h" 
-#include "CPhSrvSession.h" 
-#include "CPhSrvServer.h" 
-#include "MPhSrvEmergencyNegotiators.h" 
-#include "MPhSrvObjectNegotiators.h" 
-#include "MPhSrvComHandNegotiators.h" 
+#include "cphsrvsubsessionnotifier.h" 
+#include "cphsrvsession.h" 
+#include "cphsrvserver.h" 
+#include "mphsrvemergencynegotiators.h" 
+#include "mphsrvobjectnegotiators.h" 
+#include "mphsrvcomhandnegotiators.h" 
 
 // CONSTANTS
 // None.

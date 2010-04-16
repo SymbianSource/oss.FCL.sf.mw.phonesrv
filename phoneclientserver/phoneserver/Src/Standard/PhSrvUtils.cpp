@@ -18,7 +18,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "PhSrvUtils.h" 
+#include "phsrvutils.h" 
 
 
 // CONSTANTS

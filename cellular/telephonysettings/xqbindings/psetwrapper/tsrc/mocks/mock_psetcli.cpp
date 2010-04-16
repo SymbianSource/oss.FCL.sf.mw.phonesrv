@@ -15,7 +15,7 @@
  *
  */
 #include <smcmockclassincludes.h>
-#include <MPsetRequestObs.h>
+#include <mpsetrequestobs.h>
 #include "PsetCli.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

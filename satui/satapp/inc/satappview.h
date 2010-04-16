@@ -137,10 +137,6 @@ private: // From HbView
     void keyPressEvent(QKeyEvent *event);
 
 private: // New method
-    /**
-     * Set the secondary softkey as back softkey.
-     */
-    void setSoftkeyBack();
 
     /**
      * Connect item with menuItemSelected.

@@ -20,6 +20,6 @@
 #define __CALLPROVIDER_IBY__
 
 file=ABI_DIR\BUILD_DIR\callprovider.dll       SHARED_LIB_DIR\callprovider.dll
-data=ZSYSTEM\install\callprovider_stub.SIS    System\Install\callprovider_stub.SIS
+data=ZSYSTEM\install\callprovider_stub.sis    System\Install\callprovider_stub.sis
 
 #endif // __CALLPROVIDER_IBY__

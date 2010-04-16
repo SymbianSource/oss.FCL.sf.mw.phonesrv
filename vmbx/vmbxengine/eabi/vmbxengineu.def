@@ -29,8 +29,4 @@ EXPORTS
 	_ZNK18CVoiceMailboxEntry16VoiceMailboxTypeEv @ 28 NONAME
 	_ZNK18CVoiceMailboxEntry19UsingMemoryLocationEv @ 29 NONAME
 	_ZNK18CVoiceMailboxEntry9ServiceIdEv @ 30 NONAME
-	_ZTI13CVoiceMailbox @ 31 NONAME
-	_ZTI18CVoiceMailboxEntry @ 32 NONAME
-	_ZTV13CVoiceMailbox @ 33 NONAME
-	_ZTV18CVoiceMailboxEntry @ 34 NONAME
 

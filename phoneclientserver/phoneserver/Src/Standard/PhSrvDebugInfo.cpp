@@ -22,8 +22,8 @@
 #include    <e32svr.h>                  // rdebug
 #include    <f32file.h>                 // file and FS
 #include    <utf.h>                     // converter
-#include    "PhSrvDebugInfo.h" // this 
-#include    "KPhSrvConfigure.h" // defines 
+#include    "phsrvdebuginfo.h" // this 
+#include    "kphsrvconfigure.h" // defines 
 
 
 // Initialize

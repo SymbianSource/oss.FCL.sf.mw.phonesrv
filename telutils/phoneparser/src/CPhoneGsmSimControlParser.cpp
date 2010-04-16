@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneGsmSimControlParser.h" 
+#include    "cphonegsmsimcontrolparser.h" 
 #include    "cphonegsmparserresult.h" 
-#include    "CPhoneGsmOptionContainer.h" 
+#include    "cphonegsmoptioncontainer.h" 
 
 // CONSTANTS
 _LIT( KPhoneSimControlPinChangeCode, "04" );

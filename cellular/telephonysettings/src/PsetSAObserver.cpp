@@ -26,9 +26,9 @@
 #include "psetsaobserver.h" 
 #include "mpsetnetworkinfoobs.h" 
 #include "mpsetdivertobs.h" 
-#include "PhoneSettingsLogger.h" 
-#include "PSetUtility.h" 
-#include "PsetVariationProxy.h" 
+#include "phonesettingslogger.h" 
+#include "psetutility.h" 
+#include "psetvariationproxy.h" 
 
 //CONSTANTS
 const TInt KPsetRequesterUncertain = 0;

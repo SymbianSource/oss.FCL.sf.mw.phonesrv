@@ -23,7 +23,7 @@
  
 #include "psuicliobserver.h" 
 #include "psuicontainer.h" 
-#include "PsuiNoteController.h" 
+#include "psuinotecontroller.h" 
 
 //  MEMBER FUNCTIONS
 

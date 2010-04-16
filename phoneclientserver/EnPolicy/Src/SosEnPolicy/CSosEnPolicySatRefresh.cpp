@@ -20,8 +20,8 @@
 
 // INCLUDE FILES
 #include  <e32std.h>
-#include "CSOSEmergencyNumberPolicyHandler.h" 
-#include "CSosEnPolicySatRefresh.h" 
+#include "csosemergencynumberpolicyhandler.h" 
+#include "csosenpolicysatrefresh.h" 
 
 #include <RSatRefresh.h> 
 #include <RSatSession.h> 

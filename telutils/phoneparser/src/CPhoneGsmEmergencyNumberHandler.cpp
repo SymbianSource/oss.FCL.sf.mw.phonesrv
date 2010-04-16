@@ -18,7 +18,7 @@
 
 // INCLUDE FILES
 #include    "cphonegsmemergencynumberhandler.h" 
-#include    "CPhoneGsmEmergencyNumberParser.h" 
+#include    "cphonegsmemergencynumberparser.h" 
 #include    "cphonegsmparserresult.h" 
 
 // CONSTANTS

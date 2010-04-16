@@ -145,7 +145,6 @@ void CVoiceMailboxEntry::SetVmbxAlsLineType(
     SMC_MOCK_METHOD1( void, const TVmbxAlsLineType &, aLine )
     }
 
-
 // -----------------------------------------------------------------------------
 // CVoiceMailboxEntry::GetVmbxNumber
 // -----------------------------------------------------------------------------
@@ -153,9 +152,6 @@ void CVoiceMailboxEntry::SetVmbxAlsLineType(
 TInt CVoiceMailboxEntry::GetVmbxNumber( 
         TPtrC & aVmbxNumber ) const
     {
-//    _LIT(vmbxNumber, "1234");
-//    TPtrC vmbxNumber( _LIT("12345" ));
-//    aVmbxNumber = vmbxNumber;
     SMC_MOCK_METHOD1( TInt, TPtrC &, aVmbxNumber )
     }
 

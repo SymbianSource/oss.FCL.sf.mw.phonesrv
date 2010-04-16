@@ -18,14 +18,14 @@
 
 
 // INCLUDE FILES
-#include    "CSOSEmergencyNumberPolicyHandler.h" 
+#include    "csosemergencynumberpolicyhandler.h" 
 #include    <mmtsy_names.h>
 #include    <featmgr.h>
 #include    <bldvariant.hrh>
 #include    <telservicesvariant.hrh>
 #include    <telservicesinternalcrkeys.h>
 #include    <centralrepository.h>
-#include "CSosEnPolicySatRefresh.h" 
+#include "csosenpolicysatrefresh.h" 
 
 // CONSTANTS
 // The default emergency numbers.

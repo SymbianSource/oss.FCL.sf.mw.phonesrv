@@ -23,7 +23,7 @@
 #include <psuicontainer.h> 
 #include <etelsat.h>
 
-#include "PsuiNoteController.h" 
+#include "psuinotecontroller.h" 
 
 
 // ---------------------------------------------------------------------------

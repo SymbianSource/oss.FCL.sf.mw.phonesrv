@@ -18,7 +18,7 @@
 
 // INCLUDE FILES
 #include    "cphonevoipnumberhandler.h" 
-#include    "CPhoneVoipNumberParser.h" 
+#include    "cphonevoipnumberparser.h" 
 #include    "cphonegsmparserresult.h" 
 
 // CONSTANTS

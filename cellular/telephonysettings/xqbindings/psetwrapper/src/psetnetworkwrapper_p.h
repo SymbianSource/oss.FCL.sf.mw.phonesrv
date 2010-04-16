@@ -20,7 +20,7 @@
 
 #include <mpsetnetworkinfoobs.h>
 #include <mpsetnetworkmodeobs.h>
-#include <MPsetNetworkSelect.h>
+#include <mpsetnetworkselect.h>
 #include <QList>
 #include "psetnetworkwrapper.h"
 

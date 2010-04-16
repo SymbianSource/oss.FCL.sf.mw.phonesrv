@@ -82,6 +82,13 @@ private slots:
     void testCallButton();
     void testCloseGesture();
     void testOpenDialogWhileButtonPressed();
+    void testTapOutsideDismiss();
+
+#ifndef Q_OS_SYMBIAN
+    void testCloseGestureLandscape();
+    void testCloseGestureLandscapeMirrored();
+    void testOrientationChange();
+#endif
 
 private:
     QGraphicsWidget* getWidgetByName(const QString& name);
@@ -102,14 +109,15 @@ void mt_Dialpad::initTestCase()
     mKeyCatcher = new KeyEventCatcher;
     mMainWindow->installEventFilter(mKeyCatcher);
 
-    mDialpad = new Dialpad();
+    mDialpad = new Dialpad(*mMainWindow);
 
     QRectF rect(mMainWindow->contentsRect());
     rect.setHeight(rect.height()*0.7);
     rect.moveTop((mMainWindow->contentsRect().height()-rect.height())/2);
 
-    mDialpad->setPreferredSize(360,400);
-    mDialpad->setPos(0,100);
+    mDialpad->setPreferredSize(mMainWindow->layoutRect().width(),
+                               mMainWindow->layoutRect().height()/2);
+    mDialpad->setPos(0,mMainWindow->layoutRect().height()/4);
 
     mKeyNames.insert(Qt::Key_1,"49");
     mKeyNames.insert(Qt::Key_2,"50");
@@ -198,7 +206,13 @@ void mt_Dialpad::mouseClickDialpad(int key, MouseEventType type, bool pause)
 
 void mt_Dialpad::testNumericButtons()
 {
+    QSignalSpy aboutToOpenSpy( mDialpad, SIGNAL(aboutToOpen()));
+    QSignalSpy aboutToCloseSpy( mDialpad, SIGNAL(aboutToClose()));
+
+    QVERIFY(mDialpad->isOpen()==false);
     mDialpad->openDialpad();
+    QVERIFY(mDialpad->isOpen()==true);
+    QVERIFY(aboutToOpenSpy.count()==1);
     QTest::qWait( 2*WAIT_TIME );
 
     mouseClickDialpad(Qt::Key_1);
@@ -223,6 +237,8 @@ void mt_Dialpad::testNumericButtons()
     QVERIFY(mKeyCatcher->mKeyPresses.at(11)==Qt::Key_NumberSign);
     QVERIFY(mKeyCatcher->mKeyReleases.at(11)==Qt::Key_NumberSign);
     mDialpad->closeDialpad();
+    QVERIFY(mDialpad->isOpen()==false);
+    QVERIFY(aboutToCloseSpy.count()==1);
 }
 
 void mt_Dialpad::testNumericButtonLongPress()
@@ -281,12 +297,24 @@ void mt_Dialpad::testAsteriskMultitap()
     QVERIFY(mKeyCatcher->mKeyPresses.at(2)==Qt::Key_Asterisk);
     QVERIFY(mKeyCatcher->mKeyReleases.at(2)==Qt::Key_Asterisk);
 
+    // Verify that the second char can't be +
+    QTest::qWait(1000);
+    mouseClickDialpad(Qt::Key_Asterisk);
+    QCOMPARE(mDialpad->editor().text(), QString("w*"));
+    mouseClickDialpad(Qt::Key_Asterisk);
+    QCOMPARE(mDialpad->editor().text(), QString("wp"));
+    mouseClickDialpad(Qt::Key_Asterisk);
+    QCOMPARE(mDialpad->editor().text(), QString("ww"));
+    mouseClickDialpad(Qt::Key_Asterisk);
+    QCOMPARE(mDialpad->editor().text(), QString("w*"));
+
     // test entering two asterisk
+    QTest::qWait(1000);
     mDialpad->editor().setText(QString());
     mouseClickDialpad(Qt::Key_Asterisk);
     QTest::qWait( 1000 ); // longer than short tap
     mouseClickDialpad(Qt::Key_Asterisk);
-    QVERIFY(mDialpad->editor().text()=="**");
+    QCOMPARE(mDialpad->editor().text(), QString("**"));
 
     mDialpad->closeDialpad();
 }
@@ -311,6 +339,8 @@ void mt_Dialpad::testCallButton()
 
 void mt_Dialpad::testCloseGesture()
 {
+    QSignalSpy aboutToCloseSpy( mDialpad, SIGNAL(aboutToClose()));
+
     mDialpad->openDialpad();
 
     // slow swipe
@@ -318,7 +348,7 @@ void mt_Dialpad::testCloseGesture()
     mouseClickDialpad(Qt::Key_2, Press, false);
     QTest::qWait( 500 ); // longer than swipe
     mouseClickDialpad(Qt::Key_8, Release, false);
-    QTest::qWait( WAIT_TIME );
+    QTest::qWait( 500 );
     QVERIFY(mDialpad->isVisible()==true);
 
     // short swipe
@@ -326,7 +356,7 @@ void mt_Dialpad::testCloseGesture()
     mouseClickDialpad(Qt::Key_2, Press, false);
     QTest::qWait( 200 );
     mouseClickDialpad(Qt::Key_5, Release, false);
-    QTest::qWait( WAIT_TIME );
+    QTest::qWait( 500 );
     QVERIFY(mDialpad->isVisible()==true);
 
     // ok swipe
@@ -338,6 +368,7 @@ void mt_Dialpad::testCloseGesture()
     QVERIFY(mDialpad->editor().text()=="");
     QTest::qWait( 1000 );
     QVERIFY(mDialpad->isVisible()==false);
+    QVERIFY(aboutToCloseSpy.count()==1);
 }
 
 void mt_Dialpad::testOpenDialogWhileButtonPressed()
@@ -355,6 +386,133 @@ void mt_Dialpad::testOpenDialogWhileButtonPressed()
     QVERIFY(mKeyCatcher->mKeyReleases.at(0)==Qt::Key_5);
     mDialpad->closeDialpad();
 }
+
+void mt_Dialpad::testTapOutsideDismiss()
+{
+    mDialpad->openDialpad();
+    QTest::qWait( WAIT_TIME );
+
+    QPointF aboveTop = mDialpad->scenePos();
+    aboveTop.setY(aboveTop.y()-10);
+    aboveTop.setX(aboveTop.x()+mDialpad->rect().center().x());
+    QPoint windowPos = mMainWindow->mapFromScene( aboveTop );
+
+    // test tap outside dismiss is OFF (default)
+    QTest::mouseClick( mMainWindow->viewport(), Qt::LeftButton,
+                       0, windowPos );
+    QTest::qWait( 500 );
+    QVERIFY(mDialpad->isVisible());
+    mDialpad->closeDialpad();
+
+    // test tap outside dismiss is ON    
+    mDialpad->setTapOutsideDismiss(true);
+    mDialpad->openDialpad();
+    QTest::qWait( WAIT_TIME );
+    QTest::mouseClick( mMainWindow->viewport(), Qt::LeftButton,
+                       0, windowPos );
+    QTest::qWait( 500 );
+    QVERIFY(!mDialpad->isVisible());
+}
+
+#ifndef Q_OS_SYMBIAN
+void mt_Dialpad::testCloseGestureLandscape()
+{
+    // switch to landscape
+    mMainWindow->setOrientation(Qt::Horizontal);
+    mMainWindow->resize(640,360);
+    QTest::qWait( 1000 );
+
+    mDialpad->setPreferredSize(mMainWindow->layoutRect().width()/2,
+                               mMainWindow->layoutRect().height());
+    mDialpad->setPos(mMainWindow->layoutRect().width()/2,0);
+
+    mDialpad->openDialpad();
+
+    // slow swipe
+    QTest::qWait( WAIT_TIME );
+    mouseClickDialpad(Qt::Key_4, Press, false);
+    QTest::qWait( 500 ); // longer than swipe
+    mouseClickDialpad(Qt::Key_6, Release, false);
+    QTest::qWait( 500 );
+    QVERIFY(mDialpad->isVisible()==true);
+
+    // short swipe
+    QTest::qWait( WAIT_TIME );
+    mouseClickDialpad(Qt::Key_4, Press, false);
+    QTest::qWait( 200 );
+    mouseClickDialpad(Qt::Key_5, Release, false);
+    QTest::qWait( 500 );
+    QVERIFY(mDialpad->isVisible()==true);
+
+    // ok swipe
+    mDialpad->editor().setText(QString());
+    QTest::qWait( WAIT_TIME );
+    mouseClickDialpad(Qt::Key_4, Press, false);
+    QTest::qWait( 200 );
+    mouseClickDialpad(Qt::Key_6, Release, false);
+    QVERIFY(mDialpad->editor().text()=="");
+    QTest::qWait( 1000 );
+    QVERIFY(mDialpad->isVisible()==false);
+}
+
+void mt_Dialpad::testCloseGestureLandscapeMirrored()
+{
+    // switch to mirrored landscape
+    mMainWindow->setOrientation(Qt::Horizontal);
+    mMainWindow->resize(640,360);
+    mMainWindow->setLayoutDirection(Qt::RightToLeft);
+    QTest::qWait( 1000 );
+
+    mDialpad->setPos(0,0);
+
+    mDialpad->openDialpad();
+
+    // slow swipe
+    QTest::qWait( WAIT_TIME );
+    mouseClickDialpad(Qt::Key_4, Press, false);
+    QTest::qWait( 500 ); // longer than swipe
+    mouseClickDialpad(Qt::Key_6, Release, false);
+    QTest::qWait( WAIT_TIME );
+    QVERIFY(mDialpad->isVisible()==true);
+
+    // short swipe
+    QTest::qWait( WAIT_TIME );
+    mouseClickDialpad(Qt::Key_4, Press, false);
+    QTest::qWait( 200 );
+    mouseClickDialpad(Qt::Key_5, Release, false);
+    QTest::qWait( 1000 );
+    QVERIFY(mDialpad->isVisible()==true);
+
+    // ok swipe
+    mDialpad->editor().setText(QString());
+    QTest::qWait( WAIT_TIME );
+    mouseClickDialpad(Qt::Key_4, Press, false);
+    QTest::qWait( 200 );
+    mouseClickDialpad(Qt::Key_6, Release, false);
+    QVERIFY(mDialpad->editor().text()=="");
+    QTest::qWait( 1000 );
+    QVERIFY(mDialpad->isVisible()==false);
+}
+
+void mt_Dialpad::testOrientationChange()
+{
+    mDialpad->openDialpad();
+    QTest::qWait( WAIT_TIME );
+    mMainWindow->setLayoutDirection(Qt::LeftToRight);
+    mMainWindow->setOrientation(Qt::Vertical);
+    mMainWindow->resize(360,640);
+    QTest::qWait( 1000 );
+    mDialpad->setPreferredSize(mMainWindow->layoutRect().width(),
+                               mMainWindow->layoutRect().height()/2);
+    mDialpad->setPos(0,mMainWindow->layoutRect().height()/4);
+    QTest::qWait( 1000 );
+    QVERIFY(mDialpad->isVisible()==true);
+    mDialpad->closeDialpad();
+    QTest::qWait( 500 );
+    QVERIFY(mDialpad->isVisible()==false);
+}
+
+#endif //Q_OS_SYMBIAN
 
 DIALPAD_TEST_MAIN(mt_Dialpad)
 #include "mt_dialpad.moc"

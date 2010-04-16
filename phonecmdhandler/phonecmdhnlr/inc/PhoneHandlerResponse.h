@@ -20,8 +20,8 @@
 #define CPHONEHANDLERRESPONSE_H
 
 //  INCLUDES
-#include "PhoneHandlerService.h" 
-#include "PhoneHandlerObserver.h" 
+#include "phonehandlerservice.h" 
+#include "phonehandlerobserver.h" 
 #include <RemConExtensionApi.h> 
 
 // CONSTANTS

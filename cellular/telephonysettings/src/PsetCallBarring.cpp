@@ -22,11 +22,11 @@
 #include <rsssettings.h> 
 #include "mpsetrequestobs.h" 
 #include "psetcallbarring.h" 
-#include "PsetTelephony.h" 
-#include "PSetPanic.h" 
+#include "psettelephony.h" 
+#include "psetpanic.h" 
 #include "psetconstants.h" 
-#include "PSetUtility.h" 
-#include "PhoneSettingsLogger.h" 
+#include "psetutility.h" 
+#include "phonesettingslogger.h" 
 
 // CONSTANTS    
 _LIT( KPSNameOfClass, "CPsetCallBarring" );

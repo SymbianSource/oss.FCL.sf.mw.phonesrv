@@ -16,7 +16,7 @@
 */
 
 #include <platform_paths.hrh>
-#include "../logger/SSSettingsLoggingConf.h" 
+#include "../logger/sssettingsloggingconf.h" 
 
 
 TARGET          sssettings.dll
@@ -29,16 +29,16 @@ VENDORID        VID_DEFAULT
 CAPABILITY      CAP_GENERAL_DLL
 
 sourcepath    ../src
-SOURCE        RSSSettings.cpp 
-SOURCE        CSSSettingsNotifier.cpp 
-SOURCE        CSSSettingsAlsNotifier.cpp 
-SOURCE        RCustomerServiceProfileCache.cpp 
-SOURCE        CSSSettingsRefreshContainer.cpp 
-SOURCE        CSSSettingsRefreshHandler.cpp 
-SOURCE        CSSSettingsActiveObject.cpp 
+SOURCE        rsssettings.cpp 
+SOURCE        csssettingsnotifier.cpp 
+SOURCE        csssettingsalsnotifier.cpp 
+SOURCE        rcustomerserviceprofilecache.cpp 
+SOURCE        csssettingsrefreshcontainer.cpp 
+SOURCE        csssettingsrefreshhandler.cpp 
+SOURCE        csssettingsactiveobject.cpp 
 
 USERINCLUDE     ../inc
-USERINCLUDE     ../Logger 
+USERINCLUDE     ../logger 
 SYSTEMINCLUDE   ../inc
 
 MW_LAYER_SYSTEMINCLUDE

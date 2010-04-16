@@ -23,7 +23,7 @@
 
 //  INCLUDES
 #include <etelmm.h>
-#include <RCustomerServiceProfileCache.h> 
+#include <rcustomerserviceprofilecache.h> 
 
 // DATA TYPES
 

@@ -16,7 +16,6 @@
 */
 
 #include "xqcallinfoimpl.h"
-#include <QDebug>
 #include <ccallinformation.h>
 #include <ccallinfoiter.h>
 #include <mcall.h>

@@ -21,7 +21,7 @@
 #define CPHONEHANDLERLASTNUMBERREDIAL_H
 
 //  INCLUDES
-#include "PhoneHandlerCallBase.h" 
+#include "phonehandlercallbase.h" 
 #include <RemConExtensionApi.h> 
 #include <f32file.h>        
 #include <logcli.h>

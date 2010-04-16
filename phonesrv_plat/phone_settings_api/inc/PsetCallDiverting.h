@@ -23,8 +23,8 @@
 //  INCLUDES           
 #include <mmretrieve.h>
 #include "nwdefs.h"             
-#include "PSetConstants.h" 
-#include "MPsetCallDiverting.h" 
+#include "psetconstants.h" 
+#include "mpsetcalldiverting.h" 
 
 //  FORWARD DECLARATIONS
 class CDesC16ArrayFlat;

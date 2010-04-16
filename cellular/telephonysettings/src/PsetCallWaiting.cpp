@@ -21,13 +21,13 @@
 #include "psetcallwaiting.h" 
 #include "mpsetcallwaitingobs.h" 
 #include "nwdefs.h"             
-#include "PSetPanic.h" 
+#include "psetpanic.h" 
 #include "psetconstants.h" 
 #include "mpsetrequestobs.h" 
-#include "PSetUtility.h" 
-#include "PhoneSettingsLogger.h" 
+#include "psetutility.h" 
+#include "phonesettingslogger.h" 
 
-#include "PsetVariationProxy.h" 
+#include "psetvariationproxy.h" 
 #include <settingsinternalcrkeys.h> 
 
 // CONSTANTS    

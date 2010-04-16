@@ -16,8 +16,8 @@
  */
 
 #include <rsssettings.h>
-#include <PsetContainer.h>
-#include <PsetCallWaiting.h>
+#include <psetcontainer.h>
+#include <psetcallwaiting.h>
 #include "psetcallwaitingwrapper.h"
 #include "psetcallwaitingwrapper_p.h"
 #include "logging.h"

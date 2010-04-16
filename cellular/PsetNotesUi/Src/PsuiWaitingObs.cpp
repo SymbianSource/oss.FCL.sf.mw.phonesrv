@@ -21,9 +21,9 @@
 #include <psuicontainer.h> 
 #include <etelsat.h>
  
-#include "PsuiInternalConstants.h" 
-#include "PsuiNoteController.h" 
-#include "PsuiVariationProxy.h" 
+#include "psuiinternalconstants.h" 
+#include "psuinotecontroller.h" 
+#include "psuivariationproxy.h" 
 
 //  MEMBER FUNCTIONS
 // ---------------------------------------------------------------------------

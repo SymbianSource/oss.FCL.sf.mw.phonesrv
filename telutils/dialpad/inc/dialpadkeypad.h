@@ -35,6 +35,7 @@ class DialpadKeypad : public HbWidget
 
 public:
     explicit DialpadKeypad(
+        const HbMainWindow& mainWindow,
         DialpadInputField& inputField,
         QGraphicsItem* parent=0);
 
@@ -63,6 +64,7 @@ private:
     inline bool isNumericKey(int key);
 
 private:
+    const HbMainWindow& mMainWindow;
     DialpadInputField& mInputField;
     QGraphicsGridLayout* mGridLayout;
     DialpadButton* mButtons[DialpadButtonCount];

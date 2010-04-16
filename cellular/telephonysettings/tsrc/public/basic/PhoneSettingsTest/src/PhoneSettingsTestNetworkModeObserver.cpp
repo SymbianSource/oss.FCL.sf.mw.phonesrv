@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include <e32base.h>
-#include <MPsetNetworkModeObs.h>
+#include <mpsetnetworkmodeobs.h>
 #include "PhoneSettingsTestNetworkModeObserver.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

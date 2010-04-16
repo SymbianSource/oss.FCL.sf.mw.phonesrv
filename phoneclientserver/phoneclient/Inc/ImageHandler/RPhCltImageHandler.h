@@ -21,7 +21,7 @@
 //  INCLUDES
 #include    <e32base.h>
 #include    <phclttypes.h> 
-#include    "CPhCltOperatorLogoContainer.h" 
+#include    "cphcltoperatorlogocontainer.h" 
 #include    "cphcltbaseimageparams.h" 
 
 

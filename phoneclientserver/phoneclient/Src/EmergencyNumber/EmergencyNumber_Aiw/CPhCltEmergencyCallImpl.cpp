@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include "rphcltserver.h" 
-#include "CPhCltEmergencyCallImpl.h" 
+#include "cphcltemergencycallimpl.h" 
 #include "mphcltemergencycallobserver.h" 
 
 _LIT( KEmNumber, "112" );

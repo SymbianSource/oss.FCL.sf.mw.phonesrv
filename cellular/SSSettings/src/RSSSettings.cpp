@@ -26,15 +26,15 @@
 #include    <PSVariables.h> 
 #include    <startupdomainpskeys.h>
 #include    <centralrepository.h> // central repository 
-#include    <SSSettingsPrivateCRKeys.h> // settings central repository keys. 
+#include    <sssettingsprivatecrkeys.h> // settings central repository keys. 
 #include    <telservicesinternalcrkeys.h>
 #include    <telservicesvariant.hrh>
 
 #include    "rsssettings.h" 
 #include    "msssettingsobserver.h" 
-#include    "CSSSettingsNotifier.h" 
-#include    "CSSSettingsAlsNotifier.h" 
-#include    "SSSettingsLogger.h" 
+#include    "csssettingsnotifier.h" 
+#include    "csssettingsalsnotifier.h" 
+#include    "sssettingslogger.h" 
 
 // CONSTANTS
 _LIT( KPanicCat, "SSSettings" );

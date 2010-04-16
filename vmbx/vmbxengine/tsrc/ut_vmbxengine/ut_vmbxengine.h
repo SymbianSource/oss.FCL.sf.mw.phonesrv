@@ -91,6 +91,8 @@ private slots:
      */
     void testCreateVmbxMailbox();
 
+    void testshowSaveEmptyNote_data();
+
      /**
      * Test middle case,showSaveEmptyNote
      * 

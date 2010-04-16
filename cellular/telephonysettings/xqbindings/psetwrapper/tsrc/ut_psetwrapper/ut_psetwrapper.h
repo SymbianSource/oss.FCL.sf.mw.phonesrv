@@ -37,11 +37,13 @@ private slots:
 
     void init();
     void cleanup();
+    void t_construction();
     
     void t_cliWrapper();
     void t_callWaitingWrapper();
     void t_callDivertingWrapper();
     void t_networkWrapper();
+    void t_callBarringWrapper();
     void t_exceptionSafety();
     
 private:

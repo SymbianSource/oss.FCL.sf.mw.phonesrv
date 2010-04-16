@@ -22,12 +22,12 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <CPhCltExtPhoneDialData.h> 
+#include <cphcltextphonedialdata.h> 
 #include <cphcltemergencycall.h> // for TPhCltEmergencyNumber 
-#include "CPhSrvSubSessionBase.h" 
-#include "MPhSrvEmergencyInitiators.h" 
-#include "MPhSrvObjectInitiators.h" 
-#include "MPhSrvComHandInitiators.h" 
+#include "cphsrvsubsessionbase.h" 
+#include "mphsrvemergencyinitiators.h" 
+#include "mphsrvobjectinitiators.h" 
+#include "mphsrvcomhandinitiators.h" 
 
 // CLASS DECLARATION
 

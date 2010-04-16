@@ -18,7 +18,7 @@
 
 // INCLUDE FILES
 #include    "cphonegsmsimcontrolhandler.h" 
-#include    "CPhoneGsmSimControlParser.h" 
+#include    "cphonegsmsimcontrolparser.h" 
 #include    "cphonegsmparserresult.h" 
 #include    "phonegsmparser.h" 
 

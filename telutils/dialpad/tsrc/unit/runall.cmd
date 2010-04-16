@@ -20,6 +20,9 @@ if "%1"=="winscw" (
 call runtest.cmd ut_dialpadbuttonstyle
 call runtest.cmd ut_dialpadmultitaphandler
 call runtest.cmd mt_dialpad
+call runtest.cmd ut_dialpadvoicemailboxeventfilter
+call runtest.cmd mt_keyhandler
+call runtest.cmd ut_dialpadbluetootheventfilter
 )
 
 @echo off

@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include <cphcltussd.h> 
-#include "CPhCltUssdImp.h" 
+#include "cphcltussdimp.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================
 

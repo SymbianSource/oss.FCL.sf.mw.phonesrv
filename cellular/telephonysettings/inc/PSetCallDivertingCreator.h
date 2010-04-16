@@ -22,13 +22,10 @@
 //  INCLUDES
 #include    <e32base.h>
 #include    <badesca.h>
-// <-- QT PHONE START -->
-//#include    <vmnumber.h>
-// <-- QT PHONE END-->
 #include    <etelmm.h>
 #include    <nwdefs.h>
 #include    "mpsetdivertobs.h" 
-#include    "MCallDiverting.h" 
+#include    "mcalldiverting.h" 
 
 /**
 *  Factory class for creating divert related classes.

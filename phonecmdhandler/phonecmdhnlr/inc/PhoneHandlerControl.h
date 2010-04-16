@@ -20,9 +20,9 @@
 #define CPHONEHANDLERCONTROL_H
 
 //  INCLUDES
-#include "PhoneHandlerService.h" 
-#include <RemConExtensionApi.h> 
-#include <RemConCallHandlingTargetObserver.h> 
+#include "phonehandlerservice.h" 
+#include <remconextensionapi.h> 
+#include <remconcallhandlingtargetobserver.h> 
 #include <e32base.h>
 #include <phclttypes.h> 
 #include <e32property.h> 

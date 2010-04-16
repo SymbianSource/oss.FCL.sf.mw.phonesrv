@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "PhSrvMessengerTypes.h" 
+#include "phsrvmessengertypes.h" 
 #include <cphcltmessenger.h> 
 
 // FORWARD DECLARATIONS

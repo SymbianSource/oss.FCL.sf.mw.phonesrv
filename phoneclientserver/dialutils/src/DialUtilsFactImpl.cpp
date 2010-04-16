@@ -19,8 +19,8 @@
 
 // INCLUDE FILES
 #include    <dialutils.h> 
-#include    "DialUtilsFactImpl.h" 
-#include    "DialUtilsImpl.h" 
+#include    "dialutilsfactimpl.h" 
+#include    "dialutilsimpl.h" 
 
 
 

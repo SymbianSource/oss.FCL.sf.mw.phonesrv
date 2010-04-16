@@ -27,11 +27,11 @@ TARGET          dosenpolicy.dll
 TARGETTYPE      DLL
 UID             0x101F86D1 0x101F86D2
 
-SOURCEPATH      ../src/DosEnPolicy 
-SOURCE          CDOSEmergencyNumberPolicy.cpp 
+SOURCEPATH      ../src/dosenpolicy 
+SOURCE          cdosemergencynumberpolicy.cpp 
 
-USERINCLUDE     . ../Inc 
-USERINCLUDE     ../inc/DosEnPolicy 
+USERINCLUDE     . ../inc 
+USERINCLUDE     ../inc/dosenpolicy 
 
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE   ../../../inc

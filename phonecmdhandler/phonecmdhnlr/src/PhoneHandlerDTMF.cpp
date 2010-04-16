@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include    "PhoneHandlerDTMF.h" 
-#include    "PhoneHandlerControl.h" 
-#include    "PhoneHandlerDebug.h" 
+#include    "phonehandlerdtmf.h" 
+#include    "phonehandlercontrol.h" 
+#include    "phonehandlerdebug.h" 
 #include    <RemConCallHandlingTarget.h> 
 
 #include    <cphcltcommandhandler.h> 

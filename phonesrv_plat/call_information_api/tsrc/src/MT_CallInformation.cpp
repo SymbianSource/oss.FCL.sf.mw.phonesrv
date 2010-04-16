@@ -30,9 +30,9 @@
 #include <mmtsy_names.h>
 #include <MCall.h>
 #include <ccallinfoiter.h>
-#include <CPhCltEmergencyCall.h>
-#include <MPhCltEmergencyCallObserver.h>
-#include <CPhCltCommandHandler.h>
+#include <cphcltemergencycall.h>
+#include <mphcltemergencycallobserver.h>
+#include <cphcltcommandhandler.h>
 
 //Speaking clock number when calling from NTN network.
 _LIT (KNumber, "99901");     

@@ -181,7 +181,9 @@ void CVmbxUiUtilities::ShowSaveEmptyNoteL( const TVmbxType& aType )
 void CVmbxUiUtilities::ShowInvalidWarningDialogL()
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInvalidWarningDialogL =>" );
-    iUiHandler->ShowInvalidWarningNote();
+    //TODO comment out the following code to avoid crash, to be tested
+    //and uncommented
+    //iUiHandler->ShowInvalidWarningNote();
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInvalidWarningDialogL <=" );
     }
 
@@ -193,7 +195,9 @@ void CVmbxUiUtilities::ShowInvalidWarningDialogL()
 void CVmbxUiUtilities::ShowSaveToPhoneNote()
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveToPhoneConfirmDialog =>" );
-    iUiHandler->ShowSaveToPhoneNote();
+    //TODO comment out the following code to avoid crash, to be tested
+    //and uncommented
+    //iUiHandler->ShowSaveToPhoneNote();
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveToPhoneConfirmDialog <=" );
     }
 
@@ -205,7 +209,9 @@ void CVmbxUiUtilities::ShowSaveToPhoneNote()
 void CVmbxUiUtilities::ShowSaveToSimNote()
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveToSimNote =>" );
-    iUiHandler->ShowSaveToSimNote();
+    //TODO comment out the following code to avoid crash, to be tested
+    //and uncommented
+    //iUiHandler->ShowSaveToSimNote();
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveToSimNote <=" );
     }
 
@@ -217,7 +223,9 @@ void CVmbxUiUtilities::ShowSaveToSimNote()
 void CVmbxUiUtilities::ShowVideoSavedNote()
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowVideoSavedNote =>" );
-    iUiHandler->ShowVideoSavedNote();
+    //TODO comment out the following code to avoid crash, to be tested
+    //and uncommented
+    //iUiHandler->ShowVideoSavedNote();
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowVideoSavedNote <=" );
     }
 
@@ -284,6 +292,8 @@ CGulIcon* CVmbxUiUtilities::GetVmbxImageL(
 void CVmbxUiUtilities::ShowErrorDialogL()
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowErrorDialogL =>" );
+    //TODO comment out the following code to avoid crash, to be tested
+    //and uncommented
     iUiHandler->ShowInvalidNumberNote();// temporary dialog
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowErrorDialogL <=" );
     }

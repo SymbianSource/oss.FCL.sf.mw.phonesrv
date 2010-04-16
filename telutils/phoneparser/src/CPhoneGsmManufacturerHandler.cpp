@@ -18,7 +18,7 @@
 
 // INCLUDE FILES
 #include    "cphonegsmmanufacturerhandler.h" 
-#include    "CPhoneGsmManufacturerParser.h" 
+#include    "cphonegsmmanufacturerparser.h" 
 #include    "cphonegsmparserresult.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================

@@ -21,8 +21,8 @@
 #include <badesca.h>
 #include <centralrepository.h>
 #include <SettingsInternalCRKeys.h>
-#include <MPsetRequestObs.h>
-#include <MPsetDivertObs.h>
+#include <mpsetrequestobs.h>
+#include <mpsetdivertobs.h>
 #include "PsetCallDiverting.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

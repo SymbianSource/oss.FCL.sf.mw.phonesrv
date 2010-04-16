@@ -46,7 +46,8 @@ HEADERS += ../../../../../../phonesrv_plat/phone_settings_api/inc/psetwrapper.h 
            ../../../../../../phonesrv_plat/phone_settings_api/inc/psetcalldivertingwrapper.h \
            ../../../../../../phonesrv_plat/phone_settings_api/inc/psetcallwaitingwrapper.h \
            ../../../../../../phonesrv_plat/phone_settings_api/inc/psetcliwrapper.h \
-           ../../../../../../phonesrv_plat/phone_settings_api/inc/psetnetworkwrapper.h
+           ../../../../../../phonesrv_plat/phone_settings_api/inc/psetnetworkwrapper.h \
+           ../../../../../../phonesrv_plat/phone_settings_api/inc/psetcallbarringwrapper.h
 SOURCES += ../../src/psetwrapper.cpp
 
 # mocks needed for testing
@@ -54,4 +55,5 @@ SOURCES += ../mocks/mock_psetcontainer.cpp \
            ../mocks/mock_psetnetworkwrapper.cpp \
            ../mocks/mock_psetcliwrapper.cpp \
            ../mocks/mock_psetcallwaitingwrapper.cpp \
-           ../mocks/mock_psetcalldivertingwrapper.cpp
+           ../mocks/mock_psetcalldivertingwrapper.cpp \
+           ../mocks/mock_psetcallbarringwrapper.cpp

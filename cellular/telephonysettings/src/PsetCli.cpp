@@ -19,7 +19,7 @@
 
 //INCLUDE FILES
 #include "psetcli.h" 
-#include "PSetPanic.h" 
+#include "psetpanic.h" 
 #include "psetconstants.h" 
 #include "mpsetrequestobs.h" 
 #include <bldvariant.hrh>

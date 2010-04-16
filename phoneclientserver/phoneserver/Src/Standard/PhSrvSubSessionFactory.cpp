@@ -19,16 +19,16 @@
 
 
 // INCLUDES
-#include "PhCltClientServer.h" 
+#include "phcltclientserver.h" 
 
-#include "PhSrvSubSessionFactory.h" 
-#include "CPhSrvSubSessionNotifier.h" 
-#include "CPhSrvSubSessionExtCall.h" 
-#include "CPhSrvSubSessionUssd.h" 
-#include "CPhSrvSubSessionEmergencyNum.h" 
-#include "CPhSrvSubSessionCommandHandler.h" 
-#include "CPhSrvSubSessionMessenger.h" 
-#include "CPhSrvSubSessionImageHandler.h" 
+#include "phsrvsubsessionfactory.h" 
+#include "cphsrvsubsessionnotifier.h" 
+#include "cphsrvsubsessionextcall.h" 
+#include "cphsrvsubsessionussd.h" 
+#include "cphsrvsubsessionemergencynum.h" 
+#include "cphsrvsubsessioncommandhandler.h" 
+#include "cphsrvsubsessionmessenger.h" 
+#include "cphsrvsubsessionimagehandler.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

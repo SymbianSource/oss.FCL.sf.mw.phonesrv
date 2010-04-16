@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "CPhCltUssdRequestHandler.h" 
-#include "MPhCltUssdRequestHandler.h" 
+#include "cphcltussdrequesthandler.h" 
+#include "mphcltussdrequesthandler.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -74,7 +74,7 @@ CPhCltUssdRequestHandler::~CPhCltUssdRequestHandler()
     {
     Cancel();
 
-    iUssdClient.CancelSend();
+    //iUssdClient.CancelSend(); Fix to ou1cimx1#265402
     iUssdClient.Close();
 
     iPhClient.Close();

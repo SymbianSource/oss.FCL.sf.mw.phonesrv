@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include    "cphcltmessenger.h" 
-#include    "CPhCltMessengerImplementation.h" 
+#include    "cphcltmessengerimplementation.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================
 

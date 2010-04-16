@@ -24,8 +24,8 @@
 #include    <mphcltdialrequestobserver.h>
 
 #include    "rphcltserver.h" 
-#include    "CPhCltExtPhoneDialData.h" 
-#include    "RPhCltCallNotify.h" 
+#include    "cphcltextphonedialdata.h" 
+#include    "rphcltcallnotify.h" 
 #include    "cphcltdialrequestmonitor.h"
 #include    "cphcltdialemergencyrequestmonitor.h"
 #include    "cphcltcomhandrequestmonitor.h"

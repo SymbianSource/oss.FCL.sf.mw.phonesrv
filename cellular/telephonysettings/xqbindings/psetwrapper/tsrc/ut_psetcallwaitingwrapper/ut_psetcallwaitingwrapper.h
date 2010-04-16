@@ -38,7 +38,8 @@ private slots:
 
     void init();
     void cleanup();
-    
+
+    void t_construction();
     void t_setCallWaiting();
     void t_getCallWaitingStatus();
     void t_cancelProcess();

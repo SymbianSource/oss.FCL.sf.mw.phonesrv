@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include "mpsetbarringobs.h" 
-#include "MPsetCallBarring.h" 
+#include "mpsetcallbarring.h" 
 #include "msssettingsobserver.h" 
 #include "nwdefs.h"             
 #include <mmretrieve.h>

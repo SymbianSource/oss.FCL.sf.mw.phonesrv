@@ -17,11 +17,11 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvUssdSendHandler.h" 
-#include "MPhSrvUssdNetworkObserver.h" 
-#include "MPhSrvPhoneInterface.h" 
-#include "CPhSrvUssdSessionCancelWaiter.h" 
-#include "PhSrvDebugInfo.h" //debug prints 
+#include "cphsrvussdsendhandler.h" 
+#include "mphsrvussdnetworkobserver.h" 
+#include "mphsrvphoneinterface.h" 
+#include "cphsrvussdsessioncancelwaiter.h" 
+#include "phsrvdebuginfo.h" //debug prints 
 
 #include <gsmuelem.h>
 #include <f32file.h>

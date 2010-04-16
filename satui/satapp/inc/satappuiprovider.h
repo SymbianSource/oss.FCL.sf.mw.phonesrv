@@ -31,7 +31,7 @@ class HbMessageBox;         // DisplayText
 class SatAppGetInkeyNote;   // GetInKey
 class HbInputDialog;        // GetInKey
 class HbDialog;             // GetInput
-class HbProgressNote;       // For wait note
+class HbProgressDialog;     // For wait note
 class QTimer;               // For SMS/DTMF
 
 // Here we create custom document loader to be able to use own classes in XML.
@@ -324,11 +324,11 @@ private:
     /*
      *  Own. SmsWaitNote
      */
-    HbProgressNote *mSmsWaitNote;
+    HbProgressDialog *mSmsWaitNote;
     /*
      *  Own. DtmfWaitNote
      */
-    HbProgressNote *mDtmfWaitNote;
+    HbProgressDialog *mDtmfWaitNote;
 
     /*
      *  Own. SetUpCall Query

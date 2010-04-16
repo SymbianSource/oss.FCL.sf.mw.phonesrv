@@ -17,10 +17,10 @@
 
 
 // INCLUDE FILES
-#include    "PhoneHandlerResponse.h" 
-#include    "PhoneHandlerControl.h" 
-#include    "PhoneHandlerActive.h" 
-#include    "PhoneHandlerDebug.h" 
+#include    "phonehandlerresponse.h" 
+#include    "phonehandlercontrol.h" 
+#include    "phonehandleractive.h" 
+#include    "phonehandlerdebug.h" 
 #include    <RemConCallHandlingTarget.h> 
 
 // EXTERNAL DATA STRUCTURES

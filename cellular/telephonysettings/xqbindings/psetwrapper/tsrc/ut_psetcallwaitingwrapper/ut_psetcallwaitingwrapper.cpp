@@ -17,7 +17,7 @@
 
 #include <etelmm.h>
 #include <PsetContainer.h>
-#include <MPsetCallWaitingObs.h>
+#include <mpsetcallwaitingobs.h>
 #include "ut_psetcallwaitingwrapper.h"
 #include "testutilities.h"
 #define private public
@@ -62,6 +62,11 @@ class WaitingObserver : public MPsetCallWaitingObserver
         Q_UNUSED(aEngineContact);
     }
 };
+
+void SimulateLeaveL()
+{
+    User::Leave(KErrGeneral);
+}
 
 /*!
   UT_PSetCallWaitingWrapper::UT_PSetCallWaitingWrapper
@@ -121,6 +126,27 @@ void UT_PSetCallWaitingWrapper::cleanup()
     delete m_wrapper;
     m_wrapper = NULL;
 }
+
+
+/*!
+  UT_PSetCallWaitingWrapper::t_construction
+ */
+void UT_PSetCallWaitingWrapper::t_construction()
+{
+    if (qstrcmp(QTest::currentTestFunction(), "t_exceptionSafety") != 0) {
+        expect("CPsetContainer::CreateCWObjectL").
+            willOnce(invokeWithoutArguments(SimulateLeaveL));
+        
+        PSetCallWaitingWrapper *wrapper = NULL;
+        EXPECT_EXCEPTION(
+            wrapper = new PSetCallWaitingWrapper(*m_psetContainerMock, NULL);
+        )
+        delete wrapper;
+        
+        QVERIFY(verify());
+    }
+}
+
 
 /*!
   UT_PSetCallWaitingWrapper::t_setCallWaiting
@@ -305,21 +331,12 @@ void UT_PSetCallWaitingWrapper::t_setEngineContact()
 
 /*!
   UT_PSetCallWaitingWrapper::t_exceptionSafety
-  TODO: tests using signalspy fail in alloc failure mode because 
-  QList<QVariant> is not exception safe in QT 4.6.0.
  */
 void UT_PSetCallWaitingWrapper::t_exceptionSafety()
 {
     cleanup();
     
-    OomTestExecuter::runTest(*this, &t_setCallWaiting);
-    OomTestExecuter::runTest(*this, &t_getCallWaitingStatus);
-    OomTestExecuter::runTest(*this, &t_cancelProcess);
-    //OomTestExecuter::runTest(*this, &t_handleCallWaitingGetStatus);
-    //OomTestExecuter::runTest(*this, &t_handleCallWaitingChanged);
-    //OomTestExecuter::runTest(*this, &t_handleCallWaitingRequesting);
-    //OomTestExecuter::runTest(*this, &t_handleCallWaitingError);
-    OomTestExecuter::runTest(*this, &t_setEngineContact);
+    OomTestExecuter::runAllTests(*this, "t_exceptionSafety");
 }
 
 void UT_PSetCallWaitingWrapper::SimulateLeaveAtMockMethodCallL()

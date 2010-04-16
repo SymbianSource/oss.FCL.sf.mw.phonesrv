@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include "PhoneHandlerControl.h" 
-#include "PhoneHandlerDebug.h" 
-#include "PhoneHandler.h" 
+#include "phonehandlercontrol.h" 
+#include "phonehandlerdebug.h" 
+#include "phonehandler.h" 
 
 // EXTERNAL DATA STRUCTURES
 

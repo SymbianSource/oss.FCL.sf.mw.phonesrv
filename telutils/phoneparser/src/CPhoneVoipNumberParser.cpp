@@ -17,10 +17,10 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneVoipNumberParser.h" 
+#include    "cphonevoipnumberparser.h" 
 #include    "cphonegsmparserresult.h" 
-#include    "CPhoneGsmOptionContainer.h" 
-#include    "phoneParserCommon.h" 
+#include    "cphonegsmoptioncontainer.h" 
+#include    "phoneparsercommon.h" 
 
 // CONSTANTS
 

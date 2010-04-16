@@ -20,7 +20,7 @@
 #include    <bldvariant.hrh>
 
 #include    "cphonegsmsshandler.h" 
-#include    "CPhoneGsmSsParser.h" 
+#include    "cphonegsmssparser.h" 
 #include    "cphonegsmparserresult.h" 
 
 // LOCAL FUNCTION PROTOTYPES

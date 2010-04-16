@@ -22,7 +22,7 @@
 #include    "cphcltdialemergencyrequestmonitor.h"
 #include    <mphcltdialemergencyrequestobserver.h>
 #include    "rphcltserver.h" 
-#include    "RPhCltCallNotify.h" 
+#include    "rphcltcallnotify.h" 
 
 // ============================= LOCAL FUNCTIONS ===============================
 

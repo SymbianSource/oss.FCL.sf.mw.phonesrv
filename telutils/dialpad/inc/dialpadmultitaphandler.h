@@ -18,7 +18,7 @@
 #ifndef DIALPADMULTITAPHANDLER_H_
 #define DIALPADMULTITAPHANDLER_H_
 
-#include <QObject.h>
+#include <qobject.h>
 #include <QTime>
 #include <QMap>
 

@@ -18,10 +18,10 @@
 
 
 // INCLUDE FILES
-#include    "PSetCallDivertingBasicImpl.h" 
-#include    "PSetCallDivertingDualAffectImpl.h" 
-#include    "PSetCallDivertingCreator.h" 
-#include    "PsetVariationProxy.h" 
+#include    "psetcalldivertingbasicimpl.h" 
+#include    "psetcalldivertingdualaffectimpl.h" 
+#include    "psetcalldivertingcreator.h" 
+#include    "psetvariationproxy.h" 
 
 #include    <psetcalldiverting.h> 
 #include    <centralrepository.h>

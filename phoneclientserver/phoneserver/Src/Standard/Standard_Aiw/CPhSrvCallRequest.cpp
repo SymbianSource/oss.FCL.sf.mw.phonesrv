@@ -18,8 +18,8 @@
 
 // INCLUDE FILES
 
-#include "CPhSrvCallRequest.h" 
-#include "PhSrvUtils.h" 
+#include "cphsrvcallrequest.h" 
+#include "phsrvutils.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

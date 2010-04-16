@@ -20,12 +20,12 @@
 
 
 // INCLUDES
-#include "CPhSrvMessengerRequestManager.h" 
-#include "CPhSrvMessengerObject.h" 
-#include "CPhSrvSubSessionBase.h" 
-#include "PhSrvUtils.h" 
-#include "PhSrvMessengerTypes.h" 
-#include "PhSrvDebugInfo.h" 
+#include "cphsrvmessengerrequestmanager.h" 
+#include "cphsrvmessengerobject.h" 
+#include "cphsrvsubsessionbase.h" 
+#include "phsrvutils.h" 
+#include "phsrvmessengertypes.h" 
+#include "phsrvdebuginfo.h" 
 
 
 // CONSTANTS

@@ -22,7 +22,7 @@
 
 
 // INCLUDES
-#include "CSOSEmergencyNumberPolicyHandler.h" 
+#include "csosemergencynumberpolicyhandler.h" 
 
 #include <e32base.h>            // CActive
 #include <e32property.h>        // RProperty

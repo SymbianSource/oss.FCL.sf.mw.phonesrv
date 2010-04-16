@@ -16,12 +16,13 @@
  */
 
 
-#include <PsetContainer.h>
+#include <psetcontainer.h>
 #include "psetwrapper.h"
 #include "psetcliwrapper.h"
 #include "psetcallwaitingwrapper.h"
 #include "psetcalldivertingwrapper.h"
 #include "psetnetworkwrapper.h"
+#include "psetcallbarringwrapper.h"
 #include "logging.h"
 
 /*!
@@ -33,7 +34,8 @@ PSetWrapper::PSetWrapper(QObject *parent) :
         m_wrapperCli(NULL),
         m_callWaitingWrapper(NULL),
         m_callDivertingWrapper(NULL),
-        m_networkWrapper(NULL)
+        m_networkWrapper(NULL),
+        m_callBarringWrapper(NULL)
 {
     DPRINT << ": IN ";
     
@@ -54,6 +56,7 @@ PSetWrapper::~PSetWrapper()
     delete m_callDivertingWrapper;
     delete m_networkWrapper;
     delete m_psetContainer;
+    delete m_callBarringWrapper;
     
     DPRINT << ": OUT ";
 }
@@ -118,6 +121,21 @@ PSetNetworkWrapper& PSetWrapper::networkWrapper()
     }
     
     return *m_networkWrapper;    
+}
+
+/*!
+  PSetWrapper::callBarringWrapper
+ */
+PSetCallBarringWrapper& PSetWrapper::callBarringWrapper()
+{
+    DPRINT;
+    
+    if (!m_callBarringWrapper) {
+        m_callBarringWrapper = 
+            new PSetCallBarringWrapper(*m_psetContainer, this);
+    }
+    
+    return *m_callBarringWrapper;    
 }
 
 // End of File. 

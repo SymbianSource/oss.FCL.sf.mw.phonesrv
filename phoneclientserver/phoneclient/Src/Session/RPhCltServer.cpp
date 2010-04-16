@@ -22,7 +22,7 @@
 #include    <e32uid.h>
 #include    "phclttypes.h" 
 #include    "rphcltserver.h" 
-#include    "PhCltClientServer.h" 
+#include    "phcltclientserver.h" 
 
 // CONSTANTS
 

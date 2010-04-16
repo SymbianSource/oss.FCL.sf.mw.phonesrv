@@ -18,23 +18,23 @@
 
 // INCLUDE FILES
 #include    "phonegsmparser.h" 
-#include    "CPhoneGsmParser.h" 
+#include    "cphonegsmparser.h" 
 #include    "cphonegsmparserbase.h" 
 #include    "cphonegsmparserresult.h" 
-#include    "CPhoneGsmOptionContainer.h" 
+#include    "cphonegsmoptioncontainer.h" 
 
-#include    "CPhoneGsmParserContainer.h" 
-#include    "CPhoneGsmSsParser.h" 
-#include    "CPhoneGsmSimControlParser.h" 
-#include    "CPhoneGsmPhoneNumberParser.h" 
-#include    "CPhoneGsmSsCallParser.h" 
-#include    "CPhoneGsmManufacturerParser.h" 
-#include    "CPhoneGsmPcnProcedureParser.h" 
+#include    "cphonegsmparsercontainer.h" 
+#include    "cphonegsmssparser.h" 
+#include    "cphonegsmsimcontrolparser.h" 
+#include    "cphonegsmphonenumberparser.h" 
+#include    "cphonegsmsscallparser.h" 
+#include    "cphonegsmmanufacturerparser.h" 
+#include    "cphonegsmpcnprocedureparser.h" 
 #include    "cphonegsmmanufacturerhandler.h" 
-#include    "CPhoneGsmEmergencyNumberParser.h" 
-#include    "CPhoneParserFeatures.h" 
-#include    "CPhoneVoipNumberParser.h" 
-#include    "CPhoneGsmImeiParser.h" 
+#include    "cphonegsmemergencynumberparser.h" 
+#include    "cphoneparserfeatures.h" 
+#include    "cphonevoipnumberparser.h" 
+#include    "cphonegsmimeiparser.h" 
 
 
 // CONSTANTS

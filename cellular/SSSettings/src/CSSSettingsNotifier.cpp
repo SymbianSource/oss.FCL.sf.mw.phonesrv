@@ -19,12 +19,12 @@
 // INCLUDE FILES
 #include    <rmmcustomapi.h>
 #include    <centralrepository.h>
-#include    <SSSettingsPrivateCRKeys.h> 
+#include    <sssettingsprivatecrkeys.h> 
 
-#include    "CSSSettingsNotifier.h" 
+#include    "csssettingsnotifier.h" 
 #include    "msssettingsobserver.h" 
-#include    "CSSSettingsAlsNotifier.h" 
-#include    "SSSettingsLogger.h" 
+#include    "csssettingsalsnotifier.h" 
+#include    "sssettingslogger.h" 
 
 
 // DATA TYPES

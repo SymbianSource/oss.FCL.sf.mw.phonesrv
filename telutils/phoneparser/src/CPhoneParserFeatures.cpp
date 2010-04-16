@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneParserFeatures.h" 
+#include    "cphoneparserfeatures.h" 
 #include    <featmgr.h>
 #include    <centralrepository.h>
 #include    <telservicesvariant.hrh>

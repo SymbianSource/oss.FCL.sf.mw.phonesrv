@@ -16,7 +16,7 @@
 */
 
 #include <smcmockclassincludes.h>
-#include <MPhCltEmergencyCallObserver.h>
+#include <mphcltemergencycallobserver.h>
 #include "mock_cphcltemergencycall.h"
 
 TBool CPhCltEmergencyCallMock::iSimulateEmergencyNumberMatch = EFalse;

@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include <e32math.h>
 #include "EmergencyCallTests.h"
-#include <CPhCltEmergencyCall.h>
+#include <cphcltemergencycall.h>
 
 // EXTERNAL DATA STRUCTURES
 //extern  ?external_data;

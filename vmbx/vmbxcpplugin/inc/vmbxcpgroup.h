@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+ * Copyright (c) 2009 - 2010 Nokia Corporation and/or its subsidiary(-ies).
  * All rights reserved.
  * This component and the accompanying materials are made available
  * under the terms of "Eclipse Public License v1.0"
@@ -17,30 +17,22 @@
 #ifndef VMBXCPGROUP_H
 #define VMBXCPGROUP_H
 
+// System includes
 #include <cpsettingformitemdata.h>
 
+// Forward declarations
 class VmbxUiEngine;
 class CpItemDataHelper;
-/*!
- *  vmbx control panel plugin
- *
- *  @lib vmbxcpplugin.lib
- *  @since S60 v5.2
- */
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// TODO: update VmbxCpGroup to class VmbxCpGroup : public CpSettingFormItemData 
-// when DataForm bug is fixed (QTControlPanel wk39-41?)
-// API will change but it should be just a few minutes of work
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Class declaration
 class VmbxCpGroup : public CpSettingFormItemData
 {
     Q_OBJECT
 public:
     
     /*!
-     *  Constructor
-     */
+        Constructor
+    */
     VmbxCpGroup( 
         HbDataFormModelItem::DataItemType type,
         const QString &label,
@@ -49,112 +41,87 @@ public:
         CpItemDataHelper &itemDataHelper);
 
     /*!
-     *
-     */
+        Constructor
+    */
      explicit VmbxCpGroup(
         const QString &configFile = QString(),
         const HbDataFormModelItem *parent = 0);
 
     /*!
-     * Destructor
-     */
+        Destructor
+    */
     ~VmbxCpGroup();
 
 private slots:
 
     /*!
-     *
-     */
+        Notification slot for engine signal about 
+        Voice Mailbox entries' changes
+    */
     void voiceMailboxEngineEntriesUpdated();
 
 private:
-// TODO: comment everything
 
     /*!
-     *
-     */
+       Update Cs voice primary 
+    */
     void updateCsVoicePrimaryToUi();
 
     /*!
-     *
-     */
+        Update Cs voice Als
+    */
     void updateCsVoiceAlsToUi();
 
     /*!
-     *
-     */
+       update Cs video primary
+    */
     void updateCsVideoPrimaryToUi();
-    /* NOTICE: IT IS POSSIBLE THAT PS SERVICES WILL NOT BE DISPLAYED BY VMBX CONTROL PANEL
-        WHEN WE GET THE NEW UI CONCEPT!!!!!! In that case this is not needed
-        */
+    
+    /*! 
+       NOTICE: IT IS POSSIBLE THAT PS SERVICES WILL NOT BE DISPLAYED 
+       BY VMBX CONTROL PANEL WHEN WE GET THE NEW UI CONCEPT!!!!!! 
+       In that case this is not needed
+    */
 
     /*!
-     *
-     */
+       update Ps services
+    */
     void updatePsServicesToUi();
 
     /*!
-     *
-     */
-    void updateAllMailboxesToUi();
-
-    /*!
-     *
-     */
+        Update default mailbox
+    */
     void updateDefaultMailboxToUi();
-
-private:
-	
-// From CpCategoryObject
-
+    
     /*!
-     *
-     */
-    //loadConfigPlugins();
-
-    /*!
-     *
-     */
-    void beforeLoadingConfigPlugins( CpItemDataHelper &itemDataHelper );
-
-    /*!
-     *
-     */
-    //void afterLoadingConfigPlugins();
-
+        Update all mailboxes
+    */
+    void updateAllMailboxesToUi();
+    
 private:
 
     /*!
-     * 
-     * Own.
-     */
-    VmbxUiEngine* mUiEngine;
+        Preparation before loading
+    */
+    void loadingPreparation(CpItemDataHelper &itemDataHelper);
 
-    // UI controls
 
-    /*!
-     * 
-     * Not own.
-     */
-    CpSettingFormItemData* mEditorCsVoice1;
+private:
+    
+    // Own.
+    VmbxUiEngine *mUiEngine;
 
-    /*!
-     * 
-     * Not own.
-     */
-    CpSettingFormItemData* mEditorCsVoice2;
+    // Not own.
+    CpSettingFormItemData *mEditorCsVoice1;
+    
+    // Not own.
+    CpSettingFormItemData *mEditorCsVoice2;
+    
+    // Not own.
+    CpSettingFormItemData *mEditorCsVideo1;
 
-    /*!
-     * 
-     * Not own.
-     */
-    CpSettingFormItemData* mEditorCsVideo1;
-
-    /*!
-     * 
-     * Contained pointers not own.
-     */
-    QList<CpSettingFormItemData*> mPsServiceEditors;
+    // Contained pointers not own.
+    QList<CpSettingFormItemData *> mPsServiceEditors;
 };
 
 #endif // VMBXCPGROUP_H

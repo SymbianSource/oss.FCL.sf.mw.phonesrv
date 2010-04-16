@@ -24,4 +24,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/NetworkHandlingDomainPSKeys.h     MW_LAYER_PLATFORM_EXPORT_PATH(NetworkHandlingDomainPSKeys.h)
+../inc/networkhandlingdomainpskeys.h     MW_LAYER_PLATFORM_EXPORT_PATH(networkhandlingdomainpskeys.h)

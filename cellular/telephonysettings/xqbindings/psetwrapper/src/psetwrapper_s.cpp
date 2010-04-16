@@ -21,6 +21,7 @@
 #include "psetcallwaitingwrapper.h"
 #include "psetcalldivertingwrapper.h"
 #include "psetnetworkwrapper.h"
+#include "psetcallbarringwrapper.h"
 #include "logging.h"
 
 
@@ -185,10 +186,11 @@ PSetCallDivertingWrapper::~PSetCallDivertingWrapper()
 
 // --------  Wrapper interface  --------- //
 
-void PSetCallDivertingWrapper::setCallDiverting(
+int PSetCallDivertingWrapper::setCallDiverting(
         PSCallDivertingCommand& aSetting, int aBasicServiceGroup)
 {
     DPRINT << "DUMMY WRAPPER";
+    return 0;
 }
 
 void PSetCallDivertingWrapper::getCallDivertingStatus(
@@ -213,6 +215,11 @@ void PSetCallDivertingWrapper::setNewDefaultNumber(QString aNumber)
 {
     DPRINT << "DUMMY WRAPPER";
     m_DefaultnumberListQSList.append(aNumber);
+}
+
+void PSetCallDivertingWrapper::getVoiceMailBoxNumber(QString &/*aVmbxNumber*/)
+{
+    DPRINT << "DUMMY WRAPPER";
 }
 
 PSetNetworkWrapper::PSetNetworkWrapper(
@@ -259,5 +266,27 @@ void PSetNetworkWrapper::cancelRequest()
 {
     DPRINT << "DUMMY WRAPPER";
 }
+
+class PSetCallBarringWrapperPrivate {
+public:
+    PSetCallBarringWrapperPrivate() {}
+    ~PSetCallBarringWrapperPrivate() {}
+};
+
+PSetCallBarringWrapper::PSetCallBarringWrapper(
+    CPsetContainer &psetContainer,
+    QObject *parent)
+    :
+    QObject(parent)
+{
+    DPRINT << "DUMMY PSetCallBarringWrapper";
+}
+
+
+PSetCallBarringWrapper::~PSetCallBarringWrapper()
+{
+    DPRINT << "DUMMY PSetCallBarringWrapper";
+}
+
 
 // End of File.

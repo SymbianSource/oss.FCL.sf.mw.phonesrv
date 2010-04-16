@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include    "CPhCltExtPhoneBase.h" 
-#include    "CPhCltExtPhone.h" 
+#include    "cphcltextphonebase.h" 
+#include    "cphcltextphone.h" 
 #include    "phclttypes.h" 
 
 

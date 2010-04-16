@@ -134,8 +134,6 @@ PSetNetworkWrapper::PSetNetworkWrapper(
 {
     DPRINT << ": IN";
     
-    Q_CHECK_PTR(m_privateImpl);
-    
     DPRINT << ": OUT";
 }
 

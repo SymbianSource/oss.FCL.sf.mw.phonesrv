@@ -39,6 +39,7 @@ private slots:
     void init();
     void cleanup();
     
+    void t_construction();
     void t_getColpMode();
     void t_getClipMode();
     void t_getClirMode();

@@ -17,7 +17,7 @@
 */
 
 
-#include "PsetVariationProxy.h" 
+#include "psetvariationproxy.h" 
 #include <centralrepository.h>
 #include <settingsinternalcrkeys.h> 
 #include <telservicesinternalcrkeys.h>

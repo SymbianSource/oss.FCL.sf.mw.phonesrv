@@ -32,7 +32,7 @@ PRJ_EXPORTS
 
 // Generic configuration interface for component cenrep settings  
 ../conf/spsettings.confml                       MW_LAYER_CONFML(spsettings.confml)
-../conf/spsettings_10282E7F.crml            MW_LAYER_CRML(spsettings_10282E7F.crml)
+../conf/spsettings_10282e7f.crml            MW_LAYER_CRML(spsettings_10282e7f.crml)
 
 PRJ_MMPFILES
 serviceprovidersettings.mmp

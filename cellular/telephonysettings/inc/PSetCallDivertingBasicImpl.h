@@ -27,7 +27,7 @@
 #include "msssettingsobserver.h" 
 #include "nwdefs.h"             
 #include "psetconstants.h" 
-#include "PSetCallDivertingBase.h" 
+#include "psetcalldivertingbase.h" 
 
 // CLASS DECLARATION
 class CPsetSAObserver;

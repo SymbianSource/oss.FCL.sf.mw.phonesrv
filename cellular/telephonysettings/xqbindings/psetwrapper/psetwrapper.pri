@@ -14,19 +14,22 @@
 # Description: 
 #
 
-HEADERS += ../../../../phonesrv_plat/\phone_settings_api/inc/psetcalldivertingwrapper.h \
+HEADERS += ../../../../phonesrv_plat/\phone_settings_api/inc/psetcallbarringwrapper.h \
+           ../../../../phonesrv_plat/\phone_settings_api/inc/psetcalldivertingwrapper.h \
            ../../../../phonesrv_plat/\phone_settings_api/inc/psetcallwaitingwrapper.h \
            ../../../../phonesrv_plat/\phone_settings_api/inc/psetcliwrapper.h \
            ../../../../phonesrv_plat/\phone_settings_api/inc/psetnetworkwrapper.h \
            ../../../../phonesrv_plat/\phone_settings_api/inc/psetwrapper.h \
            ../../../../phonesrv_plat/\phone_settings_api/inc/psetwrappertypes.h \
+           ./src/psetcallbarringwrapper_p.h \
            ./src/psetcalldivertingwrapper_p.h \
            ./src/psetcallwaitingwrapper_p.h \
            ./src/psetcliwrapper_p.h \
            ./src/psetnetworkwrapper_p.h
            
 symbian: {
-    SOURCES += ./src/psetcalldivertingwrapper_p.cpp \
+    SOURCES += ./src/psetcallbarringwrapper_p.cpp \
+        ./src/psetcalldivertingwrapper_p.cpp \
         ./src/psetcliwrapper_p.cpp \
         ./src/psetcallwaitingwrapper_p.cpp \
         ./src/psetnetworkwrapper_p.cpp \
@@ -35,7 +38,8 @@ symbian: {
         ./src/psetcallwaitingwrapper.cpp \
         ./src/psetcalldivertingwrapper.cpp \
         ./src/psetnetworkwrapper.cpp \
-        ./src/psetnetworkinfoconverter.cpp
+        ./src/psetnetworkinfoconverter.cpp \
+        ./src/psetcallbarringwrapper.cpp
 } 
 else: {
     SOURCES = ./src/psetwrapper_s.cpp

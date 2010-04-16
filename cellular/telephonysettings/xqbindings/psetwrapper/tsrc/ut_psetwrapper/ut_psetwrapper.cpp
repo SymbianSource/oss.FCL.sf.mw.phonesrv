@@ -21,6 +21,11 @@
 #include "psetwrapper.h"
 #include "testutilities.h"
 
+void SimulateLeaveL()
+{
+    User::Leave(KErrGeneral);
+}
+
 /*!
   UT_PSetWrapper::UT_PSetWrapper
  */
@@ -65,6 +70,24 @@ void UT_PSetWrapper::cleanup()
 }
 
 /*!
+  UT_PSetWrapper::t_construction
+ */
+void UT_PSetWrapper::t_construction()
+{
+    if (qstrcmp(QTest::currentTestFunction(), "t_exceptionSafety") != 0) {
+        expect("CPsetContainer::NewL").
+            willOnce(invokeWithoutArguments(SimulateLeaveL));
+        
+        PSetWrapper *wrapper = NULL;
+        EXPECT_EXCEPTION(wrapper = new PSetWrapper(NULL);
+        )
+        delete wrapper;
+        
+        QVERIFY(verify());
+    }
+}
+
+/*!
   UT_PSetWrapper::t_cliWrapper
  */
 void UT_PSetWrapper::t_cliWrapper()
@@ -102,6 +125,16 @@ void UT_PSetWrapper::t_networkWrapper()
     PSetNetworkWrapper *wrapper = NULL;
     wrapper = &m_setWrapper->networkWrapper();
     QVERIFY(wrapper == &m_setWrapper->networkWrapper());
+}
+
+/*!
+  UT_PSetWrapper::t_callBarringWrapper
+ */
+void UT_PSetWrapper::t_callBarringWrapper()
+{
+    PSetCallBarringWrapper *wrapper = NULL;
+    wrapper = &m_setWrapper->callBarringWrapper();
+    QVERIFY(wrapper == &m_setWrapper->callBarringWrapper());
 }
 
 /*!

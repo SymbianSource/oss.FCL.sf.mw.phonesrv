@@ -27,15 +27,15 @@ TARGET          sosenpolicy.dll
 TARGETTYPE      DLL
 UID             0x101F86D1 0x101F86D3
 
-SOURCEPATH      ../src/SosEnPolicy 
-SOURCE          CSosEmergencyNumberPolicyManager.cpp 
-SOURCE          CSosEmergencyNumberPolicyHandler.cpp 
-SOURCE          CSosEnPolicyENListHandler.cpp 
-SOURCE          CSosEnPolicySimStatusMonitor.cpp 
-SOURCE          CSosEnPolicySatRefresh.cpp 
+SOURCEPATH      ../src/sosenpolicy 
+SOURCE          csosemergencynumberpolicymanager.cpp 
+SOURCE          csosemergencynumberpolicyhandler.cpp 
+SOURCE          csosenpolicyenlisthandler.cpp 
+SOURCE          csosenpolicysimstatusmonitor.cpp 
+SOURCE          csosenpolicysatrefresh.cpp 
 
-USERINCLUDE     . ../Inc 
-USERINCLUDE     ../inc/SosEnPolicy 
+USERINCLUDE     . ../inc 
+USERINCLUDE     ../inc/sosenpolicy 
 
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE   ../../../inc

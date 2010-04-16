@@ -22,10 +22,10 @@
 #include    <mphcltdialrequestobserver.h>
 
 #include    "rphcltserver.h" 
-#include    "CPhCltExtPhoneDialData.h" 
+#include    "cphcltextphonedialdata.h" 
 #include    "cphcltdialdata.h"
 #include    "cphcltdialrequestmonitor.h"
-#include    "RPhCltCallNotify.h" 
+#include    "rphcltcallnotify.h" 
 
 
 

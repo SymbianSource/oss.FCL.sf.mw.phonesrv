@@ -32,6 +32,8 @@
 
 static const int DialpadRowCount = 5;
 static const int DialpadColumnCount = 3;
+static const QString handsetIcon("qtg_mono_call");
+static const QString vmbxIcon("qtg_mono_voice_mailbox");
 
 static const int DialpadButtonToKeyCodeTable[DialpadButtonCount] =
 {
@@ -44,9 +46,12 @@ static const int DialpadButtonToKeyCodeTable[DialpadButtonCount] =
 };
 
 DialpadKeypad::DialpadKeypad(
+    const HbMainWindow& mainWindow,
     DialpadInputField& inputField,
     QGraphicsItem* parent) :
-    HbWidget(parent), mInputField(inputField),
+    HbWidget(parent),
+    mMainWindow(mainWindow),
+    mInputField(inputField),
     mLongPressDuration(0)
 {
     // create signal mappers
@@ -86,14 +91,14 @@ DialpadKeypad::DialpadKeypad(
 
         if (keyCode==Qt::Key_Yes) {
             button->setStyle(mCallButtonStyle);
-            HbIcon callIcon(":/qtg_mono_answer_call.svg"); // todo correct icon
+            HbIcon callIcon(handsetIcon); // todo correct icon
             button->setIcon(callIcon);
         } else {
             button->setStyle(mNormalButtonStyle);
         }
 
         if (keyCode==Qt::Key_1) {
-            HbIcon mboxIcon(":/qtg_mono_voice_mailbox.svg");
+            HbIcon mboxIcon(vmbxIcon);
             button->setIcon(mboxIcon);
         }
 
@@ -258,7 +263,7 @@ void DialpadKeypad::handleKeyReleased(int key)
 void DialpadKeypad::postKeyEvent(QEvent::Type type, int key)
 {
     QKeyEvent *keyEvent = new QKeyEvent(type, key, Qt::NoModifier);
-    HbApplication::postEvent(hbInstance->allMainWindows().at(0),keyEvent);
+    HbApplication::postEvent(const_cast<HbMainWindow*>(&mMainWindow),keyEvent);
 }
 
 void DialpadKeypad::sendKeyEventToEditor(QEvent::Type type, int key)
@@ -297,18 +302,21 @@ void DialpadKeypad::showEvent(QShowEvent *event)
 {
     HbWidget::showEvent(event);
 
-    // set fixed row and column dimensions
-    QSizeF effectiveSize(rect().width(),
-                         rect().height());
+    if (parentWidget()->isVisible()) {
+        // first show event comes before dialpad is open
+        // set fixed row and column dimensions
+        QSizeF effectiveSize(rect().width(),
+                             rect().height());
 
-    qreal width = effectiveSize.width() / DialpadColumnCount;
-    qreal height = effectiveSize.height() / DialpadRowCount;
+        qreal width = effectiveSize.width() / DialpadColumnCount;
+        qreal height = effectiveSize.height() / DialpadRowCount;
 
-    for (int i=0; i < DialpadColumnCount ;i++) {
-        mGridLayout->setColumnFixedWidth(i, width);
-    }
+        for (int i=0; i < DialpadColumnCount ;i++) {
+            mGridLayout->setColumnFixedWidth(i, width);
+        }
 
-    for (int i=0; i < DialpadRowCount ;i++) {
-        mGridLayout->setRowFixedHeight(i, height);
+        for (int i=0; i < DialpadRowCount ;i++) {
+            mGridLayout->setRowFixedHeight(i, height);
+        }
     }
 }

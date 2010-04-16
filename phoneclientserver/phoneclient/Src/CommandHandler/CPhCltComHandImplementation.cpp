@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include    "CPhCltComHandImplementation.h" 
+#include    "cphcltcomhandimplementation.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================
 

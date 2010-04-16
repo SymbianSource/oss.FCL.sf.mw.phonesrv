@@ -24,9 +24,11 @@
 
 class HbLineEdit;
 class HbFrameDrawer;
+class HbMainWindow;
 class DialpadInputField;
 class DialpadKeypad;
 class DialpadMultitapHandler;
+class DialpadBackground;
 
 #ifdef BUILD_DIALPAD
 #define DIALPAD_EXPORT Q_DECL_EXPORT
@@ -39,10 +41,13 @@ class DIALPAD_EXPORT Dialpad : public HbWidget
     Q_OBJECT
 
 public:
-    explicit Dialpad();
+    explicit Dialpad(); // deprecated
+    explicit Dialpad(const HbMainWindow& mainWindow);
     virtual ~Dialpad();
 
     HbLineEdit& editor() const;
+
+    bool isOpen() const;
 
 public slots:
     void openDialpad();
@@ -50,6 +55,8 @@ public slots:
     void closeDialpad();
 
     void setCallButtonEnabled(bool enabled);
+
+    void setTapOutsideDismiss(bool dismiss);
 
 protected:
     void paint(QPainter* painter,
@@ -74,14 +81,23 @@ protected slots:
     void openAnimValueChanged(qreal value);
     void openAnimFinished();
     void orientationChangeStarted();
-    void orientationChangeFinished();
+    void orientationChangeFinished(Qt::Orientation current);
+
+private:
+    void startCloseAnimation();
+    void layoutBackgroundItem();
+    void updateLayout(Qt::Orientation orientation);
+    void initialize();
 
 signals:
+    void aboutToOpen();
     void aboutToClose();
 
 private:
+    const HbMainWindow& mMainWindow;
     HbFrameDrawer *mBackgroundDrawer;
     HbFrameDrawer *mIconDrawer;
+    DialpadBackground* mBackgroundItem;
     DialpadInputField* mInputField;
     DialpadKeypad* mKeypad;
     DialpadMultitapHandler* mMultitap;
@@ -92,6 +108,12 @@ private:
     bool mAnimationOngoing;
     QPointF mPosition;
     int mCloseHandleHeight;
+    int mCloseHandleWidth;
+    int mTitleBarHeight;
+    int mOrientation;
+    bool mIsOpen;
+
+    friend class DialpadBackground;
 };
 
 #endif // DIALPAD_H

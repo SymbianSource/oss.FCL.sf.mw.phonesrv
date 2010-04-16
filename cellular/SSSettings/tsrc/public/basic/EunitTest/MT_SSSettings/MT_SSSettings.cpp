@@ -22,8 +22,8 @@
 //  EXTERNAL INCLUDES
 #include <EUnitMacros.h>
 #include <CSSSettingsRefreshContainer.h>
-#include <RCustomerServiceProfileCache.h>
-#include <RSSSettings.h>
+#include <rcustomerserviceprofilecache.h>
+#include <rsssettings.h>
 #include <mmtsy_names.h>
 
 //  INTERNAL INCLUDES

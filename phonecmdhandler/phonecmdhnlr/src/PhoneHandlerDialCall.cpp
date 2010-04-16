@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include    "PhoneHandlerDialCall.h" 
-#include    "PhoneHandlerControl.h" 
-#include    "PhoneHandlerDebug.h" 
+#include    "phonehandlerdialcall.h" 
+#include    "phonehandlercontrol.h" 
+#include    "phonehandlerdebug.h" 
 
 #include    <cphcltcommandhandler.h> 
 #include    <phclttypes.h> 

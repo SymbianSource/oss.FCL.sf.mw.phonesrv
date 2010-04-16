@@ -26,12 +26,13 @@
 #include "dialpadbuttonstyle.h"
 #include "dialpadbutton.h"
 
-static const QString HbBackspaceIcon(":/inputmethods/qtg_mono_backspace2");
+static const QString HbBackspaceIcon("qtg_mono_backspace2");
 static const int DialpadAutoRepeatInterval = 150; // ms
 static const int DialpadAutoRepeatDelay = 1000; // ms
 static const qreal DialpadComponentMargin = 0.75; // units
 static const qreal DialpadBackspaceHeight = 9.4; // units
 static const qreal DialpadInputFieldHeight = 6.3; // units
+static const int DialpadMaxEditStringLenght = 100;
 
 DialpadInputField::DialpadInputField(QGraphicsItem* parent)
     : HbWidget(parent)
@@ -42,6 +43,7 @@ DialpadInputField::DialpadInputField(QGraphicsItem* parent)
     editorInterface.setFilter(HbPhoneNumberFilter::instance());
     editorInterface.setUpAsPhoneNumberEditor();
     editorInterface.setConstraints(HbEditorConstraintIgnoreFocus);
+    mNumberEditor->setMaxLength(DialpadMaxEditStringLenght);
 
     // create backspace button
     mBackspace = new DialpadButton(this);

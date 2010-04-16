@@ -19,8 +19,8 @@
 
 // INCLUDE FILES
 #include    <cphcltemergencycall.h> // for TPhCltEmergencyNumber
-#include    "RPhCltEmergencyCall.h" 
-#include    "PhCltClientServer.h" 
+#include    "rphcltemergencycall.h" 
+#include    "phcltclientserver.h" 
 #include    "phcltutils.h" 
 
 // CONSTANTS

@@ -22,7 +22,7 @@
 
 
 // INCLUDES
-#include    "CSOSEmergencyNumberPolicyHandler.h" 
+#include    "csosemergencynumberpolicyhandler.h" 
 #include    <rphcltserver.h> 
 #include    <cenrepnotifyhandler.h>
 

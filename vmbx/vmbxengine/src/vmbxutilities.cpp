@@ -18,7 +18,7 @@
 
 // INCLUDE FILES
 #include <featmgr.h>
-#include <msssettingsobserver.h> // ALS changes
+#include <MSSSettingsObserver.h> // ALS changes
 
 #include "vmbxlogger.h"
 #include "vmbxcenrephandler.h"

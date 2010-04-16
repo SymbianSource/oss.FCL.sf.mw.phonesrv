@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include "PhoneHandlerCallState.h" 
-#include "PhoneHandlerControl.h" 
-#include "PhoneHandlerDebug.h" 
+#include "phonehandlercallstate.h" 
+#include "phonehandlercontrol.h" 
+#include "phonehandlerdebug.h" 
 #include <ctsydomainpskeys.h>
 
 // EXTERNAL DATA STRUCTURES

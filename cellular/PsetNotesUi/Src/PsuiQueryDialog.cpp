@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include "PsuiQueryDialog.h" 
+#include "psuiquerydialog.h" 
 
 // ================= MEMBER FUNCTIONS =======================
 

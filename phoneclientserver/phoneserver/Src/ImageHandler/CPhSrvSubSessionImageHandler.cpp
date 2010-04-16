@@ -19,12 +19,12 @@
 
 
 // INCLUDE FILES
-#include    "CPhSrvSubSessionImageHandler.h" 
-#include    "CPhSrvSession.h" 
-#include    "CPhSrvServer.h" 
+#include    "cphsrvsubsessionimagehandler.h" 
+#include    "cphsrvsession.h" 
+#include    "cphsrvserver.h" 
 #include    <e32property.h>
 #include    <phclttypes.h> 
-#include    "PhSrvDebugInfo.h" 
+#include    "phsrvdebuginfo.h" 
 
 // CONSTANTS
 _LIT( KPhSrvImageDriveRom, "z:" );

@@ -18,9 +18,9 @@
 
 
 // INCLUDES
-#include    "CSosEnPolicySimStatusMonitor.h" 
+#include    "csosenpolicysimstatusmonitor.h" 
 #include    <startupdomainpskeys.h> // Property values
-#include    <PSVariables.h> 
+#include    <psvariables.h> 
 
 
 

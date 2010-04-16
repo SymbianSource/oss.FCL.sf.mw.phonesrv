@@ -24,6 +24,7 @@ class PSetCliWrapper;
 class PSetCallWaitingWrapper;
 class PSetCallDivertingWrapper;
 class PSetNetworkWrapper;
+class PSetCallBarringWrapper;
 
 #ifdef BUILD_PSETWRAPPER
 #define PSETWRAPPER_EXPORT Q_DECL_EXPORT
@@ -65,7 +66,13 @@ public: // Functions:
      @exception bad alloc, if creations fails.
      */
     PSetNetworkWrapper& networkWrapper();
-        
+
+    /**
+     Returns reference to call barring settings.
+     @exception bad alloc, if creations fails.
+     */
+    PSetCallBarringWrapper& callBarringWrapper();
+    
 private: // Data: 
     // Own
     CPsetContainer *m_psetContainer; 
@@ -78,6 +85,8 @@ private: // Data:
     PSetCallDivertingWrapper *m_callDivertingWrapper;
     
     PSetNetworkWrapper *m_networkWrapper;
+    
+    PSetCallBarringWrapper *m_callBarringWrapper;
     
 };
 #endif // PSETWRAPPER

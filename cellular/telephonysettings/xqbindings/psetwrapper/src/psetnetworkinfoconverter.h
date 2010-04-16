@@ -19,7 +19,7 @@
 #define PSETNETWORKINFOCONVERTER_H
 
 #include <psetnetworkwrapper.h>
-#include <MPsetNetworkSelect.h>
+#include <mpsetnetworkselect.h>
 
 class NetworkInfoConverter
 {

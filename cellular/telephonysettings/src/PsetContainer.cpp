@@ -22,7 +22,7 @@
 // INCLUDES
 #include    "psetcontainer.h" 
 #include    "psetconstants.h" 
-#include    "PSetRefreshHandlerImpl.h" 
+#include    "psetrefreshhandlerimpl.h" 
 #include    <mmtsy_names.h>
 
 // ---------------------------------------------------------------------------

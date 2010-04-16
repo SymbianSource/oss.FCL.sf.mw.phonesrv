@@ -20,7 +20,7 @@
 
 
 // INCLUDES
-#include "CPhSrvSubSessionBase.h" 
+#include "cphsrvsubsessionbase.h" 
 
 
 // CLASS DECLARATION

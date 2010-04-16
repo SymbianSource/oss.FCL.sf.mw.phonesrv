@@ -43,6 +43,11 @@ symbian {
     BLD_INF_RULES.prj_exports +=  \
      "$${LITERAL_HASH}include <platform_paths.hrh>" \
      "./rom/xqtelephonyservice.iby    CORE_MW_LAYER_IBY_EXPORT_PATH(xqtelephonyservice.iby)"
+     
+    # tracing macros
+    headers.sources = inc/qtphonesrvlog.h
+    headers.path = |../../inc
+    for(header, headers.sources):BLD_INF_RULES.prj_exports += "$$header $$headers.path/$$basename(header)"       
 }
 
 # Input

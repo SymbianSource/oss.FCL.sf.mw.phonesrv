@@ -19,7 +19,7 @@
 // INCLUDE FILES
 #include "rphcltserver.h" 
 #include "rphcltussd.h"
-#include "PhCltClientServer.h" 
+#include "phcltclientserver.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================
 

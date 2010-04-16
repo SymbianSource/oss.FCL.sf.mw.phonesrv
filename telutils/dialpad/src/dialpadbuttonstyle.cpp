@@ -66,21 +66,21 @@ void DialpadButtonStyle::updatePrimitive(
                 frameGraphicsName = "qtg_fr_btn_disabled";
             } else if (mode == QIcon::Normal && state == QIcon::On) {
                 if (mButtonStyle==CallButtonStyle) {
-                    frameGraphicsName = ":/qtg_fr_btn_green_pressed";
+                    frameGraphicsName = "qtg_fr_btn_green_pressed";
                 } else if (mButtonStyle==NormalButtonStyle) {
-                    frameGraphicsName = "qtg_fr_button_keypad_pressed";
+                    frameGraphicsName = "qtg_fr_input_btn_keypad_pressed";
                 } else {
-                    frameGraphicsName = "qtg_fr_button_function_pressed";
+                    frameGraphicsName = "qtg_fr_input_btn_function_pressed";
                 }
             } else if (mode == QIcon::Selected && state == QIcon::Off) {
                 frameGraphicsName = "qtg_fr_btn_highlight";
             } else {
                 if (mButtonStyle==CallButtonStyle) {
-                    frameGraphicsName = ":/qtg_fr_btn_green_normal";
+                    frameGraphicsName = "qtg_fr_btn_green_normal";
                 } else if (mButtonStyle==NormalButtonStyle) {
-                    frameGraphicsName = "qtg_fr_button_keypad_normal";
+                    frameGraphicsName = "qtg_fr_input_btn_keypad_normal";
                 } else {
-                    frameGraphicsName = "qtg_fr_button_function_normal";
+                    frameGraphicsName = "qtg_fr_input_btn_function_normal";
                 }
             }
 
@@ -115,19 +115,19 @@ void DialpadButtonStyle::updatePrimitive(
         if (mButtonStyle==CallButtonStyle &&
             mode == QIcon::Normal) {
             if (state==QIcon::On) {
-                QColor color(HbColorScheme::color("answer_pressed"));
+                QColor color(HbColorScheme::color("qtc_callhandling_answer_pressed"));
                 setIconColor(item,color);
             } else {
-                QColor color(HbColorScheme::color("answer_normal"));
+                QColor color(HbColorScheme::color("qtc_callhandling_answer_normal"));
                 setIconColor(item,color);
             }
         } else if (mButtonStyle==NormalButtonStyle) {
             QColor color;
-            color = HbColorScheme::color("input_button_normal");
+            color = HbColorScheme::color("qtc_input_button_normal");
             setIconColor(item,color);
         } else { // function button
             QColor color;
-            color = HbColorScheme::color("input_function_normal");
+            color = HbColorScheme::color("qtc_input_function_normal");
             setIconColor(item,color);
         }
         break;
@@ -163,7 +163,7 @@ void DialpadButtonStyle::setTextColor(QGraphicsItem *item) const
     HbTextItem *textPrim = qgraphicsitem_cast<HbTextItem*>(item);
     if (textPrim) {
         QColor color;
-        color = HbColorScheme::color("input_button_normal");
+        color = HbColorScheme::color("qtc_input_button_normal");
         if (color.isValid()) {
             textPrim->setTextColor(color);
         } else {

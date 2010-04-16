@@ -26,10 +26,10 @@ TARGETTYPE      DLL
 UID             0x1000008d 0x10005A3D
 
 SOURCEPATH      ../src
-SOURCE          CServiceRequest.cpp 
+SOURCE          cservicerequest.cpp 
 
 // Resource files
-START RESOURCE ../data/ServiceRequest.rss 
+START RESOURCE ../data/servicerequest.rss 
 TARGETPATH RESOURCE_FILES_DIR
 HEADER
 LANGUAGE_IDS

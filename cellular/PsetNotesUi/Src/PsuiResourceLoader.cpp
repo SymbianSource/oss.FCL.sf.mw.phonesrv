@@ -20,7 +20,7 @@
 #include <coemain.h>
 #include <ConeResLoader.h> 
 
-#include "PsuiResourceLoader.h" 
+#include "psuiresourceloader.h" 
 
 // CONSTANTS
 _LIT( KPsuiResourceFileNameAndPath, "Z:\\resource\\Psui.rsc" );

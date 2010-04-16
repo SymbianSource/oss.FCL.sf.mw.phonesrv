@@ -19,13 +19,13 @@
 // INCLUDE FILES
 #include    <bldvariant.hrh> // for feature definitions
 #include    <etel.h>  
-#include    <SSSettingsPrivatePSKeys.h> 
+#include    <sssettingsprivatepskeys.h> 
 #include    <centralrepository.h>
 #include    <mmtsy_names.h>
 #include    <featmgr.h>
       
 #include    "rcustomerserviceprofilecache.h" 
-#include    "SSSettingsLogger.h" 
+#include    "sssettingslogger.h" 
 
 // CONSTANTS
 #define KSSSettingsTSYName KMmTsyModuleName

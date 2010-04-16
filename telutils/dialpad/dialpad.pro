@@ -19,23 +19,33 @@ TEMPLATE = lib
 TARGET = dialpad
 CONFIG += hb
 
-INCLUDEPATH += . inc
+INCLUDEPATH += . inc ../../inc
 
 HEADERS += ../../phonesrv_plat/dialpad_api/inc/dialpad.h \
+           ../../phonesrv_plat/dialpad_api/inc/dialpadkeyhandler.h \
            inc/dialpadbutton.h \
            inc/dialpadbuttonstyle.h \
            inc/dialpadinputfield.h \
            inc/dialpadkeypad.h \
-           inc/dialpadmultitaphandler.h
+           inc/dialpadmultitaphandler.h\
+           inc/dialpadsymbianwrapper.h \
+           inc/dialpadbackground.h \
+           inc/dialpadvoicemailboxeventfilter.h \
+           inc/dialpadbluetootheventfilter.h
 
 SOURCES += src/dialpad.cpp \
            src/dialpadbutton.cpp \
            src/dialpadbuttonstyle.cpp \
            src/dialpadinputfield.cpp \
            src/dialpadkeypad.cpp \
-           src/dialpadmultitaphandler.cpp
+           src/dialpadmultitaphandler.cpp\
+           src/dialpadkeyhandler.cpp \
+           src/dialpadsymbianwrapper.cpp \
+           src/dialpadbackground.cpp \
+           src/dialpadvoicemailboxeventfilter.cpp \
+           src/dialpadbluetootheventfilter.cpp
 
-RESOURCES += resources/dialpad.qrc
+RESOURCES += dialpad.qrc
 
 symbian {    
     TARGET.EPOCALLOWDLLDATA = 1
@@ -51,11 +61,21 @@ symbian {
     
     MMP_RULES += defFiles
     
+    HEADERS += inc/dialpadsymbianwrapper_p.h
+    SOURCES += src/dialpadsymbianwrapper_p.cpp
+    
     BLD_INF_RULES.prj_exports += \
     "$${LITERAL_HASH}include <platform_paths.hrh>" \
-    "./rom/dialpad.iby    CORE_MW_LAYER_IBY_EXPORT_PATH(dialpad.iby)"    
+    "./rom/dialpad.iby    CORE_MW_LAYER_IBY_EXPORT_PATH(dialpad.iby)" 
+    
+    LIBS += -lxqservice \
+            -lxqserviceutil \
+            -lvmbxengine
 }
 else:win32 { 
+    HEADERS += inc/dialpadsymbianwrapper_p_stub.h
+    SOURCES += src/dialpadsymbianwrapper_p_stub.cpp
+    
     # Put it to Hb/lib because it is in path
     DESTDIR = c:/hb/lib
     DLLDESTDIR = c:/hb/bin
@@ -63,6 +83,8 @@ else:win32 {
         c:/hb/include/hbcore \
         c:/hb/include/hbwidgets \
         c:/hb/include/hbtools
+    INCLUDEPATH += ../xqtelephonyservice/inc
 }
 
-DEFINES += BUILD_DIALPAD
+DEFINES += BUILD_DIALPAD \
+           BUILD_DIALPADKEYHANDLER

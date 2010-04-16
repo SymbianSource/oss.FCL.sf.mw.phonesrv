@@ -17,8 +17,8 @@
 
 
 // INCLUDE FILES
-#include "PsuiNoteController.h" 
-#include "PsuiInternalConstants.h" 
+#include "psuinotecontroller.h" 
+#include "psuiinternalconstants.h" 
 
 // ================= MEMBER FUNCTIONS =======================
 

@@ -16,8 +16,8 @@
  */
 
 #include <rmmcustomapi.h>
-#include <PsetContainer.h>
-#include <PsetNetwork.h>
+#include <psetcontainer.h>
+#include <psetnetwork.h>
 #include <gsmerror.h>
 #include "psetnetworkwrapper_p.h"
 #include "logging.h"
@@ -188,7 +188,8 @@ void PSetNetworkWrapperPrivate::HandleNetworkInfoReceivedL(
     //then insert found networks
     for(int i = 0; i < itemsCount; i++)
         {
-        PSetNetworkWrapper::NetworkInfo *info = new PSetNetworkWrapper::NetworkInfo;
+        PSetNetworkWrapper::NetworkInfo *info = 
+            new (ELeave) PSetNetworkWrapper::NetworkInfo;
         
         info->m_id.m_countryCode = QString::fromUtf16(
             aInfoArray->At(i).iId.iCountryCode.Ptr(), 
@@ -217,7 +218,9 @@ void PSetNetworkWrapperPrivate::HandleNetworkInfoReceivedL(
         m_networkInfoList.append(info);
         }
     
-    emit m_owner.availableNetworksGot(m_networkInfoList);
+    QT_TRYCATCH_LEAVING(
+        emit m_owner.availableNetworksGot(m_networkInfoList);
+    )
     
     DPRINT << ": OUT ";
 }
@@ -300,7 +303,9 @@ void PSetNetworkWrapperPrivate::HandleNetworkChangedL(
             break;
         }
    
-    emit m_owner.networkChanged(info, status);
+    QT_TRYCATCH_LEAVING(
+        emit m_owner.networkChanged(info, status);
+    )
     
     DPRINT << ": OUT ";
 }
@@ -316,7 +321,9 @@ void PSetNetworkWrapperPrivate::HandleSearchingNetworksL(
     
     PSetNetworkWrapper::RequestType type =
         static_cast<PSetNetworkWrapper::RequestType>(aRequest);
-    emit m_owner.searchingNetworks(type);
+    QT_TRYCATCH_LEAVING(
+        emit m_owner.searchingNetworks(type);
+    )
     
     DPRINT << ": OUT ";
 }
@@ -330,8 +337,10 @@ void PSetNetworkWrapperPrivate::HandleRequestingSelectedNetworkL(
 {
     DPRINT << ": IN ";
     
-    emit m_owner.requestingSelectedNetwork(
-        static_cast<bool>(aOngoing));
+    QT_TRYCATCH_LEAVING(
+        emit m_owner.requestingSelectedNetwork(
+            static_cast<bool>(aOngoing));
+    )
     
     DPRINT << ": OUT ";
 }
@@ -371,8 +380,10 @@ void PSetNetworkWrapperPrivate::HandleNetworkErrorL(
             break;
     }
 
-    emit m_owner.networkReqestFailed(
-        error, static_cast<PSetNetworkWrapper::RequestType>(aRequest));
+    QT_TRYCATCH_LEAVING(
+        emit m_owner.networkReqestFailed(
+            error, static_cast<PSetNetworkWrapper::RequestType>(aRequest));
+    )
 }
 
 /*!

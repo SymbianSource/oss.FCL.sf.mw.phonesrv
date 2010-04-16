@@ -30,10 +30,10 @@
 #include <e32property.h>
 #include <BTSapDomainPSKeys.h> 
 
-#include "PsuiInternalConstants.h" 
-#include "PsuiNoteMaster.h" 
-#include "PsuiReqObserver.h" 
-#include "PsuiQueryDialog.h" 
+#include "psuiinternalconstants.h" 
+#include "psuinotemaster.h" 
+#include "psuireqobserver.h" 
+#include "psuiquerydialog.h" 
  
 #include <centralrepository.h>
 #include <NumberGroupingCRKeys.h> 

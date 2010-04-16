@@ -22,7 +22,7 @@
 
 
 //  INCLUDES
-#include <MSSSettingsRefreshHandler.h> 
+#include <msssettingsrefreshhandler.h> 
 #include <msatrefreshobserver.h>
 #include <msssettingsrefreshobserver.h> 
 #include <rsssettings.h> 
@@ -30,7 +30,7 @@
 #include <RSatRefresh.h> 
 #include <RSatSession.h> 
 #include <cenrepnotifyhandler.h>
-#include "CSSSettingsActiveObject.h" 
+#include "csssettingsactiveobject.h" 
 
 // DATA TYPES
 

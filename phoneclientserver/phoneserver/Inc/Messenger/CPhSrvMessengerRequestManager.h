@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "MPhSrvMessengerNegotiators.h" 
+#include "mphsrvmessengernegotiators.h" 
 #include <cphcltcommandhandler.h> 
 
 // FORWARD DECLARATIONS

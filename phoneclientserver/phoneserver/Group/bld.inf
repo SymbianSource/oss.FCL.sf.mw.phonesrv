@@ -25,16 +25,16 @@ PRJ_EXPORTS
 
 backup_registration.xml  z:/private/10000850/backup_registration.xml
 
-Phoneserver_stub.SIS                /epoc32/data/z/system/install/Phoneserver_stub.SIS
+phoneserver_stub.sis                /epoc32/data/z/system/install/phoneserver_stub.sis
 
 // IBY files
-../rom/PhoneServer.iby              CORE_MW_LAYER_IBY_EXPORT_PATH(PhoneServer.iby)
+../rom/phoneserver.iby              CORE_MW_LAYER_IBY_EXPORT_PATH(phoneserver.iby)
 
 // LOC files
-../loc/PhoneServer.loc              MW_LAYER_LOC_EXPORT_PATH(PhoneServer.loc)
+../loc/phoneserver.loc              MW_LAYER_LOC_EXPORT_PATH(phoneserver.loc)
 
 PRJ_MMPFILES
-../Group/PhoneServer.mmp
+../group/phoneserver.mmp
 
 PRJ_TESTMMPFILES
 // specify the .mmp files required for building any test programs here

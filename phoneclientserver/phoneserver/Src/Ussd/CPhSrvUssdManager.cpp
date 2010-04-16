@@ -16,16 +16,16 @@
 */
 
 // INCLUDE FILES
-#include "CPhSrvUssdManager.h" 
-#include "PhSrvUtils.h" 
-#include "CPhSrvUssdSendHandler.h" 
-#include "CPhSrvUssdReceiveHandler.h" 
-#include "CPhSrvUssdNotifyNWRelease.h" 
-#include "CPhSrvResourceManager.h" 
-#include "CPhSrvUssdReplyTimer.h" 
-#include "MPhSrvUssdMessageSentObserver.h" 
-#include "MPhSrvPhoneInterface.h" 
-#include "CPhSrvUssdSessionCancelWaiter.h" 
+#include "cphsrvussdmanager.h" 
+#include "phsrvutils.h" 
+#include "cphsrvussdsendhandler.h" 
+#include "cphsrvussdreceivehandler.h" 
+#include "cphsrvussdnotifynwrelease.h" 
+#include "cphsrvresourcemanager.h" 
+#include "cphsrvussdreplytimer.h" 
+#include "mphsrvussdmessagesentobserver.h" 
+#include "mphsrvphoneinterface.h" 
+#include "cphsrvussdsessioncancelwaiter.h" 
 
 #include <AknGlobalNote.h> 
 #include <aknnotedialog.h>
@@ -47,27 +47,15 @@
 #include <cphcltussd.h> 
 #include <avkon.rsg>
 #include <phoneserver.rsg> 
-// <-- QT PHONE START-->
-//#include <telephonyvariant.hrh>
-// <-- QT PHONE END-->
-#include "PhSrvDebugInfo.h" 
+#include "phsrvdebuginfo.h" 
 #include <e32property.h>
-// <-- QT PHONE START-->
-//#include <ncnlistinternalpskeys.h> 
-// <-- QT PHONE END-->
 #include <centralrepository.h>
-// <-- QT PHONE START-->
-//#include <telinternalcrkeys.h>
-// <-- QT PHONE  END-->
 #include <coreapplicationuisdomainpskeys.h>
 
 
 // CONSTANTS
 const TInt KPhSrvDefaultValue = 0x00000000;
 // const TInt KPhSrvUssdNoTone = 0; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
-// <-- QT PHONE START-->
-//const TInt KPhSrvUssdTone   = 2; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
-// <-- QT PHONE END-->
 // const TInt KPhSrvUssdTimeOutObserverGranularity = 2;
 // const TInt KPhSrvUssdSentMessageObserverGranularity = 2;
 const TInt KPhSrvUssdAppUID = 0x10005955;
@@ -911,15 +899,7 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
 
         // Play the USSD tone if needed. Logically should be in RunL, but here
         // to give better balancing with voice and visible message.
-        // <-- QT PHONE START-->
-        /*
-        if ( IsTelephonyFeatureSupported( KTelephonyLVFlagUssdTone ) )
-            {
-            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.PlayTone" );
-            PlayUssdTone();
-            }
-        */
-            // <-- QT PHONE END-->
+
         // Launch the new message query
         if ( !IsActive() )
             {
@@ -1972,28 +1952,6 @@ TInt CPhSrvUssdManager::GetTelephonyVariantData()
     {
     _DPRINT( 4, "PhSrv.UssdM.GetTelephonyVariantData.Start" );
     TInt err = KErrNone;
-// <-- QT PHONE START-->
-/*
-    // Variation data should be unchangable during run-time,
-    // therefore, if once succesfully read, later reads are
-    // not allowed.
-    if ( iVariantReadOnlyValues == KPhSrvDefaultValue )
-        {
-        CRepository* cenRepSession = NULL;
-        TRAP ( err ,
-               cenRepSession = CRepository::NewL( KCRUidTelVariation ) );
-        if ( err == KErrNone )
-            {
-            err = cenRepSession->Get( KTelVariationFlags,
-                                   iVariantReadOnlyValues );
-            }
-        delete cenRepSession;
-        }
-
-    _DDPRINT( 4, "PhSrv.UssdM.variant", iVariantReadOnlyValues ); // debug print
-    _DPRINT( 4, "PhSrv.UssdM.GetTelephonyVariantData.End" );
-    */
-// <-- QT PHONE END-->
     return err;
     }
 

@@ -16,8 +16,8 @@
 */
 
 // INCLUDE FILES
-#include <cphcltemergencycall.h>
-#include <phcltutils.h>
+#include <CPhCltEmergencyCall.h>
+#include <PhCltUtils.h>
 #include "vmbxlogger.h"
 #include "vmbxemergencycall.h"
 

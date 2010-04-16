@@ -18,9 +18,9 @@
 
 
 //  Include Files
-#include "RPhCltCallNotify.h" 
+#include "rphcltcallnotify.h" 
 #include "rphcltserver.h" 
-#include "PhCltClientServer.h" 
+#include "phcltclientserver.h" 
 
 // ============================= LOCAL FUNCTIONS ===============================
 

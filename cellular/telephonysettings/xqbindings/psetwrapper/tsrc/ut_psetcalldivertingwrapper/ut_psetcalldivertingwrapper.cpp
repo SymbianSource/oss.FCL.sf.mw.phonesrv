@@ -17,7 +17,7 @@
 
 #include <PsetContainer.h>
 #include <PsetCallDiverting.h>
-#include <MPsetDivertObs.h>
+#include <mpsetdivertobs.h>
 #include "ut_psetcalldivertingwrapper.h"
 #include "mock_cphcltemergencycall.h"
 #include "testutilities.h"
@@ -57,6 +57,11 @@ class DivertObserver : public MPsetDivertObserver
         Q_UNUSED(aDivertEngine);
     }
 };
+
+void SimulateLeaveL()
+{
+    User::Leave(KErrGeneral);
+}
 
 /*!
   UT_PSetCallDivertingWrapper::UT_PSetWrapperCallDiverting
@@ -111,6 +116,34 @@ void UT_PSetCallDivertingWrapper::cleanup()
     delete mSetContainerMock;
     mSetContainerMock = NULL;
     mPsetCallDivertingMock = NULL;
+}
+
+/*!
+  UT_PSetCallDivertingWrapper::t_construction
+ */
+void UT_PSetCallDivertingWrapper::t_construction()
+{
+    if (qstrcmp(QTest::currentTestFunction(), "t_exceptionSafety") != 0) {
+        
+        expect("CPsetContainer::CreateCFObjectL").
+            willOnce(invokeWithoutArguments(SimulateLeaveL));
+        PSetCallDivertingWrapper *wrapper = NULL;
+        EXPECT_EXCEPTION(
+            wrapper = new PSetCallDivertingWrapper(*mSetContainerMock, NULL);
+            delete wrapper;
+            wrapper = NULL;
+        )
+        QVERIFY(verify());
+        
+        expect("CPhCltEmergencyCallMock::NewL").
+            willOnce(invokeWithoutArguments(SimulateLeaveL));
+        EXPECT_EXCEPTION(
+            wrapper = new PSetCallDivertingWrapper(*mSetContainerMock, NULL);
+            delete wrapper;
+            wrapper = NULL;
+        )        
+        QVERIFY(verify());
+    }
 }
 
 /*!
@@ -312,6 +345,12 @@ void UT_PSetCallDivertingWrapper::t_setNewDefaultNumber()
     QString defNumber = "444444";
     mWrapper->setNewDefaultNumber(defNumber);
 
+    expect("CPsetCallDiverting::GetDefaultNumbersL")
+        .willOnce(invoke(SimulateLeaveL));
+    EXPECT_EXCEPTION(
+        mWrapper->setNewDefaultNumber(defNumber);
+    )
+    
     QVERIFY(true == verify());
 }
 
@@ -320,26 +359,51 @@ void UT_PSetCallDivertingWrapper::t_setNewDefaultNumber()
  */
 void UT_PSetCallDivertingWrapper::t_getVoiceMailBoxNumber()
 {
-    // Fail case
-    expect("CVoiceMailbox::GetStoredEntry").returns(-2).times(1);
-
+    // Fail case #1, illegal argument
     QString defNumber;
+    expect("CVoiceMailbox::GetStoredEntry").returns(-2).times(1);
     mWrapper->getVoiceMailBoxNumber(defNumber);
 
-    QVERIFY(true == verify());
-}
+    // Fail case #2, New number not given.
+    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
+    expect("CVoiceMailbox::QueryNewEntry").returns(-5).times(1);
+    mWrapper->getVoiceMailBoxNumber(defNumber);
 
-/*!
-  UT_PSetCallDivertingWrapper::t_getVoiceMailBoxNumber2
- */
-void UT_PSetCallDivertingWrapper::t_getVoiceMailBoxNumber2()
-{
+    // Fail case #3, save nok
+    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
+    expect("CVoiceMailbox::QueryNewEntry").times(1);
+    expect("CVoiceMailbox::SaveEntry").returns(-4).times(1);
+    mWrapper->getVoiceMailBoxNumber(defNumber);
+
+    // Fail case #4, number nok
     expect("CVoiceMailbox::GetStoredEntry").times(1);
     expect("CVoiceMailboxEntry::GetVmbxNumber").returns(-1).times(1);
-    
-    QString defNumber;
     mWrapper->getVoiceMailBoxNumber(defNumber);
 
+    // ok case#2, number and save ok but no new number. 
+    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
+    expect("CVoiceMailbox::QueryNewEntry").times(1);
+    expect("CVoiceMailbox::SaveEntry").times(1);
+    expect("CVoiceMailboxEntry::GetVmbxNumber").returns(-5).times(1);
+    mWrapper->getVoiceMailBoxNumber(defNumber);
+
+    // ok case#1, number ok
+    expect("CVoiceMailbox::GetStoredEntry").times(1);
+    expect("CVoiceMailboxEntry::GetVmbxNumber").times(1);
+    mWrapper->getVoiceMailBoxNumber(defNumber);
+
+    // ok case#2, number and save ok
+    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
+    expect("CVoiceMailbox::QueryNewEntry").times(1);
+    expect("CVoiceMailbox::SaveEntry").times(1);
+    mWrapper->getVoiceMailBoxNumber(defNumber);
+
+    expect("CVoiceMailbox::NewL")
+        .willOnce(invoke(SimulateLeaveL));
+    EXPECT_EXCEPTION(
+        mWrapper->getVoiceMailBoxNumber(defNumber);
+    )
+    
     QVERIFY(true == verify());
 }
 
@@ -606,33 +670,12 @@ void UT_PSetCallDivertingWrapper::t_convertPsCallDivertingSetting()
 
 /*!
   UT_PSetCallDivertingWrapper::t_exceptionSafety
-  TODO: tests using signalspy fail in alloc failure mode because 
-  QList<QVariant> is not exception safe in QT 4.6.0.
  */
 void UT_PSetCallDivertingWrapper::t_exceptionSafety()
 {
     cleanup();
     
-    OomTestExecuter::runTest(*this, &t_setCallDivertingWithValidParameters);
-    //OomTestExecuter::runTest(*this, &t_setCallDivertingWithInvalidNumber);
-    //OomTestExecuter::runTest(*this, &t_setCallDivertingWithEmergencyNumber);
-    OomTestExecuter::runTest(*this, &t_setCallDivertingException);
-    OomTestExecuter::runTest(*this, &t_getCallDivertingStatus);
-    OomTestExecuter::runTest(*this, &t_getCallDivertingStatusException);
-    OomTestExecuter::runTest(*this, &t_cancelProcess);
-    OomTestExecuter::runTest(*this, &t_getDefaultNumbers);
-    OomTestExecuter::runTest(*this, &t_getDefaultNumbersException);
-    OomTestExecuter::runTest(*this, &t_setNewDefaultNumber);
-    OomTestExecuter::runTest(*this, &t_swapDefaultNumber);
-    //OomTestExecuter::runTest(*this, &t_handleDivertingChanged);
-    //OomTestExecuter::runTest(*this, &t_handleDivertingStatus);
-    //OomTestExecuter::runTest(*this, &t_handleDivertingError);
-    //OomTestExecuter::runTest(*this, &t_handleCFRequesting);
-    OomTestExecuter::runTest(*this, &t_setEngineContact);
-    OomTestExecuter::runTest(*this, &t_handleEmergencyDial);
-    OomTestExecuter::runTest(*this, &t_convertPsCallDivertingCondition);
-    OomTestExecuter::runTest(*this, &t_convertPsCallDivertingStatus);
-    OomTestExecuter::runTest(*this, &t_convertPsCallDivertingSetting);
+    OomTestExecuter::runAllTests(*this, "t_exceptionSafety");
 }
 
 /*!

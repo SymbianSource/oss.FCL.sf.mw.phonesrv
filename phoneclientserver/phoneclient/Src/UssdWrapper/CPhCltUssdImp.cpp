@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include "CPhCltUssdImp.h" 
-#include "CPhCltUssdRequestHandler.h" 
-#include "PhCltClientServer.h" 
+#include "cphcltussdimp.h" 
+#include "cphcltussdrequesthandler.h" 
+#include "phcltclientserver.h" 
 #include <phclttypes.h> 
 
 #include <etelmm.h>
@@ -38,8 +38,8 @@
 #include <gsmerror.h>
 #include <etelsat.h>
 
-#include "MPhCltUssdNoteControllerCallBack.h" 
-#include "CPhCltUssdNoteController.h" 
+#include "mphcltussdnotecontrollercallback.h" 
+#include "cphcltussdnotecontroller.h" 
 
 // CONSTANTS
 

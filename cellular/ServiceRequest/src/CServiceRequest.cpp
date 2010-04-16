@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include    "CServiceRequest.h" 
-#include    "MServiceRequestObserver.h" 
+#include    "cservicerequest.h" 
+#include    "mservicerequestobserver.h" 
 #include    <servicerequest.rsg> 
 
 #include    <AknWaitDialog.h> 

@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include    "CPhCltImageHandlerImplementation.h" 
+#include    "cphcltimagehandlerimplementation.h" 
 
 #ifdef _DEBUG
 #define _DxPRINT( x ) RDebug::Print(_L( x ) );

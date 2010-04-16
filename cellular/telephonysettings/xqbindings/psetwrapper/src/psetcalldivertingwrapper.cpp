@@ -17,8 +17,8 @@
 
 #include <QtGlobal>
 #include <rsssettings.h>
-#include <PsetContainer.h>
-#include <PsetCallDiverting.h>
+#include <psetcontainer.h>
+#include <psetcalldiverting.h>
 #include <mmlist.h>
 #include <cphcltemergencycall.h>
 #include <badesca.h>

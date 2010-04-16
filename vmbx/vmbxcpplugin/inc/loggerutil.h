@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009 -2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -19,9 +19,9 @@
 #define __LOGGERUTIL_H
 
 //  INCLUDES
-#include <QDebug>
-#include <QFile>
-#include <QDateTime>
+#include <qdebug>
+#include <qfile>
+#include <qdatetime>
 
 /***************************
  * LOGGER SETTINGS
@@ -39,9 +39,9 @@
 
 #else
     #ifdef __WINS__
-        #define _LOGGERUTIL_LOGGING_METHOD      2   // UDEB BUILD, WINS
+        #define _LOGGERUTIL_LOGGING_METHOD      1   // UDEB BUILD, WINS
     #else
-        #define _LOGGERUTIL_LOGGING_METHOD      1   // UDEB BUILD, HW
+        #define _LOGGERUTIL_LOGGING_METHOD      2   // HW UDEB
     #endif // __WINS__
 #endif // _DEBUG
 

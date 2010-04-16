@@ -26,7 +26,7 @@
 #include <aknnotewrappers.h>
 #include <bldvariant.hrh>
 #include "psuiconstants.h" 
-#include "PsuiInternalConstants.h" 
+#include "psuiinternalconstants.h" 
 #include "psetcalldiverting.h" 
  
 // FORWARD DECLARATIONS

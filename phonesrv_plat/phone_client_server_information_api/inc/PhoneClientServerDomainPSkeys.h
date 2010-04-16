@@ -30,7 +30,7 @@ const TUid KPSUidPhoneClientServerInformation = {0x102029AA};
 
 /**
 * Indication about operator logo change. 
-* @see TTelOTALogoUpdate in PhoneClientServerDomainPStypes.h
+* @see TTelOTALogoUpdate in phoneclientserverdomainpstypes.h
 * @type RProperty::EByteArray
 */
 

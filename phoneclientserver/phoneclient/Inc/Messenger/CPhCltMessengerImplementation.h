@@ -23,7 +23,7 @@
 
 //  INCLUDES
 #include    <cphcltmessenger.h> 
-#include    "RPhCltMessenger.h" 
+#include    "rphcltmessenger.h" 
 #include    "rphcltserver.h" 
 
 /**

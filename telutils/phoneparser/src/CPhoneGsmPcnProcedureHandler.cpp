@@ -19,7 +19,7 @@
 // INCLUDE FILES
 #include    "cphonegsmpcnprocedurehandler.h" 
 #include    "cphonegsmparserresult.h" 
-#include    "CPhoneGsmPcnProcedureParser.h" 
+#include    "cphonegsmpcnprocedureparser.h" 
 
 // CONSTANTS
 

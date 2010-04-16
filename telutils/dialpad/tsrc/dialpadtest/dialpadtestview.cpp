@@ -29,9 +29,10 @@
 
 #include "dialpadtestview.h"
 #include "dialpad.h"
+#include "dialpadkeyhandler.h"
 
 DialpadTestView::DialpadTestView( HbMainWindow& mainWindow ) :
-    mMainWindow(mainWindow)
+    mMainWindow(mainWindow), mTapOutsideDismiss(0)
 {
     setTitle("DialpadTest");
 
@@ -52,6 +53,8 @@ DialpadTestView::DialpadTestView( HbMainWindow& mainWindow ) :
             SIGNAL(orientationChanged(Qt::Orientation)),
             SLOT(onOrientationChange(Qt::Orientation)));
 
+    menu()->addAction("Tap outside dismiss",this,SLOT(setTapOutsideDismiss()));
+
     // create view widget (recent calls list mockup)
     createListWidget();
 
@@ -66,6 +69,9 @@ DialpadTestView::DialpadTestView( HbMainWindow& mainWindow ) :
     mLongPressTimer = new QTimer(this);
     mLongPressTimer->setSingleShot(true);
     connect(mLongPressTimer,SIGNAL(timeout()),this,SLOT(handleLongKeyPress()));
+    
+    mKeyhandler = new DialpadKeyHandler(mDialpad, mMainWindow, this);
+    
     mMainWindow.installEventFilter(this);
 }
 
@@ -99,10 +105,16 @@ void DialpadTestView::setDialpadPosition()
 
     if (mMainWindow.orientation() == Qt::Horizontal) {
         // dialpad takes half of the screen
-        mDialpad->setPos(QPointF(screenRect.width()/2,
-                                 this->scenePos().y()));
-        mDialpad->setPreferredSize(screenRect.width()/2,
-                                   (screenRect.height()-scenePos().y()));
+        if (layoutDirection() == Qt::LeftToRight) {
+            mDialpad->setPos(QPointF(screenRect.width()/2,
+                                     this->scenePos().y()));
+            mDialpad->setPreferredSize(screenRect.width()/2,
+                                       (screenRect.height()-scenePos().y()));
+        } else {
+            mDialpad->setPos(QPointF(0,this->scenePos().y()));
+            mDialpad->setPreferredSize(screenRect.width()/2,
+                                       (screenRect.height()-scenePos().y()));
+        }
     } else {
         qreal screenHeight = screenRect.height();
         mDialpad->setPos(0, screenHeight/2.25);
@@ -143,7 +155,7 @@ void DialpadTestView::createListWidget()
         phoneNum.append(index);
         listItem->setSecondaryText(phoneNum);
         HbIcon icon(":/qgn_prop_pb_comm_call_large.svg");
-        listItem->setDecorationIcon(icon);
+        listItem->setIcon(icon);
         mListWidget->addItem(listItem);
     }
     setWidget(mListWidget);
@@ -184,6 +196,15 @@ bool DialpadTestView::eventFilter(QObject* watched, QEvent * event)
     return false;
 }
 
+bool DialpadTestView::event(QEvent * event)
+{
+    if (event->type() == QEvent::LayoutDirectionChange) {
+        setDialpadPosition();
+    }
+
+    return HbView::event(event);
+}
+
 void DialpadTestView::handleLongKeyPress()
 {
     HbMessageBox msgBox;
@@ -212,4 +233,10 @@ void DialpadTestView::handleDial()
     msgBox.setTimeout(3000);
 
     msgBox.exec();
+}
+
+void DialpadTestView::setTapOutsideDismiss()
+{
+    mTapOutsideDismiss = !mTapOutsideDismiss;
+    mDialpad->setTapOutsideDismiss(mTapOutsideDismiss);
 }

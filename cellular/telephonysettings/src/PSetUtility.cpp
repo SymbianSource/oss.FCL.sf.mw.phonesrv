@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include "PSetUtility.h" 
+#include "psetutility.h" 
 #include <rsssettings.h> 
-#include "PhoneSettingsLogger.h" 
+#include "phonesettingslogger.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -311,7 +311,6 @@ RMobilePhone::TMobilePhoneCFCondition PSetUtility::GetDivertReason(
         }
     }
 
-// <-- QT PHONE START -->
 // ---------------------------------------------------------------------------
 // 
 // Returns divert reason
@@ -342,7 +341,6 @@ TCallDivertingCondition PSetUtility::GetDivertReason(
            return EDivertConditionNotReachable;
         }
     }
-// <-- QT PHONE END -->
 
 // ---------------------------------------------------------------------------
 // Verify that ALS is really used.

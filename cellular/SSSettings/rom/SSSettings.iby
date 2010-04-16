@@ -18,7 +18,7 @@
 #ifndef __SSSETTINGS_IBY__
 #define __SSSETTINGS_IBY__
 
-file=ABI_DIR\BUILD_DIR\SSSettings.dll       SHARED_LIB_DIR\sssettings.dll
-data=ZSYSTEM\install\sssettings_stub.SIS    System\Install\sssettings_stub.SIS
+file=ABI_DIR\BUILD_DIR\sssettings.dll       SHARED_LIB_DIR\sssettings.dll
+data=ZSYSTEM\install\sssettings_stub.sis    System\Install\sssettings_stub.sis
 
 #endif

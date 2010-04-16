@@ -23,8 +23,8 @@
 
 //  INCLUDES
 
-#include    "RPhCltCommandHandler.h" 
-#include    "RPhCltCommandHandlerNotify.h" 
+#include    "rphcltcommandhandler.h" 
+#include    "rphcltcommandhandlernotify.h" 
 #include    "rphcltserver.h" 
 
 

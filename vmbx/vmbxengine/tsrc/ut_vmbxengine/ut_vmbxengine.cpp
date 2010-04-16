@@ -21,10 +21,10 @@
 #include <hbapplication.h>
 #include <hbmainwindow.h>
 
-#include "../../../inc/cvoicemailbox.h"
-#include "../../../inc/cvoicemailboxentry.h"
-#include "../../../inc/voicemailboxdefs.h"
-#include "../../../inc/mvoicemailboxobserver.h"
+#include <cvoicemailbox.h>
+#include <cvoicemailboxentry.h>
+#include <voicemailboxdefs.h>
+#include <mvoicemailboxobserver.h>
 #include "../../../inc/vmbxqtuihandler.h"
 #include "../../../inc/vmbxuihandler.h"
 
@@ -102,12 +102,12 @@ void Ut_vmbxEngine::testCreateVmbxMailbox()
 // -----------------------------------------------------------------------------
 void Ut_vmbxEngine::testCreateWindow()
 {
-	qDebug("Mt_vmbxEngine::testCreateWindow >");
-	mWindow = new HbMainWindow();
+    qDebug("Ut_vmbxEngine::testCreateWindow >");
+    mWindow = new HbMainWindow();
     QVERIFY(mWindow);
     mWindow->show();
-    qDebug("Mt_vmbxEngine::testCreateWindow Windowshow");
-	qDebug("Mt_vmbxEngine::testCreateWindow <");
+    qDebug("Ut_vmbxEngine::testCreateWindow Windowshow");
+	qDebug("Ut_vmbxEngine::testCreateWindow <");
 }
 // -----------------------------------------------------------------------------
 // Ut_vmbxEngine::testshowVmbxQueryDialog
@@ -116,25 +116,25 @@ void Ut_vmbxEngine::testCreateWindow()
 // -----------------------------------------------------------------------------
 void Ut_vmbxEngine::testshowVmbxQueryDialog()
 {
-	qDebug("Mt_vmbxEngine::testshowVmbxQueryDialog >");
-	QVERIFY(mQtUiHandler);
-	TVmbxType vmbxtype(EVmbxVoice);
-	TVmbxQueryMode queryMode(EVmbxDefineMode);
-	QString number(tr(""));
-	int result(0);
-	mQtUiHandler->showVmbxQueryDialog(
-			EVmbxVoice, EVmbxDefineMode, number, result);
-	if ( KErrCancel == result ) {
-		QCOMPARE(number, tr(""));
-	}
-	number = tr("123456");
-	mQtUiHandler->showVmbxQueryDialog(
-			EVmbxVoice, EVmbxChangeMode, number, result);
-	
-	if ( KErrCancel == result ) {
-		QCOMPARE(number, tr(""));
-	}
-	qDebug("Mt_vmbxEngine::testshowVmbxQueryDialog <");
+    qDebug("Ut_vmbxEngine::testshowVmbxQueryDialog >");
+    QVERIFY(mQtUiHandler);
+    TVmbxType vmbxtype(EVmbxVoice);
+    TVmbxQueryMode queryMode(EVmbxDefineMode);
+    QString number(tr(""));
+    int result(0);
+    mQtUiHandler->showVmbxQueryDialog(
+            EVmbxVoice, EVmbxDefineMode, number, result);
+    if ( KErrCancel == result ) {
+        QCOMPARE(number, tr(""));
+    }
+    number = tr("123456");
+    mQtUiHandler->showVmbxQueryDialog(
+            EVmbxVoice, EVmbxChangeMode, number, result);
+
+    if ( KErrCancel == result ) {
+        QCOMPARE(number, tr(""));
+    }
+    qDebug("Ut_vmbxEngine::testshowVmbxQueryDialog <");
 }
 
 // -----------------------------------------------------------------------------
@@ -150,15 +150,25 @@ void Ut_vmbxEngine::testshowDefineSelectionDialog()
     int result;
     mQtUiHandler->showDefineSelectionDialog(vmbxtype, result);
     if (KErrCancel == result &&  EVmbxNone != vmbxtype) {
-		QFAIL("Ut_vmbxEngine::testshowDefineSelectionDialog:Cancel");   
+        QFAIL("Ut_vmbxEngine::testshowDefineSelectionDialog:Cancel");
     } else if ( KErrNone == result &&  EVmbxNone == vmbxtype ){
-		QFAIL("Ut_vmbxEngine::testshowDefineSelectionDialog:vmbxtype wrong");  
+        QFAIL("Ut_vmbxEngine::testshowDefineSelectionDialog:vmbxtype wrong");
     }
     qDebug("Ut_vmbxEngine::testshowDefineSelectionDialog:vmbxtype%d",
         vmbxtype);
     qDebug("Ut_vmbxEngine::testshowDefineSelectionDialog:result%d",
         result);
     qDebug("Ut_vmbxEngine::testshowDefineSelectionDialog <");
+}
+
+
+void Ut_vmbxEngine::testshowSaveEmptyNote_data()
+{
+    qDebug("Ut_vmbxEngine::testshowSaveEmptyNote_data >");
+    QTest::addColumn<QString>("vmbx");
+    QTest::newRow("CS voice") << "CsVoice";
+    QTest::newRow("CS video") << "CsVideo";
+    qDebug("Ut_vmbxEngine::testshowSaveEmptyNote_data <");
 }
 
 // -----------------------------------------------------------------------------
@@ -172,11 +182,16 @@ void Ut_vmbxEngine::testshowSaveEmptyNote()
     TRAPD(err,mUiHandler = CVmbxUiHandler::NewL());
     QVERIFY2(KErrNone == err, "create CVmbxUiHandler failed");
     TVmbxType vmbxtype(EVmbxVoice);
+    QFETCH(QString, vmbx);
+    if ("CsVoice" == vmbx) {
+        vmbxtype = EVmbxVoice;
+        qDebug("Ut_vmbxEngine::testshowSaveEmptyNote Voice");
+    } else if ("CsVideo" == vmbx) { 
+        vmbxtype = EVmbxVideo;
+        qDebug("Ut_vmbxEngine::testshowSaveEmptyNote Video");
+    }
     mUiHandler->ShowSaveEmptyNote(vmbxtype);
-    qDebug("Ut_vmbxEngine::testQueryVmbxMailbox show voice");
-    vmbxtype = EVmbxVideo;
-    mUiHandler->ShowSaveEmptyNote(vmbxtype);
-    qDebug("Ut_vmbxEngine::testQueryVmbxMailbox show video");
+
     delete mUiHandler;
     mUiHandler = 0;
     qDebug("Ut_vmbxEngine::testshowSaveEmptyNote <");
@@ -189,10 +204,10 @@ void Ut_vmbxEngine::testshowSaveEmptyNote()
 // -----------------------------------------------------------------------------
 void Ut_vmbxEngine::testDeleteWindow()
 {
-    qDebug("Mt_vmbxEngine::testDeleteWindow >");
+    qDebug("Ut_vmbxEngine::testDeleteWindow >");
     delete mWindow;
     mWindow = 0;
-    qDebug("Mt_vmbxEngine::testDeleteWindow <");
+    qDebug("Ut_vmbxEngine::testDeleteWindow <");
 }
 
 // -----------------------------------------------------------------------------

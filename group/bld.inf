@@ -27,7 +27,5 @@
 #include "../phonesrv_plat/group/bld.inf"
 #include "../phonesrv_pub/group/bld.inf"
 #include "../phonecmdhandler/group/bld.inf"
-#include "../vmbx/group/bld.inf"
-
 
 // End of File

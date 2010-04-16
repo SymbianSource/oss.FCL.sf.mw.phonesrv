@@ -16,7 +16,8 @@
 */
 
 #include <PsetContainer.h>
-#include <MPsetNetworkInfoObs.h>
+#include <mpsetnetworkinfoobs.h>
+#include <gsmerror.h>
 #include "ut_psetnetworkwrapper.h"
 #include "testutilities.h"
 #define private public
@@ -88,6 +89,11 @@ class NetworkInfoObserver : public MPsetNetworkInfoObserver
     }
 };
 
+void SimulateLeaveL()
+{
+    User::Leave(KErrGeneral);
+}
+
 /*!
   UT_PSetNetworkWrapper::UT_PSetNetworkWrapper
  */
@@ -156,15 +162,46 @@ void UT_PSetNetworkWrapper::cleanup()
 }
 
 /*!
+  UT_PSetNetworkWrapper::t_construction
+ */
+void UT_PSetNetworkWrapper::t_construction()
+{
+    if (qstrcmp(QTest::currentTestFunction(), "t_exceptionSafety") != 0) {
+        
+        expect("CPsetContainer::CreateNetworkObjectL").
+            willOnce(invokeWithoutArguments(SimulateLeaveL));
+        PSetNetworkWrapper *wrapper = NULL;
+        EXPECT_EXCEPTION(
+            wrapper = new PSetNetworkWrapper(*m_psetContainerMock, NULL);
+            delete wrapper;
+            wrapper = NULL;
+        )
+        QVERIFY(verify());
+        
+        expect("CPsetContainer::CreateNetworkModeObjectL").
+            willOnce(invokeWithoutArguments(SimulateLeaveL));
+        EXPECT_EXCEPTION(
+            wrapper = new PSetNetworkWrapper(*m_psetContainerMock, NULL);
+            delete wrapper;
+            wrapper = NULL;
+        )
+        QVERIFY(verify());
+    }
+}
+
+/*!
   UT_PSetNetworkWrapper::t_getAvailableNetworks
  */
 void UT_PSetNetworkWrapper::t_getAvailableNetworks()
 {
-    expect("CPsetNetwork::GetAvailableNetworksL");
+    expect("CPsetNetwork::GetAvailableNetworksL")
+        .willOnce(invokeWithoutArguments(SimulateLeaveL));
     
-    m_wrapper->getAvailableNetworks();
+    EXPECT_EXCEPTION(
+        m_wrapper->getAvailableNetworks();
+    )
     
-    QVERIFY(true == verify());
+    QVERIFY(verify());
 }
 
 
@@ -196,10 +233,13 @@ void UT_PSetNetworkWrapper::t_getNetworkSelectionMode()
  */
 void UT_PSetNetworkWrapper::t_selectNetwork()
 {
-    expect("CPsetNetwork::SelectNetworkL");
-
+    expect("CPsetNetwork::SelectNetworkL")
+        .willOnce(invokeWithoutArguments(SimulateLeaveL));
+    
     PSetNetworkWrapper::NetworkInfo info;
-    m_wrapper->selectNetwork(info);
+    EXPECT_EXCEPTION(
+        m_wrapper->selectNetwork(info);
+    )
     
     QVERIFY(true == verify());
 }
@@ -221,9 +261,12 @@ void UT_PSetNetworkWrapper::t_cancelRequest()
  */
 void UT_PSetNetworkWrapper::t_getNetworkAccessMode()
 {
-    expect("CPsetNetwork::GetCurrentNetworkModeSelectionL");
+    expect("CPsetNetwork::GetCurrentNetworkModeSelectionL")
+        .willOnce(invokeWithoutArguments(SimulateLeaveL));
     
-    m_wrapper->getNetworkAccessMode();
+    EXPECT_EXCEPTION(
+        m_wrapper->getNetworkAccessMode();
+    )
     
     QVERIFY(true == verify());
 }
@@ -237,12 +280,15 @@ void UT_PSetNetworkWrapper::t_setNetworkAccessMode()
         with(RMmCustomAPI::KCapsNetworkModeDual);
     expect("CPsetNetwork::SetNetworkModeSelectionL").
         with(RMmCustomAPI::KCapsNetworkModeUmts);
-    expect("CPsetNetwork::SetNetworkModeSelectionL").
-        with(RMmCustomAPI::KCapsNetworkModeGsm);
+    expect("CPsetNetwork::SetNetworkModeSelectionL")
+        .with(RMmCustomAPI::KCapsNetworkModeGsm)
+        .willOnce(invokeWithoutArguments(SimulateLeaveL));
     
     m_wrapper->setNetworkAccessMode(PSetNetworkWrapper::AccessModeDual);
     m_wrapper->setNetworkAccessMode(PSetNetworkWrapper::AccessModeUmts);
-    m_wrapper->setNetworkAccessMode(PSetNetworkWrapper::AccessModeGsm);
+    EXPECT_EXCEPTION(
+        m_wrapper->setNetworkAccessMode(PSetNetworkWrapper::AccessModeGsm);
+    )
     
     const int invalidMode = -1;
     m_wrapper->setNetworkAccessMode(
@@ -263,7 +309,13 @@ void UT_PSetNetworkWrapper::t_handleNetworkInfoReceived()
         HandleNetworkInfoReceivedL(infos, KErrNone));
     QVERIFY(KErrArgument == result);
     
-    infos = reinterpret_cast<CNetworkInfoArray*>(this);
+    const TInt KGranularity = 2;
+    infos = new CNetworkInfoArray(KGranularity);
+    QScopedPointer<CNetworkInfoArray> infoArrayGuard(infos);
+    MPsetNetworkSelect::TNetworkInfo info1;
+    MPsetNetworkSelect::TNetworkInfo info2;
+    infos->AppendL(info1);
+    infos->AppendL(info2);
     TRAP(result, m_wrapper->m_privateImpl->
         HandleNetworkInfoReceivedL(infos, KErrNone));
     QVERIFY(KErrNone == result);
@@ -337,25 +389,46 @@ void UT_PSetNetworkWrapper::t_handleCallActivated()
 /*!
   UT_PSetNetworkWrapper::t_handleNetworkErrorFromInfoObserver
  */
+Q_DECLARE_METATYPE(PSetNetworkWrapper::RequestType)
+Q_DECLARE_METATYPE(PSetNetworkWrapper::ErrorCode)
 void UT_PSetNetworkWrapper::t_handleNetworkErrorFromInfoObserver()
 {
+    qRegisterMetaType<PSetNetworkWrapper::RequestType>
+        ("PSetNetworkWrapper::RequestType");
+    qRegisterMetaType<PSetNetworkWrapper::ErrorCode>
+        ("PSetNetworkWrapper::ErrorCode");
+    QSignalSpy spy(m_wrapper, SIGNAL(networkReqestFailed(
+        PSetNetworkWrapper::ErrorCode, PSetNetworkWrapper::RequestType)));
+    
     MPsetNetworkInfoObserver::TServiceRequest request =
         MPsetNetworkInfoObserver::EServiceRequestNone;
-    QT_TRAP_THROWING(m_wrapper->m_privateImpl->
-        HandleNetworkErrorL(request, KErrNone));
+    QT_TRAP_THROWING(m_wrapper->m_privateImpl->HandleNetworkErrorL(
+        request, KErrGsmNetCauseCallActive));
+    QT_TRAP_THROWING(m_wrapper->m_privateImpl->HandleNetworkErrorL(
+        request, KErrGsm0707NoNetworkService));
+    QT_TRAP_THROWING(m_wrapper->m_privateImpl->HandleNetworkErrorL(
+        request, KErrGsmOfflineOpNotAllowed));
+    QT_TRAP_THROWING(m_wrapper->m_privateImpl->HandleNetworkErrorL(
+        request, KErrGeneral));
+    
+    QCOMPARE(spy.count(), 4);
+    QVERIFY(PSetNetworkWrapper::ErrCauseCallActive == 
+        qvariant_cast<PSetNetworkWrapper::ErrorCode>(spy.at(0).at(0)));
+    QVERIFY(PSetNetworkWrapper::ErrNoNetworkService == 
+        qvariant_cast<PSetNetworkWrapper::ErrorCode>(spy.at(1).at(0)));
+    QVERIFY(PSetNetworkWrapper::ErrOfflineOpNotAllowed == 
+        qvariant_cast<PSetNetworkWrapper::ErrorCode>(spy.at(2).at(0)));
+    QVERIFY(PSetNetworkWrapper::ErrNoNetworkAccess == 
+        qvariant_cast<PSetNetworkWrapper::ErrorCode>(spy.at(3).at(0)));
 }
 
 
 /*!
   UT_PSetNetworkWrapper::t_handleNetworkSystemModeEvents
  */
-Q_DECLARE_METATYPE(PSetNetworkWrapper::NetworkAccessMode)
 void UT_PSetNetworkWrapper::t_handleNetworkSystemModeEvents()
 {
-    qRegisterMetaType<PSetNetworkWrapper::NetworkAccessMode>
-        ("PSetNetworkWrapper::NetworkAccessMode");
-    QSignalSpy spy(m_wrapper, 
-        SIGNAL(networkAccessModeGot(PSetNetworkWrapper::NetworkAccessMode)));
+    QSignalSpy spy(m_wrapper, SIGNAL(networkAccessModeGot(int)));
     
     MPsetNetworkModeObserver::TServiceRequest serviceRequest =
         MPsetNetworkModeObserver::EServiceRequestGetCurrentNetworkMode;
@@ -375,14 +448,11 @@ void UT_PSetNetworkWrapper::t_handleNetworkSystemModeEvents()
     
     QCOMPARE(spy.count(), 3);
     const QList<QVariant> &arguments0 = spy.at(0);
-    QVERIFY(PSetNetworkWrapper::AccessModeDual 
-        == arguments0.at(0).value<PSetNetworkWrapper::NetworkAccessMode>());
+    QVERIFY(PSetNetworkWrapper::AccessModeDual == arguments0.at(0).toInt());
     const QList<QVariant> &arguments1 = spy.at(1);
-    QVERIFY(PSetNetworkWrapper::AccessModeUmts 
-        == arguments1.at(0).value<PSetNetworkWrapper::NetworkAccessMode>());
+    QVERIFY(PSetNetworkWrapper::AccessModeUmts == arguments1.at(0).toInt());
     const QList<QVariant> &arguments2 = spy.at(2);
-    QVERIFY(PSetNetworkWrapper::AccessModeGsm 
-        == arguments2.at(0).value<PSetNetworkWrapper::NetworkAccessMode>());
+    QVERIFY(PSetNetworkWrapper::AccessModeGsm == arguments2.at(0).toInt());
     
     // TODO: test skeleton for switch cases not yet implemented 
     serviceRequest = MPsetNetworkModeObserver::EServiceRequestNone;
@@ -412,6 +482,8 @@ void UT_PSetNetworkWrapper::t_handleNetworkErrorFromModeObserver()
  */
 void UT_PSetNetworkWrapper::t_exceptionSafety()
 {
+    cleanup();
+    
     OomTestExecuter::runAllTests(*this, "t_exceptionSafety");
 }
 

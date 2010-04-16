@@ -24,7 +24,7 @@
 #include <badesca.h>
 #include <mmretrieve.h>
 #include <ctsydomaincrkeys.h>
-#include "MCallDiverting.h" 
+#include "mcalldiverting.h" 
 #include "msssettingsobserver.h" 
 #include "nwdefs.h"             
 #include "psetconstants.h" 
@@ -66,12 +66,10 @@ NONSHARABLE_CLASS( CPSetCallDivertingBase ) : public CActive,
         ~CPSetCallDivertingBase();
    
     public: // From base class.
-// <-- QT PHONE START -->
         /**
          * @see MCallDiverting.
          */
         void SetRequestObserver( MPsetRequestObserver* aObs );
-// <-- QT PHONE END -->
 
         /**
         * @see MCallDiverting.
@@ -115,12 +113,6 @@ NONSHARABLE_CLASS( CPSetCallDivertingBase ) : public CActive,
         */ 
         TInt SaveKey( TUint32 aKeyId, const TDesC& aKeyValue );
         
-        /**
-        * @see MCallDiverting.
-        */   
-        // <-- QT PHONE START-->
-        //TInt OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx );
-        // <-- QT PHONE END-->
         /**
         * @see MCallDiverting.
         */

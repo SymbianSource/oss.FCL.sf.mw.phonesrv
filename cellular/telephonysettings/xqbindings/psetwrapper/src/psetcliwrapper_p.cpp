@@ -20,8 +20,8 @@
 #include "psetwrappertypes.h"
 #include "logging.h"
 #include <rsssettings.h>
-#include <PsetContainer.h>
-#include <PsetCli.h>
+#include <psetcontainer.h>
+#include <psetcli.h>
 
 /*!
   PSetCliWrapperPrivate::PSetCliWrapperPrivate

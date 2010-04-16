@@ -198,14 +198,6 @@ void SatAppView::showSetUpMenuContent(
         }
         // connect setup menu item
         connectItem();
-
-        if (mWindow) {
-            //Set the secondary softkey as quit when receiving the
-            //SetUpMenu command
-            TFLOGSTRING("SATAPP: SatAppView::SetUpMenu, \
-                initialize secondary softkey as quit key")
-            mWindow->addSoftKeyAction(Hb::SecondarySoftKey, mSoftKeyQuitAction);
-        }
     }
     TFLOGSTRING("SATAPP: SatAppView::SetUpMenu exit")
 }
@@ -254,8 +246,6 @@ void SatAppView::showSelectItemContent(
             mSelectListWidget->addItem(aMenuItems.at( i ));
         }
     }
-    // Set Back key
-    setSoftkeyBack();
     // connect selectitem 
     connectItem();
 
@@ -336,20 +326,6 @@ void SatAppView::keyPressEvent(QKeyEvent *event)
             }
         }
     TFLOGSTRING("SATAPP: SatAppView::keyPressEvent exit")
-}
-
-// ----------------------------------------------------------------------------
-// SatAppView::setSoftkeyBack
-// (Set back action).
-// ----------------------------------------------------------------------------
-//
-void SatAppView::setSoftkeyBack()
-{
-    TFLOGSTRING("SATAPP: SatAppView::setSoftkeyBack")
-    if (mWindow && mSoftKeyBackAction) {
-        mWindow->addSoftKeyAction(Hb::SecondarySoftKey, mSoftKeyBackAction);
-    }
-    TFLOGSTRING("SATAPP: SatAppView::setSoftkeyBack Exit")
 }
 
 // ----------------------------------------------------------------------------

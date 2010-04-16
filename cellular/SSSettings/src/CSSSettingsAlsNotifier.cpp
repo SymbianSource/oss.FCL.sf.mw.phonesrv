@@ -21,13 +21,13 @@
 #include    <rmmcustomapi.h>
 #include    <startupdomainpskeys.h>
 #include    <centralrepository.h>
-#include    <SSSettingsPrivatePSKeys.h> // sssettings pub&sub keys. 
-#include    <SSSettingsPrivateCRKeys.h> // sssettings centrep keys. 
+#include    <sssettingsprivatepskeys.h> // sssettings pub&sub keys. 
+#include    <sssettingsprivatecrkeys.h> // sssettings centrep keys. 
 #include    <PSVariables.h> 
 
-#include    "CSSSettingsAlsNotifier.h" 
-#include    "CSSSettingsActiveObject.h" 
-#include    "SSSettingsLogger.h" 
+#include    "csssettingsalsnotifier.h" 
+#include    "csssettingsactiveobject.h" 
+#include    "sssettingslogger.h" 
 
 // ================= MEMBER FUNCTIONS =======================
 // -----------------------------------------------------------------------------

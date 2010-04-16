@@ -22,7 +22,7 @@
 // INCLUDES
 
 #include <e32base.h>            // TInt, cbase
-#include "KPhSrvConfigure.h" // Debugging feature defines 
+#include "kphsrvconfigure.h" // Debugging feature defines 
 
 // MACROS
 //----------------------------------------------------------------------------

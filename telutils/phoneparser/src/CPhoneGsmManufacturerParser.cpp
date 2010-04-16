@@ -17,10 +17,10 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneGsmManufacturerParser.h" 
-#include    "CPhoneGsmOptionContainer.h" 
+#include    "cphonegsmmanufacturerparser.h" 
+#include    "cphonegsmoptioncontainer.h" 
 #include    "cphonegsmparserresult.h" 
-#include    "CPhoneParserFeatures.h" 
+#include    "cphoneparserfeatures.h" 
 
 // CONSTANTS
 const TInt KPhoneManufacturerCodeArrayGanularity = 5;

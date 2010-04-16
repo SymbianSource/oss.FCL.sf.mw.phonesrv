@@ -21,8 +21,8 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include "MPhCltUssdRequestHandler.h" 
-#include "MPhCltUssdNoteControllerCallBack.h" 
+#include "mphcltussdrequesthandler.h" 
+#include "mphcltussdnotecontrollercallback.h" 
 #include "rphcltussd.h"
 
 #include "rphcltserver.h" 

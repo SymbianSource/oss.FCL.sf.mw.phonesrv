@@ -22,8 +22,8 @@
 #include <ConeResLoader.h> 
 #include <StringLoader.h> 
 
-#include "PhCltClientServer.h" 
-#include "CPhCltUssdNoteController.h" 
+#include "phcltclientserver.h" 
+#include "cphcltussdnotecontroller.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

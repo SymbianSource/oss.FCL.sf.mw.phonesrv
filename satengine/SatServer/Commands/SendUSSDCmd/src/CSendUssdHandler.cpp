@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -18,6 +18,7 @@
 
 #include    <CPhCltUssdSatClient.h>
 #include	<CPhCltUssd.h>
+#include    <exterror.h>
 
 #include    "MSatSystemState.h"
 #include    "MSatApi.h"
@@ -688,8 +689,18 @@ void CSendUssdHandler::HandleSendUssdResult( TInt aError )
     else if ( TSatExtErrorUtils::IsExtendedError( aError ) ) // extended error
         {
         TUint8 addInfo( 0 );
+        // In subcase 2, SAT always gets KErrGsmCCCallRejected
+        if ( KErrGsmCCCallRejected == aError )   
+           {
+           LOG( SIMPLE, 
+           "SENDUSSD: CSendUssdHandler::HandleSendUssdResult permanent error" )	
+           // ussd request is rejected by SIM
+           iSendUssdRsp.iGeneralResult = RSat::KInteractionWithCCPermanentError;
+           iSendUssdRsp.iInfoType = RSat::KMeProblem;
+           addInfo = RSat::KActionNotAllowed;
+           }   
         // Check and map network failure
-        if ( TSatExtErrorUtils::IsNetworkError( aError ) )
+        else if ( TSatExtErrorUtils::IsNetworkError( aError ) )
             {
             LOG( SIMPLE, 
             "SENDUSSD: CSendUssdHandler::HandleSendUssdResult NetworkError" )
@@ -748,6 +759,16 @@ void CSendUssdHandler::HandleSendUssdResult( TInt aError )
         iSendUssdRsp.iInfoType = RSat::KNoAdditionalInfo;
         iSendUssdRsp.iAdditionalInfo.SetLength( 0 );
         iSendUssdRsp.iAdditionalInfo.Zero();
+        }
+    else if ( KErrSatControl == aError )
+        {
+        LOG( SIMPLE, 
+        "SENDUSSD: CSendUssdHandler::HandleSendUssdResult \
+        KModifiedByCallControl" )
+        iSendUssdRsp.iGeneralResult = RSat::KModifiedByCallControl;
+        iSendUssdRsp.iInfoType = RSat::KNoAdditionalInfo;
+        iSendUssdRsp.iAdditionalInfo.SetLength( 0 );
+        iSendUssdRsp.iAdditionalInfo.Zero(); 
         }
     else if ( KErrNone == aError )   //  Success case
         {

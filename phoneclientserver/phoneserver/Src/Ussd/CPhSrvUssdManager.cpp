@@ -47,7 +47,7 @@
 #include <CPhCltUssd.h>
 #include <avkon.rsg>
 #include <PhoneServer.rsg>
-#include <telephonyvariant.hrh>
+#include <telservicesvariant.hrh>
 #include "PhSrvDebugInfo.h"
 #include <e32property.h>
 
@@ -904,7 +904,7 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
 
         // Play the USSD tone if needed. Logically should be in RunL, but here
         // to give better balancing with voice and visible message.
-        if ( IsTelephonyFeatureSupported( KTelephonyLVFlagUssdTone ) )
+        if ( IsTelephonyFeatureSupported( KTelSrvLVFlagUssdTone ) )
             {
             _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.PlayTone" );
             PlayUssdTone();

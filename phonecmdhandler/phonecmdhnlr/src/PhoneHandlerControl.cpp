@@ -38,6 +38,8 @@
 #include <ctsydomainpskeys.h>
 #include <connect/sbdefs.h>
 #include <coreapplicationuisdomainpskeys.h>
+#include "PhoneHandlerCallArray.h"
+#include <callinformation.h>
 
 // EXTERNAL DATA STRUCTURES
 
@@ -101,7 +103,8 @@ void CPhoneHandlerControl::ConstructL( CRemConInterfaceSelector* aIfSelector )
     	
 	iResponse = CPhoneHandlerResponse::NewL( *this );
 	iCallStateObserver = CPhoneHandlerCallState::NewL( *this );
-			
+    iCallArray = CPhoneHandlerCallArray::NewL();
+    
 	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::ConstructL() end" );
 	}
 
@@ -145,7 +148,9 @@ CPhoneHandlerControl::~CPhoneHandlerControl()
     	{
     	delete iCallStateObserver;
     	}
-            
+    
+    delete iCallArray;
+    
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::~CPhoneHandlerControl() end" );
     }
 
@@ -226,31 +231,36 @@ CRemConCallHandlingTarget&
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-void CPhoneHandlerControl::NotifyCallState( const TInt aState )
+void CPhoneHandlerControl::NotifyCallStateL( const MCall* aCall )
     {
-    COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState() aState=%d", aState );
+    COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState() aCall.CallIndex:%d, aCall.CallState:%d",
+				aCall->CallIndex(), aCall->CallState() );
     
-	if( aState == EPSCTsyCallStateConnected && iPrevState != EPSCTsyCallStateHold )
-		{
-		COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState(): iActiveCalls++" );
-		
-		iActiveCalls++;
-		}
-	else if( aState == EPSCTsyCallStateDisconnecting && 
-			( iPrevState == EPSCTsyCallStateConnected || iPrevState == EPSCTsyCallStateHold ))
-		{
-		COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState(): iActiveCalls--" );
-		
-		iActiveCalls--;
-		}
-	else if( aState == EPSCTsyCallStateNone )
-		{
-		COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState(): iActiveCalls = 0" );
-		iActiveCalls = 0;
-		}
-		
-	iPrevState = aState;
-	COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState() iActiveCalls=%d", iActiveCalls );
+    TCallInfo* call = iCallArray->FindCall( aCall->CallIndex() );
+   
+    if ( call )
+    	{
+    	// If the call is in idle or disconnecting state it can be removed from the array
+    	if ( CCPCall::EStateIdle == aCall->CallState() 
+    			|| CCPCall::EStateDisconnecting == aCall->CallState() )
+    		{
+    		COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState(): remove call" );
+        	iCallArray->Remove( call );
+    		}
+    	else
+    		{
+    		COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState(): update existing call" );
+    		iCallArray->Remove( call );
+    		iCallArray->AddL( aCall );
+    		}
+    	}
+    else
+    	{
+    	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState(): new call" );
+    	iCallArray->AddL( aCall );
+    	}
+	COM_TRACE_3( "[PHONECMDHANDLER] CPhoneHandlerControl::NotifyCallState() connected:%d existing:%d total:%d", 
+			iCallArray->ConnectedCallCount(), iCallArray->ExistingCallCount(), iCallArray->CallCount() );
 	}
 
 // -----------------------------------------------------------------------------
@@ -531,7 +541,7 @@ MPhoneHandlerService* CPhoneHandlerControl::
         case ERemConExtAnswerCall:
 		    {
 		    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - ERemConExtAnswerCall command" );
-		    COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - iActiveCalls is %d", iActiveCalls );
+		    COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - iCallArray->ExistingCallCount() is %d", iCallArray->ExistingCallCount() );
 
 			/*    	    
     	    if( iActiveCalls > 0 )
@@ -563,49 +573,39 @@ MPhoneHandlerService* CPhoneHandlerControl::
         case ERemConExtAnswerEnd:
         	{
         	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - ERemConExtAnswerEnd command" );
-    	            	
-        	TInt callState( EPSCTsyCallStateUninitialized );
-    		iProperty.Get( KPSUidCtsyCallInformation, KCTsyCallState, callState ); 
-    		
-    		COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() call state = %d", callState );
-			   
-		    if( callState != EPSCTsyCallStateUninitialized &&
-		    	callState != EPSCTsyCallStateNone && 
-		    	callState != EPSCTsyCallStateDisconnecting )
-		    	{
-		    	if( callState == EPSCTsyCallStateAlerting ||
-		    		callState == EPSCTsyCallStateDialling ||
-		    		callState == EPSCTsyCallStateAnswering ||
-		    		callState == EPSCTsyCallStateConnected ||
-		    		callState == EPSCTsyCallStateHold )
-		    		{
-		    		pService = CPhoneHandlerEndCall::NewL( *this, 
-		    									   	   aOperation );
-		    		}
-		    	// callState == EPSTelephonyCallStateRinging
-		    	else
-		    		{
-		    		COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() iActiveCalls = %d", iActiveCalls );
-		    		if( iActiveCalls > 0 )
-		    			{
-		    			// multicall case : End call that has existed longer.
-		    			// (From UI viewpoint ringing call is in waiting state.)
-		    			pService = CPhoneHandlerEndCall::NewL( *this, 
-		    									   	   aOperation );
-		    	        if( callState == EPSCTsyCallStateRinging )
-		    	            {
-		    	            // In multiparty case the telephony key is not
-		    	            // updated. The call amount is updated manually.
-		    	            iActiveCalls--;
-		    	            }
-		    			}
-		    		else
-		    			{
-		    			pService = CPhoneHandlerAnswerCall::NewL( 
-		    							*this, 
-		    							aOperation );
-		    			}
-		    		}
+    	       
+        	if( iCallArray->ExistingCallCount() )
+          		{
+          		COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - call(s) exist" );
+          		// If only one call exists and it's state is CCPCall::EStateQueued,
+          		// it is actually in ringing state and should be answered.
+          		if ( NULL == iCallArray->CallByState( CCPCall::EStateRinging ) 
+						&& ( iCallArray->ExistingCallCount() == 1 
+							&& NULL == iCallArray->CallByState( CCPCall::EStateQueued ) ) )
+						{
+						COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - no ringing calls" );
+						pService = CPhoneHandlerEndCall::NewL( *this, 
+														   aOperation );
+						}
+				// Ringing call(s) exist
+				else
+					{
+					if( iCallArray->ExistingCallCount() > 1 )
+						{
+						COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - several ringing calls" );
+						// multicall case : End call that has existed longer.
+						// (From UI viewpoint ringing call is in waiting state.)
+						pService = CPhoneHandlerEndCall::NewL( *this, 
+													   aOperation );
+						}
+					else
+						{
+						COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - single ringing call" );
+						pService = CPhoneHandlerAnswerCall::NewL( 
+										*this, 
+										aOperation );
+						}
+					}
 		    	}
 		    else
 		    	{

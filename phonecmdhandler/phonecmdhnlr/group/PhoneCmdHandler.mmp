@@ -40,6 +40,7 @@ SOURCE		PhoneHandlerMultipartyCall.cpp
 SOURCE		PhoneHandlerDTMF.cpp
 SOURCE		PhoneHandlerResponse.cpp
 SOURCE		PhoneHandlerCallState.cpp
+SOURCE          PhoneHandlerCallArray.cpp
 
 USERINCLUDE     ../inc 
 
@@ -52,6 +53,7 @@ LIBRARY		phoneclient.lib
 LIBRARY 	logcli.lib
 LIBRARY		efsrv.lib
 LIBRARY		pbkeng.lib
+LIBRARY         telephonyservice.lib
 
 MACRO       API_TRACE_FLAG
 MACRO       COMPONENT_TRACE_FLAG

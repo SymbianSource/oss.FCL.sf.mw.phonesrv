@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -102,16 +102,6 @@ private: // private construction method
     void ConstructL();     
 
 private: // New functions
-
-    /**
-     * Duplicate a bitmap by copying memory.
-     *
-     * @param aSrcBmp The source bitmap.
-     * @param aDestBmp The destination bitmap.
-     * @return The error code.
-     */
-    TInt DuplicateBitmap( const CFbsBitmap* aDestBmp,
-                          const CFbsBitmap* aSrcBmp );    
 
     /**
      * Loads the Idle Mode icon from SatIcon.

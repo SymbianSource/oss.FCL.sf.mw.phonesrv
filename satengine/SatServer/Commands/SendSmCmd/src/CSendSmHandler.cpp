@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -136,7 +136,9 @@ void CSendSmHandler::ClientResponse()
 void CSendSmHandler::Event( TInt aEvent )
     {
     LOG( SIMPLE, "SENDSM: CSendSmHandler::Event calling" )
-    LOG2( SIMPLE, "SENDSM:   Event %i", aEvent )
+    LOG2( SIMPLE, "SENDSM: CSendSmHandler::Event iWaitingUiLaunch=%d",  
+    iWaitingUiLaunch ) 
+    LOG2( SIMPLE, "SENDSM: CSendSmHandler::Event IsActive=%d", IsActive() ) 
     if ( MSatUtils::EMoSmControlExecuting == aEvent )
         {
         LOG( NORMAL, "SENDSM:   Event EMoSmControlExecuting" )
@@ -147,7 +149,9 @@ void CSendSmHandler::Event( TInt aEvent )
         LOG( NORMAL, "SENDSM:   Event EMoSmControlDone" )
         iMoSmControlActive = EFalse;
         // Check if Sendsm is waiting.
-        if ( !IsActive() )
+        // Completing call control should not trigger this command handler 
+        // if it is still waiting for UI to be launched. 
+        if ( !IsActive() && !iWaitingUiLaunch ) 
             {
             LOG( SIMPLE, "SENDSM: CSendSmHandler::Event sendsm" )
             // Do the Sendsm.
@@ -513,6 +517,11 @@ void CSendSmHandler::HandleCommand()
     // and sends the command then.
     if ( !iMoSmControlActive )
         {
+        LOG2( SIMPLE,  
+        "SENDSM: CSendSmHandler::HandleCommand: !iMoSmControlActive, \
+        iNeedUiSession=%d",
+        iNeedUiSession ) 
+
         iUtils->NotifyEvent( MSatUtils::ESendSmExecuting );
 
         if ( !iNeedUiSession )
@@ -614,6 +623,8 @@ void CSendSmHandler::HandleCommand()
                     ESatSProactiveNotificationResponse,
                     this ) )
 
+                LOG( SIMPLE, 
+                    "SENDSM: CSendSmHandler::HandleCommand send ui notification" )
                 iUtils->SatUiHandler().UiSession()->SendCommand(
                     &iNotificationDataPckg,
                     &iNotificationRspPckg,
@@ -623,6 +634,8 @@ void CSendSmHandler::HandleCommand()
                 }
             else
                 {
+                LOG( SIMPLE, 
+                "SENDSM: CSendSmHandler::HandleCommand user confirmation needed" ) 
                 // Register service request handler for SendSm command,
                 // If there is already service request for query, registering
                 // updates command handler, so client responses comes to this
@@ -633,6 +646,9 @@ void CSendSmHandler::HandleCommand()
                     this ) )
 
                 iNotificationSent = EFalse;
+
+                LOG( SIMPLE, 
+                "SENDSM: CSendSmHandler::HandleCommand send user confirmation request" ) 
 
                 // Ask the user permission to send sms. Reply will come
                 // to ClientResponse method.

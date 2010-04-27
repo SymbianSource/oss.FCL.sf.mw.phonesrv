@@ -26,6 +26,7 @@
 #include <e32base.h>
 #include <PhCltTypes.h>	
 #include <e32property.h> 
+#include <ccpdefs.h>
 
 // CONSTANTS
 
@@ -42,6 +43,8 @@ class CRemConInterfaceSelector;
 class CRemConCallHandlingTarget;
 class CPhoneHandlerResponse;
 class CPhoneHandlerCallState;
+class CPhoneHandlerCallArray;
+class MCall;
 
 /**
 * Receives call handling related key presses from accessories and executes 
@@ -119,11 +122,11 @@ NONSHARABLE_CLASS( CPhoneHandlerControl ) : public CBase,
 		
 		/**
         * Informs the latest call state.
-        * @since S60 3.1
-        * @param aState Call state from KTelephonyCallState P&S key
-        * @return void
+        * @since S60 9.2
+        * @param aCall Call from MCallInformationObserver
+          * @return void
         */
-		void NotifyCallState( const TInt aState );
+		void NotifyCallStateL( const MCall* aCall );
 
 		/**
         * Get iSwitchCall flag, if this flag is ETrue, it means
@@ -267,16 +270,13 @@ NONSHARABLE_CLASS( CPhoneHandlerControl ) : public CBase,
         // Previous call state
         TInt iPrevState;
         
-        // Number of active calls
-        // Used to determine whether there's a multicall case when call state
-        TInt iActiveCalls;
-        
         // switch phonecall by press "Send" key
         TBool iSwitchCall;
         
         // Listens to phone call state changes.
         CPhoneHandlerCallState* iCallStateObserver;
         
+        CPhoneHandlerCallArray* iCallArray;
                     
     public:     // Friend classes
     

@@ -429,11 +429,8 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
             else
                 {
                 iPhoneBookType = EMBDNPhoneBook;
-                // set ALS line, if identifier reading returns -1
-                if ( KErrNotFound == result )
-                    {
-                    iPhoneVoicemailInfo.iVoice = alsline;
-                    }
+                // if mbdn file can be found, set the entry index to EAlsLine1
+                iPhoneVoicemailInfo.iVoice = EAlsLine1;
 
                 // try to open mbdn-type phonebook
                 result = iPhoneBook.Open( iPhone, KETelIccMbdnPhoneBook );
@@ -445,13 +442,18 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
                     VMBLOGSTRING2( "Mbdn phonebook opening again \
                     result = %I ", result );
                     }
-                // close phonebook when error in opening or GetInfo
+                // close mbdn phonebook when error in opening or GetInfo 
+                // to test vmbx-phonebook
                 if ( KErrNone != result )
                     {
                     VMBLOGSTRING( "Close MBDN phonebook" );
                     iPhoneBook.Close();
+                    iMbdnPhonebookOk = EFalse;
+                    // try open vmbx-phonebook next 
+                    iPhoneBookType = EVMBXPhoneBook;
                     }
-                // close phonebook when no number founf to test vmbx-phonebook
+                // close mbdn phonebook when no number found 
+                // to test vmbx-phonebook
                 else if ( ( KErrNone == result ) && iNoNumberFound )
                     {
                     VMBLOGSTRING( "mbdn close, number not found" );
@@ -2377,6 +2379,8 @@ void RVmbxNumber::PhonebookReadL( TVmbxEntry& aEntry )
     if ( iPhoneBookType == EMBDNPhoneBook )
         {
         VMBLOGSTRING( "start MBDN PhoneBook read" );
+        VMBLOGSTRING2( "VMBX: RVmbxNumber::PhonebookReadL: \
+        iPhoneVoicemailInfo.iVoice = %I", iPhoneVoicemailInfo.iVoice );
         iPhoneBook.Read( status, iPhoneVoicemailInfo.iVoice,
                                                         numEntries, pbData );
         }
@@ -2572,6 +2576,8 @@ TInt RVmbxNumber::PhonebookWrite( TVmbxEntry& aEntry )
     if ( iPhoneBookType == EMBDNPhoneBook )
         {
         TInt index = iPhoneVoicemailInfo.iVoice;
+        VMBLOGSTRING2( "VMBX: RVmbxNumber::PhonebookWrite: \
+        iPhoneVoicemailInfo.iVoice index = %I", index );
         iPhoneBook.Write( status, pbData, index );
         VMBLOGSTRING( "Mbdn writing" );
         }

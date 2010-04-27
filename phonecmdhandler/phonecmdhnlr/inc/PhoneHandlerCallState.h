@@ -23,6 +23,8 @@
 // INCLUDES
 #include <e32base.h>
 #include <e32property.h>
+#include <ccallinformation.h>
+#include <mcallinformationobserver.h>
 
 // CONSTANTS
 
@@ -43,7 +45,7 @@ class CPhoneHandlerControl;
 *  @lib RemConAsy
 *  @since S60 3.1
 */
-NONSHARABLE_CLASS( CPhoneHandlerCallState ) : public CActive
+NONSHARABLE_CLASS( CPhoneHandlerCallState ) : public CBase, public MCallInformationObserver
 	{
 	public:	// Constructors and destructor
 	
@@ -57,25 +59,6 @@ NONSHARABLE_CLASS( CPhoneHandlerCallState ) : public CActive
         */
 		~CPhoneHandlerCallState();
 	
-	public: // New functions
-				
-	public: // Functions from base classes
-		
-	protected:  // New functions
-    
-    protected:  // Functions from base classes
-    
-    	/**
-        * From CActive. Handles S60 start up state change event.
-        */
-    	void RunL();
-	
-		/**
-        * From CActive. Implements cancellation of an outstanding Subscibe() 
-        * request.
-        */
-		void DoCancel();
-	
 	private:
 		
 		/**
@@ -87,11 +70,22 @@ NONSHARABLE_CLASS( CPhoneHandlerCallState ) : public CActive
         * By default Symbian 2nd phase constructor is private.
         */
 		void ConstructL();
+
+		/**
+		* Signals that there are changes in ongoing calls.
+		*    
+		* @return void
+		*/
+		void CallInformationChangedL();
+     	
+		// From MCallInformationObserver
 		
 		/**
-      	* Starts to listen change in S60 start up state.
-     	**/
-     	void Subscribe();
+		* Signals that there are changes in ongoing calls.
+		*    
+		* @return void
+		*/
+		void CallInformationChanged();
 	
 	public:     // Data
     
@@ -99,9 +93,8 @@ NONSHARABLE_CLASS( CPhoneHandlerCallState ) : public CActive
     
     private:    // Data
     
-    	// Publish and Subscribe handle used to listen changes in call states 
-    	RProperty iProperty;
-						
+    	CCallInformation* iInfo;
+
 		// reference to control
         CPhoneHandlerControl& iControl;
 		

@@ -185,6 +185,9 @@ class CSatCommandHandler : public CActive, public MSatEventObserver,
         // Utils interface
         MSatUtils* iUtils;
 
+        // Indicates that command is pending for UI to launch
+        TBool iWaitingUiLaunch;
+
     private:    // Data
 
         // Requiered attribute for the ECOM framework.
@@ -197,8 +200,6 @@ class CSatCommandHandler : public CActive, public MSatEventObserver,
         // starting to handle pending proactive command.
         RTimer iDelayTimer;
 
-        // Indicates that command is pending for UI to launch
-        TBool iWaitingUiLaunch;
     };
 
 #endif      // CSATCOMMANDHANDLER_H

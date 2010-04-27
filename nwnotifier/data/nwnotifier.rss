@@ -17,7 +17,7 @@
 
 //  INCLUDES
 #include <eikon.rh>
-#include "../loc/networknotifier.loc" 
+#include <networknotifier.loc>
 
 NAME NWNS
 

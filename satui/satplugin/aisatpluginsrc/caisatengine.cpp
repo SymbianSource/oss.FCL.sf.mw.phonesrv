@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -119,6 +119,7 @@ void CAiSatEngine::ContentIconL( CGulIcon*& aGulIcon )
     // destroying the bitmap owned by UAA.
     if ( iIcon )
         {
+        TFLOGSTRING( "CAiSatEngine::ContentIconL iIcon != NULL" )
         // The bitmap for publishing.
         CFbsBitmap* bitmapToPublish( NULL );    
                   
@@ -127,17 +128,18 @@ void CAiSatEngine::ContentIconL( CGulIcon*& aGulIcon )
 
         TSize size = iIcon->SizeInPixels();
         TInt error = bitmapToPublish->Create( size, iIcon->DisplayMode() ); 
-         
+        TFLOGSTRING2( "CFbsBitmap::Create returns %d", error )
         // Duplicate the bitmap owned by UAA into the new bitmap.
         if ( !error )
             {
-            error = DuplicateBitmap( bitmapToPublish, iIcon );        
+            error = bitmapToPublish->Duplicate( iIcon->Handle() );
+            TFLOGSTRING2( "CFbsBitmap::Duplicate returns %d", error )
             if ( !error )
                 {
                 // Create a icon from the bitmap and publish it.
                 aGulIcon = CGulIcon::NewL( bitmapToPublish );
                 CleanupStack::Pop( bitmapToPublish );        
-                TFLOGSTRING( "CAiSatEngine::ContentIconL create GulIcon" )                
+                TFLOGSTRING( "CAiSatEngine::ContentIconL create GulIcon" )
                 }
             } 
         if ( error )  
@@ -146,7 +148,7 @@ void CAiSatEngine::ContentIconL( CGulIcon*& aGulIcon )
             aGulIcon = NULL;
             }        
         }   
-    TFLOGSTRING( "CAiSatEngine::ContentIconL exits" )    
+    TFLOGSTRING( "CAiSatEngine::ContentIconL exits" )
     }
 
 //------------------------------------------------------------------------------
@@ -305,46 +307,4 @@ void CAiSatEngine::SendSatResponseL(
     TFLOGSTRING( "CAiSatEngine::SendSatResponseL exits" )
     }
       
-// ---------------------------------------------------------------------------
-// Duplicate a bitmap by copying memory.
-// ---------------------------------------------------------------------------
-//
-TInt CAiSatEngine::DuplicateBitmap( const CFbsBitmap* aDestBmp,
-                                    const CFbsBitmap* aSrcBmp )
-    {
-    TFLOGSTRING( "CAiSatPlugin::DuplicateBitmap() called" )
-
-    TInt error( KErrGeneral );
-
-    // Get display mode about bitmap
-    TDisplayMode bmpDisplayMode = aSrcBmp->DisplayMode();
-
-    // Get size and scan line length of the source bitmap.
-    TSize size = aSrcBmp->SizeInPixels();
-    TInt scanLineLength = CFbsBitmap::ScanLineLength( 
-                            size.iWidth, bmpDisplayMode );
-    TInt bitmapHeight = size.iHeight;
-
-    TUint* bufUint = new TUint[ scanLineLength ];
-    if ( bufUint )
-        {
-        TPtr8 bufPtr ( ( TUint8* )bufUint, scanLineLength, scanLineLength );
-        // Initialize the pixel data for destination bitmap
-        for ( TInt pixelIndex = 0; pixelIndex < bitmapHeight; ++pixelIndex )
-            {
-            TPoint pixelPoint( 0, pixelIndex );
-            aSrcBmp->GetScanLine( bufPtr, pixelPoint,
-            scanLineLength, bmpDisplayMode );
-            aDestBmp->SetScanLine( bufPtr, pixelIndex );
-            }
-        error = KErrNone;
-        TFLOGSTRING3( "CAiSatPlugin::DuplicateBitmap() \
-        scanLineLength = %d bitmapHeight = %d", scanLineLength, bitmapHeight )
-        }
-
-    delete bufUint;
-    bufUint = NULL;
-
-    TFLOGSTRING( "CAiSatPlugin::DuplicateBitmap() exits" )
-    return error;
-    }  
+// End Of File 

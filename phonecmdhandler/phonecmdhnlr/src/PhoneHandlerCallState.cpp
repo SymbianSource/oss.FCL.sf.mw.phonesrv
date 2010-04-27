@@ -22,6 +22,11 @@
 #include "PhoneHandlerDebug.h"
 #include <ctsydomainpskeys.h>
 
+#include <ccallinformation.h>
+#include <mcall.h>
+#include <ccallinfoiter.h>
+
+
 // EXTERNAL DATA STRUCTURES
 
 // EXTERNAL FUNCTION PROTOTYPES  
@@ -50,10 +55,8 @@
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerCallState::CPhoneHandlerCallState( CPhoneHandlerControl& aControl )
-:	CActive(CActive::EPriorityStandard),
-	iControl( aControl )
+:	iControl( aControl )
 	{
-	CActiveScheduler::Add(this);
 	} 
 
 // -----------------------------------------------------------------------------
@@ -65,11 +68,9 @@ void CPhoneHandlerCallState::ConstructL()
 	{
 	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallState::ConstructL() start" );
 	
-	// Allows CPhoneHandlerCallState to start to listen S60 call states.
-	User::LeaveIfError( 
-		iProperty.Attach( KPSUidCtsyCallInformation, KCTsyCallState ) );
-		
-	Subscribe();
+	// Allows CPhoneHandlerCallState to start to listen call states.
+	iInfo = CCallInformation::NewL();
+	iInfo->NotifyCallInformationChanges(*this);
 	
 	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallState::ConstructL() end" );
 	}
@@ -94,62 +95,40 @@ CPhoneHandlerCallState* CPhoneHandlerCallState::NewL( CPhoneHandlerControl& aCon
 CPhoneHandlerCallState::~CPhoneHandlerCallState()
 	{
 	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallState::~CPhoneHandlerCallState() start" );
-	
-	Cancel();
-	iProperty.Cancel();
-    iProperty.Close();
-	
+	    
+    if ( iInfo )
+    	{
+    	iInfo->CancelNotification();
+    	delete iInfo;
+    	}    
+
 	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallState::~CPhoneHandlerCallState() end" );
 	}
 
 // -----------------------------------------------------------------------------
-// CPhoneHandlerCallState::RunL()
-// Informs caller of an asynchronous request that it has been completed.
-// (other items were commented in a header).
+// CPhoneHandlerCallState::CallInformationChanged
 // -----------------------------------------------------------------------------
 //
-void CPhoneHandlerCallState::RunL()
+void CPhoneHandlerCallState::CallInformationChanged()
 	{
-	COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerCallState::RunL() - return code = %d", iStatus.Int() );
-		
-	TInt state( 0 );
-	iProperty.Get( state );
-	
-	COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerCallState - KTelephonyCallState = %d", state );
-		
-	if( iStatus.Int() == KErrNone )
-		{
-		iControl.NotifyCallState( state );
-		}
-		
-	Subscribe();
+    TRAP_IGNORE( CallInformationChangedL() );
     }
 
 // -----------------------------------------------------------------------------
-// CPhoneHandlerCallState::DoCancel
-// (other items were commented in a header).
+// CPhoneHandlerCallState::CallInformationChangedL
 // -----------------------------------------------------------------------------
 //
-void CPhoneHandlerCallState::DoCancel()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallState::DoCancel()" );
-	
-	iProperty.Cancel();
-	}
+void CPhoneHandlerCallState::CallInformationChangedL()
+    {
+     CCallInfoIter& iter = iInfo->GetCallsL();    
+     for( iter.First(); !iter.IsDone(); iter.Next() )
+         {
+         const MCall* call ( &iter.Current() );
+         if ( call )
+        	 {
+        	 iControl.NotifyCallStateL( call );
+        	 }
+         }
+    }
 
-// -----------------------------------------------------------------------------
-// CPhoneHandlerCallState::Subscribe
-// Start to listen changes in call state.
-// (other items were commented in a header).
-// -----------------------------------------------------------------------------
-//
-void CPhoneHandlerCallState::Subscribe()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallState::Subscribe()" );
-	
-    iProperty.Subscribe( iStatus );
-    SetActive();
-	}
-
-//
 // End of file

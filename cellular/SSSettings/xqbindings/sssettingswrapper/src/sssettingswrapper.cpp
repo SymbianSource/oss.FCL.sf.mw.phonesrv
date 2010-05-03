@@ -17,7 +17,7 @@
 
 
 #include <sssettingswrapper.h>
-#include <RSSSettings.h>
+#include <rsssettings.h>
 #include "sssettingswrapper_p.h"
 #include "logging.h"
 

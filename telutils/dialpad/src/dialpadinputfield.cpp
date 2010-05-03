@@ -51,6 +51,7 @@ DialpadInputField::DialpadInputField(QGraphicsItem* parent)
     mFunctionButtonStyle->setButtonStyle(
         DialpadButtonStyle::FunctionButtonStyle);
     mBackspace->setStyle(mFunctionButtonStyle);
+    mBackspace->setButtonType(DialpadButton::FunctionButton); // for css
     mBackspace->setFocusPolicy(Qt::NoFocus);
     mBackspace->setFlag(QGraphicsItem::ItemIsFocusable,false);
     mBackspace->setIcon(HbIcon(HbBackspaceIcon));

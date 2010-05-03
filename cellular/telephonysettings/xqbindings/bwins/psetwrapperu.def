@@ -125,4 +125,6 @@ EXPORTS
 	??0PSetCallWaitingWrapper@@QAE@AAVCPsetContainer@@PAVQObject@@@Z @ 124 NONAME ; PSetCallWaitingWrapper::PSetCallWaitingWrapper(class CPsetContainer &, class QObject *)
 	??_EPSetCallWaitingWrapper@@UAE@I@Z @ 125 NONAME ; PSetCallWaitingWrapper::~PSetCallWaitingWrapper(unsigned int)
 	?getStaticMetaObject@PSetNetworkWrapper@@SAABUQMetaObject@@XZ @ 126 NONAME ; struct QMetaObject const & PSetNetworkWrapper::getStaticMetaObject(void)
+	?barringPasswordChangeRequestCompleted@PSetCallBarringWrapper@@IAEXH@Z @ 127 NONAME ; void PSetCallBarringWrapper::barringPasswordChangeRequestCompleted(int)
+	?changeBarringPassword@PSetCallBarringWrapper@@QAEXABVQString@@00@Z @ 128 NONAME ; void PSetCallBarringWrapper::changeBarringPassword(class QString const &, class QString const &, class QString const &)
 

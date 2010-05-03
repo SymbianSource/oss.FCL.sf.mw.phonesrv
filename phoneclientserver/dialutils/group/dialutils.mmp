@@ -24,8 +24,8 @@ TARGETTYPE      dll
 UID             0x1000008d 0x101F8747
 
 SOURCEPATH      ../src
-SOURCE          DialUtilsImpl.cpp 
-SOURCE          DialUtilsFactImpl.cpp 
+SOURCE          dialutilsimpl.cpp 
+SOURCE          dialutilsfactimpl.cpp 
 
 USERINCLUDE     ../inc
 

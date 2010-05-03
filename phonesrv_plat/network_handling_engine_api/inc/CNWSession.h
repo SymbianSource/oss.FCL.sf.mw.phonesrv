@@ -20,7 +20,7 @@
 #define CNWSESSION_H
 
 //  INCLUDES
-#include "NWHandlingEngine.h"
+#include "nwhandlingengine.h" 
 
 
 // CLASS DECLARATION

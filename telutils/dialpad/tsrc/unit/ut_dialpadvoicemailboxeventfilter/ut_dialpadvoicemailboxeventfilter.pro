@@ -17,7 +17,7 @@
 
 TEMPLATE = app
 TARGET =
-INCLUDEPATH += . ../../../inc  ../shared
+INCLUDEPATH += . ../../../inc ../../../../../inc  ../shared
 
 CONFIG += hb qtestlib
 

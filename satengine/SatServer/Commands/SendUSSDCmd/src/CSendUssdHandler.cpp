@@ -739,6 +739,16 @@ void CSendUssdHandler::HandleSendUssdResult( TInt aError )
         iSendUssdRsp.iAdditionalInfo.SetLength( 1 );
         iSendUssdRsp.iAdditionalInfo[0] = RSat::KNoSpecificMeProblem;
         }
+    else if ( KErrSatBusy == aError )
+        {
+        LOG( SIMPLE, 
+        "SENDUSSD: CSendUssdHandler::HandleSendUssdResult \
+        KInteractionWithCCTemporaryError" )
+        iSendUssdRsp.iGeneralResult = RSat::KInteractionWithCCTemporaryError;
+        iSendUssdRsp.iInfoType = RSat::KNoAdditionalInfo;
+        iSendUssdRsp.iAdditionalInfo.SetLength( 0 );
+        iSendUssdRsp.iAdditionalInfo.Zero();
+		}
     else if ( KErrNone == aError )   //  Success case
         {
         LOG( SIMPLE, 

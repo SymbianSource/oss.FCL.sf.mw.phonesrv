@@ -15,7 +15,6 @@
 *
 *
 */
-#include <exception>
 
 #include "tflogger.h"
 #include "satappgetinkeynote.h"

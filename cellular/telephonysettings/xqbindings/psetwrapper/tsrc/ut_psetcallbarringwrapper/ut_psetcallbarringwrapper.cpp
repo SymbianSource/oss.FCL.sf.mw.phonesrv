@@ -74,6 +74,10 @@ class BarringObserver : public MPsetBarringObserver
     }
 };
 
+void simulateLeaveL()
+{
+    User::Leave(KErrGeneral);
+}
 
 /*!
   UT_PSetCallBarringWrapper::UT_PSetCallBarringWrapper
@@ -325,6 +329,16 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         ServiceGroupVoice, 
         PSetCallBarringWrapper::BarringTypeAllIncomingServices,
         QString("1234"));
+
+// error handling    
+    EXPECT(CPsetCallBarring::SetBarringL)
+        .willOnce(invokeWithoutArguments(simulateLeaveL));
+    EXPECT_EXCEPTION(
+        m_wrapper->enableBarring(
+            ServiceGroupVoice, 
+            PSetCallBarringWrapper::BarringTypeAllIncomingServices,
+            QString("1234"));
+    )
     
     QVERIFY(verify());
 }
@@ -412,6 +426,46 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         PSetCallBarringWrapper::BarringTypeAllIncomingServices,
         QString("1234"));
     
+// error handling    
+    EXPECT(CPsetCallBarring::SetBarringL)
+        .willOnce(invokeWithoutArguments(simulateLeaveL));
+    EXPECT_EXCEPTION(
+        m_wrapper->disableBarring(
+            ServiceGroupVoice, 
+            PSetCallBarringWrapper::BarringTypeAllIncomingServices,
+            QString("1234"));
+    )
+    
+    QVERIFY(verify());
+}
+
+
+/*!
+  UT_PSetCallBarringWrapper::t_changeBarringPassword
+ */
+void UT_PSetCallBarringWrapper::t_changeBarringPassword()
+{
+    QString oldPassword = "1234";
+    QString newPassword = "4321";
+    QString verifiedPassword = "4321";
+    RMobilePhone::TMobilePhonePasswordChangeV2 passwordChange;
+    passwordChange.iOldPassword.Copy(oldPassword.utf16());
+    passwordChange.iNewPassword.Copy(newPassword.utf16());
+    passwordChange.iVerifiedPassword.Copy(verifiedPassword.utf16());
+    EXPECT(CPsetCallBarring::ChangePasswordL)
+        .with(passwordChange);
+    
+    m_wrapper->changeBarringPassword(
+        oldPassword, newPassword, verifiedPassword);
+    
+// error handling    
+    EXPECT(CPsetCallBarring::ChangePasswordL)
+        .willOnce(invokeWithoutArguments(simulateLeaveL));
+    EXPECT_EXCEPTION(
+        m_wrapper->changeBarringPassword(
+            oldPassword, newPassword, verifiedPassword);
+    )
+    
     QVERIFY(verify());
 }
 
@@ -484,10 +538,10 @@ void UT_PSetCallBarringWrapper::t_SetEngineContact()
  */
 void UT_PSetCallBarringWrapper::t_CbPasswordChangedL()
 {
-    // TODO: dummy test as functionality not yet implemented
     TBool success = EFalse;
     QT_TRAP_THROWING(
-        m_wrapper->m_privateImpl->CbPasswordChangedL(success);
+        m_wrapper->m_privateImpl->CbPasswordChangedL(ETrue);
+        m_wrapper->m_privateImpl->CbPasswordChangedL(EFalse);
     )
 }
 
@@ -709,6 +763,34 @@ void UT_PSetCallBarringWrapper::t_disableBarringRequestComplete()
     QCOMPARE(spy.at(0).at(2).value<PSetCallBarringWrapper::BarringStatus>(), 
         PSetCallBarringWrapper::BarringStatusNotProvisioned);
     QCOMPARE(spy.at(0).at(3).toBool(), false);
+}
+
+
+/*!
+  UT_PSetCallBarringWrapper::t_changeBarringPasswordRequestComplete
+ */
+void UT_PSetCallBarringWrapper::t_changeBarringPasswordRequestComplete()
+{
+    QSignalSpy spy(
+        m_wrapper, 
+        SIGNAL(barringPasswordChangeRequestCompleted(int)));
+    
+    QString oldPassword = "1234";
+    QString newPassword = "4321";
+    QString verifiedPassword = "4321";
+    m_wrapper->changeBarringPassword(
+        oldPassword, newPassword, verifiedPassword);
+    
+    m_wrapper->m_privateImpl->RequestComplete();
+    
+    if (qstrcmp(QTest::currentTestFunction(), "t_exceptionSafety") == 0) {
+        // Signal emissions from RequestComplete will fail with exception safety 
+        // tests so it's not possible to verify signal data.
+        return;
+    }
+    
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy.at(0).at(0).toInt(), 0);
 }
 
 

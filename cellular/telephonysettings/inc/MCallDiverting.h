@@ -29,12 +29,10 @@
 class MCallDiverting
     {
     public:
-// <-- QT PHONE START -->
         /**
          * Sets observer which informs when request is completed
          */
         virtual void SetRequestObserver( MPsetRequestObserver* aObs ) = 0;
-// <-- QT PHONE END -->
     
         /**
         * Sets diverting to the network.
@@ -114,16 +112,6 @@ class MCallDiverting
         */
         virtual TInt SaveKey( TUint32 aKeyId, const TDesC& aKeyValue ) = 0;
         
-        /**
-        * Opens Vmbx connection. Leaves vmbx to the stack. 
-        * 
-        * @param aTelNumber vmbx number.
-        * @param aVmbx vmbx connection.
-        * @return used vmbx number.
-        */ 
-        // <-- QT PHONE START-->
-        //virtual TInt OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx ) = 0;
-        // <-- QT PHONE END-->
         /*
         * Virtual destructor. 
         */ 

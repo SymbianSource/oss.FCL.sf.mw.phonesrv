@@ -25,6 +25,7 @@
 #include    <settingsinternalcrkeys.h>
 #include    <gulicon.h> //for itemsicon
 #include    <fbs.h>
+#include    <HbGlobal>
 
 #include    "csatuiobserver.h"
 #include    "msatuiactionimplementer.h"
@@ -85,24 +86,6 @@ CSatUiObserver::CSatUiObserver():
 void CSatUiObserver::ConstructL()
     {
     TFLOGSTRING("SATAPP: CSatUiObserver::ConstructL called")
-
-    //Register to Server as subsession
-    //If Server is not up, this function call may take time
-    iSatSession.ConnectL();
-
-    iSat.RegisterL(iSatSession, this);
-    iAdapter = iSat.Adapter();
-    if (!iAdapter)
-        {
-        User::Leave(KErrNotFound);
-        }
-
-    // create icon handler
-    //iIconHandler = CSatUiIconHandler::NewL();
-
-    //Item icons
-    //iItemIcons = new (ELeave) CAknIconArray(1);
-
     TFLOGSTRING("SATAPP: CSatUiObserver::ConstructL exit")
     }
 
@@ -131,23 +114,8 @@ CSatUiObserver* CSatUiObserver::NewL()
 CSatUiObserver::~CSatUiObserver()
     {
     TFLOGSTRING("SATAPP: CSatUiObserver::~CSatUiObserver() called")
-
-    iSat.Close();
-    iSatSession.Close();
-
-//    if (iItemIcons)
-//        {
-//        iItemIcons->ResetAndDestroy();
-//        delete iItemIcons;
-//        }
-
-    // delete icon handler
-//    delete iIconHandler;
-//    iIconHandler = NULL;
-
     iActionImplementer = NULL;
     iAdapter = NULL;
-
     TFLOGSTRING("SATAPP: CSatUiObserver::~CSatUiObserver() exit")
     }
 
@@ -242,19 +210,19 @@ TSatUiResponse CSatUiObserver::DisplayTextL(
             aSustainedText, aDuration, aWaitUserToClear);
        );
 
-    if (err != KErrNone)
+    if ( KErrNone != err )
         {
         response = ESatFailure;
         aRequestedIconDisplayed = EFalse;
         }
 
-    if (iActionImplementer->GetEndKey())
+    if ( iActionImplementer->GetEndKey() )
         {
         response = ESatSessionTerminatedByUser;
-        iActionImplementer->SetEndKey(EFalse);
+        iActionImplementer->SetEndKey( EFalse );
         }
 
-    iActionImplementer->SetCommandPending(EFalse);
+    iActionImplementer->SetCommandPending( EFalse );
 
     TFLOGSTRING2("SATAPP: CSatUiObserver::DisplayText exit, return: %d", \
         response)
@@ -289,7 +257,7 @@ TSatUiResponse CSatUiObserver::GetInkeyL(
         input.Fill(aInput, 1);
         }
 
-    if ((aCharacterSet == ESatYesNo) && (aText.Length() == 0))
+    if ( ( ESatYesNo == aCharacterSet ) && (aText.Length() == 0) )
         {
         TFLOGSTRING("SATAPP: CSatUiObserver::GetInkey return ESatFailure")
         return ESatFailure;
@@ -343,17 +311,14 @@ TSatUiResponse CSatUiObserver::GetInkeyL(
                 aText, aCharacterSet, input, 1, 1, EFalse, ETrue,
                 iconBitmapGetInkey, selfExplanatory, aDuration);
 
-            if (ESatSuccess == response)
+            if ( ESatSuccess == response && input.Length() )
                 {
-                if (input.Length())
-                    {
-                    aInput = input[0];
-                    }
+                aInput = input[0];
                 }
             }
        );
 
-    if (err != KErrNone)
+    if ( KErrNone != err )
         {
         response = ESatFailure;
         }
@@ -431,7 +396,7 @@ TSatUiResponse CSatUiObserver::GetInputL(
             duration);
        );
 
-    if (err != KErrNone)
+    if ( KErrNone != err )
         {
         TFLOGSTRING2("SATAPP: CSatUiObserver::GetInput err:%d", err)
         response = ESatFailure;
@@ -499,7 +464,6 @@ TSatUiResponse CSatUiObserver::SetUpMenuL(
         GetScalableBitmap(iconTitleBitmap, EIconSetUpMenuContext);
         }
 
-//    iItemIcons->ResetAndDestroy();
     TInt iconCount(0);
 
     if (aMenuIcons)
@@ -532,18 +496,17 @@ TSatUiResponse CSatUiObserver::SetUpMenuL(
             iconItemBitmap = FetchIcon(itemIconId, EIconSetUpMenuItems);
 
             if (!iconItemBitmap &&
-                (aIconListQualifier == ESatSelfExplanatory))
+                (ESatSelfExplanatory == aIconListQualifier))
                 {
                 TFLOGSTRING("SATAPP: CSatUiObserver::SetUpMenu \
                     SelfExplanatory ")
                 CleanupStack::PopAndDestroy(gulIcon); // gulIcon
-//                iItemIcons->ResetAndDestroy();
                 continueLoop = EFalse;
                 }
             else
                 {
                 if (!iconItemBitmap &&
-                    (aIconListQualifier == ESatNotSelfExplanatory))
+                    (ESatNotSelfExplanatory == aIconListQualifier))
                     {
                     TFLOGSTRING("SATAPP: CSatUiObserver::SetUpMenu \
                         not SelfExplanatory ")
@@ -557,7 +520,6 @@ TSatUiResponse CSatUiObserver::SetUpMenuL(
                     }
 
                 gulIcon->SetBitmap(iconItemBitmap);
-//                iItemIcons->AppendL(gulIcon);
                 CleanupStack::Pop(gulIcon);
                 }
             }
@@ -629,8 +591,6 @@ TSatUiResponse CSatUiObserver::SelectItemL(
             aRequestedIconDisplayed);
         }
 
-    //iItemIcons->ResetAndDestroy();
-
     TInt iconCount(0);
 
     if (aMenuIcons)
@@ -642,14 +602,14 @@ TSatUiResponse CSatUiObserver::SelectItemL(
 
     //if icons are available for item list
     if ((aMenuItems.MdcaCount() == iconCount) &&
-        ((aIconListQualifier == ESatSelfExplanatory) ||
-        (aIconListQualifier == ESatNotSelfExplanatory)) &&
+        ((ESatSelfExplanatory == aIconListQualifier) ||
+        (ESatNotSelfExplanatory == aIconListQualifier)) &&
         (iIconSupport))
         {
         TFLOGSTRING(
             "SATAPP: CSatUiObserver::SelectItem icon available for item list")
 
-        if (aIconListQualifier == ESatSelfExplanatory)
+        if (ESatSelfExplanatory == aIconListQualifier)
             {
             selfExplanatoryItems = ETrue;
             }
@@ -671,8 +631,6 @@ TSatUiResponse CSatUiObserver::SelectItemL(
                 {
                 TFLOGSTRING("SATAPP: CSatUiObserver::SelectItem \
                     SelfExplanatory ")
-                CleanupStack::PopAndDestroy(gulIcon); // gulIcon
-                //iItemIcons->ResetAndDestroy();
                 continueLoop = EFalse;
                 aRequestedIconDisplayed = EFalse;
                 }
@@ -681,7 +639,7 @@ TSatUiResponse CSatUiObserver::SelectItemL(
                 // when icon can't be received and is set to not self
                 // explanatory, we replace it with empty icon
                 if (!iconItemBitmap &&
-                    (aIconListQualifier == ESatNotSelfExplanatory))
+                    (ESatNotSelfExplanatory == aIconListQualifier))
                     {
                     TFLOGSTRING("SATAPP: CSatUiObserver::SelectItem \
                         not SelfExplanatory ")
@@ -708,7 +666,6 @@ TSatUiResponse CSatUiObserver::SelectItemL(
                     }
 
                 gulIcon->SetBitmap(iconItemBitmap);
-                //iItemIcons->AppendL(gulIcon);
                 CleanupStack::Pop(gulIcon);
                 }
             }
@@ -721,7 +678,7 @@ TSatUiResponse CSatUiObserver::SelectItemL(
             /*iItemIcons,*/ selfExplanatoryItems, aHelpIsAvailable);
        );
 
-    if (err != KErrNone)
+    if (KErrNone != err)
         {
         response = ESatFailure;
         aRequestedIconDisplayed = EFalse;
@@ -1049,32 +1006,32 @@ void CSatUiObserver::ConfirmCommand(
         {
         case ESatOpenChannelQuery:
             {
-            TFLOGSTRING(" Quering OpenChannel")
-            //TRAP(error, iActionImplementer->ConfirmOpenChannelL(
-            //    aText, aActionAccepted, iconBitmap, selfExplanatory));
+            TFLOGSTRING("Quering OpenChannel")
+            TRAP(error, iActionImplementer->ConfirmOpenChannelL(
+                 aText, aActionAccepted, iconBitmap, selfExplanatory));
             break;
             }
 
         case ESatSRefreshQuery:
             {
-            TFLOGSTRING(" Quering Refresh")
+            TFLOGSTRING("Quering Refresh")
             //TRAP(error, iActionImplementer->ConfirmRefreshL(aActionAccepted));
             break;
             }
 
         case ESatSLaunchBrowserQuery:
             {
-            TFLOGSTRING(" Quering LaunchBrowser")
+            TFLOGSTRING("Quering LaunchBrowser")
             HBufC* textHolder = NULL;
 
             TRAP(error,
             if (ESatAlphaIdNull != aAlphaIdStatus)
                 {
-                TFLOGSTRING(" CSatUiObserver::ConfirmCommand AlphaId \
+                TFLOGSTRING("CSatUiObserver::ConfirmCommand AlphaId \
                     isn't null")
                 if (ESatAlphaIdNotProvided == aAlphaIdStatus)
                     {
-                    TFLOGSTRING(" CSatUiObserver::ConfirmCommand \
+                    TFLOGSTRING("CSatUiObserver::ConfirmCommand \
                         AlphaId not provided")
                     // ToDo: replace the resouce with qt.
                     //textHolder = StringLoader::LoadLC(
@@ -1083,7 +1040,7 @@ void CSatUiObserver::ConfirmCommand(
                     }
                 else
                     {
-                    TFLOGSTRING(" CSatUiObserver::ConfirmCommand \
+                    TFLOGSTRING("CSatUiObserver::ConfirmCommand \
                         AlphaId provided")
                     textHolder = HBufC::NewLC(aText.Length());
                     TPtr ptr = textHolder->Des();
@@ -1103,7 +1060,7 @@ void CSatUiObserver::ConfirmCommand(
 
         case ESatSSendSmQuery:
             {
-            TFLOGSTRING( " Quering SendSm" )
+            TFLOGSTRING( "Quering SendSm" )
             TRAP( error, iActionImplementer->ConfirmSendL( aText,
                   aActionAccepted, ESatUiConfirmSendSms ) );
             break;
@@ -1112,16 +1069,16 @@ void CSatUiObserver::ConfirmCommand(
         case ESatSSendSsQuery:
             {
             TFLOGSTRING(" Quering SendSs")
-            //TRAP(error, iActionImplementer->ConfirmSendL(aText,
-            //      aActionAccepted, ESatUiConfirmSendSs));
+            TRAP(error, iActionImplementer->ConfirmSendL(aText,
+                  aActionAccepted, ESatUiConfirmSendSs));
             break;
             }
 
         case ESatSSendUssdQuery:
             {
             TFLOGSTRING(" Quering SendUssd")
-            //TRAP(error, iActionImplementer->ConfirmSendL(aText,
-            //      aActionAccepted, ESatUiConfirmSendUssd));
+            TRAP(error, iActionImplementer->ConfirmSendL(aText,
+                  aActionAccepted, ESatUiConfirmSendUssd));
             break;
             }
 
@@ -1153,10 +1110,6 @@ void CSatUiObserver::ConfirmCommand(
         aActionAccepted = EFalse;
         iActionImplementer->SetEndKey(EFalse);
         }
-    else
-        {
-        // Meaningless else
-        }
 
     iActionImplementer->SetCommandPending(EFalse);
     TFLOGSTRING("SATAPP: CSatUiObserver::ConfirmCommand exiting")
@@ -1176,39 +1129,47 @@ TSatUiResponse CSatUiObserver::Notification(
     const TSatControlResult aControlResult)
     {
     TFLOGSTRING("SATAPP: CSatUiObserver::Notification calling")
+    TFLOGSTRING2("SATAPP: CSatUiObserver::Notification str=%S", &aText)
     TSatUiResponse response = ESatSuccess;
     TInt error(KErrNone);
     aRequestedIconDisplayed = EFalse;
     iActionImplementer->SetCommandPending(ETrue);
 
     HBufC* textHolder = NULL;
-
+    QString resource;
     // In case where command id is SendDtmf and alphaID is not provided,
     // DTMF string to be sent is shown in dialog along with default text.
     if ((ESatSSendDtmfNotify == aCommandId) &&
-         (ESatAlphaIdNotProvided == aAlphaIdStatus))
-        {
+         (ESatAlphaIdNotProvided == aAlphaIdStatus)) {
         TFLOGSTRING("SATAPP: CSatUiObserver::Notification SendDtmf")
-        TRAP(error,
-            TInt resource = DefaultAlphaIdL(aCommandId, aControlResult);
-
-            // Todo:
-            // Now that resource is defined, get default text
-            //textHolder = StringLoader::LoadL(
-            //    resource, aText)
-           );
+        DefaultAlphaId(aCommandId, aControlResult,resource);
+        if ( resource.length()>0) 
+            {
+            TFLOGSTRING("SATAPP: CSatUiObserver::Notification SendDtmf resource")
+            TRAP(error, textHolder = HBufC::NewL(resource.length()));
+            if (KErrNone == error) 
+                {
+                textHolder->Des().Copy(reinterpret_cast<const TUint16*>
+                     (resource.utf16()));
+                }
+            }
         }
     // Get default text, if alpha not provided or it is NULL
     else if (aText.Length() == 0 && ESatAlphaIdNotNull != aAlphaIdStatus)
         {
         TFLOGSTRING("SATAPP: CSatUiObserver::Notification alpha is null")
-        TRAP(error,
-            TInt resource = DefaultAlphaIdL(aCommandId, aControlResult);
-            // Todo:
-            // Now that resource is defined, get default text
-            //textHolder = StringLoader::LoadL(
-            //    resource, iActionImplementer->CoeEnv())
-           );
+        DefaultAlphaId(aCommandId, aControlResult,resource);
+        if ( resource.length()>0) 
+            {
+            TFLOGSTRING("SATAPP: CSatUiObserver::Notification alpha null resource")
+            TRAP( error, textHolder = HBufC::NewL(resource.length()) );
+            if (KErrNone == error) 
+                {
+                textHolder->Des().Copy(reinterpret_cast<const TUint16*>
+                    (resource.utf16()));
+                }
+             }
+        TFLOGSTRING("SATAPP: CSatUiObserver::Notification alpha is null out")
         }
     // else use given text
     else
@@ -1220,16 +1181,16 @@ TSatUiResponse CSatUiObserver::Notification(
             ptr.Copy(aText);
            );
         }
-
     if (!textHolder)
         {
+         TFLOGSTRING("SATAPP: CSatUiObserver::Notification textHolder 0")
         TRAP(error, textHolder = HBufC::NewL(0));
         }
 
     // No need to add textHolder into CleanupStack, since this is
     // not a leaving function
 
-    if ((KErrNone == error || KErrArgument == error) && textHolder)
+    if ((KErrNone == error) && textHolder)
         {
         TFLOGSTRING("SATAPP: CSatUiObserver::Notification none error ")
         CFbsBitmap* iconBitmap = NULL;
@@ -1244,8 +1205,6 @@ TSatUiResponse CSatUiObserver::Notification(
             {
             iconBitmap = FetchIcon(aIconId.iIdentifier,
                 EIconNotification);
-            //GetScalableBitmap(iconBitmap, EIconNotification,
-            //    aRequestedIconDisplayed);
             }
 
         if (ESatSelfExplanatory == aIconId.iIconQualifier)
@@ -1302,9 +1261,9 @@ TSatUiResponse CSatUiObserver::Notification(
                 TFLOGSTRING(" Notifying CallControl")
                 iActionImplementer->DispatchTimer(iWait);
                 TRAP(error,
-                    iActionImplementer->CallControlL(
-                        *textHolder, aAlphaIdStatus)
-                   );
+                     iActionImplementer->CallControlL(
+                         *textHolder, aAlphaIdStatus)
+                     );
                 iActionImplementer->SetCommandPending(EFalse);
                 break;
                 }
@@ -1347,7 +1306,6 @@ TSatUiResponse CSatUiObserver::Notification(
                         iActionImplementer->ShowSmsWaitNoteL(*textHolder,
                             iconBitmap, selfExplanatoryIcon));
                     }
-
                 break;
                 }
             default:
@@ -1378,7 +1336,6 @@ TSatUiResponse CSatUiObserver::Notification(
         TFLOGSTRING("SATAPP: CSatUiObserver::Notification success")
         response = ESatSuccess;
         }
-
 
     TFLOGSTRING2("SATAPP: CSatUiObserver::Notification exiting, return: %d", \
         response)
@@ -1460,104 +1417,94 @@ void CSatUiObserver::EventNotification(
     }
 
 // ----------------------------------------------------------------------------
-// CSatUiObserver::DefaultAlphaIdL
+// CSatUiObserver::DefaultAlphaId
 // (other items were commented in a header).
 // ----------------------------------------------------------------------------
 //
-TInt CSatUiObserver::DefaultAlphaIdL(
+void CSatUiObserver::DefaultAlphaId(
     const TSatSNotifyCommand aCommandId,
-    const TSatControlResult aControlResult) const
+    const TSatControlResult aControlResult, QString &resource) const
     {
-    TFLOGSTRING("SATAPP: CSatUiObserver::DefaultAlphaIdL calling")
-    TInt resource(0);
-
+    TFLOGSTRING("SATAPP: CSatUiObserver::DefaultAlphaId calling")
     switch (aCommandId)
         {
         case ESatSSendDataNotify: // SendData
             {
-            TFLOGSTRING(" SendData default")
-            //resource = R_QTN_SAT_CONF_SEND_DATA_BIP;
+            TFLOGSTRING("SendData default")
+            resource = hbTrId("txt_sat_conf_send_data_bip");
             break;
             }
-
         case ESatSReceiveDataNotify: // ReceiveData
             {
-            TFLOGSTRING(" ReceiveData default")
-            //resource = R_QTN_SAT_CONF_RECEIVE_DATA_BIP;
+            TFLOGSTRING("ReceiveData default")
+            resource = hbTrId("txt_sat_conf_receive_data_bip");
             break;
             }
-
         case ESatSCloseChannelNotify: // CloseChannel
             {
-            TFLOGSTRING(" CloseChannel default")
-            //resource = R_QTN_SAT_CONF_CLOSE_CHANNEL_BIP;
+            TFLOGSTRING("CloseChannel default")
+            resource = hbTrId("txt_sat_conf_close_channel_bip");
             break;
             }
-
         case ESatSMoSmControlNotify: // MoSmControl
             {
             if (ESatNotAllowed == aControlResult)
                 {
                 TFLOGSTRING(" MoSmcontrol Not allowed default")
-                //resource = R_QTN_SAT_MOSM_NOT_ALLOWED;
+                resource = hbTrId("txt_sat_mosm_not_allowed");
                 }
             else if (ESatAllowedWithModifications == aControlResult)
                 {
                 TFLOGSTRING(" MoSmcontrol Modified default")
-                //resource = R_QTN_SAT_MOSM_MODIFIED;
+                resource = hbTrId("txt_sat_request_modified");
                 }
             else
                 {
                 TFLOGSTRING(" MoSmcontrol No default")
-                resource = 0; // Allowed, default alpha -> no info
+                resource = hbTrId(""); // Allowed, default alpha -> no info
                 }
             break;
             }
-
         case ESatSCallControlNotify: // CallControl
             {
             if (ESatNotAllowed == aControlResult)
                 {
-                TFLOGSTRING(" CallControl Not allowed default")
-                //resource = R_QTN_SAT_CC_NOT_ALLOWED;
+                TFLOGSTRING("CallControl Not allowed default")
+                resource = hbTrId("txt_sat_cc_not_allowed");
                 }
             else if (ESatAllowedWithModifications == aControlResult)
                 {
-                TFLOGSTRING(" CallControl Modified default")
-                //resource = R_QTN_SAT_CC_MODIFIED;
+                TFLOGSTRING("CallControl Modified default")
+                resource = hbTrId("txt_sat_cc_modified");
                 }
             else
                 {
-                TFLOGSTRING(" CallControl No default")
-                resource = 0; // Allowed, default alpha -> no info
+                TFLOGSTRING("CallControl No default")
+                resource = hbTrId(""); // Allowed, default alpha -> no info
                 }
             break;
             }
-
         case ESatSSendSmsNotify: // SendSm
             {
             TFLOGSTRING(" SendSms default")
-            //resource = R_QTN_SAT_SENDING_SMS;
+            resource = hbTrId("txt_sat_sending_sms");
             break;
             }
 
         case ESatSSendDtmfNotify: // SendDtmf
             {
             TFLOGSTRING(" SendDTMF default")
-            //resource = R_QTN_SAT_NOTE_SENDING_DTMF_TEMPLATE;
+            resource = hbTrId("txt_sat_note_sending_dtmf_template");
             break;
             }
-
         default:
             {
             TFLOGSTRING2(" Unknown command id: %i", aCommandId)
-            User::Leave(KErrArgument);
+            break;
             }
         }
 
-    TFLOGSTRING2("SATAPP: CSatUiObserver::DefaultAlphaIdL exiting, resource: \
-        %d", resource)
-    return resource;
+    TFLOGSTRING("SATAPP: CSatUiObserver::DefaultAlphaId exiting")
     }
 
 // ----------------------------------------------------------------------------
@@ -1572,30 +1519,6 @@ CFbsBitmap* CSatUiObserver::FetchIcon(const TUint8 /*aIconId*/,
     TFLOGSTRING("SATAPP: CSatUiObserver::FetchIcon called")
 
     CFbsBitmap* iconBitmap = NULL;
-/*
-    TSize layoutSize(0, 0);
-
-    // Set icon max size according the command
-    if (GetPopUpWindowIconSize(layoutSize, aIconCommand))
-        {
-        TFLOGSTRING("SATAPP: CSatUiObserver::FetchIcon max size")
-        // Comment out icon related code, add qt icon support future
-        TRAPD(err, iconBitmap = iIconHandler->FetchIconL(iSatSession,
-            aIconId, layoutSize.iWidth, layoutSize.iHeight, iIconSupport));
-
-        if (err != KErrNone)
-            {
-            #if defined _DEBUG
-            _LIT(KFetchIcon, "SATAPP: CSatUiObserver::FetchIcon");
-            User::Panic(KFetchIcon, err);
-            #endif
-            }
-        }
-    else
-        {
-        TFLOGSTRING("SATAPP: CSatUiObserver::FetchIcon not supported")
-        }
-*/
     TFLOGSTRING("SATAPP: CSatUiObserver::FetchIcon exit")
     return iconBitmap;
     }
@@ -1606,82 +1529,11 @@ CFbsBitmap* CSatUiObserver::FetchIcon(const TUint8 /*aIconId*/,
 // (other items were commented in a header).
 // ----------------------------------------------------------------------------
 //
-TBool CSatUiObserver::GetPopUpWindowIconSize(TSize& aSize,
+TBool CSatUiObserver::GetPopUpWindowIconSize(TSize& /*aSize*/,
     const TIconCommand /*aIconCommand*/)
     {
     TFLOGSTRING("SATAPP: CSatUiObserver::GetPopUpWindowIconSize called")
-
-    TRect rect(TSize(0, 0));
-    TBool supported(ETrue);
-    // Comment out this code for no icon support in current qt satapp
-/*    TAknLayoutRect opLogoLayout;
-
-    TFLOGSTRING2("SATAPP: CSatUiObserver::GetPopUpWindowIconSize, \
-        aIconCommand: %i", aIconCommand)
-    // depending on the command, get correct layout and
-    // Calculate rectangle based on LAF specification.
-    switch (aIconCommand)
-        {
-        case EIconSetUpMenuContext:
-            {
-            opLogoLayout.LayoutRect(rect,
-                AknLayoutScalable_Avkon::context_pane_g1().LayoutLine());
-            break;
-            }
-        case EIconSetUpMenuItems:
-            {
-            opLogoLayout.LayoutRect(rect,
-                AknLayout::List_pane_elements__single_graphic__Line_1());
-            break;
-            }
-        case EIconDisplayText:
-            {
-            // layout borrowed from video
-            opLogoLayout.LayoutRect(rect, AknLayoutScalable_Avkon::
-                popup_query_sat_info_window(0).LayoutLine());
-            break;
-            }
-        case EIconPlayTone:
-            {
-            opLogoLayout.LayoutRect(rect, AknLayoutScalable_Avkon::
-                popup_note_window_g1(0).LayoutLine());
-            break;
-            }
-        case EIconConfirmCommand:   // fall through
-        case EIconGetInput:         // fall through
-        case EIconGetYesNo:         // fall through
-        case EIconGetInkey:
-            {
-            opLogoLayout.LayoutRect(rect, AknLayout::Icon(0));
-            break;
-            }
-        case EIconNotification:
-            {
-            opLogoLayout.LayoutRect(rect, AknLayout::
-                Wait_or_progress_note_pop_up_window_elements_Line_1());
-            break;
-            }
-        default:
-            {
-            TFLOGSTRING(
-                "SATAPP: CSatUiObserver::GetPopUpWindowIconSize not supported")
-            supported = EFalse;
-            break;
-            }
-        }
-
-    aSize = opLogoLayout.Rect().Size();
-
-    // Layout for title icon gives incorrect width
-    // but since it is square height can be set to width
-    if (EIconSetUpMenuContext == aIconCommand)
-        {
-        aSize.iWidth = aSize.iHeight;
-        }
-*/
-    TFLOGSTRING3("SATAPP: CSatUiObserver::GetPopUpWindowIconSize %dx%d exit",
-        aSize.iWidth, aSize.iHeight)
-    return supported;
+    return ETrue;
     }
 
 // ----------------------------------------------------------------------------
@@ -1695,77 +1547,6 @@ void CSatUiObserver::GetScalableBitmapL(
     const TIconCommand  /*aIconCommand*/)
     {
     TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap called")
-/*
-    TSize layoutSize(0, 0);
-    CFbsBitmap* bitmap = NULL;
-
-    // If scalable icon is supported in current layout then
-    // makes the scalable icon.
-    if (GetPopUpWindowIconSize(layoutSize, aIconCommand))
-        {
-        bitmap = new (ELeave) CFbsBitmap;
-        CleanupStack::PushL(bitmap);
-        // CAknIcon takes ownership of bitmaps.
-        CFbsBitmap* dupMain = new (ELeave) CFbsBitmap;
-        CleanupStack::PushL(dupMain);
-        TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap duplicate original")
-        User::LeaveIfError(
-            dupMain->Duplicate(aBitMapToConvert->Handle()));
-
-        //CAknIcon* bitmapIcon = CAknIcon::NewL();
-        // Mask is not set because skins are not used.
-        // Ownership is transferred.
-        bitmapIcon->SetBitmap(dupMain);
-        CleanupStack::Pop(dupMain);
-        CleanupStack::PushL(bitmapIcon);
-        CAknIcon* scalableIcon = AknIconUtils::CreateIconL(bitmapIcon);
-        CleanupStack::Pop(bitmapIcon);
-        CleanupStack::PushL(scalableIcon);
-
-        // fetch the size of icon
-        TSize iconSize = dupMain->SizeInPixels();
-
-        // At first we assume that width is scaled to layout maximum and
-        // thus height is set so that the ratio of the image remains correct
-
-        TInt newHeight =
-            (layoutSize.iWidth * iconSize.iHeight) / iconSize.iWidth;
-
-        // If the new height is larger than the height of the layout
-        // we scale height to maximum and set the width so that the ratio of
-        // the image remains correct
-        if (newHeight > layoutSize.iHeight)
-            {
-            TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap \
-                larger than layout height")
-            layoutSize.iWidth =
-                (layoutSize.iHeight * iconSize.iWidth) / iconSize.iHeight;
-            }
-        // If the new height is smaller or the same as the height of the
-        // layout, the image is scaled according to it
-        else
-            {
-            TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap \
-                smaller than layout height")
-            layoutSize.iHeight = newHeight;
-            }
-
-        TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap resize scaled icon")
-        AknIconUtils::SetSize(scalableIcon->Bitmap(), layoutSize);
-
-        TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap duplicate scaled")
-        User::LeaveIfError(bitmap->Duplicate(
-            scalableIcon->Bitmap()->Handle()));
-
-        CleanupStack::PopAndDestroy(scalableIcon);
-
-        // Uses scaled icon if scalable bitmap is supported.
-        TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap Show Scaled")
-        delete aBitMapToConvert;
-        aBitMapToConvert = bitmap;
-        CleanupStack::Pop(bitmap);
-        }
-*/
     TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap exit")
     }
 
@@ -1781,37 +1562,6 @@ void CSatUiObserver::GetScalableBitmap(
     TBool& /*aRequestedIconDisplayed*/)
     {
     TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap called")
-/*
-    if (aBitMapToConvert)
-        {
-        TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap bitmap \
-            to convert")
-        // Scale icon
-        TRAPD(err, GetScalableBitmapL(aBitMapToConvert, aIconCommand););
-
-        if (KErrNoMemory == err)
-            {
-            TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap memory \
-                low")
-            // Memory low, command is done without icon
-            delete aBitMapToConvert;
-            aBitMapToConvert = NULL;
-            aRequestedIconDisplayed = EFalse;
-            }
-        else
-            {
-            TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap have \
-                memory")
-            aRequestedIconDisplayed = ETrue;
-            }
-        }
-    else
-        {
-        TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap  no bitmap")
-        // Icon not received
-        aRequestedIconDisplayed = EFalse;
-        }
-*/
     TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap exit")
     }
 
@@ -1826,24 +1576,6 @@ void CSatUiObserver::GetScalableBitmap(
     const TIconCommand /*aIconCommand*/)
     {
     TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap called")
-/*
-    if (aBitMapToConvert)
-        {
-        TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap bitmap \
-            to convert")
-        // Scale icon
-        TRAPD(err, GetScalableBitmapL(aBitMapToConvert, aIconCommand););
-
-        if (KErrNoMemory == err)
-            {
-             TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap memory \
-                 low")
-            // Memory low, command is done without icon
-            delete aBitMapToConvert;
-            aBitMapToConvert = NULL;
-            }
-        }
-*/
     TFLOGSTRING("SATAPP: CSatUiObserver::GetScalableBitmap exit")
     }
 
@@ -1876,6 +1608,41 @@ TInt CSatUiObserver::ProfileState()
         profileId)
 
     return profileId;
+    }
+
+// ----------------------------------------------------------------------------
+// CSatUiObserver::ConnectRSatSessionL
+//
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void CSatUiObserver::ConnectRSatSessionL()
+    {
+    TFLOGSTRING("SATAPP: CSatUiObserver::ConnectRSatSessionL called")
+    //Register to Server as subsession
+    //If Server is not up, this function call may take time
+    iSatSession.ConnectL();
+    iSat.RegisterL(iSatSession, this);
+    iAdapter = iSat.Adapter();
+    if (!iAdapter)
+        {
+        User::Leave(KErrNotFound);
+        }
+    TFLOGSTRING("SATAPP: CSatUiObserver::ConnectRSatSessionL exit")
+    }
+
+// ----------------------------------------------------------------------------
+// CSatUiObserver::DisconnectRSatSession
+// Get the profile status
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void CSatUiObserver::DisconnectRSatSession()
+    {
+    TFLOGSTRING("SATAPP: CSatUiObserver::DisconnectRSatSession called")
+    iSat.Close();
+    iSatSession.Close();
+    TFLOGSTRING("SATAPP: CSatUiObserver::DisconnectRSatSession exit")
     }
 
 //  End of File

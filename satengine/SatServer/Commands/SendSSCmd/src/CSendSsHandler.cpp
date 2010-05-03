@@ -53,7 +53,7 @@ const TInt KSSRequestCallbackInterval = 5000000;
 const TInt KSsOperationShowFDNLIst = 0x05;
 const TInt KSsOperationPasswordRegistration = 0x06;
 // Ss error
-const TInt KSsSimAtkCcRejected = 0x0D;
+const TInt KSsSimAtkCcRejected = 0x13;
 const TInt KTwo = 2;
 
 // ======== MEMBER FUNCTIONS ========

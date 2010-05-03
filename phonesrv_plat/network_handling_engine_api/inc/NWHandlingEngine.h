@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -22,7 +22,8 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <RMmCustomAPI.h>
+#include <rmmcustomapi.h> 
+#include <etelpckt.h> // for RPacketService::TDynamicCapsFlags
 
 
 // CONSTANTS
@@ -187,6 +188,8 @@ struct TNWInfo
 #ifdef RD_PHONE_NG
     TNWNetworkSelectionSetting iSelectionSetting;           // Contains a network selection setting manual/automatic etc.
 #endif // RD_PHONE_NG
+    RPacketService::TDynamicCapsFlags iDynamicCapsFlags;    // Dynamic packet data capabilities 
+                                                            // (used to hide alpha tag when CS registration is unsuccessful)
     };
 
 // CLASS DECLARATION
@@ -243,6 +246,9 @@ class MNWMessageObserver
             ENWMessageCurrentHomeZoneMessage,
             // Message will be sent when cell info display changed
             ENWMessageNetworkIndicatorChange, 
+            // Message will be sent when dynamic packet data capabilities change
+            // (Used to hide alpha tag when CS registration is unsuccessful)
+            ENWMessageDynamicCapsChange,
 
             // CDMA SPECIFIC MESSAGES                       200 - 299
 
@@ -263,7 +269,9 @@ class MNWMessageObserver
             // Fetching Network Provider Name
             ENWGetNetworkProviderName,
             // Fetching Programmable Operator Name
-            ENWGetProgrammableOperatorName
+            ENWGetProgrammableOperatorName,
+            // Notifying network registration status change
+            ENWNotifyNetworkRegistrationStatusChange
             };
 
         /**

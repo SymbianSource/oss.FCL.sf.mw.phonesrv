@@ -28,6 +28,9 @@ const unsigned int KGetInputStringMaxSize = 0xEF;
 
 const int KExtendTimeoutMseconds(3000);
 const int KDefaultSelectionTimeoutMseconds(60000);
+const int KSymbianTimeConvertQtTime(100);
+const int KMoSmControlTimeOut(3000);
+const int KPlayToneSymbianConvertQtTime(1000);
 
 //enum for SendSms
 /**Sat send sms user response*/
@@ -70,7 +73,8 @@ enum TSatAppDialogActionType
     ESatDialogGetYesNo, // Yes No
     ESatDialogGetDigitalRsp, // Cancel
     ESatDialogSetUpCall, // Call Cancel
-    ESatDialogConfirmSend // Yes No
+    ESatDialogConfirmSend, // Yes No
+    ESatDialogConfirmBip // Ok Cancel
     };
 
 #endif 

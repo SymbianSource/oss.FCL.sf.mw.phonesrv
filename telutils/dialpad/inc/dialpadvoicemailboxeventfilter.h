@@ -18,7 +18,7 @@
 #ifndef DIALPADVOICEMAILBOXEVENTFILTER_H
 #define DIALPADVOICEMAILBOXEVENTFILTER_H
 
-#include <qobject>
+#include <QObject>
 
 class QTimer;
 class Dialpad;

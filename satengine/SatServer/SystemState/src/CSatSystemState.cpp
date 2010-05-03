@@ -24,7 +24,7 @@
 #include    <CommonEngineDomainCRKeys.h>
 #include    <ProfileEngineSDKCRKeys.h>
 #include    <settingsinternalcrkeys.h>
-#include    <SATDomainPSKeys.h>
+#include    <satdomainpskeys.h>
 #include    <activeidle2domainpskeys.h>
 // ******************************************************************
 // TODO: ScreensaverInternalPSKeys.h does no longer exist.
@@ -34,7 +34,6 @@
 #include    <ctsydomainpskeys.h>
 #include    <sbdefs.h>
 #include    <BTSapDomainPSKeys.h>
-#include    <SATDomainPSKeys.h>
 
 #include    "SATInternalPSKeys.h"
 #include    "CSatSystemState.h"

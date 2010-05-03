@@ -101,6 +101,10 @@ NONSHARABLE_CLASS(CPSetCallDivertingBasicImpl) : public CPSetCallDivertingBase
             const TBasicServiceGroups aBsc );
         
         TSelectedLine GetSAAls();
+        
+    private:
+        // Memorize requested service group
+        TServiceGroup iRequestedServiceGroup;
     };
 
 #endif      // CPSETCALLDIVERTINGBASICIMPL_H 

@@ -26,7 +26,7 @@ PRJ_EXPORTS
 ../rom/phonecmdhandler.iby CORE_MW_LAYER_IBY_EXPORT_PATH(phonecmdhandler.iby)
 
 PRJ_MMPFILES
-PhoneCmdHandler.mmp
+phonecmdhandler.mmp
 
 //  End of File  
 

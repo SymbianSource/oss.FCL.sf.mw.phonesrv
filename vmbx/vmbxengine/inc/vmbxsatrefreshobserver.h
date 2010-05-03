@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <RSatSession.h>
-#include <RSatRefresh.h>
+#include <rsatsession.h>
+#include <rsatrefresh.h>
 #include <msatrefreshobserver.h>
 #include "mvmbxsatrefreshobserver.h"
 

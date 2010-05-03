@@ -24,13 +24,30 @@ class DialpadButton : public HbPushButton
 {
     Q_OBJECT
 
+    Q_PROPERTY(DialpadButtonType buttonType READ buttonType WRITE setButtonType)
+    Q_ENUMS(DialpadButtonType)
+
+public:
+    enum DialpadButtonType {
+        NumericButton = 0x1,
+        FunctionButton = 0x2,
+        CallButton = 0x3
+    };
+
 public:
     explicit DialpadButton(QGraphicsItem *parent = 0 );
     virtual ~DialpadButton( );
 
+    DialpadButtonType buttonType() const;
+    void setButtonType(DialpadButtonType type);
+
 protected:
     void changeEvent(QEvent *event);
     bool sceneEvent(QEvent *event);
+    void polish(HbStyleParameters& params);
+
+private:
+    DialpadButtonType mButtonType;
 };
 
 #endif // DIALPADBUTTON_H

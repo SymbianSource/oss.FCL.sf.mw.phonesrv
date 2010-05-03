@@ -101,7 +101,10 @@ void DialpadTestView::onEditorContentChanged()
 
 void DialpadTestView::setDialpadPosition()
 {
-    QRectF screenRect = mMainWindow.layoutRect();
+    // workaround to tsw error JMKN-83NAPU (fix coming in MCL wk14)
+    // QRectF screenRect(mMainWindow.layoutRect());
+    QRectF screenRect = (mMainWindow.orientation() == Qt::Horizontal) ?
+                        QRectF(0,0,640,360) : QRectF(0,0,360,640);
 
     if (mMainWindow.orientation() == Qt::Horizontal) {
         // dialpad takes half of the screen

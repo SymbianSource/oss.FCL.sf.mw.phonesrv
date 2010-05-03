@@ -16,8 +16,6 @@
 *
 */
 
-
-
 // INCLUDE FILES
 #include "CNWGsmSessionImplementation.h"
 #include "CNWGsmMessageHandler.h"
@@ -34,7 +32,6 @@
 const TUint KNWzero = 0;
 const TInt KMCNOn = 1;
 const TInt KMCNOff = 0;
-
 
 // ============================ MEMBER FUNCTIONS ==============================
 

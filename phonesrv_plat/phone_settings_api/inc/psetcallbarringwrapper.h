@@ -112,6 +112,18 @@ public:
         BarringType barringType,
         QString barringPassword);
     
+    /**
+     * Changes barring password. Maximum password length is 10.
+     * 
+     * @param   oldPassword         Old barring password.
+     * @param   newPassword         New barring password.
+     * @param   verifiedPassword    New password verified.
+     */
+    void changeBarringPassword(
+        const QString &oldPassword, 
+        const QString &newPassword,
+        const QString &verifiedPassword);
+    
 signals:
     
     /**
@@ -160,6 +172,14 @@ signals:
         PSetCallBarringWrapper::BarringType barringType,
         PSetCallBarringWrapper::BarringStatus barringStatus, 
         bool plural);
+    
+    /**
+     * This signal is emitted when barring password change request is completed.
+     * 
+     * @param   result                  0 if request was completed successfully 
+     * or error code defined either in gsmerror.h or exterror.h.
+     */
+    void barringPasswordChangeRequestCompleted(int result);
     
 private: // data 
     

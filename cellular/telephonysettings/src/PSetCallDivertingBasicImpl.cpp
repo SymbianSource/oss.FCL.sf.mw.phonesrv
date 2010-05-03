@@ -104,6 +104,7 @@ void CPSetCallDivertingBasicImpl::SetDivertingL( const TCallDivertSetting& aDive
        User::Leave( KErrInUse );
        }
    iBsc = aBsc;
+   iRequestedServiceGroup = aDivert.iServiceGroup;
    
    CPsetTelephony::CheckLineModeL( aDivert.iServiceGroup, &iPhone, iLine );
    if ( !iLine->SubSessionHandle() )
@@ -205,6 +206,8 @@ void CPSetCallDivertingBasicImpl::RunL()
            iDivertStatus.iNumber = iChangeInfo.iNumber.iTelNumber;
            iDivertStatus.iCondition = PSetUtility::GetDivertReason(iReason);
            iDivertStatus.iNoReplyTimer = iChangeInfo.iTimeout;
+           iDivertStatus.iServiceGroup = iRequestedServiceGroup;
+           
             // Check is done because of VOIP notification functionality(PSetNotesUI).
            if ( iVoiceDivert && !iVideoDivert )
                {

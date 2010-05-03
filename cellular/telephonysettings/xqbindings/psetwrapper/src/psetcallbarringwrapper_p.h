@@ -18,8 +18,8 @@
 #ifndef PSETCALLBARRINGWRAPPER_P_H
 #define PSETCALLBARRINGWRAPPER_P_H
 
-#include <MPsetBarringObs.h>
-#include <MPsetRequestObs.h>
+#include <mpsetbarringobs.h>
+#include <mpsetrequestobs.h>
 #include <nwdefs.h>
 #include <psetcallbarringwrapper.h>
 
@@ -38,7 +38,8 @@ public:
         RequestNone,
         RequestBarringStatus,
         RequestEnableBarring,
-        RequestDisableBarring
+        RequestDisableBarring,
+        RequestChangePassword
     };
     
 public:
@@ -62,6 +63,11 @@ public:
         PsServiceGroup serviceGroup,
         PSetCallBarringWrapper::BarringType barringType,
         QString barringPassword);
+    
+    void changeBarringPassword(
+        const QString &oldPassword, 
+        const QString &newPassword,
+        const QString &verifiedPassword);
     
 public: // From MPsetBarringObserver
     

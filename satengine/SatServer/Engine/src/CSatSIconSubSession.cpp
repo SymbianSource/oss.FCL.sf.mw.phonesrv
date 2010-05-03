@@ -312,17 +312,11 @@ void CSatSIconSubSession::NotifyGetClutL()
 
     CleanupStack::PopAndDestroy( converter );
 
-    if ( iClut )
-        {
         delete iClut;
         iClut = NULL;
-        }
-
-    if ( iIconData )
-        {
+        
         delete iIconData;
         iIconData = NULL;
-        }
 
     iMessage.Complete( KErrNone );
     LOG( SIMPLE, "SATENGINE: CSatSIconSubSession::NotifyGetClutL exiting" )

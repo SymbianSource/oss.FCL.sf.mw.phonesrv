@@ -131,6 +131,7 @@ void Dialpad::initialize()
 
     // custom button style
     HbStyleLoader::registerFilePath(":/dialpad.css");
+    HbStyleLoader::registerFilePath(":/dialpad_color.css");
     HbStyleLoader::registerFilePath(":/dialpad.dialpadbutton.widgetml");
 }
 

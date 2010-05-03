@@ -24,12 +24,22 @@
 #include "dialpadbutton.h"
 
 DialpadButton::DialpadButton(QGraphicsItem *parent)
-    : HbPushButton(parent)
+    : HbPushButton(parent), mButtonType(NumericButton)
 {
 }
 
 DialpadButton::~DialpadButton()
 {
+}
+
+DialpadButton::DialpadButtonType DialpadButton::buttonType() const
+{
+    return mButtonType;
+}
+
+void DialpadButton::setButtonType(DialpadButtonType type)
+{
+    mButtonType = type;
 }
 
 void DialpadButton::changeEvent(QEvent *event)
@@ -60,4 +70,10 @@ bool DialpadButton::sceneEvent(QEvent *event)
     return result;
 }
 
+void DialpadButton::polish(HbStyleParameters& params)
+{
+    // HbPushButton::polish() prevents layouting
+    // text and additional-text horizontally.
+    HbAbstractButton::polish( params );
+}
 

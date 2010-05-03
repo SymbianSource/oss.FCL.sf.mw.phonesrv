@@ -6,5 +6,7 @@
     <qresource prefix="/translations" >
         <file alias="satapp_en">satapp_en.qm</file>
     </qresource>
-
+    <qresource prefix="/icons" >
+        <file>qgn_menu_sat.svg</file>
+    </qresource>    
 </RCC>

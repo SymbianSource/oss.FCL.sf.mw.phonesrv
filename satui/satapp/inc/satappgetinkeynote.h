@@ -19,7 +19,6 @@
 #ifndef SATAPPGETINKEYNOTE_H
 #define SATAPPGETINKEYNOTE_H
 
-#include <exception>
 #include <QObject>
 #include <hbmessagebox.h>
 

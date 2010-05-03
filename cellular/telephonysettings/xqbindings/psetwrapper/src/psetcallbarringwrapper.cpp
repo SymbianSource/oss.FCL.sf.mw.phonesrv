@@ -80,4 +80,18 @@ void PSetCallBarringWrapper::disableBarring(
     m_privateImpl->disableBarring(serviceGroup, barringType, barringPassword);
 }
 
+/*!
+  PSetCallBarringWrapper::changeBarringPassword
+ */
+void PSetCallBarringWrapper::changeBarringPassword(
+    const QString &oldPassword, 
+    const QString &newPassword,
+    const QString &verifiedPassword)
+{
+    DPRINT;
+    
+    m_privateImpl->changeBarringPassword(
+        oldPassword, newPassword, verifiedPassword);
+}
+
 // End of File. 

@@ -28,11 +28,11 @@ class HbMainWindow;
 class SatAppEventProvider;  // Call back from SatServer
 class SatAppView;           // SetupMenu and SelectItem
 class HbMessageBox;         // DisplayText
+class HbDeviceMessageBox;   // CallControl
 class SatAppGetInkeyNote;   // GetInKey
 class HbInputDialog;        // GetInKey
-class HbDialog;             // GetInput
-class HbProgressDialog;     // For wait note
 class QTimer;               // For SMS/DTMF
+class HbProgressDialog;
 
 // Here we create custom document loader to be able to use own classes in XML.
 class SatAppDocumentLoader : public HbDocumentLoader
@@ -206,11 +206,47 @@ public:
             const QString &aText,
             const QString &aSimAppName,
             bool &aActionAccepted);
+            
+    /*
+     * Show Ss wait note
+     * @param aText The string shown in heading widget
+     */
+    void showSsWaitNote(const QString &aText, const bool aSelfExplanatoryIcon);
+    
+    /*
+     * Show call control device info note, with cancel key
+     * @param aText The string shown in heading widget
+     */    
+    void showCallControlNote(const QString &aText);
+    
+    /*
+     * Show receive data and send data wait note, with cancel key
+     * @param aText The string shown in heading widget
+     */    
+    void showBIPWaitNote(const QString &aText);
+    
+    /*
+     * Show Mo sms info note, with cancel key
+     * @param aText The string shown in heading widget
+     */    
+    void showMoSmControlNote(const QString &aText);
+    /*
+     * Show Close Channel wait note without cancel key
+     * @param aText The string shown in heading widget
+     */    
+    void showCloseChannelWaitNote(const QString &aText);
+    
+    /*
+     * Show sat info note
+     * @param aText The string shown in heading widget
+     */    
+    void showSatInfoNote(const QString &aText);
+
 signals:
     /*
-     * User cancel Dtmf response
+     * User cancel response, Send DTMF, Send Data, Receive Data
      */
-    void userCancelDtmfResponse();
+    void userCancelResponse();
 
 public slots:
     /*
@@ -245,9 +281,28 @@ public slots:
     void updateQueryAction(QString text);
 
     /*
-     * User cancel Dtmf response
+     * User cancel response, Send DTMF, Send Data, Receive Data
      */
-    void cancelDtmfResponse();
+    void cancelResponse();
+ 
+     /*
+     * Show WaitNoteWithoutDelay
+     */   
+    void showWaitNoteWithoutDelay();
+
+    /*
+    * Show SsErrorNote
+    */   
+    void showSsErrorNote();
+
+    /*
+     * Comfirm OpenChannel
+     * @param aText 
+     * @param aActionAccepted 
+     */
+    void showConfirmOpenChannelQuery(
+            const QString &aText,
+            bool &aActionAccepted);
 
 private:
     /*
@@ -322,18 +377,19 @@ private:
     HbMessageBox *mConfirmSendQuery;
 
     /*
-     *  Own. SmsWaitNote
-     */
-    HbProgressDialog *mSmsWaitNote;
-    /*
-     *  Own. DtmfWaitNote
-     */
-    HbProgressDialog *mDtmfWaitNote;
-
-    /*
      *  Own. SetUpCall Query
      */
     HbMessageBox *mSetUpCallQuery;
+    
+    /*
+     *  Own. CallControl Query
+     */
+    HbDeviceMessageBox *mCallControlMsg;
+
+    /*
+     *  Own. Confirm Bip Query
+     */
+    HbMessageBox *mConfirmBipQuery;
 
     /*
      *  General user response
@@ -359,6 +415,12 @@ private:
      *  Own. 
      */   
     QEventLoop *mLoop;
+
+    /*
+     *  Own. SsWaitNote
+     */
+    HbProgressDialog *mWaitNote;
+
 };
 
 #endif// SATAPPUIPROVIDER_H

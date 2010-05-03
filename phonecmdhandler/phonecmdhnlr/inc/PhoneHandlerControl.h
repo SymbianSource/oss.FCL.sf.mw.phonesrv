@@ -21,8 +21,8 @@
 
 //  INCLUDES
 #include "phonehandlerservice.h" 
-#include <remconextensionapi.h> 
-#include <remconcallhandlingtargetobserver.h> 
+#include <RemConExtensionApi.h> 
+#include <RemConCallHandlingTargetObserver.h> 
 #include <e32base.h>
 #include <phclttypes.h> 
 #include <e32property.h> 

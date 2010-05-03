@@ -32,13 +32,13 @@ DialpadSymbianWrapper::~DialpadSymbianWrapper()
 
 int DialpadSymbianWrapper::getMailboxNumber(QString &vmbxNumber)
 {
-    Q_D(DialpadSymbianWrapper);
+    //Q_D(DialpadSymbianWrapper);
     return d_ptr->getMailboxNumber(vmbxNumber);
 }
 
 int DialpadSymbianWrapper::defineMailboxNumber(QString &vmbxNumber)
 {
-    Q_D(DialpadSymbianWrapper);
+    //Q_D(DialpadSymbianWrapper);
     return d_ptr->defineMailboxNumber(vmbxNumber);
 }
 

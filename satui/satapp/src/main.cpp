@@ -17,12 +17,11 @@
 */
 
 #include <QApplication>
-
+#include <QTranslator>
 #include <hbapplication.h>
 #include <hbmainwindow.h>
-#include <QTranslator>
-#include "satappmainhandler.h"
 
+#include "satappmainhandler.h"
 #include "tflogger.h"
 
 int main(int argc, char *argv[])
@@ -39,12 +38,6 @@ int main(int argc, char *argv[])
 
     HbMainWindow window;
     TFLOGSTRING("SATAPP: main window created")
-    
-    // the code is only for test, currently, dphone79 only support
-    // lanscape, remove it before official release
-    #ifndef __WINSCW
-    //window.setOrientation(Qt::Horizontal);
-    #endif
 
     SatAppMainHandler *mainHandler = new SatAppMainHandler(window);
         

@@ -43,6 +43,7 @@ private slots:
     void t_barringStatusExceptionOccurs();
     void t_enableBarring();
     void t_disableBarring();
+    void t_changeBarringPassword();
     
     // private implementation tests
     void t_HandleBarringModeStatusL();
@@ -56,6 +57,7 @@ private slots:
     
     void t_enableBarringRequestComplete();
     void t_disableBarringRequestComplete();
+    void t_changeBarringPasswordRequestComplete();
     void t_RequestStatusChanged();
     
     void t_exceptionSafety();

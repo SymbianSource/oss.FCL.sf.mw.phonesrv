@@ -18,8 +18,8 @@
 #ifndef DIALPADSYMBIANWRAPPER_H
 #define DIALPADSYMBIANWRAPPER_H
 
-#include <qobject>
-#include <qstring>
+#include <QObject>
+#include <QString>
 #include <qglobal.h>
 
 class DialpadSymbianWrapperPrivate;

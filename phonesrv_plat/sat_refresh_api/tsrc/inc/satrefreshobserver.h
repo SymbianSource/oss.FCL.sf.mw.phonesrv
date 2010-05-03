@@ -23,10 +23,10 @@
 #include <testscripterinternal.h>
 #include <stiftestmodule.h>
 // API under testing:
-#include <RSatRefresh.h>
-#include <MSatRefreshObserver.h>
+#include <rsatrefresh.h>
+#include <msatrefreshobserver.h>
 // This is needed for Refresh API
-#include <RSatSession.h>
+#include <rsatsession.h>
 
 /**
 *  Refresh event observer

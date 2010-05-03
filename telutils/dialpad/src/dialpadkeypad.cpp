@@ -93,8 +93,10 @@ DialpadKeypad::DialpadKeypad(
             button->setStyle(mCallButtonStyle);
             HbIcon callIcon(handsetIcon); // todo correct icon
             button->setIcon(callIcon);
+            button->setButtonType(DialpadButton::CallButton); // for css
         } else {
             button->setStyle(mNormalButtonStyle);
+            button->setButtonType(DialpadButton::NumericButton); // for css
         }
 
         if (keyCode==Qt::Key_1) {

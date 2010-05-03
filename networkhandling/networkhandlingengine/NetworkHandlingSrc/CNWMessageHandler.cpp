@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -18,6 +18,7 @@
 
 
 // INCLUDE FILES
+#include    <featmgr.h>
 #include    "NWHandlingEngine.h"
 #include    "CNWMessageHandler.h"
 #include    "CNWNetworkCurrentNetworkMonitor.h"
@@ -31,14 +32,17 @@
 #ifdef RD_PHONE_NG
 #include    "cnwnetworkselectionsettingmonitor.h"
 #endif // RD_PHONE_NG
+#include    "CNWDynamicCapsMonitor.h"
 // CONSTANTS
 const TInt KNWNetworkMonitorCurrent = 0;
 const TInt KNWNetworkMonitorMode = 1;
 const TInt KNWNetworkMonitorRegistration = 2;
 #ifdef RD_PHONE_NG
 const TInt KNWNetworkMonitorSettingSelection = 3;
+const TInt KNWNetworkMonitorDynamicCaps = 4;
+#else // RD_PHONE_NG
+const TInt KNWNetworkMonitorDynamicCaps = 3;
 #endif // RD_PHONE_NG
-
 
 // ============================ MEMBER FUNCTIONS ==============================
 
@@ -207,6 +211,32 @@ void CNWMessageHandler::BaseConstructL()
 
     // Start initialising network handling module.
     iMonitorContainer[ KNWNetworkMonitorRegistration ]->Initialise();
+
+    // Create CNWDynamicCapsMonitor object and insert it to monitor container.
+    // Will be used to hide alpha tag when CS registration is unsuccessful
+    FeatureManager::InitializeLibL();
+    TInt err( KErrNone );
+    if( FeatureManager::FeatureSupported( 
+            KFeatureIdFfDisplayNetworkNameAfterCsRegistration ))
+        {
+        TRAP(err, 
+            CNWDynamicCapsMonitor* tempDynamicCapsMonitor =
+                CNWDynamicCapsMonitor::NewL( *this, iPhone, iNetworkInfo, 
+                                             iCustomAPI );
+            CleanupStack::PushL( tempDynamicCapsMonitor );
+
+            User::LeaveIfError( iMonitorContainer.Insert( 
+                                        tempDynamicCapsMonitor,
+                                        KNWNetworkMonitorDynamicCaps ) );
+            CleanupStack::Pop( tempDynamicCapsMonitor ); );
+        if( err == KErrNone )
+            {
+            iMonitorContainer
+                [ KNWNetworkMonitorDynamicCaps ]->Initialise();
+            }
+        }
+    FeatureManager::UnInitializeLib();
+    User::LeaveIfError(err);
     
     NWLOGSTRING( KNWOBJECT,
         "NW: CNWMessageHandler::BaseConstructL() End" );
@@ -399,6 +429,11 @@ TPtrC CNWMessageHandler::GetNameByMessage(
             return _L("ENWMessageNetworkProviderNameUpdating"); 
         case MNWMessageObserver::ENWMessageServiceProviderNameUpdating:
             return _L("ENWMessageServiceProviderNameUpdating"); 
+        case MNWMessageObserver::ENWMessageDynamicCapsChange:
+            {
+            return _L("ENWMessageDynamicCapsChange");
+            break;
+            }
         default:
             NWLOGSTRING2( KNWINT, 
                 "NW: CNWMessageHandler::GetNameByMessage, unknown message = %d",

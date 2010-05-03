@@ -262,6 +262,27 @@ void PSetCallBarringWrapperPrivate::disableBarring(
 
 
 /*!
+  PSetCallBarringWrapperPrivate::changeBarringPassword
+ */
+void PSetCallBarringWrapperPrivate::changeBarringPassword(
+    const QString &oldPassword,
+    const QString &newPassword,
+    const QString &verifiedPassword)
+{
+    RMobilePhone::TMobilePhonePasswordChangeV2 passwordChange;
+    passwordChange.iOldPassword.Copy(oldPassword.utf16());
+    passwordChange.iNewPassword.Copy(newPassword.utf16());
+    passwordChange.iVerifiedPassword.Copy(verifiedPassword.utf16());
+    
+    QT_TRAP_THROWING(
+        m_callBarring->ChangePasswordL(passwordChange);
+    )
+    
+    m_currentRequest = RequestChangePassword;
+}
+
+
+/*!
   From MPsetBarringObserver.
   PSetCallBarringWrapperPrivate::HandleBarringModeChangedL
  */
@@ -360,7 +381,11 @@ void PSetCallBarringWrapperPrivate::CbPasswordChangedL(
 {
     DPRINT;
     
-    Q_UNUSED(aSuccess)
+    if (aSuccess) {
+        m_barringError = PSetCallBarringWrapper::BarringErrorNone;
+    } else {
+        m_barringError = KErrGsmSSNegativePasswordCheck;
+    }
 }
 
 
@@ -417,6 +442,18 @@ void PSetCallBarringWrapperPrivate::RequestComplete()
             DPRINT << "RequestDisableBarring ERROR:" << errorCode;
             break;
         }
+        
+        case RequestChangePassword:
+        {
+            int errorCode = 0;
+            QT_TRYCATCH_ERROR( errorCode,
+                emit m_owner.barringPasswordChangeRequestCompleted(
+                    m_barringError);
+            )
+            DPRINT << "RequestChangePassword ERROR:" << errorCode;
+            break;
+        }
+        
         default:
             break;
     }

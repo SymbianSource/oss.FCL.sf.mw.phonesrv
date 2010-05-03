@@ -20,7 +20,7 @@
 // INCLUDES
 #include    "csosenpolicysimstatusmonitor.h" 
 #include    <startupdomainpskeys.h> // Property values
-#include    <psvariables.h> 
+#include    <PSVariables.h> 
 
 
 

@@ -24,6 +24,7 @@ file=ABI_DIR\BUILD_DIR\satshellcntrl.dll           SHARED_LIB_DIR\satshellcntrl.
 file=ABI_DIR\BUILD_DIR\satapp.exe                  SHARED_LIB_DIR\satapp.exe
 
 data=DATAZ_\resource\apps\satapp.rsc               resource\apps\satapp.rsc
+data=DATAZ_\resource\apps\satapp.mif               resource\apps\satapp.mif
 data=ZSYSTEM\install\satapp_stub.sis               system\install\satapp_stub.sis
 data=ZPRIVATE\10003a3f\import\apps\satapp_reg.rsc  private\10003a3f\import\apps\satapp_reg.rsc
 

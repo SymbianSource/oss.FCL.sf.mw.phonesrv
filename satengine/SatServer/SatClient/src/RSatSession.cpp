@@ -16,7 +16,7 @@
 */
 
 
-#include    <RSatSession.h>
+#include    <rsatsession.h>
 #include    "SatSOpcodes.h"
 #include    "SatServerFactory.h"
 #include    "SatLog.h"

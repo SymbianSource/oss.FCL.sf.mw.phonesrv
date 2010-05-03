@@ -14,8 +14,8 @@
 * Description: 
 *
 */
-#include <qtimer>
-#include <qkeyevent>
+#include <QTimer>
+#include <QKeyEvent>
 #include <hblineedit.h>
 #include <hbstringutil.h>
 #include "dialpadvoicemailboxeventfilter.h"

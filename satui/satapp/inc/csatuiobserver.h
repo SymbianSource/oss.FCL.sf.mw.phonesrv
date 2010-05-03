@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-20010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -23,7 +23,8 @@
 //  INCLUDES
 #include <msatuiobserver.h>
 #include <rsatuisession.h>
-#include <RSatSession.h>
+#include <rsatsession.h>
+#include <QString>
 #include "satappcommonconstant.h"
 // CONSTANTS
 //256 max length-header information fields
@@ -76,7 +77,7 @@ class CSatUiObserver : public CBase,
         * Sets the UI.
         * @param aImplementer Pointer to be set.
         */
-        void SetImplementer(MSatUiActionImplementer* aImplementer);
+        void SetImplementer( MSatUiActionImplementer* aImplementer );
 
         /**
         * Returns the adapter provided by SatCli.
@@ -89,6 +90,18 @@ class CSatUiObserver : public CBase,
         * @return current profile state.
         */
         TInt ProfileState();
+
+        /**
+        * ConnectRSatSession.
+        * 
+        */
+        void ConnectRSatSessionL();
+
+        /**
+        * DisconnectRSatSession
+        * 
+        */
+        void DisconnectRSatSession();
 
     public: // Functions from base classes
 
@@ -299,9 +312,10 @@ class CSatUiObserver : public CBase,
         * @param aControl Used only for MoSm and Call Control
         * @return Resource id for the default text
         */
-        TInt DefaultAlphaIdL(
+        void DefaultAlphaId(
             const TSatSNotifyCommand aCommandId,
-            const TSatControlResult aControlResult) const;
+            const TSatControlResult aControlResult,
+            QString &resource) const;
 
         /**
         * Get size for the icon in popup window.
@@ -351,7 +365,6 @@ class CSatUiObserver : public CBase,
         // play tone sequence
         TBuf8<KMaxPlayToneLength> iSequence;
 
-
         //Ref: Interface to the UI-part
         MSatUiActionImplementer* iActionImplementer;
 
@@ -369,12 +382,6 @@ class CSatUiObserver : public CBase,
 
         //Own: Current Iconididentifier
         TInt iIconIdIdentifier;
-
-        //Own: SetupMenu and SelectItem items icon
-        //CAknIconArray* iItemIcons;
-
-        //Own: Icon fetching handler
-        //CSatUiIconHandler* iIconHandler;
 
         // own: used to signal that icons are supported
         TBool iIconSupport;

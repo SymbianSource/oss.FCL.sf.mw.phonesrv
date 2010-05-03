@@ -114,6 +114,7 @@ private:
     PsCallDivertingStatus convert(TDivertingStatus type);
     PsCallDivertingStatus convert(RMobilePhone::TMobilePhoneCFStatus type);
     PsServiceGroup convert(TServiceGroup type);
+    PsServiceGroup convert(RMobilePhone::TMobileService service);
     
     
 private:

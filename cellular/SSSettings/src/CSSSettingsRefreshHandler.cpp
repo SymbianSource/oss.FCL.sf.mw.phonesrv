@@ -231,6 +231,17 @@ TBool CSSSettingsRefreshHandler::DoHandleRefresh(
         iRSSSettings.HandleRefresh();
         }
 
+    TBool cspEfFound =  
+        aFiles.Locate( KCsp1Ef ) != KErrNotFound || 
+        aFiles.Locate( KCsp2Ef ) != KErrNotFound; 
+
+    // KCspEf is no longer provided by SAT but GS and PS seem to depend on it, 
+    // handled here for now. 
+    TBool fileFound =  
+        aFiles.Locate( iNotifyInfo->iObservedFile ) != KErrNotFound || 
+        cspEfFound && iNotifyInfo->iObservedFile == KCspEf; 
+
+
     // By default refresh is allowed.
     TBool allow(ETrue);
 
@@ -240,97 +251,47 @@ TBool CSSSettingsRefreshHandler::DoHandleRefresh(
         // Handle only if observer wants to listen this event.
         if ( iNotifyInfo->iObservedRefreshType & aType )
             {
-            TInt changedFiles(0);     
-            // Only change notification will contain file list.
-            if ( aType == EFileChangeNotification )
-                {              
-                if ( aFiles.Locate( KCspEf ) != KErrNotFound )
-                    {
-                    changedFiles += KCspEf;
-                    }
-                // Check if the changed files is what is wanted to be listened.
-                changedFiles = changedFiles & iNotifyInfo->iObservedFile;
-                }
-
-            // For change notification the filelist must contain files, for
-            // other refresh types it is empty.
-            if ( ( aType != EFileChangeNotification ) ||
-                 ( ( aType == EFileChangeNotification ) && 
-                   changedFiles ) )
+            if ( aType != EFileChangeNotification || fileFound )
                 {
                 if ( aFunctionality == ESSSettingsRefresh )
                     {
                     // Inform the observer about the refresh event.
                     iNotifyInfo->iObserver->Refresh(
-                        aType,
-                        ( TSatElementaryFiles ) changedFiles  );
-                        
-                    if ( aFiles.Locate( KCsp1Ef ) != KErrNotFound )
-                        {
-                        iRSatRefresh->RefreshEFRead( ETrue );
-                        }
-                    else if( aFiles.Locate( KCsp2Ef ) != KErrNotFound )
-                        {
-                        iRSatRefresh->RefreshEFRead( ETrue );
-                        }
-                    else
-                        {
-                        iRSatRefresh->RefreshEFRead( EFalse );
-                        }
+                        aType, iNotifyInfo->iObservedFile );
+                    iRSatRefresh->RefreshEFRead( cspEfFound );
                     }
                 else // ESSSettingsAllowRefresh
                     {
                     // Inform the observer about the coming refresh event.
                     allow = iNotifyInfo->iObserver->AllowRefresh(
-                        aType,
-                        ( TSatElementaryFiles ) changedFiles );
+                        aType, iNotifyInfo->iObservedFile );
                     }
                 }
             
             // If there is no client listening changed files SSSettings has to
             // check if some CSP file is into the list and send right response
             // since itself reads CSP files.    
-            if ( !changedFiles )
-                {
-                if ( aFiles.Locate( KCsp1Ef ) != KErrNotFound )
-                    {
-                    iRSatRefresh->RefreshEFRead( EFalse );
-                    }
-                else if( aFiles.Locate( KCsp2Ef ) != KErrNotFound )
-                    {
-                    iRSatRefresh->RefreshEFRead( EFalse );
-                    }
-                else
-                    {
-                    iRSatRefresh->RefreshEFRead( ETrue );
-                    }
+            if ( !fileFound )
+            	{
+                iRSatRefresh->RefreshEFRead( !cspEfFound );
                 }
-            __SSSLOGSTRING1("[SSS]    DoHandleRefresh: changedFiles: %d", changedFiles);
             }
         else
             {
-            iRSatRefresh->RefreshEFRead( EFalse );    
+            iRSatRefresh->RefreshEFRead( EFalse );
             }
         }
-
-    if ( !iNotifyInfo->iObserver && ( aType == EFileChangeNotification 
+    else if ( aType == EFileChangeNotification 
         || aType == ESimInitFileChangeNotification 
-        || aType == ESimInit ) )
+        || aType == ESimInit )
         {
-        if ( aFiles.Locate( KCsp1Ef ) != KErrNotFound )
-            {
-            iRSatRefresh->RefreshEFRead( EFalse );
-            }
-        else if( aFiles.Locate( KCsp2Ef ) != KErrNotFound )
-            {
-            iRSatRefresh->RefreshEFRead( EFalse );
-            }           
-        else 
-            {
-            iRSatRefresh->RefreshEFRead( ETrue );
-            }
-        }   
-                
+        iRSatRefresh->RefreshEFRead( !cspEfFound );
+        }
+    else 
+        {
+        // Do nothing
+        }
+    	    	
     __SSSLOGSTRING("[SSS] <--CSSSettingsRefreshHandler::DoHandleRefresh");
     return allow;
     }

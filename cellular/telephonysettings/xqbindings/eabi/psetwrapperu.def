@@ -125,4 +125,6 @@ EXPORTS
 	_ZTV22PSetCallBarringWrapper @ 124 NONAME
 	_ZTV22PSetCallWaitingWrapper @ 125 NONAME
 	_ZTV24PSetCallDivertingWrapper @ 126 NONAME
+	_ZN22PSetCallBarringWrapper21changeBarringPasswordERK7QStringS2_S2_ @ 127 NONAME
+	_ZN22PSetCallBarringWrapper37barringPasswordChangeRequestCompletedEi @ 128 NONAME
 

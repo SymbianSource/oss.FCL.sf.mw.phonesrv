@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -123,6 +123,10 @@ SYSTEMINCLUDE    ../../inc // for RPhCltEmergencyCall.h, CPhCltExtPhoneDialData.
 // TEMPORARY DEFINITION FOR TELEPHONY VARIATION HEADERS
 SYSTEMINCLUDE   ../../../../../app/phone/inc
 
+// TEMPORARY DEFINITION FOR Orbit Device Dialog
+SYSTEMINCLUDE /epoc32/include/mw/hb/hbwidgets
+SYSTEMINCLUDE /epoc32/include/mw/hb/hbcore
+
 LIBRARY        efsrv.lib
 LIBRARY        apgrfx.lib
 LIBRARY        charconv.lib
@@ -130,9 +134,7 @@ LIBRARY        euser.lib
 LIBRARY        ws32.lib
 LIBRARY        etel.lib
 LIBRARY        bafl.lib
-LIBRARY        aknnotify.lib
 LIBRARY        gsmu.lib
-LIBRARY        avkon.lib
 LIBRARY        apparc.lib
 LIBRARY        customapi.lib
 LIBRARY        etelmm.lib 
@@ -143,5 +145,7 @@ LIBRARY        estor.lib
 LIBRARY        centralrepository.lib
 LIBRARY        imageconversion.lib  
 LIBRARY        bitmaptransforms.lib 
+LIBRARY        hbwidgets.lib
+LIBRARY        hbcore.lib
 
 //  End of File  

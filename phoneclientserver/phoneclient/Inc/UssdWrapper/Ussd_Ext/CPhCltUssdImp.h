@@ -171,8 +171,8 @@ class CPhCltUssdImp:
         // Called when send completes.
         void HandleSendEventL( const TInt aError );
 
-        // Called when the user cancel the wait dialog.
-        void GlobalWaitNoteDismissedL( TInt aButtonId );
+        // Hidden when the user cancel the wait dialog.
+        void GlobalWaitNoteHidden();
         
         
 

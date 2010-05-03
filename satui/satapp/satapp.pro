@@ -20,13 +20,17 @@ TEMPLATE = app
 TARGET = satapp
 DEPENDPATH += .
 HEADERS += $$PUBLIC_HEADERS
+MOC_DIR = moc
 
 CONFIG += hb
 
+ICON = resource/qgn_menu_sat.svg
 symbian: {
     TARGET.CAPABILITY = CAP_GENERAL_DLL
     TARGET.UID3=0x101f4ce0
     INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE \
+        .inc\
+        MOC_DIR \
         ../../inc 
     LIBS += -lSatClient.dll \
             -lSatInternalClient.dll \
@@ -35,7 +39,8 @@ symbian: {
             -lcentralrepository.dll \
             -lCenRepNotifHandler.dll \
             -lCdlEngine.dll \
-            -lFlogger.dll
+            -lFlogger.dll \
+            -lprofileeng.dll 
 
     HEADERS += inc/msatuiactionimplementer.h \
                inc/satappcommonconstant.h \
@@ -48,7 +53,7 @@ symbian: {
                inc/satappgetinkeynote.h \
                inc/csatuiobserver.h \
                inc/csatuiiconhandler.h \
-
+               inc/satappplaytoneprovider.h
 
     SOURCES += src/main.cpp \
                src/satappmainhandler.cpp \
@@ -58,10 +63,13 @@ symbian: {
                src/satappview.cpp \
                src/satappgetinkeynote.cpp \
                src/csatuiobserver.cpp \
-               src/csatuiiconhandler.cpp 
+               src/csatuiiconhandler.cpp \
+               src/satappplaytoneprovider.cpp
     
     BLD_INF_RULES.prj_exports += "rom/satapp.iby CORE_MW_LAYER_IBY_EXPORT_PATH(satapp.iby)" \
-                                 "rom/satapp_stub.sis /epoc32/data/z/system/install/satapp_stub.sis"    
+                                 "rom/satapp_stub.sis /epoc32/data/z/system/install/satapp_stub.sis" \
+                                 "resource/satapp_en.ts /epoc32/include/platform/qt/translations/satapp_en.ts"
+                                 
 }
 
 RESOURCES += resource/satapp.qrc

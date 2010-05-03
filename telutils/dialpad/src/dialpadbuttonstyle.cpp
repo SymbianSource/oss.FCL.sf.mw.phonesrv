@@ -19,9 +19,6 @@
 #include <hbstyleoptionpushbutton.h>
 #include <hbframeitem.h>
 #include <hbframedrawer.h>
-#include <hbiconitem.h>
-#include <hbtextitem.h>
-#include <hbcolorscheme.h>
 #include "dialpadbuttonstyle.h"
 
 DialpadButtonStyle::DialpadButtonStyle()
@@ -63,7 +60,7 @@ void DialpadButtonStyle::updatePrimitive(
                 state = QIcon::On;
 
             if (mode == QIcon::Disabled && state == QIcon::Off) {
-                frameGraphicsName = "qtg_fr_btn_disabled";
+                frameGraphicsName = "qtg_fr_input_btn_function_disabled";
             } else if (mode == QIcon::Normal && state == QIcon::On) {
                 if (mButtonStyle==CallButtonStyle) {
                     frameGraphicsName = "qtg_fr_btn_green_pressed";
@@ -99,54 +96,6 @@ void DialpadButtonStyle::updatePrimitive(
         break;
     }
 
-    case P_PushButton_icon: {
-        HbStyle::updatePrimitive(item,primitive,option);
-
-        // override color (todo: via css, when supported by fw)
-        const HbStyleOptionPushButton *opt =
-            qstyleoption_cast<const HbStyleOptionPushButton *>(option);
-        QIcon::Mode mode = QIcon::Disabled;
-        QIcon::State state = QIcon::Off;
-        if (opt->state & QStyle::State_Enabled)
-            mode = QIcon::Normal;
-        if (opt->state & QStyle::State_On)
-            state = QIcon::On;
-
-        if (mButtonStyle==CallButtonStyle &&
-            mode == QIcon::Normal) {
-            if (state==QIcon::On) {
-                QColor color(HbColorScheme::color("qtc_callhandling_answer_pressed"));
-                setIconColor(item,color);
-            } else {
-                QColor color(HbColorScheme::color("qtc_callhandling_answer_normal"));
-                setIconColor(item,color);
-            }
-        } else if (mButtonStyle==NormalButtonStyle) {
-            QColor color;
-            color = HbColorScheme::color("qtc_input_button_normal");
-            setIconColor(item,color);
-        } else { // function button
-            QColor color;
-            color = HbColorScheme::color("qtc_input_function_normal");
-            setIconColor(item,color);
-        }
-        break;
-    }
-
-    case P_PushButton_text: {
-        HbStyle::updatePrimitive(item,primitive,option);
-        // override color (todo: via css, when supported by fw)
-        setTextColor(item);
-        break;
-    }
-
-    case P_PushButton_additionaltext: {
-        HbStyle::updatePrimitive(item,primitive,option);
-        // override color (todo: via css, when supported by fw)
-        setTextColor(item);
-        break;
-    }
-
     default:
         HbStyle::updatePrimitive(item,primitive,option);
         break;
@@ -156,33 +105,4 @@ void DialpadButtonStyle::updatePrimitive(
 void DialpadButtonStyle::setButtonStyle(ButtonStyle style)
 {
     mButtonStyle = style;
-}
-
-void DialpadButtonStyle::setTextColor(QGraphicsItem *item) const
-{
-    HbTextItem *textPrim = qgraphicsitem_cast<HbTextItem*>(item);
-    if (textPrim) {
-        QColor color;
-        color = HbColorScheme::color("qtc_input_button_normal");
-        if (color.isValid()) {
-            textPrim->setTextColor(color);
-        } else {
-            textPrim->setTextColor(Qt::black);
-        }
-    }
-}
-
-void DialpadButtonStyle::setIconColor(
-    QGraphicsItem *item,
-    const QColor &color ) const
-{
-    HbIconItem *iconItem = qgraphicsitem_cast<HbIconItem*>(item);
-
-    if (iconItem) {
-        if (color.isValid()) {
-            iconItem->setColor(color);
-        } else {
-            iconItem->setColor(Qt::black);
-        }
-    }
 }

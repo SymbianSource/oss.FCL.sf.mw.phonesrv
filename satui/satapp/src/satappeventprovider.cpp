@@ -17,7 +17,9 @@
 
 #include <QStringList>
 #include <msatuiadapter.h>
+
 #include "satappeventprovider.h"
+#include "satappplaytoneprovider.h"
 #include "csatuiobserver.h"
 #include "tflogger.h"
 
@@ -27,33 +29,44 @@
 // ----------------------------------------------------------------------------
 //
 SatAppEventProvider::SatAppEventProvider(QObject *parent) :
-    QObject(parent), mObs(NULL)
+    QObject(parent), mObs(NULL), mPlayTone(NULL)
 {
     TFLOGSTRING("SATAPP: SatAppEventProvider::SatAppEventProvider call")
-    TRAPD(err, mObs = CSatUiObserver::NewL())
-    TFLOGSTRING2("SATAPP: SatAppEventProvider::SatAppEventProvider \
-        new CSatUiObserver err=%d", err)
-    
-    if (KErrNone != err) {
+    TRAPD(err, mObs = CSatUiObserver::NewL();
+                mObs->ConnectRSatSessionL();
+          );
+    if ( KErrNone != err ) {
         CloseSatUI();
     } else {
         mObs->SetImplementer(this);
-        TFLOGSTRING("SATAPP: SatAppEventProvider::SatAppEventProvider")
-    }  
+        TFLOGSTRING("SATAPP: SatAppEventProvider::SatAppEventProvider \
+            SetImplementer")
+        mPlayTone = new SatAppPlayToneProvider(this);
+    }
+
     TFLOGSTRING("SATAPP: SatAppEventProvider::SatAppEventProvider exit")
 }
 
 // ----------------------------------------------------------------------------
 // SatAppEventProvider::~SatAppEventProvider
-// Sets a pointer to CSatUiViewAppUi object.
+// Sets a pointer to SATAPP: SatAppEventProvider object.
 // (other items were commented in a header).
 // ----------------------------------------------------------------------------
 //
 SatAppEventProvider::~SatAppEventProvider()
 {
     TFLOGSTRING("SATAPP: SatAppEventProvider::~SatAppEventProvider call")
-    delete mObs;
-    mObs = NULL;
+    if (mObs){
+        mObs->DisconnectRSatSession();
+        delete mObs;
+        mObs = NULL;
+    }
+    if (mPlayTone) {
+        delete mPlayTone;
+        mPlayTone = NULL;
+        TFLOGSTRING("SATAPP: SatAppEventProvider::~SatAppEventProvider delete\
+            mPlayTone")
+    }
     TFLOGSTRING("SATAPP: SatAppEventProvider::~SatAppEventProvider exit")
 }
 
@@ -67,19 +80,18 @@ TSatUiResponse SatAppEventProvider::SetUpMenuL(
     const MDesCArray &aMenuItems,
     const CArrayFixFlat<TSatAction> */*aMenuItemNextActions*/,
     const CFbsBitmap */*aIconBitmap*/,
-    //const CAknIconArray */*aItemIconsArray*/,
     const TBool aSelfExplanatoryItems,
     const TBool aHelpIsAvailable)
-    {
+{
     TFLOGSTRING("SATAPP: SatAppEventProvider::SetUpMenuL call")
 
     TSatUiResponse response(ESatSuccess);
     QString title;
     if (aText.Length() > 0) {
         title = QString::fromUtf16 (aText.Ptr(), aText.Length());
-        TFLOGSTRING2("SATAPP: SatAppEventProvider::SetUpMenuL Title=%s",
-            title.utf16())
-        }
+        TFLOGSTRING2("SATAPP: SatAppEventProvider::SetUpMenuL Title=%S",
+            &aText)
+    }
 
     QStringList *menuList = new QStringList();
     TFLOGSTRING("SATAPP: SatAppEventProvider::SetUpMenuL List")
@@ -90,7 +102,7 @@ TSatUiResponse SatAppEventProvider::SetUpMenuL(
             QString item=QString::fromUtf16(aMenuItems.MdcaPoint(i).Ptr(),
                 aMenuItems.MdcaPoint(i).Length());
             menuList->append(item);
-            }
+        }
 
         TFLOGSTRING("SATAPP: SatAppEventProvider::SetUpMenuL add item")
 
@@ -98,9 +110,6 @@ TSatUiResponse SatAppEventProvider::SetUpMenuL(
             response,
             title,
             *menuList,
-            //const CArrayFixFlat<TSatAction> *aMenuItemNextActions,
-            //const HbIcon &aIcon,
-            //const CArrayFixFlat<TInt> *aMenuIcons,
             aSelfExplanatoryItems,
             aHelpIsAvailable);
 
@@ -109,7 +118,7 @@ TSatUiResponse SatAppEventProvider::SetUpMenuL(
     TFLOGSTRING("SATAPP: SatAppEventProvider::SetUpMenuL exit")
 
     return response;
-    }
+}
 
 // ----------------------------------------------------------------------------
 // SatAppEventProvider::SetUpMenuL
@@ -123,7 +132,6 @@ TSatUiResponse SatAppEventProvider::SelectItemL(
     const TInt aDefaultItem,
     TUint8 &aSelection,
     const CFbsBitmap */*aIconBitmap*/,
-    //const CAknIconArray */*aItemsIconArray*/,
     const TBool aSelfExplanatoryItems,
     const TBool aHelpIsAvailable)
 {
@@ -134,9 +142,9 @@ TSatUiResponse SatAppEventProvider::SelectItemL(
     QString title;
     if (aText.Length() > 0) {
         title=QString::fromUtf16(aText.Ptr(), aText.Length());
-        TFLOGSTRING2("SATAPP: SatAppEventProvider::SelectItemL Title=%s",
-            title.utf16())
-        }
+        TFLOGSTRING2("SATAPP: SatAppEventProvider::SelectItemL Title=%S",
+            &aText)
+    }
 
     QStringList *menuList = new QStringList();
     //Add Item
@@ -145,7 +153,7 @@ TSatUiResponse SatAppEventProvider::SelectItemL(
             QString item=QString::fromUtf16(aMenuItems.MdcaPoint(i).Ptr(),
                         aMenuItems.MdcaPoint(i).Length());
             menuList->append(item);
-            }
+        }
         TFLOGSTRING("SATAPP: SatAppEventProvider::SelectItemL add item")
 
         emit selectItemEvent(
@@ -154,9 +162,6 @@ TSatUiResponse SatAppEventProvider::SelectItemL(
             *menuList,
             aDefaultItem,
             aSelection,
-            //const CArrayFixFlat<TSatAction> *aMenuItemNextActions,
-            //const HbIcon &aIcon,
-            //const CArrayFixFlat<TInt> *aMenuIcons,
             aSelfExplanatoryItems,
             aHelpIsAvailable);
 
@@ -189,15 +194,15 @@ int SatAppEventProvider::profileState()
 // ----------------------------------------------------------------------------
 //
 void SatAppEventProvider::menuSelection(int aMenuItem, bool aHelpRequested)
-    {
+{
     TFLOGSTRING2("SATAPP: SatAppEventProvider::MenuSelection call\
         aMenuItem=%d", aMenuItem)
     if(mObs && mObs->Adapter()) {
         mObs->Adapter()->MenuSelection(aMenuItem, aHelpRequested);
-        }
+    }
 
     TFLOGSTRING("SATAPP: SatAppEventProvider::MenuSelection exit")
-    }
+}
 
 // ----------------------------------------------------------------------------
 // SatAppEventProvider::DisplayTextL
@@ -220,16 +225,16 @@ TSatUiResponse SatAppEventProvider::DisplayTextL(
     if (aText.Length() > 0) {
         title=QString::fromUtf16(aText.Ptr(), aText.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::DisplayTextL \
-            Title=%s", title.utf16())
-        }
+            Title=%S", &aText)
+    }
 
     QString appName;
     if (aSimApplicationName.Length() > 0) {
          appName=QString::fromUtf16(aSimApplicationName.Ptr(),
                 aSimApplicationName.Length());
          TFLOGSTRING2("SATAPP: SatAppEventProvider::DisplayTextL \
-             appName=%s", appName.utf16())
-        }
+             appName=%S", &aSimApplicationName)
+    }
 
     int timeInterval = aDuration.Int();
     TFLOGSTRING2("SATAPP: SatAppEventProvider::DisplayTextL: \
@@ -276,26 +281,25 @@ TSatUiResponse SatAppEventProvider::GetInputL(
     if (aText.Length() > 0) {
         title=QString::fromUtf16(aText.Ptr(), aText.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::GetInputL \
-            Title=%s", title.utf16())
-        }
+            Title=%S", &aText)
+     }
 
     QString inputText;
     if (aInput.Length() > 0) {
         inputText = QString::fromUtf16(aInput.Ptr(), aInput.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::GetInputL \
-            inputText=%s", inputText.utf16())
-        }
+            inputText=%S", &aInput)
+    }
     bool isSelfExplanatory = aSelfExplanatory;
     unsigned int duration = aDuration;
-    //QPixmap *iconBitmapGetInput = QPixmap::fromSymbianCFbsBitmap(CFbsBitmap *aIconBitmapGetInput);
-     if (aGetInkey) {
+    
+    if (aGetInkey) {
         //Get Inkey
          emit getInkeyEvent(
              response,
              title,
              aCharacterSet,
              inputText,
-             //iconBitmapGetInput,
              isSelfExplanatory,
              duration);
          TFLOGSTRING("SATAPP: SatAppEventProvider::GetInputL: GetInkey")
@@ -313,24 +317,62 @@ TSatUiResponse SatAppEventProvider::GetInputL(
             minLength,
             maxLength,
             hideInput,
-            //iconBitmapGetInput,
             isSelfExplanatory,
             duration);
         int length = inputText.length();
         if (length > maxLength) {
             length = maxLength;
         }
-        TFLOGSTRING("SATAPP: SatAppEventProvider::GetInputL: GetInput")
-        TFLOGSTRING2( "SATAPP: SatAppEventProvider::GetInputL:GetInput \
-        text=%s", inputText.utf16() )
         aInput.Copy(reinterpret_cast<const TUint16*>(inputText.utf16()), length);
         TFLOGSTRING2("SATAPP: SatAppEventProvider::GetInputL aInput=%S", &aInput)
     }
     TFLOGSTRING("SATAPP: SatAppEventProvider::GetInputL exit")
     return response;
-    }
+}
 
-    // ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// SatAppEventProvider::CallControlL
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//                                         
+TSatUiResponse SatAppEventProvider::CallControlL(
+    const TDesC &aText,
+    const TSatAlphaIdStatus aAlphaIdStatus)
+{
+    TFLOGSTRING("SATAPP: SatAppEventProvider::CallControlL call")
+    QString text;
+    if (aText.Length() > 0) {
+        text=QString::fromUtf16(aText.Ptr(), aText.Length());
+        TFLOGSTRING2("SATAPP: SatAppEventProvider::CallControlL \
+                aText=%S", &aText)
+    }
+    emit callControlEvent(text, aAlphaIdStatus);
+    TFLOGSTRING("SATAPP: SatAppEventProvider::CallControlL exit")
+    return ESatSuccess;
+}
+
+// ----------------------------------------------------------------------------
+// SatAppEventProvider::MoSmControlL
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+TSatUiResponse SatAppEventProvider::MoSmControlL(
+    const TDesC &aText,
+    const TSatAlphaIdStatus aAlphaIdStatus)
+{
+    TFLOGSTRING("SATAPP: SatAppEventProvider::MoSmControlL call")
+    QString text;
+    if (aText.Length() > 0) {
+        text=QString::fromUtf16(aText.Ptr(), aText.Length());
+        TFLOGSTRING2("SATAPP: SatAppEventProvider::MoSmControlL \
+                aText=%S", &aText)
+    }
+    emit moSmControlEvent(text, aAlphaIdStatus);
+    TFLOGSTRING("SATAPP: SatAppEventProvider::MoSmControlL exit")
+    return ESatSuccess;
+}
+
+// ----------------------------------------------------------------------------
 // SatAppEventProvider::GetYesNoL
 // (other items were commented in a header).
 // ----------------------------------------------------------------------------
@@ -350,7 +392,7 @@ TSatUiResponse SatAppEventProvider::GetYesNoL(
     if (aText.Length() > 0) {
         text=QString::fromUtf16(aText.Ptr(), aText.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::GetYesNoL \
-                aText=%s", text.utf16())
+                aText=%S", &aText)
     }
 
     unsigned int inKey = static_cast < TUint >(aInkey);
@@ -366,7 +408,6 @@ TSatUiResponse SatAppEventProvider::GetYesNoL(
         text,
         aCharacterSet,
         inKey,
-        //const TSatIconId &aIconId,
         selfExplanatory,
         duration,
         immediateDigitResponse);
@@ -393,7 +434,7 @@ TSatUiResponse SatAppEventProvider::ConfirmSendL(
     if (aText.Length() > 0) {
         text=QString::fromUtf16(aText.Ptr(), aText.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::GetYesNoL \
-                aText=%s", text.utf16())
+                aText=%S", &aText)
     }
     bool actionAccepted = aActionAccepted;
     int type = aType;
@@ -402,6 +443,7 @@ TSatUiResponse SatAppEventProvider::ConfirmSendL(
         text,
         actionAccepted,
         type);
+    aActionAccepted = actionAccepted;
     TFLOGSTRING("SATAPP: SatAppEventProvider::ConfirmSendL exit")
     return response;
 }
@@ -421,7 +463,7 @@ void SatAppEventProvider::ShowSmsWaitNoteL(
     if (aText.Length() > 0) {
         title = QString::fromUtf16 (aText.Ptr(), aText.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::ShowSmsWaitNoteL \
-            Title=%s", title.utf16())
+            Title=%S", &aText)
     }
     bool selfExplanatoryIcon = aSelfExplanatoryIcon;
 
@@ -448,14 +490,14 @@ void SatAppEventProvider::ConfirmSetUpCallL(
     if (aText.Length() > 0) {
         text = QString::fromUtf16 (aText.Ptr(), aText.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::ConfirmSetUpCallL \
-            text=%s", text.utf16())
+            text=%S", &aText)
     }
     
     QString title;
-    if (aText.Length() > 0) {
+    if (aSimAppName.Length() > 0) {
         title = QString::fromUtf16 (aSimAppName.Ptr(), aSimAppName.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::ConfirmSetUpCallL \
-            Title=%s", title.utf16())
+            Title=%S", &aSimAppName)
     }
     bool actionAccepted = aActionAccepted;
 
@@ -463,7 +505,9 @@ void SatAppEventProvider::ConfirmSetUpCallL(
         text,
         title,
         actionAccepted);
-    TFLOGSTRING("SATAPP: SatAppEventProvider::ConfirmSetUpCallL exit")    
+    aActionAccepted = actionAccepted;
+    TFLOGSTRING2("SATAPP: SatAppEventProvider::ConfirmSetUpCallL aActionAccepted %d \
+    exit", aActionAccepted)
     }
 
 // ----------------------------------------------------------------------------
@@ -482,7 +526,7 @@ TSatUiResponse SatAppEventProvider::ShowDtmfWaitNoteL(
     if (aText.Length() > 0) {
         title = QString::fromUtf16 (aText.Ptr(), aText.Length());
         TFLOGSTRING2("SATAPP: SatAppEventProvider::ShowDtmfWaitNoteL \
-            Title=%s", title.utf16())
+            Title=%S", &aText)
     }
     emit showDtmfWaitNoteEvent(
         response,
@@ -499,6 +543,9 @@ TSatUiResponse SatAppEventProvider::ShowDtmfWaitNoteL(
 void SatAppEventProvider::ClearScreen()
 {
     TFLOGSTRING("SATAPP: SatAppEventProvider::ClearScreen call")
+    if (mPlayTone) {
+        mPlayTone->clearScreen();
+    }
     emit clearScreenEvent();
     TFLOGSTRING("SATAPP: SatAppEventProvider::ClearScreen exit")
 }
@@ -511,6 +558,10 @@ void SatAppEventProvider::ClearScreen()
 void SatAppEventProvider::CloseSatUI()
 {
     TFLOGSTRING("SATAPP: SatAppEventProvider::CloseSatUI call")
+    if (mPlayTone) {
+        mPlayTone->closeSatUI();
+    }
+
     emit closeUiEvent();
     TFLOGSTRING("SATAPP: SatAppEventProvider::CloseSatUI exit")
 }
@@ -528,15 +579,151 @@ void SatAppEventProvider::StopShowWaitNote()
 }
 
 //-----------------------------------------------------------------------------
-// SatAppEventProvider::userCancelDtmfResponse
+// SatAppEventProvider::userCancelResponse
 // (other items were commented in a header).
 // ----------------------------------------------------------------------------
 //
-void SatAppEventProvider::userCancelDtmfResponse()
+void SatAppEventProvider::userCancelResponse()
 {
-    TFLOGSTRING("SATAPP: SatAppEventProvider::userCancelDtmfResponse call")
+    TFLOGSTRING("SATAPP: SatAppEventProvider::userCancelResponse call")
     mObs->Adapter()->SessionTerminated( ESessionCancel );
-    TFLOGSTRING("SATAPP: SatAppEventProvider::userCancelDtmfResponse exit")
+    TFLOGSTRING("SATAPP: SatAppEventProvider::userCancelResponse exit")
 }
 
- //End of file
+//-----------------------------------------------------------------------------
+// SatAppEventProvider::ShowSsWaitNoteL
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void SatAppEventProvider::ShowSsWaitNoteL(
+            const TDesC &aText,
+            const CFbsBitmap* /*aIconBitmap*/,
+            const TBool aSelfExplanatoryIcon )
+{
+    TFLOGSTRING("SATAPP: SatAppEventProvider::ShowSsWaitNoteL call")
+    QString title;
+    if (aText.Length() > 0) {
+        title = QString::fromUtf16 (aText.Ptr(), aText.Length());
+        TFLOGSTRING2("SATAPP: SatAppEventProvider::ShowSsWaitNoteL \
+            Title=%S", &aText)
+    }
+    bool selfExplanatoryIcon = aSelfExplanatoryIcon;
+
+    emit showSsWaitNoteEvent(
+        title,
+        selfExplanatoryIcon);
+    TFLOGSTRING("SATAPP: SatAppEventProvider::ShowSsWaitNoteL exit")
+}
+
+//-----------------------------------------------------------------------------
+// SatAppEventProvider::ShowWaitNoteWithoutDelayL
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void SatAppEventProvider::ShowWaitNoteWithoutDelayL()
+{
+    TFLOGSTRING("SATAPP: SatAppEventProvider::ShowWaitNoteWithoutDelayL call")
+    emit showWaitNoteWithoutDelayEvent();
+    TFLOGSTRING("SATAPP: SatAppEventProvider::ShowWaitNoteWithoutDelayL exit")
+}
+
+//-----------------------------------------------------------------------------
+// SatAppEventProvider::showSsErrorNoteEvent
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void SatAppEventProvider::ShowSsErrorNoteL()
+{
+    TFLOGSTRING("SATAPP: SatAppEventProvider::showSsErrorNoteEvent call")
+    emit showSsErrorNoteEvent();
+    TFLOGSTRING("SATAPP: SatAppEventProvider::showSsErrorNoteEvent exit")
+}
+
+//-----------------------------------------------------------------------------
+// SatAppEventProvider::ShowBIPNoteL
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void SatAppEventProvider::ShowBIPNoteL( TInt aCommand, const TDesC &aText,
+        const CFbsBitmap* /*aIconBitmap*/, const TBool /*aSelfExplanatory*/)
+{
+    TFLOGSTRING("SATAPP: SatAppEventProvider::ShowBIPNoteL call")
+    int cmdType = aCommand;
+    QString title;
+    if (aText.Length() > 0) {
+        title=QString::fromUtf16(aText.Ptr(), aText.Length());
+        TFLOGSTRING2("SATAPP: SatAppEventProvider::ShowBIPNoteL \
+            Title=%S", &aText)
+        }
+    emit showBIPNoteEvent(cmdType, title);
+    TFLOGSTRING("SATAPP: SatAppEventProvider::ShowBIPNoteL exit")
+}
+
+//-----------------------------------------------------------------------------
+// SatAppEventProvider::ConfirmOpenChannelL
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+TSatUiResponse SatAppEventProvider::ConfirmOpenChannelL(
+    const TDesC &aText,
+    TBool &aActionAccepted,
+    const CFbsBitmap* /*aIconBitmapOpenChannel*/,
+    const TBool /*aSelfExplanatory*/ )
+{
+    TFLOGSTRING("SATAPP: SatAppEventProvider::ConfirmOpenChannelL call")
+    TSatUiResponse response( ESatSuccess );
+
+    QString title;
+    if (aText.Length() > 0) {
+        title=QString::fromUtf16(aText.Ptr(), aText.Length());
+        TFLOGSTRING2("SATAPP: SatAppEventProvider::ConfirmOpenChannelL \
+            Title=%S", &aText)
+        }
+    bool actionAccepted = aActionAccepted;
+    emit showOpenChannelConfirmEvent(title, actionAccepted);
+    aActionAccepted = actionAccepted;
+    TFLOGSTRING2( "SATAPP: SatAppEventProvider::ConfirmOpenChannelL exit\
+        response: %d", response)
+    return response;
+}
+
+//-----------------------------------------------------------------------------
+// SatAppEventProvider::PlayStandardToneL
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+TSatUiResponse SatAppEventProvider::PlayStandardToneL( const TDesC& aText,
+    const TDesC8& aSequence,
+    TTimeIntervalMicroSeconds aDuration,
+    const CFbsBitmap* aIconBitmap,
+    const TBool aSelfExplanatory )
+{
+    TFLOGSTRING("SATAPP: SatAppEventProvider::PlayStandardToneL call")
+    TSatUiResponse response = mPlayTone->PlayStandardToneL(
+        aText, aSequence, aDuration, aIconBitmap, aSelfExplanatory);
+    TFLOGSTRING2("SATAPP: SatAppEventProvider::PlayStandardToneL \
+        response= %d exit", response)
+    return response;
+}
+
+//-----------------------------------------------------------------------------
+// SatAppEventProvider::PlayUserSelectedToneL
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+TSatUiResponse SatAppEventProvider::PlayUserSelectedToneL(
+        const TDesC &aText,
+        TTimeIntervalMicroSeconds aDuration,
+        TSatTone aTone,
+        const CFbsBitmap* aIconBitmap,
+        const TBool aSelfExplanatory )
+{
+    TFLOGSTRING("SatAppEventProvider::PlayUserSelectedToneL calling")
+    TSatUiResponse response = mPlayTone->PlayUserSelectedToneL(
+        aText, aDuration, aTone, aIconBitmap, aSelfExplanatory);
+    TFLOGSTRING2( "SatAppEventProvider::PlayUserSelectedToneL response= %d \
+        exit", response)
+    return response;
+}
+
+//End of file

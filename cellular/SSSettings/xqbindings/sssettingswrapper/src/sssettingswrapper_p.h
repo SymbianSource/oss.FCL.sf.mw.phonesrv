@@ -18,8 +18,8 @@
 #ifndef SSSETTINGSWRAPPER_P_H
 #define SSSETTINGSWRAPPER_P_H
 
-#include <RSSSettings.h>
-#include <MSSSettingsObserver.h>
+#include <rsssettings.h>
+#include <msssettingsobserver.h>
 
 
 class SsSettingsWrapper;

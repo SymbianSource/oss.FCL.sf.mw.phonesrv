@@ -22,8 +22,8 @@
 #include    "CNWNetworkViagRefresh.h"
 #include    "CNWNetworkViagBaseEngine.h"
 #include    "NWLogger.h"
-#include    <RSatRefresh.h>
-#include    <RSatSession.h>
+#include    <rsatrefresh.h>
+#include    <rsatsession.h>
 #include    "CNWNetworkViagSimReader.h"
 
 

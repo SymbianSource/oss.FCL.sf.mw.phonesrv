@@ -18,7 +18,7 @@
 #include "sssettingswrapper_p.h"
 #include "sssettingswrapper.h"
 #include "logging.h"
-#include <RSSSettings.h>
+#include <rsssettings.h>
 
 /*!
   SsSettingsWrapperPrivate::SsSettingsWrapperPrivate

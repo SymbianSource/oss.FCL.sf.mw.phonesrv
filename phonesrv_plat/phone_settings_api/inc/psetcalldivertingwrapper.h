@@ -57,9 +57,8 @@ public:
     //member data
     //Divert condition
     PsCallDivertingCondition iCondition;
-    // (RMobileCall::TMobileService)
-    // RMobileCall::EServiceUnspecified if not available
-    int iServiceGroup;
+    //Divert service group
+    PsServiceGroup iServiceGroup;
     //Divert status
     PsCallDivertingStatus iStatus;
     //Diverted-to number

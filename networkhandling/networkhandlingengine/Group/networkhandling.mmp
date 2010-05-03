@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -46,6 +46,7 @@ SOURCE          CNWNetworkCurrentNetworkReceiver.cpp
 #ifdef RD_PHONE_NG
 SOURCE          cnwnetworkselectionsettingmonitor.cpp
 #endif
+SOURCE          CNWDynamicCapsMonitor.cpp  
 
 #ifdef __PROTOCOL_GSM
 #include "Networkhandlinggsm.mmp"
@@ -65,6 +66,8 @@ LIBRARY         efsrv.lib
 LIBRARY         charconv.lib
 
 LIBRARY         centralrepository.lib
+LIBRARY         etelpckt.lib
+LIBRARY         FeatMgr.lib
 
 #ifdef WINSCW
     DEFFILE ../Bwins/NETWORKHANDLING.DEF

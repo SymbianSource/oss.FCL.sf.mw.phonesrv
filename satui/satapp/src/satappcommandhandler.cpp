@@ -107,7 +107,7 @@ void SatAppCommandHandler::displayText(TSatUiResponse &aRes,
     if (!aSimApplicationName.isEmpty()) {
         heading.append(aSimApplicationName);
     } else {
-        heading.append(QObject::tr("SAT MESSAGE HEADER"));
+        heading.append(hbTrId("txt_sat_application_name"));
     }
 
     // set time
@@ -190,11 +190,11 @@ void SatAppCommandHandler::getInkey(TSatUiResponse &aRes,
     if (aTitleText.isEmpty()) {
         if (ESatDigitOnly == aCharacterSet) {
             TFLOGSTRING("SATAPP:SatAppCommandHandler::getInkey: ESatDigitOnly")
-            heading = tr("Enternumber (1 digit 0-9) ");
+            heading = hbTrId("txt_sat_getinkey_nbr");
         } else {
             // ESatCharSmsDefaultAlphabet or ESatCharUcs2Alphabet
             TFLOGSTRING("SatAppCommandHandler::getInkey others")
-            heading = tr("Enter character ");
+            heading = hbTrId("txt_sat_getinkey_char");
         }
      } else {
          heading = aTitleText;
@@ -205,7 +205,7 @@ void SatAppCommandHandler::getInkey(TSatUiResponse &aRes,
     rsp = mUi.showGetInkeyQuery(heading, aInputText, aCharacterSet, aDuration);
 
     if (aDuration) {
-        aDuration = time.elapsed() / 100;
+        aDuration = time.elapsed() / KSymbianTimeConvertQtTime;
         TFLOGSTRING2("SATAPP: SatAppCommandHandler::getInkey\
                 return for server aDuration: %d", aDuration)
     }
@@ -309,12 +309,12 @@ void SatAppCommandHandler::getInput(TSatUiResponse &aRes,
     if (aTitleText.isEmpty()) {
         if (ESatDigitOnly == aCharacterSet) {
             TFLOGSTRING("SATAPP::getInput ESatDigitOnly")
-            heading = tr("Enter:\n(1 digit 0-9)");
+            heading = hbTrId("txt_sat_getinput_nbr");
         } else {
             // ESatCharSmsDefaultAlphabet or ESatCharUcs2Alphabet
             TFLOGSTRING("SatAppCommandHandler::getInput ESatCharSmsDefaultAlphabet \
                 or ESatCharUcs2Alphabet")
-               heading = tr("Enter:");
+               heading = hbTrId("txt_sat_getinput_char");
         }
     } else {
         heading.append(aTitleText);
@@ -365,6 +365,42 @@ void SatAppCommandHandler::getInput(TSatUiResponse &aRes,
 }
 
 // ----------------------------------------------------------------------------
+// SatAppCommandHandler::callControl
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void SatAppCommandHandler::callControl(
+    const QString &aText,
+    const TSatAlphaIdStatus /*aAlphaIdStatus*/)
+{
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::showCallControlNote call")
+    //if (ESatAlphaIdNotNull == aAlphaIdStatus) {
+    //TODO  The note will be disabled by the phone UI when the call is
+    // in connecting status. But call control case is an exception, So we
+    // use RAknKeyLock to enable soft notifications.
+    mUi.showCallControlNote(aText);
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::showCallControlNote exit")
+}
+
+// ----------------------------------------------------------------------------
+// SatAppCommandHandler::moSmControl
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void SatAppCommandHandler::moSmControl(
+    const QString &aText,
+    const TSatAlphaIdStatus aAlphaIdStatus)
+{
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::moSmControl call")
+    if (ESatAlphaIdNotNull == aAlphaIdStatus) {
+         mUi.showMoSmControlNote(aText);
+    } else {
+        mUi.showSatInfoNote(aText);
+    }
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::moSmControl exit")
+}
+
+// ----------------------------------------------------------------------------
 // SatAppCommandHandler::confirmSend
 // (other items were commented in a header).
 // ----------------------------------------------------------------------------
@@ -381,12 +417,16 @@ void SatAppCommandHandler::confirmSend(
     switch (aType) {
         case ESatUiConfirmSendSms:
             {
-            title.append(tr("Allow SIM card to send message?"));
-            break;
+            title.append(hbTrId("txt_sat_sim_notification_sendsms"));
+            TFLOGSTRING( "SATAPP: SatAppCommandHandler::confirmSend sms" )
             }
+            break;
         case ESatUiConfirmSendSs:
         case ESatUiConfirmSendUssd: //the same string for SS and USSD
-            //title.append(tr("xxxxx"));
+            {
+            title.append(hbTrId("txt_sat_sim_notification_sendss_ussd"));
+            TFLOGSTRING( "SATAPP: SatAppCommandHandler::confirmSend ussd or ss" )
+            }
             break;
         default:
            aRes = ESatFailure;
@@ -454,9 +494,47 @@ void SatAppCommandHandler::confirmSetUpCall(
         //const TBool aSelfExplanatory
        )
 {
-    TFLOGSTRING("SatAppCommandHandler::showSetUpCallConfirm")
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::showSetUpCallConfirm call")
     mUi.showConfirmSetUpCallQuery(aText, aSimAppName, aActionAccepted);
-    TFLOGSTRING("SatAppCommandHandler::showSetUpCallConfirm exit")
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::showSetUpCallConfirm exit")
 }
 
+// ----------------------------------------------------------------------------
+// SatAppCommandHandler::showSsWaitNote
+// (other items were commented in a header).
+// Displays a wait note to indicate SS sending.
+// ----------------------------------------------------------------------------
+//
+void SatAppCommandHandler::showSsWaitNote(
+        const QString &aText,
+        //const CFbsBitmap* aIconBitmapSendSM,
+        const bool aSelfExplanatoryIcon)
+{
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::showSsWaitNote call")
+    mUi.showSsWaitNote(aText, aSelfExplanatoryIcon);
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::showSsWaitNote exit")
+}
+
+// ----------------------------------------------------------------------------
+// SatAppCommandHandler::showBIPWaitNote
+// (other items were commented in a header).
+// ----------------------------------------------------------------------------
+//
+void SatAppCommandHandler::showBIPWaitNote(int aCommand, const QString &aText)
+{
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::showBIPWaitNote call")
+    QString title = aText;
+    if (ECloseChannelIdentifier == aCommand ){
+        if (aText.isEmpty()){
+            title= hbTrId("txt_sat_closechannel_wait_note");           
+        }
+        // No cancel key support, close channel
+        mUi.showCloseChannelWaitNote(title);
+    } else {
+        // Cancel key support, Send Data, Receive Data
+        mUi.showBIPWaitNote(title);
+    }
+    
+    TFLOGSTRING("SATAPP: SatAppCommandHandler::showBIPWaitNote exit")
+}
 //End of file

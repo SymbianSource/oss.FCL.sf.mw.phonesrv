@@ -24,4 +24,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/SATDomainPSKeys.h     MW_LAYER_PLATFORM_EXPORT_PATH(SATDomainPSKeys.h)
+../inc/satdomainpskeys.h     MW_LAYER_PLATFORM_EXPORT_PATH(satdomainpskeys.h)

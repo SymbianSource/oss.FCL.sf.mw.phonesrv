@@ -88,7 +88,7 @@ void PSetCallDivertingWrapperPrivate::HandleDivertingStatusL(
         PSCallDivertingStatus* divertingStatus =
             new (ELeave) PSCallDivertingStatus();
         divertingStatus->iCondition = convert(cfInfo.iCondition);
-        divertingStatus->iServiceGroup = cfInfo.iServiceGroup;
+        divertingStatus->iServiceGroup = convert(cfInfo.iServiceGroup);
         divertingStatus->iStatus = convert(cfInfo.iStatus);
         divertingStatus->iNumber = QString::fromUtf16(
             cfInfo.iNumber.iTelNumber.Ptr(),
@@ -335,11 +335,14 @@ TServiceGroup PSetCallDivertingWrapperPrivate::convert(PsServiceGroup type)
     return ret;
 }
 
+/*!
+  PSetCallDivertingWrapperPrivate::convert
+ */
 TDivertingSetting PSetCallDivertingWrapperPrivate::convert(
         PsCallDivertingSetting type)
 {
     switch(type){
-     case ActivateDiverting:
+    case ActivateDiverting:
         return EActivateDiverting;
     case CancelDiverting:
         return ECancelDiverting;
@@ -351,6 +354,90 @@ TDivertingSetting PSetCallDivertingWrapperPrivate::convert(
     default:
         return ECheckStatus;
     }
+}
+
+/*!
+  PSetCallDivertingWrapperPrivate::convert
+ */
+PsServiceGroup PSetCallDivertingWrapperPrivate::convert(
+        RMobilePhone::TMobileService service )
+{
+    PsServiceGroup ret(0);
+    switch (service) {
+    case RMobilePhone::EAllServices:
+        ret |= ServiceGroupData;
+        ret |= ServiceGroupVoice;
+        ret |= ServiceGroupFax;
+        break;
+    case RMobilePhone::EAllTele:
+    case RMobilePhone::EAllTeleExcSms:
+        ret |= ServiceGroupVoice;
+        ret |= ServiceGroupFax;
+        break;
+    case RMobilePhone::ECircuitDataService:
+    case RMobilePhone::EPacketDataService:
+    case RMobilePhone::EAllDataExSms:
+    case RMobilePhone::ESyncData:
+    case RMobilePhone::EAsyncData:
+    case RMobilePhone::EPacketData:
+    case RMobilePhone::EAllGprsBearer:
+    case RMobilePhone::EAllPlmnBearer:
+    case RMobilePhone::EPlmnBearerServ1:
+    case RMobilePhone::EPlmnBearerServ2:
+    case RMobilePhone::EPlmnBearerServ3:
+    case RMobilePhone::EPlmnBearerServ4:
+    case RMobilePhone::EPlmnBearerServ5:
+    case RMobilePhone::EPlmnBearerServ6:
+    case RMobilePhone::EPlmnBearerServ7:
+    case RMobilePhone::EPlmnBearerServ8:
+    case RMobilePhone::EPlmnBearerServ9:
+    case RMobilePhone::EPlmnBearerServA:
+    case RMobilePhone::EPlmnBearerServB:
+    case RMobilePhone::EPlmnBearerServC:
+    case RMobilePhone::EPlmnBearerServD:
+    case RMobilePhone::EPlmnBearerServE:
+    case RMobilePhone::EPlmnBearerServF:
+    case RMobilePhone::EAllBearer:
+    case RMobilePhone::EPadAccess:
+    case RMobilePhone::EAllAsync:
+    case RMobilePhone::EAllSync:
+        ret |= ServiceGroupData;
+        break;
+    case RMobilePhone::ETelephony:
+    case RMobilePhone::EVoiceService:
+    case RMobilePhone::EAuxVoiceService:
+    case RMobilePhone::EAllPlmnTele:
+    case RMobilePhone::EPlmnTele1:
+    case RMobilePhone::EPlmnTele2:
+    case RMobilePhone::EPlmnTele3:
+    case RMobilePhone::EPlmnTele4:
+    case RMobilePhone::EPlmnTele5:
+    case RMobilePhone::EPlmnTele6:
+    case RMobilePhone::EPlmnTele7:
+    case RMobilePhone::EPlmnTele8:
+    case RMobilePhone::EPlmnTele9:
+    case RMobilePhone::EPlmnTeleA:
+    case RMobilePhone::EPlmnTeleB:
+    case RMobilePhone::EPlmnTeleC:
+    case RMobilePhone::EPlmnTeleD:
+    case RMobilePhone::EPlmnTeleE:
+    case RMobilePhone::EPlmnTeleF:
+    case RMobilePhone::EAltTele:
+        ret |= ServiceGroupVoice;
+        break;
+    case RMobilePhone::EAllDataTele:
+    case RMobilePhone::EFaxService:
+        ret |= ServiceGroupFax;
+        break;
+    case RMobilePhone::EVoiceGroupCall:
+    case RMobilePhone::EVoiceBroadcast:
+    case RMobilePhone::EShortMessageService:
+    case RMobilePhone::EServiceUnspecified:
+    default:
+        // Not supported, skip
+        break;
+    }
+    return ret;
 }
 
 // end of file

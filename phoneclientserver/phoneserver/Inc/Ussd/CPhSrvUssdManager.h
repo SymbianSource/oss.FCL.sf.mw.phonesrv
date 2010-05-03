@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -25,7 +25,7 @@
 #include "mphsrvussdnetworkobserver.h" 
 #include "mphsrvussdreplytimerobserver.h" 
 #include <badesca.h>
-
+#include <hbdevicemessageboxsymbian.h>
 
 // FORWARD DECLARATIONS
 class RFs;
@@ -35,7 +35,6 @@ class CPhSrvUssdReceiveHandler;
 class CPhSrvUssdReplyTimer;
 class MPhSrvPhoneInterface;
 class MPhSrvUssdMessageSentObserver;
-class CAknGlobalMsgQuery;
 class CPhSrvUssdSessionCancelWaiter;
 class CPhSrvUssdNotifyNWRelease;
 
@@ -49,7 +48,8 @@ class CPhSrvUssdNotifyNWRelease;
 class CPhSrvUssdManager : 
     public CActive, 
     public MPhSrvUssdNetworkObserver, 
-    public MPhSrvUssdReplyTimerObserver
+    public MPhSrvUssdReplyTimerObserver,
+    public MHbDeviceMessageBoxObserver
     {
     public:  // Constructors and destructor
 
@@ -161,6 +161,12 @@ class CPhSrvUssdManager :
         */
         void UssdReplyTimerObserverHandleExpiredL( TInt aError );
         
+        /**
+        * @see MHbDeviceMessageBoxObserver
+        */        
+        void MessageBoxClosed(const CHbDeviceMessageBoxSymbian* aMessageBox,
+            CHbDeviceMessageBoxSymbian::TButtonId aButton);
+        
         /*
         * @see CActive
         */
@@ -175,8 +181,6 @@ class CPhSrvUssdManager :
         * @see CActive
         */
         TInt RunError( TInt aError );
- 
-
 
     private: // New functions
         
@@ -303,7 +307,7 @@ class CPhSrvUssdManager :
         * 
         * @since 3.1
         */
-        void UpdateNotifyMessage();
+        void UpdateNotifyMessageL();
         
         /**
         * Turn lights on
@@ -311,9 +315,15 @@ class CPhSrvUssdManager :
         * @since 3.1
         */
         void TurnLightsOn();
+        
+        /**
+        * Load default string by QT style localization
+        * @param aText default string id defined by _LIT
+        */        
+        const TPtrC LoadDefaultString( const TDesC& aText );
 
     private:     // Data
-
+        
         // The file session reference.
         RFs& iFsSession;
         
@@ -342,8 +352,8 @@ class CPhSrvUssdManager :
         TBuf< KPhCltUssdMax8BitCharacters > iReceivedMessage;
         
         // The message query for showing USSD operation queries.
-        CAknGlobalMsgQuery* iGlobalMsgQuery;
-        
+        CHbDeviceMessageBoxSymbian* iDeviceDialog;
+       
         // Is editor emptied.
         TBool iEmptyEditor;
         
@@ -373,9 +383,6 @@ class CPhSrvUssdManager :
 
         // Local Telephony variant read-only data.
         TInt iVariantReadOnlyValues;
-
-        // The message query header text.
-        HBufC* iMeQuHeaderText;
 
         // The buffer for received decoded message.
         TBuf< KPhCltUssdMax8BitCharacters > iDecodedMessage;
@@ -418,6 +425,11 @@ class CPhSrvUssdManager :
         
         // An asynchronous callback for sending MO ACK messages
         CAsyncCallBack* iMoAckCallback;
+        
+        TBool iTextResolver;
+        
+        HBufC* iTextBuffer;
+
     };
     
 #endif // CPHSRVUSSDMANAGER_H

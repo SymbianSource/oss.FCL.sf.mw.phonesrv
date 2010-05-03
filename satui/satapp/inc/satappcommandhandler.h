@@ -175,7 +175,25 @@ private slots:
         //const QPixmap* /*aIconBitmapGetInput*/,
         const bool aSelfExplanatory,
         unsigned int &aDuration);
-    
+
+    /**
+    * Notification of the SAT Call Control command.
+    * @param aText The text string to be displayed.
+    * @param aAlphaIdStatus alpha ID's status
+    */
+    void callControl(
+        const QString &aText,
+        const TSatAlphaIdStatus aAlphaIdStatus);        
+
+    /**
+    * Notification of the SAT Mo Sms Control command.
+    * @param aText The text string to be displayed.
+    * @param aAlphaIdStatus alpha ID's status
+    */
+    void moSmControl(
+        const QString &aText,
+        const TSatAlphaIdStatus aAlphaIdStatus);
+        
     /**
     * Shows the confirmation note about the SAT Send SMS, Send SS or
     * Send USSD command.
@@ -230,10 +248,34 @@ private slots:
         bool &aActionAccepted//,
         //const CFbsBitmap* aIconBitmap,
         //const TBool aSelfExplanatory
-       );    
+       );
+
+    /**
+    * Shows the wait note about the Send Ss or Ussd command.
+    * @param aText The text to be displayed.
+    * @param aIconBitmapSendSM Sending dialog icon.
+    * @param aSelfExplanatoryIcon A flag indicating if only icon is shown.
+    */
+    void showSsWaitNote(
+        const QString &aText,
+        //const CFbsBitmap* aIconBitmapSendSM,
+        const bool aSelfExplanatoryIcon
+        );
+
+    /**
+    * Shows the wait note about BIP
+    * @param aCommand command type.
+    * @param aText The text to be displayed.
+    */
+    void showBIPWaitNote(int aCommand, const QString &aText);
     
+
 private:
-    SatAppUiProvider &mUi;    
+    /**
+    * Not own.
+    */
+    SatAppUiProvider &mUi;
+
 };
 
 #endif /* SATAPPCOMMANDHANDLER_H */

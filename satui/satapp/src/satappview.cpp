@@ -72,9 +72,9 @@ SatAppView::~SatAppView()
     TFLOGSTRING("SATAPP: SatAppView::~SatAppView")
     // The objects are outside the object tree, Delete them manually
     if (mTimer) {
-    delete mTimer;
-    mTimer = 0;
-    TFLOGSTRING("SATAPP: SatAppView::~SatAppView delete subtitle")
+        delete mTimer;
+        mTimer = 0;
+        TFLOGSTRING("SATAPP: SatAppView::~SatAppView delete subtitle")
     }
 
     if (mLoop) {
@@ -104,11 +104,9 @@ void SatAppView::initSetupMenu(
     // Listwidget
     mListWidget = qobject_cast<HbListWidget *>
         ( mUi->docmlLoader()->findWidget(SATAPP_MENUITEM ));
-    //mMenu = new HbMenu();
     if (mListWidget && mWindow) {
         mSoftKeyQuitAction = new HbAction(Hb::QuitAction,this);
-        HbMenu *addMenu = menu();
-        HbAction *menuAction = addMenu->addAction("Exit");
+        HbAction *menuAction = menu()->addAction("Exit");
         bool ret = connect(menuAction, SIGNAL(triggered()),
                        mSoftKeyQuitAction, SIGNAL(triggered()));
         TFLOGSTRING2("SATAPP: SatAppView::initSetupMenu: \
@@ -117,8 +115,8 @@ void SatAppView::initSetupMenu(
                        mWindow, SLOT(close()));
         TFLOGSTRING2("SATAPP: SatAppView::initSetupMenu: \
             quit connected %d", ret)
-
     }
+
     TFLOGSTRING("SATAPP: SatAppView::initSetupMenu exit")
 }
 
@@ -144,13 +142,12 @@ void SatAppView::initSelectItem(
 
     if (mSelectListWidget && mWindow) {
         mSoftKeyBackAction = new HbAction(Hb::BackAction,this);
-        HbMenu *addMenu = menu();
-        HbAction *menuBack = addMenu->addAction("Back");
+        HbAction *menuBack = menu()->addAction("Back");
         bool ret = connect(menuBack, SIGNAL(triggered()),
                        mSoftKeyBackAction, SIGNAL(triggered()));
         TFLOGSTRING2("SATAPP: SatAppView::initSelectItem: \
             menu connected %d", ret)
-        HbAction *menuQuit = addMenu->addAction("Exit");
+        HbAction *menuQuit = menu()->addAction("Exit");
         ret = connect(menuQuit, SIGNAL(triggered()),
                       mWindow, SLOT(close()));
         TFLOGSTRING2("SATAPP: SatAppView::initSelectItem: \
@@ -198,6 +195,7 @@ void SatAppView::showSetUpMenuContent(
         }
         // connect setup menu item
         connectItem();
+        setNavigationAction(mSoftKeyQuitAction);
     }
     TFLOGSTRING("SATAPP: SatAppView::SetUpMenu exit")
 }
@@ -229,10 +227,9 @@ void SatAppView::showSelectItemContent(
     if (mWindow){
         mWindow->setCurrentViewIndex(aDefaultItem);
     }
-
+    
     // Set sub title
     if (!aText.isEmpty()) {
-        TFLOGSTRING2("SATAPP: aText=%s", aText.utf16())
         mSubTitle->setPlainText(aText);
     } else {
         TFLOGSTRING("SATAPP: txt_sat_selectitem_title")
@@ -245,6 +242,12 @@ void SatAppView::showSelectItemContent(
         for(int i = 0; i < aMenuItems.count(); i++ ) {
             mSelectListWidget->addItem(aMenuItems.at( i ));
         }
+    }
+    // Set Back key
+    //setSoftkeyBack();
+    if (mSoftKeyBackAction) {
+       setNavigationAction(mSoftKeyBackAction);
+       TFLOGSTRING("SATAPP: SatAppView::selectItem set softkey back")
     }
     // connect selectitem 
     connectItem();
@@ -275,14 +278,13 @@ void SatAppView::showSelectItemContent(
     } else {
         TFLOGSTRING2("SATAPP: SatAppView::selectItem selected %d",
                       mItemIndex)
-        //TODO: fix this below. 
         //For Demo. We will not return user select item to SIM.
         aSelection = mItemIndex;
     }
    // disconnet select item
     disconnectItem();
     TFLOGSTRING2("SATAPP: SatAppView::selectItem aRes:%d", aRes)
-    mTimeout=false;
+    mTimeout = false;
     TFLOGSTRING("SATAPP: SatAppView::selectItem exit")
 }
 
@@ -336,10 +338,15 @@ void SatAppView::keyPressEvent(QKeyEvent *event)
 void SatAppView::backButtonClicked()
 {
     TFLOGSTRING("SATAPP: SatAppView::backButtonClicked")
-    if (mSelectItem && mLoop->isRunning() ) {
+    if (mSelectItem) {
         mClickBackSoftkey = true;
         TFLOGSTRING("SATAPP: SatAppView::backButtonClicked back selected")
-        mLoop->exit();
+        if (mLoop) {
+            TFLOGSTRING("SATAPP: SatAppView::backButtonClicked quit loop")
+            if (mLoop->isRunning()) {
+                mLoop->exit();
+            }
+        }
     }
     TFLOGSTRING("SATAPP: SatAppView::backButtonClicked exit")
 }
@@ -369,9 +376,9 @@ void SatAppView::menuItemSelected(HbListWidgetItem *item)
     if(mSelectItem && mSelectListWidget) {
         mItemIndex = mSelectListWidget->row(item);
         if (mLoop && mLoop->isRunning()) {
-        TFLOGSTRING( "SATAPP: SatAppView::menuItemSelected sel item")
-        mLoop->quit();
-        TFLOGSTRING( "SATAPP: SatAppView::menuItemSelected exit loop")
+            TFLOGSTRING( "SATAPP: SatAppView::menuItemSelected sel item")
+            mLoop->quit();
+            TFLOGSTRING( "SATAPP: SatAppView::menuItemSelected exit loop")
         }
     } 
     if (!mSelectItem && mListWidget) {

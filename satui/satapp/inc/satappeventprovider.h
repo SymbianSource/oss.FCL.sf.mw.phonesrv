@@ -14,6 +14,7 @@
 * Description:
 *
 */
+
 #ifndef SATAPPEVENTPROVIDER_H
 #define SATAPPEVENTPROVIDER_H
 
@@ -22,7 +23,8 @@
 #include "msatuiactionimplementer.h"
 
 class CSatUiObserver;
-//class QPixmap; // For future icon support
+class SatAppPlayToneProvider;
+
 
 class SatAppEventProvider: public QObject,
                            public MSatUiActionImplementer
@@ -59,7 +61,6 @@ signals:
         TSatUiResponse &aRes,
         const QString &aText,
         const QString &aSimApplicationName,
-        //const HbIcon &aIcon,
         bool &aRequestedIconDisplayed,
         const bool aSustainedText,
         const int aDuration,
@@ -86,9 +87,8 @@ signals:
         const int aMinLength,
         const int aMaxLength,
         const bool aHideInput,
-        //const QPixmap* /*aIconBitmapGetInput*/,
         const bool aSelfExplanatory,
-        unsigned int &aDuration );
+        unsigned int &aDuration);
 
     /**
      * Notification of the SAT Get Inkey command.
@@ -105,9 +105,8 @@ signals:
         const QString &aTitleText,
         const TSatCharacterSet aCharacterSet,
         QString &aInputText,
-        //const QPixmap* /*aIconBitmapGetInput*/,
         const bool aSelfExplanatory,
-        unsigned int &aDuration );
+        unsigned int &aDuration);
 
     /**
      * Notification of the SAT Get YesNo command.
@@ -130,7 +129,29 @@ signals:
         //const TSatIconId &aIconId,
         const bool &aSelfExplanatory,
         unsigned int &aDuration,
-        const bool aImmediateDigitResponse );
+        const bool aImmediateDigitResponse);
+        
+    /**
+     * Notification of the SAT Call Control command.
+     * @param aRes The response.
+     * @param aText The heading.
+     * @param aAlphaIdStatus The alpha ID status.
+     * 
+     */
+    void callControlEvent(
+        const QString &aText,
+        const TSatAlphaIdStatus aAlphaIdStatus);
+
+    /**
+     * Notification of the SAT Call Control command.
+     * @param aRes The response.
+     * @param aText The heading.
+     * @param aAlphaIdStatus The alpha ID status.
+     *
+     */
+    void moSmControlEvent(
+        const QString &aText,
+        const TSatAlphaIdStatus aAlphaIdStatus);
 
     /**
     * Handles the SetUpMenu command.
@@ -148,9 +169,6 @@ signals:
         TSatUiResponse &aRes,
         const QString &aText,
         const QStringList &aMenuItems,
-        //const CArrayFixFlat<TSatAction>* aMenuItemNextActions,
-        //const HbIcon &aIcon,
-        //const CAknIconArray* aItemIconsArray,
         const bool aSelfExplanatoryItems,
         const bool aHelpIsAvailable);
 
@@ -172,11 +190,8 @@ signals:
         TSatUiResponse &aRes,
         const QString &aText,
         const QStringList &aMenuItems,
-        //const CArrayFixFlat<TSatAction>* aMenuItemNextActions,
         const int aDefaultItem,
         unsigned char &aSelection,
-        //const HbIcon &aIcon,
-        //const CAknIconArray* aItemsIconArray,
         const bool aSelfExplanatoryItems,
         const bool aHelpIsAvailable);
 
@@ -202,9 +217,7 @@ signals:
      */
     void showSmsWaitNoteEvent(
         const QString &aText,
-        //const CFbsBitmap* aIconBitmapSendSM,
-        const bool aSelfExplanatoryIcon
-        );
+        const bool aSelfExplanatoryIcon);
     
     /**
     * Shows the confirmation not about SetUpCall.
@@ -215,10 +228,7 @@ signals:
    void showSetUpCallConfirmEvent(
         const QString &aText,
         const QString &aSimAppName,
-        bool &aActionAccepted//,
-        //const CFbsBitmap* aIconBitmap,
-        //const TBool aSelfExplanatory
-       );
+        bool &aActionAccepted);
 
      /**
      * Shows the wait note about the Send DTMF command.
@@ -229,74 +239,26 @@ signals:
         TSatUiResponse &aRes,
         const QString &aText);
 
-    /**
-     * Notification of the SAT Play Tone command.
-     * @param aText The text to be displayed.
-     * @param aTone The tone to be played.
-     * @param aDuration The duration of the tone to be played.
-     * @param aIconId The id of icon.
-     * @param aRequestedIconDisplayed Informs if icon is not used.
-     * @return The response of the UI to this command.
-     */
-//        virtual TSatUiResponse PlayTone(
-//            const TDesC &aText,
-//            const TSatTone aTone,
-//            const TTimeIntervalMicroSeconds aDuration,
-//            const TSatIconId &aIconId,
-//            TBool &aRequestedIconDisplayed ) = 0;
 
-    /**
-     * General confirmation request
-     * @param aCommandId ID of the quering command
-     * @param aAlphaIdStatus Alpha Identifier status
+     /**
+     * Shows the wait note about the Send Ss or Ussd command.
      * @param aText The text to be displayed.
-     * @param aAdditionalText Additional text to be used in queries.
+     * @param aIconBitmapSendSM Sending dialog icon.
+     * @param aSelfExplanatoryIcon A flag indicating if only icon is shown.
+     */
+    void showSsWaitNoteEvent(
+        const QString &aText,
+        const bool aSelfExplanatoryIcon);
+
+     /**
+     * Shows the wait note about Open Channel
+     * @param aText The text to be displayed.
      * @param aActionAccepted Indicates whether the command was accepted.
-     * @param aIconId The id of icon.
-     * @param aRequestedIconDisplayed Informs if icon is not used.
-     * @param aTerminatedByUser Informs if end key is used.
      */
-//        virtual void ConfirmCommand(
-//            const TSatSQueryCommand aCommandId,
-//            const TSatAlphaIdStatus aAlphaIdStatus,
-//            const TDesC &aText,
-//            const TDesC &aAdditionalText,
-//            TBool &aActionAccepted,
-//            const TSatIconId &aIconId,
-//            TBool &aRequestedIconDisplayed,
-//            TBool &aTerminatedByUser ) = 0;
+    void showOpenChannelConfirmEvent(
+        const QString &aText,
+        bool &aActionAccepted);
 
-    /**
-     * General notification
-     * @param aCommandId ID of the notifying command
-     * @param aAlphaIdStatus Alpha Identifier status
-     * @param aText Alpha Identifier
-     * @param aIconId The id of icon.
-     * @param aRequestedIconDisplayed Informs if icon is not used.
-     * @param aControlResult Control result of the MoSm and CallControl
-     * @return The response of the UI to this command.
-     */
-//        virtual TSatUiResponse Notification(
-//            const TSatSNotifyCommand aCommandId,
-//            const TSatAlphaIdStatus aAlphaIdStatus,
-//            const TDesC &aText,
-//            const TSatIconId &aIconId,
-//            TBool &aRequestedIconDisplayed,
-//            const TSatControlResult aControlResult ) = 0;
-
-    /**
-     * General event notification. Used for example to tell UI that command
-     * has completed its execution.
-     * @param aEventId, identifies the event
-     * @param aEventStatus, status of the event, used as additional info for
-     *        the event
-     * @param aError, possible error code that may affect on event handling.
-     *        This is also used as additional info
-     */
-//        virtual void EventNotification(
-//            const TSatSEvent aEventId,
-//            const TSatSEventStatus aEventStatus,
-//            const TInt aError ) = 0;
 
     /*!
      Removes Display Text Dialog from the screen.
@@ -313,12 +275,26 @@ signals:
     */
     void stopShowWaitNoteEvent();
 
+    /*!
+    *Show SsWaitNote without Delay
+    */  
+    void showWaitNoteWithoutDelayEvent();
+
+    /*!
+    *ShowSsErrorNoteEvent
+    */  
+    void showSsErrorNoteEvent();
+    
+    /*!
+    * Show BIP related Note 
+    */      
+    void showBIPNoteEvent(int aCommand, const QString &aText);
 
 public slots:
     /*!
-    *User cancel Dtmf response
+    *User cancel response, Send DTMF, Send Data, Receive Data
     */
-    void userCancelDtmfResponse();
+    void userCancelResponse();
 
 public: // from MSatUiActionImplementer and impletment by QT
 
@@ -330,7 +306,7 @@ public: // from MSatUiActionImplementer and impletment by QT
     /**
     * Shows the wait note without delay
     */
-    virtual void ShowWaitNoteWithoutDelayL() {};
+    virtual void ShowWaitNoteWithoutDelayL();
 
     /**
     * Removes the wait note from the screen.
@@ -353,8 +329,7 @@ public: // from MSatUiActionImplementer and impletment by QT
          const TDesC &aText,
          const MDesCArray &aMenuItems,
          const CArrayFixFlat<TSatAction>* aMenuItemNextActions,
-         const CFbsBitmap* aIconBitmap,
-         //const CAknIconArray* aItemIconsArray,
+         const CFbsBitmap *aIconBitmap,
          const TBool aSelfExplanatoryItems,
          const TBool aHelpIsAvailable);
 
@@ -371,17 +346,14 @@ public: // from MSatUiActionImplementer and impletment by QT
      * @param aHelpIsAvailable A flag indicating if SAT help is available.
      * @return Information of the operation result.
      */
-     virtual TSatUiResponse SelectItemL( const TDesC &aText,
+     virtual TSatUiResponse SelectItemL(const TDesC &aText,
          const MDesCArray &aMenuItems,
          const CArrayFixFlat<TSatAction>* aMenuItemNextActions,
          const TInt aDefaultItem,
          TUint8 &aSelection,
-         const CFbsBitmap* aIconBitmap,
-         //const CAknIconArray* aItemsIconArray,
+         const CFbsBitmap *aIconBitmap,
          const TBool aSelfExplanatoryItems,
-         const TBool aHelpIsAvailable );
-
-public: // from MSatUiActionImplementer and impletment by Symbian
+         const TBool aHelpIsAvailable);
 
     /**
     * Returns CoeEnv.
@@ -403,7 +375,7 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     virtual TSatUiResponse DisplayTextL(
         const TDesC &aText,
         const TDesC &aSimApplicationName,
-        CFbsBitmap* aIconBitmapDisplayText,
+        CFbsBitmap *aIconBitmapDisplayText,
         const TBool aSelfExplanatoryIcon,
         const TBool aSustainedText,
         const TTimeIntervalSeconds aDuration,
@@ -430,7 +402,7 @@ public: // from MSatUiActionImplementer and impletment by Symbian
         const TDesC &aText,
         const TSatCharacterSet aCharacterSet,
         TChar &aInkey,
-        const CFbsBitmap* /*aIconBitmap*/,
+        const CFbsBitmap */*aIconBitmap*/,
         const TBool aSelfExplanatory,
         TUint &aDuration,
         const TBool aImmediateDigitResponse);
@@ -457,9 +429,9 @@ public: // from MSatUiActionImplementer and impletment by Symbian
         const TInt aMaxLength,
         const TBool aHideInput,
         const TBool aGetInkey,
-        const CFbsBitmap* aIconBitmapGetInput,
+        const CFbsBitmap *aIconBitmapGetInput,
         const TBool aSelfExplanatory,
-        TUint &aDuration );
+        TUint &aDuration);
 
 
     /**
@@ -472,14 +444,11 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     * @return Information of the operation result.
     */
     virtual TSatUiResponse PlayStandardToneL(
-        const TDesC &/*aText*/,
-        const TDesC8 &/*aSequence*/,
-        TTimeIntervalMicroSeconds /*aDuration*/,
-        const CFbsBitmap* /*aIconBitmap*/,
-        const TBool /*aSelfExplanatory*/ )
-        {
-             return ESatSuccess;
-        };
+        const TDesC &aText,
+        const TDesC8 &aSequence,
+        TTimeIntervalMicroSeconds aDuration,
+        const CFbsBitmap *aIconBitmap,
+        const TBool aSelfExplanatory);
 
     /**
     * Shows the confirmation note about the SAT Send SMS, Send SS or
@@ -502,7 +471,7 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     */
     virtual void ShowSmsWaitNoteL(
         const TDesC &aText,
-        const CFbsBitmap* aIconBitmapSendSM,
+        const CFbsBitmap *aIconBitmapSendSM,
         const TBool aSelfExplanatoryIcon);
 
     /**
@@ -512,9 +481,9 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     * @param aSelfExplanatoryIcon A flag indicating if only icon is shown.
     */
     virtual void ShowSsWaitNoteL(
-            const TDesC &/*aText*/,
-            const CFbsBitmap* /*aIconBitmap*/,
-            const TBool /*aSelfExplanatoryIcon*/ ) {};
+        const TDesC &aText,
+        const CFbsBitmap */*aIconBitmap*/,
+        const TBool aSelfExplanatoryIcon);
 
     /**
     * Shows the confirmation note about the SAT Refresh command.
@@ -535,11 +504,8 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     * @return The response from the UI
     */
     virtual TSatUiResponse CallControlL(
-            const TDesC &/*aText*/,
-            const TSatAlphaIdStatus /*aAlphaIdStatus*/ )
-        {
-            return ESatSuccess;
-        };
+        const TDesC &aText,
+        const TSatAlphaIdStatus aAlphaIdStatus);
 
     /**
     * Notification of the SAT Launch browser confirmation request
@@ -551,7 +517,7 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     virtual void ConfirmLaunchBrowserL(
         const TDesC &/*aText*/,
         TBool &/*aActionAccepted*/,
-        const CFbsBitmap* /*aIconBitmap*/,
+        const CFbsBitmap */*aIconBitmap*/,
         const TBool /*aSelfExplanatory*/) {};
 
     /**
@@ -562,11 +528,8 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     * @return The response from the UI
     */
     virtual TSatUiResponse MoSmControlL(
-        const TDesC &/*aText*/,
-        const TSatAlphaIdStatus /*aAlphaIdStatus*/ )
-        {
-            return ESatSuccess;
-        };
+        const TDesC &aText,
+        const TSatAlphaIdStatus aAlphaIdStatus);
 
     /**
     * Shows the wait note while DTMF are being sent.
@@ -577,8 +540,8 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     */
     virtual TSatUiResponse ShowDtmfWaitNoteL(
             const TDesC &aText,
-            const CFbsBitmap* aIconBitmap,
-            const TBool aSelfExplanatoryIcon );
+            const CFbsBitmap *aIconBitmap,
+            const TBool aSelfExplanatoryIcon);
 
     /**
     * Dispatch iWait to action implementer.
@@ -589,11 +552,9 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     /**
     * Get flag which is indicating if end key is pressed.
     * @return A Boolean flag which is indicating if end key is pressed.
+    *         EndKey not support, Open issue
     */
-    virtual TBool GetEndKey()
-        {
-            return EFalse;
-        };
+    virtual TBool GetEndKey(){return EFalse;};
 
     /**
     * Set a flag which is indicating if end key is pressed.
@@ -617,14 +578,11 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     * @return Information on the operation result.
     */
     virtual TSatUiResponse PlayUserSelectedToneL(
-        const TDesC &/*aText*/,
-        TTimeIntervalMicroSeconds /*aDuration*/,
-        TSatTone /*aTone*/,
-        const CFbsBitmap* /*aIconBitmap*/,
-        const TBool /*aSelfExplanatory*/ )
-        {
-            return ESatSuccess;
-        };
+        const TDesC &aText,
+        TTimeIntervalMicroSeconds aDuration,
+        TSatTone aTone,
+        const CFbsBitmap *aIconBitmap,
+        const TBool aSelfExplanatory);
 
     /**
     * Confirm user permission for Open Channel.
@@ -635,13 +593,10 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     * @return Operation result
     */
     virtual TSatUiResponse ConfirmOpenChannelL(
-        const TDesC &/*aText*/,
-        TBool &/*aActionAccepted*/,
-        const CFbsBitmap* /*aIconBitmapOpenChannel*/,
-        const TBool /*aSelfExplanatory*/ )
-        {
-            return ESatSuccess;
-        };
+        const TDesC &aText,
+        TBool &aActionAccepted,
+        const CFbsBitmap */*aIconBitmapOpenChannel*/,
+        const TBool aSelfExplanatory);
 
     /**
     * Shows the wait note while BIP packets are sent.
@@ -651,10 +606,10 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     * @param aSelfExplanatory A flag indicating if icon is self-explanatory
     */
     virtual void ShowBIPNoteL(
-        TInt /*aCommand*/,
-        const TDesC &/*aText*/,
-        const CFbsBitmap* /*aIconBitmap*/,
-        const TBool /*aSelfExplanatory*/) {};
+        TInt aCommand,
+        const TDesC &aText,
+        const CFbsBitmap */*aIconBitmap*/,
+        const TBool /*aSelfExplanatory*/);
 
     /**
     * Confirm user permission for SetUpCall
@@ -668,7 +623,7 @@ public: // from MSatUiActionImplementer and impletment by Symbian
         const TDesC &aText,
         const TDesC &aSimAppName,
         TBool &aActionAccepted,
-        const CFbsBitmap* aIconBitmap,
+        const CFbsBitmap *aIconBitmap,
         const TBool aSelfExplanatory);
 
     /**
@@ -679,10 +634,10 @@ public: // from MSatUiActionImplementer and impletment by Symbian
     /**
     * Show the Ss error note.
     */
-    virtual void ShowSsErrorNoteL() {};
+    virtual void ShowSsErrorNoteL();
 
     /**
-    * Start SatUi closing process.
+    * Close SatUi process.
     */
     virtual void CloseSatUI();
 
@@ -699,10 +654,7 @@ public: // new method
      * @param aMenuItem The selected menu item.
      * @param aHelpRequested Indicates whether help was requested.
      */
-    void menuSelection( int aMenuItem, bool aHelpRequested );
-
-protected:
-     //Q_DISABLE_COPY( SatAppEventProvider );
+    void menuSelection(int aMenuItem, bool aHelpRequested);
 
 private: // Data
 
@@ -712,6 +664,12 @@ private: // Data
      * own
      */
     CSatUiObserver *mObs;
+
+    /**
+     * Own, PlayTone
+     */
+    SatAppPlayToneProvider *mPlayTone;
+
 };
 
 #endif

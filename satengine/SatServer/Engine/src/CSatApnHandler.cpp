@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -22,6 +22,8 @@
 #include <cmconnectionmethodext.h>
 #include <cmconnectionmethoddef.h>
 #include <cmpluginpacketdatadef.h>
+#include <cmdestination.h>
+#include <cmmanagerdef.h>
 
 #include    "MSatUtils.h"
 #include    "CSatApnHandler.h"
@@ -386,4 +388,74 @@ HBufC* CSatApnHandler::FormatAPN( const RSat::TAccessName&
     return formatApnName;
     }
 
+// -----------------------------------------------------------------------------
+// CSatApnHandler::FindDefaultApL
+// -----------------------------------------------------------------------------
+//
+TUint32 CSatApnHandler::FindDefaultApL(
+        const RPacketContext::TProtocolType& aPdpType )
+    {
+    LOG( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL calling" );
+    TUint32 defaultIap( 0 );
+    TInt pdpType;
+    TBool isFound( EFalse );
+
+    // create a network destination
+    RCmDestination des;
+    RCmConnectionMethod cm;
+
+    // Create CMManager Session
+    RCmManager cmManager;
+    cmManager.OpenL();
+    CleanupClosePushL( cmManager );
+
+    // Get the Connection Method list from the open CMManager session
+    RArray<TUint32> array( KSatCMGranularity );
+    CleanupClosePushL( array );
+
+    // list all available destinations' id
+    cmManager.AllDestinationsL( array );
+    for( TInt i = 0; ( i < array.Count() ) && !isFound; ++i )
+        {
+        des = cmManager.DestinationL( array[i] );
+        CleanupClosePushL( des );
+
+        if ( CMManager::ESnapPurposeInternet ==
+        des.MetadataL( CMManager::ESnapMetadataPurpose ) )
+            {
+            LOG( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL \
+            the fixed destination is identified as 'Internet'" );
+            for( TInt j = 0; ( j < des.ConnectionMethodCount() ) &&
+            !isFound; ++j )
+                {
+                cm = des.ConnectionMethodL( j );
+                CleanupClosePushL( cm );
+                pdpType = cm.GetIntAttributeL(
+                        CMManager::EPacketDataPDPType );
+                LOG2( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL \
+                        current protocol type is %d", pdpType )
+                if ( pdpType == aPdpType )
+                    {
+                    defaultIap = cm.GetIntAttributeL( CMManager::ECmIapId );
+                    isFound  = ETrue;
+                    LOG2( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL \
+                            default iap had been found %d", defaultIap )
+                    }
+                CleanupStack::PopAndDestroy( &cm );
+                }
+            }
+        CleanupStack::PopAndDestroy( &des );
+        }
+    CleanupStack::PopAndDestroy( &array );
+    CleanupStack::PopAndDestroy( &cmManager );
+
+    if ( !isFound )
+        {
+        LOG( SIMPLE, "SATENGINE: CSatApnHandler: default AP not found" );
+        User::Leave( KErrNotFound );
+        }
+
+    LOG( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL exit" )
+    return defaultIap;
+    }
 //  End of File

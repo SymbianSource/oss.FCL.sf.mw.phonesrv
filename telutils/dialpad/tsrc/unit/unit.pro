@@ -17,6 +17,7 @@
 
 TEMPLATE = subdirs
 SUBDIRS += ut_dialpadbuttonstyle
+SUBDIRS += ut_dialpadbutton
 SUBDIRS += ut_dialpadmultitaphandler
 SUBDIRS += ut_dialpadvoicemailboxeventfilter
 SUBDIRS += ut_dialpadbluetootheventfilter

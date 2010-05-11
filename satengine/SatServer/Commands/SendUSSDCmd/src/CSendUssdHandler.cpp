@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -17,8 +17,10 @@
 
 
 #include    <CPhCltUssdSatClient.h>
-#include	<CPhCltUssd.h>
+#include    <CPhCltUssd.h>
+#include    <AknGlobalNote.h>
 #include    <exterror.h>
+#include    <avkon.rsg>
 
 #include    "MSatSystemState.h"
 #include    "MSatApi.h"
@@ -257,6 +259,9 @@ TBool CSendUssdHandler::CommandAllowed()
 
     // Allow next terminal response to be sent
     iTerminalRespSent = EFalse;
+    
+    iSendUssdRsp.iUssdString.iUssdString.FillZ();
+    iSendUssdRsp.iUssdString.iDcs = 0;
 
     RMobilePhone::TMobilePhoneRegistrationStatus registrationStatus(
         iUtils->SystemState().GetNetworkRegistrationStatus() );
@@ -592,6 +597,14 @@ void CSendUssdHandler::SendUssdString()
 
     iSendUssdRsp.iUssdString.iUssdString.Copy( receiveMessage );
 
+    if ( RSat::EAlphaIdProvided != iSendUssdData.iAlphaId.iStatus )
+        {
+        // if no Alpha ID provided, show the text note.
+        LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SendUssdString Show Note" )
+        TRAP_IGNORE( 
+            ShowUssdResponseNoteL( iSendUssdRsp.iUssdString.iUssdString ) );
+        }
+
     HandleSendUssdResult( error );
 
     LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SendUssdString exiting" )
@@ -667,6 +680,23 @@ void CSendUssdHandler::SendUssdStringL(
     LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SendUssdStringL exiting" )
     }
     
+// -----------------------------------------------------------------------------
+// Show the ussd response note.
+// -----------------------------------------------------------------------------
+//
+void CSendUssdHandler::ShowUssdResponseNoteL( const TDesC& aText )
+    {
+    LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::ShowUssdResponseNoteL calling" )
+
+    CAknGlobalNote* note = CAknGlobalNote::NewLC();
+    note->SetSoftkeys( R_AVKON_SOFTKEYS_OK_EMPTY );
+    note->ShowNoteL( EAknGlobalConfirmationNote,
+        iSendUssdRsp.iUssdString.iUssdString );
+    CleanupStack::PopAndDestroy( note );
+
+    LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::ShowUssdResponseNoteL exiting" )
+    }
+
 // -----------------------------------------------------------------------------
 // Handles the result of Ussd sending.
 // -----------------------------------------------------------------------------
@@ -887,6 +917,11 @@ void CSendUssdHandler::SendTerminalResponse()
         LOG( SIMPLE, 
         "SENDUSSD: CSendUssdHandler::SendTerminalResponse iTerminalRespSent \
         false" )
+        
+        LOG3(SIMPLE, "SENDUSSD: CSendUssdHandler::SendTerminalResponse \
+            iDcs=%d,iUssdString=%s", iSendUssdRsp.iUssdString.iDcs,
+            &iSendUssdRsp.iUssdString.iUssdString);
+        
         iTerminalRespSent = ETrue;
         iSendUssdRsp.SetPCmdNumber( iSendUssdData.PCmdNumber() );
         TerminalRsp( RSat::ESendUssd, iSendUssdRspPckg );

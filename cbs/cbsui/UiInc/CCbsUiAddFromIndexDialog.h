@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -23,7 +23,7 @@
 #define __CCBSADDFROMINDEXDIALOG_H
 
 // INCLUDES
-#include <eikdialg.h>
+#include <akndialog.h>
 #include <CbsCommon.h>
 #include "CbsUiConstants.h"
  
@@ -41,7 +41,7 @@ class CAknNavigationDecorator;
 *  Class CCbsUiAddFromIndexDialog is used to add topics. Topics
 *  are shown in listbox. User can select topics which will be added.
 */
-class CCbsUiAddFromIndexDialog: public CEikDialog
+class CCbsUiAddFromIndexDialog: public CAknDialog
     {
     public:  // Constructors and destructor
         

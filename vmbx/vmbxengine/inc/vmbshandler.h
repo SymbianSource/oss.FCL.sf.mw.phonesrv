@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -31,7 +31,6 @@
 /**
  *  CVmBSHandler declaration.
  *
- *  @since S60 3.2
  */
 NONSHARABLE_CLASS( CVmBSHandler ) : public CBase
     {
@@ -57,7 +56,6 @@ public: // New functions
 
     /**
      * Get branded icon
-     * @since S60 3.2
      * @param aBrandingId Brandind Id
      * @param aBrandedBitmap Bitmap for branded icon
      * @param aBrandedBitmapMask Mask to branded icon

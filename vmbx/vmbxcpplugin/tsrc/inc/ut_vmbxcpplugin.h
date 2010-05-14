@@ -21,19 +21,10 @@
 
 // System includes
 #include <QtTest/QtTest>
-#include <QString>
-#include <QStringList>
-#include <QSignalSpy>
-#include <QMetaType>
 #include <QObject>
 
-
-// Class forwards
-class VmbxCpPlugin;
-class VmbxCpGroup;
-
 /*!
-    Mt_vmbxEngine module test class.
+    Ut_vmbxCpPlugin module test class.
 
     Tests Ut_vmbxCpPlugin interface.
     See cpp file for more information.
@@ -46,35 +37,17 @@ class Ut_vmbxCpPlugin : public QObject
 {
     Q_OBJECT
 
-public:
-    Ut_vmbxCpPlugin();
-
-    virtual ~Ut_vmbxCpPlugin();
-
 private slots: 
-
-    /*!
-        Called before the first testfunction is executed.
-    */
-    void initTestCase();
-
-    /*!
-        Called after the last testfunction has been executed.
-    */
-    void cleanupTestCase();
 
     /*!
         Test method in VmbxCpPlugin
     */
     void testCreateSettingFormItemData();
-
-private:  //data
-
+    
     /*!
-        Own.
-    */
-    VmbxCpPlugin *mCpPlugin;
-
+        Test method in VmbxCpGroup
+    */    
+    void testCreateVmbxCpGroup();
 };
 
 #endif // _UT_VMBXCPPLUGIN_H

@@ -17,27 +17,18 @@
 
 // System includes
 #include <QtTest/QtTest>
+#include <cvoicemailboxentry.h>
 
 // User includes
 #include "vmbxuiengine.h"
 #include "ut_vmbxuiengine.h"
 
-/*!
-    Ut_VmbxUiEngine::Ut_VmbxUiEngine
-    Default constructor, remember to null new members here.
-*/
-Ut_VmbxUiEngine::Ut_VmbxUiEngine()
+void setTestEnv(TInt aExpRet)
 {
-    qDebug("Ut_VmbxUiEngine <>");
+    globalExpRet = aExpRet;
+    qDebug("setTestEnv %d", globalExpRet);
 }
 
-/*!
-    Ut_VmbxUiEngine::~Ut_VmbxUiEngine
-*/
-Ut_VmbxUiEngine::~Ut_VmbxUiEngine()
-{
-    qDebug("~Ut_VmbxUiEngine <>");
-}
 
 /*!
     Ut_VmbxUiEngine::initTestCase
@@ -45,10 +36,8 @@ Ut_VmbxUiEngine::~Ut_VmbxUiEngine()
 */
 void Ut_VmbxUiEngine::initTestCase()
 {
-    qDebug("initTestCase >");
     mUiEngine = new VmbxUiEngine();
     QVERIFY(mUiEngine);
-    qDebug("initTestCase <");
 }
 
 /*!
@@ -57,12 +46,10 @@ void Ut_VmbxUiEngine::initTestCase()
 */
 void Ut_VmbxUiEngine::cleanupTestCase()
 {
-    qDebug("cleanupTestCase >");
     if ( mUiEngine ) {
         delete mUiEngine;
         mUiEngine = NULL;
     }
-    qDebug("cleanupTestCase <");
 }
 
 /*!
@@ -70,27 +57,20 @@ void Ut_VmbxUiEngine::cleanupTestCase()
     testCreateVmbxEntry test case
     Connects to test object signal and verifies received data.
 */
-void Ut_VmbxUiEngine::testGetCsVoice1Number()
+void Ut_VmbxUiEngine::testCsVoice1Number()
 {
-    qDebug("testGetCsVoice1Number >");
-    QString voice1;
     QVERIFY(mUiEngine);
-    mUiEngine->getCsVoice1Number(voice1);
-    qDebug("testGetCsVoice1Number <");
-}
-
-/*!
-    Ut_VmbxUiEngine::testCreateVmbxMailbox
-    CreateVmbxMailbox test case
-    Connects to test object signal and verifies received data.
-*/
-void Ut_VmbxUiEngine::testGetCsVoice2Number()
-{
-    qDebug("testGetCsVoice2Number >");
-    QString voice2;
-    QVERIFY(mUiEngine);
-    mUiEngine->getCsVoice2Number(voice2);
-    qDebug("testGetCsVoice2Number <");
+    QString in("123456");
+    QString out("");
+    setTestEnv(KErrNone);
+    mUiEngine->setCsVoice1Number(in);
+    mUiEngine->getCsVoice1Number(out);
+    QCOMPARE(in, out);
+    
+    setTestEnv(KErrNotFound);
+    mUiEngine->setCsVoice1Number(in);
+    mUiEngine->getCsVoice1Number(out);
+    QCOMPARE(in, out);
 }
 
 /*!
@@ -98,28 +78,37 @@ void Ut_VmbxUiEngine::testGetCsVoice2Number()
     testVmbxType test case
     Connects to test object signal and verifies received data.
 */
-void Ut_VmbxUiEngine::testGetCsVideo1Number()
+void Ut_VmbxUiEngine::testCsVideo1Number()
 {
-    qDebug("testGetCsVideo1Number >");
-    QString video1;
     QVERIFY(mUiEngine);
-    mUiEngine->getCsVideo1Number(video1);
+    
+    QString in("123456");
+    QString out("");
 
-    qDebug("testGetCsVideo1Number <");
+    setTestEnv(KErrNone);
+    mUiEngine->setCsVideo1Number(in);
+    mUiEngine->getCsVideo1Number(out);
+    QCOMPARE(in, out);
+    
+    setTestEnv(KErrNotFound);
+    mUiEngine->setCsVideo1Number(in);
+    mUiEngine->getCsVideo1Number(out);
+    QCOMPARE(in, out);
 }
 
-/*!
-    Ut_VmbxUiEngine::testUiCsVoice1Changed
-    testServiceId test case
-    Connects to test object signal and verifies received data.
-*/
-void Ut_VmbxUiEngine::testUiCsVoice1Changed()
+void Ut_VmbxUiEngine::testIsVideoSupport()
 {
-    qDebug("testUiCsVoice1Changed >");
     QVERIFY(mUiEngine);
-    QString newNumber("123456");
-    mUiEngine->uiCsVoice1Changed(newNumber);
-    qDebug("testUiCsVoice1Changed <");
+    mUiEngine->isVideoSupport();
 }
+
+void Ut_VmbxUiEngine::testHandleNotifyL()
+{
+    QVERIFY(mUiEngine);
+    CVoiceMailboxEntry *entry = CVoiceMailboxEntry::NewL();
+    QVERIFY(entry);
+    mUiEngine->HandleNotifyL(*entry);
+}
+
 
 //End file

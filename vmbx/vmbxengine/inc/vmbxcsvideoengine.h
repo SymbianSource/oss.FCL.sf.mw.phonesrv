@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -32,7 +32,6 @@ class CVmbxEngineBase;
 *  Implements functionality specifig to video mailbox implementation
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxCsVideoEngine ) : public CVmbxEngineBase
     {
@@ -56,7 +55,6 @@ public:  // Constructors and destructor
     /**
      * @see CVmbxEntryBase::GetL
      *
-     * @since S60 v5.2
      * @param in aEntry a pointer reference of CVoiceMailboxEntry
      */
     void GetL( CVoiceMailboxEntry*& aEntry );
@@ -64,7 +62,6 @@ public:  // Constructors and destructor
     /**
      * @see CVmbxEntryBase::SaveL
      *
-     * @since S60 v5.2
      * @param aEntry Reference to CVoiceMailboxEntry
      */
     void SaveL( const CVoiceMailboxEntry& aEntry );
@@ -72,17 +69,28 @@ public:  // Constructors and destructor
     /**
      * To save mailbox Provisioned entry value
      *
-     * @since S60 v5.2
      * @param in aEntry Reference to CVoiceMailboxEntry
      */
     void SaveProvisionedEntryL( const CVoiceMailboxEntry& aEntry );
+    
+    /**
+     * @see CVoiceMailbox::CheckConfiguration
+     *
+     * @param aParams Specifies which mailbox capabilities,
+     *          the caller wants to check.
+     * @param aFlags Use TVmbxFeatureCapabilityFlag values for this parameter.
+     *          Specifies what features client wants to check.
+
+     * @return True if feature(s) enabled.
+     */
+    TBool CheckConfiguration( const TVoiceMailboxParams& aParams,
+                                 const TInt aFlags );
 
 private:
 
     /**
      * C++ default constructor.
      *
-     * @since S60 v5.2
      * @param in aProvider Reference to Ui Utilities
      */
     CVmbxCsVideoEngine( MVmbxResourceProvider& aProvider );
@@ -90,7 +98,6 @@ private:
     /**
      * By default Symbian 2nd phase constructor is private.
      *
-     * @since S60 v5.2
      */
     void ConstructL();
 

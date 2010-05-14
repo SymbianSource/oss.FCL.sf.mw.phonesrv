@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -18,6 +18,8 @@
 
 // qt
 #include <QString>
+#include <cvoicemailbox.h>
+#include <cvoicemailboxentry.h>
 
 #include "vmbxqtuihandler.h"
 #include "voicemailboxdefsinternal.h"
@@ -42,12 +44,18 @@ CVmbxUiHandler* CVmbxUiHandler::NewL()
     return handler;
 }
 
+// ----------------------------------------------------------------------------
+// CVmbxUiHandler::ConstructL
+// (Constructor).
+// ----------------------------------------------------------------------------
+//
 void CVmbxUiHandler::ConstructL()
 {
     VMBLOGSTRING( "CVmbxUiHandler::ConstructL" )
     iHandler = new VmbxQtUiHandler;
     VMBLOGSTRING( "CVmbxUiHandler::ConstructL Exit" )
 }
+
 // ----------------------------------------------------------------------------
 // CVmbxUiHandler::CVmbxUiHandler
 // (Constructor).
@@ -77,7 +85,6 @@ CVmbxUiHandler::~CVmbxUiHandler()
 // ----------------------------------------------------------------------------
 //
 void CVmbxUiHandler::ShowVmbxQueryDialog(const TVmbxType& aType,
-                          const TVmbxQueryMode& aMode,
                           TDes& aNumber, TInt& aResult)
 {
     VMBLOGSTRING( "CVmbxUiHandler::ShowVmbxQueryDialog" )
@@ -86,7 +93,8 @@ void CVmbxUiHandler::ShowVmbxQueryDialog(const TVmbxType& aType,
         {
         vmbxNumber=QString::fromUtf16(aNumber.Ptr(), aNumber.Length());
         }
-    iHandler->showVmbxQueryDialog( aType, aMode, vmbxNumber, aResult );
+    QT_TRYCATCH_LEAVING(
+        iHandler->showVmbxQueryDialog( aType, vmbxNumber, aResult ));
     aNumber = vmbxNumber.utf16();
     VMBLOGSTRING2( "CVmbxUiHandler::ShowVmbxQueryDialog:\
         aNumber = %S", &aNumber );
@@ -103,7 +111,7 @@ void CVmbxUiHandler::ShowDefineSelectionDialog( TVmbxType& aType,
        TInt& aResult )
 {
     VMBLOGSTRING( "CVmbxUiHandler::ShowDefineSelectionDialog" )
-    iHandler->showDefineSelectionDialog( aType, aResult );
+    QT_TRYCATCH_LEAVING(iHandler->showDefineSelectionDialog( aType, aResult ));
     VMBLOGSTRING2( "CVmbxUiHandler::ShowDefineSelectionDialog:\
         aType = %d", aType );
     VMBLOGSTRING2( "CVmbxUiHandler::ShowDefineSelectionDialog:\
@@ -111,72 +119,56 @@ void CVmbxUiHandler::ShowDefineSelectionDialog( TVmbxType& aType,
     VMBLOGSTRING( "CVmbxUiHandler::ShowDefineSelectionDialog Exit" )
 
 }
+
 // ----------------------------------------------------------------------------
-// CVmbxUiHandler::ShowSaveToPhoneNote
+// CVmbxUiHandler::ShowCallSelectionDialogL
+// (Show query dialog).
 // ----------------------------------------------------------------------------
 //
-void CVmbxUiHandler::ShowSaveToPhoneNote()
+void CVmbxUiHandler::ShowCallSelectionDialogL(
+            const RPointerArray<CVoiceMailboxEntry>& aArray,
+            TVoiceMailboxParams& aParams, TInt& aResult )
 {
-    VMBLOGSTRING( "CVmbxUiHandler::ShowSaveToPhoneNote" )
-    iHandler->showInformationNote( ESavedToPhoneMemory );
-    VMBLOGSTRING( "CVmbxUiHandler::ShowSaveToPhoneNote Exit" )
+    VMBLOGSTRING( "CVmbxUiHandler::ShowCallSelectionDialogL" )
+    TInt count = aArray.Count();
+    VMBLOGSTRING2("CVmbxUiHandler::showCallSelectionDialogL count = %d", count)
+    if (count < 1) 
+        {
+        VMBLOGSTRING("CVmbxUiHandler::showCallSelectionDialogL leave<=")
+        User::Leave(KErrArgument);
+        }
+    QList<CVoiceMailboxEntry* > entryList;
+    for ( int i = 0; i < aArray.Count(); i++ ) 
+        {
+        entryList.append(aArray[i]);
+        }
+    QT_TRYCATCH_LEAVING(
+        iHandler->showCallSelectionDialog( entryList, aParams, aResult ));
+    VMBLOGSTRING2( "CVmbxUiHandler::ShowCallSelectionDialogL:\
+        aResult = %d", aResult );
+    VMBLOGSTRING( "CVmbxUiHandler::ShowCallSelectionDialogL" )
 }
 
 // ----------------------------------------------------------------------------
-// CVmbxUiHandler::ShowSaveToSimNote
+// CVmbxUiHandler::ShowInformationdNote
 // ----------------------------------------------------------------------------
 //
-void CVmbxUiHandler::ShowSaveToSimNote()
+void CVmbxUiHandler::ShowInformationdNoteL(const TVmbxNoteType aType)
 {
-    VMBLOGSTRING( "CVmbxUiHandler::ShowSaveToSimNote" )
-    iHandler->showInformationNote( ESavedToSimMemory );
-    VMBLOGSTRING( "CVmbxUiHandler::ShowSaveToSimNote Exit" )
-}
-
-// ----------------------------------------------------------------------------
-// CVmbxUiHandler::ShowVideoSavedNote
-// ----------------------------------------------------------------------------
-//
-void CVmbxUiHandler::ShowVideoSavedNote()
-{
-    VMBLOGSTRING( "CVmbxUiHandler::ShowVideoSavedNote" )
-    iHandler->showInformationNote( EVideoNumberSaved );
-    VMBLOGSTRING( "CVmbxUiHandler::ShowVideoSavedNote Exit" )
-}
-
-// ----------------------------------------------------------------------------
-// CVmbxUiHandler::ShowInvalidNumberNote
-// ----------------------------------------------------------------------------
-//
-
-void CVmbxUiHandler::ShowInvalidNumberNote()
-{
-    VMBLOGSTRING( "CVmbxUiHandler::ShowInvalidNumberNote" )
-    iHandler->showInformationNote( EInvalidNumber );
-    VMBLOGSTRING( "CVmbxUiHandler::ShowInvalidNumberNote Exit" )
+    VMBLOGSTRING( "CVmbxUiHandler::ShowInformationdNoteL" )
+    QT_TRYCATCH_LEAVING(iHandler->showInformationNote(aType));
+    VMBLOGSTRING( "CVmbxUiHandler::ShowInformationdNoteL Exit" )
 }
 
 // ----------------------------------------------------------------------------
 // CVmbxUiHandler::ShowInvalidWarningNote
 // ----------------------------------------------------------------------------
 //
-
-void CVmbxUiHandler::ShowInvalidWarningNote()
+void CVmbxUiHandler::ShowInvalidWarningNoteL()
 {
-    VMBLOGSTRING( "CVmbxUiHandler::ShowInvalidWarningNote" )
-    iHandler->showInformationNote( EInvalidNumber );
-    VMBLOGSTRING( "CVmbxUiHandler::ShowInvalidWarningNote Exit" )
-}
-
-// ----------------------------------------------------------------------------
-// CVmbxUiHandler::ShowSaveEmptyNote
-// ----------------------------------------------------------------------------
-//
-void CVmbxUiHandler::ShowSaveEmptyNote( const TVmbxType& aType )
-{
-    VMBLOGSTRING( "CVmbxUiHandler::ShowSaveEmptyNote" )
-    iHandler->showSaveEmptyNote( aType );
-    VMBLOGSTRING( "CVmbxUiHandler::ShowSaveEmptyNote Exit" )
+    VMBLOGSTRING( "CVmbxUiHandler::ShowInvalidWarningNoteL" )
+    QT_TRYCATCH_LEAVING(iHandler->showInformationNote( EInvalidNumber ));
+    VMBLOGSTRING( "CVmbxUiHandler::ShowInvalidWarningNoteL Exit" )
 }
 
 //End of file

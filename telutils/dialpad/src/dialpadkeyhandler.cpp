@@ -19,19 +19,28 @@
 #include "dialpadkeyhandler.h"
 #include "dialpadvoicemailboxeventfilter.h"
 #include "dialpadbluetootheventfilter.h"
+#include "dialpadkeysequenceeventfilter.h"
 #include "qtphonesrvlog.h"
 
-DialpadKeyHandler::DialpadKeyHandler(Dialpad *dialPad, HbMainWindow& mainWindow, QObject *parent) : QObject(parent),  mMainWindow(mainWindow)
+DialpadKeyHandler::DialpadKeyHandler(
+    Dialpad *dialPad, HbMainWindow& mainWindow, QObject *parent) 
+    : 
+    QObject(parent),
+	mMainWindow(mainWindow),
+	mVmbxFilter(0),
+	mBtFilter(0),
+	mKeySequenceFilter(0)
 {
     PHONE_TRACE;
-    mVmbxFilter = new DialpadVoiceMailboxEventFilter(dialPad, this);
-    Q_ASSERT(mVmbxFilter != NULL);
-    mBtFilter = new DialpadBluetoothEventFilter(dialPad, this);
-    Q_ASSERT(mBtFilter != NULL);
-
+    
+    mVmbxFilter.reset(new DialpadVoiceMailboxEventFilter(dialPad));
+    mBtFilter.reset(new DialpadBluetoothEventFilter(dialPad));
+    mKeySequenceFilter.reset(new DialpadKeySequenceEventFilter(dialPad));
+    
     // Stack different event filters
-    mMainWindow.installEventFilter(mVmbxFilter);
-    mMainWindow.installEventFilter(mBtFilter);
+    mMainWindow.installEventFilter(mVmbxFilter.data());
+    mMainWindow.installEventFilter(mBtFilter.data());
+    mMainWindow.installEventFilter(mKeySequenceFilter.data());
 }
 
 DialpadKeyHandler::~DialpadKeyHandler()

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -24,15 +24,13 @@
 #include "vmbxcenrephandler.h"
 #include "vmbxemergencycall.h"
 #include "vmbxutilities.h"
+#include "voicemailboxdefsinternal.h"
 
 // CONSTANTS
 const TInt KVmbxPhoneNumMinLength = 2;
 const TInt KVmbxPhoneNumMaxLength = 40;
-const TInt KVmbxPhoneCharMaxLength = 48;
 
 _LIT( KAllowedTelNumChars, "0123456789" );
-_LIT( KAllowedDtmfChars, "0123456789+pwPW" );
-_LIT( KAllowedSSChars, "*+0123456789#" );
 
 // ============================ MEMBER FUNCTIONS =============================
 
@@ -54,22 +52,19 @@ TBool VmbxUtilities::IsValidPhoneNumber( const TDesC& aNumber )
         lexer.SkipSpace();
         TChar current = lexer.Peek();
         // If no SS code then consider this is valid and return true.    
-        if ( '#' == current || '*' == current )
+        if ( '*' == current )
             {
             // check whether accord ss regulation,
-            result = ValidateSsNum( lexer );
+            lexer.Inc(); // Skip first *
             }
-        else
-            {
-            result = ValidateTelNum( lexer );
-            // If zero length then consider as valid and return value of 
-            // result, If not the end of the string, check if it's DTMF numbers
-            if ( !lexer.Eos() && result )
-                {
-                result = ValdateDtmfPart( lexer );
-                }
-            }
+    result = ValidateTelNum( lexer );
+    // If zero length then consider as valid and return value of 
+    // result, If not the end of the string, check if it's DTMF numbers
+    if ( !lexer.Eos() && result )
+        {
+        result = ValdateDtmfPart( lexer );
         }
+    }
     VMBLOGSTRING2( "VMBX: VmbxUtilities::IsValidPhoneNumber: result = %d<=",
         result );
     return result;
@@ -169,61 +164,6 @@ TBool VmbxUtilities::VoIPSupported()
     }
 
 // -----------------------------------------------------------------------------
-// VmbxUtilities::ValidateSSfix
-// Skips over SS code if it exists.
-// -----------------------------------------------------------------------------
-//  
-TBool VmbxUtilities::ValidateSsNum( TLex& aLexer )
-    {
-    VMBLOGSTRING( "VMBX: VmbxUtilities::ValidateSsNum: =>" );
-    //The procedure always starts with *, #, **, ## or *# and is finished by #.
-    // Each part within the procedure is separated by *.
-
-    TBool result( EFalse );
-    // Get and skip the first '#' or '*' separator
-    TChar current = aLexer.Get();
-
-    current = aLexer.Peek();
-
-    if ( '#' == current || '*' == current )
-        {
-        aLexer.Inc(); // Skip the second '#' or '*' separator
-        }
-    // Define another string which aready skip the prefix '*' or
-    // '#', the sring to judge the string whether end of  '#' and
-    // valid
-    TLex nextLexer( aLexer );
-    TChar nextChar = nextLexer.Peek();
-    TBool invalidCharFound( EFalse );
-    while ( !nextLexer.Eos() && !invalidCharFound )
-        {
-        nextChar = nextLexer.Get();
-        VMBLOGSTRING2( "VMBX: VmbxUtilities::ValidateTelNum:\
-            nextChar %S", &nextChar );
-        // Check the string valid or invalid for SS string
-        if ( KErrNotFound == KAllowedSSChars().Locate( nextChar ) )
-            {
-            invalidCharFound = ETrue;
-            }
-        }
-
-    // Check if the string end of '#' and check if it's validate ss code.
-    if ( nextLexer.Eos() && ( '#' == nextChar ) && !invalidCharFound )
-        {
-        result = ETrue;
-        if ( result && !aLexer.Eos() )
-            {
-            // It already skip prefix and 
-            // Check SC(Service Code) length,it should be more than 2 digits
-            result = ValidateTelNum( aLexer );
-            }
-        }
-    VMBLOGSTRING2( "VMBX: VmbxUtilities::ValidateSsNum: result = %d<=",
-        result );
-    return result;
-    }
-
-// -----------------------------------------------------------------------------
 // VmbxUtilities::ValidateTelNum
 // Parses string until end or invalid tel number character is found.
 // Check number length.
@@ -261,14 +201,13 @@ TBool VmbxUtilities::ValidateTelNum( TLex& aLexer )
 
     VMBLOGSTRING2( "VMBX: VmbxUtilities::ValidateTelNum:\
         telNumDigits %d", telNumDigits );
-
-    if ( KVmbxPhoneNumMinLength > telNumDigits 
-        || KVmbxPhoneNumMaxLength < telNumDigits
-        || invalidCharFound )
+    // digitlength <3 or digit length>40, invalid telnumber
+    if ( KVmbxPhoneNumMinLength >= telNumDigits 
+        || KVmbxPhoneNumMaxLength < telNumDigits 
+        )
         {
         result = EFalse;
         }
-
     VMBLOGSTRING2( "VMBX: VmbxUtilities::ValidateTelNum:\
          result %d<=", result );
     return result;
@@ -287,44 +226,17 @@ TBool VmbxUtilities::ValdateDtmfPart( TLex& aLexer )
     // the second part of the string a DTMF special character (p, w or +),
     // the last third part is an actual DTMF tone string, which is sent to the
     // remote end.
-    TBool result( ETrue );
-    TLex lexer( aLexer );
-    TInt telNumDigitsBeforeDtmf( 0 );
-    TBool isDtmfNumberDiscover( EFalse );
-    TBool invalidCharFound( EFalse );
+    TBool result( EFalse );
     // check the second part of the string
-    while ( !lexer.Eos() && !invalidCharFound )
+    const TChar nextChar = aLexer.Peek();
+    // Check DTMF number discover or not
+    if ( 'p' == nextChar || 'P' == nextChar 
+        || 'w'== nextChar || 'W' == nextChar || '+' == nextChar )
         {
-        const TChar nextChar = aLexer.Peek();
-        // Check valid DTMF chars
-        if ( KErrNotFound == KAllowedDtmfChars().Locate( lexer.Get() ) )
-            {
-            invalidCharFound = ETrue;
-            }
-        else 
-            {
-            // Check DTMF number discover or not
-            if ( 'p' == nextChar || 'P'== nextChar 
-                || 'w'== nextChar || 'w'== nextChar )
-                {
-                isDtmfNumberDiscover = ETrue;
-                }
-            // Telnumber count without '+' before 'p' or 'w'
-            if ( '+' != aLexer.Peek() && !isDtmfNumberDiscover )
-                { 
-                telNumDigitsBeforeDtmf++;
-                }
-             aLexer.Inc();
-            }
-         VMBLOGSTRING2( "VMBX: VmbxUtilities::ValdateDtmfPart:\
-         telNumDigitsBeforeDtmf %d", telNumDigitsBeforeDtmf );
-        }
-    
-    if ( KVmbxPhoneNumMinLength > telNumDigitsBeforeDtmf 
-        || KVmbxPhoneNumMaxLength < telNumDigitsBeforeDtmf 
-        || invalidCharFound )
-        {
-        result = EFalse;
+        // After DTMF char, is tone string, there is no specfic rule about tone string,
+        // so just do a simple check.
+        result = ETrue;
+        VMBLOGSTRING( "VMBX: VmbxUtilities::ValdateDtmfPart DtmfNumberDiscover" );
         }
     VMBLOGSTRING2( "VMBX: VmbxUtilities::ValdateDtmfPart: result = %d<=",
         result );

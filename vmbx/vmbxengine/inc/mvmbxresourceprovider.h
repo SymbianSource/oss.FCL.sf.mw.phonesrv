@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -29,7 +29,6 @@
 /**
  *  Resource provider
  *
- *  @since S60 v5.2
  *  @lib vmbxengine.lib
  *
  */
@@ -40,7 +39,6 @@ public:
    /**
     * Gets handler of MVmbxUiUtilities
     * 
-    * @since S60 v5.2
     * @return handler of MVmbxUiUtilities
     **/
     virtual MVmbxUiUtilities& VmbxUiUtilities() = 0;
@@ -48,7 +46,6 @@ public:
    /**
     * Gets handler of MVmbxCenrepHandler
     * 
-    * @since S60 v5.2
     * @return handler of MVmbxCenrepHandler
     **/
     virtual MVmbxCenrepHandler& VmbxCenRepHandler() = 0;

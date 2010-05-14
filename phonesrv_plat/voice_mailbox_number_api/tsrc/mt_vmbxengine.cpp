@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -111,92 +111,6 @@ void Mt_vmbxEngine::testCreateVmbxMailbox()
 }
 
 // -----------------------------------------------------------------------------
-// Mt_vmbxEngine::testVmbxType
-// testVmbxType test case
-// Connects to test object signal and verifies received data.
-// -----------------------------------------------------------------------------
-void Mt_vmbxEngine::testVmbxType()
-{
-    qDebug("Mt_vmbxEngine::testVmbxType >");
-    QVERIFY(mVmbxEntry);
-    mVmbxEntry->SetVoiceMailboxType(EVmbxVoice);
-    QCOMPARE(mVmbxEntry->VoiceMailboxType(), EVmbxVoice);
-    qDebug("Mt_vmbxEngine::testVmbxType <");
-}
-
-// -----------------------------------------------------------------------------
-// Mt_vmbxEngine::testServiceId
-// testServiceId test case
-// Connects to test object signal and verifies received data.
-// -----------------------------------------------------------------------------
-void Mt_vmbxEngine::testServiceId()
-{
-    qDebug("Mt_vmbxEngine::testServiceId >");
-    QVERIFY(mVmbxEntry);
-    mVmbxEntry->SetServiceId(KVmbxServiceIdNone);
-    QCOMPARE(mVmbxEntry->ServiceId(), KVmbxServiceIdNone);
-    qDebug("Mt_vmbxEngine::testServiceId <");
-}
-
-// -----------------------------------------------------------------------------
-// Mt_vmbxEngine::testAlsLineType
-// testAlsLineType test case
-// Connects to test object signal and verifies received data.
-// -----------------------------------------------------------------------------
-void Mt_vmbxEngine::testAlsLineType()
-{
-    qDebug("Mt_vmbxEngine::testAlsLineType >");
-    QVERIFY(mVmbxEntry);
-    mVmbxEntry->SetVmbxAlsLineType(EVmbxAlsLine1);
-    QCOMPARE(mVmbxEntry->VmbxAlsLineType(), EVmbxAlsLine1);
-    qDebug("Mt_vmbxEngine::testAlsLineType <");
-}
-
-// -----------------------------------------------------------------------------
-// Mt_vmbxEngine::testVmbxNumber
-// testVmbxNumber test case
-// Connects to test object signal and verifies received data.
-// -----------------------------------------------------------------------------
-void Mt_vmbxEngine::testVmbxNumber()
-{
-    qDebug("Mt_vmbxEngine::testVmbxNumber >");
-    QVERIFY(mVmbxEntry);
-    TInt result= mVmbxEntry->SetVmbxNumber(KVmbxNumber);
-    QCOMPARE(result, KErrNone);
-    TPtrC vmbxNumber(KNullDesC);
-    result = mVmbxEntry->GetVmbxNumber(vmbxNumber);
-    QVERIFY2(KErrNone == result, "GetVmbxNumber failed");
-    QVERIFY2(vmbxNumber.Compare(KVmbxNumber) == 0, "Get wrong vmbxnumber");
-    qDebug("Mt_vmbxEngine::testVmbxNumber <");
-}
-
-// -----------------------------------------------------------------------------
-// Mt_vmbxEngine::testReset
-// testReset test case
-// Connects to test object signal and verifies received data.
-// -----------------------------------------------------------------------------
-void Mt_vmbxEngine::testReset()
-{
-    qDebug("Mt_vmbxEngine::testReset >");
-    QVERIFY(mVmbxEntry);
-    mVmbxEntry->Reset();
-    QCOMPARE(mVmbxEntry->VmbxAlsLineType(), EVmbxAlsLineDefault);
-    QCOMPARE(mVmbxEntry->ServiceId(), KVmbxServiceIdNone);
-    QCOMPARE(mVmbxEntry->VoiceMailboxType(), EVmbxNone);
-    QCOMPARE(mVmbxEntry->UsingMemoryLocation(),EVmbxSimMemory);
-    TPtrC vmbxNumber(KNullDesC);
-    TInt result = mVmbxEntry->GetVmbxNumber(vmbxNumber);
-    QCOMPARE(result, KErrNone);
-    QVERIFY(vmbxNumber.Compare(KNullDesC)==0);
-    // mVmbxEntry's vmbxname don't be set before
-    TPtrC vmbxName(KNullDesC);
-    result = mVmbxEntry->GetVmbxName(vmbxName);
-    QVERIFY2(KErrNotFound==result, "GetVmbxName failed");
-    QVERIFY2(vmbxName.Compare(KNullDesC) == 0, "Get wrong vmbxname");
-    qDebug("Mt_vmbxEngine::testReset <");
-}
-
-// -----------------------------------------------------------------------------
 // Mt_vmbxEngine::testCheckConfiguration
 // CreateVmbxMailbox test case
 // Connects to test object signal and verifies received data.
@@ -240,20 +154,6 @@ void Mt_vmbxEngine::testCreateWindow()
     QVERIFY(mWindow);
     mWindow->show();
     qDebug("Mt_vmbxEngine::testCreateWindow <");
-}
-
-// -----------------------------------------------------------------------------
-// Mt_vmbxEngine::testNotifyVmbxNumberChange
-// testNotifyVmbxNumberChange test case
-// Connects to test object signal and verifies received data.
-// -----------------------------------------------------------------------------
-void Mt_vmbxEngine::testNotifyVmbxNumberChange()
-{
-    qDebug("Mt_vmbxEngine::testNotifyVmbxNumberChange >");
-    QVERIFY(mVmbxEngine);
-    //const bool test = true;
-    //mVmbxEngine->NotifyVmbxNumberChangeL(*this, true);
-    qDebug("Mt_vmbxEngine::testNotifyVmbxNumberChange <");
 }
 
 // -----------------------------------------------------------------------------
@@ -324,8 +224,9 @@ void Mt_vmbxEngine::testQueryVmbxMailbox()
         qDebug("Mt_vmbxEngine::testQueryVmbxMailbox no number defined");
         // test QueryNewEntry
         result = mVmbxEngine->QueryNewEntry( params, vmbxEntry );
-        QVERIFY2(KErrNone == result, "QueryNewEntry Failed.");
-        if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi)) {
+        //QVERIFY2(KErrNone == result, "QueryNewEntry Failed.");
+        if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi)
+            && KErrNone == result) {
         // test SaveEntry
         result = mVmbxEngine->SaveEntry( *vmbxEntry );
         QVERIFY2(KErrNone == result, "SaveEntry Failed.");
@@ -334,8 +235,9 @@ void Mt_vmbxEngine::testQueryVmbxMailbox()
         qDebug("Mt_vmbxEngine::testQueryVmbxMailbox change number");
         // test change entry
         result = mVmbxEngine->QueryChangeEntry( params, vmbxEntry );
-        QVERIFY2(KErrNone == result, "QueryChangeEntry Failed.");
-        if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi)) {
+        //QVERIFY2(KErrNone == result, "QueryChangeEntry Failed.");
+        if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi) 
+            && KErrNone == result ) {
             result = mVmbxEngine->SaveEntry( *vmbxEntry );
             QVERIFY2(KErrNone == result, "SaveEntry Failed.");
             // test GetStoredEntry

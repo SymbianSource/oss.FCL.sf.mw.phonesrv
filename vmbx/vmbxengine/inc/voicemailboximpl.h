@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -41,7 +41,6 @@ class CVmbxCenRepHandler;
 *  Implemets mailbox entry base class functionality
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVoiceMailboxImpl ) : public CBase,
                          public MVmbxChangeObserver,
@@ -70,7 +69,6 @@ public: // New functions
     /**
      * see CVoiceMailbox::GetStoredEntry
      * 
-     * @since S60 v5.2
      */
     TInt GetStoredEntry( const TVoiceMailboxParams& aParams,
                                     CVoiceMailboxEntry*& aEntry ) const;
@@ -78,14 +76,12 @@ public: // New functions
     /**
      * see CVoiceMailbox::SaveEntry
      * 
-     * @since S60 v5.2
      */
     TInt SaveEntry( const CVoiceMailboxEntry& aEntry );
 
     /**
      * see CVoiceMailbox::QueryNewEntry
      * 
-     * @since S60 v5.2
      */
     TInt QueryNewEntry( const TVoiceMailboxParams& aParams,
                                         CVoiceMailboxEntry*& aEntry );
@@ -93,7 +89,6 @@ public: // New functions
     /**
      * see CVoiceMailbox::QueryChangeEntry
      * 
-     * @since S60 v5.2
      */
     TInt QueryChangeEntry( const TVoiceMailboxParams& aParams,
                                     CVoiceMailboxEntry*& aEntry);
@@ -101,14 +96,12 @@ public: // New functions
     /**
      * see CVoiceMailbox::QueryVmbxType
      * 
-     * @since S60 v5.2
      */
     TInt QueryVmbxType( TVoiceMailboxParams& aParams );
 
     /**
      * see CVoiceMailbox::NotifyVmbxNumberChangeL
      * 
-     * @since S60 v5.2
      */
     void NotifyVmbxNumberChangeL( MVoiceMailboxObserver& aObserver,
                                      const TBool aNotifyOnActiveLineOnly );
@@ -116,7 +109,6 @@ public: // New functions
     /**
      * see CVoiceMailbox::NotifyVmbxNumberChangeCancel
      * 
-     * @since S60 v5.2
      */
     void NotifyVmbxNumberChangeCancel();
 
@@ -131,21 +123,18 @@ public: // New functions
     /**
      * see CVoiceMailbox::GetServiceIds
      * 
-     * @since S60 v5.2
      */
     TInt GetServiceIds( RIdArray& aProfileIds );
 
     /**
      * see CVoiceMailbox::GetVmbxImage
      * 
-     * @since S60 v5.2
      */
     //CGulIcon* GetVmbxImage( const TVoiceMailboxParams& aParams );
 
     /**
      * see CVoiceMailbox::GetVmbxImages
      * 
-     * @since S60 v5.2
      */
     //CArrayPtr<CGulIcon>* GetVmbxImages(
     //                        RArray<TVoiceMailboxParams>& aParams );
@@ -153,7 +142,6 @@ public: // New functions
     /**
      * see CVoiceMailbox::SaveProvisionedEntry
      * 
-     * @since S60 v5.2
      */
     TInt SaveProvisionedEntry( const CVoiceMailboxEntry& aEntry );
 
@@ -163,21 +151,18 @@ public:  // From MVmbxChangeObserver
     /**
      * see MVmbxChangeObserver::SatRefreshL
      * 
-     * @since S60 v5.2
      */
     void SatRefreshL();
 
     /**
      * see MVmbxChangeObserver::CenRepChangedL
      * 
-     * @since S60 v5.2
      */
     void CenRepChangedL( TVmbxCenRepKey aId );
 
     /**
      * see MVmbxChangeObserver::SimStoreChangedL
      * 
-     * @since S60 v5.2
      */
     void SimStoreChangedL();
 
@@ -186,7 +171,6 @@ public:  // From MVmbxChangeObserver
     /**
      * Get Handler of VmbxUiUtilities
      *
-     * @since S60 v5.2
      * @return Refereance of MVmbxUiUtilities
      */
     MVmbxUiUtilities& VmbxUiUtilities();
@@ -194,7 +178,6 @@ public:  // From MVmbxChangeObserver
     /**
      * Get Handler of VmbxCenrepHandler
      *
-     * @since S60 v5.2
      * @return Refereance of MVmbxCenrepHandler
      */
     MVmbxCenrepHandler& VmbxCenRepHandler();
@@ -211,7 +194,6 @@ private: //New method
     /**
      * ConstructL
      *
-     * @since S60 v5.2
      */
     void ConstructL();
 
@@ -221,7 +203,6 @@ private: //New method
      *       - KErrArgument when illegal argument
      *       - Other system wide errors.
      *
-     * @since S60 v5.2
      * @param in Params Service id and type of the mailbox for which
      *          a number/address should be defined.
      * @param out aEntry If successful, a new result container is
@@ -248,7 +229,6 @@ private: //New method
      *              for the specified mailbox.
      *         - Other system wide errors.
      *
-     * @since S60 v5.2
      * @param in aParams Service id and type of the mailbox for which
      *          a number/address should be defined.
      * @param out aEntry If successful, a new result container is
@@ -268,7 +248,6 @@ private: //New method
      * In that case unsupported arguments are ignored.
      * This method may display related UI notes or queries.
      *
-     * @since S60 v5.2
      * @param in aEntry The vmbx entry to save.
      */
     void SaveEntryL( const CVoiceMailboxEntry& aEntry );
@@ -291,7 +270,6 @@ private: //New method
      *              for the specified mailbox.
      *         - Other system wide errors.
      *
-     * @since S60 v5.2
      * @param in aParams Service id and type of the mailbox.
      * @param out aEntry If successful, a new result container is
      */
@@ -308,7 +286,6 @@ private: //New method
      *             type given.
      *         - Other system wide errors.
      *
-     * @since S60 v5.2
      * @param out aParams If successful,
      *          contains selected mailbox info.
      */
@@ -318,7 +295,6 @@ private: //New method
      * Get defined entries via an array
      * Leave with symbian OS error code except KErrNotFound and KErrSupported.
      *
-     * @since S60 v5.2
      * @param out aArray array contains the defined entries
      */
     void GetDefinedEntriesL( RPointerArray<CVoiceMailboxEntry>& aArray );
@@ -327,7 +303,6 @@ private: //New method
      * Get defined voice entry via an array
      *  Leave with symbian OS error code except KErrSupported.
      *
-     * @since S60 v5.2
      * @param out aArray array contains the defined entries
      */
     void GetDefinedVoiceEntryL( 
@@ -337,7 +312,6 @@ private: //New method
      * Get defined video entry via an array
      * Leave with symbian OS error code except KErrNotFound and KErrSupported.
      *
-     * @since S60 v5.2
      * @param out ay array contains the defined entries
      */
     void GetDefinedVideoEntryL( 
@@ -347,7 +321,6 @@ private: //New method
      * Get defined voip entries via an array
      * Leave with symbian OS error code except KErrNotFound and KErrSupported.
      *
-     * @since S60 v5.2
      * @param out aArray array contains the defined entries
      */
     void GetDefinedVoipEntriesL( 
@@ -357,7 +330,6 @@ private: //New method
      * Checks the Voice Mailbox how many VoIP service Ids
      * Leave with symbian OS error code
      *
-     * @since S60 v5.2
      * @param out aProfileIds
      * @return KErrNone if get service Ids successfully.
      */
@@ -369,7 +341,6 @@ private: //New method
      * Image can be displayed e.g. in a selection list.
      * Leave with symbian OS error code.
      *
-     * @since S60 v5.2
      * @param in aParams Mailbox service id and type for which image is needed.
      * @return aImage New image. Ownership is transferred.
      */
@@ -387,7 +358,6 @@ private: //New method
      * NULL array pointer is returned if not a signle icon was retrieved
      * successfully.
      *
-     * @since S60 v5.2
      * @param in aParams Mailboxes (id and type) for which an image is needed.
      * @return aImage Icons for the specified mailboxes.
      *          Index of an image in the returned array corresponds to the
@@ -403,7 +373,6 @@ private: //New method
      * Notify entry changed
      * Leave with symbian OS error code.
      *
-     * @since S60 v5.2
      * @param in aType Type of TVmbxType
      */
     void NotifyChangedL( TVmbxType aType);
@@ -419,10 +388,17 @@ private: //New method
      * Some mailbox types may not support saving all arguments.
      * In that case unsupported arguments are ignored.
      *
-     * @since S60 v5.2
      * @param in aEntry The provisioned vmbx entry to save.
      */
     void SaveProvisionedEntryL( const CVoiceMailboxEntry& aEntry );
+
+    /**
+     * Check number provisioned or not
+     * Leave if systrm wide errors
+     *
+     * @param in aParams params of TVoiceMailboxParams
+     */
+    void CheckNumberProvisionedL( const TVoiceMailboxParams& aParams );
 
 protected: // data
 

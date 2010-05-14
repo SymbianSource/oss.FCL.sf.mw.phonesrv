@@ -18,7 +18,6 @@
 // System includes
 #include <cvoicemailbox.h>
 #include <cvoicemailboxentry.h>
-#include <voicemailboxdefs.h>
 
 // User includes
 #include "vmbxuiengine.h"
@@ -27,8 +26,7 @@
 /*!
     Constructor
 */
-VmbxUiEngine::VmbxUiEngine() :
-    mVmbxEngine(NULL)
+VmbxUiEngine::VmbxUiEngine() : mVmbxEngine(NULL)
 { 
     _DBGLOG("VmbxUiEngine::VmbxUiEngine >")
     QT_TRAP_THROWING(mVmbxEngine = CVoiceMailbox::NewL());
@@ -41,6 +39,7 @@ VmbxUiEngine::VmbxUiEngine() :
 VmbxUiEngine::~VmbxUiEngine()
 {
     _DBGLOG( "VmbxUiEngine::~VmbxUiEngine >")
+    mVmbxEngine->NotifyVmbxNumberChangeCancel();
     delete mVmbxEngine;
     mVmbxEngine = NULL;
     _DBGLOG( "VmbxUiEngine::~VmbxUiEngine <")
@@ -52,27 +51,12 @@ VmbxUiEngine::~VmbxUiEngine()
 void VmbxUiEngine::getCsVoice1Number(QString &aValue)
 {
     _DBGLOG("VmbxUiEngine::getCsVoice1Number >")
-
     TVoiceMailboxParams vmbxParams;
     vmbxParams.iType = EVmbxVoice;
     vmbxParams.iLineType = EVmbxAlsLine1;
     vmbxParams.iServiceId = KVmbxServiceVoice;
     getNumber(vmbxParams, aValue);
     _DBGLOG2("VmbxUiEngine::getCsVoice1Number < , string=", aValue)
-}
-
-/*!
-    Getter method for voice ALS number of Voice Mailbox.
-*/
-void VmbxUiEngine::getCsVoice2Number(QString &aValue)
-{
-    _DBGLOG("VmbxUiEngine::getCsVoice2Number >")
-    TVoiceMailboxParams vmbxParams;
-    vmbxParams.iType = EVmbxVoice;
-    vmbxParams.iLineType = EVmbxAlsLine2;
-    vmbxParams.iServiceId = KVmbxServiceVoice;
-    getNumber(vmbxParams, aValue);
-    _DBGLOG2("VmbxUiEngine::getCsVoice2Number < , string=", aValue)
 }
 
 /*!
@@ -90,18 +74,126 @@ void VmbxUiEngine::getCsVideo1Number(QString &aValue)
 }
 
 /*!
-    Callback from voice mailbox engine when number has been updated
-    This method notifies the UI to refresh its data.
+    Set number when cs voice number has been edited on UI.
+    @param aValue New value.
 */
-void VmbxUiEngine::uiCsVoice1Changed(const QString& aValue)
+void VmbxUiEngine::setCsVoice1Number(const QString &aValue)
 {
-    _DBGLOG2("VmbxUiEngine::uiCsVoice1Changed >, value=",aValue)
+    _DBGLOG2("VmbxUiEngine::setCsVoice1Number >, value=",aValue)
     TVoiceMailboxParams vmbxParams;
     vmbxParams.iType = EVmbxVoice;
     vmbxParams.iLineType = EVmbxAlsLine1;
     vmbxParams.iServiceId = KVmbxServiceVoice;
     setNumber(vmbxParams, aValue);
-    _DBGLOG("VmbxUiEngine::uiCsVoice1Changed <");
+    _DBGLOG("VmbxUiEngine::setCsVoice1Number <");
+}
+
+/*!
+    Set number when cs video number has been edited on UI.
+    @param aValue New value.
+*/
+void VmbxUiEngine::setCsVideo1Number(const QString &aValue)
+{
+    _DBGLOG2("VmbxUiEngine::setCsVideo1Number >, value=",aValue)
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVideo;
+    vmbxParams.iLineType = EVmbxAlsLine1;
+    vmbxParams.iServiceId = KVmbxServiceVideo;
+    setNumber(vmbxParams, aValue);
+    _DBGLOG("VmbxUiEngine::setCsVideo1Number <");
+}
+
+/*!
+    If video mailbox supported.
+*/
+bool VmbxUiEngine::isVideoSupport()
+{
+    _DBGLOG("VmbxUiEngine::isVideoSupport >")
+    // video support
+    bool isVideoSupport(false);
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVideo;
+    vmbxParams.iLineType = EVmbxAlsLine1;
+    vmbxParams.iServiceId = KVmbxServiceVideo;
+    isVideoSupport = mVmbxEngine->CheckConfiguration(vmbxParams,
+        EVmbxVideoMailboxSupported);
+    _DBGLOG2("VmbxUiEngine::isVideoSupport ", isVideoSupport);
+    return isVideoSupport;
+}
+
+/*!
+    If voice mailbox allow to write.
+*/
+bool VmbxUiEngine::isVoiceWritable()
+{
+    _DBGLOG("VmbxUiEngine::isVoiceWritable >")
+    bool isVoiceWritable(false);
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVoice;
+    vmbxParams.iLineType = EVmbxAlsLine1;
+    vmbxParams.iServiceId = KVmbxServiceVoice;
+    isVoiceWritable = mVmbxEngine->CheckConfiguration(vmbxParams,
+        EVmbxChangeNbrAllowedOnUi);
+    _DBGLOG2("VmbxUiEngine::isVoiceWritable <", isVoiceWritable);
+    return isVoiceWritable;
+}
+
+/*!
+    If video mailbox allow to write.
+*/
+bool VmbxUiEngine::isVideoWritable()
+{
+    _DBGLOG( "VmbxUiEngine::isVideoWritable >")
+    bool isVideoWritable(false);
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVideo;
+    vmbxParams.iLineType = EVmbxAlsLine1;
+    vmbxParams.iServiceId = KVmbxServiceVideo;
+    isVideoWritable = mVmbxEngine->CheckConfiguration(vmbxParams,
+        EVmbxChangeNbrAllowedOnUi);
+    _DBGLOG2("VmbxUiEngine::isVoiceWritable >", isVideoWritable);
+    return isVideoWritable;
+}
+
+/*!
+    queryVoiceNumber
+*/
+int VmbxUiEngine::queryVoiceNumber(QString &aValue)
+{
+    _DBGLOG2("VmbxUiEngine::queryVoiceNumber >, value=",aValue)
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVoice;
+    vmbxParams.iServiceId = KVmbxServiceVoice;
+    int result = queryNumber(vmbxParams, aValue);
+    _DBGLOG2("VmbxUiEngine::queryVoiceNumber <, value=", aValue)
+    return result;
+}
+
+/*!
+    queryVideoNumber
+*/
+int VmbxUiEngine::queryVideoNumber(QString &aValue)
+{
+    _DBGLOG2("VmbxUiEngine::queryVideoNumber >, value=", aValue)
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVideo;
+    vmbxParams.iServiceId = KVmbxServiceVideo;
+    int result = queryNumber(vmbxParams, aValue);
+    _DBGLOG2("VmbxUiEngine::queryVideoNumber <, value=", aValue)
+    return result;
+}
+
+/*!
+    Request notify when VMBX number changed
+ */
+void VmbxUiEngine::notifyVmbxNumberChange(bool aNotifyOnActiveLineOnly)
+{
+    _DBGLOG2("VmbxUiEngine::notifyVmbxNumberChange >, OnActiveLineOnly=", 
+             aNotifyOnActiveLineOnly)
+    QT_TRAP_THROWING(mVmbxEngine->NotifyVmbxNumberChangeL
+                                 (*this, aNotifyOnActiveLineOnly));
+    _DBGLOG2("VmbxUiEngine::notifyVmbxNumberChange <, OnActiveLineOnly=", 
+             aNotifyOnActiveLineOnly)
 }
 
 /*!
@@ -110,14 +202,10 @@ void VmbxUiEngine::uiCsVoice1Changed(const QString& aValue)
 */
 void VmbxUiEngine::HandleNotifyL(const CVoiceMailboxEntry &aVmbxEntry)
 {
-    _DBGLOG( "VmbxUiEngine::HandleNotifyL")
-    Q_UNUSED(aVmbxEntry);
-    // Consider is there need to pass the actual modified data 
-    // and mailbox type enum to slot.
-    //
-    // Issue the notification request to vmbxengine, that is missing
-    // at the moment !
-    emit voiceMailboxEngineEntriesUpdated();
+    _DBGLOG( "VmbxUiEngine::HandleNotifyL >")
+    TVmbxType type = aVmbxEntry.VoiceMailboxType();
+    emit voiceMailboxEngineEntriesUpdated(type);
+    _DBGLOG( "VmbxUiEngine::HandleNotifyL <")
 }
 
 /*!
@@ -135,7 +223,7 @@ void VmbxUiEngine::getNumber(const TVoiceMailboxParams &aParam,
         result = vmbxEntry->GetVmbxNumber( entryNumber );
         _DBGLOG3("VmbxUiEngine::getNumber, GetVmbxNumber result=", 
             result,
-            " but ignore code and allow returing of an empty string to UI");
+            " but ignore code and allow returning of an empty string to UI");
         aValue = QString::fromUtf16 (entryNumber.Ptr(), entryNumber.Length());
     }
     delete vmbxEntry;
@@ -152,31 +240,52 @@ void VmbxUiEngine::setNumber(const TVoiceMailboxParams &aParam,
     _DBGLOG("VmbxUiEngine::setNumber >")
         
     CVoiceMailboxEntry* vmbxEntry = NULL;
-    TInt result = mVmbxEngine->GetStoredEntry(aParam, vmbxEntry);    
-    _DBGLOG2("VmbxUiEngine::setNumber, GetStoredEntry result=", result);
-    if ( KErrNone != result ){
-        QT_TRAP_THROWING(vmbxEntry = CVoiceMailboxEntry::NewL());
-        vmbxEntry->SetServiceId(aParam.iServiceId);
-        vmbxEntry->SetVoiceMailboxType(aParam.iType);
-        vmbxEntry->SetVmbxAlsLineType(aParam.iLineType);
-        // Service name for cs is basically the one in service table,
-        // but in this case it's not used for anything by vmbx.
-        // So let's not set anything as name...fix if problems arise
-    }
+    QT_TRAP_THROWING(vmbxEntry = CVoiceMailboxEntry::NewL());
+    vmbxEntry->SetServiceId(aParam.iServiceId);
+    vmbxEntry->SetVoiceMailboxType(aParam.iType);
+    vmbxEntry->SetVmbxAlsLineType(aParam.iLineType);
+    _DBGLOG2("VmbxUiEngine::setNumber, SetVmbxNumber aValue=", aValue);
     _DBGLOG( "VmbxUiEngine::setNumber: cast to TPtrC")
     TPtrC newNumber( 
         reinterpret_cast<const TUint16*>( aValue.utf16() ),
         aValue.length() );
-    result = vmbxEntry->SetVmbxNumber( newNumber );
-    _DBGLOG2("VmbxUiEngine::setNumber, SetVmbxNumber result=", result);
-
-    if ( KErrNone == result ){
+    int result = vmbxEntry->SetVmbxNumber( newNumber );
+    if ( KErrNone == result ) {
         result = mVmbxEngine->SaveEntry( *vmbxEntry );
         _DBGLOG2("VmbxUiEngine::setNumber, SaveEntry result=", result);
     } 
     delete vmbxEntry;
-    // TODO: handle error here
+    vmbxEntry = 0;
     _DBGLOG("VmbxUiEngine::setNumber <");
+}
+
+/*!
+    Query method for voice mailbox number.
+*/
+int VmbxUiEngine::queryNumber(const TVoiceMailboxParams &aParam, 
+    QString &aValue)
+{
+    _DBGLOG2("VmbxUiEngine::queryNumber >, value=", aValue)
+    getNumber(aParam, aValue);
+    CVoiceMailboxEntry *vmbxEntry = NULL;
+    int result(0);
+    if (aValue.length() > 0) {
+        result = mVmbxEngine->QueryChangeEntry(aParam, vmbxEntry);
+    } else {
+        result = mVmbxEngine->QueryNewEntry(aParam, vmbxEntry);
+    }
+    if (KErrNone == result && vmbxEntry) {
+        TPtrC entryNumber(KNullDesC);
+        result = vmbxEntry->GetVmbxNumber(entryNumber);
+        _DBGLOG3("VmbxUiEngine::queryNumber, GetVmbxNumber result=", 
+            result,
+            " but ignore code and allow returing of an empty string to UI");
+        aValue = QString::fromUtf16(entryNumber.Ptr(), entryNumber.Length());
+    } 
+    delete vmbxEntry;
+    vmbxEntry = NULL;
+    _DBGLOG2("VmbxUiEngine::queryNumber <, value=", aValue)
+    return result;
 }
 
 //End of file

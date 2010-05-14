@@ -36,9 +36,7 @@ symbian {
 
     MMP_RULES += defFiles
     
-    LIBS += -lxqservice \
-            -lxqserviceutil \
-            -ltelephonyservice
+    LIBS += -ltelephonyservice
             
     BLD_INF_RULES.prj_exports +=  \
      "$${LITERAL_HASH}include <platform_paths.hrh>" \

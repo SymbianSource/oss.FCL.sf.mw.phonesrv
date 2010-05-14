@@ -189,6 +189,11 @@ private:
      */
     void CreateEmergencyCall( CSetupCallRequestHandler& aHandler );
     
+    /**
+     * Check the Param of the setup call 
+     */
+    TBool CheckSetupCallParam();
+    
 private: // data
 
     /**

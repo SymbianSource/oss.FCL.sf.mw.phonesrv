@@ -31,7 +31,6 @@ SOURCEPATH              ../src
 SOURCE                  std.cpp
 SOURCE                  CSetUpCallHandler.cpp
 SOURCE                  csetupcallrequesthandler.cpp
-SOURCE                  csetupcallstatushandler.cpp
 
 START RESOURCE          1000f005.rss
 TARGET                  SetUpCallCmd.rsc

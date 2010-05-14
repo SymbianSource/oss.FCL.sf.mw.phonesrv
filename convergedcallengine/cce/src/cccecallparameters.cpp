@@ -65,6 +65,7 @@ CCCPCallParameters* CCCECallParameters::CloneL() const
     cloned->SetLineType(iLineType);
     cloned->SetUUSId(iUUSId);
     cloned->SetOrigin(iOrigin);
+    cloned->SetAlphaId(iAlphaId);
     return cloned;
     }
 
@@ -175,6 +176,15 @@ CCCECallParameters::TCCECallOrigin CCCECallParameters::Origin() const
     return iOrigin;
     }
 
+void CCCECallParameters::SetAlphaId(TBuf<KCCPAlphaIdMaxSize> aAlphaId)
+    {
+    iAlphaId = aAlphaId;
+    }
 
+
+TBuf<KCCPAlphaIdMaxSize> CCCECallParameters::AlphaId() const
+    {
+    return iAlphaId;
+    }
 
 // End of file

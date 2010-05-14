@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -31,7 +31,6 @@ class VmbxQtUiHandler;
 /**
 *
 *  @lib qvmbxengine.lib
-*  @since  S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxUiHandler ):public CBase,
                      public MVmbxUiHandler
@@ -40,7 +39,6 @@ NONSHARABLE_CLASS( CVmbxUiHandler ):public CBase,
 public: // Constructors and destructor
     /**
      * Two-phased constructor
-     * @since S60 v5.2
      */
     static CVmbxUiHandler* NewL();
 
@@ -55,19 +53,16 @@ public: // Constructors and destructor
      * Show mailbox query dialog
      * Leaves if user cancel selected.
      *
-     * @since S60 v5.2
      * @param aType in TVmbxType type
-     * @param aMode Tin VmbxQueryMode mode
      * @param aNumber the voice mailbox number
      * @param aResult out the result of dialog
      */
     virtual void ShowVmbxQueryDialog( const TVmbxType& aType,
-        const TVmbxQueryMode & aMode, TDes& aNumber, TInt& aResult );
+        TDes& aNumber, TInt& aResult );
 
     /**
      * Show define number in selection dialog
      *
-     * @since S60 v5.2
      * @param in aType vmbx type
      * @param out aResult the result of dialog
      */
@@ -75,74 +70,41 @@ public: // Constructors and destructor
 
     /**
      * Show call number in selection dialog
+     * Leave if aArray < 1
      *
-     * @since S60 v5.2
      * @param in aArray array of the defined voice mailbox entry
      * @param in aIcons icons of the defined voice mailbox
      * @param out aParams the type TVoiceMailboxParams which should include
      *          the service id and the type of seclected TVmbxType
      * @param out aResult the result user seclected
      */
-    /*virtual void ShowCallSelectionDialogL(
+    virtual void ShowCallSelectionDialogL(
                 const RPointerArray<CVoiceMailboxEntry>& aArray,
                 //CArrayPtr<CGulIcon>* aIcons,
-                TVoiceMailboxParams& aParams, TInt& aResult ) = 0;*/
+                TVoiceMailboxParams& aParams, TInt& aResult );
 
     /**
-     * Show confirmation dialog when save number to phone
+     * Show informationd note
      *
-     * @since S60 v5.2
+     * @param aType in TVmbxNoteType type
      */
-    virtual void ShowSaveToPhoneNote();
-
-    /**
-     * Show confirmation dialog when save number to SIM
-     *
-     * @since S60 v5.2
-     */
-    virtual void ShowSaveToSimNote();
-
-    /**
-     * Show confirmation dialog when save video number
-     *
-     * @since S60 v5.2
-     */
-    virtual void ShowVideoSavedNote();
+    virtual void ShowInformationdNoteL(const TVmbxNoteType aType);
 
     /**
      * show an error dialog for invalid number
      *
-     * @since S60 v5.2
      */
-    virtual void ShowInvalidNumberNote();
-
-    /**
-     * show an error dialog for invalid number
-     *
-     * @since S60 v5.2
-     */
-    virtual void ShowInvalidWarningNote();
-
-    /**
-     * To get mailbox entry value
-     * Leaves if Symbian OS error code
-     *
-     * @since S60 v5.2
-     * @param aType TVmbxType type
-     */
-     virtual void ShowSaveEmptyNote( const TVmbxType& aType );
+    virtual void ShowInvalidWarningNoteL();
 
 private:
 
     /** C++ default constructor.
     *
-    * @since S60 v5.2
     */
     CVmbxUiHandler();
 
     /**
      * C++  Two-phased constructor.
-     * @since S60 v5.2
      */
     void ConstructL();
 

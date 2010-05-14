@@ -7,6 +7,12 @@ DialpadButton::icon{
     fixed-height: var(hb-param-graphic-size-function);
 }
 
+DialpadButton[icon][!text][!additionalText]{
+    layout:icon_button;
+    min-height:6.25un;
+    min-width:6.25un;
+}
+
 /* text and additional text */
 DialpadButton[stretched][!icon][text][additionalText]{
     layout:text_additionalText_horizontal;
@@ -39,13 +45,28 @@ DialpadButton[stretched][icon][text][!additionalText]::text{
     font-variant:primary;
     text-height:var(hb-param-text-height-title);
     text-line-count-max:1;
-    text-align:left center;    
+    text-align:left center;
 }
 
 DialpadButton[stretched][icon][text][!additionalText]::icon{
     top: -var(hb-param-margin-gene-middle-vertical);
     bottom: var(hb-param-margin-gene-middle-vertical);
     fixed-width: var(hb-param-graphic-size-primary-small);
-    fixed-height: var(hb-param-graphic-size-primary-small);    
+    fixed-height: var(hb-param-graphic-size-primary-small);
+		left: 0;
+    right: 0;
+    size-policy: fixed fixed;    
+}
+
+DialpadInputField > HbLineEdit{
+    text-align: right;
+    size-policy: expanding expanding;
+}
+
+DialpadInputField > HbLineEdit::text{
+    left: -var(hb-param-margin-gene-middle-horizontal);
+    right: var(hb-param-margin-gene-middle-horizontal);
+    top: -var(hb-param-margin-gene-middle-vertical);
+    bottom: var(hb-param-margin-gene-middle-vertical);;
 }
 

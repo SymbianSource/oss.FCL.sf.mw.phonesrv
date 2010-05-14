@@ -46,7 +46,6 @@ private slots:
 private:
     HbLineEdit* mNumberEditor;
     DialpadButton* mBackspace;
-    DialpadButtonStyle* mFunctionButtonStyle;
     int mHeight;
 };
 

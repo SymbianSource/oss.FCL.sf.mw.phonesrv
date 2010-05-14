@@ -87,7 +87,11 @@ class CCCECallParameters: public CCCPCallParameters
         /** Gets the origin of the call. */
         virtual TCCECallOrigin Origin() const;
 
-
+        /** Sets the SAT alpha id identifying the text to be shown instead of number in         
+            call bubble */
+        virtual void SetAlphaId(TBuf<KCCPAlphaIdMaxSize> aAlphaId);
+        /** Gets the SAT alpha id of the call. */
+        virtual TBuf<KCCPAlphaIdMaxSize> AlphaId() const;
     
     protected:
        CCCECallParameters();
@@ -106,6 +110,8 @@ class CCCECallParameters: public CCCPCallParameters
         TBuf<KCCESubAddressMaxSize> iSubAddress;
         /** Call origin.  */
         TCCECallOrigin iOrigin;
+        /** Alpha id.  */
+        TBuf<KCCPAlphaIdMaxSize> iAlphaId;
     
     };
 

@@ -218,7 +218,7 @@ void DialpadTestView::handleLongKeyPress()
     msgBox.setText(msg);
     msgBox.setTimeout(3000);
 
-    msgBox.exec();
+    msgBox.show();
 }
 
 void DialpadTestView::handleDial()
@@ -235,7 +235,7 @@ void DialpadTestView::handleDial()
     msgBox.setText(msg);
     msgBox.setTimeout(3000);
 
-    msgBox.exec();
+    msgBox.show();
 }
 
 void DialpadTestView::setTapOutsideDismiss()

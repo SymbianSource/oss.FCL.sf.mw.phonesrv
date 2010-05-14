@@ -202,12 +202,11 @@ void PSetCallBarringWrapperPrivate::barringStatus(
     
     TServiceGroup convertedServiceGroup = convertServiceGroup(serviceGroup);
     TBarringProgram convertedBarringType = convertBarringType(barringType);
-    
+
+    m_currentRequest = RequestBarringStatus;
     QT_TRAP_THROWING(m_callBarring->GetBarringStatusL(
         convertedServiceGroup, convertedBarringType)
     )
-    
-    m_currentRequest = RequestBarringStatus;
 }
 
 
@@ -228,11 +227,11 @@ void PSetCallBarringWrapperPrivate::enableBarring(
     setting.iPassword.Copy(barringPassword.utf16());
     
     TBasicServiceGroups serviceGroups = EAllTeleAndBearer;
+    
+    m_currentRequest = RequestEnableBarring;
     QT_TRAP_THROWING(
         m_callBarring->SetBarringL(setting, serviceGroups);
     )
-    
-    m_currentRequest = RequestEnableBarring;
 }
 
 
@@ -253,11 +252,11 @@ void PSetCallBarringWrapperPrivate::disableBarring(
     setting.iPassword.Copy(barringPassword.utf16());
     
     TBasicServiceGroups serviceGroups = EAllTeleAndBearer;
+
+    m_currentRequest = RequestDisableBarring;
     QT_TRAP_THROWING(
         m_callBarring->SetBarringL(setting, serviceGroups);
-    )
-    
-    m_currentRequest = RequestDisableBarring;
+    )    
 }
 
 
@@ -274,11 +273,10 @@ void PSetCallBarringWrapperPrivate::changeBarringPassword(
     passwordChange.iNewPassword.Copy(newPassword.utf16());
     passwordChange.iVerifiedPassword.Copy(verifiedPassword.utf16());
     
+    m_currentRequest = RequestChangePassword;
     QT_TRAP_THROWING(
         m_callBarring->ChangePasswordL(passwordChange);
     )
-    
-    m_currentRequest = RequestChangePassword;
 }
 
 

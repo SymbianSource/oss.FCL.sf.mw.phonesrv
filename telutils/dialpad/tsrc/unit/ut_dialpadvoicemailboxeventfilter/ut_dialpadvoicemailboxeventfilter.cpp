@@ -241,7 +241,7 @@ void ut_DialpadVoiceMailboxEventFilter::testNumericKeyOneLongPress()
 #ifdef Q_OS_SYMBIAN
     QVERIFY(mXQServiceConstructed == true);
     QVERIFY(mSendCalled == true);
-    QCOMPARE(mService, QString("com.nokia.services.telephony"));
+    QCOMPARE(mService, QString("com.nokia.symbian.ICallDial"));
     QCOMPARE(mMessage, QString("dial(QString)"));
 #endif
 }

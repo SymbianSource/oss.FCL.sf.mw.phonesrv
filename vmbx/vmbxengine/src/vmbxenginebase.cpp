@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -86,7 +86,7 @@ void CVmbxEngineBase::SetCurrentServiceId( const TServiceId& aVmbxServiceId )
     }
 
 // ----------------------------------------------------------------------------
-//  CVmbxEngineBase::CheckConfiguration()
+//  CVmbxCsVideoEngine::CheckConfiguration()
 // ----------------------------------------------------------------------------
 //
 TBool CVmbxEngineBase::CheckConfiguration( 
@@ -94,9 +94,17 @@ TBool CVmbxEngineBase::CheckConfiguration(
     {
     VMBLOGSTRING( "VMBX: CVmbxEngineBase::CheckConfiguration =>" );
     TBool conf( EFalse );
-    if ( EVmbxChangeNbrNotAllowedOnUi & aFlags )
+    if ( EVmbxChangeNbrAllowedOnUi & aFlags )
         {
-        conf = iProvider.VmbxCenRepHandler().IsAllowedUserEdit();
+        // NOT suppported as default
+        }
+    else if ( EVmbxVideoMailboxSupported & aFlags )
+        {
+        // NOT suppported as default
+        }
+    else
+        {
+        // default
         }
     VMBLOGSTRING2( "VMBX: CVmbxEngineBase::CheckConfiguration: conf%I <=",
                  conf );
@@ -134,7 +142,7 @@ void CVmbxEngineBase::QueryChangeNumberL( CVoiceMailboxEntry& aEntry )
     TInt err( KErrNone );
     TPtrC vmbxNumber( KNullDesC );
     err = aEntry.GetVmbxNumber( vmbxNumber );
- 
+
     if ( KErrNone == err )
         {
         HBufC* changeNumber = HBufC::NewLC( KVmbxMaxNumberLength );

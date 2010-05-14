@@ -20,6 +20,7 @@
 // System includes
 #include <QObject>
 #include <mvoicemailboxobserver.h>
+#include <voicemailboxdefs.h>
 
 // Forward declarations
 class CVoiceMailbox;
@@ -31,6 +32,7 @@ class VmbxUiEngine : public QObject, public MVoiceMailboxObserver
     Q_OBJECT
             
 public:
+    
     /*!
         Constructor.
     */
@@ -48,21 +50,43 @@ public:
         @param aValue Retrieved number.
     */
     void getCsVoice1Number(QString &aValue);
-    /*!
-        Getter method for voice ALS number of Voice Mailbox.
-        @param aValue Retrieved number.
-    */
-    void getCsVoice2Number(QString &aValue);
     
     /*!
         Getter method for primary video number of Voice Mailbox.
         @param aValue Retrieved number.
     */
     void getCsVideo1Number(QString &aValue);
+    
+    /*!
+        Set number when cs voice number has been edited on UI.
+        @param aValue New value.
+    */
+    void setCsVoice1Number( const QString &aValue );
+    
+    /*!
+        Set number when cs voice number has been edited on UI.
+        @param aValue New value.
+    */
+    void setCsVideo1Number( const QString &aValue );
+    
+    /*!
+        If video mailbox supported.
+    */    
+    bool isVideoSupport();
+
+    /*!
+        If voice mailbox is writable.
+    */
+    bool isVoiceWritable();
+
+    /*!
+        If video mailbox is writable.
+    */
+    bool isVideoWritable();
+
       
     // Add new Getter methods for other voice mailbox types
-    
-    // From MVoiceMailboxObserver
+
     /*!
         From MVoiceMailboxObserver
         Observer callback for number/address change notification
@@ -72,21 +96,32 @@ public:
     */
     void HandleNotifyL(const CVoiceMailboxEntry &aVmbxEntry);
 
+    /*!
+        Query number when cs voice number has been edited on UI.
+        @param aValue New value.
+    */
+    int queryVoiceNumber(QString &aValue);
+
+    /*!
+        Query number when cs video number has been edited on UI.
+        @param aValue New value.
+    */
+    int queryVideoNumber(QString &aValue);
+    
+    /*!
+        Request notify when VMBX number changed
+        @param  aNotifyOnActiveLineOnly  Only active line or NOT
+     */
+    void notifyVmbxNumberChange(bool aNotifyOnActiveLineOnly);
+
 signals:
 
     /*!
         Signal emitted when voice mailbox data has been updated.
     */
-    void voiceMailboxEngineEntriesUpdated(); 
+    void voiceMailboxEngineEntriesUpdated(const TVmbxType vmbxType); 
 
-public slots:
 
-    /*!
-        Slot for signal when number has been edited on UI.
-        @param aValue New value.
-    */
-    void uiCsVoice1Changed( const QString &aValue );
-     
 private: // New Method    
     
     /*!
@@ -104,6 +139,14 @@ private: // New Method
     */
     void setNumber(const TVoiceMailboxParams &aParam, 
                    const QString &aValue);
+
+    /*!
+        Query method for voice mailbox number.
+        @param aParam Identify voice mailbox type
+        @param aValue Retrieved number.
+    */
+    int queryNumber(const TVoiceMailboxParams &aParam, QString &aValue);
+    
 
 private:
 

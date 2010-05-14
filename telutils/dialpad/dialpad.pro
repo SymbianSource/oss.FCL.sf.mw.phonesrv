@@ -24,18 +24,17 @@ INCLUDEPATH += . inc ../../inc
 HEADERS += ../../phonesrv_plat/dialpad_api/inc/dialpad.h \
            ../../phonesrv_plat/dialpad_api/inc/dialpadkeyhandler.h \
            inc/dialpadbutton.h \
-           inc/dialpadbuttonstyle.h \
            inc/dialpadinputfield.h \
            inc/dialpadkeypad.h \
            inc/dialpadmultitaphandler.h\
            inc/dialpadsymbianwrapper.h \
            inc/dialpadbackground.h \
            inc/dialpadvoicemailboxeventfilter.h \
-           inc/dialpadbluetootheventfilter.h
+           inc/dialpadbluetootheventfilter.h \
+           inc/dialpadkeysequenceeventfilter.h
 
 SOURCES += src/dialpad.cpp \
            src/dialpadbutton.cpp \
-           src/dialpadbuttonstyle.cpp \
            src/dialpadinputfield.cpp \
            src/dialpadkeypad.cpp \
            src/dialpadmultitaphandler.cpp\
@@ -43,7 +42,8 @@ SOURCES += src/dialpad.cpp \
            src/dialpadsymbianwrapper.cpp \
            src/dialpadbackground.cpp \
            src/dialpadvoicemailboxeventfilter.cpp \
-           src/dialpadbluetootheventfilter.cpp
+           src/dialpadbluetootheventfilter.cpp \
+           src/dialpadkeysequenceeventfilter.cpp
 
 RESOURCES += dialpad.qrc
 

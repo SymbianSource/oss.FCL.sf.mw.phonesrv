@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -36,7 +36,6 @@ class CVoiceMailboxEntry;
 *  Creates connection to central repository and handles data flow from/to it
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxCenRepHandler ) : public CBase,
                                           public MVmbxCenrepHandler
@@ -58,7 +57,6 @@ public: // New functions
     /**
      * Get saved mailbox number
      *
-     * @since S60 v5.2
      * @param aEntry saved vmbx number data
      * @return Symbian OS error code (KErrNone if successful)
      */
@@ -67,7 +65,6 @@ public: // New functions
     /**
      * Saves the mailbox number
      *
-     * @since S60 v5.2
      * @param aEntry vmbx number data to save
      * @return Symbian OS error code (KErrNone if successful)
      */
@@ -76,7 +73,6 @@ public: // New functions
     /**
      * Fetches active store type
      *
-     * @since S60 v5.2
      * @return aStoreType Active store in use
      */
     TVmbxMemoryLocation StoreType();
@@ -84,7 +80,6 @@ public: // New functions
     /**
      * Returns state of the video support
      *
-     * @since S60 v5.2
      * @return ETrue if supported
      */
     TBool VideoSupported();
@@ -92,7 +87,6 @@ public: // New functions
     /**
      * Returns ETrue if CenRep setting Sim read only
      *
-     * @since S60 v5.2
      * @return ETrue if CenRep setting Sim read only
      */
     TBool IsSimReadOnly();
@@ -100,7 +94,6 @@ public: // New functions
      /**
      * Returns ETrue if number allowed to user change
      *
-     * @since S60 v5.2
      * @return ETrue if from Sim
      */
     TBool IsAllowedUserEdit();
@@ -121,7 +114,6 @@ private: // New functions
     /**
      * Resolves Voice CenRep key to be used
      *
-     * @since S60 v5.2
      * @param in aLine current ALS lne
      * @return CenRep key
      */
@@ -130,7 +122,6 @@ private: // New functions
     /**
      * Resolves Video CenRep key to be used
      *
-     * @since S60 v5.2
      * @param in aLine current ALS lne
      * @return CenRep key
      */
@@ -139,7 +130,6 @@ private: // New functions
    /**
      * Resolves CenRep key to be used
      *
-     * @since S60 v5.2
      * @param aEntry entry type
      * @return CenRep key
      */

@@ -23,14 +23,13 @@
 #include <hbdeviceprofile.h>
 
 #include "dialpadinputfield.h"
-#include "dialpadbuttonstyle.h"
 #include "dialpadbutton.h"
 
 static const QString HbBackspaceIcon("qtg_mono_backspace2");
 static const int DialpadAutoRepeatInterval = 150; // ms
 static const int DialpadAutoRepeatDelay = 1000; // ms
 static const qreal DialpadComponentMargin = 0.75; // units
-static const qreal DialpadBackspaceHeight = 9.4; // units
+static const qreal DialpadBackspaceWidth = 9.4; // units
 static const qreal DialpadInputFieldHeight = 6.3; // units
 static const int DialpadMaxEditStringLenght = 100;
 
@@ -41,16 +40,14 @@ DialpadInputField::DialpadInputField(QGraphicsItem* parent)
     mNumberEditor = new HbLineEdit(this);
     HbEditorInterface editorInterface(mNumberEditor);
     editorInterface.setFilter(HbPhoneNumberFilter::instance());
-    editorInterface.setUpAsPhoneNumberEditor();
-    editorInterface.setConstraints(HbEditorConstraintIgnoreFocus);
+    editorInterface.setInputConstraints(HbEditorConstraintIgnoreFocus);
     mNumberEditor->setMaxLength(DialpadMaxEditStringLenght);
+    mNumberEditor->setMinRows(1);
+    mNumberEditor->setMaxRows(2);
+    mNumberEditor->setAdjustFontSizeToFitHeight(true);
 
     // create backspace button
     mBackspace = new DialpadButton(this);
-    mFunctionButtonStyle = new DialpadButtonStyle();
-    mFunctionButtonStyle->setButtonStyle(
-        DialpadButtonStyle::FunctionButtonStyle);
-    mBackspace->setStyle(mFunctionButtonStyle);
     mBackspace->setButtonType(DialpadButton::FunctionButton); // for css
     mBackspace->setFocusPolicy(Qt::NoFocus);
     mBackspace->setFlag(QGraphicsItem::ItemIsFocusable,false);
@@ -76,19 +73,13 @@ DialpadInputField::DialpadInputField(QGraphicsItem* parent)
     layout->setContentsMargins(0,0,0,0);
     layout->setSpacing(DialpadComponentMargin* unit);
     // layout parameters
-    mBackspace->setPreferredWidth(DialpadBackspaceHeight * unit);
+    mBackspace->setPreferredWidth(DialpadBackspaceWidth * unit);
     mBackspace->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
     setLayout(layout);
-
-    HbFontSpec editFont(HbFontSpec::Primary);
-    // 85% of input field height
-    editFont.setTextHeight(mHeight*0.85);
-    mNumberEditor->setFontSpec(editFont);
 }
 
 DialpadInputField::~DialpadInputField()
 {
-    delete mFunctionButtonStyle;
 }
 
 HbLineEdit& DialpadInputField::editor() const

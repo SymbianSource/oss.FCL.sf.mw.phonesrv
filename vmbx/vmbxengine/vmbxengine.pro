@@ -22,14 +22,16 @@ DEPENDPATH += .
 HEADERS += $$PUBLIC_HEADERS
 
 CONFIG += hb
+MOC_DIR = moc
 
 symbian: {
     TARGET.CAPABILITY = CAP_GENERAL_DLL
     TARGET.EPOCALLOWDLLDATA = 1
     TARGET.UID3=0x1000590F
     INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE \
-        ../../inc \
-        ./inc
+                   $$MOC_DIR \
+                   ../../inc \
+                   ./inc
         
     LIBS += -lcentralrepository.dll \
             -lcenrepnotifhandler.dll \
@@ -76,7 +78,8 @@ symbian: {
                inc/voicemailboxdefsinternal.h \
                inc/voicemailboxdomaincrkeys.h \
                inc/voicemailboximpl.h \
-               inc/voicemailboxprivatecrkeys.h
+               inc/voicemailboxprivatecrkeys.h \
+               inc/dialogwaiter.h
 
     SOURCES += src/vmbxcenrepobserver.cpp \
                src/vmbxcsvoiceengine.cpp \
@@ -101,7 +104,8 @@ symbian: {
                src/vmbxetelconnection.cpp \
                src/vmbxenginefactory.cpp \
                src/vmbxenginebase.cpp \
-               src/vmbxemergencycall.cpp
+               src/vmbxemergencycall.cpp \
+               src/dialogwaiter.cpp
                
      defFiles = \
         "$${LITERAL_HASH}ifdef WINS" \
@@ -118,7 +122,9 @@ symbian: {
                                  "rom/backup_registration.xml   /epoc32/release/winscw/udeb/z/private/100058F5/backup_registration.xml" \
                                  "rom/backup_registration.xml   /epoc32/release/winscw/urel/z/private/100058F5/backup_registration.xml" \
                                  "rom/vmbxengine_stub.sis /epoc32/data/z/system/install/vmbxengine_stub.sis" \
-                                 "rom/vmbxengine.iby CORE_MW_LAYER_IBY_EXPORT_PATH(vmbxengine.iby)"
-                                 
+                                 "rom/vmbxengine.iby CORE_MW_LAYER_IBY_EXPORT_PATH(vmbxengine.iby)" \
+                                 "rom/vmbxresources.iby       LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(vmbxresources.iby)"
+TRANSLATIONS = vmbx.ts
+
 }
 

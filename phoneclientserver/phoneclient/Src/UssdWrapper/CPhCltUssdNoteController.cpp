@@ -28,8 +28,6 @@
 _LIT(KFilename, "phcltsrvussd.ts");
 _LIT(KPath, "z://data");
 _LIT(KUssdRequesting, "txt_common_info_requesting"); // Requesting
-// Will be replaced by Hidden
-_LIT(KUssdRequestingQuit, "txt_ussd_button_exit"); // Quit
 _LIT(KUssdDone, "txt_ussd_dpopinfo_done"); // Done
 _LIT(KUssdNotDone, "txt_ussd_dpopinfo_not_done"); // NotDone
 _LIT(KUssdNotAllowed, "txt_ussd_dpopinfo_not_allowed"); //NotAllowed
@@ -195,7 +193,7 @@ void CPhCltUssdNoteController::DestroyGlobalWaitNote()
     TFLOGSTRING("CPhCltUssdNoteController: DestroyGlobalWaitNote call")
     if ( iGlobalWaitNote )
         {
-        iGlobalWaitNote->Cancel();
+        iGlobalWaitNote->Close();
         delete iGlobalWaitNote;
         iGlobalWaitNote = NULL;
         delete iGlobalResource;

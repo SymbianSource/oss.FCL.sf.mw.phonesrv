@@ -24,6 +24,9 @@
 // Class forwards
 class VmbxUiEngine;
 
+static TInt globalExpRet;
+static QString globalNumber;
+
 /*!
     Ut_VmbxUiEngine module test class.
 
@@ -36,24 +39,15 @@ class Ut_VmbxUiEngine : public QObject
 {
     Q_OBJECT
 
-public:
-    Ut_VmbxUiEngine();
-
-    virtual ~Ut_VmbxUiEngine();
-
 private slots: 
 
     void initTestCase();
-
     void cleanupTestCase();
-
-    void testGetCsVoice1Number();
-
-    void testGetCsVoice2Number();
-
-    void testGetCsVideo1Number();
     
-    void testUiCsVoice1Changed();
+    void testCsVoice1Number();
+    void testCsVideo1Number();      
+    void testIsVideoSupport();
+    void testHandleNotifyL();
     
 private:  //data
 

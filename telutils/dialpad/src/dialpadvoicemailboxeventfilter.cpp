@@ -188,7 +188,7 @@ void DialpadVoiceMailboxEventFilter::createCall(const QString &phoneNumber)
 {
     PHONE_TRACE2("phoneNumber:", phoneNumber);
 #ifdef Q_OS_SYMBIAN
-    XQServiceRequest snd("com.nokia.services.telephony","dial(QString)", false);
+    XQServiceRequest snd("com.nokia.symbian.ICallDial","dial(QString)", false);
     snd << phoneNumber;
     QVariant retValue;
     snd.send(retValue);

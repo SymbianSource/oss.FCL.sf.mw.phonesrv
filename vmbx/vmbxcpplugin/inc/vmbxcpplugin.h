@@ -14,6 +14,7 @@
  * Description:
  *
  */
+
 #ifndef VMBXCPPLUGIN_H
 #define VMBXCPPLUGIN_H
 
@@ -29,11 +30,13 @@ class VmbxCpPlugin : public QObject, public CpPluginInterface
 {
     Q_OBJECT
     Q_INTERFACES(CpPluginInterface)
+    
 public:
     /*!
         Constructor
     */
     VmbxCpPlugin();
+    
     /*!
         Destructor
     */
@@ -46,4 +49,5 @@ public:
     virtual QList<CpSettingFormItemData *> createSettingFormItemData(
         CpItemDataHelper &itemDataHelper) const;
 };
+
 #endif // VMBXCPPLUGIN_H

@@ -76,7 +76,12 @@ enum TVmbxFeatureCapabilityFlag
      * When flag is enabled the user is not allowed to define or
      * modify the voice mailbox number.
      */
-    EVmbxChangeNbrNotAllowedOnUi = 0x01,
+    EVmbxChangeNbrAllowedOnUi = 0x01,
+
+    /**
+     * Used to check whether video mailbox is supported or not
+     */
+    EVmbxVideoMailboxSupported = 0x02
     };
 
 /** Vmbx Memory location which is currently used */

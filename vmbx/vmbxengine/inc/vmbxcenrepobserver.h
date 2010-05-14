@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -35,7 +35,6 @@ class CRepository;
 /**
  *  CVmbxCenRepObserver declaration.
  *
- *  @since S60 5.2
  */
 NONSHARABLE_CLASS( CVmbxCenRepObserver ) : public CBase,
                                            public MCenRepNotifyHandlerCallback
@@ -45,7 +44,6 @@ public: // Constructors and destructor
 
     /**
     * Two-phased constructor.
-     * @since S60 v5.2
      * @param in aObserver observer notify the CenRep changed.
      * @return New instance of the object. Ownership transferred.
     */
@@ -53,7 +51,6 @@ public: // Constructors and destructor
 
     /**
      * Two-phased constructor.
-     * @since S60 v5.2
      * @param in aObserver observer notify the CenRep changed.
      * @return New instance of the object. Ownership transferred.
      */
@@ -76,7 +73,6 @@ private:
 
     /**
      * C++ default constructor.
-     * @since S60 v5.2
      * @param in aObserver observer notify the CenRep changed.
      */
     CVmbxCenRepObserver( MVmbxCenRepObserver& aObserver );

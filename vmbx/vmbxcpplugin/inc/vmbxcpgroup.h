@@ -14,38 +14,32 @@
  * Description:  
  *
  */
+
 #ifndef VMBXCPGROUP_H
 #define VMBXCPGROUP_H
 
 // System includes
 #include <cpsettingformitemdata.h>
+#include <voicemailboxdefs.h>
+
 
 // Forward declarations
 class VmbxUiEngine;
 class CpItemDataHelper;
+class HbDataFormModelItem;
 
 // Class declaration
 class VmbxCpGroup : public CpSettingFormItemData
 {
     Q_OBJECT
+
 public:
     
     /*!
         Constructor
     */
     VmbxCpGroup( 
-        HbDataFormModelItem::DataItemType type,
-        const QString &label,
-        const QString &configFile,
-        const HbDataFormModelItem *parent,
         CpItemDataHelper &itemDataHelper);
-
-    /*!
-        Constructor
-    */
-     explicit VmbxCpGroup(
-        const QString &configFile = QString(),
-        const HbDataFormModelItem *parent = 0);
 
     /*!
         Destructor
@@ -60,51 +54,52 @@ private slots:
     */
     void voiceMailboxEngineEntriesUpdated();
 
+    /*!
+        Save default Mailbox
+    */
+    void saveDefaultMailbox(int aIndex);
+
+    /*!
+        Query cs voice number when user click line edit
+    */
+    void queryCsVoiceNumber();
+
+    /*!
+        Query cs video number when user click line edit
+    */
+    void queryCsVideoNumber();
+
+    /*!
+        Update number when vmbx number changed by OTA,OMA etc.
+    */
+    void vmbxNumberChanged(const TVmbxType vmbxType);
+
 private:
-
-    /*!
-       Update Cs voice primary 
-    */
-    void updateCsVoicePrimaryToUi();
-
-    /*!
-        Update Cs voice Als
-    */
-    void updateCsVoiceAlsToUi();
-
-    /*!
-       update Cs video primary
-    */
-    void updateCsVideoPrimaryToUi();
     
-    /*! 
-       NOTICE: IT IS POSSIBLE THAT PS SERVICES WILL NOT BE DISPLAYED 
-       BY VMBX CONTROL PANEL WHEN WE GET THE NEW UI CONCEPT!!!!!! 
-       In that case this is not needed
-    */
-
     /*!
-       update Ps services
+        Preparation before loading
     */
-    void updatePsServicesToUi();
-
+    void loadingPreparation(CpItemDataHelper &itemDataHelper);    
+    
     /*!
         Update default mailbox
     */
     void updateDefaultMailboxToUi();
+
+    /*!
+       Update Cs voice primary 
+    */
+    void updateCsVoice1ToUi();
+
+    /*!
+       update Cs video primary
+    */
+    void updateCsVideo1ToUi();
     
     /*!
         Update all mailboxes
     */
     void updateAllMailboxesToUi();
-    
-private:
-
-    /*!
-        Preparation before loading
-    */
-    void loadingPreparation(CpItemDataHelper &itemDataHelper);
-
 
 private:
     
@@ -112,16 +107,13 @@ private:
     VmbxUiEngine *mUiEngine;
 
     // Not own.
-    CpSettingFormItemData *mEditorCsVoice1;
-    
-    // Not own.
-    CpSettingFormItemData *mEditorCsVoice2;
-    
-    // Not own.
-    CpSettingFormItemData *mEditorCsVideo1;
+    CpSettingFormItemData *mDefaultMailboxEditor;    
 
-    // Contained pointers not own.
-    QList<CpSettingFormItemData *> mPsServiceEditors;
+    // Not own.
+    HbDataFormModelItem *mCsVoice1Editor;
+
+    // Not own.
+    HbDataFormModelItem *mCsVideo1Editor;
 };
 
 #endif // VMBXCPGROUP_H

@@ -17,5 +17,6 @@
 symbian: {
   BLD_INF_RULES.prj_exports += \
   "$${LITERAL_HASH}include<platform_paths.hrh>" \
-  "rom/vmbxcpplugin.iby CORE_MW_LAYER_IBY_EXPORT_PATH(vmbxcpplugin.iby)"
+  "rom/vmbxcpplugin.iby CORE_MW_LAYER_IBY_EXPORT_PATH(vmbxcpplugin.iby)" \
+   "rom/vmbxcpplugin_stub.sis /epoc32/data/z/system/install/vmbxcpplugin_stub.sis"
 }

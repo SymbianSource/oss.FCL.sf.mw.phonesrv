@@ -29,7 +29,7 @@
 */
 VmbxCpPlugin::VmbxCpPlugin()
 {
-    _DBGLOG( "VmbxCpPlugin::VmbxCpPlugin()" )
+    _DBGLOG("VmbxCpPlugin::VmbxCpPlugin()")
 }
 
 /*!
@@ -37,7 +37,7 @@ VmbxCpPlugin::VmbxCpPlugin()
 */
 VmbxCpPlugin::~VmbxCpPlugin()
 {
-_DBGLOG( "VmbxCpPlugin::~VmbxCpPlugin()" )
+    _DBGLOG("VmbxCpPlugin::~VmbxCpPlugin()")
 }
 
 /*!
@@ -46,19 +46,11 @@ _DBGLOG( "VmbxCpPlugin::~VmbxCpPlugin()" )
 QList<CpSettingFormItemData *> VmbxCpPlugin::createSettingFormItemData(
     CpItemDataHelper &itemDataHelper) const
 {
-    _DBGLOG( "VmbxCpPlugin::createSettingFormItemData" )
-
-    QList<CpSettingFormItemData *> itemList;
-
-    VmbxCpGroup *itemData = new VmbxCpGroup(
-         HbDataFormModelItem::GroupItem,
-         QString("Voice Mailbox"),
-         QString("vmbxcpplugin.cpcfg"),
-         0,
-         itemDataHelper );
-     itemList << itemData;
-     return itemList;
+    _DBGLOG("VmbxCpPlugin::createSettingFormItemData")
+    QList<CpSettingFormItemData *> ret;
+    ret.append(new VmbxCpGroup(itemDataHelper));
     _DBGLOG("VmbxCpPlugin::createSettingFormItemData created")
+    return ret;
 }
 Q_EXPORT_PLUGIN2(VmbxCpPlugin, VmbxCpPlugin);
 

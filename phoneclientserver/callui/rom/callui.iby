@@ -1,0 +1,30 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  CallUi's iby definitions.
+ *
+*/
+
+
+#ifndef __CALLUI_IBY__
+#define __CALLUI_IBY__
+
+REM CallUI Plugin
+ECOM_PLUGIN(cauiplugin.dll,101f868e.rsc)
+
+REM CallUI Engine
+file=ABI_DIR\BUILD_DIR\cauiengine.dll       SHARED_LIB_DIR\cauiengine.dll
+
+REM Enabler for exlipsing ROM binaries
+data=ZSYSTEM\install\callui_stub.sis       system\install\callui_stub.sis
+#endif

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -32,7 +32,6 @@ class CVmbxEngineBase;
 *  CVmbxEngineFactory declaration
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxEngineFactory ) : public CBase
     {
@@ -41,7 +40,6 @@ public:  // Constructors and destructor
 
     /**
      * Two-phased constructor
-     * @since S60 v5.2
      * @param aProvider Reference to MVmbxResourceProvider
      */
     static CVmbxEngineFactory* NewL( MVmbxResourceProvider& aProvider );
@@ -56,7 +54,6 @@ public:  // New functions
     /**
      * Creates instance of the mailbox entry
      *
-     * @since S60 v5.2
      * @param aEngine ownership is transferred
      * @param aType mailbox type
      */
@@ -66,7 +63,6 @@ private:
 
     /**
      * C++ default constructor.
-     * @since S60 v5.2
      * @param aProvider Reference to MVmbxResourceProvider
      */
     CVmbxEngineFactory( MVmbxResourceProvider& aProvider );

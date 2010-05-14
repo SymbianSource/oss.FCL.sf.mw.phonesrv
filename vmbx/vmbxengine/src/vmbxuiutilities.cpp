@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -134,7 +134,7 @@ void CVmbxUiUtilities::ShowQueryL( const TVmbxType& aType,
 // ---------------------------------------------------------------------------
 //
 void CVmbxUiUtilities::ShowQueryDialogL( const TVmbxType& aType,
-                                         const TVmbxQueryMode& aMode,
+                                         const TVmbxQueryMode& /*aMode*/,
                                          TDes& aNumber, TInt& aResult )
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryDialogL =>" );
@@ -149,84 +149,35 @@ void CVmbxUiUtilities::ShowQueryDialogL( const TVmbxType& aType,
     aNumber = %S", &aNumber );
     // to show dialog via qt part
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryDialogL to show qt" );
-    iUiHandler->ShowVmbxQueryDialog( aType, aMode, aNumber, aResult );
+    iUiHandler->ShowVmbxQueryDialog( aType, aNumber, aResult );
     VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: out\
     aNumber = %S", &aNumber );
     VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: aResult=%I <=",
      aResult );
     }
 
-
-// ---------------------------------------------------------------------------
-// VmbxUtilities::ShowSaveEmptyNoteL
-// Show dialog when save empty data
-// ---------------------------------------------------------------------------
-//
-void CVmbxUiUtilities::ShowSaveEmptyNoteL( const TVmbxType& aType )
-    {
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveEmptyNoteL =>" );
-    if ( EVmbxVoice != aType && EVmbxVideo != aType )
-        {
-        User::Leave( KErrNotSupported );
-        }
-    iUiHandler->ShowSaveEmptyNote( aType );
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveEmptyNoteL <=" );
-    }
-
 // ---------------------------------------------------------------------------
 // VmbxUtilities::ShowInvalidWarningDialogL
-// Check the characters
+//
 // ---------------------------------------------------------------------------
 //
 void CVmbxUiUtilities::ShowInvalidWarningDialogL()
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInvalidWarningDialogL =>" );
-    //TODO comment out the following code to avoid crash, to be tested
-    //and uncommented
-    //iUiHandler->ShowInvalidWarningNote();
+    iUiHandler->ShowInformationdNoteL( EInvalidNumber );
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInvalidWarningDialogL <=" );
     }
 
 // ---------------------------------------------------------------------------
-// VmbxUtilities::ShowSaveToPhoneNote
-// Check the characters
+// VmbxUtilities::ShowInformationdNote
+//
 // ---------------------------------------------------------------------------
 //
-void CVmbxUiUtilities::ShowSaveToPhoneNote()
+void CVmbxUiUtilities::ShowInformationdNoteL(const TVmbxNoteType aType )
     {
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveToPhoneConfirmDialog =>" );
-    //TODO comment out the following code to avoid crash, to be tested
-    //and uncommented
-    //iUiHandler->ShowSaveToPhoneNote();
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveToPhoneConfirmDialog <=" );
-    }
-
-// ---------------------------------------------------------------------------
-// VmbxUtilities::ShowSaveToSimConfirmDialog
-// Check the characters
-// ---------------------------------------------------------------------------
-//
-void CVmbxUiUtilities::ShowSaveToSimNote()
-    {
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveToSimNote =>" );
-    //TODO comment out the following code to avoid crash, to be tested
-    //and uncommented
-    //iUiHandler->ShowSaveToSimNote();
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowSaveToSimNote <=" );
-    }
-
-// ---------------------------------------------------------------------------
-// VmbxUtilities::ShowVideoSaveConfirmDialog
-// Check the characters
-// ---------------------------------------------------------------------------
-//
-void CVmbxUiUtilities::ShowVideoSavedNote()
-    {
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowVideoSavedNote =>" );
-    //TODO comment out the following code to avoid crash, to be tested
-    //and uncommented
-    //iUiHandler->ShowVideoSavedNote();
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowVideoSavedNote <=" );
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInformationdNoteL =>" );
+    iUiHandler->ShowInformationdNoteL( aType );
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInformationdNoteL <=" );
     }
 
 // ---------------------------------------------------------------------------
@@ -234,7 +185,7 @@ void CVmbxUiUtilities::ShowVideoSavedNote()
 // Show define number in selection list
 // ---------------------------------------------------------------------------
 //
-void CVmbxUiUtilities::ShowDefineSelectionDialogL( TVmbxType& aType,
+void CVmbxUiUtilities::ShowDefineSelectionDialog( TVmbxType& aType,
                                                          TInt& aResult )
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowDefineSelectionDialogL =>" );
@@ -245,7 +196,7 @@ void CVmbxUiUtilities::ShowDefineSelectionDialogL( TVmbxType& aType,
     }
 
 // ---------------------------------------------------------------------------
-// VmbxUtilities::ShowCallSelectionDialog
+// VmbxUtilities::ShowCallSelectionDialogL
 // Show call number in selection list
 // ---------------------------------------------------------------------------
 //
@@ -254,11 +205,13 @@ void CVmbxUiUtilities::ShowCallSelectionDialogL(
                     TVoiceMailboxParams& aParams,
                     TInt& aResult )
     {
-    VMBLOGSTRING(
-    "VMBX: CVmbxUiUtilities::ShowCallSelectionDialog EMPTY IMPLEMENTATION! =>"
-    );
-    // TODO: not supported yet, to be implemented.
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowCallSelectionDialog <=" );
+    VMBLOGSTRING("VMBX: CVmbxUiUtilities::ShowCallSelectionDialogL  =>");
+    if ( aArray.Count() < 1 )
+        {
+        User::Leave(KErrArgument);
+        }
+    iUiHandler->ShowCallSelectionDialogL( aArray, aParams, aResult );
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowCallSelectionDialogL <=" );
     }
 
 // ---------------------------------------------------------------------------
@@ -286,16 +239,15 @@ CGulIcon* CVmbxUiUtilities::GetVmbxImageL(
 */
 
 // --------------------------------------------------------------------------
-// CVmbxUiUtilities::ShowErrorDialogL
+// CVmbxUiUtilities::ShowNotAllowedEditingDialog
 // --------------------------------------------------------------------------
 //
-void CVmbxUiUtilities::ShowErrorDialogL()
+void CVmbxUiUtilities::ShowNotAllowedEditingDialogL()
     {
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowErrorDialogL =>" );
-    //TODO comment out the following code to avoid crash, to be tested
-    //and uncommented
-    iUiHandler->ShowInvalidNumberNote();// temporary dialog
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowErrorDialogL <=" );
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowNotAllowedEditingDialogL =>" );
+    // Information user can't edit.
+    iUiHandler->ShowInformationdNoteL( ENotAllowUserEditing );
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowNotAllowedEditingDialogL <=" );
     }
 
 // -----------------------------------------------------------------------------
@@ -304,11 +256,12 @@ void CVmbxUiUtilities::ShowErrorDialogL()
 // -----------------------------------------------------------------------------
 //
 void CVmbxUiUtilities::FetchNumberFromPhonebook2L( 
-                                          TDes& aPhoneNumber )
+                                          TDes& /*aPhoneNumber*/ )
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::FetchNumberFromPhonebook2L =>" );
     /* TODO: Later remove this or replace with some Qt Phonebook API
         */
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::FetchNumberFromPhonebook2L <=" );
     }
+
 // End of file

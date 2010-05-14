@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -38,7 +38,6 @@ class CVoiceMailboxEntry;
 *  Creates connection to Sim phonebook and handles data flow from/to it
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxPbkStore ) : public CActive
     {
@@ -60,14 +59,12 @@ public: // New functions
     /**
      * Sim write support
      *
-     * @since S60 v5.2
      * @return ETrue if writable
      */
     TBool IsWritable();
 
     /**
      * sim PhoneBook Type
-     * @since S60 v5.2
      * @return TVmbxSimPhonebookType
      */
     TVmbxSimPhonebookType PhoneBookType();
@@ -75,7 +72,6 @@ public: // New functions
     /**
      * Writes an entry into ICC-based phonebook.
      *
-     * @since S60 v5.2
      * @param in aEntry Reference of CVoiceMailboxEntry
      * @return KErrNone if succesful,
      *         Other system wide errors.
@@ -85,14 +81,12 @@ public: // New functions
     /**
      * Retrieves hanlder of RMobilePhoneBookStore
      *
-     * @since S60 v5.2
      * @retuns hanlder of RMobilePhoneBookStore
      */
     RMobilePhoneBookStore& PhonebookStore();
 
     /**
     * Retrieves mailbox number from Sim
-    * @since S60 v5.2
     * @param out aEntry a data type CVoiceMailboxEntry
     */
     void GetL( CVoiceMailboxEntry& aEntry );
@@ -119,21 +113,18 @@ private: // New functions
     /**
      * Reads an entry from the ICC-based phonebook.
      *
-     * @since S60 v5.2
      * @param out aEntry Reference of CVoiceMailboxEntry
      **/
     void SimReadL( CVoiceMailboxEntry& aEntry );
 
     /**
      * Opens VMBX phonebook
-     * @since S60 v5.2
      * @retuns KErrNone if succesful
      **/
     TInt OpenVmbxPhonebook();
 
     /**
      * Opens MBDN phonebook
-     * @since S60 v5.2
      * @retuns KErrNone if succesful
      **/
     TInt OpenMbdnPhonebook();
@@ -142,7 +133,6 @@ private: // New functions
      * Get Phonebook Info
      * @param out aInfo information from RPhonebookStore
      *
-     * @since S60 v5.2
      **/
     TInt GetVmbxInfo( RMobilePhoneBookStore::TMobilePhoneBookInfoV1& aInfo );
 
@@ -150,7 +140,6 @@ private: // New functions
      * Retrieves the Mailbox numbers identifier information
      * @param in aAlsLine curent als line
      * @param out aInfo information from RPhonebookStore
-     * @since S60 v5.2
      * @retuns KErrNone if succesful
      **/
     TInt GetMbdnInfo( const TVmbxAlsLineType aAlsLine,
@@ -160,7 +149,6 @@ private: // New functions
     /**
      * Reads "ParseDataL" from phonebook data from Sim
      *
-     * @since S60 v5.2
      * @param out aEntry entry of CVoiceMailboxEntry
      * @param in aPbData
      */
@@ -169,7 +157,6 @@ private: // New functions
     /**
      * Reads "new-entry-tag" from phonebook data from Sim
      *
-     * @since S60 v5.2
      * @param in aPbkBuffer Phonebook data buffer
      * @retuns KErrNone if succesful
      */
@@ -178,7 +165,6 @@ private: // New functions
     /**
      * Reads tags from buffer retrieved from sim
      *
-     * @since S60 v5.2
      * @param in aPbkBuffer Phonebook data buffer
      * @param out aEntry Reference of CVoiceMailboxEntry
      */
@@ -186,19 +172,24 @@ private: // New functions
                         CVoiceMailboxEntry& aEntry );
 
     /**
-     * Checks if sim-card is USim
+     * Checks sim file existing
      *
-     * @since S60 v5.2
-     * @return ETrue if USim
+     * @retuns ETrue if file exists
      **/
-    TBool SimFileExistsAndReadAccess();
+    TBool IsSimFileExisting( const TVmbxSimPhonebookType aType );
+
+    /**
+     * Sim write acces support
+     *
+     * @return ETrue if writable access
+     */
+    TBool IsWriteAccess();
 
 protected:
 
     /**
      * C++ constructor.
      *
-     * @since S60 v5.2
      */
     CVmbxPbkStore();
 

@@ -41,6 +41,20 @@ const TUint8 KDTMFChar( 0x70 );
 const TUint8 KWildChar( 0x77 );
 const TUint8 KExpansionChar( 0x2E );
 
+/** Maximum name length. */ 
+const TInt KSatMaximumNameLength = 50;
+
+/** Maximum phone number length same as  used by phone. */ 
+const TInt KSatMaximumPhoneNumberLength = 100;
+
+/** The subaddress length, see ITU-T I.330 and 3GPP TS 11.14. */ 
+const TInt KSatSubAddressLength = 21;
+
+/** The maximum bearer length. The bearer capabilities as 
+defined in GSM 04.08. */ 
+const TInt KSatBearerLength = 14;
+
+
 _LIT( KFixedSimEmergencyNumber, "112" );
 
 // ======== MEMBER FUNCTIONS ========
@@ -606,69 +620,59 @@ void CSetUpCallHandler::ConstructL()
 // Performs the request to dial
 // -----------------------------------------------------------------------------
 //
-//ETel MM API Usage for SAT Todo
-//
-//2 RSAT::TSetUpCallV6 iCapabilityConfigParams we only have one TCcp and there
-//  are two in RMobilePhone::TMobileCallParamsV7 ( according the study of tommi
-//  the second TCcp in in TMobileCallParamsV7 will be ignored )
-//3 RMobilePhone::TMobileCallParamsV7 has TBCRepeatIndicator iBCRepeatIndicator
-//  RSat::TSetUpCallV6 don't have it. Does it needed from RSat
-//4 RMobilePhone::TMobileCallParamsV7 has TMobileCallMulticallBearerMode
-//  iBearerMode, RSat::TSetUpCallV6 does not have it. can we just use the
-//  default value?
-//5 SetShowNumber in AIW not provided by ETel MM, support needed?
-//6 SetAllowMach in AIW not provided by ETel MM, support needed?
-//8 Convert the return value from RMobilePhone::DialNoFdnCheck to the SAT error
-//  code, the return value is not enough, we need get more information from
-//  GetLineInfo.
-
-
 void CSetUpCallHandler::DoSetupCall( CSetupCallRequestHandler& aHandler )
     {
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::DoSetupCallL calling" )
-
-    RSat::TSetUpCallType callType( iSetUpCallData.iType );
-
-    TDes& telNumber( iSetUpCallData.iAddress.iTelNumber );
-    CheckNumber( telNumber );
-
-    RMobileCall::TMobileCallParamsV7 dialParams;
-    RMobileCall::TMobileCallParamsV7Pckg package( dialParams );
-
-    //Redail has been removed from MCL, no redail support.
-    dialParams.iAutoRedial = EFalse;
-    //TODO: check do we need to set bearer model
-    dialParams.iBearerMode = RMobileCall::EMulticallNewBearer;
-    dialParams.iCallParamOrigin = RMobileCall::EOriginatorSIM;
-    dialParams.iSubAddress = iSetUpCallData.iSubAddress;
-    dialParams.iBearerCap1 = iSetUpCallData.iCapabilityConfigParams;
     
-    dialParams.iBCRepeatIndicator = RMobileCall::EBCAlternateMode;
-    
-    dialParams.iIconId.iQualifier = RMobileCall::ENoIconId;
-    
-    
-    dialParams.iAlphaId = iSetUpCallData.iAlphaIdCallSetUpPhase.iAlphaId;
-    LOG2( NORMAL, 
-        "SETUPCALL: CSetUpCallHandler::DoSetupCallL id:%S",
-        &dialParams.iAlphaId )
-    
-    LOG2( NORMAL, 
-        "SETUPCALL: CSetUpCallHandler::DoSetupCallL number:%S",
-        &iSetUpCallData.iAddress.iTelNumber )
-    
-    TBool terminateOtherCall( EFalse );
-    // check if we need to disconnect other calls
-    if ( ( RSat::EDisconnectOtherCalls == callType ) ||
-         ( RSat::EDisconnectOtherCallsWithRedial == callType ) )
+    if( CheckSetupCallParam () )
         {
-        LOG( SIMPLE, 
-        "SETUPCALL: CSetUpCallHandler::DoSetupCallL end other call" )
-        terminateOtherCall = ETrue ;
-        }
+
+        RSat::TSetUpCallType callType( iSetUpCallData.iType );
     
-    aHandler.DialNumber( package, iSetUpCallData.iAddress.iTelNumber,
-            terminateOtherCall, iUtils->CreateAsyncToSyncHelper() );
+        TDes& telNumber( iSetUpCallData.iAddress.iTelNumber );
+        CheckNumber( telNumber );
+
+        RMobileCall::TMobileCallParamsV7 dialParams;
+        RMobileCall::TMobileCallParamsV7Pckg package( dialParams );
+    
+        //Redail has been removed from MCL, no redail support.
+        dialParams.iAutoRedial = EFalse;
+        dialParams.iBearerMode = RMobileCall::EMulticallNewBearer;
+        dialParams.iCallParamOrigin = RMobileCall::EOriginatorSIM;
+        dialParams.iSubAddress = iSetUpCallData.iSubAddress;
+        dialParams.iBearerCap1 = iSetUpCallData.iCapabilityConfigParams;
+        
+        dialParams.iBCRepeatIndicator = RMobileCall::EBCAlternateMode;
+        
+        dialParams.iIconId.iQualifier = RMobileCall::ENoIconId;
+        
+        
+        dialParams.iAlphaId = iSetUpCallData.iAlphaIdCallSetUpPhase.iAlphaId;
+        LOG2( NORMAL, 
+            "SETUPCALL: CSetUpCallHandler::DoSetupCallL id:%S",
+            &dialParams.iAlphaId )
+        
+        LOG2( NORMAL, 
+            "SETUPCALL: CSetUpCallHandler::DoSetupCallL number:%S",
+            &iSetUpCallData.iAddress.iTelNumber )
+        
+        TBool terminateOtherCall( EFalse );
+        // check if we need to disconnect other calls
+        if ( ( RSat::EDisconnectOtherCalls == callType ) ||
+             ( RSat::EDisconnectOtherCallsWithRedial == callType ) )
+            {
+            LOG( SIMPLE, 
+            "SETUPCALL: CSetUpCallHandler::DoSetupCallL end other call" )
+            terminateOtherCall = ETrue ;
+            }
+        
+        aHandler.DialNumber( package, iSetUpCallData.iAddress.iTelNumber,
+                terminateOtherCall, iUtils->CreateAsyncToSyncHelper() );
+        }
+    else
+        {
+        CompleteSetupCallWithStatus( KErrArgument );
+        }
     
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::DoSetupCallL exiting" )
     }
@@ -733,6 +737,7 @@ void CSetUpCallHandler::CompleteSetupCallWithStatus(
                 }
 
             case KErrGeneral:
+            case KErrArgument:
                 {
                 LOG( SIMPLE, 
                 "SETUPCALL: CSetUpCallHandler::CompleteSetupCallWithStatus Data \
@@ -895,7 +900,7 @@ void CSetUpCallHandler::CompleteSetupCall(
 void CSetUpCallHandler::CheckNumber( TDes& aNumber ) const
     {
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CheckNumber calling" )
-
+    
     for ( TInt i = 0; i < aNumber.Length(); i++ )
         {
         // check values
@@ -953,5 +958,43 @@ void CSetUpCallHandler::CreateEmergencyCall(
     
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CreateEmergencyCall exiting" )    
     }
+
+// -----------------------------------------------------------------------------
+// check setup call param.
+// -----------------------------------------------------------------------------
+//
+TBool CSetUpCallHandler::CheckSetupCallParam()
+    {
+    LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CheckSetupCallParam calling" )
+
+    TBool valid( ETrue );
+    if ( iSetUpCallData.iAddress.iTelNumber.Length()
+          > KSatMaximumPhoneNumberLength )
+        {
+        LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CheckSetupCallParam num" )
+        valid = EFalse;
+        }    
+    else if ( iSetUpCallData.iAlphaIdCallSetUpPhase.iAlphaId.Length()
+               > KSatMaximumNameLength )
+        {
+        LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CheckSetupCallParam name" )
+        valid = EFalse;
+        }    
+    else if ( iSetUpCallData.iSubAddress.Length() > KSatSubAddressLength )
+        {
+        LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CheckSetupCallParam sub" )
+        valid = EFalse;
+        }    
+    else if ( iSetUpCallData.iCapabilityConfigParams.Length()
+               > KSatBearerLength )
+        {
+        LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::CheckSetupCallParam bear" )
+        valid = EFalse;
+        }    
+    LOG2( SIMPLE, 
+    "SETUPCALL: CSetUpCallHandler::CheckSetupCallParam exiting %d", valid )
+    return valid;        
+    }
+
 
 // End Of File

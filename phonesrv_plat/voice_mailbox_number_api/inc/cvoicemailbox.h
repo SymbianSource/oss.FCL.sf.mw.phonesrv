@@ -32,7 +32,6 @@ class CVoiceMailboxEntry;
  *  Parameter package for Voice Mailbox API operations.
  *
  *  @lib vmbxengine.lib
- *  @since S60 v5.2
  */
 class TVoiceMailboxParams
     {
@@ -171,7 +170,6 @@ public:
     /**
      * Retrieves voice mailbox entry for the specified service.
      *
-     * @since S60 v5.2
      * @param in Params Service id and type of the mailbox for which
      *          a number/address should be defined.
      * @param out aEntry If successful, a new result container is
@@ -192,7 +190,6 @@ public:
      * In that case unsupported arguments are ignored.
      * This method may display related UI notes or queries.
      *
-     * @since S60 v5.2
      * @param in aEntry The vmbx entry to save.
      * @return - KErrNone if the entry was saved
      *         - KErrNotSupported if not capable or allowed to execute this
@@ -214,7 +211,6 @@ public:
      * can be used to check permissions.
      *
      *
-     * @since S60 v5.2
      * @param in aParams Service id and type of the mailbox for which
      *          a number/address should be defined.
      * @param out aEntry If successful, a new result container is
@@ -241,7 +237,6 @@ public:
      * If client is interested, CheckConfiguration()
      * can be used to check permissions.
      *
-     * @since S60 v5.2
      * @param in aParams Service id and type of the mailbox.
      * @param out aEntry If successful, a new result container is
      *  created and ownership passed to the caller.
@@ -260,7 +255,6 @@ public:
      * Displays a query on the screen asking the user to select a
      * Voice Mailbox service.
      *
-     * @since S60 v5.2
      * @param out aParams If successful,
      *          contains selected mailbox info.
      * @return - KErrNone if successful.
@@ -283,7 +277,6 @@ public:
      *  if a second request is issued while one is active already.
      * Leaves if the notify request could not be served.
      *
-     * @since S60 v5.2
      * @param in aObserver The observer for the notification.
      * @param in aNotifyOnActiveLineOnly if this is ETrue, notify events will
      *        be generated only if the vmbx number of the active ALS line is
@@ -298,7 +291,6 @@ public:
     /**
      * Cancels a notify request on a vmbx number change.
      *
-     * @since S60 v5.2
      */
     IMPORT_C virtual void NotifyVmbxNumberChangeCancel();
 
@@ -306,7 +298,6 @@ public:
      * Checks the Voice Mailbox configuration to find out if a features
      * are disabled or enabled.
      *
-     * @since S60 v5.2
      * @param in aParams Specifies which mailbox capabilities,
      *          the caller wants to check.
      * @param in aFlags Use TVmbxFeatureCapabilityFlag values 
@@ -323,7 +314,6 @@ public:
     /**
      * Checks the Voice Mailbox how many VoIP service Ids
      *
-     * @since S60 v5.2
      * @param out aProfileIds
      * @return KErrNone if get service Ids successfully.
      */
@@ -335,7 +325,6 @@ public:
      * Some mailbox types may not support saving all arguments.
      * In that case unsupported arguments are ignored.
      *
-     * @since S60 v5.2
      * @param in aEntry The provisioned vmbx entry to save.
      * @return - KErrNone if the entry was saved
      *         - KErrNotSupported if not capable or allowed to execute this
@@ -350,14 +339,12 @@ protected:
     /**
      * Second phase constructor.
      *
-     * @since S60 v5.2
      */
     void ConstructL();
 
     /**
      * Default constructor.
      *
-     * @since S60 v5.2
      */
     CVoiceMailbox();
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -42,7 +42,6 @@ class CVmbxSimHandler;
  *  Mailbox observer
  *
  *  @lib vmbxengine.lib
- *  @since S60 v5.2
  */
 NONSHARABLE_CLASS( CVmbxObserver ) : public CBase,
                                      public MVmbxSimStoreObserver,
@@ -55,14 +54,12 @@ public: // Constructors and destructor
     /**
      * Two-phased constructor.
      * @param in aProvider Reference to MVmbxResourceProvider
-     * @since S60 v5.2
     */
     static CVmbxObserver* NewL( MVmbxResourceProvider& aProvider );
 
     /**
      * Two-phased constructor.
      * @param in aProvider Reference to MVmbxResourceProvider
-     * @since S60 v5.2
      */
     static CVmbxObserver* NewLC( MVmbxResourceProvider& aProvider );
 
@@ -76,7 +73,6 @@ public: // New functions
     /**
      * Observe vmbx change.
      * @param in aObserver Reference to MVmbxChangeObserver
-     * @since S60 v5.2
      */
     void SetVmbxObserver( MVmbxChangeObserver& aObserver );
 
@@ -84,20 +80,17 @@ public: // From base class
 
     /**
      * From MVmbxSimStoreObserver::HandleSimStoreChanged
-     * @since S60 v5.2
      */
     void HandleSimStoreChanged();
 
     /**
      * From MVmbxSatRefreshObserver::HandleSatRefresh
-     * @since S60 v5.2
      */
     void HandleSatRefresh();
 
     /**
      * From MVmbxCenRepObserver::HandleCenRepChange
      * @param in aId the changed key Id
-     * @since S60 v5.2
      */
     void HandleCenRepChange( TVmbxCenRepKey aId );
 
@@ -106,7 +99,6 @@ private:
     /**
      * C++ default constructor.
      * @param in aProvider Reference to MVmbxResourceProvider
-     * @since S60 v5.2
      */
     CVmbxObserver( MVmbxResourceProvider& aProvider );
 

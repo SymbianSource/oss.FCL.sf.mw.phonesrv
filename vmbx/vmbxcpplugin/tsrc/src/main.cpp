@@ -37,13 +37,11 @@ int main(int argc, char *argv[])
     int result = QTest::qExec(&tcUiEngine, 3, pass);
     qDebug("ut_vmbxuiengine result %d", result);
 
-
     qDebug("ut_vmbxcpplugin");
     Ut_vmbxCpPlugin tcCpPlugin;
     pass[2] = "c:\\logs\\vmbx\\ut_vmbxcpplugin.txt";
     result = QTest::qExec(&tcCpPlugin, 3, pass);
     qDebug("ut_vmbxcpplugin result=%d", result);
-
     
     qDebug("main() <");
     return result;

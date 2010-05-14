@@ -39,12 +39,12 @@
 * 2 = RDebug
 ***************************/
 
-#define VMB_LOGGING_METHOD      1   // UREL BUILD
+#define VMB_LOGGING_METHOD      0   // UREL BUILD
 
 #else
 
 #ifdef __WINS__
-#define VMB_LOGGING_METHOD      2   // UDEB BUILD, WINS
+#define VMB_LOGGING_METHOD      1   // UDEB BUILD, WINS
 #else
 #define VMB_LOGGING_METHOD      2   // UDEB BUILD, HW
 #endif // __WINS__

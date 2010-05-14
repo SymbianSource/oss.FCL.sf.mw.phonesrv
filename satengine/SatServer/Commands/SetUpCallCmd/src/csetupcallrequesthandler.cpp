@@ -61,24 +61,8 @@ CSetupCallRequestHandler* CSetupCallRequestHandler::NewL(
     CSetupCallRequestHandler* self =
         new ( ELeave ) CSetupCallRequestHandler( aPhone, aDispatcher );
  
-    CleanupStack::PushL( self );
-    self->ConstructL();
-    CleanupStack::Pop( self );
-    
     LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::NewL exiting" )
     return self;
-    }
-
-// -----------------------------------------------------------------------------
-// CSetupCallRequestHandler::ConstructL
-// Two-phased constructor.
-// -----------------------------------------------------------------------------
-//
-void CSetupCallRequestHandler::ConstructL()
-    {
-    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::ConstructL calling" )
-    iStatusHandler = CSetupCallStatusHandler::NewL( iPhone, this );
-    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::ConstructL exiting" )    
     }
 
 // -----------------------------------------------------------------------------
@@ -92,8 +76,7 @@ CSetupCallRequestHandler::~CSetupCallRequestHandler()
             CSetupCallRequestHandler::~CSetupCallRequestHandler calling" )
     Cancel();
     iDispatcher = NULL;
-    delete iStatusHandler;
-    
+
     LOG( SIMPLE, "SETUPCALL: \
             CSetupCallRequestHandler::~CSetupCallRequestHandler exiting" )
     }
@@ -130,10 +113,6 @@ void CSetupCallRequestHandler::DialNumber( const TDesC8& aCallParams,
         if( KErrNone == terminateRes )
             {
             iPhone.DialNoFdnCheck( iStatus, aCallParams, aTelNumber );
-            if ( iStatusHandler )
-                {
-                iStatusHandler->Start();
-                }
             SetActive();
             }
         else
@@ -183,41 +162,13 @@ void CSetupCallRequestHandler::RunL()
     LOG2( NORMAL, "SETUPCALL: CSetupCallRequestHandler::RunL\
           iStatus == %i", iStatus.Int() )
 
-    if( !iResponsed )
+    if ( iEmergencyCall )
         {
-        if ( iEmergencyCall || KErrNone == iStatus.Int() )
-            {
-            iEmergencyCall = EFalse;
-            iDispatcher->SetupCallRequestComplete( iStatus.Int() );
-            }
-        else
-            {
-            RMobileCall::TMobileCallInfoV8 info;
-            RMobileCall::TMobileCallInfoV8Pckg infoPkg( info );
-            TInt res = iPhone.GetMobileCallInfo( infoPkg );
-        
-            LOG2( NORMAL, "SETUPCALL: CSetupCallRequestHandler::\
-                  HandleSetupCallStatusChange exit code == %i",
-                  info.iExitCode )
-        
-            if( ( KErrNone == res ) && 
-                    (KErrNone != info.iExitCode) &&
-                    (KErrNotFound != info.iExitCode) )
-                {
-                iDispatcher->SetupCallRequestComplete( info.iExitCode );
-                }
-            else
-                {
-                iDispatcher->SetupCallRequestComplete( iStatus.Int() );
-                }
-            }
+        iEmergencyCall = EFalse;
         }
-   
-    if( iStatusHandler )
-        {
-        iStatusHandler->Cancel();
-        }
-    iResponsed = EFalse;
+    
+    iDispatcher->SetupCallRequestComplete( iStatus.Int() );                
+    
     LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::RunL exiting" )
     }
 
@@ -230,10 +181,6 @@ void CSetupCallRequestHandler::CancelOperation()
     LOG( SIMPLE, "SETUPCALL: \
                   CSetupCallRequestHandler::CancelOperation calling" )
     iPhone.DialCancel();
-    if( iStatusHandler )
-        {
-        iStatusHandler->Cancel();
-        }
     LOG( SIMPLE, 
         "SETUPCALL: CSetupCallRequestHandler::CancelOperation exiting" )
     }
@@ -249,38 +196,5 @@ void CSetupCallRequestHandler::DoCancel()
     CancelOperation();
     LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::DoCancel exiting" )
     }
-
-// -----------------------------------------------------------------------------
-// CSetupCallRequestHandler::HandleConnectingStatusChange
-// -----------------------------------------------------------------------------
-//
-void CSetupCallRequestHandler::CallSatatusChanged( const TInt aStatus )
-    {
-    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::\
-            CallSatatusChanged  calling" )
-    
-    LOG2( NORMAL, "SETUPCALL: CSetupCallRequestHandler::\
-        CallSatatusChanged status == %i", aStatus )
-    // We only care about the connecting status, after call is
-    // connecting, we can send the respones to the SIM. For other status we will
-    // waiting for the status of DialNumber.    
-    if( ( aStatus == RMobileCall::EStatusConnected )
-        || ( aStatus == RMobileCall::EStatusConnecting ))
-        {
-        iResponsed = ETrue;
-        iDispatcher->SetupCallRequestComplete( KErrNone );
-        }
-    else
-        {
-        if ( iStatusHandler )
-            {
-            iStatusHandler->Start();
-            }
-        }
-
-    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::\
-            CallSatatusChanged  exiting" )
-    }
-
 
 //  End of File

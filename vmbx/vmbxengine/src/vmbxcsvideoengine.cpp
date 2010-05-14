@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -134,19 +134,7 @@ void CVmbxCsVideoEngine::SaveL( const CVoiceMailboxEntry& aEntry )
     // show note
     if ( KErrNone == result )
         {
-        if ( vmbxNumber.Length() )
-            {
-             VMBLOGSTRING( "VMBX: CVmbxCsVideoEngine::\
-                 Save Number Length" );
-             iProvider.VmbxUiUtilities().ShowVideoSavedNote();
-             }
-        else
-            {
-             VMBLOGSTRING( "VMBX: CVmbxCsVideoEngine::\
-                                Save Number Length zero" );
-             iProvider.VmbxUiUtilities().ShowSaveEmptyNoteL(
-                                             aEntry.VoiceMailboxType() );
-             }
+        iProvider.VmbxUiUtilities().ShowInformationdNoteL( EVideoNumberSaved );
         }
 
     VMBLOGSTRING( "VMBX: CVmbxCsVideoEngine::SaveL <=" );
@@ -165,4 +153,29 @@ void CVmbxCsVideoEngine::SaveProvisionedEntryL(
     VMBLOGSTRING( "VMBX: CVmbxCsVideoEngine::SaveProvisionedEntryL <=" );
     }
 
+// ----------------------------------------------------------------------------
+//  CVmbxCsVideoEngine::CheckConfiguration()
+// ----------------------------------------------------------------------------
+//
+TBool CVmbxCsVideoEngine::CheckConfiguration( 
+            const TVoiceMailboxParams& aParams, const TInt aFlags )
+    {
+    VMBLOGSTRING( "VMBX: CVmbxCsVideoEngine::CheckConfiguration =>" );
+    TBool conf( EFalse );
+    if ( EVmbxChangeNbrAllowedOnUi & aFlags )
+        {
+        conf = iProvider.VmbxCenRepHandler().IsAllowedUserEdit();
+        }
+    else if ( EVmbxVideoMailboxSupported & aFlags )
+        {
+        conf = ETrue;
+        }
+    else
+        {
+        conf = CVmbxEngineBase::CheckConfiguration(aParams, aFlags);
+        }
+    VMBLOGSTRING2( "VMBX: CVmbxCsVideoEngine::CheckConfiguration: conf%I <=",
+                 conf );
+    return conf;
+    }
 // End of file

@@ -20,7 +20,6 @@
 #include <hbmainwindow.h> // softkey
 #include <hbdocumentloader.h> // application xml
 #include <hbaction.h> // action user response
-#include <hbvalidator.h>
 #include <hbmessagebox.h> // DisplayText, ConfirmSend,
 #include <hbdevicemessagebox.h> // CallControl, SetUpCall
 #include <hblabel.h> // DisplayText, GetInput, SetUpCall
@@ -28,6 +27,10 @@
 #include <hbprogressdialog.h> // SendSms wait note
 #include <hblineedit.h> // For GetInput
 #include <hbinputeditorinterface.h> // GetInput
+#include <hbinputeditorinterface.h>
+#include <hbinputstandardfilters.h>
+#include <hbinputfilter.h> 
+#include <dialogwaiter.h>
 #include "satappview.h" // SetUpMenu, SelectItem
 #include "satappgetinkeynote.h" // GetYesNo immediate digit response
 #include "satappuiprovider.h"
@@ -276,10 +279,12 @@ TSatAppUserResponse SatAppUiProvider::showDisplayTextPopup(
         composeDialog(mDisplayPopup, aDuration, ESatDialogDisplayText);
 
         TFLOGSTRING(
-        "SATAPP: SatAppUiProvider::showDisplayTextPopup duration before exec")
-        mDisplayPopup->exec();
+        "SATAPP: SatAppUiProvider::showDisplayTextPopup duration before open")
+        DialogWaiter waiter;
+        mDisplayPopup->open(&waiter, SLOT(done(HbAction *)));
+        waiter.wait();
         TFLOGSTRING(
-        "SATAPP: SatAppUiProvider::showDisplayTextPopup duration end exec")
+        "SATAPP: SatAppUiProvider::showDisplayTextPopup duration end open")
 
         delete mDisplayPopup;
         mDisplayPopup = 0;
@@ -311,20 +316,14 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
         // Set ContentText
         QVariant vContent(aContent);
         mGetInkeyQuery->setValue(vContent);
-
-        // Validation rule, what can be entered
-        HbValidator *val =new HbValidator;
-
+        HbEditorInterface inputMode(mGetInkeyQuery->lineEdit());
         if (ESatDigitOnly == aCharacterSet) {
             // digit mode, digits only (0 9, *, #, and +)
-            mGetInkeyQuery->setInputMode(HbInputDialog::IntInput);
-            // Define what digits can be entered
-            QRegExp r("[0123456789*#+]{1,1}"); // from 1 to 1 digits
-            val->setMasterValidator(new QRegExpValidator(r,0));
-            mGetInkeyQuery->setValidator(val);
-        } else {
+//            inputMode.setUpAsPhoneNumberEditor();
+            inputMode.setFilter(HbPhoneNumberFilter::instance());
+         } else {
             // char mode
-            mGetInkeyQuery->setInputMode(HbInputDialog::TextInput);
+            inputMode.setUpAsLatinAlphabetOnlyEditor();
         }
 
         unsigned int duration = KDefaultSelectionTimeoutMseconds;
@@ -336,12 +335,13 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
         connect(mGetInkeyQuery->lineEdit(), SIGNAL(textChanged(QString)),
             this, SLOT(updateQueryAction(QString)));
         TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInkeyQuery before pop")
-        mGetInkeyQuery->exec();
+        DialogWaiter waiter;
+        mGetInkeyQuery->open(&waiter, SLOT(done(HbAction *)));
+        waiter.wait();
         TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInkeyQuery end pop")
 
         QString inputString = (mGetInkeyQuery->value()).toString();
         aContent = inputString;
-        delete val;
         delete mGetInkeyQuery;
         mGetInkeyQuery = 0;
     }
@@ -394,7 +394,9 @@ int SatAppUiProvider::showGetYesNoQuery(
         time.start();
 
         TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery befor pop")
-        mYesNoPopup->exec();
+        DialogWaiter waiter;
+        mYesNoPopup->open(&waiter, SLOT(done(HbAction *)));
+        waiter.wait();
         TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery end pop")
         aDuration = time.elapsed() / KSymbianTimeConvertQtTime;
         TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery duration out=%d",
@@ -435,22 +437,14 @@ TSatAppUserResponse SatAppUiProvider::showGetInputQuery(
     // Set ContentText
     QVariant vContent(content);
     mGetInputQuery->setValue(vContent);
-
-    // Validation rule, what can be entered
-    HbValidator *val =new HbValidator;
-    QRegExp r;
+    HbEditorInterface inputMode(mGetInputQuery->lineEdit());
     if (ESatDigitOnly == characterSet) {
         // digit mode, digits only (0 9, *, #, and +)
-        mGetInputQuery->setInputMode(HbInputDialog::IntInput);
-        // Define what digits can be entered
-        r.setPattern("[0123456789*#+]{0,255}"); // define what characters can be entered
-        val->setMasterValidator(new QRegExpValidator(r,0));
-        mGetInputQuery->lineEdit()->setValidator(val);
+        inputMode.setFilter(HbPhoneNumberFilter::instance());
     } else {
         // char mode
-        mGetInputQuery->setInputMode(HbInputDialog::TextInput);
+        inputMode.setUpAsLatinAlphabetOnlyEditor();
     }
-
     connect(mGetInputQuery->lineEdit(), SIGNAL(textChanged(QString)),
         this, SLOT(updateQueryAction(QString)));
     mGetInputQuery->lineEdit()->setMaxLength(maxLength);
@@ -476,12 +470,13 @@ TSatAppUserResponse SatAppUiProvider::showGetInputQuery(
     }
 
     TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInputQuery before pop")
-    mGetInputQuery->exec();
+    DialogWaiter waiter;
+    mGetInputQuery->open(&waiter, SLOT(done(HbAction *)));
+    waiter.wait();
     TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInputQuery end pop")
 
     content = (mGetInputQuery->value()).toString();
 
-    delete val;
     delete mGetInputQuery;
     mGetInputQuery = 0;
 
@@ -559,9 +554,11 @@ void SatAppUiProvider::showConfirmSendQuery(
         mConfirmSendQuery->setText(aText);
         composeDialog(mConfirmSendQuery, 0, ESatDialogConfirmSend);
 
-        TFLOGSTRING("SATAPP: SatAppUiProvider::confirmSend before exec")
-        mConfirmSendQuery->exec();
-        TFLOGSTRING("SATAPP: SatAppUiProvider::confirmSend after exec")
+        TFLOGSTRING("SATAPP: SatAppUiProvider::confirmSend before open")
+        DialogWaiter waiter;
+        mConfirmSendQuery->open(&waiter, SLOT(done(HbAction *)));
+        waiter.wait();
+        TFLOGSTRING("SATAPP: SatAppUiProvider::confirmSend after open")
 
         delete mConfirmSendQuery;
         mConfirmSendQuery = 0;
@@ -683,9 +680,11 @@ void SatAppUiProvider::showConfirmSetUpCallQuery(
         mSetUpCallQuery->setText(alphaId);
         composeDialog(mSetUpCallQuery, 0, ESatDialogSetUpCall);
 
-        TFLOGSTRING("SATAPP: SatAppSetUpCall::showSetUpCallConfirm before exec")
-        mSetUpCallQuery->exec();
-        TFLOGSTRING("SATAPP: SatAppSetUpCall::showSetUpCallConfirm after exec")
+        TFLOGSTRING("SATAPP: SatAppSetUpCall::showSetUpCallConfirm before open")
+        DialogWaiter waiter;
+        mSetUpCallQuery->open(&waiter, SLOT(done(HbAction *)));
+        waiter.wait();
+        TFLOGSTRING("SATAPP: SatAppSetUpCall::showSetUpCallConfirm after open")
 
         delete mSetUpCallQuery;
         mSetUpCallQuery = 0;
@@ -1021,7 +1020,9 @@ void SatAppUiProvider::showSsErrorNote()
     TFLOGSTRING("SATAPP: SatAppUiProvider::showSsErrorNote")
     HbMessageBox *msgBox = new HbMessageBox(HbMessageBox::MessageTypeInformation);
     msgBox->setText(hbTrId("txt_sat_sendss_error_note"));
-    msgBox->exec();
+    DialogWaiter waiter;
+    msgBox->open(&waiter, SLOT(done(HbAction *)));
+    waiter.wait();
     delete msgBox;
     msgBox = NULL;
     TFLOGSTRING("SATAPP: SatAppUiProvider::showSsErrorNote exit")
@@ -1047,9 +1048,11 @@ void SatAppUiProvider::showConfirmOpenChannelQuery(
         mConfirmBipQuery->setText(title);
         composeDialog(mConfirmBipQuery, 0, ESatDialogConfirmBip);
 
-        TFLOGSTRING("SATAPP: SatAppUiProvider::showConfirmOpenChannelQuery before exec")
-        mConfirmBipQuery->exec();
-        TFLOGSTRING("SATAPP: SatAppUiProvider::showConfirmOpenChannelQuery after exec")
+        TFLOGSTRING("SATAPP: SatAppUiProvider::showConfirmOpenChannelQuery before open")
+        DialogWaiter waiter;
+        mConfirmBipQuery->open(&waiter, SLOT(done(HbAction *)));
+        waiter.wait();
+        TFLOGSTRING("SATAPP: SatAppUiProvider::showConfirmOpenChannelQuery after open")
 
         delete mConfirmBipQuery;
         mConfirmBipQuery = 0;
@@ -1117,7 +1120,9 @@ void SatAppUiProvider::showMoSmControlNote(const QString &aText)
     HbMessageBox *msgBox = new HbMessageBox(HbMessageBox::MessageTypeInformation);
     msgBox->setText(aText);
     msgBox->setTimeout(KMoSmControlTimeOut);
-    msgBox->exec();
+    DialogWaiter waiter;
+    msgBox->open(&waiter, SLOT(done(HbAction *)));
+    waiter.wait();
     delete msgBox;
     TFLOGSTRING("SATAPP: SatAppUiProvider::showMoSmControlNote exit")
 
@@ -1151,7 +1156,9 @@ void SatAppUiProvider::showSatInfoNote(const QString &aText)
     TFLOGSTRING("SATAPP: SatAppUiProvider::showSatInfoNote")
     HbMessageBox *msgBox = new HbMessageBox(HbMessageBox::MessageTypeInformation);
     msgBox->setText(aText);
-    msgBox->exec();
+    DialogWaiter waiter;
+    msgBox->open(&waiter, SLOT(done(HbAction *)));
+    waiter.wait();
     delete msgBox;
     msgBox = 0;
     TFLOGSTRING("SATAPP: SatAppUiProvider::showSatInfoNote exit")

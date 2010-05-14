@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -32,7 +32,6 @@ class CVmbxSimHandler;
 *  Implements functionality specifig to voice mailbox entry
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxCsVoiceEngine ) : public CVmbxEngineBase
     {
@@ -41,7 +40,6 @@ public:  // Constructors and destructor
 
     /**
      * Two-phased constructor
-     * @since S60 v5.2
      * @param aProvider Reference to MVmbxResourceProvider.
      * @return New instance of the object. Ownership transferred.
      */
@@ -57,7 +55,6 @@ public:  // Constructors and destructor
     /**
      * @see CVmbxEntryBase::GetL
      *
-     * @since S60 v5.2
      * @param aEntry Reference to CVoiceMailboxEntry
      */
     void GetL( CVoiceMailboxEntry*& aEntry );
@@ -65,7 +62,6 @@ public:  // Constructors and destructor
     /**
      * @see CVmbxEntryBase::SaveL
      *
-     * @since S60 v5.2
      * @param aEntry 
      */
     void SaveL( const CVoiceMailboxEntry& aEntry );
@@ -73,7 +69,6 @@ public:  // Constructors and destructor
     /**
      * To save mailbox Provisioned entry value
      *
-     * @since S60 v5.2
      * @param aEntry Provisioned Entry data
      */
     void SaveProvisionedEntryL( const CVoiceMailboxEntry& aEntry );
@@ -81,7 +76,6 @@ public:  // Constructors and destructor
     /**
      * @see CVoiceMailbox::CheckConfiguration
      *
-     * @since S60 v5.2
      * @param aParams Specifies which mailbox capabilities,
      *          the caller wants to check.
      * @param aFlags Use TVmbxFeatureCapabilityFlag values for this parameter.
@@ -95,7 +89,6 @@ public:  // Constructors and destructor
     /**
      * Check Entry writable
      *
-     * @since S60 v5.2
      * @param aParams params of Entry data
      * @return ETrue if entry is writable
      */
@@ -106,7 +99,6 @@ private:
     /**
      * C++ default constructor.
      *
-     * @since S60 v5.2
      * @param aProvider Reference to MVmbxResourceProvider
      */
     CVmbxCsVoiceEngine( MVmbxResourceProvider& aProvider );
@@ -114,14 +106,12 @@ private:
     /**
      * By default Symbian 2nd phase constructor is private.
      *
-     * @since S60 v5.2
      */
     void ConstructL();
 
     /**
      * Queries where to save and then saves
      *
-     * @since S60 v5.2
      * @param in aEntry Entry data
      */
     void SaveEntryToPhoneL( const CVoiceMailboxEntry& aEntry );
@@ -129,7 +119,6 @@ private:
     /**
      * For saving to place that user selects
      *
-     * @since S60 v5.2
      * @param in aEntry Entry data
      */
     void SaveEntryToSimL( const CVoiceMailboxEntry& aEntry );
@@ -137,7 +126,6 @@ private:
     /**
      * Returns Sim writable or not
      *
-     * @since S60 v5.2
      * @return ETrue if writable
      */
     TBool IsSimWritable();

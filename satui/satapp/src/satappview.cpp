@@ -105,7 +105,7 @@ void SatAppView::initSetupMenu(
     mListWidget = qobject_cast<HbListWidget *>
         ( mUi->docmlLoader()->findWidget(SATAPP_MENUITEM ));
     if (mListWidget && mWindow) {
-        mSoftKeyQuitAction = new HbAction(Hb::QuitAction,this);
+        mSoftKeyQuitAction = new HbAction(Hb::QuitNaviAction,this);
         HbAction *menuAction = menu()->addAction("Exit");
         bool ret = connect(menuAction, SIGNAL(triggered()),
                        mSoftKeyQuitAction, SIGNAL(triggered()));
@@ -141,7 +141,7 @@ void SatAppView::initSelectItem(
         ( mUi->docmlLoader()->findWidget(SATAPP_SELECTITEM ));
 
     if (mSelectListWidget && mWindow) {
-        mSoftKeyBackAction = new HbAction(Hb::BackAction,this);
+        mSoftKeyBackAction = new HbAction(Hb::BackNaviAction,this);
         HbAction *menuBack = menu()->addAction("Back");
         bool ret = connect(menuBack, SIGNAL(triggered()),
                        mSoftKeyBackAction, SIGNAL(triggered()));
@@ -211,7 +211,7 @@ void SatAppView::showSelectItemContent(
     const QString& aText,
     const QStringList& aMenuItems,
     //const CArrayFixFlat<TSatAction>* aMenuItemNextActions,
-    const int aDefaultItem,
+    const int /*aDefaultItem*/,
     unsigned char& aSelection,
     //const HbIcon& aIcon,
     //const CAknIconArray* aItemsIconArray,
@@ -224,10 +224,7 @@ void SatAppView::showSelectItemContent(
     aRes =  ESatSuccess;
     mSelectItem = true;
     mClickBackSoftkey = false;
-    if (mWindow){
-        mWindow->setCurrentViewIndex(aDefaultItem);
-    }
-    
+
     // Set sub title
     if (!aText.isEmpty()) {
         mSubTitle->setPlainText(aText);

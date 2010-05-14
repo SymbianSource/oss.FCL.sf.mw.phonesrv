@@ -24,7 +24,6 @@
 /**
  *  Container class for Voice Mailbox info.
  *  @lib vmbxengine.lib
- *  @since S60 v5.2
  */
 
 class CVoiceMailboxEntry : public CBase
@@ -45,7 +44,6 @@ public:
 
     /**
      * Destructor
-     * @since S60 v5.2
      *
      */
     virtual ~CVoiceMailboxEntry();
@@ -53,7 +51,6 @@ public:
     /**
      * Gets the Voice Mailbox service.
      *
-     * @since S60 v5.2
      * @return Mailbox service.
      */
     IMPORT_C virtual TServiceId ServiceId() const;
@@ -61,7 +58,6 @@ public:
     /**
      * Sets the Voice Mailbox service to container.
      *
-     * @since S60 v5.2
      * @param in aVmbxServiceId Voice Mailbox service.
      */
     virtual void SetServiceId(
@@ -70,7 +66,6 @@ public:
     /**
      * Gets the Voice Mailbox type.
      *
-     * @since S60 v5.2
      * @return Mailbox type.
      */
     IMPORT_C virtual TVmbxType VoiceMailboxType() const;
@@ -78,7 +73,6 @@ public:
     /**
      * Sets the Voice Mailbox type to container.
      *
-     * @since S60 v5.2
      * @param in aVmbxType Voice Mailbox type.
      */
     IMPORT_C virtual void SetVoiceMailboxType(
@@ -87,7 +81,6 @@ public:
     /**
      * Gets the Voice Mailbox line type.
      *
-     * @since S60 v5.2
      * @return Mailbox line type.
      *      EVmbxAlsLineDefault is returned if mailbox does not
      *      support several lines.
@@ -98,7 +91,6 @@ public:
      * Sets the Voice Mailbox line type to container.
      * EVmbxAlsLineDefault is used by default.
      *
-     * @since S60 v5.2
      * @param in aLine Selected Voice Mailbox line type.
      */
     virtual void SetVmbxAlsLineType(
@@ -107,7 +99,6 @@ public:
     /**
      * Gets the Voice Mailbox number or address.
      *
-     * @since S60 v5.2
      * @param out aVmbxNumber If successful, contains the returned 
      *   mailbox number or address.
      * @return One of the system wide error codes.
@@ -117,7 +108,6 @@ public:
     /**
      * Sets the Voice Mailbox number or address to container.
      *
-     * @since S60 v5.2
      * @param in aVmbxNumber New Voice Mailbox number or address.
      * @return One of the system wide error codes.
      */
@@ -126,7 +116,6 @@ public:
     /**
      * Gets the Voice Mailbox brand id.
      *
-     * @since S60 v5.2
      * @param out aBrandId If successful, contains the returned Brand id.
      * @return One of the system wide error codes.
      */
@@ -135,7 +124,6 @@ public:
     /**
      * Sets the Voice Mailbox Brand Id to container.
      *
-     * @since S60 v5.2
      * @param in aBrandId New Brand Id.
      * @return One of the system wide error codes.
      */
@@ -145,7 +133,6 @@ public:
     /**
      * Gets the VoIp name.
      *
-     * @since S60 v5.2
      * @param out aVmbxName If successful, contains the returned mailbox name.
      * @return One of the system wide error codes.
      */
@@ -154,7 +141,6 @@ public:
     /**
      * Sets the VoIp name to container.
      *
-     * @since S60 v5.2
      * @param in aVmbxName New Voice Mailbox name.
      * @return One of the system wide error codes.
      */
@@ -163,7 +149,6 @@ public:
     /**
      * Gets the type of memory location.
      *
-     * @since S60 v5.2
      * @return Memory location type.
      */
     IMPORT_C virtual TVmbxMemoryLocation UsingMemoryLocation( ) const;
@@ -171,14 +156,12 @@ public:
     /**
      * Resets the container to initial state.
      *
-     * @since S60 v5.2
      */
     IMPORT_C virtual void Reset();
 
     /**
      * Sets the using memory location to entry.
      *
-     * @since S60 v5.2
      * @param in aType Memory location type.
      */
     virtual void SetUsingMemoryLocation( 
@@ -189,7 +172,6 @@ protected:
     /**
      * Second phase constructor.
      *
-     * @since S60 v5.2
      */
     void ConstructL();
 
@@ -198,7 +180,6 @@ private:
      /**
      * Default constructor.
      *
-     * @since S60 v5.2
      */
 
     CVoiceMailboxEntry();

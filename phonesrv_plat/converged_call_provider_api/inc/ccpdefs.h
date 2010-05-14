@@ -36,8 +36,9 @@ SMS - SMS
 const TUint KCCPPhoneSerialNumberSize = 50;        // 
 const TUint KCCPSysUtilVersionTextLength = 64;     // from sysutil.h
 const TUint KCCPPhoneModelIdSize = 50;             // from RMobilePhone::KPhoneModelIdSize
-const TUint KCCPPhoneManufacturerIdSize = 50;    // fromRMobilePhone::KPhoneManufacturerIdSize
+const TUint KCCPPhoneManufacturerIdSize = 50;      // fromRMobilePhone::KPhoneManufacturerIdSize
 const TUint KCCPUUSIdSize                = 129;    // etelmm.h, as KMaxUUISize
+const TUint KCCPAlphaIdMaxSize = 254;              // etelmm.h, as KAlphaIdMaxSize
 
 
 /**

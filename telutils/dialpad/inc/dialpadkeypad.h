@@ -21,7 +21,6 @@
 #include <hbwidget.h>
 
 class DialpadButton;
-class DialpadButtonStyle;
 class DialpadInputField;
 class DialpadButton;
 class QSignalMapper;
@@ -47,6 +46,8 @@ public:
     void setCallButtonEnabled(bool enabled);
 
     void createButtonGrid();
+    
+    void resetButtons();
 
 protected slots:
     void setButtonTexts();
@@ -68,8 +69,6 @@ private:
     DialpadInputField& mInputField;
     QGraphicsGridLayout* mGridLayout;
     DialpadButton* mButtons[DialpadButtonCount];
-    DialpadButtonStyle* mNormalButtonStyle;
-    DialpadButtonStyle* mCallButtonStyle;
     QSignalMapper* mKeyPressedSignalMapper;
     QSignalMapper* mKeyReleasedSignalMapper;
     QSignalMapper* mKeyClickedSignalMapper;

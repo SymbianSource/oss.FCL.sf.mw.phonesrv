@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -24,9 +24,11 @@
 #include "vmbxutilities.h"
 #include "vmbxetelconnection.h"
 #include "vmbxlogger.h"
-
 #include "vmbxpbkstore.h"
 
+#include <e32property.h>
+#include <simutils.h>
+#include <startupdomainpskeys.h>
 //CONSTANTS
 // Amount of retries to be performed.
 const TInt KVmbxPhonebookBufferSize( 150 );
@@ -87,33 +89,42 @@ CVmbxPbkStore* CVmbxPbkStore::NewL()
 void CVmbxPbkStore::ConstructL()
     {
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::ConstructL =>" );
+    TInt value( 0 );
+    TInt res = RProperty::Get( KPSUidStartup, KPSSimStatus, value );
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::ConstructL res = %d", res );
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::ConstructL value = %d", value );
+    if ( (ESimUsable != value && ESimReadable != value ) || KErrNone != res )
+        {
+        // Sim card not ready to use
+        User::Leave( KErrNotReady );
+        }
     // Open tel server and phone
     iETelConnection = CVmbxETelConnection::NewL();
 
     iWait = new( ELeave ) CActiveSchedulerWait; 
     TVmbxAlsLineType alsLine = VmbxUtilities::AlsLine();
 
-    // Supported ALS line
+    // Supported ALS line,ALS line on
     if ( EVmbxAlsLineDefault != alsLine )
         {
-        // open 6f17 file
+        // open 6f17 file ,if not found the file, leave
         User::LeaveIfError( OpenVmbxPhonebook() );
         }
-    // Not supported ALS line
+    // Not supported ALS line,ALS line off
     else
         {
-        // USIM exist
-        if ( SimFileExistsAndReadAccess() )
+        // Open 6fc7 file, if not found, open 6f17 file
+        TInt result = OpenMbdnPhonebook();
+        if ( KErrPathNotFound == result )
             {
-            // Open 6fc7 file
-            User::LeaveIfError( OpenMbdnPhonebook() );
+            //close 6fc7 and open 6f17 file
+            iPhoneBook.Close();
+            // open 6f17 file ,if not found the file, leave
+            User::LeaveIfError( OpenVmbxPhonebook() );
             }
-        // USIM not exist, open 6f17 file
         else
             {
-            VMBLOGSTRING( "VMBX: CVmbxPbkStore::ConstructL: no mbdn file\
-                then open 6f17 file" );
-            User::LeaveIfError( OpenVmbxPhonebook() );
+            User::LeaveIfError( result );
             }
         }
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::ConstructL <=" );
@@ -142,7 +153,6 @@ TInt CVmbxPbkStore::GetVmbxInfo(
         VMBLOGSTRING2( "VMBX: CVmbxPbkStore::PhonebookInfo: \
                 SIM Phonebook info read, status: %I", result );
         }
-
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::GetVmbxInfo <=" );
     return result;
     }
@@ -156,16 +166,41 @@ TBool CVmbxPbkStore::IsWritable()
     {
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::IsWritable =>" );
     TBool result( EFalse );
-    RMobilePhoneBookStore::TMobilePhoneBookInfoV1 info;
-    TInt temp = GetVmbxInfo( info );
-    if( KErrNone == temp )
+    if ( IsWriteAccess() )
         {
-        result = ( info.iCaps &
-                RMobilePhoneBookStore::KCapsWriteAccess ? 1 : 0 );
-        
+        // Get current sim entry, then write the same entry 
+        // to sim if read successufully
+        CVoiceMailboxEntry* simEntry(NULL);
+        TRAPD( newErr, simEntry = CVoiceMailboxEntry::NewL() );
+        VMBLOGSTRING2( "VMBX: CVmbxPbkStore::IsWritable newErr = %d ",
+            newErr );
+        if ( KErrNone == newErr )
+            {
+            // get als line info
+            simEntry->SetVmbxAlsLineType( VmbxUtilities::AlsLine() );
+            simEntry->SetVoiceMailboxType( EVmbxVoice );
+            simEntry->SetServiceId( KVmbxServiceVoice );
+            TRAPD( err, SimReadL( *simEntry ) );
+            VMBLOGSTRING2( "VMBX: CVmbxPbkStore:: IsWritable read %I <=", err );
+            if ( KErrNotFound == err )
+                {
+                simEntry->SetVmbxNumber( KNullDesC );
+                }
+            if ( KErrNone == err || KErrNotFound == err )
+                {
+                err = Write( *simEntry );
+                VMBLOGSTRING2( "VMBX: CVmbxPbkStore:: IsWritable write %I <=",
+                    err );
+                // If write successfully, means writable
+                if ( KErrNone == err )
+                    {
+                    result = ETrue;
+                    }
+                 }
+           }
+        delete simEntry;
+        simEntry = NULL;
         }
-    VMBLOGSTRING2( "VMBX: CVmbxPbkStore:: IsWritable: info.iCaps %I",
-                     info.iCaps );
     VMBLOGSTRING2( "VMBX: CVmbxPbkStore:: IsWritable result %I <=", result );
     return result;
     }
@@ -205,39 +240,43 @@ TInt CVmbxPbkStore::Write( const CVoiceMailboxEntry& aEntry )
         {
         pbkBuffer->Set( &pbData );
         TInt activeAlsLine = aEntry.VmbxAlsLineType();
+        // Add index, const value for vmbx write.
+        int entryIndex = 1;
         // New entry
         result = pbkBuffer->AddNewEntryTag();
         if ( KErrNone == result )
             {
-            // Add index
             // Type of index is TUint16 in Multimode ETel and TInt in old ETel.
             result = pbkBuffer->PutTagAndValue( 
-            RMobilePhoneBookStore::ETagPBAdnIndex, (TUint16)activeAlsLine );
-            }
-        // Add name if it existed on SIM card
-        // Type of ETagPBText is TDes16
-        if ( KErrNone == result && iAlphaStringFromSIM )
-            {
-            result = pbkBuffer->PutTagAndValue( 
-            RMobilePhoneBookStore::ETagPBText, *iAlphaStringFromSIM );
-            // Add number,Type of ETagPBNumber is TDes16
+            RMobilePhoneBookStore::ETagPBAdnIndex, (TUint16)entryIndex );
+            VMBLOGSTRING2( "VMBX: CVmbxPbkStore::Write: ETagPBAdnIndex \
+                    result=%I",  result );
+            // Add name if it existed on SIM card,Type of ETagPBText is TDes16
+            if ( iAlphaStringFromSIM )
+                {
+                result = pbkBuffer->PutTagAndValue( 
+                RMobilePhoneBookStore::ETagPBText, *iAlphaStringFromSIM );
+                VMBLOGSTRING2( "VMBX: CVmbxPbkStore::Write: ETagPBText\
+                        result=%I",  result );
+                }
+            TPtrC vmbxNumber( KNullDesC );
+            result = aEntry.GetVmbxNumber( vmbxNumber );
             if ( KErrNone == result )
                 {
-                TPtrC vmbxNumber( KNullDesC );
-                result = aEntry.GetVmbxNumber( vmbxNumber );
-                if ( KErrNone == result )
-                    {
-                    result = pbkBuffer->PutTagAndValue( 
-                    RMobilePhoneBookStore::ETagPBNumber, vmbxNumber );
-                    }
+                // Add number,Type of ETagPBNumber is TDes16
+                result = pbkBuffer->PutTagAndValue( 
+                RMobilePhoneBookStore::ETagPBNumber, vmbxNumber );
+                VMBLOGSTRING2( "VMBX: CVmbxPbkStore::Write: ETagPBNumber\
+                        result=%I",  result );
                 }
             }
+
         if ( KErrNone == result )
             {
             if ( iPhoneBookType == EMBDNPhoneBook )
                 {
                 RMobilePhone::TMobilePhoneVoicemailIdsV3 mbdnInfo;
-                result = GetMbdnInfo( EVmbxAlsLine1, mbdnInfo );
+                result = GetMbdnInfo( VmbxUtilities::AlsLine(), mbdnInfo );
 
                 if ( KErrNone == result )
                     {
@@ -260,7 +299,7 @@ TInt CVmbxPbkStore::Write( const CVoiceMailboxEntry& aEntry )
                 if( !IsActive() && !iWait->IsStarted() )
                     {
                     // write vmbx number to 6f17 file
-                    iPhoneBook.Write( iStatus, pbData, activeAlsLine );
+                    iPhoneBook.Write( iStatus, pbData, entryIndex );
                     iAsynType = EVmbxSimEntryWrite;
                     // Wait for asynchronous call to finish
                     SetActive();
@@ -278,7 +317,7 @@ TInt CVmbxPbkStore::Write( const CVoiceMailboxEntry& aEntry )
 
 // ---------------------------------------------------------------------------
 // CVmbxPbkStore::PhonebookStore
-// Return Phonebook
+// Return RMobilePhoneBookStore
 // ---------------------------------------------------------------------------
 RMobilePhoneBookStore& CVmbxPbkStore::PhonebookStore()
     {
@@ -323,10 +362,12 @@ TInt CVmbxPbkStore::GetMbdnInfo( const TVmbxAlsLineType aAlsLine,
             result = iStatus.Int();
             }
 
-        if ( EVmbxAlsLineDefault == aAlsLine && KErrNone == result )
+        if ( EVmbxAlsLineDefault == aAlsLine )
             {
             aInfo.iVoice =  EVmbxAlsLine1;
             }
+        VMBLOGSTRING2( "VMBX: CVmbxPbkStore::GetMbdnInfo: aInfo.iVoice %I",
+            aInfo.iVoice );
         }
     VMBLOGSTRING2( "VMBX: CVmbxPbkStore::GetMbdnInfo: result %I<=",
          result );
@@ -341,16 +382,21 @@ TInt CVmbxPbkStore::GetMbdnInfo( const TVmbxAlsLineType aAlsLine,
 TInt CVmbxPbkStore::OpenMbdnPhonebook()
     {
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::OpenMbdnPhonebook =>" );
-    // try to open mbdn-type phonebook
+    //Open mbdn-type phonebook , Currently the file not exist, thr return
+    // value also KErrNone
     TInt result = iPhoneBook.Open( iETelConnection->Phone(),
                                          KETelIccMbdnPhoneBook );
     VMBLOGSTRING2( "VMBX: CVmbxPbkStore::OpenMbdnPhonebook :\
-        MBDN opening result = %I", result );
-    if ( KErrNone == result )
+        MBDN opening result = %d", result );
+
+    TBool res = IsSimFileExisting( EMBDNPhoneBook );
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::OpenMbdnPhonebook :\
+        MBDN reading res = %d", res );
+    if ( !res )
         {
-        iPhoneBookType = EMBDNPhoneBook;
+        result = KErrPathNotFound;
         }
-    VMBLOGSTRING( "VMBX: CVmbxPbkStore::OpenMbdnPhonebook <=" );
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::OpenMbdnPhonebook res = %d<=", result );
     return result;
     }
 
@@ -362,15 +408,20 @@ TInt CVmbxPbkStore::OpenMbdnPhonebook()
 TInt CVmbxPbkStore::OpenVmbxPhonebook()
     {
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::OpenVmbxPhonebook =>" );
-    // try to open vmbx-type phonebook
+    //Open vmbx-type phonebook , Currently the file not exist, thr return
+    // value also KErrNone
     TInt result = iPhoneBook.Open( iETelConnection->Phone(),
                                                  KETelIccVoiceMailBox );
-    if ( KErrNone == result )
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::OpenVmbxPhonebook :\
+        Vmbx opening result = %d", result );
+    TBool res = IsSimFileExisting( EVMBXPhoneBook );
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::OpenVmbxPhonebook :\
+        Vmbx reading res = %d", res );
+    if ( !res )
         {
-        iPhoneBookType = EVMBXPhoneBook;
+        result = KErrPathNotFound;
         }
-    VMBLOGSTRING2( "Vmbx phonebook opening result = %I ", result );
-    VMBLOGSTRING( "VMBX: CVmbxPbkStore::OpenVmbxPhonebook <=" );
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::OpenVmbxPhonebook result=%d <=", result );
     return result;
     }
 
@@ -404,7 +455,7 @@ void CVmbxPbkStore::GetL( CVoiceMailboxEntry& aEntry )
             User::LeaveIfError( OpenVmbxPhonebook() );
             // read vmbx number from 6f17 file
             SimReadL( aEntry );
-            } 
+            }
         }
     else
         {
@@ -445,7 +496,7 @@ void CVmbxPbkStore::SimReadL( CVoiceMailboxEntry& aEntry )
                 // Wait for asynchronous call to finish
                 SetActive();
                 iWait->Start();
-                }         
+                }
             }
         }
     else
@@ -454,10 +505,16 @@ void CVmbxPbkStore::SimReadL( CVoiceMailboxEntry& aEntry )
         // line2 number so line is used to fetch
         VMBLOGSTRING( "start VMBX PhoneBook read" );
         TInt activeAlsLine = aEntry.VmbxAlsLineType();
+        if ( EVmbxAlsLineDefault == activeAlsLine )
+            {
+            activeAlsLine = EVmbxAlsLine1;
+            }
          if( !IsActive() && !iWait->IsStarted() )
             {
             result = KErrNone;
             // read vmbx number from 6f17 file
+            VMBLOGSTRING2( "VMBX: CVmbxPbkStore::SimReadLactiveAlsLine = %I",
+                 activeAlsLine );
             iPhoneBook.Read( iStatus, activeAlsLine, numEntries, pbData );
             iAsynType = EVmbxSimEntryRead;
             // Wait for asynchronous call to finish
@@ -484,7 +541,7 @@ void CVmbxPbkStore::SimReadL( CVoiceMailboxEntry& aEntry )
 
 // ---------------------------------------------------------------------------
 // CVmbxPbkStore::ParseDataL
-// read vmbx number from sim
+// 
 // ---------------------------------------------------------------------------
 //
 void CVmbxPbkStore::ParseDataL( CVoiceMailboxEntry& aEntry, TDes8& aPbData )
@@ -641,34 +698,8 @@ void CVmbxPbkStore::ReadPbkDataL( CPhoneBookBuffer* aPbkBuffer,
     }
 
 // ---------------------------------------------------------------------------
-// CVmbxPbkStore::IsUsimSupport
-// Checks if USim card in the phone
-// ---------------------------------------------------------------------------
-TBool CVmbxPbkStore::SimFileExistsAndReadAccess()
-    {
-    VMBLOGSTRING( "VMBX: CVmbxPbkStore::SimFileExistsAndReadAccess =>" );
-    TBool result( EFalse );
-
-    TUint32 capability;
-    TInt err = iETelConnection->Phone().GetIccAccessCaps( capability );
-    VMBLOGSTRING2( "VMBX: CVmbxSimHandler::SimFileExistsAndReadAccess:\
-        Err = %I", err);
-
-    if ( err == KErrNone &&
-        // Phone has a USIM and it currently supports USIM access by clients.
-        // the current sim card is 3G
-         capability & RMobilePhone::KCapsUSimAccessSupported )
-        {
-        result = ETrue;
-        }
-    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::SimFileExistsAndReadAccess \
-        return = %d <=", result );
-    return result;
-    }
-
-// ---------------------------------------------------------------------------
 // CVmbxPbkStore::RunL
-// read vmbx number from sim
+// 
 // ---------------------------------------------------------------------------
 //
 void CVmbxPbkStore::RunL()
@@ -686,7 +717,7 @@ void CVmbxPbkStore::RunL()
 
 // ---------------------------------------------------------------------------
 // CVmbxPbkStore::DoCancel
-// read vmbx number from sim
+// 
 // ---------------------------------------------------------------------------
 //
 void CVmbxPbkStore::DoCancel()
@@ -724,16 +755,16 @@ void CVmbxPbkStore::DoCancel()
             iETelConnection->Phone().CancelAsyncRequest( 
                                                EMobilePhoneStoreRead );
             break;
-            }                                        
+            }
         case EVmbxSimEntryWrite:
             {
             VMBLOGSTRING( "VMBX: CVmbxPbkStore::DoCancel : EVmbxSimEntryWrite" );
             iETelConnection->Phone().CancelAsyncRequest( 
                                                EMobilePhoneStoreWrite );
             break;
-            }                                        
+            }
         default:
-            break;   
+            break;
         }
     
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::DoCancel <=" );
@@ -741,13 +772,73 @@ void CVmbxPbkStore::DoCancel()
 
 // ---------------------------------------------------------------------------
 // CVmbxPbkStore::RunError
-// read vmbx number from sim
+// 
 // ---------------------------------------------------------------------------
 //
 TInt CVmbxPbkStore::RunError(TInt aError)
     {
+    // Avoid warning
+    aError = aError;
     VMBLOGSTRING2( "VMBX: CVmbxPbkStore::RunError: %I", aError );
     return KErrNone;
+    }
+
+// ---------------------------------------------------------------------------
+// CVmbxPbkStore::IsSimFileExisting
+// check sim file existing or not
+// ---------------------------------------------------------------------------
+//
+TBool CVmbxPbkStore::IsSimFileExisting( const TVmbxSimPhonebookType aType )
+    {
+    VMBLOGSTRING( "VMBX: CVmbxPbkStore::IsSimFileExisting =>" );
+    iPhoneBookType = aType;
+    TBool result( ETrue );
+    CVoiceMailboxEntry* entry(NULL);
+    TRAPD( err, entry = CVoiceMailboxEntry::NewL() );
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::IsSimFileExisting err = %d ",
+     err );
+    if ( KErrNone != err )
+        {
+        result = EFalse;
+        }
+    else
+        {
+        entry->SetVoiceMailboxType( EVmbxVoice );
+        TRAPD( err, SimReadL( *entry ) );
+        // KErrPathNotFound means when current file path not found.
+        if ( KErrPathNotFound == err )
+            {
+            result = EFalse;
+            }
+        }
+    delete entry;
+    entry = NULL;
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore::IsSimFileExisting result = %d <= ",
+         result );
+    return result;
+    }
+
+// ---------------------------------------------------------------------------
+// CVmbxPbkStore::IsWriteAccess
+// Sim write access support
+// ---------------------------------------------------------------------------
+//
+TBool CVmbxPbkStore::IsWriteAccess()
+    {
+    VMBLOGSTRING( "VMBX: CVmbxPbkStore::IsWriteAccess =>" );
+    TBool result( EFalse );
+    RMobilePhoneBookStore::TMobilePhoneBookInfoV1 info;
+    TInt temp = GetVmbxInfo( info );
+    if( KErrNone == temp )
+        {
+        result = ( info.iCaps &
+                RMobilePhoneBookStore::KCapsWriteAccess ? ETrue : EFalse );
+        
+        }
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore:: IsWriteAccess: info.iCaps %X",
+                     info.iCaps );
+    VMBLOGSTRING2( "VMBX: CVmbxPbkStore:: IsWriteAccess result %I <=", result );
+    return result;
     }
 
 //End of file

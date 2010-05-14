@@ -15,11 +15,9 @@
 *
 */
 
-#include <hbtextitem.h>
-#include <hbiconitem.h>
-#include <hbstyle.h>
-#include <hbcolorscheme.h>
+
 #include <hbevent.h>
+#include <hbframeitem.h>
 
 #include "dialpadbutton.h"
 
@@ -77,3 +75,38 @@ void DialpadButton::polish(HbStyleParameters& params)
     HbAbstractButton::polish( params );
 }
 
+void DialpadButton::updatePrimitives()
+{
+    HbPushButton::updatePrimitives();
+
+    HbFrameItem* frame =
+        qgraphicsitem_cast<HbFrameItem*>(HbWidget::primitive("background"));
+
+    if (!frame) {
+        return;
+    }
+
+    QString graphicsName;
+
+    if (!isEnabled()) {
+        graphicsName = "qtg_fr_input_btn_function_disabled";
+    } else if (isDown()) {
+        if (buttonType()==CallButton) {
+            graphicsName = "qtg_fr_btn_green_pressed";
+        } else if (buttonType()==FunctionButton) {
+            graphicsName = "qtg_fr_input_btn_function_pressed";
+        } else {
+            graphicsName = "qtg_fr_input_btn_keypad_pressed";
+        }
+    } else {
+        if (buttonType()==CallButton) {
+            graphicsName = "qtg_fr_btn_green_normal";
+        } else if (buttonType()==FunctionButton) {
+            graphicsName = "qtg_fr_input_btn_function_normal";
+        } else {
+            graphicsName = "qtg_fr_input_btn_keypad_normal";
+        }
+    }
+
+    frame->frameDrawer().setFrameGraphicsName(graphicsName);
+}

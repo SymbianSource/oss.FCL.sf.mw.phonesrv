@@ -18,6 +18,8 @@
 // System includes
 #include <QtTest/QtTest>
 #include <cvoicemailboxentry.h>
+// For global value
+#include "ut_vmbxuiengine.h"
 
 // CONSTANTS
 
@@ -148,23 +150,12 @@ void CVoiceMailboxEntry::SetVmbxAlsLineType(
 // Get number or address of the entry instance
 // ---------------------------------------------------------------------------
 //
-EXPORT_C TInt CVoiceMailboxEntry::GetVmbxNumber( TPtrC& aVmbxNumber ) const
+TInt CVoiceMailboxEntry::GetVmbxNumber( TPtrC& aVmbxNumber ) const
     {
     qDebug("DummyVoiceMailboxEntry::GetVmbxNumber >");
-    TInt result( KErrNotFound );
-    if ( ivmbxNumber )
-        {
-        aVmbxNumber.Set( ivmbxNumber->Des() );
-        qDebug("DummyVoiceMailboxEntry::GetVmbxNumber");
-        result = KErrNone;
-        }
-    else
-        {
-        qDebug("DummyVoiceMailboxEntry::GetVmbxNumber:KNullDesC");
-        aVmbxNumber.Set( KNullDesC );
-        }
-    qDebug("DummyVoiceMailboxEntry::GetVmbxNumber <");
-    return result;
+    aVmbxNumber.Set(globalNumber.utf16());
+    qDebug("DummyVoiceMailboxEntry::GetVmbxNumber %d", globalExpRet);
+    return globalExpRet;
     }
 
 // ---------------------------------------------------------------------------
@@ -172,25 +163,12 @@ EXPORT_C TInt CVoiceMailboxEntry::GetVmbxNumber( TPtrC& aVmbxNumber ) const
 // Set number or address of the entry instance
 // ---------------------------------------------------------------------------
 //
-EXPORT_C TInt CVoiceMailboxEntry::SetVmbxNumber( const TDesC& aVmbxNumber )
+TInt CVoiceMailboxEntry::SetVmbxNumber( const TDesC& aVmbxNumber )
     {
     qDebug("DummyVoiceMailboxEntry::SetVmbxNumber >");
-    TInt result( KErrNoMemory );
-    if ( aVmbxNumber.Length() > KVmbxMaxNumberLength )
-        {
-        result = KErrArgument;
-        }
-    else
-        {
-        delete ivmbxNumber;
-        ivmbxNumber = aVmbxNumber.Alloc(); // Returns NULL if fails.
-        if ( ivmbxNumber )
-            {
-            result = KErrNone;
-            }
-        }
-    qDebug("DummyVoiceMailboxEntry::SetVmbxNumber <"); 
-    return result;
+    globalNumber = QString::fromUtf16(aVmbxNumber.Ptr(), aVmbxNumber.Length());
+    qDebug("DummyVoiceMailboxEntry::SetVmbxNumber %d", globalExpRet);
+    return globalExpRet;
     }
 
 // ---------------------------------------------------------------------------
@@ -198,7 +176,7 @@ EXPORT_C TInt CVoiceMailboxEntry::SetVmbxNumber( const TDesC& aVmbxNumber )
 // Get Brand Id of the entry instance
 // ---------------------------------------------------------------------------
 //
-EXPORT_C TInt CVoiceMailboxEntry::GetBrandId( TPtrC8& aBrandId ) const
+TInt CVoiceMailboxEntry::GetBrandId( TPtrC8& aBrandId ) const
     {
     qDebug("DummyVoiceMailboxEntry::GetBrandId >");
     TInt result( KErrNotFound ); 

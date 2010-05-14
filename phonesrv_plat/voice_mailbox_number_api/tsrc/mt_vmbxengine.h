@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -40,7 +40,6 @@ class HbMainWindow;
  *  See cpp file for more information. 
  *
  *  @lib mt_vmbxngine.lib
- *  @since S60 <TB10.1>
  */
 class Mt_vmbxEngine : public QObject
 {
@@ -53,73 +52,29 @@ public:
 
 private slots: 
 
-     /**
-     * Called before the first testfunction is executed.
-     * Handles the SetUpMenu command.
-     */
+    /*!
+        Called before the first testfunction is executed.
+    */
     void initTestCase();
 
-     /**
-     * Called after the last testfunction has been executed.
-     * 
-     */
+    /*!
+        Called after the last testfunction has been executed.
+    */
     void cleanupTestCase();
+
+    /*!
+        Create an empty vmbx entry
+    */
+    void testCreateVmbxEntry();
     
-    // Called before each testfunction is executed. Currently not needed
-    //void init();
+    /*!
+        Create CVoiceMailbox Api
+    */
+    void testCreateVmbxMailbox();
 
-     /**
-     * Called after every testfunction.   Currently not needed
-     * 
-     */
-    //void cleanup();
-
-	/**
-	* Test first case,Create testCreateVmbxEntry
-	* 
-	*/
-	void testCreateVmbxEntry();
-	
-	 /**
-	 * Test second case,Create CVoiceMailbox
-	 * 
-	 */
-	void testCreateVmbxMailbox();
-	
-	/**
-	* Test middle case,vmbx type
-	* 
-	*/
-	void testVmbxType();
-   
-	/**
-	* Test middle case,ServiceId
-	* 
-	*/
-	void testServiceId();
- 
-	/**
-	* Test middle case, AlsLine Type
-	* 
-	*/
-	void testAlsLineType();
-	
-	/**
-	* Test middle case, VmbxNumber
-	* 
-	*/
-	void testVmbxNumber();
-	
-	/**
-	* Test middle case, reset
-	* 
-	*/
-	void testReset();
-
-     /**
-     * Test middle case,CheckConfiguration
-     * 
-     */
+    /*!
+        Test middle case,CheckConfiguration
+    */
     void testCheckConfiguration();
 
     /**
@@ -129,11 +84,6 @@ private slots:
     */
     void testCreateWindow();
  
-    /**
-    * Test middle case,regsit observer for vmbx number changed
-    * 
-    */
-   void testNotifyVmbxNumberChange();
 
    /**
    * Test middle case,SaveProvisionedEntry
@@ -161,13 +111,11 @@ private slots:
 
      /**
      * Test middle case,delete CVoiceMailbox
-     * 
      */
     void testDeleteVmbxMailbox();
     
     /**
     * Test last case,delete CVoiceMailboxEntry
-    * 
     */
    void testDeleteVmbxEntry();
 
@@ -176,7 +124,7 @@ private:  //data
     /**
      * Own.
      */
-	CVoiceMailboxEntry* mVmbxEntry;
+    CVoiceMailboxEntry* mVmbxEntry;
 
     /**
      * Own.

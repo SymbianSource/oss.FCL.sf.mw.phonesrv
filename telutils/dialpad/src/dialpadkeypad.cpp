@@ -26,7 +26,6 @@
 #include <hblineedit.h>
 
 #include "dialpadkeypad.h"
-#include "dialpadbuttonstyle.h"
 #include "dialpadbutton.h"
 #include "dialpadinputfield.h"
 
@@ -71,10 +70,6 @@ DialpadKeypad::DialpadKeypad(
                                         Qt::Key_Backspace);
 
     // create keypad
-    mNormalButtonStyle = new DialpadButtonStyle();
-    mCallButtonStyle = new DialpadButtonStyle();
-    mCallButtonStyle->setButtonStyle(DialpadButtonStyle::CallButtonStyle);
-
     for (int i = 0; i < DialpadButtonCount; i++) {
         int keyCode = DialpadButtonToKeyCodeTable[i];
 
@@ -90,12 +85,10 @@ DialpadKeypad::DialpadKeypad(
         button->setObjectName(buttonName);
 
         if (keyCode==Qt::Key_Yes) {
-            button->setStyle(mCallButtonStyle);
             HbIcon callIcon(handsetIcon); // todo correct icon
             button->setIcon(callIcon);
             button->setButtonType(DialpadButton::CallButton); // for css
         } else {
-            button->setStyle(mNormalButtonStyle);
             button->setButtonType(DialpadButton::NumericButton); // for css
         }
 
@@ -136,8 +129,6 @@ DialpadKeypad::DialpadKeypad(
 
 DialpadKeypad::~DialpadKeypad()
 {
-    delete mCallButtonStyle;
-    delete mNormalButtonStyle;
 }
 
 void DialpadKeypad::createButtonGrid()
@@ -320,5 +311,12 @@ void DialpadKeypad::showEvent(QShowEvent *event)
         for (int i=0; i < DialpadRowCount ;i++) {
             mGridLayout->setRowFixedHeight(i, height);
         }
+    }
+}
+
+void DialpadKeypad::resetButtons()
+{
+    for(int i = 0; i < DialpadButtonCount; i++) {
+        mButtons[i]->setDown(false);
     }
 }

@@ -22,8 +22,6 @@
 #include <e32base.h>
 #include "msatmultimodeapi.h"
 
-#include "csetupcallstatushandler.h"
-
 class CSetUpCallHandler;
 class MSatAsyncToSync;
 
@@ -32,14 +30,10 @@ class MSatAsyncToSync;
 *  This active objects is registered with ETelMM Api to send request and 
 *  receive notifications about some Request Complete.
 *
-*  @lib CallControlCmd
-*  @since S60 v5.0.1
 */
 
-class CSetupCallRequestHandler : public CActive,
-                                 public MSetupCallStatusObserver
+class CSetupCallRequestHandler : public CActive
     {
-
 public:
 
     /**
@@ -74,11 +68,6 @@ public:
      */
     void CancelOperation();
     
-    /**
-     *  From MSetupCallStatusObserver
-     *  The call status update notification from ETel MM
-     */
-    void CallSatatusChanged( const TInt status );
  
 protected:
 
@@ -103,15 +92,6 @@ private:
     CSetupCallRequestHandler( MSatMultiModeApi& aPhone,
         CSetUpCallHandler* aDispatcher );
         
-    /**
-     * Two phase contruction.
-     */    
-    void ConstructL();
-
-private: //new method
-    
-    void HandleSetupCallStatusChange();
-        
 private: // Data
 
     /**
@@ -125,21 +105,10 @@ private: // Data
     CSetUpCallHandler* iDispatcher;
 
     /**
-     * Use to monite the status of call
-     * Own
-     */
-    CSetupCallStatusHandler *iStatusHandler;
-    
-    /**
      * Current call is an emergency call.
      */
     TBool iEmergencyCall;
-    
-    /**
-     * Terminal response to the SIM has been send
-     */
-    TBool iResponsed;
-    
+      
     };
 
 #endif      // CSETUPCALLREQUESTHANDLER_H

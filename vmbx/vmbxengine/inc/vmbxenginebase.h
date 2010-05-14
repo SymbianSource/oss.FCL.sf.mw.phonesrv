@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -33,7 +33,6 @@
 *  Implemets mailbox entry base class functionality
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxEngineBase ) : public CBase
     {
@@ -56,7 +55,6 @@ public: // New functions
      * To get mailbox entry value
      * Leave if no number got or Symbian OS error code
      *
-     * @since S60 v5.2
      * @param aEntry Entry data
      */
     virtual void GetL( CVoiceMailboxEntry*& aEntry ) = 0;
@@ -65,7 +63,6 @@ public: // New functions
      * To save mailbox entry value
      * Leave with Symbian OS error code
      *
-     * @since S60 v5.2
      * @param aEntry Entry data
      */
     virtual void SaveL( const CVoiceMailboxEntry& aEntry ) = 0;
@@ -74,7 +71,6 @@ public: // New functions
      * To save mailbox Provisioned entry value
      * Leave with Symbian OS error code
      *
-     * @since S60 v5.2
      * @param aEntry Provisioned Entry data
      */
     virtual void SaveProvisionedEntryL( const CVoiceMailboxEntry& aEntry ) = 0;
@@ -83,7 +79,6 @@ public: // New functions
      * Checks the Voice Mailbox how many VoIP service Ids
      * Leave with Symbian OS error code
      *
-     * @since S60 v5.2
      * @param aProfileIds id of voip profile
      */
     virtual void GetServiceIdsL( RIdArray& aProfileIds );
@@ -91,14 +86,12 @@ public: // New functions
     /**
      * see CVoiceMailbox::GetVmbxImage
      * 
-     * @since S60 v5.2
      */
     //virtual CGulIcon* GetVmbxImageL( const TVoiceMailboxParams& aParams );
 
     /**
      * Sets the Voice Mailbox current service id.
      *
-     * @since S60 v5.2
      * @param aVmbxServiceId Voice Mailbox service id.
      */
     virtual void SetCurrentServiceId( const TServiceId& aVmbxServiceId );
@@ -107,7 +100,6 @@ public: // New functions
      * Checks the Voice Mailbox configuration to find out if a features
      * are disabled or enabled.
      *
-     * @since S60 v5.2
      * @param aParams Specifies which mailbox capabilities,
      *          the caller wants to check.
      * @param aFlags Use TVmbxFeatureCapability values for this parameter.
@@ -122,7 +114,6 @@ public: // New functions
      * Displays number query dialog
      * Leave if user don't select or Symbian OS error code
      *
-     * @since S60 v5.2
      * @param aEntry CVoiceMailboxEntry
      */
     virtual void QueryDefineNumberL( CVoiceMailboxEntry& aEntry );
@@ -131,7 +122,6 @@ public: // New functions
      * Displays number query dialog
      * Leave if user don't select or Symbian OS error code
      *
-     * @since S60 v5.2
      * @param aEntry Entry data
      */
     virtual void QueryChangeNumberL( CVoiceMailboxEntry& aEntry );

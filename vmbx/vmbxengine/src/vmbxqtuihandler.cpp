@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -17,19 +17,23 @@
 */
 
 // qt
-#include <QtGui/QtGui>
 #include <QString>
-#include <QObject>
+#include <QCoreApplication>
+#include <QRegExp>
 
-#include <hbdialog.h>
+#include <hbinputdialog.h>
 #include <hblabel.h>
 #include <hbaction.h>
-#include <hbtextedit.h>
 #include <hbmessagebox.h>
-#include <hbvalidator.h>
 #include <hblineedit.h>
 #include <hbinputeditorinterface.h>
+#include <hbinputstandardfilters.h>
+#include <hbinputfilter.h> 
 #include <hblistwidget.h>
+#include <dialogwaiter.h>
+
+#include <cvoicemailboxentry.h>
+#include <cvoicemailbox.h>
 
 #include "vmbxqtuihandler.h"
 #include "voicemailboxdefsinternal.h"
@@ -42,9 +46,11 @@
 // (Constructor).
 // ----------------------------------------------------------------------------
 //
-VmbxQtUiHandler::VmbxQtUiHandler(QObject* parent): QObject(parent)
+VmbxQtUiHandler::VmbxQtUiHandler(QObject* parent): QObject(parent),
+        iTranslator(0), iCommonTranslator(0), iQueryDialog(NULL)
 {
     VMBLOGSTRING("VmbxQtUiHandler::VmbxQtUiHandler")
+    init();
     VMBLOGSTRING("VmbxQtUiHandler::VmbxQtUiHandler Exit")
 }
 
@@ -56,7 +62,43 @@ VmbxQtUiHandler::VmbxQtUiHandler(QObject* parent): QObject(parent)
 VmbxQtUiHandler::~VmbxQtUiHandler()
 {
     VMBLOGSTRING("VmbxQtUiHandler::~VmbxQtUiHandler")
+    if ( iQueryDialog ) {
+        delete iQueryDialog;
+        iQueryDialog = NULL;
+        VMBLOGSTRING("VmbxQtUiHandler::~VmbxQtUiHandler delete iQueryDialog")
+    }
     VMBLOGSTRING("VmbxQtUiHandler::~VmbxQtUiHandler Exit")
+}
+
+// ----------------------------------------------------------------------------
+// VmbxQtUiHandler::Init
+//
+// ----------------------------------------------------------------------------
+//
+void  VmbxQtUiHandler::init()
+{
+    VMBLOGSTRING("VmbxQtUiHandler::init")
+    QString lang = QLocale::system().name();
+    VMBLOGSTRING2("VmbxQtUiHandler::init lang type %S",
+            lang.utf16())
+    QString path = "Z:/resource/qt/translations/";
+    bool translatorLoaded = iTranslator.load("vmbx_"+lang, path);
+    VMBLOGSTRING2("VmbxQtUiHandler::init load vmbx result %d",
+            translatorLoaded)
+    // Install vmbx localization
+    if (translatorLoaded && qApp) {
+        VMBLOGSTRING("VmbxQtUiHandler::init qApp !")
+        qApp->installTranslator(&iTranslator);
+    }
+    // Install common localization, for select type "cancel".
+    bool loaded = iCommonTranslator.load( "common_"+lang, path);
+    VMBLOGSTRING2("VmbxQtUiHandler::init load common result %d",
+        loaded)
+    if (loaded && qApp) {
+        VMBLOGSTRING("VmbxQtUiHandler::init qApp !!")
+        qApp->installTranslator(&iCommonTranslator);
+    }
+    VMBLOGSTRING("VmbxQtUiHandler::init Exit")
 }
 
 // ----------------------------------------------------------------------------
@@ -65,79 +107,50 @@ VmbxQtUiHandler::~VmbxQtUiHandler()
 // ----------------------------------------------------------------------------
 //
 void VmbxQtUiHandler::showVmbxQueryDialog(const TVmbxType& aType,
-                          const TVmbxQueryMode& aMode,
                           QString& aNumber, int& aResult)
 {
     VMBLOGSTRING("VmbxQtUiHandler::showVmbxQueryDialog")
-
-    HbDialog *displayPopup = new HbDialog();
-    displayPopup->setDismissPolicy(HbDialog ::NoDismiss);
-    displayPopup->setTimeout(HbDialog ::NoTimeout);
-
-    displayPopup->setModal(true);
     QString header;
     if (EVmbxVoice == aType) {
-        if (EVmbxDefineMode == aMode) {
-            header = tr("Define voice mailbox:");
-        } else {
-            header = tr("Change voice mailbox:");
-        }
-    } else {
+        header = hbTrId("txt_vmbx_title_voice_mailbox_number");
+    } else if (EVmbxVideo == aType) {
         // type of EVmbxVideo
-        if (EVmbxDefineMode == aMode) {
-            header = tr("Define video mailbox:");
-        } else {
-            header = tr("Change video mailbox:");
-        }
+        header = hbTrId("txt_vmbx_title_video_mailbox_number");
+    } else {
+        aResult = KErrCancel;
+        VMBLOGSTRING( "VmbxQtUiHandler::showVmbxQueryDialog type error" )
+        return;
     }
-    // Set the label as heading widget
-    displayPopup->setHeadingWidget(new HbLabel(header));
-    // Set the HbLineEdit as Content widget
-    // Define parameters for text box
-    HbLineEdit *lineEdit = new HbLineEdit();
-    lineEdit->setText( aNumber ); // default text
-    //lineEdit->setMaximumRows( 3 ); // just a magic number
-    HbEditorInterface inputMode(lineEdit); // Enables VKB
-    inputMode.setInputMode( HbInputModeNumeric );
-    // Limit charachter set
-    HbValidator *val = new HbValidator;
-    QRegExp r;
-    r.setPattern("[0123456789*#+]{0,255}"); // define what characters can be entered
-    val->setMasterValidator(new QRegExpValidator(r,0));
-    lineEdit->setValidator( val );
+    iQueryDialog = new HbInputDialog();
+    iQueryDialog->setDismissPolicy(HbDialog::NoDismiss);
+    iQueryDialog->setTimeout(HbDialog::NoTimeout);
 
-    displayPopup->setContentWidget( lineEdit ); // ownership moved
+    iQueryDialog->setModal(true);
+    // Set heading content
+    iQueryDialog->setPromptText(header);
 
-    HbAction* okAction = new HbAction(tr("Ok"));
-    // Sets the "OK"-action/button
-    displayPopup->setPrimaryAction(okAction);
-    bool ret = connect(okAction, SIGNAL(triggered()),
-        displayPopup, SLOT(close()));
-    VMBLOGSTRING2( "VmbxQtUiHandler::showVmbxQueryDialog:connect ok %d",
-        ret )
-    //  Sets the "Back"-action/button
-    HbAction* cancelAction =  new HbAction(tr("Cancel"));
-    displayPopup->setSecondaryAction(cancelAction);
-    ret = connect(okAction, SIGNAL(triggered()),
-        displayPopup, SLOT(close()));
-    VMBLOGSTRING2( "VmbxQtUiHandler::showVmbxQueryDialog:connect cancel %d",
-        ret )
-    VMBLOGSTRING( "VmbxQtUiHandler::ShowVmbxQueryDialog to show" )
-    HbAction* result = displayPopup->exec();
-    if( okAction == result ) {
+    // Set HbLineEdit  Content 
+    iQueryDialog->lineEdit()->setText(aNumber); // default text
+    iQueryDialog->lineEdit()->setFocus(); // Enable the VKB
+    iQueryDialog->lineEdit()->setMaxLength(KVmbxPhoneCharMaxLength);
+    HbEditorInterface inputMode(iQueryDialog->lineEdit());
+    inputMode.setFilter(HbPhoneNumberFilter::instance());
+    bool ret = connect(iQueryDialog->lineEdit(), SIGNAL(textChanged(QString)),
+        this, SLOT(updatePrimaryAction(QString)));    
+    VMBLOGSTRING2( "VmbxQtUiHandler::showVmbxQueryDialog connect textChanged %d", ret)
+    DialogWaiter waiter;
+    iQueryDialog->open(&waiter, SLOT(done(HbAction *)));
+    HbAction *result = waiter.wait();
+    if (result == iQueryDialog->primaryAction()) {
         VMBLOGSTRING( "VmbxQtUiHandler::showVmbxQueryDialog select OK" )
         // asign OK KEY value
         aResult = KErrNone;
-        aNumber = lineEdit->text();
-        VMBLOGSTRING2( "VmbxQtUiHandler::showVmbxQueryDialog number = %s",
-            aNumber.utf16() )
+        aNumber = iQueryDialog->lineEdit()->text();
     } else {
         aResult = KErrCancel;
     }
-    delete val;
-    val = 0;
-    delete displayPopup;
-    displayPopup = 0;
+    delete iQueryDialog;
+    iQueryDialog = 0;
     VMBLOGSTRING2("VmbxQtUiHandler::showVmbxQueryDialog aResult = %d", aResult)
     VMBLOGSTRING("VmbxQtUiHandler::showVmbxQueryDialog Exit")
 }
@@ -148,7 +161,7 @@ void VmbxQtUiHandler::showVmbxQueryDialog(const TVmbxType& aType,
 // ----------------------------------------------------------------------------
 //
 void VmbxQtUiHandler::showDefineSelectionDialog(
-    TVmbxType& aType, int& aResult)
+    TVmbxType &aType, int &aResult)
 {
     VMBLOGSTRING("VmbxQtUiHandler::showDefineSelectionDialog")
     HbDialog* defineListDialog = new HbDialog();
@@ -156,31 +169,33 @@ void VmbxQtUiHandler::showDefineSelectionDialog(
     defineListDialog->setTimeout(HbDialog::NoTimeout);
 
     defineListDialog->setModal(true);
-    // Set heading widget
-    defineListDialog->setHeadingWidget(new HbLabel(tr("Define number:")));
+    // Set heading widget,"Define number:"
+    defineListDialog->setHeadingWidget(new HbLabel(
+            hbTrId("txt_vmbx_title_select_mailbox")));
     // Create a define list 
     HbListWidget *list = new HbListWidget();
-    list->addItem(tr("Voice Mailbox"));
-    list->addItem(tr("Video Mailbox"));
+    //Voice Mailbox
+    list->addItem(hbTrId("txt_vmbx_list_voice_mailbox"));
+    //Video Mailbox
+    list->addItem(hbTrId("txt_vmbx_list_video_mailbox"));
     // Set content widget
     defineListDialog->setContentWidget(list);
 
-    HbAction* okAction = new HbAction(tr("Ok"));
-    // Sets the "OK"-action/button
-    defineListDialog->setPrimaryAction(okAction);
-    //  Sets the "Back"-action/button
-    HbAction* cancelAction =  new HbAction(tr("Cancel"));
+    //  Sets the "Cancel"-action/button
+    HbAction *cancelAction =  new HbAction(hbTrId(
+            "txt_common_button_cancel"));
     defineListDialog->setSecondaryAction(cancelAction);
 
-    connect(list, SIGNAL(activated(HbListWidgetItem*)), 
+    connect(list, SIGNAL(activated(HbListWidgetItem *)), 
         defineListDialog, SLOT(close()));
-    HbAction* result = defineListDialog->exec();
-
+    DialogWaiter waiter;
+    defineListDialog->open(&waiter, SLOT(done(HbAction *)));
+    HbAction *result = waiter.wait();
     if (cancelAction == result){
         aType = EVmbxNone;
         aResult = KErrCancel;
     } else {
-    // OK or single click items
+        // Select one item
         aResult = KErrNone;
         int currentItem = list->row(list->currentItem());
         VMBLOGSTRING2("VmbxQtUiHandler::showDefineSelectionDialog:\
@@ -198,75 +213,179 @@ void VmbxQtUiHandler::showDefineSelectionDialog(
     defineListDialog = 0;
     VMBLOGSTRING("VmbxQtUiHandler::showDefineSelectionDialog Exit")
 }
+
 // ----------------------------------------------------------------------------
-// VmbxQtUiHandler::ShowInformationNote
+// VmbxQtUiHandler::showCallSelectionDialog
+// (show call selection dialog).
+// ----------------------------------------------------------------------------
+//
+void VmbxQtUiHandler::showCallSelectionDialog(
+    const QList<CVoiceMailboxEntry *> entryList,
+    TVoiceMailboxParams &params, int &result )
+{
+    VMBLOGSTRING("VmbxQtUiHandler::showCallSelectionDialog")
+    int count = entryList.count();
+    VMBLOGSTRING("VmbxQtUiHandler::showCallSelectionDialog new before")
+    HbDialog* callListDialog = new HbDialog();
+    VMBLOGSTRING("VmbxQtUiHandler::showCallSelectionDialog new after")
+    callListDialog->setDismissPolicy(HbDialog::NoDismiss);
+    callListDialog->setTimeout(HbDialog::NoTimeout);
+    callListDialog->setModal(true);
+    // Set heading widget,"select mailbox"
+    callListDialog->setHeadingWidget(new HbLabel(
+               hbTrId("txt_vmbx_title_select_mailbox")));
+    // Create a call list 
+    HbListWidget *list = new HbListWidget();
+    // Set content widget
+    callListDialog->setContentWidget(list);
+
+    QList<TVoiceMailboxParams> paramsList;
+    TVoiceMailboxParams entryParams;
+    for (int i = 0; i < count; i++) {
+        TVmbxType vmbxType = entryList[i]->VoiceMailboxType();
+        entryParams.iType = vmbxType;
+        entryParams.iServiceId = entryList[i]->ServiceId();
+        paramsList.append(entryParams);
+        switch (vmbxType) {
+            case EVmbxVoice:
+                {
+                list->addItem(hbTrId("txt_vmbx_list_voice_mailbox"));
+                break;
+                }
+            case EVmbxVideo:
+                {
+                list->addItem(hbTrId("txt_vmbx_list_video_mailbox"));
+                break;
+                }
+            case EVmbxVoip:
+                {
+                // Get name
+                TPtrC vmbxName( KNullDesC );
+                int voipRes = entryList[i]->GetVmbxName(vmbxName);
+                VMBLOGSTRING2( "VmbxQtUiHandler::showCallSelectionDialogL\
+                    : voipRes=%I", voipRes );
+                if (KErrNone == voipRes) {
+                    QString voipName;
+                    if (vmbxName.Length() > 0) {
+                        voipName=QString::fromUtf16(
+                            vmbxName.Ptr(), vmbxName.Length());
+                        // add voip item
+                        list->addItem(voipName);
+                    }
+                }
+                break;
+                }
+            default:
+                break;
+        }
+    }
+    //  Sets the "Cancel"-action/button
+    HbAction *cancelAction = new HbAction(hbTrId(
+        "txt_common_button_cancel_toolbar"));
+    callListDialog->setSecondaryAction(cancelAction);
+
+    connect(list, SIGNAL(activated(HbListWidgetItem *)), 
+            callListDialog, SLOT(close()));
+    DialogWaiter waiter;
+    callListDialog->open(&waiter, SLOT(done(HbAction *)));
+    HbAction *action = waiter.wait();
+    if (cancelAction == action){
+        params.iType = EVmbxNone;
+        params.iServiceId = KVmbxServiceIdNone;
+        result = KErrCancel;
+    } else {
+        // Select one item
+        result = KErrNone;
+        int currentItem = list->row(list->currentItem());
+        VMBLOGSTRING2("VmbxQtUiHandler::showCallSelectionDialog:\
+            currentItem %d", currentItem)
+        params.iType = paramsList[currentItem].iType;
+        params.iServiceId = paramsList[currentItem].iServiceId;
+    }
+    VMBLOGSTRING2("VmbxQtUiHandler::showCallSelectionDialog: params.iType %d",
+        params.iType)
+    VMBLOGSTRING2("VmbxQtUiHandler::showCallSelectionDialog: result%d",
+        result)
+    delete callListDialog;
+    callListDialog = 0;
+    VMBLOGSTRING("VmbxQtUiHandler::showCallSelectionDialog Exit")
+}
+
+// ----------------------------------------------------------------------------
+// VmbxQtUiHandler::showInformationNote
 // (show information note).
 // ----------------------------------------------------------------------------
 //
-void VmbxQtUiHandler::showInformationNote(int aNoteType)
+void VmbxQtUiHandler::showInformationNote(const TVmbxNoteType aType)
 {
     VMBLOGSTRING("VmbxQtUiHandler::showInformationNote")
     QString noteText;
-    QString iconName;
-    VMBLOGSTRING2("VmbxQtUiHandler::~showInformationNote type =%d", aNoteType)
-    switch (aNoteType) {
+    VMBLOGSTRING2("VmbxQtUiHandler::showInformationNote type =%d", aType)
+    switch (aType) {
     case EInvalidNumber:
-        noteText = tr("Invalid phone number.");
-        iconName = "note_error";
+        // Need to comfirm with ui designer
+        noteText = hbTrId("Invalid phone number.");
+        break;
+    case ENotAllowUserEditing:
+        //User not allow to edit.
+        noteText = hbTrId("Number not provisioned");
         break;
     case ESavedToPhoneMemory:
-        noteText = tr("Voice mailbox number saved to Phone memory.");
-        iconName = "note_info";
-        break;
-    case ESavedToSimMemory:
-        noteText = tr("Voice mailbox number saved to Sim card.");
-        iconName = "note_info";
+    case ESavedToSimMemory:	
+        //Voice mailbox number saved to Phone memory.
+        noteText = hbTrId("txt_vmbx_dpopinfo_voice_mailbox_number_saved");
         break;
     case EVideoNumberSaved:
-        noteText = tr("Video call mailbox saved.");
-        iconName = "note_info";
+        //Video call mailbox saved.
+        noteText = hbTrId("txt_vmbx_dpopinfo_video_mailbox_number_saved");
+        break;
+    case EDefineVoiceNumber:
+        //Define voice mailbox.
+        noteText = hbTrId("txt_vmbx_dpopinfo_define_voice_mailbox_number");
+        break;
+    case EDefineVideoNumber:
+        //Define video mailbox.
+        noteText = hbTrId("txt_vmbx_dpopinfo_define_video_mailbox_number");
         break;
     default:
         VMBLOGSTRING("VmbxQtUiHandler::ShowInformationNote default")
         break;
     }
-
-    HbMessageBox *msgBox = new HbMessageBox(HbMessageBox::MessageTypeInformation);
+    HbMessageBox *msgBox = 0;
+    if (EInvalidNumber == aType) {
+        msgBox = new HbMessageBox(HbMessageBox::MessageTypeWarning);   
+    } else {
+        msgBox = new HbMessageBox(HbMessageBox::MessageTypeInformation);
+    }
     msgBox->setText(noteText);
-    msgBox->setIcon(HbIcon(iconName));
-    msgBox->exec();
+    msgBox->removeAction(msgBox->primaryAction());
+    DialogWaiter waiter;
+    msgBox->open(&waiter, SLOT(done(HbAction *)));
+    waiter.wait();
     delete msgBox;
-    VMBLOGSTRING("VmbxQtUiHandler::~ShowInformationNote Exit")
-    
+    msgBox = 0;
+    VMBLOGSTRING("VmbxQtUiHandler::showInformationNote Exit")
 }
 
 // ----------------------------------------------------------------------------
-// VmbxQtUiHandler::ShowSaveEmptyNote
+// VmbxQtUiHandler::updatePrimaryAction
 // (show information note).
 // ----------------------------------------------------------------------------
 //
-void VmbxQtUiHandler::showSaveEmptyNote(const TVmbxType& aType)
+void VmbxQtUiHandler::updatePrimaryAction(const QString &aInput)
 {
-    VMBLOGSTRING("VmbxQtUiHandler::~showSaveEmptyNote")
-    QString noteText;
-    VMBLOGSTRING2("VmbxQtUiHandler::~showSaveEmptyNote type = %d", aType)
-    switch (aType) {
-    case EVmbxVoice:
-        noteText = tr("Voice mailbox number not defined.");
-        break;
-    case EVmbxVideo:
-        noteText = tr("Video mailbox number not defined.");
-        break;
-    default:
-        VMBLOGSTRING("VmbxQtUiHandler::ShowSaveEmptyNote default")
-        break;
-    }
-    HbMessageBox *msgBox = new HbMessageBox(HbMessageBox::MessageTypeInformation);
-    msgBox->setText(noteText);
-    msgBox->setIcon(HbIcon("note_error"));
-    msgBox->exec();
-    delete msgBox;
-    VMBLOGSTRING("VmbxQtUiHandler::~ShowSaveEmptyNote Exit")
+    HbAction *ok = iQueryDialog->primaryAction();
+    if (aInput.isEmpty() || aInput.contains(QRegExp("\\d\\d\\d"))){
+        if (!ok->isEnabled()){
+            ok->setEnabled(true);
+            VMBLOGSTRING("VmbxQtUiHandler::updatePrimaryAction enable OK")
+        }
+    }else{
+        if (ok->isEnabled()){
+            ok->setEnabled(false);
+            VMBLOGSTRING("VmbxQtUiHandler::updatePrimaryAction disable OK")  
+        }
+    }  
 }
 
 //End of file

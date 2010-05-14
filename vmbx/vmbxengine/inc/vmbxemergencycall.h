@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -31,7 +31,6 @@
 *  CVmbxEmergencyCall declaration
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxEmergencyCall ) : public CBase,
                         public MPhCltEmergencyCallObserver
@@ -40,20 +39,17 @@ NONSHARABLE_CLASS( CVmbxEmergencyCall ) : public CBase,
 
     /**
      * Two-phased constructor
-     * @since S60 v5.2
      */
     static CVmbxEmergencyCall* NewL();
     
     /**
      * Destructor.
-     * @since S60 v5.2
      */
     ~CVmbxEmergencyCall();
 
     /**
      * Verifies that the given number is not an emergency number.
      *
-     * @since S60 v5.2
      * @param aNumber Mailbox number
      * @return ETrue if emergency number
      */
@@ -64,13 +60,11 @@ private:  // New Functions
     /**
      * C++ default constructor.
      *
-     * @since S60 v5.2
      */
     CVmbxEmergencyCall();
 
     /**
      * C++  Two-phased constructor.
-     * @since S60 v5.2
      */
     void ConstructL();
 
@@ -81,7 +75,6 @@ private: // Functions from base classes
      *
      * @see MPhCltExtPhoneObserver::HandleDialL().
      *
-     * @since S60 v5.2
      * @param aEntry Reference to store handler
      */
     void HandleDialL( const TInt aStatus );
@@ -89,7 +82,6 @@ private: // Functions from base classes
     /**
      * Handling of emergency dial result.
      *
-     * @since S60 v5.2
      * @param aEntry Reference to store handler
      */
     void HandleEmergencyDialL( const TInt aStatus );

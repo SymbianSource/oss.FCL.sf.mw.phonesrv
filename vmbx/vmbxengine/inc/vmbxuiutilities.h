@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -44,13 +44,11 @@ public:
 
     /**
      * Two-phased constructor
-     * @since S60 v5.2
      */
     static CVmbxUiUtilities* NewL();
 
     /**
      * Destructor.
-     * @since S60 v5.2
      */
     ~CVmbxUiUtilities();
 
@@ -70,7 +68,6 @@ public:
      * Show mailbox query dialog
      * Leaves if user cancel selected.
      *
-     * @since S60 v5.2
      * @param aType in TVmbxType type
      * @param aMode Tin VmbxQueryMode mode
      * @param aNumber the voice mailbox number
@@ -80,41 +77,26 @@ public:
         const TVmbxQueryMode & aMode, TDes& aNumber, TInt& aResult );
 
     /**
-     * Show confirmation dialog when save number to phone
+     * Show informationd note
      *
-     * @since S60 v5.2
+     * @param aType in TVmbxNoteType type
      */
-    void ShowSaveToPhoneNote();
-
-    /**
-     * Show confirmation dialog when save number to SIM
-     *
-     * @since S60 v5.2
-     */
-    void ShowSaveToSimNote();
-
-    /**
-     * Show confirmation dialog when save video number
-     *
-     * @since S60 v5.2
-     */
-    void ShowVideoSavedNote();
+    void ShowInformationdNoteL(const TVmbxNoteType aType);
+ 
 
     /**
      * Show define number in selection dialog
      * Leaves if user cancel selected.
      *
-     * @since S60 v5.2
      * @param in aType vmbx type
      * @param out aResult the result of dialog
      */
-    void ShowDefineSelectionDialogL( TVmbxType& aType, TInt& aResult );
+    void ShowDefineSelectionDialog( TVmbxType& aType, TInt& aResult );
 
     /**
      * Show call number in selection dialog
      * Leaves if user cancel selected.
      *
-     * @since S60 v5.2
      * @param in aArray array of the defined voice mailbox entry
      * @param in aIcons icons of the defined voice mailbox
      * @param out aParams the type TVoiceMailboxParams which should include
@@ -129,40 +111,28 @@ public:
     /**
      * Tries to close all open dialogs
      *
-     * @since S60 v5.2
      */
     void DismissDialogL();
 
-    /**
-     * To get mailbox entry value
-     * Leaves if Symbian OS error code
-     *
-     * @since S60 v5.2
-     * @param aType TVmbxType type
-     */
-    void ShowSaveEmptyNoteL( const TVmbxType& aType );
 
     /**
      * Get Mailbox type default image.
      * If get unseccessful, Leaves with Symbian OS error code
      *
-     * @since S60 v5.2
      * @param aParams Mailbox type for which image is needed.
      * @return aImage New image. Ownership is transferred.
      */
     //CGulIcon* GetVmbxImageL( const TVoiceMailboxParams& aParams );
 
     /**
-     * Show error dialog
+     * Show not allowed editing dialog
      *
-     * @since S60 v5.2
      */
-    void ShowErrorDialogL();
+    void ShowNotAllowedEditingDialogL();
 
     /**
      * Show invalid or warning dialog
      *
-     * @since S60 v5.2
      */
     void ShowInvalidWarningDialogL();
 
@@ -176,7 +146,6 @@ private: // data
 
     /**
      * C++  Two-phased constructor.
-     * @since S60 v5.2
      */
     void ConstructL();
 

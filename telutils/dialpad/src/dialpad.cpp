@@ -33,9 +33,9 @@
 #include "dialpadmultitaphandler.h"
 #include "dialpadbackground.h"
 
-static const QString backgroundGraphics("qtg_fr_input_bg");
+static const QString backgroundGraphics("qtg_fr_input_v_bg");
 static const QString backgroundGraphicsH("qtg_fr_input_h_bg");
-static const QString minimizeIcon("qtg_graf_input_swipe");
+static const QString minimizeIcon("qtg_graf_input_v_swipe");
 static const QString minimizeIconH("qtg_graf_input_h_swipe");
 static const qreal DialpadCloseSwipeDistanceV = 0.25; //compared to total height
 static const qreal DialpadCloseSwipeDistanceH = 0.33; // > button width
@@ -133,6 +133,13 @@ void Dialpad::initialize()
     HbStyleLoader::registerFilePath(":/dialpad.css");
     HbStyleLoader::registerFilePath(":/dialpad_color.css");
     HbStyleLoader::registerFilePath(":/dialpad.dialpadbutton.widgetml");
+
+    // grab gestures so that those are not passed to widgets behind dialpad
+    grabGesture(Qt::TapGesture);
+    grabGesture(Qt::TapAndHoldGesture);
+    grabGesture(Qt::PanGesture);
+    grabGesture(Qt::SwipeGesture);
+    grabGesture(Qt::PinchGesture);
 }
 
 Dialpad::~Dialpad()
@@ -197,6 +204,8 @@ bool Dialpad::isOpen() const
 
 void Dialpad::openDialpad()
 {
+    mKeypad->resetButtons();
+    
     if (mIsOpen) {
         return;
     }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -38,7 +38,6 @@ class TVmbxServiceInfo;
 *  Implements functionality specifig to voip mailbox entry
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxVoIpEngine ) : public CVmbxEngineBase
     {
@@ -61,7 +60,6 @@ public: // from base class CVmbxEntryBase
 
     /**
      *
-     * @since S60 v5.2
      * @see CVmbxEntryBase::GetL
      * @param aEntry Reference to store handler
      */
@@ -69,7 +67,6 @@ public: // from base class CVmbxEntryBase
 
     /**
      *
-     * @since S60 v5.2
      * @see CVmbxEntryBase::SaveL
      * @param aEntry Reference to CVoiceMailboxEntry
      */
@@ -78,7 +75,6 @@ public: // from base class CVmbxEntryBase
     /**
      * To save mailbox Provisioned entry value
      *
-     * @since S60 v5.2
      * @param aEntry Provisioned Entry data
      */
     void SaveProvisionedEntryL( const CVoiceMailboxEntry& aEntry );
@@ -86,7 +82,6 @@ public: // from base class CVmbxEntryBase
     /**
      * see CVmbxEntryBase::CheckConfiguration
      *
-     * @since S60 v5.2
      */   
     TBool CheckConfiguration( const TVoiceMailboxParams& aParams,
                                  const TInt aFlags );
@@ -94,7 +89,6 @@ public: // from base class CVmbxEntryBase
     /**
      * Displays number query dialog
      *
-     * @since S60 v5.2
      * @param aEntry CVoiceMailboxEntry
      */
     void QueryDefineNumberL( CVoiceMailboxEntry& aEntry );
@@ -102,7 +96,6 @@ public: // from base class CVmbxEntryBase
     /**
      * Displays number query dialog
      *
-     * @since S60 v5.2
      * @param aEntry Entry data
      */
     void QueryChangeNumberL( CVoiceMailboxEntry& aEntry );
@@ -112,7 +105,6 @@ private: // New function
     /**
      * C++ default constructor.
      *
-     * @since S60 v5.2
      * @param aProvider Reference to Ui Utilities
      */
     CVmbxVoIpEngine( MVmbxResourceProvider& aProvider );
@@ -120,13 +112,11 @@ private: // New function
     /**
      * By default Symbian 2nd phase constructor is private.
      *
-     * @since S60 v5.2
     */
     void ConstructL();
 
     /**
      * Check from SPSettings if there are VoIP profiles
-     * @since S60 3.2.3
      * @param None
      * @return ETrue if VoIP profiles were found, otherwise EFalse
      */
@@ -135,7 +125,6 @@ private: // New function
     /**
      * Checks the Voice Mailbox how many VoIP service Ids
      *
-     * @since S60 v5.2
      * @param aProfileIds
      * @return KErrNone if get service Ids successfully.
      */
@@ -143,7 +132,6 @@ private: // New function
 
     /**
      * Get branded icon
-     * @since S60 v5.2
      * @param in aBrandingId Brandind Id
      * @param out aBrandedBitmap Bitmap for branded icon
      * @param out aBrandedBitmapMask Mask to branded icon
@@ -154,13 +142,11 @@ private: // New function
     /**
      * see CVoiceMailbox::GetVmbxImage
      * 
-     * @since S60 v5.2
      */
     //CGulIcon* GetVmbxImageL( const TVoiceMailboxParams& aParams );
 
     /**
      * Get brand id
-     * @since S60 v5.2
      * @param in aServiceId Used Service
      * @param out aBrandId On completion, contains Brand Id
      */
@@ -168,7 +154,6 @@ private: // New function
 
     /**
      * Get service ids
-     * @since S60 v5.2
      * @param in&out aServiceInfo On completion contains service ids
      */
     TInt GetServiceInfo( TVmbxServiceInfo& aServiceInfo );

@@ -23,6 +23,7 @@
 class Dialpad;
 class DialpadVoiceMailboxEventFilter;
 class DialpadBluetoothEventFilter;
+class DialpadKeySequenceEventFilter;
 class HbMainWindow;
 
 #ifdef BUILD_DIALPADKEYHANDLER
@@ -49,9 +50,10 @@ public:
     virtual ~DialpadKeyHandler();
 
 private:
-    DialpadVoiceMailboxEventFilter* mVmbxFilter;
-    DialpadBluetoothEventFilter* mBtFilter;
     HbMainWindow& mMainWindow;
+    QScopedPointer<DialpadVoiceMailboxEventFilter> mVmbxFilter;
+    QScopedPointer<DialpadBluetoothEventFilter> mBtFilter;
+    QScopedPointer<DialpadKeySequenceEventFilter> mKeySequenceFilter;
 };
 
 #endif // DIALPADKEYHANDLER_H

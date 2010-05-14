@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -34,7 +34,6 @@ class RMobilePhone;
 /**
 *  Creates connection to RTelServer and opens RMobilePhone
 *
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxETelConnection ): public CBase
     {
@@ -57,7 +56,6 @@ public: // New functions
     /**
      * Returns a reference to the ETel RTelServer
      *
-     * @since S60 v5.2
      * @return a reference to the ETel RTelServer
      */
     RTelServer& TelServer();
@@ -65,7 +63,6 @@ public: // New functions
     /**
      * Returns a reference to the ETel RMobilePhone
      *
-     * @since S60 v5.2
      * @return a reference to the ETel RMobilePhone
      */
     RMobilePhone& Phone();

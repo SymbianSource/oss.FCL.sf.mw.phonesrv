@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -36,7 +36,6 @@ class CVoiceMailboxEntry;
 *  Creates connection to Sim phonebook and handles data flow from/to it
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxSimHandler ) : public CBase
     {
@@ -57,14 +56,12 @@ public: // New functions
 
     /**
      * Retrieves mailbox number from Sim
-     * @since S60 v5.2
      * @param in aEntry a data type of CVoiceMailboxEntry
      */
     void GetL( CVoiceMailboxEntry& aEntry );
 
     /**
      * Saves vmbx number to Sim
-     * @since S60 v5.2
      * @param in aEntry a data type of CVoiceMailboxEntry
      * @return Symbian OS error code (KErrNone if successful)
      */
@@ -72,7 +69,6 @@ public: // New functions
 
     /**
      * Returns sim write access info
-     * @since S60 v5.2
      * @return ETrue if Sim is writable
      **/
     TBool IsWritable();
@@ -80,21 +76,18 @@ public: // New functions
     /**
      * @see RMobilePhoneStore::NotifyStoreEvent
      *
-     * @since S60 v5.2
      */
     void NotifyStoreEvent( TRequestStatus& aStatus,
                                              TUint32& aEvent,
                                              TInt& aIndex ) const;
     /**
      * Retrieves Sim PhoneBook Type
-     * @since S60 v5.2
      * @return TVmbxSimPhonebookType
      */
     TVmbxSimPhonebookType PhoneBookType();
 
     /**
      * CancelAsyncRequest
-     * @since S60 v5.2
      * @param aReqToCancel Entry data
      */
     void CancelAsyncRequest( TInt aReqToCancel ) const;

@@ -19,6 +19,8 @@
 #include <QtTest/QtTest>
 #include <cvoicemailbox.h>
 #include <cvoicemailboxentry.h>
+// For global export return value
+#include "ut_vmbxuiengine.h"
 
 // ============================ MEMBER FUNCTIONS =============================
 
@@ -114,14 +116,14 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- TInt CVoiceMailbox::GetStoredEntry( 
+TInt CVoiceMailbox::GetStoredEntry( 
     const TVoiceMailboxParams& aParams, CVoiceMailboxEntry*& aEntry) const
     {
-    qDebug("DummyVoiceMailbox::GetStoredEntry <>");
+    qDebug("DummyVoiceMailbox::GetStoredEntry >");
     Q_UNUSED(aParams);
     TRAPD (err, aEntry = CVoiceMailboxEntry::NewL());    
     qDebug("DummyVoiceMailbox::GetStoredEntry err %d<", err);
-    return err;
+    return globalExpRet;
     }
 
 // ---------------------------------------------------------------------------
@@ -129,11 +131,11 @@ CVoiceMailbox::~CVoiceMailbox()
 // Destructor
 // ---------------------------------------------------------------------------
 //
- TInt CVoiceMailbox::SaveEntry(const CVoiceMailboxEntry& aEntry)
+TInt CVoiceMailbox::SaveEntry(const CVoiceMailboxEntry& aEntry)
     {
     qDebug("DummyVoiceMailbox::SaveEntry <>");
     Q_UNUSED(aEntry);
-    return KErrNone;
+    return globalExpRet;
     }
 
 // ---------------------------------------------------------------------------
@@ -141,13 +143,13 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- TInt CVoiceMailbox::QueryNewEntry(
+TInt CVoiceMailbox::QueryNewEntry(
         const TVoiceMailboxParams& aParams, CVoiceMailboxEntry*& aEntry)
     {
     qDebug("DummyVoiceMailbox::QueryNewEntry <>");
     Q_UNUSED(aParams);
     TRAPD (err, aEntry = CVoiceMailboxEntry::NewL());
-    return err;
+    return globalExpRet;
     }
 
 // ---------------------------------------------------------------------------
@@ -155,13 +157,13 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- TInt CVoiceMailbox::QueryChangeEntry( 
+TInt CVoiceMailbox::QueryChangeEntry( 
         const TVoiceMailboxParams& aParams, CVoiceMailboxEntry*& aEntry)
     {
     qDebug("DummyVoiceMailbox::QueryChangeEntry <>");
     Q_UNUSED(aParams);
     TRAPD (err, aEntry = CVoiceMailboxEntry::NewL());
-    return err;
+    return globalExpRet;
     }
 
 // ---------------------------------------------------------------------------
@@ -169,14 +171,14 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- TInt CVoiceMailbox::QueryVmbxType(
+TInt CVoiceMailbox::QueryVmbxType(
                             TVoiceMailboxParams& aParams )
     {
     qDebug("DummyVoiceMailbox::QueryVmbxType <>");
     aParams.iType = EVmbxVoice;
     aParams.iServiceId = KVmbxServiceVoice;
     aParams.iLineType = EVmbxAlsLine1;
-    return KErrNone;
+    return globalExpRet;
     }
 
 // ---------------------------------------------------------------------------
@@ -184,7 +186,7 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- void CVoiceMailbox::NotifyVmbxNumberChangeL(
+void CVoiceMailbox::NotifyVmbxNumberChangeL(
     MVoiceMailboxObserver& aObserver, const TBool aNotifyOnActiveLineOnly )
     {
     qDebug("DummyVoiceMailbox::NotifyVmbxNumberChangeL <>");
@@ -197,7 +199,7 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- void CVoiceMailbox::NotifyVmbxNumberChangeCancel()
+void CVoiceMailbox::NotifyVmbxNumberChangeCancel()
     {
     qDebug("DummyVoiceMailbox::NotifyVmbxNumberChangeCancel <>");
     }
@@ -207,13 +209,13 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- TBool CVoiceMailbox::CheckConfiguration(
+TBool CVoiceMailbox::CheckConfiguration(
     const TVoiceMailboxParams& aParams, const TInt aFlags )
     {
     qDebug("DummyVoiceMailbox::CheckConfiguration <>");
     Q_UNUSED(aParams);
     Q_UNUSED(aFlags);
-    return ETrue;
+    return globalExpRet;
     }
 
 // ---------------------------------------------------------------------------
@@ -221,7 +223,7 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- TInt CVoiceMailbox::GetServiceIds( RIdArray& aProfileIds ) const
+TInt CVoiceMailbox::GetServiceIds( RIdArray& aProfileIds ) const
     {
     qDebug("DummyVoiceMailbox::GetServiceIds <>");
     Q_UNUSED(aProfileIds);
@@ -234,12 +236,12 @@ CVoiceMailbox::~CVoiceMailbox()
 //
 // ---------------------------------------------------------------------------
 //
- TInt CVoiceMailbox::SaveProvisionedEntry( 
+TInt CVoiceMailbox::SaveProvisionedEntry( 
                                 const CVoiceMailboxEntry& aEntry)
     {
     qDebug("DummyVoiceMailbox::SaveProvisionedEntry <>");
     Q_UNUSED(aEntry);
-    return KErrNone;
+    return globalExpRet;
     }
 
 // End of file

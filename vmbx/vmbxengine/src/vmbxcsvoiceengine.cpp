@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -113,7 +113,7 @@ void CVmbxCsVoiceEngine::GetL( CVoiceMailboxEntry*& aEntry )
     vmbxEntry->SetVmbxAlsLineType( VmbxUtilities::AlsLine() );
 
     vmbxEntry->SetVoiceMailboxType( EVmbxVoice );
-    vmbxEntry->SetServiceId( KVmbxServiceVideo );
+    vmbxEntry->SetServiceId( KVmbxServiceVoice );
     // get store type from CenRep 
     TVmbxMemoryLocation storeType = iProvider.VmbxCenRepHandler().StoreType();
 
@@ -242,13 +242,17 @@ TBool CVmbxCsVoiceEngine::CheckConfiguration( const TVoiceMailboxParams& aParams
     VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::CheckConfiguration =>" );
     TBool configuration( EFalse );
     // check thr property whether allow user to edit number 
-    if ( EVmbxChangeNbrNotAllowedOnUi & aFlags )
+    if ( EVmbxChangeNbrAllowedOnUi & aFlags )
         {
         configuration = iProvider.VmbxCenRepHandler().IsAllowedUserEdit();
         if ( configuration )
             {
             configuration = IsWritable( aParams );
             }
+        }
+    else
+        {
+        configuration = CVmbxEngineBase::CheckConfiguration(aParams, aFlags);
         }
     VMBLOGSTRING2( "VMBX: CVmbxCsVoiceEngine::CheckConfiguration: conf%I <=",
                  configuration );
@@ -269,22 +273,7 @@ void CVmbxCsVoiceEngine::SaveEntryToPhoneL( const CVoiceMailboxEntry& aEntry )
 
     if ( KErrNone == result )
         {
-        // observer to change vmbx number
-        TPtrC vmbxNumber( KNullDesC );
-        aEntry.GetVmbxNumber( vmbxNumber );
-        if ( vmbxNumber.Length() )
-            {
-            VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::\
-                SaveEntryToPhone Number Length" )
-            iProvider.VmbxUiUtilities().ShowSaveToPhoneNote();
-            }
-        else
-            {
-            VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::\
-                SaveEntryToPhone Number Length zero" )
-             iProvider.VmbxUiUtilities().ShowSaveEmptyNoteL(
-                                        aEntry.VoiceMailboxType() );
-            }
+        iProvider.VmbxUiUtilities().ShowInformationdNoteL( ESavedToPhoneMemory );
         }
     VMBLOGSTRING2( "VMBX: CVmbxCsVoiceEngine::SaveEntryToPhoneL: result=%I <=",
                              result );
@@ -314,19 +303,7 @@ void CVmbxCsVoiceEngine::SaveEntryToSimL( const CVoiceMailboxEntry& aEntry )
         result = iSimHandler->Save( aEntry );
        if ( KErrNone == result )
             {
-            if ( ptrNumber.Length() )
-                {
-                VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::\
-                    SaveEntryToSim Number Length" )
-                iProvider.VmbxUiUtilities().ShowSaveToSimNote();
-                }
-            else
-                {
-                VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::\
-                    SaveEntryToPhone Number Length zero" )
-                TRAP_IGNORE(  iProvider.VmbxUiUtilities().
-                ShowSaveEmptyNoteL( aEntry.VoiceMailboxType() ) );
-                }
+            iProvider.VmbxUiUtilities().ShowInformationdNoteL( ESavedToSimMemory );
             }
         }
 
@@ -344,8 +321,8 @@ TBool CVmbxCsVoiceEngine::IsSimWritable()
     {
     VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::IsSimWritable: =>" );
     TBool result( EFalse );
-    if ( iSimHandler && iSimHandler->IsWritable() 
-        && !( iProvider.VmbxCenRepHandler().IsSimReadOnly() ) )
+    if ( !( iProvider.VmbxCenRepHandler().IsSimReadOnly() ) 
+        && iSimHandler && iSimHandler->IsWritable() )
         {
         result = ETrue;
         }

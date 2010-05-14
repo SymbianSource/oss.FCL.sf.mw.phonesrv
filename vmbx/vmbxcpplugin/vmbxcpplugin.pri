@@ -68,3 +68,4 @@ HEADERS += inc/vmbxcpplugin.h \
 SOURCES += src/vmbxcpplugin.cpp \
            src/vmbxcpgroup.cpp \
            src/vmbxuiengine.cpp
+

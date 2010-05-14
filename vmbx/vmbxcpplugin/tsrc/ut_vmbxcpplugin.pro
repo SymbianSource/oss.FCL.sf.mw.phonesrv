@@ -15,7 +15,7 @@
 #
 
 TEMPLATE = app
-TARGET = 
+TARGET = ut_vmbxcpplugin
 DEPENDPATH += .
 INCLUDEPATH += .
 CONFIG += hb
@@ -39,7 +39,9 @@ HEADERS += inc\ut_vmbxuiengine.h\
            inc\ut_vmbxcpplugin.h \
            ..\inc\vmbxuiengine.h \
            ..\inc\vmbxcpplugin.h \
-           ..\inc\vmbxcpgroup.h
+           ..\inc\vmbxcpgroup.h \
+           ..\inc\actioncustomitem.h \
+           ..\inc\customedit.h
 
 
 SOURCES += src\main.cpp\
@@ -49,5 +51,7 @@ SOURCES += src\main.cpp\
            src\ut_dummyvoicemailboxentry.cpp\
            ..\src\vmbxuiengine.cpp \
            ..\src\vmbxcpplugin.cpp \
-           ..\src\vmbxcpgroup.cpp 
+           ..\src\vmbxcpgroup.cpp  \
+           ..\src\actioncustomitem.cpp \
+           ..\src\customedit.cpp
 

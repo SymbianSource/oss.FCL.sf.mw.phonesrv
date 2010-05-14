@@ -25,7 +25,6 @@ class CVoiceMailboxEntry;
 /**
  *  Notifier for vmbx number/address changes
  *
- *  @since S60 v5.2
  *  @lib vmbxengine.lib
  *
  */
@@ -37,7 +36,6 @@ public:
     * Observer callback function which is called when
     * changes to voice mailbox entries occur.
     *
-    * @since S60 5.2
     * @param aVmbxEntry The new vmbx entry.
     */
     virtual void HandleNotifyL( const CVoiceMailboxEntry& aVmbxEntry ) = 0;

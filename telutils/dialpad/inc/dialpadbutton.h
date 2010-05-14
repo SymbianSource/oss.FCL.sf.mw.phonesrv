@@ -46,6 +46,8 @@ protected:
     bool sceneEvent(QEvent *event);
     void polish(HbStyleParameters& params);
 
+    void updatePrimitives();
+
 private:
     DialpadButtonType mButtonType;
 };

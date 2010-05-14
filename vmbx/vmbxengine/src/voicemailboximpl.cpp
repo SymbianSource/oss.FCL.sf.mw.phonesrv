@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -29,6 +29,11 @@
 #include "vmbxutilities.h"
 #include "vmbxcenrephandler.h"
 #include "voicemailboximpl.h"
+
+// phone application uid
+//const TInt KPhoneApplicationUid          = 0x100058B3;
+// Temp! using contropannel vmbxcp plugin uid for testing
+const TInt KPhoneApplicationUid          = 0x20025FD9;
 
 // ============================ MEMBER FUNCTIONS =============================
 
@@ -395,7 +400,7 @@ void CVoiceMailboxImpl::SaveEntryL( const CVoiceMailboxEntry& aEntry )
     CVmbxEngineBase* vmbxBox( NULL );
     iVmbxFactory->CreateEngineL( vmbxBox, aEntry.VoiceMailboxType() );
     CleanupStack::PushL( vmbxBox );
-    if ( vmbxBox->CheckConfiguration( params, EVmbxChangeNbrNotAllowedOnUi ) )
+    if ( vmbxBox->CheckConfiguration( params, EVmbxChangeNbrAllowedOnUi ) )
         {
         vmbxBox->SaveL( aEntry );
         }
@@ -419,7 +424,7 @@ void CVoiceMailboxImpl::QueryNewEntryL( const TVoiceMailboxParams& aParams,
     CVmbxEngineBase* vmbxBox( NULL );
     iVmbxFactory->CreateEngineL( vmbxBox, aParams.iType );
     CleanupStack::PushL( vmbxBox );
-    if ( vmbxBox->CheckConfiguration( aParams, EVmbxChangeNbrNotAllowedOnUi ) )
+    if ( vmbxBox->CheckConfiguration( aParams, EVmbxChangeNbrAllowedOnUi ) )
         {
         CVoiceMailboxEntry* entry = CVoiceMailboxEntry::NewLC();
         entry->SetVoiceMailboxType( aParams.iType );
@@ -430,8 +435,7 @@ void CVoiceMailboxImpl::QueryNewEntryL( const TVoiceMailboxParams& aParams,
         }
     else
         {
-        // show error note
-        iUiUtilities->ShowErrorDialogL();
+        CheckNumberProvisionedL( aParams );
         }
     CleanupStack::PopAndDestroy( vmbxBox );
     VMBLOGSTRING( "VMBX: CVoiceMailboxImpl::QueryNewEntryL <=" );
@@ -449,7 +453,7 @@ void CVoiceMailboxImpl::QueryChangeEntryL( const TVoiceMailboxParams& aParams,
     CVmbxEngineBase* vmbxBox( NULL );
     iVmbxFactory->CreateEngineL( vmbxBox, aParams.iType );
     CleanupStack::PushL( vmbxBox );
-    if ( vmbxBox->CheckConfiguration( aParams, EVmbxChangeNbrNotAllowedOnUi ) )
+    if ( vmbxBox->CheckConfiguration( aParams, EVmbxChangeNbrAllowedOnUi ) )
         {
         CVoiceMailboxEntry* entry( NULL );
         GetStoredEntryL( aParams, entry );
@@ -460,8 +464,7 @@ void CVoiceMailboxImpl::QueryChangeEntryL( const TVoiceMailboxParams& aParams,
         }
     else
         {
-        // show error note
-        iUiUtilities->ShowErrorDialogL();
+        CheckNumberProvisionedL( aParams );
         }
     CleanupStack::PopAndDestroy( vmbxBox );
     VMBLOGSTRING( "VMBX: CVoiceMailboxImpl::QueryChangeEntryL <=" );
@@ -541,7 +544,7 @@ void CVoiceMailboxImpl::QueryVmbxTypeL( TVoiceMailboxParams& aParams )
         if ( VmbxUtilities::VideoSupported() )
             {
             // query to be defined type
-            iUiUtilities->ShowDefineSelectionDialogL( aParams.iType, result );
+            iUiUtilities->ShowDefineSelectionDialog( aParams.iType, result );
             // if result is KErrNone(but result should be also KErrNotFound ),
             // it means user have seclected the defined type;
             // else user cancel to select the type, so should return result value
@@ -556,7 +559,7 @@ void CVoiceMailboxImpl::QueryVmbxTypeL( TVoiceMailboxParams& aParams )
             }
         }
 
-    CleanupStack::PopAndDestroy(); //item 
+    CleanupStack::PopAndDestroy( &array ); //item 
     VMBLOGSTRING2( "VMBX: CVoiceMailboxImpl::QueryVmbxTypeL: result%I",
     result );
     User::LeaveIfError( result );
@@ -856,6 +859,46 @@ MVmbxUiUtilities& CVoiceMailboxImpl::VmbxUiUtilities()
 MVmbxCenrepHandler& CVoiceMailboxImpl::VmbxCenRepHandler()
     {
     return *iCenRepHandler;
+    }
+
+// ---------------------------------------------------------------------------
+// CVoiceMailboxImpl::CheckNumberProvisionedL
+// 
+// ---------------------------------------------------------------------------
+//
+void CVoiceMailboxImpl::CheckNumberProvisionedL( 
+        const TVoiceMailboxParams& aParams )
+    {
+    VMBLOGSTRING( "VMBX: CVoiceMailboxImpl::CheckNumberProvisionedL =>" );
+    if ( ( EVmbxVoice == aParams.iType 
+            && EVmbxSimMemory == iCenRepHandler->StoreType() )
+         || ( EVmbxVideo == aParams.iType ) )
+        {
+        // get current active process
+        RProcess curProcess;
+        TInt curProcessId( curProcess.SecureId().iId );
+        VMBLOGSTRING2( "VMBX: CVoiceMailboxImpl::CheckNumberProvisionedL \
+            Get cur process id: curProcessId = %I", curProcessId );
+        // User press 1+send key or long press 1
+        if ( KPhoneApplicationUid == curProcessId )
+            {
+            RPointerArray<CVoiceMailboxEntry> array;
+            TCleanupItem item( CleanupRPointerArray, &array );
+            CleanupStack::PushL( item );
+            GetDefinedEntriesL( array );
+            // Only operator has the possibility to configure device, 
+            // user is not allowed to edit the voice mail numbers
+            if ( array.Count() < 1 )
+                {
+                // show not allowed user editing dialog
+                iUiUtilities->ShowNotAllowedEditingDialogL();
+                }
+            CleanupStack::PopAndDestroy( &array ); //item 
+            } 
+        }
+    // User don't have access to edit cs voice or video number
+    User::Leave( KErrAccessDenied );
+    VMBLOGSTRING( "VMBX: CVoiceMailboxImpl::CheckNumberProvisionedL <=" );
     }
 
 // End of file

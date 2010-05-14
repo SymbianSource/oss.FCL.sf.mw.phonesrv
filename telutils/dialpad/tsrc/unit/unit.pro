@@ -21,5 +21,6 @@ SUBDIRS += ut_dialpadbutton
 SUBDIRS += ut_dialpadmultitaphandler
 SUBDIRS += ut_dialpadvoicemailboxeventfilter
 SUBDIRS += ut_dialpadbluetootheventfilter
+SUBDIRS += ut_dialpadkeysequenceeventfilter
 SUBDIRS += mt_dialpad
 SUBDIRS += mt_keyhandler

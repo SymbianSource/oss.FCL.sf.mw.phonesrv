@@ -53,7 +53,7 @@
 
 #include <NcnListInternalPSKeys.h>
 #include <centralrepository.h>
-#include <telinternalcrkeys.h>
+#include <telservicesinternalcrkeys.h>
 #include <coreapplicationuisdomainpskeys.h>
 
 
@@ -1976,10 +1976,10 @@ TInt CPhSrvUssdManager::GetTelephonyVariantData()
         {
         CRepository* cenRepSession = NULL;
         TRAP ( err ,
-               cenRepSession = CRepository::NewL( KCRUidTelVariation ) );
+               cenRepSession = CRepository::NewL( KCRUidTelSrvVariation ) );
         if ( err == KErrNone )
             {
-            err = cenRepSession->Get( KTelVariationFlags,
+            err = cenRepSession->Get( KTelSrvVariationFlags,
                                    iVariantReadOnlyValues );
             }
         delete cenRepSession;

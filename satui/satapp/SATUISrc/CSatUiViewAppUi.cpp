@@ -3472,6 +3472,7 @@ void CSatUiViewAppUi::StopPlayToneL()
         {
         TFLOGSTRING( "CSatUiViewAppUi::StopPlayToneL\
             iPlayer exists" )
+        iPlayToneError = ESatSessionTerminatedByUser;
         iWait->AsyncStop();
         }
     if ( iAudioPlayer )
@@ -3488,6 +3489,7 @@ void CSatUiViewAppUi::StopPlayToneL()
                 delete iPermanentNote;
                 iPermanentNote = NULL;
                 }
+            iPlayToneError = ESatSessionTerminatedByUser;
             iWait->AsyncStop();
             }
         else

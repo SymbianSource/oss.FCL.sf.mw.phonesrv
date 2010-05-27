@@ -256,6 +256,9 @@ TBool CSendUssdHandler::CommandAllowed()
 
     // Allow next terminal response to be sent
     iTerminalRespSent = EFalse;
+    
+    iSendUssdRsp.iUssdString.iUssdString.FillZ();
+    iSendUssdRsp.iUssdString.iDcs = 0;
 
     RMobilePhone::TMobilePhoneRegistrationStatus registrationStatus(
         iUtils->SystemState().GetNetworkRegistrationStatus() );
@@ -748,6 +751,16 @@ void CSendUssdHandler::HandleSendUssdResult( TInt aError )
         iSendUssdRsp.iInfoType = RSat::KNoAdditionalInfo;
         iSendUssdRsp.iAdditionalInfo.SetLength( 0 );
         iSendUssdRsp.iAdditionalInfo.Zero();
+        }
+    else if ( KErrSatControl == aError )
+        {
+        LOG( SIMPLE, 
+        "SENDUSSD: CSendUssdHandler::HandleSendUssdResult \
+        KModifiedByCallControl" )
+        iSendUssdRsp.iGeneralResult = RSat::KModifiedByCallControl;
+        iSendUssdRsp.iInfoType = RSat::KNoAdditionalInfo;
+        iSendUssdRsp.iAdditionalInfo.SetLength( 0 );
+        iSendUssdRsp.iAdditionalInfo.Zero();
 		}
     else if ( KErrNone == aError )   //  Success case
         {
@@ -866,6 +879,11 @@ void CSendUssdHandler::SendTerminalResponse()
         LOG( SIMPLE, 
         "SENDUSSD: CSendUssdHandler::SendTerminalResponse iTerminalRespSent \
         false" )
+        
+        LOG3(SIMPLE, "SENDUSSD: CSendUssdHandler::SendTerminalResponse \
+            iDcs=%d,iUssdString=%s", iSendUssdRsp.iUssdString.iDcs,
+            &iSendUssdRsp.iUssdString.iUssdString);
+        
         iTerminalRespSent = ETrue;
         iSendUssdRsp.SetPCmdNumber( iSendUssdData.PCmdNumber() );
         TerminalRsp( RSat::ESendUssd, iSendUssdRspPckg );

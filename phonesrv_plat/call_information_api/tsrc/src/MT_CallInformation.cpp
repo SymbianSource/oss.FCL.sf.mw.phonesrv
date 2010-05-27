@@ -22,13 +22,13 @@
 #include "CPEMessageWaiter.h"
 #endif
 
-#include <EUnitMacros.h>
-#include <EUnitDecorators.h>
+#include <eunitmacros.h>
+#include <eunitdecorators.h>
 
 #include <etelmm.h>
 
 #include <mmtsy_names.h>
-#include <MCall.h>
+#include <mcall.h>
 #include <ccallinfoiter.h>
 #include <cphcltemergencycall.h>
 #include <mphcltemergencycallobserver.h>

@@ -48,6 +48,11 @@ int DialpadSymbianWrapperPrivate::getMailboxNumber(QString &vmbxNumber)
     return errValue;
 }
 
+int DialpadSymbianWrapperPrivate::getVideoMailboxNumber(QString &vmbxNumber)
+{
+    return getMailboxNumber(vmbxNumber);
+}
+
 int DialpadSymbianWrapperPrivate::defineMailboxNumber(QString &vmbxNumber)
 {
     int errValue(0);
@@ -68,4 +73,9 @@ int DialpadSymbianWrapperPrivate::defineMailboxNumber(QString &vmbxNumber)
     }
     mTimes++;
     return errValue;
+}
+
+int DialpadSymbianWrapperPrivate::defineVideoMailboxNumber(QString &vmbxNumber)
+{
+    return defineMailboxNumber(vmbxNumber);	
 }

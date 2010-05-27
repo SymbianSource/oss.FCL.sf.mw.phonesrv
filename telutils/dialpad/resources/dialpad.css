@@ -9,13 +9,14 @@ DialpadButton::icon{
 
 DialpadButton[icon][!text][!additionalText]{
     layout:icon_button;
-    min-height:6.25un;
+    min-height:6.25un; /* default min-height is too small */
     min-width:6.25un;
 }
 
 /* text and additional text */
 DialpadButton[stretched][!icon][text][additionalText]{
     layout:text_additionalText_horizontal;
+    min-height:6.25un;
 }
 
 DialpadButton[stretched][!icon][text][additionalText]::text
@@ -38,6 +39,7 @@ DialpadButton[stretched][!icon][text][additionalText]::additional-text
 /* text and icon */
 DialpadButton[stretched][icon][text][!additionalText]{
     layout:icon_text_horizontal;
+    min-height:6.25un;
 }
 
 DialpadButton[stretched][icon][text][!additionalText]::text{

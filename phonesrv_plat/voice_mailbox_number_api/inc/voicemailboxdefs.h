@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -73,8 +73,7 @@ enum TVmbxType
 enum TVmbxFeatureCapabilityFlag
     {
     /**
-     * When flag is enabled the user is not allowed to define or
-     * modify the voice mailbox number.
+     * Used to check whether user editing is allowed or not
      */
     EVmbxChangeNbrAllowedOnUi = 0x01,
 

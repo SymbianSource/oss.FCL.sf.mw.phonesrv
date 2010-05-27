@@ -17,10 +17,11 @@ rem
 @echo off
 
 if "%1"=="winscw" (
-call runtest.cmd ut_dialpadbuttonstyle
+call runtest.cmd ut_dialpademergencycalleventfilter
 call runtest.cmd ut_dialpadmultitaphandler
 call runtest.cmd mt_dialpad
 call runtest.cmd ut_dialpadvoicemailboxeventfilter
+call runtest.cmd ut_dialpadvideomailboxeventfilter
 call runtest.cmd mt_keyhandler
 call runtest.cmd ut_dialpadbluetootheventfilter
 call runtest.cmd ut_dialpadkeysequenceeventfilter
@@ -28,7 +29,6 @@ call runtest.cmd ut_dialpadkeysequenceeventfilter
 
 @echo off
 if "%1"=="win32" (
-call runtest_w32.cmd ut_dialpadbuttonstyle
 call runtest_w32.cmd ut_dialpadmultitaphandler
 call runtest_w32.cmd mt_dialpad
 )

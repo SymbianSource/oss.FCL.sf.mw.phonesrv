@@ -15,8 +15,8 @@
 *
 */
 
-#ifndef DIALPADVOICEMAILBOXEVENTFILTER_H
-#define DIALPADVOICEMAILBOXEVENTFILTER_H
+#ifndef DIALPADVIDEOMAILBOXEVENTFILTER_H
+#define DIALPADVIDEOMAILBOXEVENTFILTER_H
 
 #include "dialpadmailboxeventfilterbase.h"
 
@@ -25,16 +25,16 @@ class Dialpad;
 class DialpadSymbianWrapper;
 
 /*!
-    DialpadVoiceMailboxEventFilter
-    Class provides voice mailbox key handling.
+    DialpadVideoMailboxEventFilter
+    Class provides video mailbox key handling.
 */
-class DialpadVoiceMailboxEventFilter : public DialpadMailboxEventFilterBase
+class DialpadVideoMailboxEventFilter : public DialpadMailboxEventFilterBase
 {
     Q_OBJECT
 
 public:
-    explicit DialpadVoiceMailboxEventFilter(Dialpad* dialpad, QObject* parent = 0);
-    virtual ~DialpadVoiceMailboxEventFilter();
+    explicit DialpadVideoMailboxEventFilter(Dialpad* dialpad, QObject* parent = 0);
+    virtual ~DialpadVideoMailboxEventFilter();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -42,7 +42,7 @@ protected:
     /*!
        \fn bool handleCallButtonPress()
 
-       Check if editor has number string and if it does then createCall
+       Check if editor has number string and if it does then createVideoCall
        is called and funtion returns true, if there is no number then
        funtion return false.
    */
@@ -54,7 +54,7 @@ protected:
        Start vmbx call or number definition procedures.
     */
     void handleMailboxOperation();
-    
+
 protected slots:
 
     /*!
@@ -65,4 +65,4 @@ protected slots:
     void handleLongKeyPress();
 };
 
-#endif // DIALPADVOICEMAILBOXEVENTFILTER_H
+#endif // DIALPADVIDEOMAILBOXEVENTFILTER_H

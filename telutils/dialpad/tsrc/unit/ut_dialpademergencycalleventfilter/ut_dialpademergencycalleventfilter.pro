@@ -23,20 +23,18 @@ CONFIG += hb qtestlib
 
 symbian {
     INCLUDEPATH += $$APP_LAYER_SYSTEMINCLUDE
+    LIBS += -lphoneclient
 } else:win32 {
     DESTDIR = ./
     INCLUDEPATH += ../../../../../phonesrv_plat/dialpad_api/inc
     INCLUDEPATH += ../../../../xqtelephonyservice/inc
 }
 
-#
-HEADERS += ../../../inc/dialpadvoicemailboxeventfilter.h
-HEADERS += ../../../inc/dialpadmailboxeventfilterbase.h
-HEADERS += ../../../inc/dialpadsymbianwrapper.h
+#ß
+HEADERS += ../../../inc/dialpademergencycalleventfilter.h
 HEADERS += xqservicerequest.h
-SOURCES += ut_dialpadvoicemailboxeventfilter.cpp
-SOURCES += ../../../src/dialpadvoicemailboxeventfilter.cpp
-SOURCES += ../../../src/dialpadmailboxeventfilterbase.cpp
+SOURCES += ut_dialpademergencycalleventfilter.cpp
+SOURCES += ../../../src/dialpademergencycalleventfilter.cpp
 
 # 
 LIBS += -ldialpad

@@ -31,7 +31,7 @@
 #endif
 
 #include "dialpadtest.h"
-#include "dialpadvoicemailboxeventfilter.h"
+#include "dialpadvideomailboxeventfilter.h"
 #include "dialpad.h"
 #include "dialpadsymbianwrapper.h"
 
@@ -43,7 +43,7 @@ bool mSendCalled;
 
 DialpadSymbianWrapper::DialpadSymbianWrapper(QObject *parent) : d_ptr(NULL) {}
 DialpadSymbianWrapper::~DialpadSymbianWrapper() {}
-int DialpadSymbianWrapper::getMailboxNumber(QString &vmbxNumber) { vmbxNumber=QString("12345678"); return 0; }
+int DialpadSymbianWrapper::getVideoMailboxNumber(QString &vmbxNumber) { vmbxNumber=QString("12345678"); return 0; }
 int DialpadSymbianWrapper::defineMailboxNumber(QString &vmbxNumber) { return 0; }
 
 #ifdef Q_OS_SYMBIAN
@@ -79,7 +79,7 @@ public:
 };
 
 // test cases
-class ut_DialpadVoiceMailboxEventFilter : public QObject
+class ut_DialpadVideoMailboxEventFilter : public QObject
 {
     Q_OBJECT
 
@@ -98,9 +98,9 @@ private slots:
     void cleanup();
 
     // These are actual voice mailbox event filter unit tests
-    void testNumericKeyOneLongPress();
-    void testNumericKeyOneShortPress();
-    void testNumericKeyOneShortThenLongPress();
+    void testNumericKeyTwoLongPress();
+    void testNumericKeyTwoShortPress();
+    void testNumericKeyTwoShortThenLongPress();
 
 private:
     QGraphicsWidget* getWidgetByName(const QString& name);
@@ -110,12 +110,12 @@ private:
 private:
     HbMainWindow*  mMainWindow;
     Dialpad*       mDialpad;
-    DialpadVoiceMailboxEventFilter *mEventFilter;
+    DialpadVideoMailboxEventFilter *mEventFilter;
     KeyEventCatcher* mKeyCatcher;
     QMap<int,QString> mKeyNames;
 };
 
-void ut_DialpadVoiceMailboxEventFilter::initTestCase()
+void ut_DialpadVideoMailboxEventFilter::initTestCase()
 {
     mMainWindow = new HbMainWindow;
 
@@ -123,7 +123,7 @@ void ut_DialpadVoiceMailboxEventFilter::initTestCase()
     mMainWindow->installEventFilter(mKeyCatcher);
 
     mDialpad = new Dialpad();
-    mEventFilter = new DialpadVoiceMailboxEventFilter(mDialpad, this);
+    mEventFilter = new DialpadVideoMailboxEventFilter(mDialpad, this);
     hbInstance->allMainWindows().at(0)->installEventFilter(mEventFilter);
 
     QRectF rect(mMainWindow->contentsRect());
@@ -153,7 +153,7 @@ void ut_DialpadVoiceMailboxEventFilter::initTestCase()
     mDialpad->hide();
 }
 
-void ut_DialpadVoiceMailboxEventFilter::init()
+void ut_DialpadVideoMailboxEventFilter::init()
 {
     mService = QString("");
     mMessage = QString("");
@@ -161,14 +161,14 @@ void ut_DialpadVoiceMailboxEventFilter::init()
     mSendCalled = false;
 }
 
-void ut_DialpadVoiceMailboxEventFilter::cleanupTestCase()
+void ut_DialpadVideoMailboxEventFilter::cleanupTestCase()
 {
     delete mDialpad;
     delete mMainWindow;
     delete mKeyCatcher;
 }
 
-void ut_DialpadVoiceMailboxEventFilter::cleanup()
+void ut_DialpadVideoMailboxEventFilter::cleanup()
 {
     mKeyCatcher->mKeyPresses.clear();
     mKeyCatcher->mKeyReleases.clear();
@@ -176,7 +176,7 @@ void ut_DialpadVoiceMailboxEventFilter::cleanup()
     QTest::qWait( WAIT_TIME ); // delay between tests
 }
 
-QGraphicsWidget* ut_DialpadVoiceMailboxEventFilter::getWidgetByName(const QString& name)
+QGraphicsWidget* ut_DialpadVideoMailboxEventFilter::getWidgetByName(const QString& name)
 {
     Q_ASSERT(mMainWindow!=0);
 
@@ -195,7 +195,7 @@ QGraphicsWidget* ut_DialpadVoiceMailboxEventFilter::getWidgetByName(const QStrin
     return widget;
 }
 
-void ut_DialpadVoiceMailboxEventFilter::mouseClickDialpad(int key, MouseEventType type, bool pause)
+void ut_DialpadVideoMailboxEventFilter::mouseClickDialpad(int key, MouseEventType type, bool pause)
 {
     QString name = mKeyNames.value(key);
 
@@ -227,13 +227,13 @@ void ut_DialpadVoiceMailboxEventFilter::mouseClickDialpad(int key, MouseEventTyp
 }
 
 
-void ut_DialpadVoiceMailboxEventFilter::testNumericKeyOneLongPress()
+void ut_DialpadVideoMailboxEventFilter::testNumericKeyTwoLongPress()
 {
     mDialpad->openDialpad();
     QTest::qWait(WAIT_TIME);
-    mouseClickDialpad(Qt::Key_1, Press);
+    mouseClickDialpad(Qt::Key_2, Press);
     QTest::qWait(2000);
-    mouseClickDialpad(Qt::Key_1, Release);
+    mouseClickDialpad(Qt::Key_2, Release);
     QTest::qWait(1000);
     QCOMPARE(mDialpad->editor().text(), QString(""));
     mDialpad->closeDialpad();
@@ -242,37 +242,36 @@ void ut_DialpadVoiceMailboxEventFilter::testNumericKeyOneLongPress()
     QVERIFY(mXQServiceConstructed == true);
     QVERIFY(mSendCalled == true);
     QCOMPARE(mService, QString("com.nokia.symbian.ICallDial"));
-    QCOMPARE(mMessage, QString("dial(QString)"));
+    QCOMPARE(mMessage, QString("dialVideo(QString)"));
 #endif
 }
 
-void ut_DialpadVoiceMailboxEventFilter::testNumericKeyOneShortPress()
+void ut_DialpadVideoMailboxEventFilter::testNumericKeyTwoShortPress()
 {
     mDialpad->openDialpad();
     QTest::qWait(WAIT_TIME);
-    mouseClickDialpad(Qt::Key_1, Press);
+    mouseClickDialpad(Qt::Key_2, Press);
     QTest::qWait(200);
-    mouseClickDialpad(Qt::Key_1, Release);
+    mouseClickDialpad(Qt::Key_2, Release);
     QTest::qWait(1000);
     // Check that character '1' is in editor.
-    QCOMPARE(mDialpad->editor().text(), QString("1"));
+    QCOMPARE(mDialpad->editor().text(), QString("2"));
 }
 
-void ut_DialpadVoiceMailboxEventFilter::testNumericKeyOneShortThenLongPress()
+void ut_DialpadVideoMailboxEventFilter::testNumericKeyTwoShortThenLongPress()
 {
     // Then one short and one long press
     mDialpad->openDialpad();
     QTest::qWait( WAIT_TIME );
-    mouseClickDialpad(Qt::Key_1, Press);
-    mouseClickDialpad(Qt::Key_1, Release);
-    mouseClickDialpad(Qt::Key_1, Press);
+    mouseClickDialpad(Qt::Key_2, Press);
+    mouseClickDialpad(Qt::Key_2, Release);
+    mouseClickDialpad(Qt::Key_2, Press);
     QTest::qWait(2000);
-    mouseClickDialpad(Qt::Key_1, Release);
+    mouseClickDialpad(Qt::Key_2, Release);
     QTest::qWait(1000);
-    QVERIFY(mDialpad->editor().text()=="11");
+    QVERIFY(mDialpad->editor().text()=="22");
     mDialpad->closeDialpad();
 }
 
-DIALPAD_TEST_MAIN(ut_DialpadVoiceMailboxEventFilter)
-#include "ut_dialpadvoicemailboxeventfilter.moc"
-
+DIALPAD_TEST_MAIN(ut_DialpadVideoMailboxEventFilter)
+#include "ut_dialpadvideomailboxeventfilter.moc"

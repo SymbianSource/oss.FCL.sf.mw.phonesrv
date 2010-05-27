@@ -38,8 +38,10 @@ public:
     ~DialpadSymbianWrapperPrivate();
     
     int getMailboxNumber(QString &vmbxNumber);
+    int getVideoMailboxNumber(QString &vmbxNumber);
     
     int defineMailboxNumber(QString &vmbxNumber);
+    int defineVideoMailboxNumber(QString &vmbxNumber);
     
 private:
     

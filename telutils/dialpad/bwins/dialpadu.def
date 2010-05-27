@@ -49,4 +49,16 @@ EXPORTS
 	??0DialpadKeyHandler@@QAE@PAVDialpad@@AAVHbMainWindow@@PAVQObject@@@Z @ 48 NONAME ; DialpadKeyHandler::DialpadKeyHandler(class Dialpad *, class HbMainWindow &, class QObject *)
 	?isOpen@Dialpad@@QBE_NXZ @ 49 NONAME ; bool Dialpad::isOpen(void) const
 	?aboutToOpen@Dialpad@@IAEXXZ @ 50 NONAME ; void Dialpad::aboutToOpen(void)
+	??1DialpadVtKeyHandler@@UAE@XZ @ 51 NONAME ; DialpadVtKeyHandler::~DialpadVtKeyHandler(void)
+	?metaObject@DialpadVtKeyHandler@@UBEPBUQMetaObject@@XZ @ 52 NONAME ; struct QMetaObject const * DialpadVtKeyHandler::metaObject(void) const
+	?tr@DialpadVtKeyHandler@@SA?AVQString@@PBD0H@Z @ 53 NONAME ; class QString DialpadVtKeyHandler::tr(char const *, char const *, int)
+	??0DialpadVtKeyHandler@@QAE@PAVDialpad@@AAVHbMainWindow@@PAVQObject@@@Z @ 54 NONAME ; DialpadVtKeyHandler::DialpadVtKeyHandler(class Dialpad *, class HbMainWindow &, class QObject *)
+	?trUtf8@DialpadVtKeyHandler@@SA?AVQString@@PBD0H@Z @ 55 NONAME ; class QString DialpadVtKeyHandler::trUtf8(char const *, char const *, int)
+	?trUtf8@DialpadVtKeyHandler@@SA?AVQString@@PBD0@Z @ 56 NONAME ; class QString DialpadVtKeyHandler::trUtf8(char const *, char const *)
+	?staticMetaObject@DialpadVtKeyHandler@@2UQMetaObject@@B @ 57 NONAME ; struct QMetaObject const DialpadVtKeyHandler::staticMetaObject
+	?qt_metacall@DialpadVtKeyHandler@@UAEHW4Call@QMetaObject@@HPAPAX@Z @ 58 NONAME ; int DialpadVtKeyHandler::qt_metacall(enum QMetaObject::Call, int, void * *)
+	?getStaticMetaObject@DialpadVtKeyHandler@@SAABUQMetaObject@@XZ @ 59 NONAME ; struct QMetaObject const & DialpadVtKeyHandler::getStaticMetaObject(void)
+	??_EDialpadVtKeyHandler@@UAE@I@Z @ 60 NONAME ; DialpadVtKeyHandler::~DialpadVtKeyHandler(unsigned int)
+	?qt_metacast@DialpadVtKeyHandler@@UAEPAXPBD@Z @ 61 NONAME ; void * DialpadVtKeyHandler::qt_metacast(char const *)
+	?tr@DialpadVtKeyHandler@@SA?AVQString@@PBD0@Z @ 62 NONAME ; class QString DialpadVtKeyHandler::tr(char const *, char const *)
 

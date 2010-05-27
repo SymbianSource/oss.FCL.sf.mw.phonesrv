@@ -121,21 +121,21 @@ void Mt_vmbxEngine::testCheckConfiguration()
     TVoiceMailboxParams params;
     params.iType = EVmbxVoice;
     TBool result = 
-    mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi);
+    mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrAllowedOnUi);
     if (!result) {
     qDebug("Mt_vmbxEngine::testCheckConfiguration: voice not allowed changed");
     QEXPECT_FAIL("","testCheckConfiguration voice not allowed changed", Continue);
     }
     params.iType = EVmbxVideo;
     result = 
-    mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi);
+    mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrAllowedOnUi);
     if (!result) {
     qDebug( "Mt_vmbxEngine::testCheckConfiguration: video not allowed changed");
     QEXPECT_FAIL("","testCheckConfiguration video not allowed changed", Continue);
     }
     params.iType = EVmbxVoip;
     result = 
-    mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi);
+    mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrAllowedOnUi);
     if (result) {
     QFAIL ("testCheckConfiguration voip failed");
     }
@@ -170,7 +170,7 @@ void Mt_vmbxEngine::testSaveProvisionedEntry()
     params.iType = EVmbxVoice;
     CVoiceMailboxEntry* storedEntry = 0;
     TInt result(0);
-    if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi)) {
+    if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrAllowedOnUi)) {
         qDebug("Mt_vmbxEngine::testSaveProvisionedEntry voice");
         result = mVmbxEngine->GetStoredEntry(params,storedEntry);
         if (KErrNotFound == result) {
@@ -186,7 +186,7 @@ void Mt_vmbxEngine::testSaveProvisionedEntry()
         QCOMPARE(result, KErrNone);
     }
     params.iType = EVmbxVideo;
-    if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi)) {
+    if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrAllowedOnUi)) {
         qDebug("Mt_vmbxEngine::testSaveProvisionedEntry video");
         result = mVmbxEngine->GetStoredEntry(params,storedEntry);
         if (KErrNotFound == result) {
@@ -225,7 +225,7 @@ void Mt_vmbxEngine::testQueryVmbxMailbox()
         // test QueryNewEntry
         result = mVmbxEngine->QueryNewEntry( params, vmbxEntry );
         //QVERIFY2(KErrNone == result, "QueryNewEntry Failed.");
-        if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi)
+        if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrAllowedOnUi)
             && KErrNone == result) {
         // test SaveEntry
         result = mVmbxEngine->SaveEntry( *vmbxEntry );
@@ -236,7 +236,7 @@ void Mt_vmbxEngine::testQueryVmbxMailbox()
         // test change entry
         result = mVmbxEngine->QueryChangeEntry( params, vmbxEntry );
         //QVERIFY2(KErrNone == result, "QueryChangeEntry Failed.");
-        if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrNotAllowedOnUi) 
+        if (mVmbxEngine->CheckConfiguration(params,EVmbxChangeNbrAllowedOnUi) 
             && KErrNone == result ) {
             result = mVmbxEngine->SaveEntry( *vmbxEntry );
             QVERIFY2(KErrNone == result, "SaveEntry Failed.");

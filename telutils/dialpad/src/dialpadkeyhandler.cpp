@@ -16,8 +16,12 @@
 */
 
 #include <hbmainwindow.h>
+#ifdef Q_OS_SYMBIAN
+#include <featmgr.h>
+#endif // Q_OS_SYMBIAN
 #include "dialpadkeyhandler.h"
 #include "dialpadvoicemailboxeventfilter.h"
+#include "dialpadvideomailboxeventfilter.h"
 #include "dialpadbluetootheventfilter.h"
 #include "dialpadkeysequenceeventfilter.h"
 #include "qtphonesrvlog.h"
@@ -28,17 +32,30 @@ DialpadKeyHandler::DialpadKeyHandler(
     QObject(parent),
 	mMainWindow(mainWindow),
 	mVmbxFilter(0),
+	mVideoVmbxFilter(0),
 	mBtFilter(0),
-	mKeySequenceFilter(0)
+	mKeySequenceFilter(0),
+	mIsVideoMailboxSupported(false)
 {
     PHONE_TRACE;
+
+    // Variations
+#ifdef Q_OS_SYMBIAN
+    mIsVideoMailboxSupported = FeatureManager::FeatureSupported(KFeatureIdCsVideoTelephony);
+#endif // Q_OS_SYMBIAN
     
     mVmbxFilter.reset(new DialpadVoiceMailboxEventFilter(dialPad));
+    if(mIsVideoMailboxSupported) {
+        mVideoVmbxFilter.reset(new DialpadVideoMailboxEventFilter(dialPad));
+    }
     mBtFilter.reset(new DialpadBluetoothEventFilter(dialPad));
     mKeySequenceFilter.reset(new DialpadKeySequenceEventFilter(dialPad));
-    
+
     // Stack different event filters
     mMainWindow.installEventFilter(mVmbxFilter.data());
+    if(mIsVideoMailboxSupported) {
+        mMainWindow.installEventFilter(mVideoVmbxFilter.data());    
+    }
     mMainWindow.installEventFilter(mBtFilter.data());
     mMainWindow.installEventFilter(mKeySequenceFilter.data());
 }

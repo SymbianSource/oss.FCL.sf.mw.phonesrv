@@ -57,4 +57,16 @@ EXPORTS
 	_ZThn8_N7DialpadD0Ev @ 56 NONAME
 	_ZThn8_N7DialpadD1Ev @ 57 NONAME
 	_ZN7Dialpad11aboutToOpenEv @ 58 NONAME
+	_ZN19DialpadVtKeyHandler11qt_metacallEN11QMetaObject4CallEiPPv @ 59 NONAME
+	_ZN19DialpadVtKeyHandler11qt_metacastEPKc @ 60 NONAME
+	_ZN19DialpadVtKeyHandler16staticMetaObjectE @ 61 NONAME DATA 16
+	_ZN19DialpadVtKeyHandler19getStaticMetaObjectEv @ 62 NONAME
+	_ZN19DialpadVtKeyHandlerC1EP7DialpadR12HbMainWindowP7QObject @ 63 NONAME
+	_ZN19DialpadVtKeyHandlerC2EP7DialpadR12HbMainWindowP7QObject @ 64 NONAME
+	_ZN19DialpadVtKeyHandlerD0Ev @ 65 NONAME
+	_ZN19DialpadVtKeyHandlerD1Ev @ 66 NONAME
+	_ZN19DialpadVtKeyHandlerD2Ev @ 67 NONAME
+	_ZNK19DialpadVtKeyHandler10metaObjectEv @ 68 NONAME
+	_ZTI19DialpadVtKeyHandler @ 69 NONAME
+	_ZTV19DialpadVtKeyHandler @ 70 NONAME
 

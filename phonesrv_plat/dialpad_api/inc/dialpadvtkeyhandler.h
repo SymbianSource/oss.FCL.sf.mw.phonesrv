@@ -15,16 +15,14 @@
 *
 */
 
-#ifndef DIALPADKEYHANDLER_H
-#define DIALPADKEYHANDLER_H
+#ifndef DIALPADVTKEYHANDLER_H
+#define DIALPADVTKEYHANDLER_H
 
 #include <QObject>
 
 class Dialpad;
-class DialpadVoiceMailboxEventFilter;
-class DialpadVideoMailboxEventFilter;
-class DialpadBluetoothEventFilter;
 class DialpadKeySequenceEventFilter;
+class DialpadEmergencyCallEventFilter;
 class HbMainWindow;
 
 #ifdef BUILD_DIALPADKEYHANDLER
@@ -33,30 +31,27 @@ class HbMainWindow;
 #define DIALPADKEYHANDLER_EXPORT Q_DECL_IMPORT
 #endif
 /*!
-    DialpadKeyHandler
+    DialpadVtKeyHandler
     Class provides key handling for dialpad component.
 
     @code
     Dialpad *dialpad = new Dialpad();
-    DialpadKeyHandler *keyhandler = new DialpadKeyHandler(dialpad, this);
+    DialpadVtKeyHandler *keyhandler = new DialpadVtKeyHandler(dialpad, this);
     @endcode
     
 */
-class DIALPADKEYHANDLER_EXPORT DialpadKeyHandler : public QObject
+class DIALPADKEYHANDLER_EXPORT DialpadVtKeyHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit DialpadKeyHandler(Dialpad *dialPad, HbMainWindow& mainWindow, QObject *parent = 0);
-    virtual ~DialpadKeyHandler();
+    explicit DialpadVtKeyHandler(Dialpad *dialPad, HbMainWindow& mainWindow, QObject *parent = 0);
+    virtual ~DialpadVtKeyHandler();
 
 private:
     HbMainWindow& mMainWindow;
-    QScopedPointer<DialpadVoiceMailboxEventFilter> mVmbxFilter;
-    QScopedPointer<DialpadVideoMailboxEventFilter> mVideoVmbxFilter;
-    QScopedPointer<DialpadBluetoothEventFilter> mBtFilter;
-    QScopedPointer<DialpadKeySequenceEventFilter> mKeySequenceFilter;
-    bool mIsVideoMailboxSupported;
+    DialpadEmergencyCallEventFilter *mEmergencyCallFilter;
+    DialpadKeySequenceEventFilter *mKeySequenceFilter;
 };
 
-#endif // DIALPADKEYHANDLER_H
+#endif // DIALPADVTKEYHANDLER_H

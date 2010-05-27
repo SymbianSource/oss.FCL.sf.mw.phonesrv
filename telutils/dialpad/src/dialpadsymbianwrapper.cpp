@@ -36,9 +36,18 @@ int DialpadSymbianWrapper::getMailboxNumber(QString &vmbxNumber)
     return d_ptr->getMailboxNumber(vmbxNumber);
 }
 
+int DialpadSymbianWrapper::getVideoMailboxNumber(QString &vmbxNumber)
+{
+    return d_ptr->getVideoMailboxNumber(vmbxNumber);
+}
+
 int DialpadSymbianWrapper::defineMailboxNumber(QString &vmbxNumber)
 {
     //Q_D(DialpadSymbianWrapper);
     return d_ptr->defineMailboxNumber(vmbxNumber);
 }
 
+int DialpadSymbianWrapper::defineVideoMailboxNumber(QString &vmbxNumber)
+{
+    return d_ptr->defineVideoMailboxNumber(vmbxNumber);
+}

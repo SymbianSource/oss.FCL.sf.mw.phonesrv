@@ -16,7 +16,7 @@
 */
 #include "CPEMessageWaiter.h"
 
-#include <EUnitMacros.h>
+#include <eunitmacros.h>
 
 #include "talogger.h"
 #include "CActiveWait.h"

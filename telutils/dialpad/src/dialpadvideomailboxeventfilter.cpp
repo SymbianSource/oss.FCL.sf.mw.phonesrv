@@ -18,7 +18,7 @@
 #include <QKeyEvent>
 #include <hblineedit.h>
 #include <hbstringutil.h>
-#include "dialpadvoicemailboxeventfilter.h"
+#include "dialpadvideomailboxeventfilter.h"
 #include "dialpadsymbianwrapper.h"
 #include "dialpad.h"
 #include "qtphonesrvlog.h"
@@ -28,22 +28,22 @@
 #include <xqserviceutil.h>
 #endif //Q_OS_SYMBIAN
 
-const QString VmbxCharacter("1");
+const QString VideoVmbxCharacter("2");
 
-DialpadVoiceMailboxEventFilter::DialpadVoiceMailboxEventFilter(Dialpad* dialpad, QObject* parent) :
+DialpadVideoMailboxEventFilter::DialpadVideoMailboxEventFilter(Dialpad* dialpad, QObject* parent) :
     DialpadMailboxEventFilterBase(dialpad, parent)
 {
 }
 
-DialpadVoiceMailboxEventFilter::~DialpadVoiceMailboxEventFilter()
+DialpadVideoMailboxEventFilter::~DialpadVideoMailboxEventFilter()
 {
 }
 
-bool DialpadVoiceMailboxEventFilter::eventFilter(QObject *watched, QEvent *event)
+bool DialpadVideoMailboxEventFilter::eventFilter(QObject *watched, QEvent *event)
 {
     Q_UNUSED(watched)
     bool keyEventEaten(false);
-
+    
     QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
     const int keyCode = keyEvent->key();
     const int eventType = event->type();
@@ -69,11 +69,11 @@ bool DialpadVoiceMailboxEventFilter::eventFilter(QObject *watched, QEvent *event
     return keyEventEaten;
 }
 
-void DialpadVoiceMailboxEventFilter::handleLongKeyPress()
+void DialpadVideoMailboxEventFilter::handleLongKeyPress()
 {
     PHONE_TRACE;
     switch(mKeyEvent) {
-    case Qt::Key_1:{
+    case Qt::Key_2:{
        handleMailboxOperation();
        break;
        }
@@ -86,17 +86,17 @@ void DialpadVoiceMailboxEventFilter::handleLongKeyPress()
     mKeyEvent = NULL;
 }
 
-bool DialpadVoiceMailboxEventFilter::handleCallButtonPress()
+bool DialpadVideoMailboxEventFilter::handleCallButtonPress()
 {
     PHONE_TRACE;
     bool callButtonhandled(false);
     if (!mDialpad->editor().text().isEmpty()) {
 #ifdef Q_OS_SYMBIAN
-        // check if editor has '1' character if does then
+        // check if editor has '2' character if does then
         // get MailboxNumber.
         QString editorContent = HbStringUtil::convertDigitsTo(
             mDialpad->editor().text(), WesternDigit);
-        if (VmbxCharacter==editorContent) {
+        if (VideoVmbxCharacter==editorContent) {
             handleMailboxOperation();
             callButtonhandled = true;
         }
@@ -105,25 +105,26 @@ bool DialpadVoiceMailboxEventFilter::handleCallButtonPress()
     return callButtonhandled;
 }
 
-void DialpadVoiceMailboxEventFilter::handleMailboxOperation()
+void DialpadVideoMailboxEventFilter::handleMailboxOperation()
 {
     PHONE_TRACE;
     QString mailboxNumber;
-    int error = mSymbianWrapper->getMailboxNumber(mailboxNumber);
+    int error = mSymbianWrapper->getVideoMailboxNumber(mailboxNumber);
     // If here is no vmbx number and dialpad must start vmbx number definition procedures.
     if (DialpadErrorNone != error || mailboxNumber.length() == 0) {
         mDialpad->closeDialpad();
         // If define mailbox query was interupted than reopen dialpad.
-        error = mSymbianWrapper->defineMailboxNumber(mailboxNumber);
+        error = mSymbianWrapper->defineVideoMailboxNumber(mailboxNumber);
         if (DialpadErrorCancel == error) {
             mDialpad->openDialpad();
         }
     }
+
     // Valid vmbx number found or defined and there vmbx didnt
     // return error values then create a call.
     if ((DialpadErrorNone == error) &&
         (mailboxNumber.length() != 0)) {
-        createCall(mailboxNumber);
+        createCall(mailboxNumber, true);
         clearEditor();
         mDialpad->openDialpad();
     }

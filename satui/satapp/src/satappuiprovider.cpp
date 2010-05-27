@@ -319,7 +319,6 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
         HbEditorInterface inputMode(mGetInkeyQuery->lineEdit());
         if (ESatDigitOnly == aCharacterSet) {
             // digit mode, digits only (0 9, *, #, and +)
-//            inputMode.setUpAsPhoneNumberEditor();
             inputMode.setFilter(HbPhoneNumberFilter::instance());
          } else {
             // char mode

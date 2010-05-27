@@ -38,10 +38,8 @@ int DialpadSymbianWrapperPrivate::getMailboxNumber(QString &vmbxNumber)
     int errValue(KErrNone);
     CVoiceMailboxEntry* vmbxEntry = NULL;
     TVoiceMailboxParams vmbxParams;
-    errValue = mVmbx->QueryVmbxType( vmbxParams );
     
-    if ((KErrNone == errValue) && 
-        (KErrNone == mVmbx->GetStoredEntry(vmbxParams, vmbxEntry))) { 
+    if (KErrNone == mVmbx->GetStoredEntry(vmbxParams, vmbxEntry)) {
         // Number retrieved succesfully:
         vmbxNumber = getVmbxNumber(*vmbxEntry);
      }
@@ -51,11 +49,45 @@ int DialpadSymbianWrapperPrivate::getMailboxNumber(QString &vmbxNumber)
     return errValue;
 }
 
+int DialpadSymbianWrapperPrivate::getVideoMailboxNumber(QString &vmbxNumber)
+{
+    int errValue(KErrNone);
+    CVoiceMailboxEntry* vmbxEntry = NULL;
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVideo;
+    
+    if (KErrNone == mVmbx->GetStoredEntry(vmbxParams, vmbxEntry)) {
+        // Number retrieved succesfully:
+        vmbxNumber = getVmbxNumber(*vmbxEntry);
+     }
+    // Entry ownership was transferred.
+    delete vmbxEntry;
+    vmbxEntry = NULL;
+    return errValue;		
+}
 
 int DialpadSymbianWrapperPrivate::defineMailboxNumber(QString &vmbxNumber)
 {
     CVoiceMailboxEntry* vmbxEntry = NULL;
     TVoiceMailboxParams vmbxParams;
+    int errValue = mVmbx->QueryVmbxType( vmbxParams );
+    
+    if ((KErrNotFound == errValue)) {
+        errValue = mVmbx->QueryNewEntry(vmbxParams, vmbxEntry);
+        if (KErrNone == errValue) {
+            mVmbx->SaveEntry(*vmbxEntry);
+            // Do appropriate tasks, e.g. save number.
+            vmbxNumber = getVmbxNumber(*vmbxEntry);
+        }
+    }
+    return errValue;
+}
+
+int DialpadSymbianWrapperPrivate::defineVideoMailboxNumber(QString &vmbxNumber)
+{
+    CVoiceMailboxEntry* vmbxEntry = NULL;
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVideo;
     int errValue = mVmbx->QueryVmbxType( vmbxParams );
     
     if ((KErrNotFound == errValue)) {

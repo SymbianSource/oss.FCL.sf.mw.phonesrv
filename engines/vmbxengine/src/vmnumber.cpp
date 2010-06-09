@@ -181,7 +181,7 @@ EXPORT_C RVmbxNumber::RVmbxNumber() : iNotifyCallBack( NULL ),
                                 iVmSpsHandler( NULL ),
                                 iVmBsHandler( NULL ),
                                 iFeatMgrInitialized( EFalse ),
-                                iSimCardFound( EFalse )
+                                iSimCardFound( EFalse )              
     {
     VMBLOGSTRING( "VMBX: RVmbxNumber::RVmbxNumber =>" );
 
@@ -425,10 +425,13 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
                 {
                 // try open vmbx-phonebook next
                 iPhoneBookType = EVMBXPhoneBook;
+                iMbdnPhonebookOk = EFalse;
+                VMBLOGSTRING( "no mbdn file is found, use vmbx phonebook" );
                 }
             else
                 {
                 iPhoneBookType = EMBDNPhoneBook;
+                iMbdnPhonebookOk = ETrue;
                 // if mbdn file can be found, set the entry index to EAlsLine1
                 iPhoneVoicemailInfo.iVoice = EAlsLine1;
 
@@ -467,6 +470,9 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
 
         if ( EAlsLine2 == alsline || EVMBXPhoneBook == iPhoneBookType )
             {
+            // the mbdn number is not used when line2 is active
+            // the number is only got from vmbx-phonebook
+            iMbdnPhonebookOk = EFalse;
             // try to open vmbx-type phonebook
             result = iPhoneBook.Open( iPhone, KETelIccVoiceMailBox );
             VMBLOGSTRING2( "Vmbx phonebook opening result = %I ", result );
@@ -475,8 +481,10 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
                 // check that this phonebook supports reading
                 result = PhoneBookInfo();
                 VMBLOGSTRING( "VmbxPhoneBook opened" );
-                }
+                }            	
             }
+        VMBLOGSTRING3( "VMBX: RVmbxNumber::Open: \
+        iMbdnPhonebookOk: %I, iNoNumberFound: %I", iMbdnPhonebookOk, iNoNumberFound );
         // reopen mbdn-phonebook when vmbx-phonebook has no number
         if ( iMbdnPhonebookOk && iNoNumberFound )
            {
@@ -499,7 +507,6 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
                iPhoneBook.Close();
                }
            }
-
 
         // set readonly state if aquired
         if ( IsReadOnlySIM() )
@@ -1685,6 +1692,8 @@ TInt RVmbxNumber::SaveVmbxNumberToPhone( const TDesC& aNumber,
     // in order to always allow saving.
     TInt lineNumber( aEntry );
     TInt error( KErrNone );
+    VMBLOGSTRING2( "VMBX: RVmbxNumber::SaveVmbxNumberToPhone \
+    the number is from phone or SIM aNumber = %S", &aNumber );
 
     if ( aEntry == EAlsActiveLineEntry )
         {
@@ -2375,8 +2384,14 @@ void RVmbxNumber::PhonebookReadL( TVmbxEntry& aEntry )
         iAlphaStringFromSIM = NULL;
         }
     iAlphaStringFound = EFalse;
+    
+    TInt lineNumber( EAlsLine1 );
+    if ( KErrNone != GetAlsLine( lineNumber ) )
+    	{
+        lineNumber = EAlsLine1;
+    	}
 
-    if ( iPhoneBookType == EMBDNPhoneBook )
+    if ( ( iPhoneBookType == EMBDNPhoneBook ) && ( EAlsLine1 == lineNumber ) )
         {
         VMBLOGSTRING( "start MBDN PhoneBook read" );
         VMBLOGSTRING2( "VMBX: RVmbxNumber::PhonebookReadL: \
@@ -2606,8 +2621,14 @@ TInt RVmbxNumber::PhonebookWrite( TVmbxEntry& aEntry )
 TInt RVmbxNumber::PhonebookDelete( TVmbxEntry& aEntry )
     {
     VMBLOGSTRING( "VMBX: RVmbxNumber::PhonebookDelete: =>" );
+    TInt lineNumber( EAlsLine1 );
+    if ( KErrNone != GetAlsLine( lineNumber ) )
+        {
+        lineNumber = EAlsLine1;
+        }
+    
     TRequestStatus status( KErrNone );
-    if ( iPhoneBookType == EMBDNPhoneBook )
+    if ( ( iPhoneBookType == EMBDNPhoneBook ) && ( EAlsLine1 == lineNumber ) )
         {
         TInt index = iPhoneVoicemailInfo.iVoice;
         iPhoneBook.Delete( status, index );
@@ -4240,7 +4261,7 @@ TInt RVmbxNumber::FetchSimNumberBackUp( TDes& aNumber, TInt aLineNumber )
 
 // -----------------------------------------------------------------------------
 // RVmbxNumber::ClearVMBXNumberFromPhone
-// Fetches VMBX number from backup store
+// Clear VMBX number is from SIM from the phone memory
 // -----------------------------------------------------------------------------
 //
 TInt RVmbxNumber::ClearVMBXNumberFromPhone( TInt aLineNumber )
@@ -4393,6 +4414,8 @@ TInt RVmbxNumber::HandleNumberStores( TInt aLineNumber )
     {
     TInt error( KErrNone );
     TBuf< KVmbxMaxNumberLength > line2number;
+    
+    TInt inactiveLineNumber( EAlsLine2 );
 
     VMBLOGSTRING( "VMBX: RVmbxNumber::HandleNumberStores: =>" );
 
@@ -4423,8 +4446,18 @@ TInt RVmbxNumber::HandleNumberStores( TInt aLineNumber )
         if ( !UserEditNumber( aLineNumber ) && 
                 !IsPhoneMemForcedEdit( aLineNumber ) )
             {
-            ClearVMBXNumberFromPhone( EAlsLine1 );
-            ClearVMBXNumberFromPhone( EAlsLine2 );
+            ClearVMBXNumberFromPhone( aLineNumber );
+            // if the number was not edited in inactive line,
+            // and do clearing opreration. 
+            // The old stored number from SIM is erased.
+            // otherwise, the edited number was 
+            // defined as the inactive line number.
+            // the number should be kept
+            if ( !IsInactiveLineEdited( inactiveLineNumber ) )
+            	{
+                ClearVMBXNumberFromPhone( inactiveLineNumber );
+            	}
+            
             VMBLOGSTRING( "[VMBX]: RVmbxNumber::HandleNumberStores: Clear old VMBX number" );
             }
         }
@@ -4434,8 +4467,11 @@ TInt RVmbxNumber::HandleNumberStores( TInt aLineNumber )
         if ( !UserEditNumber( aLineNumber ) 
                 && !IsPhoneMemForcedEdit( aLineNumber ) )
             {
-            ClearVMBXNumberFromPhone( EAlsLine1 );
-            ClearVMBXNumberFromPhone( EAlsLine2 );
+            ClearVMBXNumberFromPhone( aLineNumber );
+            if ( !IsInactiveLineEdited( inactiveLineNumber ) )
+                {
+                ClearVMBXNumberFromPhone( inactiveLineNumber );
+                }
             VMBLOGSTRING( "VMBX: RVmbxNumber::HandleNumberStores: Clear old VMBX number" );
             }
         }
@@ -4604,5 +4640,49 @@ TBool RVmbxNumber::IsNoNumberNoteAllowed()
     VMBLOGSTRING( "VMBX: RVmbxNumber::IsNoNumberNoteAllowed: <=" );
     return result;
     }
+
+// -----------------------------------------------------------------------------
+// RVmbxNumber::IsInactiveLineEdited
+// Check whether the number had been edited in inactive line
+// -----------------------------------------------------------------------------
+//
+TBool RVmbxNumber::IsInactiveLineEdited( TInt& aInactiveLineNumber )
+	{
+	VMBLOGSTRING( "VMBX: RVmbxNumber::IsInactiveLineEdited: =>" );
+	TBool result( EFalse );
+	
+	TInt activeLineNumber( EAlsLine1 );
+	TInt inactiveLineNumber( aInactiveLineNumber );
+	
+	// get the current ALS line
+	if ( KErrNone != GetAlsLine( activeLineNumber ) )
+	    {
+	    activeLineNumber = EAlsLine1;  
+	    }
+	else
+		{
+	    // get the inactive line
+	    if ( EAlsLine1 == activeLineNumber )
+	    	{
+	        inactiveLineNumber = EAlsLine2;
+	    	}
+	    else
+	    	{
+	        inactiveLineNumber = EAlsLine1;
+	    	}
+	    // check whether the number had been edited in inactive line before
+	    if ( UserEditNumber( inactiveLineNumber ) 
+	    		|| IsPhoneMemForcedEdit( inactiveLineNumber ) )
+	    	{
+	        result = ETrue;
+	    	}
+		}
+	// get the inactive line number, make it be the output argument
+	aInactiveLineNumber = inactiveLineNumber;
+	
+	VMBLOGSTRING2( "VMBX: RVmbxNumber::IsInactiveLineEdited: result = %d",
+	result );
+	return result;
+	}
 
 //  End of File

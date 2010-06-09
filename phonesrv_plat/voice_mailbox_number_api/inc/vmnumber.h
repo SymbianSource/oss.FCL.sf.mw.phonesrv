@@ -1203,6 +1203,14 @@ class RVmbxNumber : public MCenRepNotifyHandlerCallback,
          * @return ETrue if the note should be shown
          */
         TBool IsNoNumberNoteAllowed();
+        
+        /**
+         * Check whether the number had been edited in inactive line 
+         * @since S60 v5.2
+         * @param aInactiveLineNumber the inactive line number
+         * @return ETrue if the number had been edited in inactive line
+         */
+        TBool IsInactiveLineEdited( TInt& aInactiveLineNumber );
 
     private:  // data
 

@@ -27,7 +27,7 @@
 
 // OLD INCLUDES
 #include "MNWNetworkTimer.h"
-#include "NWHandlingEngine.h"
+#include <nwhandlingengine.h>
 #include "CNWGsmMessageHandler.h"
 #include <MCbsMcnObserver.h> //For McbsMcnObserver
 #include <rmmcustomapi.h>

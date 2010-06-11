@@ -18,8 +18,8 @@
 #define SATAPPPLAYTONEPROVIDER_H
  
 #include <QObject>
-#include <MdaAudioTonePlayer.h>//PlayStandardTone
-#include <MdaAudioSamplePlayer.h>//PlayUserSelectedTone
+#include <mdaaudiotoneplayer.h> //PlayStandardTone
+#include <mdaaudiosampleplayer.h> //PlayUserSelectedTone
 #include <QEventLoop>
 #include <msatuiobserver.h>
 

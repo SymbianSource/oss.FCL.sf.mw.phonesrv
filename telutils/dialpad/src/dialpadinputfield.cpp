@@ -43,7 +43,7 @@ DialpadInputField::DialpadInputField(QGraphicsItem* parent)
     editorInterface.setInputConstraints(HbEditorConstraintIgnoreFocus);
     mNumberEditor->setMaxLength(DialpadMaxEditStringLenght);
     mNumberEditor->setMinRows(1);
-    mNumberEditor->setMaxRows(2);
+    mNumberEditor->setMaxRows(1);    
     mNumberEditor->setAdjustFontSizeToFitHeight(true);
 
     // create backspace button

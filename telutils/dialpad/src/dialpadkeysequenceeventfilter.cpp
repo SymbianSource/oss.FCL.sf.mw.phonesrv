@@ -69,7 +69,7 @@ bool DialpadKeySequenceEventFilter::eventFilter(QObject *watched, QEvent *event)
         Qt::Key_NumberSign == keyCode &&
         preValidateKeySequence(keySequenceCandidate)) {
         XQServiceRequest request(
-            "com.nokia.services.telephony",
+            "com.nokia.symbian.IDtmfPlay",
             "executeKeySequence(QString)",
             true);
         

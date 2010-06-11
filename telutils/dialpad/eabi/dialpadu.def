@@ -69,4 +69,6 @@ EXPORTS
 	_ZNK19DialpadVtKeyHandler10metaObjectEv @ 68 NONAME
 	_ZTI19DialpadVtKeyHandler @ 69 NONAME
 	_ZTV19DialpadVtKeyHandler @ 70 NONAME
+	_ZN17DialpadKeyHandlerC1EP7Dialpad6QFlagsINS_21DialpadKeyEventFilterEEP7QObject @ 71 NONAME
+	_ZN17DialpadKeyHandlerC2EP7Dialpad6QFlagsINS_21DialpadKeyEventFilterEEP7QObject @ 72 NONAME
 

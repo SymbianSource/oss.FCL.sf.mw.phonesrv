@@ -19,11 +19,13 @@
 #ifdef Q_OS_SYMBIAN
 #include <featmgr.h>
 #endif // Q_OS_SYMBIAN
+#include "dialpad.h"
 #include "dialpadkeyhandler.h"
 #include "dialpadvoicemailboxeventfilter.h"
 #include "dialpadvideomailboxeventfilter.h"
 #include "dialpadbluetootheventfilter.h"
 #include "dialpadkeysequenceeventfilter.h"
+#include "dialpademergencycalleventfilter.h"
 #include "qtphonesrvlog.h"
 
 DialpadKeyHandler::DialpadKeyHandler(
@@ -35,17 +37,18 @@ DialpadKeyHandler::DialpadKeyHandler(
 	mVideoVmbxFilter(0),
 	mBtFilter(0),
 	mKeySequenceFilter(0),
-	mIsVideoMailboxSupported(false)
+	mEmergencyCallFilter(0)
 {
     PHONE_TRACE;
 
     // Variations
+    bool isVideoMailboxSupported = false;
 #ifdef Q_OS_SYMBIAN
-    mIsVideoMailboxSupported = FeatureManager::FeatureSupported(KFeatureIdCsVideoTelephony);
+    isVideoMailboxSupported = FeatureManager::FeatureSupported(KFeatureIdCsVideoTelephony);
 #endif // Q_OS_SYMBIAN
     
     mVmbxFilter.reset(new DialpadVoiceMailboxEventFilter(dialPad));
-    if(mIsVideoMailboxSupported) {
+    if (isVideoMailboxSupported) {
         mVideoVmbxFilter.reset(new DialpadVideoMailboxEventFilter(dialPad));
     }
     mBtFilter.reset(new DialpadBluetoothEventFilter(dialPad));
@@ -53,12 +56,58 @@ DialpadKeyHandler::DialpadKeyHandler(
 
     // Stack different event filters
     mMainWindow.installEventFilter(mVmbxFilter.data());
-    if(mIsVideoMailboxSupported) {
+    if (isVideoMailboxSupported) {
         mMainWindow.installEventFilter(mVideoVmbxFilter.data());    
     }
     mMainWindow.installEventFilter(mBtFilter.data());
     mMainWindow.installEventFilter(mKeySequenceFilter.data());
 }
+
+
+DialpadKeyHandler::DialpadKeyHandler(
+    Dialpad *dialPad, 
+    DialpadKeyHandler::DialpadKeyEventFilters filters, 
+    QObject *parent) 
+    : 
+    QObject(parent),
+    mMainWindow(*(dialPad->mainWindow())),
+    mVmbxFilter(0),
+    mVideoVmbxFilter(0),
+    mBtFilter(0),
+    mKeySequenceFilter(0),
+    mEmergencyCallFilter(0)
+{
+    PHONE_TRACE;
+    
+    if (filters.testFlag(VoiceMailbox)) {
+        mVmbxFilter.reset(new DialpadVoiceMailboxEventFilter(dialPad));
+        mMainWindow.installEventFilter(mVmbxFilter.data());
+    }
+    
+    if (filters.testFlag(VideoMailBox)) {
+        mVideoVmbxFilter.reset(
+            new DialpadVideoMailboxEventFilter(dialPad));
+        mMainWindow.installEventFilter(mVideoVmbxFilter.data());
+    }
+    
+    if (filters.testFlag(Bluetooth)) {
+        mBtFilter.reset(new DialpadBluetoothEventFilter(dialPad));
+        mMainWindow.installEventFilter(mBtFilter.data());
+    }
+    
+    if (filters.testFlag(KeySequence)) {
+        mKeySequenceFilter.reset(
+            new DialpadKeySequenceEventFilter(dialPad));
+        mMainWindow.installEventFilter(mKeySequenceFilter.data());
+    }
+    
+    if (filters.testFlag(EmergencyCall)) {
+        mEmergencyCallFilter.reset(
+            new DialpadEmergencyCallEventFilter(dialPad));
+        mMainWindow.installEventFilter(mEmergencyCallFilter.data());
+    }
+}
+
 
 DialpadKeyHandler::~DialpadKeyHandler()
 {

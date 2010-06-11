@@ -101,10 +101,7 @@ void DialpadTestView::onEditorContentChanged()
 
 void DialpadTestView::setDialpadPosition()
 {
-    // workaround to tsw error JMKN-83NAPU (fix coming in MCL wk14)
-    // QRectF screenRect(mMainWindow.layoutRect());
-    QRectF screenRect = (mMainWindow.orientation() == Qt::Horizontal) ?
-                        QRectF(0,0,640,360) : QRectF(0,0,360,640);
+    QRectF screenRect(mMainWindow.layoutRect());
 
     if (mMainWindow.orientation() == Qt::Horizontal) {
         // dialpad takes half of the screen
@@ -210,20 +207,15 @@ bool DialpadTestView::event(QEvent * event)
 
 void DialpadTestView::handleLongKeyPress()
 {
-    HbMessageBox msgBox;
     QString msg;
     msg.append("Long press: ");
     msg.append(mPressedKey);
 
-    msgBox.setText(msg);
-    msgBox.setTimeout(3000);
-
-    msgBox.show();
+    HbMessageBox::information(msg);
 }
 
 void DialpadTestView::handleDial()
 {
-    HbMessageBox msgBox;
     QString msg;
     if (mDialpad->editor().text().length()) {
         msg.append("Dialing to number: ");
@@ -232,10 +224,7 @@ void DialpadTestView::handleDial()
         msg.append("Please, enter phone number first");
     }
 
-    msgBox.setText(msg);
-    msgBox.setTimeout(3000);
-
-    msgBox.show();
+    HbMessageBox::information(msg);
 }
 
 void DialpadTestView::setTapOutsideDismiss()

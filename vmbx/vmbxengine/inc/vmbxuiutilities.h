@@ -34,7 +34,6 @@
 *  Implementation of the auxiliary methods for the VMBX engine classes
 *
 *  @lib vmbxengine.lib
-*  @since S60 v5.2
 */
 NONSHARABLE_CLASS( CVmbxUiUtilities ): public CBase,
                                        public MVmbxUiUtilities
@@ -55,7 +54,6 @@ public:
     /**
      * Show mailbox query
      *
-     * @since S60 v5.2
      * @param in aType TVmbxType type
      * @param in aMode TVmbxQueryMode mode
      * @param out aNumber the voice mailbox number
@@ -65,25 +63,12 @@ public:
                     TDes& aNumber );
 
     /**
-     * Show mailbox query dialog
-     * Leaves if user cancel selected.
-     *
-     * @param aType in TVmbxType type
-     * @param aMode Tin VmbxQueryMode mode
-     * @param aNumber the voice mailbox number
-     * @param aResult out the result of dialog
-     */
-    void ShowQueryDialogL( const TVmbxType& aType,
-        const TVmbxQueryMode & aMode, TDes& aNumber, TInt& aResult );
-
-    /**
      * Show informationd note
      *
      * @param aType in TVmbxNoteType type
      */
     void ShowInformationdNoteL(const TVmbxNoteType aType);
  
-
     /**
      * Show define number in selection dialog
      * Leaves if user cancel selected.
@@ -91,7 +76,7 @@ public:
      * @param in aType vmbx type
      * @param out aResult the result of dialog
      */
-    void ShowDefineSelectionDialog( TVmbxType& aType, TInt& aResult );
+    void ShowDefineSelectionDialogL( TVmbxType& aType, TInt& aResult );
 
     /**
      * Show call number in selection dialog
@@ -107,13 +92,6 @@ public:
                 const RPointerArray<CVoiceMailboxEntry>& aArray,
                 //CArrayPtr<CGulIcon>* aIcons,
                 TVoiceMailboxParams& aParams, TInt& aResult );
-
-    /**
-     * Tries to close all open dialogs
-     *
-     */
-    void DismissDialogL();
-
 
     /**
      * Get Mailbox type default image.
@@ -136,6 +114,11 @@ public:
      */
     void ShowInvalidWarningDialogL();
 
+     /**
+     * Tries to close all open dialogs
+     *
+     */
+    void DismissDialogL();   
 
 private: // data
 
@@ -149,10 +132,20 @@ private: // data
      */
     void ConstructL();
 
+    /**
+     * Show mailbox query dialog
+     * Leaves if user cancel selected.
+     *
+     * @param aType in TVmbxType type
+     * @param aMode Tin VmbxQueryMode mode
+     * @param aNumber the voice mailbox number
+     * @param aResult out the result of dialog
+     */
+    void ShowQueryDialogL( const TVmbxType& aType,
+        const TVmbxQueryMode & aMode, TDes& aNumber, TInt& aResult );
 
     /**
     * Open phonebook's Single Fetch Dialog
-    * @since S60 v5.2
     * @param aPhoneNumber Phone number
     */
     void FetchNumberFromPhonebook2L( TDes& aPhoneNumber );

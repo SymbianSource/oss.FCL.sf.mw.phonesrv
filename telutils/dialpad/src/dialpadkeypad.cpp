@@ -97,7 +97,6 @@ DialpadKeypad::DialpadKeypad(
             button->setIcon(mboxIcon);
         }
 
-        // for Yes-key clicked() signal is enough
         if (keyCode!=Qt::Key_Yes) {
             connect(button,SIGNAL(pressed()),
                     mKeyPressedSignalMapper,SLOT(map()));
@@ -106,6 +105,11 @@ DialpadKeypad::DialpadKeypad(
             connect(button,SIGNAL(released()),
                     mKeyReleasedSignalMapper,SLOT(map()));
             mKeyReleasedSignalMapper->setMapping(button,keyCode);
+        } else {
+            // for Yes-key longPress() functionality is same as clicked()
+            connect(button,SIGNAL(longPress(QPointF)),
+                    mKeyClickedSignalMapper,SLOT(map()));
+            mKeyClickedSignalMapper->setMapping(button,keyCode);
         }
 
         connect(button,SIGNAL(clicked()),mKeyClickedSignalMapper,SLOT(map()));

@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include    "CNWSession.h"
+#include    <cnwsession.h>
 
 
 // ============================ MEMBER FUNCTIONS ==============================

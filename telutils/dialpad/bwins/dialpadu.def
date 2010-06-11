@@ -61,4 +61,5 @@ EXPORTS
 	??_EDialpadVtKeyHandler@@UAE@I@Z @ 60 NONAME ; DialpadVtKeyHandler::~DialpadVtKeyHandler(unsigned int)
 	?qt_metacast@DialpadVtKeyHandler@@UAEPAXPBD@Z @ 61 NONAME ; void * DialpadVtKeyHandler::qt_metacast(char const *)
 	?tr@DialpadVtKeyHandler@@SA?AVQString@@PBD0@Z @ 62 NONAME ; class QString DialpadVtKeyHandler::tr(char const *, char const *)
+	??0DialpadKeyHandler@@QAE@PAVDialpad@@V?$QFlags@W4DialpadKeyEventFilter@DialpadKeyHandler@@@@PAVQObject@@@Z @ 63 NONAME ; DialpadKeyHandler::DialpadKeyHandler(class Dialpad *, class QFlags<enum DialpadKeyHandler::DialpadKeyEventFilter>, class QObject *)
 

@@ -18,7 +18,7 @@
 #ifndef DIALPADBLUETOOTHEVENTFILTER_H
 #define DIALPADBLUETOOTHEVENTFILTER_H
 
-#include <QObject>
+#include <qobject>
 
 class QTimer;
 class Dialpad;

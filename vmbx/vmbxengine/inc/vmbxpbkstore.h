@@ -217,12 +217,6 @@ protected: // data
     TVmbxSimPhonebookType iPhoneBookType;
 
     /**
-     * Alpha string which is read from the SIM card
-     * Own.
-     */
-     HBufC* iAlphaStringFromSIM;
-
-    /**
      * CActiveSchedulerWait
      * Own.
      */

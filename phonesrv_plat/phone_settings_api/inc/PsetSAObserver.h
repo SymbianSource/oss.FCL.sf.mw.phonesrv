@@ -24,7 +24,7 @@
 #include <e32base.h>
 #include <e32property.h> 
 #include <psetcalldiverting.h>
-#include <psvariables.h>
+#include <PSVariables.h>
 #include <ctsydomaincrkeys.h>
 
 // FORWARD DECLARATIONS

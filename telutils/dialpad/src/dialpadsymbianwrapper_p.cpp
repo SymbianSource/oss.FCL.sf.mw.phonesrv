@@ -38,8 +38,11 @@ int DialpadSymbianWrapperPrivate::getMailboxNumber(QString &vmbxNumber)
     int errValue(KErrNone);
     CVoiceMailboxEntry* vmbxEntry = NULL;
     TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVoice;
+
+    errValue = mVmbx->GetStoredEntry(vmbxParams, vmbxEntry);
     
-    if (KErrNone == mVmbx->GetStoredEntry(vmbxParams, vmbxEntry)) {
+    if (KErrNone == errValue) {
         // Number retrieved succesfully:
         vmbxNumber = getVmbxNumber(*vmbxEntry);
      }
@@ -56,7 +59,9 @@ int DialpadSymbianWrapperPrivate::getVideoMailboxNumber(QString &vmbxNumber)
     TVoiceMailboxParams vmbxParams;
     vmbxParams.iType = EVmbxVideo;
     
-    if (KErrNone == mVmbx->GetStoredEntry(vmbxParams, vmbxEntry)) {
+    errValue = mVmbx->GetStoredEntry(vmbxParams, vmbxEntry);
+    
+    if (KErrNone == errValue) {
         // Number retrieved succesfully:
         vmbxNumber = getVmbxNumber(*vmbxEntry);
      }
@@ -70,16 +75,15 @@ int DialpadSymbianWrapperPrivate::defineMailboxNumber(QString &vmbxNumber)
 {
     CVoiceMailboxEntry* vmbxEntry = NULL;
     TVoiceMailboxParams vmbxParams;
-    int errValue = mVmbx->QueryVmbxType( vmbxParams );
-    
-    if ((KErrNotFound == errValue)) {
-        errValue = mVmbx->QueryNewEntry(vmbxParams, vmbxEntry);
-        if (KErrNone == errValue) {
-            mVmbx->SaveEntry(*vmbxEntry);
-            // Do appropriate tasks, e.g. save number.
-            vmbxNumber = getVmbxNumber(*vmbxEntry);
-        }
+    vmbxParams.iType = EVmbxVoice;
+
+    int errValue = mVmbx->QueryNewEntry(vmbxParams, vmbxEntry);
+    if (KErrNone == errValue) {
+        mVmbx->SaveEntry(*vmbxEntry);
+        // Do appropriate tasks, e.g. save number.
+        vmbxNumber = getVmbxNumber(*vmbxEntry);
     }
+
     return errValue;
 }
 
@@ -88,16 +92,14 @@ int DialpadSymbianWrapperPrivate::defineVideoMailboxNumber(QString &vmbxNumber)
     CVoiceMailboxEntry* vmbxEntry = NULL;
     TVoiceMailboxParams vmbxParams;
     vmbxParams.iType = EVmbxVideo;
-    int errValue = mVmbx->QueryVmbxType( vmbxParams );
-    
-    if ((KErrNotFound == errValue)) {
-        errValue = mVmbx->QueryNewEntry(vmbxParams, vmbxEntry);
-        if (KErrNone == errValue) {
-            mVmbx->SaveEntry(*vmbxEntry);
-            // Do appropriate tasks, e.g. save number.
-            vmbxNumber = getVmbxNumber(*vmbxEntry);
-        }
+
+    int errValue = mVmbx->QueryNewEntry(vmbxParams, vmbxEntry);
+    if (KErrNone == errValue) {
+        mVmbx->SaveEntry(*vmbxEntry);
+        // Do appropriate tasks, e.g. save number.
+        vmbxNumber = getVmbxNumber(*vmbxEntry);
     }
+
     return errValue;
 }
 

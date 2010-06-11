@@ -59,7 +59,6 @@ CVmbxPbkStore:: ~CVmbxPbkStore()
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::~CVmbxPbkStore =>" );
     Cancel();
     iPhoneBook.Close();
-    delete iAlphaStringFromSIM;
     delete iWait;
     delete iETelConnection;
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::~CVmbxPbkStore <=" );
@@ -251,24 +250,20 @@ TInt CVmbxPbkStore::Write( const CVoiceMailboxEntry& aEntry )
             RMobilePhoneBookStore::ETagPBAdnIndex, (TUint16)entryIndex );
             VMBLOGSTRING2( "VMBX: CVmbxPbkStore::Write: ETagPBAdnIndex \
                     result=%I",  result );
-            // Add name if it existed on SIM card,Type of ETagPBText is TDes16
-            if ( iAlphaStringFromSIM )
-                {
-                result = pbkBuffer->PutTagAndValue( 
-                RMobilePhoneBookStore::ETagPBText, *iAlphaStringFromSIM );
-                VMBLOGSTRING2( "VMBX: CVmbxPbkStore::Write: ETagPBText\
-                        result=%I",  result );
-                }
+            // Add name, Type of ETagPBText is TDes16
+            TPtrC vmbxName( KNullDesC );
+            aEntry.GetVmbxName( vmbxName );
+            result = pbkBuffer->PutTagAndValue( 
+            RMobilePhoneBookStore::ETagPBText, vmbxName );
+            VMBLOGSTRING2( "VMBX: CVmbxPbkStore::Write: ETagPBText\
+                    result=%I",  result );
+            // Add number, Type of ETagPBNumber is TDes16
             TPtrC vmbxNumber( KNullDesC );
-            result = aEntry.GetVmbxNumber( vmbxNumber );
-            if ( KErrNone == result )
-                {
-                // Add number,Type of ETagPBNumber is TDes16
-                result = pbkBuffer->PutTagAndValue( 
-                RMobilePhoneBookStore::ETagPBNumber, vmbxNumber );
-                VMBLOGSTRING2( "VMBX: CVmbxPbkStore::Write: ETagPBNumber\
-                        result=%I",  result );
-                }
+            aEntry.GetVmbxNumber( vmbxNumber );
+            result = pbkBuffer->PutTagAndValue( 
+            RMobilePhoneBookStore::ETagPBNumber, vmbxNumber );
+            VMBLOGSTRING2( "VMBX: CVmbxPbkStore::Write: ETagPBNumber\
+                    result=%I",  result );
             }
 
         if ( KErrNone == result )
@@ -477,8 +472,6 @@ void CVmbxPbkStore::SimReadL( CVoiceMailboxEntry& aEntry )
     TInt numEntries( 1 );
     TBuf8<KVmbxPhonebookBufferSize> pbData;
 
-    delete iAlphaStringFromSIM;
-    iAlphaStringFromSIM = NULL;
     TInt result( KErrInUse );
     if ( iPhoneBookType == EMBDNPhoneBook )
         {
@@ -548,8 +541,6 @@ void CVmbxPbkStore::ParseDataL( CVoiceMailboxEntry& aEntry, TDes8& aPbData )
     {
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::ParseDataL =>" );
     TInt result( KErrNotFound );
-    delete iAlphaStringFromSIM;
-    iAlphaStringFromSIM = NULL;
 
     VMBLOGSTRING2( "CVmbxPbkStore::ParseDataL Lengh = %d", aPbData.Length() );
 
@@ -618,6 +609,8 @@ void CVmbxPbkStore::ReadPbkDataL( CPhoneBookBuffer* aPbkBuffer,
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::ReadPbkDataL =>" );
 
     TInt result( KErrNone );
+    TInt next( KErrNone );
+    TBool found( EFalse );
     TUint8 tagValue( 0 );
     CPhoneBookBuffer::TPhBkTagType dataType(
                                           CPhoneBookBuffer::EPhBkTypeNoData );
@@ -625,7 +618,7 @@ void CVmbxPbkStore::ReadPbkDataL( CPhoneBookBuffer* aPbkBuffer,
     result = aPbkBuffer->GetTagAndType( tagValue, dataType );
 
     // loop through data to find a number and an possible alpha string
-    while ( result == KErrNone && aPbkBuffer->RemainingReadLength() > 0 )
+    while ( next == KErrNone && result == KErrNone )
         {
         VMBLOGSTRING2("VMBX: CVmbxPbkStore::ReadPbkDataL: tagValue: %d",
          tagValue );
@@ -635,48 +628,38 @@ void CVmbxPbkStore::ReadPbkDataL( CPhoneBookBuffer* aPbkBuffer,
         // Check for text field
         if ( tagValue == RMobilePhoneBookStore::ETagPBText )
             {
+            VMBLOGSTRING("VMBX: CVmbxPbkStore::ReadPbkDataL: \
+                          ETagPBText found Alpha ID" );
+            found = ETrue;
             // Alpha string field found from TLV entry,
             // assuming 16bit data
             TPtrC16 alphaPtrC;
             result = aPbkBuffer->GetValue( alphaPtrC );
+            
             if ( KErrNone == result )
                 {
-                iAlphaStringFromSIM = alphaPtrC.AllocL();
-                VMBLOGSTRING2("VMBX: CVmbxPbkStore::ReadPbkDataL: \
-                iAlphaStringFromSIM: %S", iAlphaStringFromSIM );
+                // set name to vmbx entry
+                result = aEntry.SetVmbxName( alphaPtrC );
                 }
             }
 
-         // Check for number field
-         else if ( tagValue == RMobilePhoneBookStore::ETagPBNumber )
+        // Check for number field
+        else if ( tagValue == RMobilePhoneBookStore::ETagPBNumber )
             {
+            VMBLOGSTRING("VMBX: CVmbxPbkStore::ReadPbkDataL: \
+                          ETagPBNumber found Number" );
+            found = ETrue;
             // Number field found from TLV entry, assuming 16bit data
             TPtrC16 numberPtrC;
             result = aPbkBuffer->GetValue( numberPtrC );
 
-            VMBLOGSTRING( "VMBX: CVmbxPbkStore::ReadPbkDataL:\
-                                            ETagPBNumber found" );
-
             if ( KErrNone == result )
                 {
-                // Error code is returned if number not fit to
-                // local buffer.
-                if ( numberPtrC.Length() > KVmbxMaxNumberLength )
-                    {
-                    result = KErrOverflow;
-                    VMBLOGSTRING( "VMBX: CVmbxPbkStore::ReadPbkDataL: \
-                                            Overflow error" );
-                    }
-                else
-                    {
-                    result = aEntry.SetVmbxNumber( numberPtrC );
-                    VMBLOGSTRING("VMBX: CVmbxPbkStore::ReadPbkDataL: \
-                                    ETagPBNumber found Number" );
-                    break;
-                    }
+                // set number to vmbx entry
+                result = aEntry.SetVmbxNumber( numberPtrC );
                 }
             }
-         else
+        else
             {
             // skip field
             aPbkBuffer->SkipValue( dataType );
@@ -686,12 +669,18 @@ void CVmbxPbkStore::ReadPbkDataL( CPhoneBookBuffer* aPbkBuffer,
         if ( KErrNone == result )
             {
             // Read next field type
-            result = aPbkBuffer->GetTagAndType( tagValue, dataType );
+            next = aPbkBuffer->GetTagAndType( tagValue, dataType );
             VMBLOGSTRING2( "VMBX: CVmbxPbkStore::ReadPbkDataL: \
                                     next GetTagAndType = %I", result );
             }
         }
 
+    // Neither alpha string Nor number is found
+    if( KErrNone == result && !found )
+        {
+        result = KErrNotFound;
+        }
+    
     VMBLOGSTRING2( "VMBX: CVmbxPbkStore::ReadPbkDataL result=%I", result );
     User::LeaveIfError( result );
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::ReadPbkDataL <=" );

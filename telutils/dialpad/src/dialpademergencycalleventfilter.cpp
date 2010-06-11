@@ -14,7 +14,7 @@
 * Description: 
 *
 */
-#include <QKeyEvent>
+#include <qkeyevent>
 #include <hblineedit.h>
 #include <hbstringutil.h>
 #include "dialpademergencycalleventfilter.h"

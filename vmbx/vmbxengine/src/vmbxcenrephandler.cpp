@@ -266,7 +266,7 @@ TBool CVmbxCenRepHandler::VideoSupported()
     VMBLOGSTRING( "VMBX: CVmbxCenRepHandler::VideoSupported =>" );
     TBool supported( EFalse);
 
-    TInt res = iCRSession->Get( KVideoMbxSupport, supported );
+    TInt res = iCRSession->Get( KVmbxVideoMbxSupport, supported );
 
     if ( KErrNone != res )
         {

@@ -49,25 +49,25 @@ public:
         Getter method for primary voice number of Voice Mailbox.
         @param aValue Retrieved number.
     */
-    void getCsVoice1Number(QString &aValue);
+    void getCsVoiceNumber(QString &aValue);
     
     /*!
         Getter method for primary video number of Voice Mailbox.
         @param aValue Retrieved number.
     */
-    void getCsVideo1Number(QString &aValue);
+    void getCsVideoNumber(QString &aValue);
     
     /*!
         Set number when cs voice number has been edited on UI.
         @param aValue New value.
     */
-    void setCsVoice1Number( const QString &aValue );
+    void setCsVoiceNumber( const QString &aValue );
     
     /*!
         Set number when cs voice number has been edited on UI.
         @param aValue New value.
     */
-    void setCsVideo1Number( const QString &aValue );
+    void setCsVideoNumber( const QString &aValue );
     
     /*!
         If video mailbox supported.
@@ -122,8 +122,25 @@ signals:
     void voiceMailboxEngineEntriesUpdated(const TVmbxType vmbxType); 
 
 
-private: // New Method    
+private: // New Method
+
+    /*!
+        Initialize vmbx ui engine.
+    */
+    void init();
+ 
+    /*!
+        Getter method for primary voice number of Voice Mailbox.
+        @param aValue Retrieved number.
+    */
+    void getCsVoicePrimaryNumber(QString &aValue);
     
+    /*!
+        Getter method for primary video number of Voice Mailbox.
+        @param aValue Retrieved number.
+    */
+    void getCsVideoPrimaryNumber(QString &aValue);
+ 
     /*!
         Getter method for voice mailbox number.
         @param aParam Identify voice mailbox type
@@ -156,6 +173,16 @@ private:
         Own.
     */
     CVoiceMailbox *mVmbxEngine;
+    /*!
+        Cs voice number
+     */
+    QString mCsVoiceNumber;
+
+    /*!
+        Cs video number
+     */
+    QString mCsVideoNumber;
+    
 };
 
 #endif // VMBXUIENGINE_H

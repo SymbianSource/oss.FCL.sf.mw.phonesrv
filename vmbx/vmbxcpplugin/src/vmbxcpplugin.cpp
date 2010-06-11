@@ -16,7 +16,7 @@
  */
 
 // System includes
-#include <qdebug>
+#include <QDebug>
 #include <cpitemdatahelper.h>
 
 // User includes

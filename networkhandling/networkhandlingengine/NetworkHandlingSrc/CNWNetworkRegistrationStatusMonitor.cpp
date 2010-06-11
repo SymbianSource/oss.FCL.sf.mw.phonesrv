@@ -21,7 +21,7 @@
 #include    <featmgr.h>
 #include    "CNWNetworkRegistrationStatusMonitor.h"
 #include    "CNWMessageHandler.h"
-#include    "NetworkHandlingDomainPSKeys.h"
+#include    <networkhandlingdomainpskeys.h>
 #include    "NWPanic.pan"
 #include    "NWLogger.h"
 #include    "CNWNetworkRegistrationStatusReceiver.h"

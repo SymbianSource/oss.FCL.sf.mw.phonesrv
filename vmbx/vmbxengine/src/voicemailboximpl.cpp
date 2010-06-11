@@ -544,7 +544,7 @@ void CVoiceMailboxImpl::QueryVmbxTypeL( TVoiceMailboxParams& aParams )
         if ( VmbxUtilities::VideoSupported() )
             {
             // query to be defined type
-            iUiUtilities->ShowDefineSelectionDialog( aParams.iType, result );
+            iUiUtilities->ShowDefineSelectionDialogL( aParams.iType, result );
             // if result is KErrNone(but result should be also KErrNotFound ),
             // it means user have seclected the defined type;
             // else user cancel to select the type, so should return result value

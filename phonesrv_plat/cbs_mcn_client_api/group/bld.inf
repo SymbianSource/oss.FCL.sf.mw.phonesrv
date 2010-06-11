@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:  File that exports the files belonging to 
-:                CBS MCN Client API
+*               CBS MCN Client API
 *
 */
 
@@ -24,11 +24,12 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/CCbsMcnListener.h     MW_LAYER_PLATFORM_EXPORT_PATH(CCbsMcnListener.h)
-../inc/CbsMcnPanic.h     MW_LAYER_PLATFORM_EXPORT_PATH(CbsMcnPanic.h)
-../inc/CbsMcnCommon.h     MW_LAYER_PLATFORM_EXPORT_PATH(CbsMcnCommon.h)
-../inc/CMcnTopicArray.h     MW_LAYER_PLATFORM_EXPORT_PATH(CMcnTopicArray.h)
-../inc/RCbsMcnSession.h     MW_LAYER_PLATFORM_EXPORT_PATH(RCbsMcnSession.h)
-../inc/CMcn.h     MW_LAYER_PLATFORM_EXPORT_PATH(CMcn.h)
-../inc/RMcnSubSession.h     MW_LAYER_PLATFORM_EXPORT_PATH(RMcnSubSession.h)
-../inc/MCbsMcnObserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(MCbsMcnObserver.h)
+../inc/ccbsmcnlistener.h    MW_LAYER_PLATFORM_EXPORT_PATH(ccbsmcnlistener.h)
+../inc/cbsmcnpanic.h        MW_LAYER_PLATFORM_EXPORT_PATH(cbsmcnpanic.h)
+../inc/cbsmcncommon.h       MW_LAYER_PLATFORM_EXPORT_PATH(cbsmcncommon.h)
+../inc/cmcntopicarray.h     MW_LAYER_PLATFORM_EXPORT_PATH(cmcntopicarray.h)
+../inc/rcbsmcnsession.h     MW_LAYER_PLATFORM_EXPORT_PATH(rcbsmcnsession.h)
+../inc/cmcn.h               MW_LAYER_PLATFORM_EXPORT_PATH(cmcn.h)
+../inc/rmcnsubsession.h     MW_LAYER_PLATFORM_EXPORT_PATH(rmcnsubsession.h)
+../inc/mcbsmcnobserver.h    MW_LAYER_PLATFORM_EXPORT_PATH(mcbsmcnobserver.h)
+

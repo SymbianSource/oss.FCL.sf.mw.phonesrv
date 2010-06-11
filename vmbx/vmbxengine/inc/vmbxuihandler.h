@@ -57,7 +57,7 @@ public: // Constructors and destructor
      * @param aNumber the voice mailbox number
      * @param aResult out the result of dialog
      */
-    virtual void ShowVmbxQueryDialog( const TVmbxType& aType,
+    virtual void ShowVmbxQueryDialogL( const TVmbxType& aType,
         TDes& aNumber, TInt& aResult );
 
     /**
@@ -66,7 +66,7 @@ public: // Constructors and destructor
      * @param in aType vmbx type
      * @param out aResult the result of dialog
      */
-    virtual void ShowDefineSelectionDialog( TVmbxType& aType, TInt& aResult );
+    virtual void ShowDefineSelectionDialogL( TVmbxType& aType, TInt& aResult );
 
     /**
      * Show call number in selection dialog
@@ -115,7 +115,6 @@ private:  // data
      * Own
      */
     VmbxQtUiHandler* iHandler;
-
     };
 
 #endif  // VMBXENGINEQTUI_H

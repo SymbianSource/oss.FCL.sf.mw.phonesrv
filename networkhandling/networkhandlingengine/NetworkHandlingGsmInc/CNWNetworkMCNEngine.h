@@ -20,7 +20,7 @@
 #define CNWNETWORKMCNENGINE_H
 
 //  INCLUDES
-#include "MCbsMcnObserver.h" //For McbsMcnObserver
+#include <mcbsmcnobserver.h> //For MCbsMcnObserver
 #include "MNWNetworkTimer.h"
 #include <e32base.h>
 #include <etelmm.h>

@@ -312,7 +312,9 @@ private:
 
     /*
      * Compose Dialog
-     * @param type 
+     * @param dlg
+     * @param dialog timeout
+     * @param dialog type: DisplayText, GetInput, and etc 
      * @param aModal 
      * @param aDismissPolicy 
      */

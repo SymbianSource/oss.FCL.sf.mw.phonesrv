@@ -1,22 +1,7 @@
-/*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
-* All rights reserved.
-* This component and the accompanying materials are made available
-* under the terms of "Eclipse Public License v1.0"
-* which accompanies this distribution, and is available
-* at the URL "http://www.eclipse.org/legal/epl-v10.html".
-*
-* Initial Contributors:
-* Nokia Corporation - initial contribution.
-*
-* Contributors:
-*
-* Description: 
-*
-*/
 #include <etelmm.h>
 #include <etel.h>
 #include <e32std.h>
+#include <rsssettings.h>
 #include <QtTest/QtTest>
 
 RPhone::RPhone()
@@ -163,9 +148,13 @@ void RMobilePhoneBookStore::Close()
 
 void RMobilePhoneBookStore::Read(
     TRequestStatus& aReqStatus, TInt /*aIndex*/, 
-    TInt /*aNumSlots*/, TDes8& /*aPBData*/) const
+    TInt /*aNumSlots*/, TDes8& aPBData) const
 { 
     TRequestStatus* tmp = &aReqStatus;
+// data ?
+    TBuf<5> pbdata(_L("data5"));
+    aPBData.Copy(pbdata);
+    
     User::RequestComplete(tmp, KErrNone);
 }
 
@@ -192,5 +181,13 @@ RTelSubSessionBase::RTelSubSessionBase()
 void RTelSubSessionBase::CancelAsyncRequest(TInt /*aReqToCancel*/) const
 {
 // refers to ut_ussd
+}
+
+TInt RSSSettings::Get( 
+    TSSSettingsSetting /*aSetting*/,
+    TInt& aValue )
+{
+	aValue = ESSSettingsAlsPrimary;
+	return KErrNone;
 }
 

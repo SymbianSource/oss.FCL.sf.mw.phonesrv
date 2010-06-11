@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include "NetworkHandlingProxy.h"
+#include <networkhandlingproxy.h>
 #include "CNWGsmSessionImplementation.h"
 #include "NWLogger.h"
 

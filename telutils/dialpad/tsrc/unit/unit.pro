@@ -23,5 +23,6 @@ SUBDIRS += ut_dialpadvoicemailboxeventfilter
 SUBDIRS += ut_dialpadvideomailboxeventfilter
 SUBDIRS += ut_dialpadbluetootheventfilter
 SUBDIRS += ut_dialpadkeysequenceeventfilter
+SUBDIRS += ut_dialpadkeyhandler
 SUBDIRS += mt_dialpad
 SUBDIRS += mt_keyhandler

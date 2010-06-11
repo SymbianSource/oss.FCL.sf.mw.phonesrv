@@ -25,6 +25,7 @@ class DialpadVoiceMailboxEventFilter;
 class DialpadVideoMailboxEventFilter;
 class DialpadBluetoothEventFilter;
 class DialpadKeySequenceEventFilter;
+class DialpadEmergencyCallEventFilter;
 class HbMainWindow;
 
 #ifdef BUILD_DIALPADKEYHANDLER
@@ -32,6 +33,7 @@ class HbMainWindow;
 #else
 #define DIALPADKEYHANDLER_EXPORT Q_DECL_IMPORT
 #endif
+
 /*!
     DialpadKeyHandler
     Class provides key handling for dialpad component.
@@ -40,23 +42,56 @@ class HbMainWindow;
     Dialpad *dialpad = new Dialpad();
     DialpadKeyHandler *keyhandler = new DialpadKeyHandler(dialpad, this);
     @endcode
-    
 */
 class DIALPADKEYHANDLER_EXPORT DialpadKeyHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit DialpadKeyHandler(Dialpad *dialPad, HbMainWindow& mainWindow, QObject *parent = 0);
+    /*! Declares possible key event filters which can be used with the 
+     * dialpad. */
+    enum DialpadKeyEventFilter
+    {
+        /*! Enables calling to voice mailbox with a long '1' key press. */
+        VoiceMailbox    = 0x0001,
+        /*! Enables calling to video mailbox with a long '2' key press. */
+        VideoMailBox    = 0x0002,
+        /*! Enables switching bluetooth on/off with a long '*' key press. */
+        Bluetooth       = 0x0004,
+        /*! Enables handling of key sequences like *#06# for showing IMEI. */
+        KeySequence     = 0x0008,
+        /*! Forced handling for emergency call. */
+        EmergencyCall   = 0x0010
+    };
+    Q_DECLARE_FLAGS(DialpadKeyEventFilters, DialpadKeyEventFilter)
+    
+public:
+    /*! \deprecated DialpadKeyHandler(Dialpad*, HbMainWindow&, QObject*) is 
+     * deprecated. 
+     * Please use 
+     *     DialpadKeyHandler(
+     *         Dialpad*, 
+     *         QFlags<DialpadKeyHandler::DialpadKeyEventFilter>, 
+     *         QObject*) 
+     * instead. */
+    explicit DialpadKeyHandler(
+        Dialpad *dialPad, 
+        HbMainWindow& mainWindow, 
+        QObject *parent = 0);
+    
+    explicit DialpadKeyHandler(
+        Dialpad *dialPad, 
+        DialpadKeyHandler::DialpadKeyEventFilters filters,
+        QObject *parent = 0);
     virtual ~DialpadKeyHandler();
-
+    
 private:
     HbMainWindow& mMainWindow;
     QScopedPointer<DialpadVoiceMailboxEventFilter> mVmbxFilter;
     QScopedPointer<DialpadVideoMailboxEventFilter> mVideoVmbxFilter;
     QScopedPointer<DialpadBluetoothEventFilter> mBtFilter;
     QScopedPointer<DialpadKeySequenceEventFilter> mKeySequenceFilter;
-    bool mIsVideoMailboxSupported;
+    QScopedPointer<DialpadEmergencyCallEventFilter> mEmergencyCallFilter;
 };
 
 #endif // DIALPADKEYHANDLER_H

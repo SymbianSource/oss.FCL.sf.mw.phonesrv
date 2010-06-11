@@ -1022,7 +1022,7 @@ void CSatUiObserver::ConfirmCommand(
         case ESatSLaunchBrowserQuery:
             {
             TFLOGSTRING("Quering LaunchBrowser")
-            HBufC* textHolder = NULL;
+            //HBufC* textHolder = NULL;
 
             TRAP(error,
             if (ESatAlphaIdNull != aAlphaIdStatus)
@@ -1042,16 +1042,16 @@ void CSatUiObserver::ConfirmCommand(
                     {
                     TFLOGSTRING("CSatUiObserver::ConfirmCommand \
                         AlphaId provided")
-                    textHolder = HBufC::NewLC(aText.Length());
-                    TPtr ptr = textHolder->Des();
-                    ptr.Append(aText);
+                    //textHolder = HBufC::NewLC(aText.Length());
+                    //TPtr ptr = textHolder->Des();
+                    //ptr.Append(aText);
                     }
                 
                 //TRAP(error, iActionImplementer->ConfirmLaunchBrowserL(*textHolder,
                 //    aActionAccepted, iconBitmap, selfExplanatory));
  
                 // Clean textHolder
-                CleanupStack::PopAndDestroy(textHolder);
+                //CleanupStack::PopAndDestroy(textHolder);
                 }
 
            ); // TRAP

@@ -54,7 +54,7 @@ bool DialpadButton::sceneEvent(QEvent *event)
     bool result = HbPushButton::sceneEvent(event);
 
     if (event->type() == QEvent::UngrabMouse) {
-        if (isDown()) {
+        if (isVisible() && isDown()) {
             // this is needed in situation, where
             // longpress launches a dialog (vmbx)
             // and button release event goes to

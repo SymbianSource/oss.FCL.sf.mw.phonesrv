@@ -1,23 +1,8 @@
-/*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
-* All rights reserved.
-* This component and the accompanying materials are made available
-* under the terms of "Eclipse Public License v1.0"
-* which accompanies this distribution, and is available
-* at the URL "http://www.eclipse.org/legal/epl-v10.html".
-*
-* Initial Contributors:
-* Nokia Corporation - initial contribution.
-*
-* Contributors:
-*
-* Description: 
-*
-*/
-
 #include <mpbutil.h>
 #include <e32base.h>
 #include <e32des8.h>
+
+TInt time = 0;
 
 CPhoneBookBuffer::CPhoneBookBuffer():iMonitor(NULL,0,0)
 {
@@ -51,8 +36,45 @@ TInt CPhoneBookBuffer::RemovePartialEntry()
 
 void CPhoneBookBuffer::StartRead(){}
 
-TInt CPhoneBookBuffer::GetTagAndType(TUint8 &/*aTagValue*/, TPhBkTagType &/*aDataType*/)
-{ return 0; }
+TInt CPhoneBookBuffer::GetTagAndType(TUint8 &aTagValue, TPhBkTagType &aDataType)
+{ 
+	switch(aDataType)
+		{
+		case CPhoneBookBuffer::EPhBkTypeNoData:
+			{
+			if(time == 0)
+				{
+				aTagValue = RMobilePhoneBookStore::ETagPBNewEntry;
+				time ++;
+				}
+			else if (time == 1)
+				{
+				aTagValue = RMobilePhoneBookStore::ETagPBNumber;
+				time ++;
+				}
+			else if (time == 2)
+				{
+				aTagValue = RMobilePhoneBookStore::ETagPBText;
+				time ++;
+				}
+			else if (time == 3)
+				{
+				aTagValue = RMobilePhoneBookStore::ETagPBTonNpi;
+				time ++;
+				}
+			else
+				{
+				time = 0;
+				return KErrNotFound;
+				}
+			break;
+			}
+		default:
+			aTagValue = 0;
+		}
+	
+	return KErrNone; 
+}
 
 TInt CPhoneBookBuffer::GetValue(TUint8 &/*aInteger*/)
 { return 0; }

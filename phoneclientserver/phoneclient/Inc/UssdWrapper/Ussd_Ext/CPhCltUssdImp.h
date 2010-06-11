@@ -188,7 +188,7 @@ class CPhCltUssdImp:
         void EncodeL( const TDesC& aSrc, TDes8& aDes );
         
         // Finds CR character        
-        void CPhCltUssdImp::FindFirstCarriageReturnL( 
+        void FindFirstCarriageReturnL( 
         const TDesC& aBuffer ,
         TUint& aSkipChars , 
         TUint& aStartBit );
@@ -201,8 +201,8 @@ class CPhCltUssdImp:
         // Wait scheduler used in this class. 
         CActiveSchedulerWait* iWait;
 
-        // Pointer to sending error store place.
-        TInt* iSendError;
+        // TInt to sending error store place.
+        TInt iSendError;
         
         // Data coding scheme value
         TUint8 iDCS;

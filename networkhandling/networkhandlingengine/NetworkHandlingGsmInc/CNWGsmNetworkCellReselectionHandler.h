@@ -21,9 +21,9 @@
 #define CNWGSMNETWORKCELLRESELECTIONHANDLER_H
 
 //  INCLUDES
-#include "NWHandlingEngine.h"
+#include <nwhandlingengine.h>
 #include <rmmcustomapi.h>
-#include <CMcn.h>
+#include <cmcn.h>
 #include <e32property.h>
 
 // CONSTANTS

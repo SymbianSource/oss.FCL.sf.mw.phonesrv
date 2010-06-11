@@ -377,10 +377,15 @@ void mt_Dialpad::testOpenDialogWhileButtonPressed()
     QTest::qWait( WAIT_TIME );
     mouseClickDialpad(Qt::Key_5, Press);
     QTest::qWait( LONGPRESS_DURATION );
-    HbMessageBox dlg("Dialpad test dialog");
-    dlg.setTimeout(500);
-    dlg.exec();
+
+    HbMessageBox* box = new HbMessageBox("Test dialog!");
+    box->show();
+    QTest::qWait( 500 );
+
     mouseClickDialpad(Qt::Key_5, Release);
+    QTest::qWait( 100 );
+    delete box;
+
     QVERIFY(mDialpad->editor().text()=="5");
     QVERIFY(mKeyCatcher->mKeyPresses.at(0)==Qt::Key_5);
     QVERIFY(mKeyCatcher->mKeyReleases.at(0)==Qt::Key_5);

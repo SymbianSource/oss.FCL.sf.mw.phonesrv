@@ -45,21 +45,9 @@ void Ut_vmbxCpPlugin::testCreateSettingFormItemData()
 void Ut_vmbxCpPlugin::testCreateVmbxCpGroup()
 {
     CpItemDataHelper itemDataHelper;
-<<<<<<< e:\ec_temp\ut_vmbxcpplugin-e003sa18#2.cpp
     VmbxCpGroup *group = new VmbxCpGroup(itemDataHelper);
     QVERIFY(group);
     delete group;
     group = NULL;
-=======
-    VmbxCpGroup *group = new VmbxCpGroup(itemDataHelper);
-    QVERIFY(group);
-    delete group;
-    group = NULL;
-    
-    group = new VmbxCpGroup();
-    QVERIFY(group);
-    delete group;
-    group = NULL;
->>>>>>> e:\ec_temp\ut_vmbxcpplugin-2.cpp
 }
 //End of file

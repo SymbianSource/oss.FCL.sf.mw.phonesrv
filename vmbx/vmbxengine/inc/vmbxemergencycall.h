@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <PhCltTypes.h>         // from PhoneClient
-#include <MPhCltEmergencyCallObserver.h>
+#include <phclttypes.h>         // from PhoneClient
+#include <mphcltemergencycallobserver.h>
 
 // CLASS DECLARATION
 

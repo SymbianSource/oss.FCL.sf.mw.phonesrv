@@ -96,8 +96,8 @@ void Dialpad::initialize()
     mIconDrawer = new HbFrameDrawer();
 
     // popup layout
-    QGraphicsLinearLayout* popupLayout
-        = new QGraphicsLinearLayout(mMainWindow.orientation());
+    QGraphicsLinearLayout* popupLayout =
+        new QGraphicsLinearLayout(Qt::Vertical);
     popupLayout->addItem(mInputField);
     popupLayout->addItem(mKeypad);
     popupLayout->setContentsMargins(margin, mCloseHandleHeight, margin, margin);

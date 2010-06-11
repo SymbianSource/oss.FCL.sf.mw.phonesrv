@@ -123,8 +123,16 @@ void SatAppCommandHandler::displayText(TSatUiResponse &aRes,
             duration = KDisplayTxtUserClearTimeout;
         }
     } else {
-        // if duration  defined
+        TFLOGSTRING(
+        "SATAPP: SatAppCommandHandler::displayText duration given")
         duration = aDuration * 1000;
+    }
+    
+    // If not sustained or Clear after delay requested start timer
+    if ( !(!aSustainedText || aDuration || !aWaitUserToClear) ){
+        TFLOGSTRING(
+        "SATAPP: SatAppCommandHandler::displayText no duration")
+        duration = 0;
     }
     TFLOGSTRING2(
     "SATAPP: SatAppCommandHandler::displayText duration: %d", 

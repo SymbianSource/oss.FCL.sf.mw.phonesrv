@@ -44,7 +44,7 @@ bool mSendCalled;
 DialpadSymbianWrapper::DialpadSymbianWrapper(QObject *parent) : d_ptr(NULL) {}
 DialpadSymbianWrapper::~DialpadSymbianWrapper() {}
 int DialpadSymbianWrapper::getVideoMailboxNumber(QString &vmbxNumber) { vmbxNumber=QString("12345678"); return 0; }
-int DialpadSymbianWrapper::defineMailboxNumber(QString &vmbxNumber) { return 0; }
+int DialpadSymbianWrapper::defineVideoMailboxNumber(QString &vmbxNumber) { return 0; }
 
 #ifdef Q_OS_SYMBIAN
 XQServiceRequest::XQServiceRequest(const QString& service, const QString& message, const bool& synchronous) { mService=service; mMessage=message; mXQServiceConstructed=true; }

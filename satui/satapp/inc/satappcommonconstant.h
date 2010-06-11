@@ -22,7 +22,8 @@
 
 const int KDisplayTxtUserClearTimeout( 60000 );
 // As the QT for S60 is slow, we use 6 sec, in symbian sat ui we use 3 sec.
-const int KDisplayTxtDefaultduration( 6000 );
+// Rollback to 3s
+const int KDisplayTxtDefaultduration( 3000 );
 
 const unsigned int KGetInputStringMaxSize = 0xEF;
 

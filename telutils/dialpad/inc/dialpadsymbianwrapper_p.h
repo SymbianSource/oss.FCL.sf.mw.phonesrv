@@ -18,7 +18,7 @@
 #ifndef DIALPADSYMBIANWRAPPERPRIVATE_H
 #define DIALPADSYMBIANWRAPPERPRIVATE_H
 
-#include <QString>
+#include <qstring>
 #include <qglobal.h>
 
 class CVoiceMailbox;

@@ -44,7 +44,7 @@ VmbxCpGroup::VmbxCpGroup(
         mCsVoice1Editor(NULL),
         mCsVideo1Editor(NULL)
 { 
-    _DBGLOG2("VmbxCpGroup::VmbxCpGroup label=",label)
+    _DBGLOG2("VmbxCpGroup::VmbxCpGroup label=",label())
     // Localization file loading
     QTranslator translator; 
     QString lang = QLocale::system().name();

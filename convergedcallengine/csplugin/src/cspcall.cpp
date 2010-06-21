@@ -194,7 +194,8 @@ void CSPCall::NotifyCallStateChangedETel( RMobileCall::TMobileCallStatus aState 
             // If audio still active
             if ( iAudioStatus == ECSPCallAudioStatusActive 
                  && iAudioHandler
-                 && iParams->CallType() == CCPCall::ECallTypeCSVoice )
+                 && ( iParams->CallType() == CCPCall::ECallTypeCSVoice 
+                    || iParams->CallType() == CCPCall::ECallTypeVideo ) )
                 {
                 iAudioStatus = ECSPCallAudioStatusInactive;
                 iAudioHandler->Stop();
@@ -215,7 +216,9 @@ void CSPCall::NotifyCallStateChangedETel( RMobileCall::TMobileCallStatus aState 
         case RMobileCall::EStatusDialling:
             CSPLOGSTRING(CSPINT, "CSPCall callstate Dialling");
             {
-            if ( iAudioHandler && iParams->CallType() == CCPCall:: ECallTypeCSVoice )
+            if ( iAudioHandler 
+                 && ( iParams->CallType() == CCPCall::ECallTypeCSVoice 
+                    || iParams->CallType() == CCPCall::ECallTypeVideo ) )
                 {
                 iAudioStatus = ECSPCallAudioStatusActive;
                 iAudioHandler->Start();

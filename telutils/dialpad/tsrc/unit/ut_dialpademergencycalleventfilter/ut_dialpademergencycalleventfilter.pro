@@ -31,10 +31,12 @@ symbian {
 }
 
 #ß
-HEADERS += ../../../inc/dialpademergencycalleventfilter.h
-HEADERS += xqservicerequest.h
-SOURCES += ut_dialpademergencycalleventfilter.cpp
-SOURCES += ../../../src/dialpademergencycalleventfilter.cpp
+HEADERS += ../../../inc/dialpademergencycalleventfilter.h \
+           xqservicerequest.h \
+           ../shared/dialpadtestutil.h
+SOURCES += ut_dialpademergencycalleventfilter.cpp \
+           ../../../src/dialpademergencycalleventfilter.cpp \
+           ../shared/dialpadtestutil.cpp
 
 # 
 LIBS += -ldialpad

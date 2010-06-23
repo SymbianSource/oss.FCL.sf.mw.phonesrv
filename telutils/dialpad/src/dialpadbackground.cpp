@@ -15,7 +15,7 @@
 *
 */
 
-#include <QtGui>
+#include <QGraphicsSceneMouseEvent>
 #include "dialpadbackground.h"
 #include "dialpad.h"
 

@@ -49,10 +49,12 @@
 
 // CONSTANTS
 const TInt KPhSrvDefaultValue = 0x00000000;
-// const TInt KPhSrvUssdNoTone = 0; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
+// See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
+// const TInt KPhSrvUssdNoTone = 0; 
 // const TInt KPhSrvUssdTimeOutObserverGranularity = 2;
 // const TInt KPhSrvUssdSentMessageObserverGranularity = 2;
-const TInt KPhSrvUssdAppUID = 0x10005955;
+// See KUssdSecureId in phcltclientserver.h
+//const TInt KPhSrvUssdAppUID = 0x10005955; 
 
 const TInt KPhSrvUssdMessageQueryInterval = 500000; // 0.5 sec
 //const TInt KPhSrvUssdNoteExitPeriod = 500000; // 0.5 sec
@@ -731,7 +733,7 @@ TBool CPhSrvUssdManager::UssdAppTaskExistsL()
     _DPRINT( 4, "PhSrv.UssdAppTaskExists.wsSession.Connect" );
     CleanupClosePushL(wsSession);
     TApaTaskList tasklist(wsSession);
-    TApaTask task = tasklist.FindApp(TUid::Uid(KPhSrvUssdAppUID));
+    TApaTask task = tasklist.FindApp( KUssdSecureId );
     ret = task.Exists();
 
     CleanupStack::PopAndDestroy();
@@ -1720,7 +1722,7 @@ void CPhSrvUssdManager::RequestStartEditingL()
 
     // Find the task with name
     TApaTaskList tasklist( wsSession );
-    TApaTask task = tasklist.FindApp( TUid::Uid( KPhSrvUssdAppUID ) );
+    TApaTask task = tasklist.FindApp( KUssdSecureId );
 
     // If task exists, bring it to foreground
     if ( task.Exists() )
@@ -1737,13 +1739,12 @@ void CPhSrvUssdManager::RequestStartEditingL()
         CleanupClosePushL( apaLsSession );
 
         TApaAppInfo appInfo;
-        TInt err = apaLsSession.GetAppInfo(
-            appInfo,
-            TUid::Uid( KPhSrvUssdAppUID )  );
+        
+        TInt err = apaLsSession.GetAppInfo( appInfo, KUssdSecureId );
+        _DDPRINT( 4, "PhSrv.RequestStartEditingL.GetAppInfo ", err );     // debug print
+        
         if ( err == KErrNone )
             {
-            _DDPRINT( 4, "PhSrv.RequestStartEditingL.GetAppInfo ", err );     // debug print
-
         #ifndef SYMBIAN_SUPPORT_UI_FRAMEWORKS_V1
             CApaCommandLine* apaCommandLine = CApaCommandLine::NewLC();
             apaCommandLine->SetExecutableNameL( appInfo.iFullName );
@@ -1752,14 +1753,16 @@ void CPhSrvUssdManager::RequestStartEditingL()
                 CApaCommandLine::NewLC( appInfo.iFullName );
         #endif // SYMBIAN_SUPPORT_UI_FRAMEWORKS_V1
 
-            err = apaLsSession.StartApp( *apaCommandLine );
+            TThreadId id( static_cast<TInt64>( 0 ) );
+            err = apaLsSession.StartApp( *apaCommandLine, id );
+            _DDPRINT( 4, "PhSrv.RequestStartEditingL.ThreadId ", id ); 
             CleanupStack::PopAndDestroy( apaCommandLine );
             }
-        CleanupStack::PopAndDestroy(); // apaLsSession
+        CleanupStack::PopAndDestroy( &apaLsSession ); // apaLsSession
         
         // bring the ussd editor to foreground, only for testing
         TApaTaskList tasklist( wsSession );
-        TApaTask task = tasklist.FindApp( TUid::Uid( KPhSrvUssdAppUID ) );
+        TApaTask task = tasklist.FindApp( KUssdSecureId );
         if ( task.Exists() )
             {
             _DPRINT( 4, "PhSrv.UssdM.RequestStartEditingL.task.BringToForeground" );

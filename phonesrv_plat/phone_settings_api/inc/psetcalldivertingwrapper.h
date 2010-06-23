@@ -124,8 +124,17 @@ public:
 
     /**
      * Get voicemailbox number.
+     * @param aNumber empty if not set
+     * @return -1 if not supported
      */
-    void getVoiceMailBoxNumber(QString &aNumber);
+    int getVoiceMailBoxNumber(QString &aNumber, PsService aService);
+    
+    /**
+     * Query voicemailbox number.
+     * @param aNumber empty if not set
+     * @return -1 if not supported
+     */
+    int queryVoiceMailBoxNumber(QString &aNumber, PsService aService);
 
 
 signals: // Notify via signals     

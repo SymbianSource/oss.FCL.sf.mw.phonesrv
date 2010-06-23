@@ -21,7 +21,7 @@
 #include <bldvariant.hrh>
 #include <data_caging_paths_for_iby.hrh>
 
-file = ABI_DIR/BUILD_DIR/keysequencerecognitionservice.exe 
+file = ABI_DIR/BUILD_DIR/keysequencerecognitionservice.exe \
            PROGRAMS_DIR/keysequencerecognitionservice.exe
 data = DATAZ_/private/10003a3f/import/apps/keysequencerecognitionservice_reg.rsc \
            private/10003a3f/import/apps/keysequencerecognitionservice_reg.rsc

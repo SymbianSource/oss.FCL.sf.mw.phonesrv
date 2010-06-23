@@ -35,5 +35,14 @@ const QString KCodeBtDebugMode("*#2873#");
 const QString KCodeImei("*#06#");
 /*! code for showing life timer data */
 const QString KCodeLifeTimer("*#92702689#");
+/*! code for changing pin code 1 */
+const QString KCodeChangePin1("\\*\\*04\\*.*");
+/*! code for changing pin code 2 */
+const QString KCodeChangePin2("\\*\\*042.*");
+/*! code for unblocking pin code 1 */
+const QString KCodeUnblockPin1("\\*\\*05\\*.*");
+/*! code for unblocking pin code 2 */
+const QString KCodeUnblockPin2("\\*\\*052.*");
+
 
 #endif // KEYSEQUENCERECOGNITIONSERVICEDEFS_H

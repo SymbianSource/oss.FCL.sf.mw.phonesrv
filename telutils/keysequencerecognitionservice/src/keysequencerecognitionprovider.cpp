@@ -23,6 +23,7 @@
 #include "manufacturerkeysequencehandler.h"
 #include "imeikeysequencehandler.h"
 #include "lifetimerkeysequencehandler.h"
+#include "simcontrolkeysequencehandler.h"
 #include "keysequencerecognitionservicelog.h"
 
 /*!
@@ -134,6 +135,11 @@ void KeySequenceRecognitionProvider::constructKeySequenceHandlers()
         new LifeTimerKeySequenceHandler(this));
     m_handlers.append(lifeTimerHandler.data());
     lifeTimerHandler.take();
+    
+    QScopedPointer<KeySequenceHandler> simControlHandler( 
+        new SimControlKeySequenceHandler(this));
+    m_handlers.append(simControlHandler.data());
+    simControlHandler.take();
 }
 
 

@@ -70,7 +70,7 @@ const TUint32 KPhoneGsmUidSimControlProcedure = 2;
 const TUint32 KPhoneGsmUidDialPhoneNumber = 3;
 
 /**
-* Misc GSM required strings, most notably USSD and IMEI.
+* Misc GSM required strings, most notably USSD.
 */
 const TUint32 KPhoneGsmUidMisc = 4;
 
@@ -104,8 +104,6 @@ const TUint32 KPhoneUidDialVoipyNumber = 9;
 */
 const TUint32 KPhoneUidUnstructuredService = 
     PHONE_MAKE_UID( KPhoneGsmUidMisc, 0 );
-const TUint32 KPhoneUidIMEI =
-    PHONE_MAKE_UID( KPhoneGsmUidMisc, 1 );
 
 // FORWARD DECLARATIONS
 class CPhoneGsmParserResult;

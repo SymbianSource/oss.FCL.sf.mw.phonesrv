@@ -30,13 +30,15 @@ symbian {
 }
 
 #
-HEADERS += ../../../inc/dialpadvideomailboxeventfilter.h
-HEADERS += ../../../inc/dialpadmailboxeventfilterbase.h
-HEADERS += ../../../inc/dialpadsymbianwrapper.h
-HEADERS += xqservicerequest.h
-SOURCES += ut_dialpadvideomailboxeventfilter.cpp
-SOURCES += ../../../src/dialpadvideomailboxeventfilter.cpp
-SOURCES += ../../../src/dialpadmailboxeventfilterbase.cpp
+HEADERS += ../../../inc/dialpadvideomailboxeventfilter.h \
+           ../../../inc/dialpadmailboxeventfilterbase.h \
+           ../../../inc/dialpadsymbianwrapper.h \
+           xqservicerequest.h \
+           dialpadtestutil.h
+SOURCES += ut_dialpadvideomailboxeventfilter.cpp \
+           ../../../src/dialpadvideomailboxeventfilter.cpp \
+           ../../../src/dialpadmailboxeventfilterbase.cpp \
+           ../shared/dialpadtestutil.cpp
 
 # 
 LIBS += -ldialpad

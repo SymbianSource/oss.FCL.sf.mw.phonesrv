@@ -200,9 +200,12 @@ void PSetCallDivertingWrapper::setNewDefaultNumber(QString aNumber)
 }
 
 /*!
-  PSetCallDivertingWrapper::getVoiceMailBoxNumber
+ * PSetCallDivertingWrapper::getVoiceMailBoxNumber
+ * @param aNumber empty if not set
+ * @return -1 if not supported
  */
-void PSetCallDivertingWrapper::getVoiceMailBoxNumber(QString &aVmbxNumber)
+int PSetCallDivertingWrapper::getVoiceMailBoxNumber(
+        QString &aNumber, PsService aService)
 {
     DPRINT << ": IN";
 
@@ -213,46 +216,90 @@ void PSetCallDivertingWrapper::getVoiceMailBoxNumber(QString &aVmbxNumber)
 
     TVoiceMailboxParams psetVoiceMailboxParams;
     // Selected mailbox type is voice
-    psetVoiceMailboxParams.iType = EVmbxVoice;
+    psetVoiceMailboxParams.iType = m_Priv->convert(aService);
     psetVoiceMailboxEntry = 0;
-    TInt error = psetVoiceMailBox->GetStoredEntry( psetVoiceMailboxParams, psetVoiceMailboxEntry );
-    if ( KErrNone == error ) {
+    int ret = 0;
+    TInt error = psetVoiceMailBox->GetStoredEntry(
+            psetVoiceMailboxParams, psetVoiceMailboxEntry);
+    DPRINT << "error: " << error;
+    if (KErrNotSupported == error) {
+        ret = -1;
+    } else if (KErrNone == error) {
         // Entry ok, check the number
-        TPtrC ptrNumber( KNullDesC );
-        if ( KErrNone == psetVoiceMailboxEntry->GetVmbxNumber( ptrNumber )) {
+        TPtrC ptrNumber(KNullDesC);
+        if (KErrNone == psetVoiceMailboxEntry->GetVmbxNumber(ptrNumber)) {
             // number ok
-            aVmbxNumber = QString::fromUtf16(ptrNumber.Ptr(),
+            aNumber = QString::fromUtf16(ptrNumber.Ptr(),
                     ptrNumber.Length());
-            }
         }
-      else if ( KErrNotFound == error ) {
-        // No number defined, query new entry from user
-        error = psetVoiceMailBox->QueryNewEntry( psetVoiceMailboxParams, psetVoiceMailboxEntry );
+        
+    } else {
+        // illegal argument
+    }
 
-        if ( KErrNone == error ) {
+    delete psetVoiceMailboxEntry; // Entry ownership was transferred
+    psetVoiceMailboxEntry = NULL;
+
+    DPRINT << "aVmbxNumber: " << aNumber;
+    DPRINT << ": OUT";
+    return ret;
+}
+
+/*!
+ * PSetCallDivertingWrapper::queryVoiceMailBoxNumber
+ * @param aNumber empty if not set
+ * @return -1 if not supported
+ */
+int PSetCallDivertingWrapper::queryVoiceMailBoxNumber(
+        QString &aNumber, PsService aService)
+{
+    DPRINT << ": IN";
+
+    CVoiceMailboxEntry* psetVoiceMailboxEntry = NULL;
+    CVoiceMailbox* psetVoiceMailBoxScoped = NULL;
+    QT_TRAP_THROWING(psetVoiceMailBoxScoped = CVoiceMailbox::NewL());
+    QScopedPointer<CVoiceMailbox> psetVoiceMailBox(psetVoiceMailBoxScoped);
+
+    TVoiceMailboxParams psetVoiceMailboxParams;
+    // Selected mailbox type is voice
+    psetVoiceMailboxParams.iType = m_Priv->convert(aService);
+    psetVoiceMailboxEntry = 0;
+    int ret = 0;
+    TInt error = psetVoiceMailBox->GetStoredEntry(
+            psetVoiceMailboxParams, psetVoiceMailboxEntry);
+    
+    if (KErrNotSupported == error) {
+        ret = -1;
+    } else if (KErrNone == error || KErrNotFound == error) {
+        // No number defined, query new entry from user
+        error = psetVoiceMailBox->QueryNewEntry(
+                psetVoiceMailboxParams, psetVoiceMailboxEntry);
+
+        if (KErrNone == error) {
             // Save new entry and get the number.
             error = psetVoiceMailBox->SaveEntry( *psetVoiceMailboxEntry );
             TPtrC ptrNumber( KNullDesC );
             if ( KErrNone == psetVoiceMailboxEntry->GetVmbxNumber( ptrNumber )) {
                 // New number ok.
-                aVmbxNumber = QString::fromUtf16(ptrNumber.Ptr(),
+                aNumber = QString::fromUtf16(ptrNumber.Ptr(),
                         ptrNumber.Length());
-                }
-            } else {
-                // New number not given.
-                DPRINT << "New number error: " << error;
             }
+        
+        } else {
+            // New number not given.
+            DPRINT << "New number error: " << error;
         }
-    else {
+    } else {
         // illegal argument 
         DPRINT << "error: " << error;
-        }
+    }
 
     delete psetVoiceMailboxEntry; // Entry ownership was transferred
     psetVoiceMailboxEntry = NULL;
 
-    DPRINT << "aVmbxNumber: " << aVmbxNumber;
+    DPRINT << "aVmbxNumber: " << aNumber;
     DPRINT << ": OUT";
+    return ret;
 }
 
 /*!

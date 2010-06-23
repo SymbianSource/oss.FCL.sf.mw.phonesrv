@@ -197,7 +197,7 @@ void VmbxCpGroup::updateVmbxNumber(const TVmbxType vmbxType)
 
     QString number("");
     if (EVmbxVoice == vmbxType) {
-        if (mCsVideo1Editor && mUiEngine){
+        if (mCsVoice1Editor && mUiEngine){
             mUiEngine->getCsVoiceNumber(number);
             _DBGLOG2("VmbxCpGroup::updateVmbxNumber\
                  number=", number)

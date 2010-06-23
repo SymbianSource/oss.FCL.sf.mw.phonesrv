@@ -18,17 +18,14 @@
 #ifndef DIALPADKEYPAD_H
 #define DIALPADKEYPAD_H
 
-#include <hbwidget.h>
+#include <hbinputbuttongroup.h>
 
-class DialpadButton;
 class DialpadInputField;
 class DialpadButton;
 class QSignalMapper;
 class QGraphicsGridLayout;
 
-const int DialpadButtonCount = 13;
-
-class DialpadKeypad : public HbWidget
+class DialpadKeypad : public HbInputButtonGroup
 {
     Q_OBJECT
 
@@ -41,41 +38,33 @@ public:
     ~DialpadKeypad();
 
 public:
-    void setLongPressDuration(int duration);
-
     void setCallButtonEnabled(bool enabled);
 
-    void createButtonGrid();
-    
     void resetButtons();
+
+    DialpadButton& callButton() const;
 
 protected slots:
     void setButtonTexts();
-    void handleKeyPressed(int key);
-    void handleKeyClicked(int key);
-    void handleKeyReleased(int key);
-    void handleLongPress();
 
-protected:
-    void showEvent(QShowEvent *event);
+    void handleKeyClicked(int key);
+    void sendKeyPressEvent(const QKeyEvent& event);
+    void sendKeyReleaseEvent(const QKeyEvent& event);
+    void sendLongPressEvent(const QKeyEvent& event);
+    void handleKeyChangeEvent(const QKeyEvent& releaseEvent,
+                              const QKeyEvent& pressEvent);
 
 private:
     void postKeyEvent(QEvent::Type type, int key);
     void sendKeyEventToEditor(QEvent::Type type, int key);
-    inline bool isNumericKey(int key);
 
 private:
     const HbMainWindow& mMainWindow;
     DialpadInputField& mInputField;
-    QGraphicsGridLayout* mGridLayout;
-    DialpadButton* mButtons[DialpadButtonCount];
-    QSignalMapper* mKeyPressedSignalMapper;
-    QSignalMapper* mKeyReleasedSignalMapper;
     QSignalMapper* mKeyClickedSignalMapper;
     QMap<int,QChar> mGeneratedChar;
     int mPressedNumericKey;
-    QTimer* mLongPressTimer;
-    int mLongPressDuration;
+    DialpadButton* mCallButton;
 };
 
 #endif // DIALPADKEYPAD_H

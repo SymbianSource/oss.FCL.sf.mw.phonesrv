@@ -29,6 +29,7 @@
 #include <hbinputstandardfilters.h>
 #include <hbinputfilter.h> 
 #include <hblistwidget.h>
+#include <hbnotificationdialog.h>
 #include <dialogwaiter.h>
 
 #include <cvoicemailboxentry.h>
@@ -167,9 +168,14 @@ void VmbxQtUiHandler::showVmbxQueryDialog(const TVmbxType& aType,
     
 
     // TODO Delete Operation will case panic on EM
+    
+#ifdef __WINS__
+    iQueryDialog->close();
+#else
     delete iQueryDialog;
     iQueryDialog = 0;
-    
+#endif // __WINS__
+
     VMBLOGSTRING2("VmbxQtUiHandler::showVmbxQueryDialog aResult = %d", aResult)
     VMBLOGSTRING("VmbxQtUiHandler::showVmbxQueryDialog Exit")
 }
@@ -229,11 +235,13 @@ void VmbxQtUiHandler::showDefineSelectionDialog(
     VMBLOGSTRING2("VmbxQtUiHandler::showDefineSelectionDialog: aResult%d", \
         aResult)
         
-    
-     // TODO Delete Operation will case panic on EM
+#ifdef __WINS__
+    defineListDialog->close();
+#else
     delete defineListDialog;
     defineListDialog = 0;
-    
+#endif // __WINS__  
+
     VMBLOGSTRING("VmbxQtUiHandler::showDefineSelectionDialog Exit")
 }
 
@@ -329,8 +337,13 @@ void VmbxQtUiHandler::showCallSelectionDialog(
         params.iType)
     VMBLOGSTRING2("VmbxQtUiHandler::showCallSelectionDialog: result%d",
         result)
+    
+#ifdef __WINS__
+    callListDialog->close();
+#else
     delete callListDialog;
     callListDialog = 0;
+#endif // __WINS__  
     VMBLOGSTRING("VmbxQtUiHandler::showCallSelectionDialog Exit")
 }
 
@@ -374,20 +387,7 @@ void VmbxQtUiHandler::showInformationNote(const TVmbxNoteType aType)
         VMBLOGSTRING("VmbxQtUiHandler::ShowInformationNote default")
         break;
     }
-    HbMessageBox *msgBox = 0;
-    if (EInvalidNumber == aType) {
-        msgBox = new HbMessageBox(HbMessageBox::MessageTypeWarning);   
-    } else {
-        msgBox = new HbMessageBox(HbMessageBox::MessageTypeInformation);
-    }
-    msgBox->setText(noteText);
-    msgBox->setTimeout( HbDialog::StandardTimeout );
-    msgBox->clearActions();
-    DialogWaiter waiter;
-    msgBox->open(&waiter, SLOT(done(HbAction *)));
-    waiter.wait();
-    delete msgBox;
-    msgBox = 0;
+    HbNotificationDialog::launchDialog(noteText);
     VMBLOGSTRING("VmbxQtUiHandler::showInformationNote Exit")
 }
 

@@ -14,8 +14,8 @@
 * Description: Implements key sequence recognition filter for Dialpad.
 *
 */
-#include <qdebug>
-#include <qkeyevent>
+#include <QDebug>
+#include <QKeyEvent>
 #include <hblineedit.h>
 #include <hbstringutil.h>
 #ifdef Q_OS_SYMBIAN
@@ -35,6 +35,8 @@ DialpadKeySequenceEventFilter::DialpadKeySequenceEventFilter(
     QObject(parent), mDialpad(dialpad)
 {
     PHONE_TRACE;
+    
+    constructKeySequenceToHandlerMappings();
 }
 
 
@@ -52,7 +54,6 @@ DialpadKeySequenceEventFilter::~DialpadKeySequenceEventFilter()
  */
 bool DialpadKeySequenceEventFilter::eventFilter(QObject *watched, QEvent *event)
 {
-    PHONE_TRACE;
     Q_UNUSED(watched)
     
     const bool eventFiltered = false;
@@ -65,24 +66,25 @@ bool DialpadKeySequenceEventFilter::eventFilter(QObject *watched, QEvent *event)
     // specification.
     QString keySequenceCandidate = HbStringUtil::convertDigitsTo(
         mDialpad->editor().text(), WesternDigit);
-    if (QEvent::KeyRelease == eventType && 
-        Qt::Key_NumberSign == keyCode &&
-        preValidateKeySequence(keySequenceCandidate)) {
-        XQServiceRequest request(
-            "com.nokia.symbian.IDtmfPlay",
-            "executeKeySequence(QString)",
-            true);
-        
-        // Workaround for getting focus back to dialer after service request.
-        XQRequestInfo requestInfo;
-        requestInfo.setBackground(true);
-        request.setInfo(requestInfo);
-        
-        QVariant keySequenceProcessed;
-        request << keySequenceCandidate;
-        bool requestOk = request.send(keySequenceProcessed);
-        if (requestOk && keySequenceProcessed.toBool()) {
-            mDialpad->editor().setText(QString(""));
+    if (QEvent::KeyRelease == eventType && Qt::Key_NumberSign == keyCode) {
+        XQAiwInterfaceDescriptor keySequenceHandler = 
+            findKeySequenceHandler(keySequenceCandidate);
+        if (keySequenceHandler.isValid()) {
+            QScopedPointer<XQAiwRequest> request(mAiwMgr.create(
+                keySequenceHandler, 
+                "executeKeySequence(QString)",
+                false));
+            request->setSynchronous(true);
+            request->setBackground(true);
+            QList<QVariant> arguments;
+            arguments << keySequenceCandidate;
+            request->setArguments(arguments);
+            
+            QVariant keySequenceProcessed;
+            bool requestOk = request->send(keySequenceProcessed);
+            if (requestOk && keySequenceProcessed.toBool()) {
+                mDialpad->editor().setText(QString(""));
+            }
         }
     }
 #else
@@ -94,22 +96,56 @@ bool DialpadKeySequenceEventFilter::eventFilter(QObject *watched, QEvent *event)
 
 
 /*!
-  DialpadKeySequenceEventFilter::preValidateKeySequence.
-  Checks that key sequence starts with '*#'and ends with '#'.
+  DialpadKeySequenceEventFilter::constructKeySequenceToHandlerMappings.
  */
-bool DialpadKeySequenceEventFilter::preValidateKeySequence(
-    const QString &sequence)
+void DialpadKeySequenceEventFilter::constructKeySequenceToHandlerMappings()
 {
-    const int KMinimumLength = 4;
-    bool isValid = false;
+    PHONE_TRACE;
     
-    int lengthOfSequence = sequence.length();
-    if (KMinimumLength <= lengthOfSequence) {
-        isValid = 
-            (sequence.at(0) == '*') && 
-            (sequence.at(1) == '#') && 
-            (sequence.at(lengthOfSequence - 1) == '#');
+    QList<XQAiwInterfaceDescriptor> implementations = mAiwMgr.list(
+        "com.nokia.symbian.IKeySequenceRecognition", 
+        "");
+    
+    foreach (XQAiwInterfaceDescriptor d, implementations)
+    {
+        QScopedPointer<XQAiwRequest> request(mAiwMgr.create(
+            d,
+            "keySequenceValidator()",
+            false));
+        request->setSynchronous(true);
+        request->setBackground(true);
+        
+        QVariant keySequenceValidator;
+        bool requestOk = request->send(keySequenceValidator);
+        if (requestOk && keySequenceValidator.toString().size()) {
+            QString validator = keySequenceValidator.toString();
+            mValidators[validator] = d;
+        }
+    }
+}
+
+
+/*!
+  DialpadKeySequenceEventFilter::findKeySequenceHandler.
+ */
+XQAiwInterfaceDescriptor DialpadKeySequenceEventFilter::findKeySequenceHandler(
+    const QString &keySequenceCandidate) 
+{
+    PHONE_TRACE;
+
+    XQAiwInterfaceDescriptor keySequenceHandler;
+    
+    QList<QString> validatorExpressions = mValidators.keys();
+    QList<QString>::const_iterator it;
+    for (it = validatorExpressions.constBegin(); 
+         (it != validatorExpressions.constEnd()) && (!keySequenceHandler.isValid());
+         ++it) {
+        QString validatorExpression = *it;
+        QRegExp expression(validatorExpression);
+        if (expression.exactMatch(keySequenceCandidate)) {
+            keySequenceHandler = mValidators.value(*it);
+        }
     }
     
-    return isValid;
+    return keySequenceHandler;
 }

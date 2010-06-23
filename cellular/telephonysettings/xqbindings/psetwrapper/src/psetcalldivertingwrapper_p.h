@@ -21,6 +21,7 @@
 #include <mpsetdivertobs.h>
 #include <mphcltemergencycallobserver.h>
 #include <mpsetrequestobs.h>
+#include <voicemailboxdefs.h>
 #include "psetcalldivertingwrapper.h"
 #include "psetwrappertypes.h"
 
@@ -107,6 +108,7 @@ public:
     TDivertingStatus convert(PsCallDivertingStatus type);
     TServiceGroup convert(PsServiceGroup type);
     TDivertingSetting convert(PsCallDivertingSetting type);
+    TVmbxType convert(PsService aService);
     
 private:
     PsCallDivertingCondition convert(TCallDivertingCondition type);

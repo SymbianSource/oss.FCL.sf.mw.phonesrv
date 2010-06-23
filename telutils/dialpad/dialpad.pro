@@ -18,6 +18,7 @@
 TEMPLATE = lib
 TARGET = dialpad
 CONFIG += hb
+HB += hbinput
 
 INCLUDEPATH += . inc ../../inc
 
@@ -92,7 +93,8 @@ else:win32 {
     INCLUDEPATH += ../../phonesrv_plat/dialpad_api/inc \
         c:/hb/include/hbcore \
         c:/hb/include/hbwidgets \
-        c:/hb/include/hbtools
+        c:/hb/include/hbtools \
+        c:/hb/include/hbinput
     INCLUDEPATH += ../xqtelephonyservice/inc
 }
 

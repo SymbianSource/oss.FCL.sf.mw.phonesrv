@@ -15,7 +15,7 @@
 *
 */
 
-#include <QtGui>
+#include <QGraphicsLinearLayout>
 
 #include <hblineedit.h>
 #include <hbinputeditorinterface.h>

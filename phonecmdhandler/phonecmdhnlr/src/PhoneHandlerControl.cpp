@@ -485,15 +485,9 @@ void CPhoneHandlerControl::GenerateDTMF( const TChar aChar )
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-void CPhoneHandlerControl::SpeedDial( const TInt aIndex )
-    {
-    COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::SpeedDial() aIndex=%d", aIndex );
-
-    iIndex = aIndex;
-    
-    StartProcessing( ERemConExtSpeedDial );
-    
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::SpeedDial() end" );
+void CPhoneHandlerControl::SpeedDial( const TInt /*aIndex*/ )
+    {    
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::SpeedDial() - Not Supported" );
     }
 
 // -----------------------------------------------------------------------------
@@ -695,16 +689,6 @@ MPhoneHandlerService* CPhoneHandlerControl::
             pService = CPhoneHandlerDTMF::NewL( *this );
             break;  
             }
-            
-        case ERemConExtSpeedDial:
-            {
-            COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() - ERemConExtSpeedDial command" );
-                        
-            InitializeSpeedDialL();
-            pService = CPhoneHandlerDialCall::NewL( *this, 
-                                                    aOperation );
-            break;  
-            } 
                     
         default:
             {
@@ -715,15 +699,6 @@ MPhoneHandlerService* CPhoneHandlerControl::
         
     COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerControl::CreateServiceL() end, %d", pService );
     return pService;
-    }
-
-// -----------------------------------------------------------------------------
-// CPhoneHandlerControl::InitializeSpeedDialL
-// (other items were commented in a header).
-// -----------------------------------------------------------------------------
-//
-void CPhoneHandlerControl::InitializeSpeedDialL()
-    {
     }
 
 // -----------------------------------------------------------------------------

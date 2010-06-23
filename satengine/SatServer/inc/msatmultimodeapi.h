@@ -95,6 +95,12 @@ public:
      */ 
     virtual void SendDTMFTones(TRequestStatus& aReqStatus, 
                     const TDesC& aTones) = 0;    
+    
+    /**
+     * Access RMobilePhone::ContinueDTMFStringSending
+     * for the paramter information please see the etelmm.h
+     */ 
+    virtual TInt ContinueDTMFStringSending( TBool aContinue ) = 0;
     /**
      * Access RMobilePhone::CancelAsyncRequest
      * for the paramter information please see the etelmm.h
@@ -151,9 +157,9 @@ public:
     virtual void NotifyCallStatusChangeCancel() = 0;
 
     /**
-     * Access RMobilePhone::TerminateAllCalls
+     * Access RMobilePhone::TerminateActiveCalls
      */
-    virtual void TerminateAllCalls(TRequestStatus& aReqStatus) = 0;
+    virtual void TerminateActiveCalls(TRequestStatus& aReqStatus) = 0;
     
     /**
      * Access RMboileCall::GetMobileCallInfo

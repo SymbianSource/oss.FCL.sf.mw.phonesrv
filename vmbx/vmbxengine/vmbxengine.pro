@@ -33,16 +33,17 @@ symbian: {
                    ../../inc \
                    ./inc
         
-    LIBS += -lcentralrepository.dll \
-            -lcenrepnotifhandler.dll \
-            -lfeatmgr.dll \
-            -lphoneclient.dll \
-            -lsssettings.dll \
-            -letelmm.dll \
-            -letel.dll \
-            -lsatclient.dll \
-            -lserviceprovidersettings.dll \
-            -lFlogger.dll
+    LIBS += -lcentralrepository \
+            -lcenrepnotifhandler \
+            -lfeatmgr \
+            -lphoneclient \
+            -lsssettings \
+            -letelmm \
+            -letel \
+            -lsatclient \
+            -lserviceprovidersettings \
+            -lefsrv \
+            -lFlogger
 
     HEADERS += inc/mvmbxcenrephandler.h \
                inc/mvmbxcenrepobserver.h \

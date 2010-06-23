@@ -127,13 +127,14 @@ void SatAppCommandHandler::displayText(TSatUiResponse &aRes,
         "SATAPP: SatAppCommandHandler::displayText duration given")
         duration = aDuration * 1000;
     }
-    
+ 
     // If not sustained or Clear after delay requested start timer
     if ( !(!aSustainedText || aDuration || !aWaitUserToClear) ){
         TFLOGSTRING(
         "SATAPP: SatAppCommandHandler::displayText no duration")
         duration = 0;
     }
+ 
     TFLOGSTRING2(
     "SATAPP: SatAppCommandHandler::displayText duration: %d", 
     duration)
@@ -188,9 +189,11 @@ void SatAppCommandHandler::getInkey(TSatUiResponse &aRes,
     // the timeout expires The timer starts when the text is
     //displayed on the screen and stops when the TERMINALRESPONSE is sent.
     QTime time;
+    unsigned int duration = KDefaultSelectionTimeoutMseconds;
     if (aDuration) {
         TFLOGSTRING2("SATAPP: SatAppCommandHandler::getInkey\
         in aDuration: %d", aDuration)
+        duration = aDuration * KSymbianTimeConvertQtTime;
         time.start();
     }
 
@@ -210,7 +213,7 @@ void SatAppCommandHandler::getInkey(TSatUiResponse &aRes,
      }
    //Duration will be implemented in GetInkey proactive command
     TSatAppUserResponse rsp = EUserNoResponse;
-    rsp = mUi.showGetInkeyQuery(heading, aInputText, aCharacterSet, aDuration);
+    rsp = mUi.showGetInkeyQuery(heading, aInputText, aCharacterSet, duration);
 
     if (aDuration) {
         aDuration = time.elapsed() / KSymbianTimeConvertQtTime;
@@ -256,30 +259,50 @@ void SatAppCommandHandler::getYesNo(
     // the timeout expires The timer starts when the text is
     //displayed on the screen and stops when the TERMINALRESPONSE is sent.
     QTime time;
+    unsigned int duration = KDefaultSelectionTimeoutMseconds;
     if (aDuration) {
         TFLOGSTRING2("SATAPP: SatAppUiProvider::getYesNo in aDuration: %d",
         aDuration)
+        duration = aDuration * KSymbianTimeConvertQtTime;
         time.start();
     }
+    TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery duration=%d",
+            duration)
 
     aRes = ESatSuccess;
     int rsp = -1;
-    rsp = mUi.showGetYesNoQuery(aText, aCharacterSet, 
-            aDuration, aImmediateDigitResponse);
-    // User press OK key
+    unsigned int inKey = aInkey;
+    rsp = mUi.showGetYesNoQuery(aText, aCharacterSet, inKey,
+            duration, aImmediateDigitResponse);
+
+    if (aDuration) {
+        aDuration = time.elapsed() / KSymbianTimeConvertQtTime;
+    }
+    TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery duration out=%d",
+            aDuration)
     if (EUserPrimaryResponse == rsp) {
         aRes = ESatSuccess;
-        aInkey = 1;
+        if ( Qt::Key_unknown == inKey ) {
+            // User press yes key 
+            aInkey = 1;
+        } else {
+            // User press digital key
+            aInkey = inKey;
+        }
         TFLOGSTRING("SATAPP: SatAppCommandHandler::getYesNo successful response")
     } else if (EUserSecondaryResponse == rsp)
         {
-        // User press NO key
-        aRes = ESatSuccess;
-        aInkey = 0;
-        TFLOGSTRING("SATAPP: SatAppCommandHandler::getYesNo No request by user")
-    } else if (ESatYesNo != aCharacterSet && !rsp) {
-        aRes = ESatSuccess;
-    }
+        // User press cancel in immediate digital mode
+        if (ESatYesNo != aCharacterSet) {
+            aRes = ESatBackwardModeRequestedByUser;
+            TFLOGSTRING("SATAPP: SatAppCommandHandler::getYesNo Cancel")  
+        } else {
+            // User press NO key
+            aRes = ESatSuccess;
+            aInkey = 0;
+            TFLOGSTRING("SATAPP: SatAppCommandHandler::getYesNo No")  
+        }
+    } 
     // else if {
     //    // User press end/back key
     //    aRes = ESatBackwardModeRequestedByUser;

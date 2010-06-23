@@ -52,6 +52,7 @@ private slots:
     void t_getDefaultNumbersException();
     void t_setNewDefaultNumber();
     void t_getVoiceMailBoxNumber();
+    void t_queryVoiceMailBoxNumber();
     void t_swapDefaultNumber();
 
     // tests for private implementation

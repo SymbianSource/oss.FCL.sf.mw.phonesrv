@@ -2,35 +2,8 @@
     <qresource prefix="/">
         <file alias="dialpad.dialpadbutton.widgetml">resources/dialpad.dialpadbutton.widgetml</file>
         <file alias="dialpad.css">resources/dialpad.css</file>
-        <file>themes/icons/hbdefault/scalable/qtg_mono_voice_mailbox.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_b.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_bl.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_br.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_c.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_l.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_r.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_t.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_tl.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_normal_tr.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_b.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_bl.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_br.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_c.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_l.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_r.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_t.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_tl.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_btn_green_pressed_tr.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_input_h_bg_c.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_input_h_bg_l.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_input_h_bg_r.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_graf_input_h_swipe.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_mono_answer_call.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_graf_input_swipe.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_input_bg_b.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_input_bg_c.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_fr_input_bg_t.svg</file>
-        <file>themes/icons/hbdefault/scalable/qtg_mono_backspace2.svg</file>
         <file alias="dialpad_color.css">resources/dialpad_color.css</file>
+        <file alias="dialpad_to_prt.fxml">resources/dialpad_to_prt.fxml</file>
+        <file alias="dialpad_to_lsc.fxml">resources/dialpad_to_lsc.fxml</file>
     </qresource>
 </RCC>

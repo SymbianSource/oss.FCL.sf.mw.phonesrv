@@ -18,7 +18,9 @@
 #ifndef DIALPADKEYSEQUENCEEVENTFILTER_H
 #define DIALPADKEYSEQUENCEEVENTFILTER_H
 
-#include <qobject>
+#include <QObject>
+#include <xqappmgr.h>
+#include <xqaiwinterfacedescriptor.h>
 
 class Dialpad;
 
@@ -40,19 +42,19 @@ public:
     bool eventFilter(QObject *watched, QEvent *event);
 
 private:
-    /*!
-       \fn bool preValidateKeySequence()
-
-       Checks if the given sequence conforms key sequence command syntax.
-       
-       \return true if sequence conforms key sequence command syntax, 
-       false otherwise.  
-    */
-    bool preValidateKeySequence(const QString &sequence);
+    void constructKeySequenceToHandlerMappings();
+    XQAiwInterfaceDescriptor findKeySequenceHandler(
+        const QString &keySequenceCandidate);
     
 private:
     /*! Dialpad. Not own. */
     Dialpad* mDialpad;
+    
+    /*! Application manager. */
+    XQApplicationManager mAiwMgr;
+    
+    /*! Key sequence validators and associated sequence handlers. */
+    QMap<QString, XQAiwInterfaceDescriptor> mValidators;
 };
 
 #endif // DIALPADKEYSEQUENCEEVENTFILTER_H

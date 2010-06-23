@@ -130,16 +130,6 @@ void CPhoneParserFeatures::HandleEmergencyDialL( const TInt /*aStatus*/ )
     }
 
 // -----------------------------------------------------------------------------
-// CPhoneParserFeatures::LifeTimerEnabled
-// -----------------------------------------------------------------------------
-//
-TBool CPhoneParserFeatures::LifeTimerEnabled()
-    {
-    return Instance() ? 
-        Instance()->GetTelephoneVariant() & KTelSrvLVFlagLifeTimer : EFalse;
-    }
-
-// -----------------------------------------------------------------------------
 // CPhoneParserFeatures::TwoDigitCallingEnabled
 // -----------------------------------------------------------------------------
 //

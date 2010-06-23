@@ -213,11 +213,6 @@ NONSHARABLE_CLASS( CPhoneHandlerControl ) : public CBase,
             const TRemConExtCallHandlingApiOperationId aOperation );
         
         /**
-        * Initializes speed dial.
-        */
-        void InitializeSpeedDialL();
-        
-        /**
         * Returns call status.
         */
         void CallStatusL( RPhone::TLineInfo& aLineInfo );

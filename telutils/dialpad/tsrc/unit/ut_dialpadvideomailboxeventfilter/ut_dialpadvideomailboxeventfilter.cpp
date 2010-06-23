@@ -31,6 +31,7 @@
 #endif
 
 #include "dialpadtest.h"
+#include "dialpadtestutil.h"
 #include "dialpadvideomailboxeventfilter.h"
 #include "dialpad.h"
 #include "dialpadsymbianwrapper.h"
@@ -83,14 +84,6 @@ class ut_DialpadVideoMailboxEventFilter : public QObject
 {
     Q_OBJECT
 
-public:
-    enum MouseEventType
-    {
-        Press,
-        Release,
-        Click
-    };
-
 private slots:
     void initTestCase();
     void init();
@@ -103,16 +96,11 @@ private slots:
     void testNumericKeyTwoShortThenLongPress();
 
 private:
-    QGraphicsWidget* getWidgetByName(const QString& name);
-    void mouseClickDialpad(int key, MouseEventType type=Click,
-                           bool pause=true);
-
-private:
     HbMainWindow*  mMainWindow;
     Dialpad*       mDialpad;
     DialpadVideoMailboxEventFilter *mEventFilter;
     KeyEventCatcher* mKeyCatcher;
-    QMap<int,QString> mKeyNames;
+    DialpadTestUtil* mUtil;
 };
 
 void ut_DialpadVideoMailboxEventFilter::initTestCase()
@@ -121,6 +109,8 @@ void ut_DialpadVideoMailboxEventFilter::initTestCase()
 
     mKeyCatcher = new KeyEventCatcher;
     mMainWindow->installEventFilter(mKeyCatcher);
+
+    mUtil = new DialpadTestUtil(*mMainWindow);
 
     mDialpad = new Dialpad();
     mEventFilter = new DialpadVideoMailboxEventFilter(mDialpad, this);
@@ -132,21 +122,6 @@ void ut_DialpadVideoMailboxEventFilter::initTestCase()
 
     mDialpad->setPreferredSize(360,400);
     mDialpad->setPos(0,100);
-
-    mKeyNames.insert(Qt::Key_1,"49");
-    mKeyNames.insert(Qt::Key_2,"50");
-    mKeyNames.insert(Qt::Key_3,"51");
-    mKeyNames.insert(Qt::Key_4,"52");
-    mKeyNames.insert(Qt::Key_5,"53");
-    mKeyNames.insert(Qt::Key_6,"54");
-    mKeyNames.insert(Qt::Key_7,"55");
-    mKeyNames.insert(Qt::Key_8,"56");
-    mKeyNames.insert(Qt::Key_9,"57");
-    mKeyNames.insert(Qt::Key_Asterisk,"42");
-    mKeyNames.insert(Qt::Key_0,"48");
-    mKeyNames.insert(Qt::Key_NumberSign,"35");
-    mKeyNames.insert(Qt::Key_Backspace,"16777219");
-    mKeyNames.insert(Qt::Key_Yes,"16842753");
 
     mMainWindow->show();
     mDialpad->show();
@@ -166,6 +141,7 @@ void ut_DialpadVideoMailboxEventFilter::cleanupTestCase()
     delete mDialpad;
     delete mMainWindow;
     delete mKeyCatcher;
+    delete mUtil;
 }
 
 void ut_DialpadVideoMailboxEventFilter::cleanup()
@@ -176,64 +152,13 @@ void ut_DialpadVideoMailboxEventFilter::cleanup()
     QTest::qWait( WAIT_TIME ); // delay between tests
 }
 
-QGraphicsWidget* ut_DialpadVideoMailboxEventFilter::getWidgetByName(const QString& name)
-{
-    Q_ASSERT(mMainWindow!=0);
-
-    QGraphicsWidget* widget = 0;
-
-    QList<QGraphicsItem*> items = mMainWindow->scene()->items();
-    foreach (QGraphicsItem* item, items) {
-        if (item->isWidget()) {
-            QGraphicsWidget *w = static_cast<QGraphicsWidget*>(item);
-            if (w->objectName()==name) {
-                widget = w;
-            }
-        }
-    }
-
-    return widget;
-}
-
-void ut_DialpadVideoMailboxEventFilter::mouseClickDialpad(int key, MouseEventType type, bool pause)
-{
-    QString name = mKeyNames.value(key);
-
-    QGraphicsWidget* widget = getWidgetByName(name);
-
-    if ( widget ) {
-        QPointF widgetPos = widget->scenePos() +
-                            widget->rect().center();
-
-        QPoint windowPos = mMainWindow->mapFromScene( widgetPos );
-
-        if (type==Press) {
-            QTest::mousePress( mMainWindow->viewport(), Qt::LeftButton,
-                               0, windowPos );
-        } else if (type==Release) {
-            QTest::mouseRelease( mMainWindow->viewport(), Qt::LeftButton,
-                                 0, windowPos );
-        } else {
-            QTest::mouseClick( mMainWindow->viewport(), Qt::LeftButton,
-                               0, windowPos );
-        }
-
-        if (pause) {
-            QTest::qWait( WAIT_TIME );
-        }
-    } else {
-        QFAIL( "Button could not be accessed!" );
-    }
-}
-
-
 void ut_DialpadVideoMailboxEventFilter::testNumericKeyTwoLongPress()
 {
     mDialpad->openDialpad();
     QTest::qWait(WAIT_TIME);
-    mouseClickDialpad(Qt::Key_2, Press);
+    mUtil->mouseClickDialpad(Qt::Key_2, DialpadTestUtil::Press);
     QTest::qWait(2000);
-    mouseClickDialpad(Qt::Key_2, Release);
+    mUtil->mouseClickDialpad(Qt::Key_2, DialpadTestUtil::Release);
     QTest::qWait(1000);
     QCOMPARE(mDialpad->editor().text(), QString(""));
     mDialpad->closeDialpad();
@@ -250,9 +175,9 @@ void ut_DialpadVideoMailboxEventFilter::testNumericKeyTwoShortPress()
 {
     mDialpad->openDialpad();
     QTest::qWait(WAIT_TIME);
-    mouseClickDialpad(Qt::Key_2, Press);
+    mUtil->mouseClickDialpad(Qt::Key_2, DialpadTestUtil::Press);
     QTest::qWait(200);
-    mouseClickDialpad(Qt::Key_2, Release);
+    mUtil->mouseClickDialpad(Qt::Key_2, DialpadTestUtil::Release);
     QTest::qWait(1000);
     // Check that character '1' is in editor.
     QCOMPARE(mDialpad->editor().text(), QString("2"));
@@ -263,11 +188,11 @@ void ut_DialpadVideoMailboxEventFilter::testNumericKeyTwoShortThenLongPress()
     // Then one short and one long press
     mDialpad->openDialpad();
     QTest::qWait( WAIT_TIME );
-    mouseClickDialpad(Qt::Key_2, Press);
-    mouseClickDialpad(Qt::Key_2, Release);
-    mouseClickDialpad(Qt::Key_2, Press);
+    mUtil->mouseClickDialpad(Qt::Key_2, DialpadTestUtil::Press);
+    mUtil->mouseClickDialpad(Qt::Key_2, DialpadTestUtil::Release);
+    mUtil->mouseClickDialpad(Qt::Key_2, DialpadTestUtil::Press);
     QTest::qWait(2000);
-    mouseClickDialpad(Qt::Key_2, Release);
+    mUtil->mouseClickDialpad(Qt::Key_2, DialpadTestUtil::Release);
     QTest::qWait(1000);
     QVERIFY(mDialpad->editor().text()=="22");
     mDialpad->closeDialpad();

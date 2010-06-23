@@ -28,6 +28,7 @@ const int KDisplayTxtDefaultduration( 3000 );
 const unsigned int KGetInputStringMaxSize = 0xEF;
 
 const int KExtendTimeoutMseconds(3000);
+// 1 minute
 const int KDefaultSelectionTimeoutMseconds(60000);
 const int KSymbianTimeConvertQtTime(100);
 const int KMoSmControlTimeOut(3000);

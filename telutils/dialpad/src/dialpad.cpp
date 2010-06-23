@@ -15,7 +15,7 @@
 *
 */
 
-#include <QtGui>
+#include <QGraphicsLinearLayout>
 
 #include <hbframedrawer.h>
 #include <hbinstance.h>
@@ -25,6 +25,8 @@
 #include <hbstyleloader.h>
 #include <hblineedit.h>
 #include <hbapplication.h>
+#include <hbswipegesture.h>
+#include <hbeffect.h>
 
 #include "dialpad.h"
 #include "dialpadinputfield.h"
@@ -32,24 +34,31 @@
 #include "dialpadbutton.h"
 #include "dialpadmultitaphandler.h"
 #include "dialpadbackground.h"
+#include "dialpadbutton.h"
 
 static const QString backgroundGraphics("qtg_fr_input_v_bg");
 static const QString backgroundGraphicsH("qtg_fr_input_h_bg");
 static const QString minimizeIcon("qtg_graf_input_v_swipe");
 static const QString minimizeIconH("qtg_graf_input_h_swipe");
-static const qreal DialpadCloseSwipeDistanceV = 0.25; //compared to total height
-static const qreal DialpadCloseSwipeDistanceH = 0.33; // > button width
-static const int DialpadMaxSwipeTime = 300; // ms
 static const int DialpadCloseAnimDuration = 200; // ms
 static const int DialpadOpenAnimDuration = 200; // ms
 static const qreal DialpadComponentMargin = 0.75; // units
 static const qreal DialpadCloseHandleHeight = 2.23; // units
 static const qreal DialpadCloseHandleWidth = 18.8; // units
+static const qreal DialpadCallButtonHeight = 8.0; // units
+static const qreal DialpadCallButtonHeightH = 6.0; // units
+
+static const QString handsetIcon("qtg_mono_call");
+static const QString vmbxIcon("qtg_mono_voice_mailbox");
+
+const char *DIALPAD_TO_PRT_FXML = ":/dialpad_to_prt.fxml";
+const char *DIALPAD_TO_LSC_FXML = ":/dialpad_to_lsc.fxml";
+const char *DIALPAD_TO_PRT_EVENT = "prt_activated";
+const char *DIALPAD_TO_LSC_EVENT = "lsc_activated";
 
 Dialpad::Dialpad() :
     mMainWindow(*hbInstance->allMainWindows().at(0)),
     mBackgroundItem(0),
-    mMouseButtonPressedDown(false),
     mOpenTimeLine(DialpadOpenAnimDuration),
     mCloseTimeLine(DialpadCloseAnimDuration),
     mAnimationOngoing(false),
@@ -63,7 +72,6 @@ Dialpad::Dialpad() :
 Dialpad::Dialpad(const HbMainWindow& mainWindow) :
     mMainWindow(mainWindow),
     mBackgroundItem(0),
-    mMouseButtonPressedDown(false),
     mOpenTimeLine(DialpadOpenAnimDuration),
     mCloseTimeLine(DialpadCloseAnimDuration),
     mAnimationOngoing(false),
@@ -83,13 +91,15 @@ void Dialpad::initialize()
 
     // create keypad
     mKeypad = new DialpadKeypad(mMainWindow,*mInputField,this);
-    mKeypad->setLongPressDuration(DialpadMaxSwipeTime);
 
     // layouting params
     qreal unit = HbDeviceProfile::current().unitValue();
     qreal margin = DialpadComponentMargin * unit;
     mCloseHandleHeight = DialpadCloseHandleHeight * unit;
     mCloseHandleWidth = DialpadCloseHandleWidth * unit;
+
+    mKeypad->callButton().setPreferredHeight(DialpadCallButtonHeight*unit);
+    mKeypad->callButton().setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     // create popup background
     mBackgroundDrawer = new HbFrameDrawer();
@@ -100,6 +110,7 @@ void Dialpad::initialize()
         new QGraphicsLinearLayout(Qt::Vertical);
     popupLayout->addItem(mInputField);
     popupLayout->addItem(mKeypad);
+    popupLayout->addItem(&mKeypad->callButton());
     popupLayout->setContentsMargins(margin, mCloseHandleHeight, margin, margin);
     popupLayout->setSpacing(margin);
     setLayout(popupLayout);
@@ -109,6 +120,7 @@ void Dialpad::initialize()
     mInputField->editor().installEventFilter(mMultitap);
 
     // close animation
+    mCloseTimeLine.setUpdateInterval(16);
     mCloseTimeLine.setEasingCurve(QEasingCurve::InQuad);
     connect(&mCloseTimeLine, SIGNAL(finished()),
             SLOT(closeAnimFinished()));
@@ -116,6 +128,7 @@ void Dialpad::initialize()
             SLOT(closeAnimValueChanged(qreal)));
 
     // open animation
+    mOpenTimeLine.setUpdateInterval(16);
     mOpenTimeLine.setEasingCurve(QEasingCurve::OutQuad);
     connect(&mOpenTimeLine, SIGNAL(finished()),
             SLOT(openAnimFinished()));
@@ -140,6 +153,10 @@ void Dialpad::initialize()
     grabGesture(Qt::PanGesture);
     grabGesture(Qt::SwipeGesture);
     grabGesture(Qt::PinchGesture);
+
+    // effects
+    HbEffect::add(this, DIALPAD_TO_PRT_FXML, DIALPAD_TO_PRT_EVENT);
+    HbEffect::add(this, DIALPAD_TO_LSC_FXML, DIALPAD_TO_LSC_EVENT);
 }
 
 Dialpad::~Dialpad()
@@ -233,7 +250,6 @@ void Dialpad::openDialpad()
     }
 
     if (mOrientation!=previousOrientation) {
-        mKeypad->createButtonGrid();
         updateLayout((Qt::Orientation)mOrientation);
     }
 
@@ -295,58 +311,6 @@ void Dialpad::setTapOutsideDismiss(bool dismiss)
     }
 }
 
-bool Dialpad::sceneEvent(QEvent *event)
-{
-    return handleSceneEvent(event);
-}
-
-bool Dialpad::sceneEventFilter(QGraphicsItem *watched, QEvent *event)        
-{
-    Q_UNUSED(watched);
-
-    return handleSceneEvent(event);
-}
-
-bool Dialpad::handleSceneEvent(QEvent *event)
-{
-    // handle close swipe gesture
-    if (event->type() == QEvent::GraphicsSceneMousePress) {
-        mMouseButtonPressedDown = true;
-        mSwipeTimer.start();
-    } else if (event->type() == QEvent::GraphicsSceneMouseRelease &&
-               mMouseButtonPressedDown) {
-        mMouseButtonPressedDown = false;
-        QGraphicsSceneMouseEvent *mouseEvent =
-            static_cast<QGraphicsSceneMouseEvent*> (event);
-
-        // check if mouse has moved DialpadCloseSwipeDistance vertically
-        QPointF delta = mouseEvent->scenePos() -
-                        mouseEvent->buttonDownScenePos(Qt::LeftButton);
-
-        if (mOrientation==Qt::Vertical) {
-            qreal height = geometry().height() * DialpadCloseSwipeDistanceV;
-
-            if ( (delta.y() >= height) &&
-                 (mSwipeTimer.elapsed() <= DialpadMaxSwipeTime)) {
-                startCloseAnimation();
-            }
-        } else {
-            qreal width = geometry().width() * DialpadCloseSwipeDistanceH;
-            bool swipe = (layoutDirection()==Qt::LeftToRight &&
-                          delta.x() >= width) ||
-                         (layoutDirection()==Qt::RightToLeft &&
-                          -delta.x() >= width);
-
-            if ( swipe &&
-                 (mSwipeTimer.elapsed() <= DialpadMaxSwipeTime)) {
-                startCloseAnimation();
-            }
-        }
-    }
-
-    return false;
-}
-
 void Dialpad::startCloseAnimation()
 {
     if (!mAnimationOngoing) {
@@ -359,10 +323,6 @@ void Dialpad::showEvent(QShowEvent *event)
 {
     HbWidget::showEvent(event);
 
-    // for closing swipe gesture
-    installSceneEventFilter(this);
-    setFiltersChildEvents(true);
-
     if (mBackgroundItem) {
         layoutBackgroundItem();
         mBackgroundItem->show();
@@ -372,8 +332,6 @@ void Dialpad::showEvent(QShowEvent *event)
 void Dialpad::hideEvent(QHideEvent *event)
 {
     HbWidget::hideEvent(event);
-    setFiltersChildEvents(false);
-    removeSceneEventFilter(this);
 }
 
 void Dialpad::closeEvent(QCloseEvent * event)
@@ -450,9 +408,6 @@ void Dialpad::openAnimFinished()
 void Dialpad::orientationChangeStarted()
 {
     hide();
-    // needs to re-create grid layout to get
-    // scale with uniform item sizes
-    mKeypad->createButtonGrid();
 }
 
 void Dialpad::orientationChangeFinished(Qt::Orientation current)
@@ -460,6 +415,13 @@ void Dialpad::orientationChangeFinished(Qt::Orientation current)
     updateLayout(current);
 
     show();
+
+    // run orientation change effect
+    if (current==Qt::Horizontal) {
+        HbEffect::start(this, DIALPAD_TO_LSC_EVENT);
+    } else {
+        HbEffect::start(this, DIALPAD_TO_PRT_EVENT);
+    }
 
     mOrientation = current;
 
@@ -494,10 +456,40 @@ void Dialpad::updateLayout(Qt::Orientation orientation)
                                        mCloseHandleHeight,
                                        margin,
                                        margin);
+        mKeypad->callButton().setPreferredHeight(DialpadCallButtonHeight*unit);
     } else {
         mainLayout->setContentsMargins(mCloseHandleHeight,
                                        margin,
                                        margin,
                                        margin);
+        mKeypad->callButton().setPreferredHeight(DialpadCallButtonHeightH*unit);
+    }
+}
+
+void Dialpad::gestureEvent(QGestureEvent *event)
+{
+    bool closeGesture(false);
+
+    if(HbSwipeGesture *gesture = qobject_cast<HbSwipeGesture*>(
+           event->gesture(Qt::SwipeGesture))) {
+        if (gesture->state() == Qt::GestureFinished) {
+            if ( mOrientation==Qt::Vertical &&
+                 gesture->sceneVerticalDirection() == QSwipeGesture::Down ) {
+                closeGesture = true;
+            } else if (layoutDirection()==Qt::LeftToRight &&
+                gesture->sceneHorizontalDirection() == QSwipeGesture::Right) {
+                closeGesture = true;
+            } else if (layoutDirection()==Qt::RightToLeft &&
+                gesture->sceneHorizontalDirection() == QSwipeGesture::Left) {
+                closeGesture = true;
+            }
+        }
+    }
+
+    if (closeGesture) {
+        startCloseAnimation();
+        event->accept();
+    } else {
+        event->ignore();
     }
 }

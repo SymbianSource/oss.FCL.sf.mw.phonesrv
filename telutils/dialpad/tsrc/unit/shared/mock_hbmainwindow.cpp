@@ -14,25 +14,15 @@
 * Description:
 *
 */
+
+#include <QtGui>
 #include <QDebug>
 #include <smcmockclassincludes.h>
 #include <hbmainwindow.h>
+#include <hbview.h>
+#include <hbnamespace.h>
 
 // ============================ MEMBER FUNCTIONS ===============================
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::HbMainWindow
-// -----------------------------------------------------------------------------
-//
-HbMainWindow::HbMainWindow( 
-        QWidget * parent,
-        Hb::WindowFlags windowFlags )
-    : d_ptr(NULL)
-    //QGraphicsView( /*parent, windowFlags*/ )
-    {
-    Q_UNUSED(parent)
-    Q_UNUSED(windowFlags)
-    }
 
 // -----------------------------------------------------------------------------
 // HbMainWindow::~HbMainWindow
@@ -44,61 +34,6 @@ HbMainWindow::~HbMainWindow(  )
     }
 
 
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::removeView
-// -----------------------------------------------------------------------------
-//
-QGraphicsWidget * HbMainWindow::removeView( 
-        int index )
-    {
-    SMC_MOCK_METHOD1( QGraphicsWidget *, int, index )
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::currentViewIndex
-// -----------------------------------------------------------------------------
-//
-int HbMainWindow::currentViewIndex(  ) const
-    {
-    SMC_MOCK_METHOD0( int )
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::viewCount
-// -----------------------------------------------------------------------------
-//
-int HbMainWindow::viewCount(  ) const
-    {
-    SMC_MOCK_METHOD0( int )
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::indexOfView
-// -----------------------------------------------------------------------------
-//
-int HbMainWindow::indexOfView( 
-        HbView * view ) const
-    {
-    //SMC_MOCK_METHOD1( int, HbView *, view )
-    Q_UNUSED(view)
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::viewAt
-// -----------------------------------------------------------------------------
-//
-HbView * HbMainWindow::viewAt( 
-        int index ) const
-    {
-    SMC_MOCK_METHOD1( HbView *, int, index )
-    }
-
-
 // -----------------------------------------------------------------------------
 // HbMainWindow::addView
 // -----------------------------------------------------------------------------
@@ -106,9 +41,10 @@ HbView * HbMainWindow::viewAt(
 HbView * HbMainWindow::addView( 
         QGraphicsWidget * widget )
     {
-    //SMC_MOCK_METHOD1( HbView *, QGraphicsWidget *, widget )
-    Q_UNUSED(widget)
+    SMC_MOCK_METHOD1( HbView *, QGraphicsWidget *, widget )
     }
+
+
 // -----------------------------------------------------------------------------
 // HbMainWindow::insertView
 // -----------------------------------------------------------------------------
@@ -117,10 +53,8 @@ HbView * HbMainWindow::insertView(
         int index,
         QGraphicsWidget * widget )
     {
-    //SMC_MOCK_METHOD2( HbView *, int, index, 
-    //    QGraphicsWidget *, widget )
-	Q_UNUSED(index)
-	Q_UNUSED(widget)
+    SMC_MOCK_METHOD2( HbView *, int, index, 
+        QGraphicsWidget *, widget )
     }
 
 
@@ -131,8 +65,7 @@ HbView * HbMainWindow::insertView(
 void HbMainWindow::removeView( 
         QGraphicsWidget * widget )
     {
-    //SMC_MOCK_METHOD1( void, QGraphicsWidget *, widget )
-    Q_UNUSED(widget)
+    SMC_MOCK_METHOD1( void, QGraphicsWidget *, widget )
     }
 
 
@@ -142,7 +75,7 @@ void HbMainWindow::removeView(
 //
 QList <HbView * > HbMainWindow::views(  ) const
     {
-    //SMC_MOCK_METHOD0( QList <HbView * > )
+    SMC_MOCK_METHOD0( QList <HbView * > )
     }
 
 
@@ -165,14 +98,7 @@ void HbMainWindow::setCurrentView(
         bool animate,
         Hb::ViewSwitchFlags flags )
     {
-    //SMC_MOCK_METHOD3( void, HbView *, view, 
-    //    bool, animate, 
-    //    Hb::ViewSwitchFlags, flags )
-    Q_UNUSED(view)
-    Q_UNUSED(animate)
-    Q_UNUSED(flags)
     }
-
 
 
 // -----------------------------------------------------------------------------
@@ -193,10 +119,8 @@ void HbMainWindow::setOrientation(
         Qt::Orientation orientation,
         bool animate )
     {
-    //SMC_MOCK_METHOD2( void, Qt::Orientation, orientation, 
-    //    bool, animate )
-    Q_UNUSED(orientation)
-    Q_UNUSED(animate)
+    SMC_MOCK_METHOD2( void, Qt::Orientation, orientation, 
+        bool, animate )
     }
 
 
@@ -208,67 +132,6 @@ void HbMainWindow::unsetOrientation(
         bool animate )
     {
     SMC_MOCK_METHOD1( void, bool, animate )
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::showItems
-// -----------------------------------------------------------------------------
-//
-void HbMainWindow::showItems( 
-        Hb::SceneItems items )
-    {
-    //SMC_MOCK_METHOD1( void, Hb::SceneItems, items )
-    Q_UNUSED(items)
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::hideItems
-// -----------------------------------------------------------------------------
-//
-void HbMainWindow::hideItems( 
-        Hb::SceneItems items )
-    {
-    //SMC_MOCK_METHOD1( void, Hb::SceneItems, items )
-    Q_UNUSED(items)
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::visibleItems
-// -----------------------------------------------------------------------------
-//
-Hb::SceneItems HbMainWindow::visibleItems(  ) const
-    {
-    SMC_MOCK_METHOD0( Hb::SceneItems )
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::isItemVisible
-// -----------------------------------------------------------------------------
-//
-bool HbMainWindow::isItemVisible( 
-        Hb::SceneItem item ) const
-    {
-    //SMC_MOCK_METHOD1( bool, Hb::SceneItem, item )
-    Q_UNUSED(item)
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::setItemVisible
-// -----------------------------------------------------------------------------
-//
-void HbMainWindow::setItemVisible( 
-        Hb::SceneItem item,
-        bool visible )
-    {
-    //SMC_MOCK_METHOD2( void, Hb::SceneItem, item, 
-    //    bool, visible )
-    Q_UNUSED(item)
-    Q_UNUSED(visible)
     }
 
 
@@ -310,10 +173,8 @@ void HbMainWindow::setBackgroundImageName(
         Qt::Orientation orientation,
         const QString & name )
     {
-    //SMC_MOCK_METHOD2( void, Qt::Orientation, orientation, 
-    //    const QString &, name )
-	Q_UNUSED(orientation)
-	Q_UNUSED(name)
+    SMC_MOCK_METHOD2( void, Qt::Orientation, orientation, 
+        const QString &, name )
     }
 
 
@@ -324,39 +185,49 @@ void HbMainWindow::setBackgroundImageName(
 QString HbMainWindow::backgroundImageName( 
         Qt::Orientation orientation ) const
     {
-    //SMC_MOCK_METHOD1( QString, Qt::Orientation, orientation )
-	Q_UNUSED(orientation)
+    SMC_MOCK_METHOD1( QString, Qt::Orientation, orientation )
     }
 
 
 // -----------------------------------------------------------------------------
-// HbMainWindow::setCurrentViewIndex
+// HbMainWindow::setBackgroundImageMode
 // -----------------------------------------------------------------------------
 //
-void HbMainWindow::setCurrentViewIndex( 
-        int index )
+void HbMainWindow::setBackgroundImageMode( 
+        Hb::BackgroundImageMode mode )
     {
-    SMC_MOCK_METHOD1( void, int, index )
+    SMC_MOCK_METHOD1( void, Hb::BackgroundImageMode, mode )
     }
 
 
 // -----------------------------------------------------------------------------
-// HbMainWindow::nextView
+// HbMainWindow::backgroundImageMode
 // -----------------------------------------------------------------------------
 //
-void HbMainWindow::nextView(  )
+Hb::BackgroundImageMode HbMainWindow::backgroundImageMode(  ) const
     {
-    SMC_MOCK_METHOD0( void )
+    SMC_MOCK_METHOD0( Hb::BackgroundImageMode )
     }
 
 
 // -----------------------------------------------------------------------------
-// HbMainWindow::previousView
+// HbMainWindow::setAutomaticOrientationEffectEnabled
 // -----------------------------------------------------------------------------
 //
-void HbMainWindow::previousView(  )
+void HbMainWindow::setAutomaticOrientationEffectEnabled( 
+        bool enabled )
     {
-    SMC_MOCK_METHOD0( void )
+    SMC_MOCK_METHOD1( void, bool, enabled )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbMainWindow::automaticOrientationEffectEnabled
+// -----------------------------------------------------------------------------
+//
+bool HbMainWindow::automaticOrientationEffectEnabled(  ) const
+    {
+    SMC_MOCK_METHOD0( bool )
     }
 
 
@@ -368,17 +239,6 @@ void HbMainWindow::broadcastEvent(
         int eventType )
     {
     SMC_MOCK_METHOD1( void, int, eventType )
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbMainWindow::currentViewIndexChanged
-// -----------------------------------------------------------------------------
-//
-void HbMainWindow::currentViewIndexChanged( 
-        int index )
-    {
-    SMC_MOCK_METHOD1( void, int, index )
     }
 
 
@@ -400,10 +260,8 @@ void HbMainWindow::aboutToChangeView(
         HbView * oldView,
         HbView * newView )
     {
-    //SMC_MOCK_METHOD2( void, HbView *, oldView, 
-    //    HbView *, newView )
-	Q_UNUSED(oldView)
-	Q_UNUSED(newView)
+    SMC_MOCK_METHOD2( void, HbView *, oldView, 
+        HbView *, newView )
     }
 
 
@@ -414,8 +272,7 @@ void HbMainWindow::aboutToChangeView(
 void HbMainWindow::currentViewChanged( 
         HbView * view )
     {
-    //SMC_MOCK_METHOD1( void, HbView *, view )
-    Q_UNUSED(view)
+    SMC_MOCK_METHOD1( void, HbView *, view )
     }
 
 
@@ -437,10 +294,8 @@ void HbMainWindow::aboutToChangeOrientation(
         Qt::Orientation newOrientation,
         bool animated )
     {
-    //SMC_MOCK_METHOD2( void, Qt::Orientation, newOrientation, 
-    //    bool, animated )
-    Q_UNUSED(newOrientation)
-    Q_UNUSED(animated)
+    SMC_MOCK_METHOD2( void, Qt::Orientation, newOrientation, 
+        bool, animated )
     }
 
 
@@ -451,8 +306,7 @@ void HbMainWindow::aboutToChangeOrientation(
 void HbMainWindow::orientationChanged( 
         Qt::Orientation orientation )
     {
-    //SMC_MOCK_METHOD1( void, Qt::Orientation, orientation )
-    Q_UNUSED(orientation)
+    SMC_MOCK_METHOD1( void, Qt::Orientation, orientation )
     }
 
 
@@ -463,8 +317,7 @@ void HbMainWindow::orientationChanged(
 void HbMainWindow::changeEvent( 
         QEvent * event )
     {
-    //SMC_MOCK_METHOD1( void, QEvent *, event )
-    Q_UNUSED(event)
+    SMC_MOCK_METHOD1( void, QEvent *, event )
     }
 
 
@@ -475,8 +328,7 @@ void HbMainWindow::changeEvent(
 void HbMainWindow::closeEvent( 
         QCloseEvent * event )
     {
-    //SMC_MOCK_METHOD1( void, QCloseEvent *, event )
-    Q_UNUSED(event)
+    SMC_MOCK_METHOD1( void, QCloseEvent *, event )
     }
 
 
@@ -487,8 +339,7 @@ void HbMainWindow::closeEvent(
 void HbMainWindow::keyPressEvent( 
         QKeyEvent * event )
     {
-    //SMC_MOCK_METHOD1( void, QKeyEvent *, event )
-    Q_UNUSED(event)
+    SMC_MOCK_METHOD1( void, QKeyEvent *, event )
     }
 
 
@@ -499,8 +350,7 @@ void HbMainWindow::keyPressEvent(
 void HbMainWindow::keyReleaseEvent( 
         QKeyEvent * event )
     {
-    //SMC_MOCK_METHOD1( void, QKeyEvent *, event )
-    Q_UNUSED(event)
+    SMC_MOCK_METHOD1( void, QKeyEvent *, event )
     }
 
 
@@ -511,8 +361,7 @@ void HbMainWindow::keyReleaseEvent(
 void HbMainWindow::resizeEvent( 
         QResizeEvent * event )
     {
-    //SMC_MOCK_METHOD1( void, QResizeEvent *, event )
-    Q_UNUSED(event)
+    SMC_MOCK_METHOD1( void, QResizeEvent *, event )
     }
 
 
@@ -523,8 +372,7 @@ void HbMainWindow::resizeEvent(
 void HbMainWindow::customEvent( 
         QEvent * event )
     {
-    //SMC_MOCK_METHOD1( void, QEvent *, event )
-    Q_UNUSED(event)
+    SMC_MOCK_METHOD1( void, QEvent *, event )
     }
 
 
@@ -548,8 +396,18 @@ void HbMainWindow::scrollContentsBy(
 void HbMainWindow::paintEvent( 
         QPaintEvent * event )
     {
-    //SMC_MOCK_METHOD1( void, QPaintEvent *, event )
-    Q_UNUSED(event)
+    SMC_MOCK_METHOD1( void, QPaintEvent *, event )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbMainWindow::showEvent
+// -----------------------------------------------------------------------------
+//
+void HbMainWindow::showEvent( 
+        QShowEvent * event )
+    {
+    SMC_MOCK_METHOD1( void, QShowEvent *, event )
     }
 
 

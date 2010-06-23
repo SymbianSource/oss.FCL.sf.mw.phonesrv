@@ -49,5 +49,5 @@ symbian {
   
     LIBS += -lxqservice -lxqserviceutil -lxqutils \
             -letel -letelmm -lcustomapi \
-            -lcentralrepository -lQtSystemInfo
+            -lcentralrepository -lQtSystemInfo -lsecui
 }

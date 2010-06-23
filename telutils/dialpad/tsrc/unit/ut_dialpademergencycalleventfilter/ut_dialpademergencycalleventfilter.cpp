@@ -31,6 +31,7 @@
 #endif
 
 #include "dialpadtest.h"
+#include "dialpadtestutil.h"
 #include "dialpademergencycalleventfilter.h"
 #include "dialpad.h"
 
@@ -62,14 +63,10 @@ private slots:
     void testEmergencyCallEventFilter();
 
 private:
-    QGraphicsWidget* getWidgetByName(const QString& name);
-    void mouseClickDialpad(int key, bool pause=true);
-
-private:
     HbMainWindow*  mMainWindow; 
     Dialpad*       mDialpad;
     DialpadEmergencyCallEventFilter *mEventFilter;
-    QMap<int,QString> mKeyNames;
+    DialpadTestUtil* mUtil;
 };
 
 void ut_DialpadEmergencyCallEventFilter::initTestCase()
@@ -80,6 +77,8 @@ void ut_DialpadEmergencyCallEventFilter::initTestCase()
     mEventFilter = new DialpadEmergencyCallEventFilter(mDialpad, this);
     //hbInstance->allMainWindows().at(0)->installEventFilter(mEventFilter);
     mMainWindow->installEventFilter(mEventFilter);
+
+    mUtil = new DialpadTestUtil(*mMainWindow);
     
     QRectF rect(mMainWindow->contentsRect());
     rect.setHeight(rect.height()*0.7);
@@ -88,21 +87,6 @@ void ut_DialpadEmergencyCallEventFilter::initTestCase()
     mDialpad->setPreferredSize(mMainWindow->layoutRect().width(),
                                mMainWindow->layoutRect().height()/2);
     mDialpad->setPos(0,mMainWindow->layoutRect().height()/4);
-
-    mKeyNames.insert(Qt::Key_1,"49");
-    mKeyNames.insert(Qt::Key_2,"50");
-    mKeyNames.insert(Qt::Key_3,"51");
-    mKeyNames.insert(Qt::Key_4,"52");
-    mKeyNames.insert(Qt::Key_5,"53");
-    mKeyNames.insert(Qt::Key_6,"54");
-    mKeyNames.insert(Qt::Key_7,"55");
-    mKeyNames.insert(Qt::Key_8,"56");
-    mKeyNames.insert(Qt::Key_9,"57");
-    mKeyNames.insert(Qt::Key_Asterisk,"42");
-    mKeyNames.insert(Qt::Key_0,"48");
-    mKeyNames.insert(Qt::Key_NumberSign,"35");
-    mKeyNames.insert(Qt::Key_Backspace,"16777219");
-    mKeyNames.insert(Qt::Key_Yes,"16842753");
 
     mMainWindow->show();
     mDialpad->show();
@@ -121,6 +105,7 @@ void ut_DialpadEmergencyCallEventFilter::cleanupTestCase()
 {
     delete mDialpad;
     delete mMainWindow;
+    delete mUtil;
 }
 
 void ut_DialpadEmergencyCallEventFilter::cleanup()
@@ -129,60 +114,18 @@ void ut_DialpadEmergencyCallEventFilter::cleanup()
     QTest::qWait( WAIT_TIME ); // delay between tests
 }
 
-QGraphicsWidget* ut_DialpadEmergencyCallEventFilter::getWidgetByName(const QString& name)
-{
-    Q_ASSERT(mMainWindow!=0);
-
-    QGraphicsWidget* widget = 0;
-
-    QList<QGraphicsItem*> items = mMainWindow->scene()->items();
-    foreach (QGraphicsItem* item, items) {
-        if (item->isWidget()) {
-            QGraphicsWidget *w = static_cast<QGraphicsWidget*>(item);
-            if (w->objectName()==name) {
-                widget = w;
-            }
-        }
-    }
-
-    return widget;
-}
-
-void ut_DialpadEmergencyCallEventFilter::mouseClickDialpad(int key, bool pause)
-{
-    QString name = mKeyNames.value(key);
-
-    QGraphicsWidget* widget = getWidgetByName(name);
-
-    if ( widget ) {
-        QPointF widgetPos = widget->scenePos() +
-                            widget->rect().center();
-
-        QPoint windowPos = mMainWindow->mapFromScene( widgetPos );
-
-        QTest::mouseClick( mMainWindow->viewport(), Qt::LeftButton,
-                           0, windowPos );
-
-        if (pause) {
-            QTest::qWait( WAIT_TIME );
-        }
-    } else {
-        QFAIL( "Button could not be accessed!" );
-    }
-}
-
 
 void ut_DialpadEmergencyCallEventFilter::testEmergencyCallEventFilter()
 {
     mDialpad->openDialpad();
     QTest::qWait(WAIT_TIME);
-    mouseClickDialpad(Qt::Key_1);
+    mUtil->mouseClickDialpad(Qt::Key_1);
     QTest::qWait(1000);
-    mouseClickDialpad(Qt::Key_1);
+    mUtil->mouseClickDialpad(Qt::Key_1);
     QTest::qWait(1000);
-    mouseClickDialpad(Qt::Key_2);
+    mUtil->mouseClickDialpad(Qt::Key_2);
     QTest::qWait(1000);
-    mouseClickDialpad(Qt::Key_Yes);
+    mUtil->mouseClickDialpad(Qt::Key_Yes);
     QTest::qWait(1000);
     
     mDialpad->closeDialpad();

@@ -64,13 +64,6 @@ NONSHARABLE_CLASS( CPhoneParserFeatures )
     public: // New functions
         
         /**
-        * Checks if life timer is enabled.
-        *
-        * @return ETrue if supported.
-        */
-        static TBool LifeTimerEnabled();
-            
-        /**
         * Checks if two digit calling is enabled.
         *
         * @return ETrue if supported.

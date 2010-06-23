@@ -176,7 +176,22 @@ TBool CVmbxPbkStore::IsWritable()
         if ( KErrNone == newErr )
             {
             // get als line info
-            simEntry->SetVmbxAlsLineType( VmbxUtilities::AlsLine() );
+            TVmbxAlsLineType alsLine = VmbxUtilities::AlsLine();
+            simEntry->SetVmbxAlsLineType( alsLine );
+            // ALS line on
+            if ( EVmbxAlsLineDefault != alsLine )
+                {
+                // ALS line on, only should write to 6f17,
+                // so just check 6f17 file write access
+                iPhoneBookType = EVMBXPhoneBook;
+                }
+            // ALS line off
+            else
+                {
+                // ALS line on, only should write to 6fc7,
+                //so just check 6fc7 file write access
+                iPhoneBookType = EMBDNPhoneBook;
+                }
             simEntry->SetVoiceMailboxType( EVmbxVoice );
             simEntry->SetServiceId( KVmbxServiceVoice );
             TRAPD( err, SimReadL( *simEntry ) );
@@ -271,7 +286,7 @@ TInt CVmbxPbkStore::Write( const CVoiceMailboxEntry& aEntry )
             if ( iPhoneBookType == EMBDNPhoneBook )
                 {
                 RMobilePhone::TMobilePhoneVoicemailIdsV3 mbdnInfo;
-                result = GetMbdnInfo( VmbxUtilities::AlsLine(), mbdnInfo );
+                result = GetMbdnInfo( mbdnInfo );
 
                 if ( KErrNone == result )
                     {
@@ -324,8 +339,7 @@ RMobilePhoneBookStore& CVmbxPbkStore::PhonebookStore()
 // CVmbxPbkStore::GetMbdnInfo
 // ---------------------------------------------------------------------------
 //
-TInt CVmbxPbkStore::GetMbdnInfo( const TVmbxAlsLineType aAlsLine,
-            RMobilePhone::TMobilePhoneVoicemailIdsV3& aInfo )
+TInt CVmbxPbkStore::GetMbdnInfo( RMobilePhone::TMobilePhoneVoicemailIdsV3& aInfo )
     {
     VMBLOGSTRING( "VMBX: CVmbxPbkStore::GetMbdnInfo =>" );
     TInt result( KErrInUse );
@@ -344,7 +358,7 @@ TInt CVmbxPbkStore::GetMbdnInfo( const TVmbxAlsLineType aAlsLine,
         SetActive();
         iWait->Start();
 
-        VMBLOGSTRING2( "VMBX: CVmbxPbkStore::GetMbdnInfo: iVoice value %I",
+        VMBLOGSTRING2( "VMBX: CVmbxPbkStore::GetMbdnInfo: iVoice original value %I",
                                                              aInfo.iVoice );
         if ( iStatus.Int() == KErrNotFound )
             {
@@ -356,12 +370,12 @@ TInt CVmbxPbkStore::GetMbdnInfo( const TVmbxAlsLineType aAlsLine,
             {
             result = iStatus.Int();
             }
-
-        if ( EVmbxAlsLineDefault == aAlsLine )
+        TVmbxAlsLineType alsLine = VmbxUtilities::AlsLine();
+        if ( EVmbxAlsLineDefault == alsLine )
             {
             aInfo.iVoice =  EVmbxAlsLine1;
             }
-        VMBLOGSTRING2( "VMBX: CVmbxPbkStore::GetMbdnInfo: aInfo.iVoice %I",
+        VMBLOGSTRING2( "VMBX: CVmbxPbkStore::GetMbdnInfo: iVoice last value %I",
             aInfo.iVoice );
         }
     VMBLOGSTRING2( "VMBX: CVmbxPbkStore::GetMbdnInfo: result %I<=",
@@ -476,7 +490,7 @@ void CVmbxPbkStore::SimReadL( CVoiceMailboxEntry& aEntry )
     if ( iPhoneBookType == EMBDNPhoneBook )
         {
         RMobilePhone::TMobilePhoneVoicemailIdsV3 mbdnInfo;
-        result = GetMbdnInfo( EVmbxAlsLine1, mbdnInfo );
+        result = GetMbdnInfo( mbdnInfo );
         if ( KErrNone == result )
             {
             VMBLOGSTRING( "start MBDN PhoneBook read" );

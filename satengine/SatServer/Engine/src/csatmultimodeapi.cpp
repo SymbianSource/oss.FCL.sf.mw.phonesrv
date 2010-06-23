@@ -218,6 +218,17 @@ void CSatMultiModeApi::SendDTMFTones( TRequestStatus& aReqStatus,
     }
 
 // -----------------------------------------------------------------------------
+// CSatMultiModeApi::ContinueDTMFStringSending
+// (other items were commented in a header).
+// -----------------------------------------------------------------------------
+//
+TInt CSatMultiModeApi::ContinueDTMFStringSending( TBool aContinue )
+    {
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::ContinueDTMFStringSending" )
+    return iPhone.ContinueDTMFStringSending( aContinue );
+    }
+
+// -----------------------------------------------------------------------------
 // CSatMultiModeApi::DialNoFdnCheck
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
@@ -390,14 +401,12 @@ void CSatMultiModeApi::NotifyCallStatusChangeCancel()
 // CSatMultiModeApi::NotifyMobileCallStatusChange
 // -----------------------------------------------------------------------------
 //
-void CSatMultiModeApi::TerminateAllCalls(TRequestStatus& aReqStatus)
+void CSatMultiModeApi::TerminateActiveCalls(TRequestStatus& aReqStatus)
     {
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::TerminateAllCalls calling" )
-    // RMobilePhone::TerminateAllCalls don't work.
-    TName allCalls;
-    allCalls.Copy( KTerminateAllCalls );
-    iCustomPhone.TerminateCall( aReqStatus, allCalls );
 
+    iPhone.TerminateActiveCalls( aReqStatus );
+    
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::TerminateAllCalls exiting" )
     } 
 

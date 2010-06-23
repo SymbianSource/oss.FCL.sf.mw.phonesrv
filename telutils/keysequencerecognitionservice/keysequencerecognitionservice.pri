@@ -13,6 +13,7 @@ HEADERS = ./inc/keysequencerecognitionprovider.h        \
           ./inc/keysequencehandler.h                    \
           ./inc/manufacturerkeysequencehandler.h        \
           ./inc/imeikeysequencehandler.h                \
+           ./inc/simcontrolkeysequencehandler.h         \
           ./inc/lifetimerkeysequencehandler.h
 
 SOURCES = ./src/main.cpp                                \
@@ -20,4 +21,5 @@ SOURCES = ./src/main.cpp                                \
           ./src/keysequencehandler.cpp                  \
           ./src/manufacturerkeysequencehandler.cpp      \
           ./src/imeikeysequencehandler.cpp              \
+          ./src/simcontrolkeysequencehandler.cpp        \
           ./src/lifetimerkeysequencehandler.cpp

@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description:  Implementation of handlers for USSD and IMEI.
+* Description:  Implementation of handler for USSD.
 *
 */
 
@@ -40,10 +40,6 @@ EXPORT_C void CPhoneGsmMiscHandler::ProcessL(
                 // First parameter is ussd string.
                 ProcessUssdL( aResult.ParameterAt( 0 ) );
                 }
-            break;
-
-        case KPhoneUidIMEI:
-            ProcessShowIMEIL();
             break;
 
         default:

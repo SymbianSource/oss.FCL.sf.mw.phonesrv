@@ -31,9 +31,7 @@
 #include "voicemailboximpl.h"
 
 // phone application uid
-//const TInt KPhoneApplicationUid          = 0x100058B3;
-// Temp! using contropannel vmbxcp plugin uid for testing
-const TInt KPhoneApplicationUid          = 0x20025FD9;
+const TInt KPhoneApplicationUid          = 0x100058B3;
 
 // ============================ MEMBER FUNCTIONS =============================
 

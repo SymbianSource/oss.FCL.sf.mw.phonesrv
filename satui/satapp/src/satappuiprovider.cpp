@@ -32,7 +32,6 @@
 #include <hbinputfilter.h> 
 #include <dialogwaiter.h>
 #include "satappview.h" // SetUpMenu, SelectItem
-#include "satappgetinkeynote.h" // GetYesNo immediate digit response
 #include "satappuiprovider.h"
 #include "tflogger.h"
 
@@ -41,7 +40,7 @@ const char *SATAPP_SETUPMENU_VIEW = "setupmenu_view";
 const char *SATAPP_SELECTITEM_VIEW = "selectitem_view";
 
 // ======== MEMBER FUNCTIONS ==================================================
-// TODO: #ifndef _DEBUG need to be remove when orbit works well. Now the macro
+// TODO: #ifndef __WINS__ need to be remove when orbit works well. Now the macro
 // is to avoid panic on emulator. Deleting pointer before create dialog is to
 // avoid memory leak in emulator.
 
@@ -55,7 +54,7 @@ SatAppUiProvider::SatAppUiProvider(
     QObject *parent) :
     QObject(parent), mMainWindow(window), mLoader(0),
     mSetupMenuView(0), mSelectItemView(0), mDisplayPopup(0),
-    mGetInkeyQuery(0), mYesNoPopup(0), mGetInputQuery(0),
+    mGetInkeyQuery(0),mYesNoPopup(0), mImmediateQuery(0), mGetInputQuery(0),
     mConfirmSendQuery(0), mSetUpCallQuery(0), mCallControlMsg(0),
     mConfirmBipQuery(0), mUserRsp(EUserNoResponse), mDigitalRsp(0), 
     mMinLength(0), mTimer(0), mLoop(0),mWaitNote(0)
@@ -126,17 +125,25 @@ SatAppUiProvider::~SatAppUiProvider()
         "SATAPP: SatAppUiProvider::~SatAppUiProvider object tree");
         delete mObjects.takeFirst();
     }
+    
     if (mDisplayPopup) {
         delete mDisplayPopup;
         mDisplayPopup = 0;
     }
+    
     if (mGetInkeyQuery) {
         delete mGetInkeyQuery;
         mGetInkeyQuery = 0;
     }
+
     if (mYesNoPopup) {
         delete mYesNoPopup;
         mYesNoPopup = 0;
+    }
+
+    if (mImmediateQuery) {
+        delete mImmediateQuery;
+        mImmediateQuery = 0;
     }
     if (mGetInputQuery) {
         delete mGetInputQuery;
@@ -271,9 +278,10 @@ TSatAppUserResponse SatAppUiProvider::showDisplayTextPopup(
     
     if (mDisplayPopup){
         delete mDisplayPopup;
-        mDisplayPopup = NULL;        
+        mDisplayPopup = NULL;
     }
     mDisplayPopup = new HbMessageBox(HbMessageBox::MessageTypeInformation);
+
     if (mDisplayPopup) {
         TFLOGSTRING(
         "SATAPP: SatAppUiProvider::showDisplayTextPopup note created")
@@ -291,11 +299,10 @@ TSatAppUserResponse SatAppUiProvider::showDisplayTextPopup(
         waiter.wait();
         TFLOGSTRING(
         "SATAPP: SatAppUiProvider::showDisplayTextPopup duration end open")
-        
-#ifndef _DEBUG
+#ifndef __WINS__
         delete mDisplayPopup;
         mDisplayPopup = 0;
-#endif        
+#endif
     }
     TFLOGSTRING("SATAPP: SatAppUiProvider::showDisplayTextPopup exit")
     return mUserRsp;
@@ -318,7 +325,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
     
     if (mGetInkeyQuery){
         delete mGetInkeyQuery;
-        mGetInkeyQuery = NULL;       
+        mGetInkeyQuery = NULL;
     }
     mGetInkeyQuery = new HbInputDialog();
     if (mGetInkeyQuery) {
@@ -337,12 +344,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
             // char mode
             inputMode.setUpAsLatinAlphabetOnlyEditor();
         }
-
-        unsigned int duration = KDefaultSelectionTimeoutMseconds;
-        if (aDuration) {
-            duration = aDuration * KSymbianTimeConvertQtTime;
-        }
-        composeDialog(mGetInkeyQuery, duration, ESatDialogGetInkey);
+        composeDialog(mGetInkeyQuery, aDuration, ESatDialogGetInkey);
         mGetInkeyQuery->lineEdit()->setMaxLength(1);
         connect(mGetInkeyQuery->lineEdit(), SIGNAL(textChanged(QString)),
             this, SLOT(updateQueryAction(QString)));
@@ -355,10 +357,10 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
         QString inputString = (mGetInkeyQuery->value()).toString();
         aContent = inputString;
         
-#ifndef _DEBUG       
+#ifndef __WINS__
         delete mGetInkeyQuery;
         mGetInkeyQuery = 0;
-#endif        
+#endif
     }
     TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInkeyQuery exit")
     return mUserRsp;
@@ -371,6 +373,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInkeyQuery(
 int SatAppUiProvider::showGetYesNoQuery(
     const QString &aText,
     const TSatCharacterSet aCharacterSet,
+    unsigned int &aInkey,
     unsigned int &aDuration,
     const bool aImmediateDigitResponse)
 {
@@ -379,61 +382,80 @@ int SatAppUiProvider::showGetYesNoQuery(
     stopShowWaitNote();
     TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery duration in=%d",
             aDuration)
-    unsigned int duration = KDefaultSelectionTimeoutMseconds;
-    if (aDuration) {
-        duration = aDuration * KSymbianTimeConvertQtTime;
-    }
-    TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery duration=%d",
-            duration)
-    
-    if (mYesNoPopup){
-        delete mYesNoPopup;
-        mYesNoPopup = NULL;        
-    }
-    
     if (ESatYesNo == aCharacterSet) {
-        mYesNoPopup = new SatAppGetInkeyNote(aText);
-        TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery normal")
-        composeDialog(mYesNoPopup, duration, ESatDialogGetYesNo);
-    } else if (aImmediateDigitResponse){
-        // user can choose the charactor or digital , and only cancel
-        // key press, then close current dialog
-        mYesNoPopup = new SatAppGetInkeyNote(aText);
-        composeDialog(mYesNoPopup, duration, ESatDialogGetDigitalRsp);
+        if (mYesNoPopup){
+            delete mYesNoPopup;
+            mYesNoPopup = 0;
+       }
+        mYesNoPopup = new HbMessageBox(HbMessageBox::MessageTypeInformation);
 
-        TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery immediate")
-        bool ret = connect(mYesNoPopup, SIGNAL(digitalKeyPressed(int)),
-                 this, SLOT(digitalResponse(int)),
-                 Qt::DirectConnection);
-        TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery:\
-        digitalKeyPressed=%d", ret)
-    }
-    if (mYesNoPopup) {
-        TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery duration=%d",
-                aDuration)
-        QTime time;
-        time.start();
+        if (mYesNoPopup) {
+            TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery normal")
+            // Set the label as heading widget
+            HbLabel *lHeading = new HbLabel(aText, mYesNoPopup);
+            mYesNoPopup->setHeadingWidget(lHeading);
+            mYesNoPopup->setIconVisible(false);
 
-        TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery befor pop")
-        DialogWaiter waiter;
-        mYesNoPopup->open(&waiter, SLOT(done(HbAction *)));
-        waiter.wait();
-        TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery end pop")
-        aDuration = time.elapsed() / KSymbianTimeConvertQtTime;
-        TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery duration out=%d",
-                aDuration)
-#ifndef _DEBUG        
-        delete mYesNoPopup;
-        mYesNoPopup = 0;
-#endif        
+            composeDialog(mYesNoPopup, aDuration, ESatDialogGetYesNo);
+
+            TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery before open")
+            DialogWaiter waiter;
+            mYesNoPopup->open(&waiter, SLOT(done(HbAction *)));
+            waiter.wait();
+            TFLOGSTRING( "SATAPP: SatAppUiProvider::showGetYesNoQuery after open")
+            mYesNoPopup->close();
+        }
+    } else if (aImmediateDigitResponse) {
+        if (mImmediateQuery) {
+            delete mImmediateQuery;
+            mImmediateQuery = 0;
+        }
+        mImmediateQuery = new HbInputDialog();
+        if (mImmediateQuery) {
+            mImmediateQuery->setPromptText(aText);
+            // user can choose the charactor or digital , and only cancel
+            // key press, then close current dialog
+            TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery immediate")
+            composeDialog(mImmediateQuery, aDuration, ESatDialogGetDigitalRsp);
+            bool ret = connect(mImmediateQuery->lineEdit(), 
+               SIGNAL(textChanged(QString)),
+               this, SLOT(updateQueryAction(QString)));
+            TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery:\
+               connect updateQueryAction=%d", ret)
+            // digit mode, digits only (0 9, *, #, and +)
+            HbEditorInterface inputMode(mImmediateQuery->lineEdit());
+            inputMode.setFilter(HbPhoneNumberFilter::instance());
+            if (mLoop) {
+                TFLOGSTRING("SatAppUiProvider::showGetYesNoQuery delete loop")
+                delete mLoop;
+                mLoop = 0;
+            }
+            if (mTimer) {
+                delete mTimer;
+                mTimer = 0;
+                TFLOGSTRING("SatAppUiProvider::showGetYesNoQuery delete timer")
+            }
+            mTimer = new QTimer(this);
+            mTimer->start(aDuration);
+            ret = connect(mTimer, SIGNAL(timeout()), mTimer, SLOT(stop()));
+            TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetYesNoQuery connect\
+                mTimer stop: %d", ret)
+            mLoop = new QEventLoop(this);
+            ret = connect(mTimer, SIGNAL(timeout()), mLoop, SLOT(quit()));
+            TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery befor pop")
+            mImmediateQuery->open();
+            mLoop->exec();
+            TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery end pop")
+            if (mTimer->isActive()) {
+                TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery stop time")
+                mTimer->stop();
+            }
+            aInkey = mDigitalRsp;
+            mImmediateQuery->close();
+        }
     }
-    if (ESatYesNo == aCharacterSet) {
-        mDigitalRsp = mUserRsp;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::showGetYesNoQuery:yes/no rsp")
-    }
-    return  mDigitalRsp;
+    return  mUserRsp;
 }
-
 
 // ----------------------------------------------------------------------------
 // showGetInputQuery
@@ -456,7 +478,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInputQuery(
     
     if (mGetInputQuery){
         delete mGetInputQuery;
-        mGetInputQuery = NULL;        
+        mGetInputQuery = NULL;
     }    
     mGetInputQuery = new HbInputDialog();
     mGetInputQuery->setPromptText(heading);
@@ -471,8 +493,7 @@ TSatAppUserResponse SatAppUiProvider::showGetInputQuery(
         // char mode
         inputMode.setUpAsLatinAlphabetOnlyEditor();
     }
-    connect(mGetInputQuery->lineEdit(), SIGNAL(textChanged(QString)),
-        this, SLOT(updateQueryAction(QString)));
+    
     mGetInputQuery->lineEdit()->setMaxLength(maxLength);
 
     composeDialog(mGetInputQuery, KDefaultSelectionTimeoutMseconds, ESatDialogGetInput);
@@ -484,7 +505,14 @@ TSatAppUserResponse SatAppUiProvider::showGetInputQuery(
 
     if (aHideInput) {
         mGetInputQuery->lineEdit()->setEchoMode(HbLineEdit::Password);
-        TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInputQuery hide")
+        
+        bool res = connect(mGetInputQuery->lineEdit(), 
+            SIGNAL(contentsChanged()), this, SLOT(contentChanged()));
+        TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetInputQuery \
+                     connect %d",res);
+    }else {
+        connect(mGetInputQuery->lineEdit(), SIGNAL(textChanged(QString)),
+            this, SLOT(updateQueryAction(QString)));        
     }
 
     TFLOGSTRING("SATAPP: SatAppUiProvider::showGetInputQuery before pop")
@@ -495,14 +523,27 @@ TSatAppUserResponse SatAppUiProvider::showGetInputQuery(
 
     content = (mGetInputQuery->value()).toString();
     
-#ifndef _DEBUG
+#ifndef __WINS__
     delete mGetInputQuery;
     mGetInputQuery = 0;
-#endif    
+#endif
 
     TFLOGSTRING2("SATAPP: SatAppUiProvider::showGetInputQuery mUserRsp =%d exit",
             mUserRsp)
     return mUserRsp;
+}
+
+// ----------------------------------------------------------------------------
+// SatAppInputProvider::contentChanged
+// Called when editor field is modified
+// ----------------------------------------------------------------------------
+//
+void SatAppUiProvider::contentChanged()
+{
+    if (mGetInputQuery) {
+        QString content = (mGetInputQuery->value()).toString();
+        updateQueryAction(content);
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -520,7 +561,7 @@ void SatAppUiProvider::updateQueryAction(QString text)
             mGetInputQuery->actions().at(0)->setEnabled(false);
         }
     }
-    
+
     // Get InKey
     if (mGetInkeyQuery && mGetInkeyQuery->actions().at(0)) {
         if (1 == text.length()) {
@@ -529,7 +570,11 @@ void SatAppUiProvider::updateQueryAction(QString text)
             mGetInkeyQuery->actions().at(0)->setEnabled(false); 
         }
     }
-
+    if (mImmediateQuery) {
+        TFLOGSTRING("SATAPP: SatAppUiProvider::updateQueryAction \
+            digital immediate")
+        immediateResponse(text);
+    }
     TFLOGSTRING("SATAPP: SatAppUiProvider::updateQueryAction exit")
 }
 
@@ -546,12 +591,11 @@ void SatAppUiProvider::showConfirmSendQuery(
     
     if (mConfirmSendQuery){
         delete mConfirmSendQuery;
-        mConfirmSendQuery = NULL;        
+        mConfirmSendQuery = NULL;
     }
-    
     mConfirmSendQuery = new HbMessageBox(HbMessageBox::MessageTypeQuestion);
     if(mConfirmSendQuery) {
-        mConfirmSendQuery->setText(aText);        
+        mConfirmSendQuery->setText(aText);
         composeDialog(mConfirmSendQuery, 0, ESatDialogConfirmSend);
 
         TFLOGSTRING("SATAPP: SatAppUiProvider::confirmSend before open")
@@ -560,10 +604,10 @@ void SatAppUiProvider::showConfirmSendQuery(
         waiter.wait();
         TFLOGSTRING("SATAPP: SatAppUiProvider::confirmSend after open")
         
-#ifndef _DEBUG
+#ifndef __WINS__
         delete mConfirmSendQuery;
         mConfirmSendQuery = 0;
-#endif        
+#endif
     }
     aActionAccepted = (EUserPrimaryResponse == mUserRsp) ? true : false;
     TFLOGSTRING("SATAPP: SatAppUiProvider::showConfirmSendQuery exit")
@@ -678,7 +722,6 @@ void SatAppUiProvider::showConfirmSetUpCallQuery(
         alphaId.append(aText);
         TFLOGSTRING("SATAPP: SatAppUiProvider::showConfirmSetUpCallQUery exit")
     }
-    
     if (mSetUpCallQuery){
         delete mSetUpCallQuery;
         mSetUpCallQuery = NULL;
@@ -686,8 +729,7 @@ void SatAppUiProvider::showConfirmSetUpCallQuery(
     
     mSetUpCallQuery = new HbMessageBox(HbMessageBox::MessageTypeQuestion);
     if(mSetUpCallQuery) {
-        mSetUpCallQuery->setText(alphaId);  
-        
+        mSetUpCallQuery->setText(alphaId);
         composeDialog(mSetUpCallQuery, 0, ESatDialogSetUpCall);
 
         TFLOGSTRING("SATAPP: SatAppSetUpCall::showSetUpCallConfirm before open")
@@ -696,10 +738,10 @@ void SatAppUiProvider::showConfirmSetUpCallQuery(
         waiter.wait();
         TFLOGSTRING("SATAPP: SatAppSetUpCall::showSetUpCallConfirm after open")
         
-#ifndef _DEBUG
+#ifndef __WINS__
         delete mSetUpCallQuery;
         mSetUpCallQuery = 0;
-#endif        
+#endif
     }
     aActionAccepted = (EUserPrimaryResponse == mUserRsp) ? true : false;
     TFLOGSTRING("SATAPP: SatAppUiProvider::showConfirmSetUpCallQUery exit")
@@ -713,49 +755,63 @@ void SatAppUiProvider::clearScreen()
 {
     TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen called")
     if (mDisplayPopup) {
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen DisplayText")
         mDisplayPopup->close();
         mDisplayPopup = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen DisplayText")
     }
     if (mGetInkeyQuery) {
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen GetInkey")
         mGetInkeyQuery->close();
         mGetInkeyQuery = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen GetInkey")
     }
+
     if (mYesNoPopup) {
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen mYesNoPopup")
         mYesNoPopup->close();
-        mYesNoPopup = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen GetYesNo")
+        delete mYesNoPopup;
+        mYesNoPopup = 0;
     }
+
+    if (mImmediateQuery) {
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen mImmediateQuery")
+        mImmediateQuery->close();
+        mImmediateQuery = NULL;
+    }
+
     if (mGetInputQuery) {
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen GetInput")
         mGetInputQuery->close();
         mGetInputQuery = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen GetInput")
     }
+
     if(mConfirmSendQuery) {
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen ConfirmSend")
         mConfirmSendQuery->close();
         mConfirmSendQuery = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen ConfirmSend")
     }
+
     if (mSetUpCallQuery) {
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen SetUpCall")
         mSetUpCallQuery->close();
         mSetUpCallQuery = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen SetUpCall")
     }
+
     if (mCallControlMsg){
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen CallControlMsg")
         mCallControlMsg->close();
         mCallControlMsg = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen CallControlMsg")
     }
+
     if (mConfirmBipQuery){
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen ConfirmBip")
         mConfirmBipQuery->close();
         mConfirmBipQuery = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen ConfirmBip")
     }
+
     if (mWaitNote){
+        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen WaitNote")
         mWaitNote->close();
         mWaitNote = NULL;
-        TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen WaitNote")
     }
     mUserRsp = EUserClearResponse;
     TFLOGSTRING("SATAPP: SatAppUiProvider::clearScreen exit")
@@ -775,21 +831,6 @@ void SatAppUiProvider::closeUi()
 }
 
 // ----------------------------------------------------------------------------
-// digitalResponse
-// ----------------------------------------------------------------------------
-//
-void SatAppUiProvider::digitalResponse(const int aKey)
-{
-    TFLOGSTRING("SATAPP: SatAppGetInkey::digitalResponse call")
-    mDigitalRsp = aKey;
-    if (mYesNoPopup){
-        TFLOGSTRING("SATAPP: SatAppUiProvider::digitalResponse Close")
-        mYesNoPopup->close();
-        }
-    TFLOGSTRING("SATAPP: SatAppUiProvider::digitalResponse exit")
-}
-
-// ----------------------------------------------------------------------------
 // resetUserResponse
 // ----------------------------------------------------------------------------
 //
@@ -797,7 +838,7 @@ void SatAppUiProvider::resetUserResponse()
 {
     TFLOGSTRING("SATAPP: SatAppUiProvider::resetUserResponse call")
     mUserRsp = EUserNoResponse;
-    mDigitalRsp = 0;
+    mDigitalRsp = Qt::Key_unknown;
     mMinLength = 0;
     TFLOGSTRING("SATAPP: SatAppUiProvider::resetUserResponse exit")
 }
@@ -836,7 +877,7 @@ void SatAppUiProvider::composeDialog(
     ret = connect(secondaryAction, SIGNAL(triggered()),
                   this, SLOT(userSecondaryResponse()));
     TFLOGSTRING2("SATAPP: SatAppUiProvider::composeDialog \
-        secondaryAction=%d", ret)     
+        secondaryAction=%d", ret)
     
     if (ESatDialogDisplayText == type){
         primaryAction->setText(hbTrId("txt_sat_general_ok"));
@@ -863,6 +904,10 @@ void SatAppUiProvider::composeDialog(
     } else if (ESatDialogGetDigitalRsp == type){
         dlg->removeAction(primaryAction);
         secondaryAction->setText(hbTrId("txt_sat_general_cancel"));
+        ret = connect(secondaryAction, SIGNAL(triggered()),
+                      this, SLOT(handleImmediateCancel()));
+        TFLOGSTRING2("SATAPP: SatAppUiProvider::composeDialog \
+            con secondaryAction=%d", ret)
         TFLOGSTRING("SATAPP: SatAppUiProvider::composeDialog \
             ESatDialogGetDigitalRsp")
     } else if (ESatDialogSetUpCall == type){
@@ -1042,6 +1087,11 @@ void SatAppUiProvider::showConfirmOpenChannelQuery(
         bool &aActionAccepted)
 {
     TFLOGSTRING("SATAPP: SatAppUiProvider::showConfirmOpenChannelQuery call")
+    stopShowWaitNote();
+    if (mConfirmBipQuery){
+        delete mConfirmBipQuery;
+        mConfirmBipQuery = NULL;
+    }
     QString title = aText;
     if (!aText.length()){
         title = hbTrId("txt_sat_openchannel_confirm_note");
@@ -1155,6 +1205,79 @@ void SatAppUiProvider::showSatInfoNote(const QString &aText)
     TFLOGSTRING("SATAPP: SatAppUiProvider::showSatInfoNote")
     HbMessageBox::information(aText);
     TFLOGSTRING("SATAPP: SatAppUiProvider::showSatInfoNote exit")
+}
+
+
+// ----------------------------------------------------------------------------
+//handleImmediateCancel
+//
+// ----------------------------------------------------------------------------
+//
+void SatAppUiProvider::handleImmediateCancel()
+{
+    TFLOGSTRING("SATAPP: SatAppUiProvider::handleImmediateCancel")
+    if (mLoop && mLoop->isRunning()) {
+        mLoop->quit();
+    }
+    TFLOGSTRING("SATAPP: SatAppUiProvider::handleImmediateCancel exit")
+}
+
+// ----------------------------------------------------------------------------
+//immediateResponse
+//
+// ----------------------------------------------------------------------------
+//
+void SatAppUiProvider::immediateResponse(QString text)
+{
+    TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse")
+    if (mLoop && mLoop->isRunning()) {
+        mLoop->quit();
+    }
+    if ("0" == text) {
+        mDigitalRsp = Qt::Key_0;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 0")
+    } else if ("1" == text) {
+        mDigitalRsp = Qt::Key_1;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 1")
+    } else if ("2" == text) {
+        mDigitalRsp = Qt::Key_2;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 2")
+    } else if ("3" == text) {
+        mDigitalRsp = Qt::Key_3;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 3")
+    } else if ("4" == text) {
+        mDigitalRsp = Qt::Key_4;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 4")
+    }else if ("5" == text) {
+        mDigitalRsp = Qt::Key_5;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 5")
+    } else if ("6" == text) {
+        mDigitalRsp = Qt::Key_6;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 6")
+    } else if ("7" == text) {
+        mDigitalRsp = Qt::Key_7;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 7")
+    } else if ("8" == text) {
+        mDigitalRsp = Qt::Key_8;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 8")
+    } else if ("9" == text) {
+        mDigitalRsp = Qt::Key_9;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse 9")
+    } else if ("+" == text) {
+        mDigitalRsp = Qt::Key_Plus;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse +")
+    } else if ("*" == text) {
+        mDigitalRsp = Qt::Key_Asterisk;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse *")
+    } else if ("#" == text) {
+        mDigitalRsp = Qt::Key_NumberSign;
+        TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse #")
+    }
+    mUserRsp = EUserPrimaryResponse;
+    TFLOGSTRING2("SATAPP: SatAppUiProvider::immediateResponse key %x",
+        mDigitalRsp)
+
+    TFLOGSTRING("SATAPP: SatAppUiProvider::immediateResponse exit")
 }
 
 // End of file

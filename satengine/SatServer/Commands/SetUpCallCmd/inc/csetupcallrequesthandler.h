@@ -24,6 +24,7 @@
 
 class CSetUpCallHandler;
 class MSatAsyncToSync;
+class CSetupCallDtmfSender;
 
 /**
 *  This is the handler for the ETel MM api Request.
@@ -32,7 +33,7 @@ class MSatAsyncToSync;
 *
 */
 
-class CSetupCallRequestHandler : public CActive
+NONSHARABLE_CLASS ( CSetupCallRequestHandler ) : public CActive
     {
 public:
 
@@ -54,14 +55,14 @@ public:
      * Access RMobileCall::DialNoFdnCheck by MSatMultiModeApi
      * for the paramter information please see the etelmm.h
      */
-    void DialNumber( const TDesC8& aCallParams, const TDesC& aTelNumber,
+    void DialNumber( const TDesC8& aCallParams, TDes& aTelNumber,
             TBool aTerminateOtherCall, MSatAsyncToSync* aAsyncToSync );
 
     /**
      * Access RMobileCall::DialEmergencyCall by MSatMultiModeApi
      * for the paramter information please see the etelmm.h
      */
-    void DialEmergencyCall( const TDesC& aTelNumber );    
+    void DialEmergencyCall( const TDesC& aTelNumber );
     
     /**
      * Cancel the asynchronous operations that required to the ETel MM api  
@@ -103,12 +104,11 @@ private: // Data
      * Pointer to SendSs command handler
      */
     CSetUpCallHandler* iDispatcher;
-
+    
     /**
-     * Current call is an emergency call.
-     */
-    TBool iEmergencyCall;
-      
+     * Own. Dtmf sender
+     */    
+    CSetupCallDtmfSender* iDtmfSender;
     };
 
 #endif      // CSETUPCALLREQUESTHANDLER_H

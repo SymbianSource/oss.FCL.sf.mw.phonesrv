@@ -30,19 +30,18 @@ const QString KCodeActivateRfsDeep("*#7370#");
 const QString KCodeBtAddress("*#2820#");
 /*! code for enabling bluetooth test mode */
 const QString KCodeRFLoopback("*#9990#");
-const QString KCodeBtDebugMode("*#2873#");
 /*! code for showing serial number */
 const QString KCodeImei("*#06#");
 /*! code for showing life timer data */
 const QString KCodeLifeTimer("*#92702689#");
 /*! code for changing pin code 1 */
-const QString KCodeChangePin1("\\*\\*04\\*.*");
+const QString KCodeChangePin1("\\*\\*04\\*\\d{4,15}\\*\\d{4,15}\\*\\d{4,15}\\#");
 /*! code for changing pin code 2 */
-const QString KCodeChangePin2("\\*\\*042.*");
+const QString KCodeChangePin2("\\*\\*042\\*\\d{4,15}\\*\\d{4,15}\\*\\d{4,15}#");
 /*! code for unblocking pin code 1 */
-const QString KCodeUnblockPin1("\\*\\*05\\*.*");
+const QString KCodeUnblockPin1("\\*\\*05\\**\\d{8,20}\\*\\d{4,15}\\*\\d{4,15}#");
 /*! code for unblocking pin code 2 */
-const QString KCodeUnblockPin2("\\*\\*052.*");
+const QString KCodeUnblockPin2("\\*\\*052\\**\\d{8,20}\\*\\d{4,15}\\*\\d{4,15}#");
 
 
 #endif // KEYSEQUENCERECOGNITIONSERVICEDEFS_H

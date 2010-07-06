@@ -88,7 +88,8 @@ public:
     
     enum NetworkAccessType {
         AccessTypeGsm, 
-        AccessTypeWcdma
+        AccessTypeWcdma,
+        AccessTypeGsmAndWcdma
     };
 
     struct NetworkInfo {
@@ -126,6 +127,8 @@ public:
     void getNetworkAccessMode() const;
 
     void setNetworkAccessMode(PSetNetworkWrapper::NetworkAccessMode mode);
+    
+    bool isManualNetworkSelectionSupported() const;
 
 signals:
 

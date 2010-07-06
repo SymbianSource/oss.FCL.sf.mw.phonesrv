@@ -24,7 +24,7 @@
 #include <etelmm.h>
 #include "CbsReceiverTypes.h"
 #include "CbsCommon.h"
-#include "CbsMcnCommon.h"
+#include <cbsmcncommon.h>
 
 //  CONSTANTS  
 // If this constant is set to iPLMN.iMCC, iPLMN does not contain network info

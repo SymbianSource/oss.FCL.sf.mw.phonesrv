@@ -178,19 +178,18 @@ TBool CVmbxPbkStore::IsWritable()
             // get als line info
             TVmbxAlsLineType alsLine = VmbxUtilities::AlsLine();
             simEntry->SetVmbxAlsLineType( alsLine );
-            // ALS line on
-            if ( EVmbxAlsLineDefault != alsLine )
-                {
-                // ALS line on, only should write to 6f17,
-                // so just check 6f17 file write access
-                iPhoneBookType = EVMBXPhoneBook;
-                }
             // ALS line off
+            if ( IsSimFileExisting(EMBDNPhoneBook) && (EVmbxAlsLineDefault == alsLine) )
+                {
+                // ALS line on and 6f17 exist 
+                // just check 6f17 file write access
+                iPhoneBookType = EMBDNPhoneBook;
+                }
             else
                 {
-                // ALS line on, only should write to 6fc7,
-                //so just check 6fc7 file write access
-                iPhoneBookType = EMBDNPhoneBook;
+                // ALS line on, only should write to 6fc7; ALS off, 6f17 file inexist
+                //  check 6fc7 file write access
+                iPhoneBookType = EVMBXPhoneBook;
                 }
             simEntry->SetVoiceMailboxType( EVmbxVoice );
             simEntry->SetServiceId( KVmbxServiceVoice );
@@ -210,8 +209,8 @@ TBool CVmbxPbkStore::IsWritable()
                     {
                     result = ETrue;
                     }
-                 }
-           }
+                }
+            }
         delete simEntry;
         simEntry = NULL;
         }
@@ -516,7 +515,7 @@ void CVmbxPbkStore::SimReadL( CVoiceMailboxEntry& aEntry )
             {
             activeAlsLine = EVmbxAlsLine1;
             }
-         if( !IsActive() && !iWait->IsStarted() )
+        if( !IsActive() && !iWait->IsStarted() )
             {
             result = KErrNone;
             // read vmbx number from 6f17 file

@@ -48,6 +48,8 @@ public:
     HbLineEdit& editor() const;
 
     bool isOpen() const;
+    
+    bool isCallButtonEnabled() const;
 
 public slots:
     void openDialpad();

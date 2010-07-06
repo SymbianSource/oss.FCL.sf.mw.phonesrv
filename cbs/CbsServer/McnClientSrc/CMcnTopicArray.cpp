@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 
-#include "CMcnTopicArray.h"
+#include <cmcntopicarray.h>
 
 // CONSTANTS
 

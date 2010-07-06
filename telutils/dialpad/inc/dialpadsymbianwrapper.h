@@ -18,8 +18,8 @@
 #ifndef DIALPADSYMBIANWRAPPER_H
 #define DIALPADSYMBIANWRAPPER_H
 
-#include <qobject>
-#include <qstring>
+#include <QObject>
+#include <QString>
 #include <qglobal.h>
 
 class DialpadSymbianWrapperPrivate;
@@ -41,6 +41,8 @@ public:
         
     int defineMailboxNumber(QString &vmbxNumber);
     int defineVideoMailboxNumber(QString &vmbxNumber);
+    
+    bool changeSilentModeState();
 
 protected:
     DialpadSymbianWrapperPrivate *const d_ptr;

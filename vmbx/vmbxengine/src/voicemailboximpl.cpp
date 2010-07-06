@@ -400,7 +400,7 @@ void CVoiceMailboxImpl::SaveEntryL( const CVoiceMailboxEntry& aEntry )
     CleanupStack::PushL( vmbxBox );
     if ( vmbxBox->CheckConfiguration( params, EVmbxChangeNbrAllowedOnUi ) )
         {
-        vmbxBox->SaveL( aEntry );
+        vmbxBox->SaveL( aEntry, ETrue );
         }
     else
         {

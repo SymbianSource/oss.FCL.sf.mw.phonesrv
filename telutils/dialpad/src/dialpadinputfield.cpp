@@ -25,7 +25,7 @@
 #include "dialpadinputfield.h"
 #include "dialpadbutton.h"
 
-static const QString HbBackspaceIcon("qtg_mono_backspace2");
+static const QLatin1String HbBackspaceIcon("qtg_mono_backspace2");
 static const int DialpadAutoRepeatInterval = 150; // ms
 static const int DialpadAutoRepeatDelay = 1000; // ms
 static const qreal DialpadComponentMargin = 0.75; // units

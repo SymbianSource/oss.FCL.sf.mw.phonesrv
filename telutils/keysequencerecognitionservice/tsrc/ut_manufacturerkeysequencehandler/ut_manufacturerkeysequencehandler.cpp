@@ -68,8 +68,7 @@ void UT_ManufacturerKeySequenceHandler::t_keySequenceValidator()
         QRegExp::escape(KCodeActivateRfsNormal)  + "|" +
         QRegExp::escape(KCodeActivateRfsDeep) + "|" +
         QRegExp::escape(KCodeBtAddress) + "|" +
-        QRegExp::escape(KCodeRFLoopback) + "|" +
-        QRegExp::escape(KCodeBtDebugMode);
+        QRegExp::escape(KCodeRFLoopback);
     
     expect("KeySequenceHandler::setKeySequenceValidator")
         .with(expectedValidator);
@@ -166,21 +165,6 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceBluetoothCodes()
     EXPECT(XQAiwRequest::send).returns(true);
     
     handled = m_handler->executeKeySequence(KCodeRFLoopback);
-    
-    QVERIFY(verify());
-    emit request->requestOk(QVariant(true));
-    QVERIFY(request.isNull());
-    QCOMPARE(handled, true);
-    
-    request = new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
-        .with(
-            QString("com.nokia.services"), QString("bluetooth"), 
-            QString("activateBluetoothDebugMode()"), KIsEmbedded)
-        .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(true);
-    
-    handled = m_handler->executeKeySequence(KCodeBtDebugMode);
     
     QVERIFY(verify());
     emit request->requestOk(QVariant(true));

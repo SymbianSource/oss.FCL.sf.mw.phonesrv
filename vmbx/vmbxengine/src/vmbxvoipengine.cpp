@@ -143,7 +143,8 @@ void CVmbxVoIpEngine::GetL( CVoiceMailboxEntry*& aEntry )
 // Saves voice mailbox number
 // ---------------------------------------------------------------------------
 //
-void CVmbxVoIpEngine::SaveL( const CVoiceMailboxEntry& /*aEntry*/ )
+void CVmbxVoIpEngine::SaveL( const CVoiceMailboxEntry& /*aEntry*/,
+                             TBool /*aShowNotesAllowed*/ )
     {
     VMBLOGSTRING( "VMBX: CVmbxVoIpEngine::SaveL <=>" );
     User::Leave( KErrNotSupported );

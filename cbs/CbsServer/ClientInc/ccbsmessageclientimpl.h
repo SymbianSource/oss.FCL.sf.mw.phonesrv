@@ -23,7 +23,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "CCbsMessageClient.h"
+#include <ccbsmessageclient.h>
 #include "RCbs.h"
 
 //  CLASS DECLARATION 

@@ -1,6 +1,8 @@
 #include <QtTest/QtTest>
 #include "ut_vmbxcpplugin.h"
 #include "ut_vmbxuiengine.h"
+#include "ut_actioncustomitem.h"
+#include "ut_customedit.h"
 
 // -----------------------------------------------------------------------------
 // main()
@@ -10,8 +12,7 @@ int main(int argc, char *argv[])
     {
     qDebug("main() >");
     
-    //TODO: wk18 QApplication can not be created will casue crash.
-    //QApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     qDebug("ut_vmbxuiengine");
     Ut_VmbxUiEngine tcUiEngine; 
@@ -19,7 +20,8 @@ int main(int argc, char *argv[])
     pass[0] = argv[0];
     pass[1] = "-o"; 
     pass[2] = "c:\\logs\\vmbx\\ut_vmbxuiengine.txt";
-    int result = QTest::qExec(&tcUiEngine, 3, pass);
+    int result = -1;
+    result = QTest::qExec(&tcUiEngine, 3, pass);
     qDebug("ut_vmbxuiengine result %d", result);
 
     qDebug("ut_vmbxcpplugin");
@@ -27,6 +29,19 @@ int main(int argc, char *argv[])
     pass[2] = "c:\\logs\\vmbx\\ut_vmbxcpplugin.txt";
     result = QTest::qExec(&tcCpPlugin, 3, pass);
     qDebug("ut_vmbxcpplugin result=%d", result);
+    
+    qDebug("ut_actioncustomitem");
+    Ut_ActionCustomItem tcCustom;
+    pass[2] = "c:\\logs\\vmbx\\ut_acttioncustomitem.txt";
+    result = QTest::qExec(&tcCustom, 3, pass);
+    qDebug("ut_actioncustomitem result=%d", result);    
+
+    qDebug("ut_customedit");
+    Ut_CustomEdit tcEdit;
+    pass[2] = "c:\\logs\\vmbx\\ut_customedit.txt";
+    result = QTest::qExec(&tcEdit, 3, pass);
+    qDebug("Ut_CustomEdit result=%d", result);    
+    
     
     qDebug("main() <");
     return result;

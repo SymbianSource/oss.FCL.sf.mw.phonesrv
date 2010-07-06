@@ -36,7 +36,8 @@ HEADERS += ../../phonesrv_plat/dialpad_api/inc/dialpad.h \
            inc/dialpadkeysequenceeventfilter.h \
            inc/dialpadvideomailboxeventfilter.h \
            inc/dialpadmailboxeventfilterbase.h \
-           inc/dialpademergencycalleventfilter.h
+           inc/dialpademergencycalleventfilter.h \
+           inc/dialpadhasheventfilter.h
 
 SOURCES += src/dialpad.cpp \
            src/dialpadbutton.cpp \
@@ -52,7 +53,8 @@ SOURCES += src/dialpad.cpp \
            src/dialpadvideomailboxeventfilter.cpp \
            src/dialpadmailboxeventfilterbase.cpp \
            src/dialpademergencycalleventfilter.cpp \
-           src/dialpadvtkeyhandler.cpp
+           src/dialpadvtkeyhandler.cpp \
+           src/dialpadhasheventfilter.cpp
 
 RESOURCES += dialpad.qrc
 
@@ -81,7 +83,8 @@ symbian {
             -lxqserviceutil \
             -lvmbxengine \
             -lfeatmgr \
-            -lphoneclient
+            -lphoneclient \
+            -lcentralrepository
 }
 else:win32 { 
     HEADERS += inc/dialpadsymbianwrapper_p_stub.h

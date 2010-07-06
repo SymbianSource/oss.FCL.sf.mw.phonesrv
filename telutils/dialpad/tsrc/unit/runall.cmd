@@ -26,6 +26,7 @@ call runtest.cmd mt_keyhandler
 call runtest.cmd ut_dialpadbluetootheventfilter
 call runtest.cmd ut_dialpadkeysequenceeventfilter
 call runtest.cmd ut_dialpadkeyhandler
+call runtest.cmd ut_dialpadhasheventfilter
 )
 
 @echo off

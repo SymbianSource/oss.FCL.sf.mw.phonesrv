@@ -49,6 +49,7 @@ HEADERS += ../../../../../phonesrv_plat/dialpad_api/inc/dialpad.h \
            ../../../inc/dialpadmailboxeventfilterbase.h           \
            ../../../inc/dialpadvideomailboxeventfilter.h          \
            ../../../inc/dialpadvoicemailboxeventfilter.h          \
+           ../../../inc/dialpadhasheventfilter.h                  \
            /epoc32/include/mw/xqservicerequest.h                  \
            /epoc32/include/mw/xqappmgr.h                          \
            /epoc32/include/mw/xqaiwrequest.h
@@ -60,6 +61,7 @@ SOURCES += ../shared/mock_dialpad.cpp                             \
            ../shared/mock_dialpadmailboxeventfilterbase.cpp       \
            ../shared/mock_dialpadvideomailboxeventfilter.cpp      \
            ../shared/mock_dialpadvoicemailboxeventfilter.cpp      \
+           ../shared/mock_dialpadhasheventfilter.cpp              \
            ../shared/mock_featmgr.cpp                             \
            ../shared/mock_xqappmgr.cpp                            \
            ../shared/mock_xqaiwrequest.cpp                        \

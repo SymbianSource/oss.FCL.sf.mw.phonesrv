@@ -92,6 +92,11 @@ private:
      */
     CSetupCallRequestHandler( MSatMultiModeApi& aPhone,
         CSetUpCallHandler* aDispatcher );
+    
+    /**
+    * By default Symbian 2nd phase constructor is private.
+    */ 
+    void ConstructL();
         
 private: // Data
 
@@ -101,7 +106,7 @@ private: // Data
     MSatMultiModeApi& iPhone;
         
     /**
-     * Pointer to SendSs command handler
+     * Pointer to SetupCall command handler
      */
     CSetUpCallHandler* iDispatcher;
     

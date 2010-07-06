@@ -88,12 +88,28 @@ void CVmbxUiUtilities::ShowQueryL( const TVmbxType& aType,
         const TVmbxQueryMode & aMode, TDes& aNumber )
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryL =>" );
+    VMBLOGSTRING3( "VMBX: CVmbxUiUtilities::ShowQueryL: aMode=%d aNumber=%S ",
+                    aMode, &aNumber );
     if ( !iUiHandler ) 
         {
         VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryL no qt env Exit" )
         User::Leave(KErrNotSupported);
         }
-    VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryL: aNumber =%S ", &aNumber );
+    
+    // Show "define mailbox number" notification at define mode
+    if (EVmbxDefineMode == aMode) {
+        switch( aType ) {
+        case EVmbxVoice:
+            ShowInformationdNoteL(EDefineVoiceNumber);
+            break;
+        case EVmbxVideo:
+            ShowInformationdNoteL(EDefineVideoNumber);
+            break;
+        default:
+            break;
+        }
+    }
+    
     TInt result( KErrNone );
     FOREVER
         {

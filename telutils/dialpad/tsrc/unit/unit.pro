@@ -26,3 +26,4 @@ SUBDIRS += ut_dialpadkeysequenceeventfilter
 SUBDIRS += ut_dialpadkeyhandler
 SUBDIRS += mt_dialpad
 SUBDIRS += mt_keyhandler
+SUBDIRS += ut_dialpadhasheventfilter

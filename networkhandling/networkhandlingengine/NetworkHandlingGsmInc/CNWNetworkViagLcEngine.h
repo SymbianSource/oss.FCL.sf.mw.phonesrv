@@ -29,7 +29,7 @@
 #include "MNWNetworkTimer.h"
 #include <nwhandlingengine.h>
 #include "CNWGsmMessageHandler.h"
-#include <MCbsMcnObserver.h> //For McbsMcnObserver
+#include <mcbsmcnobserver.h> //For McbsMcnObserver
 #include <rmmcustomapi.h>
 #include <e32property.h>
 

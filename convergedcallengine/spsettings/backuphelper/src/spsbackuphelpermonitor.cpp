@@ -44,6 +44,7 @@ CSpsBackupHelperMonitor::~CSpsBackupHelperMonitor()
     Cancel();
     iProperty.Close();
     delete iPerformer;
+    delete iABClient;
     }
 
 // ---------------------------------------------------------------------------
@@ -73,6 +74,14 @@ void CSpsBackupHelperMonitor::ConstructL()
 
     // Check current state to see if we were started for backup purposes
     iProperty.Get(backupStateValue);
+    
+    if (!NoBackupRestore(backupStateValue))
+        {
+        iABClient = CActiveBackupClient::NewL();
+            
+        // Confirm that this data owner is ready for backup/restore operations
+        iABClient->ConfirmReadyForBURL(KErrNone);
+        }
     
     // Subscribe to the P&S flag to catch transitions
     Subscribe();
@@ -143,8 +152,8 @@ TBool CSpsBackupHelperMonitor::NoBackupRestore( TInt aBackupStateValue )
     {
     // Not set or no backup or restore ongoing
     TBool ret = 
-        ( ( aBackupStateValue == conn::EBURUnset ) ||
-        ( aBackupStateValue == conn::EBURNormal ) );
+        ( ( aBackupStateValue & KBURPartTypeMask ) == conn::EBURUnset ||
+        ( aBackupStateValue & KBURPartTypeMask ) == conn::EBURNormal );
     
     return ret;
     }
@@ -174,10 +183,8 @@ void CSpsBackupHelperMonitor::RunL()
     // re-subscribe to the flag to monitor future changes
     Subscribe();
 
-    iProperty.Get(backupStateValue);
+    CheckStatusL();
 
-    // Process the mode change accordingly
-    ProcessBackupStateL(backupStateValue);
     XSPSLOGSTRING( "CSpsBackupHelperMonitor::RunL OUT" );
     }
 
@@ -199,6 +206,57 @@ void CSpsBackupHelperMonitor::DoCancel()
     {
     iProperty.Cancel();
     }
+
+void CSpsBackupHelperMonitor::CheckStatusL()
+    {
+    TInt backupInfo =0;
+    iProperty.Get(backupInfo);
+    
+    // Process the mode change accordingly
+    ProcessBackupStateL(backupInfo);
+
+    if (NoBackupRestore(backupInfo))
+        {
+        delete iABClient;
+        iABClient = NULL;
+        }
+    else 
+        {
+        if (iABClient == NULL)
+            {
+            iABClient = CActiveBackupClient::NewL();
+            }
+        
+        TDriveList driveList;
+        TBURPartType partType;
+        TBackupIncType incType;
+        TInt err;
+        TRAP(err, iABClient->BURModeInfoL(driveList, partType, incType));
+        if (err != KErrNone)
+            {
+            XSPSLOGSTRING("BURModeInfoL error");
+            }
+        
+        TBool amIaffected = ETrue;
+        
+        if (partType == EBURRestorePartial || partType == EBURBackupPartial)
+            {
+            TRAP(err, amIaffected = iABClient->DoesPartialBURAffectMeL());
+            if (err != KErrNone)
+                {
+                User::After(5000000);
+                TRAP(err, amIaffected = iABClient->DoesPartialBURAffectMeL());
+                }
+            }
+        
+        if (amIaffected)
+            {
+            // Confirm that this data owner is ready for backup/restore operations
+            iABClient->ConfirmReadyForBURL(KErrNone);
+            }
+        }
+    }
+
 
 // End of file
 

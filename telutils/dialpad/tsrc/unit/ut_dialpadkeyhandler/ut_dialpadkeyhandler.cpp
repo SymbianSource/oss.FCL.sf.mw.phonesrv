@@ -85,7 +85,8 @@ void UT_DialpadKeyHandler::t_constructionWithAllFilters()
         DialpadKeyHandler::VideoMailBox |
         DialpadKeyHandler::Bluetooth |
         DialpadKeyHandler::KeySequence |
-        DialpadKeyHandler::EmergencyCall);
+        DialpadKeyHandler::EmergencyCall |
+        DialpadKeyHandler::Hash );
     
     m_keyHandler = new DialpadKeyHandler(m_dialPad, filters, this);
     

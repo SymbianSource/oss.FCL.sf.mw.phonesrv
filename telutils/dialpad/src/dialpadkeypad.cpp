@@ -34,8 +34,8 @@
 
 static const int DialpadRowCount = 4;
 static const int DialpadColumnCount = 3;
-static const QString handsetIcon("qtg_mono_call");
-static const QString vmbxIcon("qtg_mono_voice_mailbox");
+static const QLatin1String handsetIcon("qtg_mono_call");
+static const QLatin1String vmbxIcon("qtg_mono_voice_mailbox");
 static const qreal DialpadKeypadBorderWidth = 0.25;
 
 static const int DialpadKeyCodeTable[DialpadRowCount*DialpadColumnCount] =
@@ -246,6 +246,7 @@ void DialpadKeypad::sendKeyReleaseEvent(const QKeyEvent& event)
 void DialpadKeypad::sendLongPressEvent(const QKeyEvent& event)
 {
     sendKeyEventToEditor(QEvent::KeyPress, event.key());
+    resetButtons();
     mPressedNumericKey = 0;
 }
 

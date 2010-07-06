@@ -18,7 +18,7 @@
 #ifndef DIALPADEMERGENCYCALLEVENTFILTER_H
 #define DIALPADEMERGENCYCALLEVENTFILTER_H
 
-#include <qobject>
+#include <QObject>
 
 class Dialpad;
 class CPhCltEmergencyCall;

@@ -88,8 +88,9 @@ const TInt KPhSrvUssdPopupDismissPolicy = 0;
 const TUint KPhSrvUssdTimeout = 300000000;
 
 // Use QT style localization
-_LIT(KUssdLocFilename, "phcltsrvussd.ts");
-_LIT(KUssdLocPath, "z://data");
+_LIT(KUssdLocFilename, "ussd_");
+_LIT(KCommonLocFilename, "common_");
+_LIT(KLocPath, "z:\\resource\\qt\\translations");
 _LIT(KUssdReply, "txt_ussd_button_reply"); // Reply
 _LIT(KUssdExit, "txt_ussd_button_exit"); // Exit
 _LIT(KUssdNext, "txt_ussd_button_next"); //Next
@@ -460,8 +461,8 @@ void CPhSrvUssdManager::ConstructL( MPhSrvPhoneInterface& aPhoneInterface )
     {
     _DPRINT( 4, "PhSrv.ConstructL.Start" );
     iTextResolver = HbTextResolverSymbian::Init( 
-        KUssdLocFilename, KUssdLocPath );
-    _DDPRINT( 4, "PhSrv.ConstructL.loc:", iTextResolver );
+        KUssdLocFilename, KLocPath );
+    _DDPRINT( 4, "PhSrv.ConstructL.ussd loc:", iTextResolver );
     User::LeaveIfError( iTimer.CreateLocal() );
 
     User::LeaveIfError( iMobileUssdMessaging.Open( aPhoneInterface.PhSrvMobilePhone() ) );
@@ -1424,6 +1425,9 @@ void CPhSrvUssdManager::LaunchGlobalMessageQueryL()
             }
         if ( iClearArray )
             {
+            iTextResolver = HbTextResolverSymbian::Init( 
+                KCommonLocFilename, KLocPath );
+            _DPRINT( 4, "PhSrv.LGMQ.use common loc file" );
             // Yes, No
             iDeviceDialog->SetButton(
                 CHbDeviceMessageBoxSymbian::EAcceptButton, ETrue );               
@@ -1436,6 +1440,9 @@ void CPhSrvUssdManager::LaunchGlobalMessageQueryL()
                 CHbDeviceMessageBoxSymbian::ERejectButton, 
                 LoadDefaultString( KUssdNo ) );  
             _DPRINT( 4, "PhSrv.LGMQ.Yes&No" );
+            iTextResolver = HbTextResolverSymbian::Init( 
+                KUssdLocFilename, KLocPath );
+            _DPRINT( 4, "PhSrv.LGMQ.back up to use ussd loc file" );
             }
         iReceivedMessage.Zero();
         iReceivedMessage = (*iNotifyArray)[0];

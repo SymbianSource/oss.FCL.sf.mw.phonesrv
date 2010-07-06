@@ -14,7 +14,7 @@
 * Description: 
 *
 */
-#include <qkeyevent>
+#include <QKeyEvent>
 #include <hblineedit.h>
 #include <hbstringutil.h>
 #include "dialpademergencycalleventfilter.h"
@@ -103,10 +103,9 @@ void DialpadEmergencyCallEventFilter::createCall(const QString &phoneNumber)
 {
     PHONE_TRACE2("phoneNumber:", phoneNumber);
 #ifdef Q_OS_SYMBIAN
-    XQServiceRequest snd("com.nokia.symbian.ICallDial","dial(QString)", false);
-    snd << phoneNumber;
-    QVariant retValue;
-    snd.send(retValue);
+    TPtrC number (static_cast<const TUint16*>(phoneNumber.utf16()),
+            phoneNumber.length());
+    TRAP_IGNORE(mEmergency->DialEmergencyCallL(number));
 #endif // Q_OS_SYMBIAN
 }
 

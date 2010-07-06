@@ -35,4 +35,5 @@ SOURCE        spsbackuphelpermonitor.cpp
 LIBRARY      euser.lib
 LIBRARY      serviceprovidersettings.lib
 LIBRARY      centralrepository.lib
+LIBRARY      abclient.lib
 

@@ -28,4 +28,5 @@ SUBDIRS += vmbx/vmbxengine
 SUBDIRS += cellular/sssettings/xqbindings/sssettingswrapper
 SUBDIRS += cellular/telephonysettings/xqbindings/psetwrapper
 SUBDIRS += satui/satapp
+SUBDIRS += cellular/psuinotes
 }

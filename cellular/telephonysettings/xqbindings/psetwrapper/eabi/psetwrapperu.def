@@ -111,21 +111,24 @@ EXPORTS
 	_ZNK18PSetNetworkWrapper10metaObjectEv @ 110 NONAME
 	_ZNK18PSetNetworkWrapper20getNetworkAccessModeEv @ 111 NONAME
 	_ZNK18PSetNetworkWrapper23getNetworkSelectionModeERNS_20NetworkSelectionModeE @ 112 NONAME
-	_ZNK22PSetCallBarringWrapper10metaObjectEv @ 113 NONAME
-	_ZNK22PSetCallWaitingWrapper10metaObjectEv @ 114 NONAME
-	_ZNK24PSetCallDivertingWrapper10metaObjectEv @ 115 NONAME
-	_ZNK24PSetCallDivertingWrapper20validateDivertNumberERK7TDesC16 @ 116 NONAME
-	_ZNK24PSetCallDivertingWrapper8findPlusERK7TDesC16 @ 117 NONAME
-	_ZTI11PSetWrapper @ 118 NONAME
-	_ZTI14PSetCliWrapper @ 119 NONAME
-	_ZTI18PSetNetworkWrapper @ 120 NONAME
-	_ZTI22PSetCallBarringWrapper @ 121 NONAME
-	_ZTI22PSetCallWaitingWrapper @ 122 NONAME
-	_ZTI24PSetCallDivertingWrapper @ 123 NONAME
-	_ZTV11PSetWrapper @ 124 NONAME
-	_ZTV14PSetCliWrapper @ 125 NONAME
-	_ZTV18PSetNetworkWrapper @ 126 NONAME
-	_ZTV22PSetCallBarringWrapper @ 127 NONAME
-	_ZTV22PSetCallWaitingWrapper @ 128 NONAME
-	_ZTV24PSetCallDivertingWrapper @ 129 NONAME
+	_ZNK18PSetNetworkWrapper33isManualNetworkSelectionSupportedEv @ 113 NONAME
+	_ZNK22PSetCallBarringWrapper10metaObjectEv @ 114 NONAME
+	_ZNK22PSetCallWaitingWrapper10metaObjectEv @ 115 NONAME
+	_ZNK22PSetCallWaitingWrapper19getCPsetCallWaitingEv @ 116 NONAME
+	_ZNK24PSetCallDivertingWrapper10metaObjectEv @ 117 NONAME
+	_ZNK24PSetCallDivertingWrapper20validateDivertNumberERK7TDesC16 @ 118 NONAME
+	_ZNK24PSetCallDivertingWrapper21getCPsetCallDivertingEv @ 119 NONAME
+	_ZNK24PSetCallDivertingWrapper8findPlusERK7TDesC16 @ 120 NONAME
+	_ZTI11PSetWrapper @ 121 NONAME
+	_ZTI14PSetCliWrapper @ 122 NONAME
+	_ZTI18PSetNetworkWrapper @ 123 NONAME
+	_ZTI22PSetCallBarringWrapper @ 124 NONAME
+	_ZTI22PSetCallWaitingWrapper @ 125 NONAME
+	_ZTI24PSetCallDivertingWrapper @ 126 NONAME
+	_ZTV11PSetWrapper @ 127 NONAME
+	_ZTV14PSetCliWrapper @ 128 NONAME
+	_ZTV18PSetNetworkWrapper @ 129 NONAME
+	_ZTV22PSetCallBarringWrapper @ 130 NONAME
+	_ZTV22PSetCallWaitingWrapper @ 131 NONAME
+	_ZTV24PSetCallDivertingWrapper @ 132 NONAME
 

@@ -26,6 +26,7 @@ class DialpadVideoMailboxEventFilter;
 class DialpadBluetoothEventFilter;
 class DialpadKeySequenceEventFilter;
 class DialpadEmergencyCallEventFilter;
+class DialpadHashEventFilter;
 class HbMainWindow;
 
 #ifdef BUILD_DIALPADKEYHANDLER
@@ -61,7 +62,9 @@ public:
         /*! Enables handling of key sequences like *#06# for showing IMEI. */
         KeySequence     = 0x0008,
         /*! Forced handling for emergency call. */
-        EmergencyCall   = 0x0010
+        EmergencyCall   = 0x0010,
+        /*! Enables and disables silent mode with a long '#' key press. */
+        Hash    = 0x23
     };
     Q_DECLARE_FLAGS(DialpadKeyEventFilters, DialpadKeyEventFilter)
     
@@ -92,6 +95,7 @@ private:
     QScopedPointer<DialpadBluetoothEventFilter> mBtFilter;
     QScopedPointer<DialpadKeySequenceEventFilter> mKeySequenceFilter;
     QScopedPointer<DialpadEmergencyCallEventFilter> mEmergencyCallFilter;
+    QScopedPointer<DialpadHashEventFilter> mHashFilter;
 };
 
 #endif // DIALPADKEYHANDLER_H

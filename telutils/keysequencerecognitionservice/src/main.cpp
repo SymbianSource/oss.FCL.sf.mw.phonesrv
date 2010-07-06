@@ -20,7 +20,7 @@
 
 int main(int argc, char **argv)
 {
-    HbApplication app(argc, argv);
+    HbApplication app(argc, argv, Hb::NoSplash);
     KeySequenceRecognitionProvider provider;
     
     int result = app.exec();

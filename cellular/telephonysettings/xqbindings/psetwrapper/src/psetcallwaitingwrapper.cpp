@@ -92,4 +92,14 @@ void PSetCallWaitingWrapper::cancelProcess()
     DPRINT << ": OUT ";
 }
 
+/*!
+  PSetCallWaitingWrapper::getCPsetCallWaiting
+ */
+CPsetCallWaiting &  PSetCallWaitingWrapper::getCPsetCallWaiting() const
+    {
+    DPRINT;
+    
+    return *m_psetCallWaiting;
+    }
+
 // End of File. 

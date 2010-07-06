@@ -28,9 +28,9 @@
 #include <xqserviceutil.h>
 #endif //Q_OS_SYMBIAN
 
-const int DialpadLongKeyPressButtonCount(2);
+const int DialpadLongKeyPressButtonCount(3);
 static const int DialpadLongKeyPressSupportingButtons[DialpadLongKeyPressButtonCount] =
-{ Qt::Key_1, Qt::Key_2 };
+{ Qt::Key_1, Qt::Key_2, Qt::Key_NumberSign };
 
 
 DialpadMailboxEventFilterBase::DialpadMailboxEventFilterBase(Dialpad* dialpad, QObject* parent) :

@@ -39,8 +39,7 @@ ManufacturerKeySequenceHandler::ManufacturerKeySequenceHandler(
         QRegExp::escape(KCodeActivateRfsNormal)  + "|" +
         QRegExp::escape(KCodeActivateRfsDeep) + "|" +
         QRegExp::escape(KCodeBtAddress) + "|" +
-        QRegExp::escape(KCodeRFLoopback) + "|" +
-        QRegExp::escape(KCodeBtDebugMode));
+        QRegExp::escape(KCodeRFLoopback));
     
     m_codeToInterfaceMappings[KCodeSwVersion] = InterfaceDescription(
         "com.nokia.services", "devicemanager", "showVersionNumber()");
@@ -54,8 +53,6 @@ ManufacturerKeySequenceHandler::ManufacturerKeySequenceHandler(
         "com.nokia.services", "bluetooth", "showBluetoothDeviceAddress()");
     m_codeToInterfaceMappings[KCodeRFLoopback] = InterfaceDescription(
         "com.nokia.services", "bluetooth", "showBluetoothLoopback()");
-    m_codeToInterfaceMappings[KCodeBtDebugMode] = InterfaceDescription(
-        "com.nokia.services", "bluetooth", "activateBluetoothDebugMode()");
 }
 
 

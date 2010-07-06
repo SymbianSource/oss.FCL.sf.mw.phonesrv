@@ -73,7 +73,9 @@ bool SimControlKeySequenceHandler::executeKeySequence(
 }
 
 
-
+/*!
+  SimControlKeySequenceHandler::parseString.
+ */
 bool SimControlKeySequenceHandler::parseString(const QString &keySequence)
 {
     DPRINT_METHODENTRYEXIT;
@@ -88,7 +90,7 @@ bool SimControlKeySequenceHandler::parseString(const QString &keySequence)
     QString verifyNewPin;
     QString puk;
     
-    SimOperation operation;
+    SimOperation operation = None;
     bool handled = false;
    
     QString keySequencePrefix (keySequence);
@@ -150,8 +152,11 @@ bool SimControlKeySequenceHandler::parseString(const QString &keySequence)
     return handled;
 }
 
-void SimControlKeySequenceHandler::processChangePin(SimOperation operation, QString oldPin,
-                                                            QString newPin, QString verifyNew)
+/*!
+  SimControlKeySequenceHandler::processChangePin.
+ */
+void SimControlKeySequenceHandler::processChangePin(SimOperation operation, const QString &oldPin,
+                                                   const QString &newPin, const QString &verifyNew)
     {
     CManualSecuritySettings::TPin pin;
     
@@ -171,9 +176,11 @@ void SimControlKeySequenceHandler::processChangePin(SimOperation operation, QStr
        QT_TRAP_THROWING(m_securityModel->ChangePinL(pin, oldPinBuf, newPinBuf, verifyNewBuf));
     }
 
-
-void SimControlKeySequenceHandler::processUnblockPin(SimOperation operation, QString puk, QString newPin, 
-                                                                                 QString verifyNew)
+/*!
+  SimControlKeySequenceHandler::processUnblockPin.
+ */
+void SimControlKeySequenceHandler::processUnblockPin(SimOperation operation, const QString &puk, 
+                                                   const QString &newPin, const QString &verifyNew)
     {
     CManualSecuritySettings::TPin pin;
     

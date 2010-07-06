@@ -35,6 +35,7 @@ public:
     
     enum SimOperation
         {
+        None,
         Pin1,
         Pin2,
         Unblock1,
@@ -43,9 +44,18 @@ public:
 
 private:
 
-    bool parseString(  const QString &keySequence );
-    void processChangePin(SimOperation op, QString oldPin, QString newPin, QString verifyNew);
-    void processUnblockPin(SimOperation op, QString puk, QString newPin, QString verifyNew);
+    bool parseString(const QString &keySequence);
+    void processChangePin(
+            SimOperation op,
+            const QString &oldPin,
+            const QString &newPin,
+            const QString &verifyNew);
+    
+    void processUnblockPin(
+            SimOperation op,
+            const QString &puk,
+            const QString &newPin,
+            const QString &verifyNew);
     
 private:    
     CManualSecuritySettings* m_securityModel;

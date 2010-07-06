@@ -25,8 +25,9 @@
 #include "cphcltussdnotecontroller.h" 
 #include "tflogger.h"
 
-_LIT(KFilename, "phcltsrvussd.ts");
-_LIT(KPath, "z://data");
+_LIT(KUssdLocFilename, "ussd_");
+_LIT(KCommonLocFilename, "common_");
+_LIT(KPath, "z:\\resource\\qt\\translations");
 _LIT(KUssdRequesting, "txt_common_info_requesting"); // Requesting
 _LIT(KUssdDone, "txt_ussd_dpopinfo_done"); // Done
 _LIT(KUssdNotDone, "txt_ussd_dpopinfo_not_done"); // NotDone
@@ -34,6 +35,7 @@ _LIT(KUssdNotAllowed, "txt_ussd_dpopinfo_not_allowed"); //NotAllowed
 _LIT(KUssdUnconfirmed, "txt_ussd_dpopinfo_unconfirmed"); // Unconfirmed
 _LIT(KUssdNoService, "txt_ussd_dpopinfo_no_service"); // NoService
 _LIT(KUssdOffline, "txt_ussd_dpopinfo_offline_not_possible"); // Offline
+_LIT(KUssdHide, "txt_common_button_hide"); // Hide
 
 const int KPhCltUssdProgressBarMaxLength = 10;
 // ============================ MEMBER FUNCTIONS ===============================
@@ -64,11 +66,7 @@ CPhCltUssdNoteController* CPhCltUssdNoteController::NewL(
 //
 void CPhCltUssdNoteController::ConstructL()
     {
-    TFLOGSTRING( "CPhCltUssdNoteController: ConstructL\
-             init in" ) 
-    iIsResolverSuccess = HbTextResolverSymbian::Init(KFilename, KPath);
-    TFLOGSTRING2("CPhCltUssdNoteController: ConstructL\
-             init filename iIsResolverSuccess = %d", iIsResolverSuccess ) 
+    TFLOGSTRING( "CPhCltUssdNoteController: ConstructL call_exit" ) 
     }
 
 // -----------------------------------------------------------------------------
@@ -108,7 +106,9 @@ void CPhCltUssdNoteController::ShowGlobalInformationNoteL(
     {
     TFLOGSTRING2("CPhCltUssdNoteController: ShowGlobalInformationNoteL\
             aInfoType = %d call", aInfoType)
-
+    iIsResolverSuccess = HbTextResolverSymbian::Init( KUssdLocFilename, KPath );
+    TFLOGSTRING2("CPhCltUssdNoteController: ShowGlobalInformationNoteL\
+        ussd iIsResolverSuccess = %d", iIsResolverSuccess ) 
     HBufC* temp(NULL);
     switch ( aInfoType )
         {
@@ -168,6 +168,9 @@ void CPhCltUssdNoteController::ShowGlobalWaitNoteL( )
     {
     TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL call")
     DestroyGlobalWaitNote();
+    iIsResolverSuccess = HbTextResolverSymbian::Init( KCommonLocFilename, KPath );
+    TFLOGSTRING2("CPhCltUssdNoteController: ConstructL\
+        init common iIsResolverSuccess = %d", iIsResolverSuccess ) 
     //CHbDeviceProgressDialogSymbian
     iGlobalWaitNote = CHbDeviceProgressDialogSymbian::NewL(
             CHbDeviceProgressDialogSymbian::EProgressDialog );
@@ -177,8 +180,9 @@ void CPhCltUssdNoteController::ShowGlobalWaitNoteL( )
     iGlobalWaitNote->SetObserver( this );
     TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL before setactive")
     iGlobalWaitNote->SetRange(0,KPhCltUssdProgressBarMaxLength);
-    iGlobalWaitNote->SetProgressValue(KPhCltUssdProgressBarMaxLength);
-    iGlobalWaitNote->SetAutoClose(EFalse);
+    iGlobalWaitNote->SetProgressValue( KPhCltUssdProgressBarMaxLength );
+    iGlobalWaitNote->SetAutoClose( EFalse );
+    iGlobalWaitNote->SetButtonTextL( LoadDefaultStringL( KUssdHide )->Des() );
     iGlobalWaitNote->ShowL();
     CleanupStack::Pop( iGlobalWaitNote );
     TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL after setactive")

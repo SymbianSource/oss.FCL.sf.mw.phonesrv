@@ -36,7 +36,8 @@ _LIT(KCFPlusSign,"+");
   PSetCallDivertingWrapper::PSetCallDivertingWrapper
  */
 PSetCallDivertingWrapper::PSetCallDivertingWrapper(
-        CPsetContainer &psetContainer, QObject *parent) :
+        CPsetContainer &psetContainer, 
+        QObject *parent) :
     QObject(parent), m_psetCallDiverting(NULL), m_emergencyCall(NULL), 
     m_DefaultNumberListCDes(NULL), m_Priv(NULL)
 {
@@ -361,5 +362,15 @@ bool PSetCallDivertingWrapper::findPlus(const TDesC16& aDivertTo) const
     DPRINT << ": OUT : plusFound " << plusFound;
     return plusFound;
 }
+
+/**
+ * Get CPsetCallDiverting reference.
+ */
+CPsetCallDiverting &  PSetCallDivertingWrapper::getCPsetCallDiverting() const
+    {
+    DPRINT;
+    
+    return *m_psetCallDiverting;
+    }
 
 // End of File. 

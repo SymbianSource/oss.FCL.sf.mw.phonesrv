@@ -17,6 +17,7 @@
 
 #include <etelmm.h>
 #include <mmtsy_names.h>
+#include "msatmultimodeapi.h"
 #include "csetupcalldtmfsender.h"
 #include "msatasynctosync.h"
 #include "SatLog.h"

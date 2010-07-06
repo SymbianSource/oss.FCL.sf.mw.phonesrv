@@ -17,7 +17,8 @@
 
 #include <QtGui>
 #include <QtTest/QtTest>
-#include "UT_SimControlKeySequenceHandler.h"
+#include <secuimanualsecuritysettings.h>
+#include "ut_simcontrolkeysequencehandler.h"
 #include "simcontrolkeysequencehandler.h"
 #include "keysequencerecognitionservicedefs.h"
 #include "qtestmains60.h"
@@ -173,10 +174,10 @@ void UT_SimControlKeySequenceHandler::t_unblockPin2()
 void UT_SimControlKeySequenceHandler::t_keySequenceValidator()
     {
     QString expectedValidator =
-        QRegExp::escape(KCodeChangePin1) + "|" +
-        QRegExp::escape(KCodeChangePin2) + "|" +
-        QRegExp::escape(KCodeUnblockPin1) + "|" +
-        QRegExp::escape(KCodeUnblockPin2);
+        KCodeChangePin1 + "|" +
+        KCodeChangePin2 + "|" +
+        KCodeUnblockPin1 + "|" +
+        KCodeUnblockPin2;
     
     expect("KeySequenceHandler::setKeySequenceValidator")
         .with(expectedValidator);

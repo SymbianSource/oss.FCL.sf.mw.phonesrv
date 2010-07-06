@@ -29,9 +29,8 @@ class DialpadButton : public HbPushButton
 
 public:
     enum DialpadButtonType {
-        NumericButton = 0x1,
-        FunctionButton = 0x2,
-        CallButton = 0x3
+        FunctionButton = 0x1, // Backspace
+        CallButton = 0x2      // Dial button
     };
 
 public:
@@ -42,7 +41,6 @@ public:
     void setButtonType(DialpadButtonType type);
 
 protected:
-    void changeEvent(QEvent *event);
     bool sceneEvent(QEvent *event);
     void polish(HbStyleParameters& params);
 

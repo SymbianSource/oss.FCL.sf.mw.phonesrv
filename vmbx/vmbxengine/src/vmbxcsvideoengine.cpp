@@ -111,7 +111,8 @@ void CVmbxCsVideoEngine::GetL( CVoiceMailboxEntry*& aEntry )
 // Saves voice mailbox number
 // ---------------------------------------------------------------------------
 //
-void CVmbxCsVideoEngine::SaveL( const CVoiceMailboxEntry& aEntry )
+void CVmbxCsVideoEngine::SaveL( const CVoiceMailboxEntry& aEntry,
+                                TBool aShowNotesAllowed )
     {
     VMBLOGSTRING( "VMBX: CVmbxCsVideoEngine::SaveL =>" );
 
@@ -132,7 +133,7 @@ void CVmbxCsVideoEngine::SaveL( const CVoiceMailboxEntry& aEntry )
     User::LeaveIfError( result );
 
     // show note
-    if ( KErrNone == result )
+    if ( KErrNone == result && aShowNotesAllowed )
         {
         iProvider.VmbxUiUtilities().ShowInformationdNoteL( EVideoNumberSaved );
         }
@@ -149,7 +150,7 @@ void CVmbxCsVideoEngine::SaveProvisionedEntryL(
                 const CVoiceMailboxEntry& aEntry )
     {
     VMBLOGSTRING( "VMBX: CVmbxCsVideoEngine::SaveProvisionedEntryL =>" );
-    SaveL( aEntry );
+    SaveL( aEntry, EFalse );
     VMBLOGSTRING( "VMBX: CVmbxCsVideoEngine::SaveProvisionedEntryL <=" );
     }
 

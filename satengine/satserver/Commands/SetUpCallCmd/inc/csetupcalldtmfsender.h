@@ -20,7 +20,8 @@
 #define CSETUPCALLDTMFSENDER_H
 
 #include <e32base.h>
-#include "msatmultimodeapi.h"
+
+class MSatMultiModeApi;
 
 NONSHARABLE_CLASS ( CSetupCallDtmfSender ) : public CActive
 {

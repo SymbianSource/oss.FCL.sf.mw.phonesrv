@@ -36,10 +36,10 @@
 #include "dialpadbackground.h"
 #include "dialpadbutton.h"
 
-static const QString backgroundGraphics("qtg_fr_input_v_bg");
-static const QString backgroundGraphicsH("qtg_fr_input_h_bg");
-static const QString minimizeIcon("qtg_graf_input_v_swipe");
-static const QString minimizeIconH("qtg_graf_input_h_swipe");
+static const QLatin1String backgroundGraphics("qtg_fr_input_v_bg");
+static const QLatin1String backgroundGraphicsH("qtg_fr_input_h_bg");
+static const QLatin1String minimizeIcon("qtg_graf_input_v_swipe");
+static const QLatin1String minimizeIconH("qtg_graf_input_h_swipe");
 static const int DialpadCloseAnimDuration = 200; // ms
 static const int DialpadOpenAnimDuration = 200; // ms
 static const qreal DialpadComponentMargin = 0.75; // units
@@ -48,13 +48,13 @@ static const qreal DialpadCloseHandleWidth = 18.8; // units
 static const qreal DialpadCallButtonHeight = 8.0; // units
 static const qreal DialpadCallButtonHeightH = 6.0; // units
 
-static const QString handsetIcon("qtg_mono_call");
-static const QString vmbxIcon("qtg_mono_voice_mailbox");
+static const QLatin1String handsetIcon("qtg_mono_call");
+static const QLatin1String vmbxIcon("qtg_mono_voice_mailbox");
 
-const char *DIALPAD_TO_PRT_FXML = ":/dialpad_to_prt.fxml";
-const char *DIALPAD_TO_LSC_FXML = ":/dialpad_to_lsc.fxml";
-const char *DIALPAD_TO_PRT_EVENT = "prt_activated";
-const char *DIALPAD_TO_LSC_EVENT = "lsc_activated";
+const QLatin1String DIALPAD_TO_PRT_FXML(":/dialpad_to_prt.fxml");
+const QLatin1String DIALPAD_TO_LSC_FXML(":/dialpad_to_lsc.fxml");
+const QLatin1String DIALPAD_TO_PRT_EVENT("prt_activated");
+const QLatin1String DIALPAD_TO_LSC_EVENT("lsc_activated");
 
 Dialpad::Dialpad() :
     mMainWindow(*hbInstance->allMainWindows().at(0)),
@@ -85,6 +85,7 @@ void Dialpad::initialize()
 {
     setFocusPolicy(Qt::StrongFocus);
     setFlag(QGraphicsItem::ItemIsFocusable,true);
+    setFlag(QGraphicsItem::ItemHasNoContents, false);
 
     // create input field
     mInputField = new DialpadInputField(this);
@@ -143,9 +144,8 @@ void Dialpad::initialize()
     mMainWindow.scene()->addItem(this);
 
     // custom button style
-    HbStyleLoader::registerFilePath(":/dialpad.css");
-    HbStyleLoader::registerFilePath(":/dialpad_color.css");
-    HbStyleLoader::registerFilePath(":/dialpad.dialpadbutton.widgetml");
+    HbStyleLoader::registerFilePath(QLatin1String(":/dialpad.css"));
+    HbStyleLoader::registerFilePath(QLatin1String(":/dialpad_color.css"));
 
     // grab gestures so that those are not passed to widgets behind dialpad
     grabGesture(Qt::TapGesture);
@@ -217,6 +217,11 @@ void Dialpad::paint(
 bool Dialpad::isOpen() const
 {
     return mIsOpen;
+}
+
+bool Dialpad::isCallButtonEnabled() const
+{
+    return mKeypad->callButton().isEnabled();
 }
 
 void Dialpad::openDialpad()
@@ -302,7 +307,7 @@ void Dialpad::setTapOutsideDismiss(bool dismiss)
         mBackgroundItem->setZValue(zValue()-1);
         mMainWindow.scene()->addItem(mBackgroundItem);
         qreal chromeHeight = 0;
-        hbInstance->style()->parameter("hb-param-widget-chrome-height",
+        hbInstance->style()->parameter(QLatin1String("hb-param-widget-chrome-height"),
                                        chromeHeight);
         mTitleBarHeight = chromeHeight;
     } else {

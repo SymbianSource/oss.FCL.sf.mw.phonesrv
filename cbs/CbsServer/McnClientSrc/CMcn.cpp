@@ -17,12 +17,12 @@
 
 
 // INCLUDE FILES
-#include "CMcn.h"
-#include "CCbsMcnListener.h"
-#include "MCbsMcnObserver.h"
-#include "CbsMcnPanic.h"
+#include <cmcn.h>
+#include <ccbsmcnlistener.h>
+#include <mcbsmcnobserver.h>
+#include <cbsmcnpanic.h>
 #include "CbsLogger.h"
-#include <CMcnTopicArray.h>
+#include <cmcntopicarray.h>
 
 // CONSTANTS
 const TInt KReservedSpaceForMcnObservers = 3;

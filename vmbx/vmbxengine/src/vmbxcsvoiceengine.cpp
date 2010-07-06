@@ -165,7 +165,8 @@ void CVmbxCsVoiceEngine::GetL( CVoiceMailboxEntry*& aEntry )
 // Saves voice mailbox number
 // ----------------------------------------------------------------------------
 //
-void CVmbxCsVoiceEngine::SaveL( const CVoiceMailboxEntry& aEntry )
+void CVmbxCsVoiceEngine::SaveL( const CVoiceMailboxEntry& aEntry,
+                                TBool aShowNotesAllowed )
     {
     VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::SaveL =>" );
 
@@ -190,12 +191,12 @@ void CVmbxCsVoiceEngine::SaveL( const CVoiceMailboxEntry& aEntry )
         if ( EVmbxSimMemory == storeType && iSimHandler )
             {
             // Save to sim
-            SaveEntryToSimL( aEntry );
+            SaveEntryToSimL( aEntry, aShowNotesAllowed );
             }
         else
             {
             // Save to cenrep
-            SaveEntryToPhoneL( aEntry );
+            SaveEntryToPhoneL( aEntry, aShowNotesAllowed );
             }     
         }
     else
@@ -203,7 +204,7 @@ void CVmbxCsVoiceEngine::SaveL( const CVoiceMailboxEntry& aEntry )
         // sim files not exist, its may need by forcing save, eg, OMA.
         if ( !iSimHandler )
             {
-            SaveEntryToPhoneL( aEntry );
+            SaveEntryToPhoneL( aEntry, aShowNotesAllowed );
             VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::SaveL: \
                             sim files not exist then save to phone" );
             }
@@ -227,7 +228,7 @@ void CVmbxCsVoiceEngine::SaveProvisionedEntryL(
                         const CVoiceMailboxEntry& aEntry )
     {
     VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::SaveProvisionedEntryL =>" );
-    SaveL( aEntry );
+    SaveL( aEntry, EFalse );
     VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::SaveProvisionedEntryL <=" );
     }
 
@@ -264,14 +265,15 @@ TBool CVmbxCsVoiceEngine::CheckConfiguration( const TVoiceMailboxParams& aParams
 // Saves number to storage that user selects from the offered list
 // ----------------------------------------------------------------------------
 //
-void CVmbxCsVoiceEngine::SaveEntryToPhoneL( const CVoiceMailboxEntry& aEntry )
+void CVmbxCsVoiceEngine::SaveEntryToPhoneL( const CVoiceMailboxEntry& aEntry,
+                                            TBool aShowNotesAllowed )
     {
     VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::SaveEntryToPhoneL: =>" );
     TInt result( KErrArgument );
 
     result = iProvider.VmbxCenRepHandler().Save( aEntry );
 
-    if ( KErrNone == result )
+    if ( KErrNone == result && aShowNotesAllowed )
         {
         iProvider.VmbxUiUtilities().ShowInformationdNoteL( ESavedToPhoneMemory );
         }
@@ -285,7 +287,8 @@ void CVmbxCsVoiceEngine::SaveEntryToPhoneL( const CVoiceMailboxEntry& aEntry )
 // For saving to place that user selects
 // ----------------------------------------------------------------------------
 //
-void CVmbxCsVoiceEngine::SaveEntryToSimL( const CVoiceMailboxEntry& aEntry )
+void CVmbxCsVoiceEngine::SaveEntryToSimL( const CVoiceMailboxEntry& aEntry,
+                                          TBool aShowNotesAllowed )
     {
     VMBLOGSTRING( "VMBX: CVmbxCsVoiceEngine::SaveEntryToSimL: =>" );
     TInt result( KErrGeneral );
@@ -301,7 +304,7 @@ void CVmbxCsVoiceEngine::SaveEntryToSimL( const CVoiceMailboxEntry& aEntry )
     if ( iSimHandler )
         {
         result = iSimHandler->Save( aEntry );
-       if ( KErrNone == result )
+       if ( KErrNone == result && aShowNotesAllowed )
             {
             iProvider.VmbxUiUtilities().ShowInformationdNoteL( ESavedToSimMemory );
             }

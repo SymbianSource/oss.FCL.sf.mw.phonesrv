@@ -19,6 +19,9 @@
 #include "dialpadsymbianwrapper_p.h"
 #include <cvoicemailbox.h>
 #include <cvoicemailboxentry.h>
+#include <centralrepository.h>
+#include <profileenginesdkcrkeys.h>
+#include <profileengineinternalcrkeys.h>
 
 DialpadSymbianWrapperPrivate::DialpadSymbianWrapperPrivate(DialpadSymbianWrapper *parent) : 
     q_ptr(parent)
@@ -111,5 +114,27 @@ QString DialpadSymbianWrapperPrivate::getVmbxNumber(CVoiceMailboxEntry &vmbxEntr
         dialpadText = QString::fromUtf16(ptrNumber.Ptr(), ptrNumber.Length());
     }
     return dialpadText;
+}
+
+bool DialpadSymbianWrapperPrivate::changeSilentModeState()
+{   
+    // first get present value from cenrep
+    int silenceMode( 0 );
+    CRepository* cenRep = CRepository::NewL( KCRUidProfileEngine );
+    int err = cenRep->Get( KProEngSilenceMode, silenceMode );
+    
+    // then set it to another one
+    if (KErrNone == err) {
+        if (silenceMode) {
+            silenceMode = 0;
+        }
+        else {
+            silenceMode = 1;
+        }
+    }
+
+    err = cenRep->Set( KProEngSilenceMode, silenceMode );
+    delete cenRep;
+    return silenceMode;
 }
 

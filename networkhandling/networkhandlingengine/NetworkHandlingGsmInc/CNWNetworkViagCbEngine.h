@@ -26,7 +26,7 @@
 #include "CNWGsmMessageHandler.h"
 #include "CNWNetworkHZCbCacheHandler.h"
 #include "MHZCachesInitialisationObserver.h"
-#include <MCbsMcnObserver.h> //For McbsMcnObserver
+#include <mcbsmcnobserver.h> //For McbsMcnObserver
 #include <rmmcustomapi.h>
 #include <e32property.h>
 

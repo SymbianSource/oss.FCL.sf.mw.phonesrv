@@ -136,6 +136,10 @@ public:
      */
     int queryVoiceMailBoxNumber(QString &aNumber, PsService aService);
 
+    /**
+     * Get CPsetCallDiverting reference.
+     */
+    CPsetCallDiverting & getCPsetCallDiverting() const;
 
 signals: // Notify via signals     
 

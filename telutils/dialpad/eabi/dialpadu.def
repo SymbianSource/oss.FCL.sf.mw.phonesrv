@@ -67,4 +67,5 @@ EXPORTS
 	_ZThn8_N7Dialpad5paintEP8QPainterPK24QStyleOptionGraphicsItemP7QWidget @ 66 NONAME
 	_ZThn8_N7DialpadD0Ev @ 67 NONAME
 	_ZThn8_N7DialpadD1Ev @ 68 NONAME
+	_ZNK7Dialpad19isCallButtonEnabledEv @ 69 NONAME
 

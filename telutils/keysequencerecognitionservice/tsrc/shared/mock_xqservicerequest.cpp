@@ -225,7 +225,7 @@ void XQServiceRequest::setInfo(
 //
 XQRequestInfo XQServiceRequest::info(  ) const
     {
-    //SMC_MOCK_METHOD0( XQRequestInfo )
+    SMC_MOCK_METHOD0( XQRequestInfo )
     }
 
 

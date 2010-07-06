@@ -19,6 +19,8 @@
 #include <psetcontainer.h>
 #include <psetnetwork.h>
 #include <gsmerror.h>
+#include <PsetCSP.h>
+
 #include "psetnetworkwrapper_p.h"
 #include "logging.h"
 #include "psetnetworkinfoconverter.h"
@@ -48,6 +50,9 @@ PSetNetworkWrapperPrivate::PSetNetworkWrapperPrivate(
     QT_TRAP_THROWING(
         m_psetNetworkMode.reset(psetContainer.CreateNetworkModeObjectL(*this)));
     
+    QT_TRAP_THROWING(m_csp.reset(CPsetCustomerServiceProfile::NewL()));
+    QT_TRAP_THROWING(m_csp->OpenCSProfileL());
+
     DPRINT << ": OUT ";
 }
 
@@ -59,8 +64,8 @@ PSetNetworkWrapperPrivate::~PSetNetworkWrapperPrivate()
     DPRINT << ": IN ";
     
     while (!m_networkInfoList.isEmpty()) {
-         DPRINT << " delete : " << m_networkInfoList.takeFirst()->m_longName;
-         delete m_networkInfoList.takeFirst();
+        DPRINT << " delete : " << m_networkInfoList.first()->m_longName;
+        delete m_networkInfoList.takeFirst();
     }
     m_networkInfoList.clear();
     
@@ -178,8 +183,8 @@ void PSetNetworkWrapperPrivate::HandleNetworkInfoReceivedL(
     
     // delete qlist
     while (!m_networkInfoList.isEmpty()) {
-         DPRINT << " delete : " << m_networkInfoList.takeFirst()->m_longName;
-         delete m_networkInfoList.takeFirst();
+        DPRINT << " delete : " << m_networkInfoList.first()->m_longName;
+        delete m_networkInfoList.takeFirst();
     }
     m_networkInfoList.clear();
     
@@ -455,3 +460,21 @@ PSetNetworkWrapper::ErrorCode PSetNetworkWrapperPrivate::ConvertToQtErrorCode(
         return PSetNetworkWrapper::ErrGeneral;
     }    
 }
+
+bool PSetNetworkWrapperPrivate::isManualNetworkSelectionSupported() const
+{
+    DPRINT << ": IN ";
+    
+    TBool settingSupported(EFalse);
+    TInt retVal = m_csp->IsNetworkSelectionSupported(settingSupported);
+ 
+    if ( retVal != KErrNone )
+         {
+        //if a CSP error occurs, by default service is available
+        settingSupported = ETrue;
+        }
+
+    DPRINT << ": OUT ";
+    return settingSupported;
+}
+

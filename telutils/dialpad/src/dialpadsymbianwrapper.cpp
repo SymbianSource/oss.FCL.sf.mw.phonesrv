@@ -51,3 +51,8 @@ int DialpadSymbianWrapper::defineVideoMailboxNumber(QString &vmbxNumber)
 {
     return d_ptr->defineVideoMailboxNumber(vmbxNumber);
 }
+
+bool DialpadSymbianWrapper::changeSilentModeState()
+{
+    return d_ptr->changeSilentModeState();
+}

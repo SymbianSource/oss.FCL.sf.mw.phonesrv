@@ -82,7 +82,10 @@ void CPhCltEmergencyCallImpl::ConstructL()
 void CPhCltEmergencyCallImpl::RunL()
     {
     // inform observer
-    iObserver->HandleEmergencyDialL( iStatus.Int() );
+    if(iObserver)
+        {
+        iObserver->HandleEmergencyDialL( iStatus.Int() );
+        }
     }
 
 // -----------------------------------------------------------------------------

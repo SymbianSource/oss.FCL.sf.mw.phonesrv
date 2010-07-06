@@ -26,6 +26,7 @@
 #include "dialpadbluetootheventfilter.h"
 #include "dialpadkeysequenceeventfilter.h"
 #include "dialpademergencycalleventfilter.h"
+#include "dialpadhasheventfilter.h"
 #include "qtphonesrvlog.h"
 
 DialpadKeyHandler::DialpadKeyHandler(
@@ -37,7 +38,8 @@ DialpadKeyHandler::DialpadKeyHandler(
 	mVideoVmbxFilter(0),
 	mBtFilter(0),
 	mKeySequenceFilter(0),
-	mEmergencyCallFilter(0)
+	mEmergencyCallFilter(0),
+	mHashFilter(0)
 {
     PHONE_TRACE;
 
@@ -53,6 +55,7 @@ DialpadKeyHandler::DialpadKeyHandler(
     }
     mBtFilter.reset(new DialpadBluetoothEventFilter(dialPad));
     mKeySequenceFilter.reset(new DialpadKeySequenceEventFilter(dialPad));
+    mHashFilter.reset(new DialpadHashEventFilter(dialPad));
 
     // Stack different event filters
     mMainWindow.installEventFilter(mVmbxFilter.data());
@@ -61,6 +64,7 @@ DialpadKeyHandler::DialpadKeyHandler(
     }
     mMainWindow.installEventFilter(mBtFilter.data());
     mMainWindow.installEventFilter(mKeySequenceFilter.data());
+    mMainWindow.installEventFilter(mHashFilter.data());
 }
 
 
@@ -75,7 +79,8 @@ DialpadKeyHandler::DialpadKeyHandler(
     mVideoVmbxFilter(0),
     mBtFilter(0),
     mKeySequenceFilter(0),
-    mEmergencyCallFilter(0)
+    mEmergencyCallFilter(0),
+    mHashFilter(0)
 {
     PHONE_TRACE;
     
@@ -106,9 +111,20 @@ DialpadKeyHandler::DialpadKeyHandler(
             new DialpadEmergencyCallEventFilter(dialPad));
         mMainWindow.installEventFilter(mEmergencyCallFilter.data());
     }
+    
+    if (filters.testFlag(Hash)) {
+        mHashFilter.reset(new DialpadHashEventFilter(dialPad));
+        mMainWindow.installEventFilter(mHashFilter.data());
+    }
 }
 
 
 DialpadKeyHandler::~DialpadKeyHandler()
 {
+    mMainWindow.removeEventFilter(mVmbxFilter.data());
+    mMainWindow.removeEventFilter(mVideoVmbxFilter.data());
+    mMainWindow.removeEventFilter(mBtFilter.data());
+    mMainWindow.removeEventFilter(mKeySequenceFilter.data());
+    mMainWindow.removeEventFilter(mEmergencyCallFilter.data());
+    mMainWindow.removeEventFilter(mHashFilter.data());
 }

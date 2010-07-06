@@ -27,6 +27,7 @@
 class PSetNetworkWrapper;
 class CPsetContainer;
 class CPsetNetwork;
+class CPsetCustomerServiceProfile;
 
 class PSetNetworkWrapperPrivate
     :
@@ -58,6 +59,8 @@ public:
     void getNetworkAccessMode() const;
 
     void setNetworkAccessMode(PSetNetworkWrapper::NetworkAccessMode mode);
+    
+    bool isManualNetworkSelectionSupported() const;
 
 public: // From MPsetNetworkInfoObserver
     
@@ -119,6 +122,10 @@ private:
     QScopedPointer<CPsetNetwork> m_psetNetworkMode;
     
     QList<PSetNetworkWrapper::NetworkInfo*> m_networkInfoList;
+    
+    /*! Own. */
+    QScopedPointer<CPsetCustomerServiceProfile> m_csp;
+
 
     
 };

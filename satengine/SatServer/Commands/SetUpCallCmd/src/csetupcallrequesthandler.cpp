@@ -61,7 +61,7 @@ CSetupCallRequestHandler* CSetupCallRequestHandler::NewL(
     CSetupCallRequestHandler* self =
         new ( ELeave ) CSetupCallRequestHandler( aPhone, aDispatcher );
     
-    self->iDtmfSender = CSetupCallDtmfSender::NewL( aPhone );
+    self->ConstructL();
  
     LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::NewL exiting" )
     return self;
@@ -85,6 +85,17 @@ CSetupCallRequestHandler::~CSetupCallRequestHandler()
     LOG( SIMPLE, "SETUPCALL: \
             CSetupCallRequestHandler::~CSetupCallRequestHandler exiting" )
     }
+
+// -----------------------------------------------------------------------------
+// CSetupCallRequestHandler::ConstructL
+// -----------------------------------------------------------------------------
+//
+void CSetupCallRequestHandler::ConstructL()
+{
+    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::ConstructL calling" )
+    iDtmfSender = CSetupCallDtmfSender::NewL( iPhone );
+    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::ConstructL exiting" )
+}
 
 // -----------------------------------------------------------------------------
 // CSetupCallRequestHandler::DialNumber
@@ -120,7 +131,7 @@ void CSetupCallRequestHandler::DialNumber( const TDesC8& aCallParams,
             // Separate dtmf string from whole number and store in iDtmfString
             // the dtmf string will be removed from aTelNumber 
             iDtmfSender->SeparateDtmfFromTelNumber(aTelNumber);
-            // Dial the purl tel number
+            // Dial the pure tel number
             iPhone.DialNoFdnCheck( iStatus, aCallParams, aTelNumber );
             SetActive();
             }

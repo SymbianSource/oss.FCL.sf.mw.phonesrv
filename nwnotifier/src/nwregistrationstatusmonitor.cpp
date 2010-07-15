@@ -21,6 +21,7 @@
 // System 
 #include <exterror.h>
 #include <mmtsy_names.h> // KMmTsyModuleName
+#include <etelmmerr.h>
 
 // ================= MEMBER FUNCTIONS =======================================
 
@@ -223,16 +224,15 @@ void CNWRegistrationStatusMonitor::ParseErrCode()
             iResID = R_PHONE_NOT_ALLOW_MM6;
             RDebug::Print( _L("NW: CNWRegistrationStatusMonitor::ParseErrCode() : R_PHONE_NOT_ALLOW_MM6") );
             break;
+            }  
+        case KErrMMEtelAuthenticateFailed:
+            {
+            RDebug::Print( _L("NW: CNWRegistrationStatusMonitor::ParseErrCode() : R_SIM_NOT_ALLOW") );
+            iResID = R_SIM_NOT_ALLOW;
+            break;  
             }
         default:
-            {
-            case KErrGeneral:
-                {
-                RDebug::Print( _L("NW: CNWRegistrationStatusMonitor::ParseErrCode() : R_SIM_NOT_ALLOW") );
-                iResID = R_SIM_NOT_ALLOW;
-                break;  
-                }
-            }
+            break;
         }
     }
 

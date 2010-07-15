@@ -4372,6 +4372,8 @@ TBool RVmbxNumber::UseSimNumIfAvailable( TDes& aNumber, TInt aLineNumber )
                     aLineNumber == EAlsLine2 ) )
         {
         error = FetchSimNumberBackUp( number, aLineNumber );
+        VMBLOGSTRING2( "VMBX: RVmbxNumber:: UseSimNumIfAvailable: number = %S",
+        &number ); 
         if ( KErrNone == error )
             {
             aNumber.Copy( number );
@@ -4419,62 +4421,46 @@ TInt RVmbxNumber::HandleNumberStores( TInt aLineNumber )
 
     VMBLOGSTRING( "VMBX: RVmbxNumber::HandleNumberStores: =>" );
 
-    if ( iNumberFromSim.Length() )
+    // backup the number from the SIM card to the backup store.
+    if ( !( iFlags & KVmFlagSimWriteSupport ) )
         {
-        VMBLOGSTRING( "VMBX: RVmbxNumber::HandleNumberStores: Sim number found" );
-        // If number found in read only SIM
-        // backup is made
-        if ( !( iFlags & KVmFlagSimWriteSupport ) )
+        if ( aLineNumber == EAlsLine2 )
             {
-            if ( aLineNumber == EAlsLine2 )
+            error = GetVmNumFromSIM( line2number, EAlsLine2Entry );
+            if ( KErrNone == error )
                 {
-                error = GetVmNumFromSIM( line2number, EAlsLine2Entry );
-                if ( KErrNone == error )
-                    {
-                    error = BackUpSimNumber( line2number, aLineNumber );
-                    VMBLOGSTRING( "VMBX: RVmbxNumber::HandleNumberStores: Back up ALS 2 Sim number " );
-                    }
-                }
-            else
-                {
-                error = BackUpSimNumber( iNumberFromSim, aLineNumber );
-                VMBLOGSTRING( "VMBX: RVmbxNumber::HandleNumberStores: Back up ALS 1 Sim number" );
+                error = BackUpSimNumber( line2number, aLineNumber );
+                VMBLOGSTRING2( "VMBX: RVmbxNumber::HandleNumberStores: \
+                Back up ALS 2 Sim number, error = %d", error );
                 }
             }
-        // If number found in SIM, old stored number is erased if
-        // it's not defined by the user or updated via external clients
-        if ( !UserEditNumber( aLineNumber ) && 
-                !IsPhoneMemForcedEdit( aLineNumber ) )
+        else
             {
-            ClearVMBXNumberFromPhone( aLineNumber );
-            // if the number was not edited in inactive line,
-            // and do clearing opreration. 
-            // The old stored number from SIM is erased.
-            // otherwise, the edited number was 
-            // defined as the inactive line number.
-            // the number should be kept
-            if ( !IsInactiveLineEdited( inactiveLineNumber ) )
-            	{
-                ClearVMBXNumberFromPhone( inactiveLineNumber );
-            	}
+            error = BackUpSimNumber( iNumberFromSim, aLineNumber );
+            VMBLOGSTRING2( "VMBX: RVmbxNumber::HandleNumberStores: \
+            Back up ALS 1 Sim number, error = %d", error );
+            }
+        }
+    // If number found in SIM, old stored number is erased if
+    // it's not defined by the user or updated via external clients
+    if ( !UserEditNumber( aLineNumber ) && 
+            !IsPhoneMemForcedEdit( aLineNumber ) )
+        {
+        ClearVMBXNumberFromPhone( aLineNumber );
+        // if the number was not edited in inactive line,
+        // and do clearing opreration. 
+        // The old stored number from SIM is erased.
+        // otherwise, the edited number was 
+        // defined as the inactive line number.
+        // the number should be kept
+        if ( !IsInactiveLineEdited( inactiveLineNumber ) )
+            {
+            ClearVMBXNumberFromPhone( inactiveLineNumber );
+            }
             
-            VMBLOGSTRING( "[VMBX]: RVmbxNumber::HandleNumberStores: Clear old VMBX number" );
-            }
+        VMBLOGSTRING( "[VMBX]: RVmbxNumber::HandleNumberStores: Clear old VMBX number" );
         }
-    else
-        {
-        // Changing or defining the number from UI (user) not allowed
-        if ( !UserEditNumber( aLineNumber ) 
-                && !IsPhoneMemForcedEdit( aLineNumber ) )
-            {
-            ClearVMBXNumberFromPhone( aLineNumber );
-            if ( !IsInactiveLineEdited( inactiveLineNumber ) )
-                {
-                ClearVMBXNumberFromPhone( inactiveLineNumber );
-                }
-            VMBLOGSTRING( "VMBX: RVmbxNumber::HandleNumberStores: Clear old VMBX number" );
-            }
-        }
+    
     VMBLOGSTRING( "VMBX: RVmbxNumber::HandleNumberStores: <=" );
     return error;
     }

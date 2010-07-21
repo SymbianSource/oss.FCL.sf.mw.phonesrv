@@ -44,18 +44,17 @@ DialpadBluetoothEventFilter::~DialpadBluetoothEventFilter()
 bool DialpadBluetoothEventFilter::eventFilter(QObject *watched, QEvent *event)
 {
     Q_UNUSED(watched)
-    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-    const int keyCode = keyEvent->key();
-    const int eventType = event->type();
-
-    if (eventType == QEvent::KeyPress && keyCode == Qt::Key_Asterisk) {
-        if (!(mDialpad->editor().text().length() >= 1)) {
+            
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Asterisk && 
+            !(mDialpad->editor().text().length() >= 1)) {
             //Check that there is only one item in dialpad, if there is more than one
             //do not handle long key press.
             mLongPressTimer->stop();
             mLongPressTimer->start(DialpadLongKeyPressTimeOut);
         }
-    } else if (eventType == QEvent::KeyRelease) {
+    } else if (event->type() == QEvent::KeyRelease) {
             mLongPressTimer->stop();
     }
 

@@ -37,7 +37,8 @@ HEADERS += ../../phonesrv_plat/dialpad_api/inc/dialpad.h \
            inc/dialpadvideomailboxeventfilter.h \
            inc/dialpadmailboxeventfilterbase.h \
            inc/dialpademergencycalleventfilter.h \
-           inc/dialpadhasheventfilter.h
+           inc/dialpadhasheventfilter.h \
+           inc/dialpadnumericbutton.h
 
 SOURCES += src/dialpad.cpp \
            src/dialpadbutton.cpp \
@@ -54,7 +55,8 @@ SOURCES += src/dialpad.cpp \
            src/dialpadmailboxeventfilterbase.cpp \
            src/dialpademergencycalleventfilter.cpp \
            src/dialpadvtkeyhandler.cpp \
-           src/dialpadhasheventfilter.cpp
+           src/dialpadhasheventfilter.cpp \
+	   src/dialpadnumericbutton.cpp
 
 RESOURCES += dialpad.qrc
 

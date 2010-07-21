@@ -339,9 +339,9 @@ void Ut_Ussd::testMultipleIncomingMessages()
     receive(msg1,RMobileUssdMessaging::EUssdMTRequest);
     activeSleep(1000);
     receive(msg2,RMobileUssdMessaging::EUssdMTRequest);
-    //activeSleep(1000);
+    activeSleep(1000);
     receive(msg3,RMobileUssdMessaging::EUssdMTNotify);
-    //activeSleep(1000);
+    activeSleep(1000);
 
     TestEnv::destroy();
     QTest::qSleep(200);

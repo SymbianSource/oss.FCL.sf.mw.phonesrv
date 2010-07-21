@@ -11,7 +11,7 @@
 #
 # Contributors:
 # 
-# Description: Project file for building phonesrv components
+# Description: Project file for building phonesrv components 
 #
 #
 

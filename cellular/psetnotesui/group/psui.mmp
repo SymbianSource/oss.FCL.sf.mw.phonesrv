@@ -1,0 +1,73 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project specification file for the Phonesettings Notes Ui
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+// Capability assignment.
+CAPABILITY CAP_GENERAL_DLL
+
+TARGET    psui.dll
+TARGETTYPE dll
+UID 0x1000008d 0x100059C6
+
+SOURCEPATH ../src 
+SOURCE psuibarringobs.cpp 
+SOURCE psuiwaitingobs.cpp 
+SOURCE psuidivertobs.cpp 
+SOURCE psuinotemaster.cpp 
+SOURCE psuiresourceloader.cpp 
+SOURCE psuicontainer.cpp 
+SOURCE psuicliobserver.cpp 
+SOURCE psuivariationproxy.cpp 
+#ifdef RD_PHONE_NG
+SOURCE psuiquerydialog.cpp 
+#endif // RD_PHONE_NG
+SOURCE psuireqobserver.cpp 
+SOURCE psuinotecontroller.cpp 
+
+START RESOURCE ../data/psui.rss 
+HEADER
+TARGETPATH RESOURCE_FILES_DIR
+// Language definition
+LANGUAGE_IDS
+
+END  // RESOURCE
+
+SYSTEMINCLUDE     ../../../inc
+
+USERINCLUDE    . ../inc 
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY bafl.lib 
+LIBRARY euser.lib 
+LIBRARY cone.lib 
+LIBRARY aknnotify.lib
+LIBRARY eikcoctl.lib 
+LIBRARY avkon.lib 
+LIBRARY commonengine.lib 
+LIBRARY etelmm.lib
+LIBRARY featmgr.lib 
+LIBRARY numbergrouping.lib
+LIBRARY servicerequest.lib
+LIBRARY centralrepository.lib
+#ifdef RD_PHONE_NG
+LIBRARY eikdlg.lib
+LIBRARY eikcore.lib
+#endif // RD_PHONE_NG
+
+// End of File

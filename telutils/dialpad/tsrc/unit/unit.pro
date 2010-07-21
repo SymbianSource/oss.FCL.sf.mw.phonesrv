@@ -27,3 +27,4 @@ SUBDIRS += ut_dialpadkeyhandler
 SUBDIRS += mt_dialpad
 SUBDIRS += mt_keyhandler
 SUBDIRS += ut_dialpadhasheventfilter
+SUBDIRS += ut_dialpadnumericbutton

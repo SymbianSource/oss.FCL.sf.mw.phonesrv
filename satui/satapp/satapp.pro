@@ -30,51 +30,49 @@ symbian: {
     TARGET.UID3=0x101f4ce0
 }
 
+# enable this for tracing into a file (log/sat/satui.txt)
+# DEFINES += SAT_DEBUG_TO_FILE
+# LIBS += -lflogger
 
-    INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE \
-        .inc\
-        MOC_DIR \
-        ../../inc 
+INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE \
+    $$MOC_DIR \
+    ../../inc 
 
-    LIBS += -lSatClient \
-            -lSatInternalClient \
-            -legul \
-            -lfbscli \
-            -lcentralrepository \
-            -lCenRepNotifHandler \
-            -lCdlEngine \
-            -lmediaclientaudio \
-            -lFlogger \
-            -lprofileeng 
+LIBS += -lSatClient \
+        -lSatInternalClient \
+        -legul \
+        -lfbscli \
+        -lcentralrepository \
+        -lCenRepNotifHandler \
+        -lCdlEngine \
+        -lmediaclientaudio \
+        -lprofileeng \
+        -lbafl 
 
-    HEADERS += inc/msatuiactionimplementer.h \
-               inc/satappcommonconstant.h \
-               inc/tflogger.h \
-               inc/satappmainhandler.h \
-               inc/satappcommandhandler.h \
-               inc/satappeventprovider.h \
-               inc/satappuiprovider.h \
-               inc/satappview.h \
-               inc/csatuiobserver.h \
-               inc/csatuiiconhandler.h \
-               inc/satappplaytoneprovider.h \
-               inc/dialogwaiter.h
+HEADERS += inc/satappmainhandler.h \
+           inc/satappserverdispatcher.h \
+           inc/satappmenuprovider.h \
+           inc/satappinputprovider.h \
+           inc/satapptoneprovider.h \
+           inc/satapppopupprovider.h\
+           inc/satappconfirmprovider.h \
+           inc/satappaction.h \
+           inc/satappconstant.h
 
-    SOURCES += src/main.cpp \
-               src/satappmainhandler.cpp \
-               src/satappcommandhandler.cpp \
-               src/satappeventprovider.cpp \
-               src/satappuiprovider.cpp \
-               src/satappview.cpp \
-               src/csatuiobserver.cpp \
-               src/csatuiiconhandler.cpp \
-               src/satappplaytoneprovider.cpp \
-               src/dialogwaiter.cpp
-    
-    BLD_INF_RULES.prj_exports += "rom/satapp.iby CORE_MW_LAYER_IBY_EXPORT_PATH(satapp.iby)" \
-                                 "rom/satapp_stub.sis /epoc32/data/z/system/install/satapp_stub.sis" \
-                                 "resource/satapp_en.ts /epoc32/include/platform/qt/translations/satapp_en.ts"
-                                 
+SOURCES += src/main.cpp \
+           src/satappmainhandler.cpp \
+           src/satappserverdispatcher.cpp \
+           src/satappmenuprovider.cpp \
+           src/satappinputprovider.cpp \
+           src/satapptoneprovider.cpp \
+           src/satapppopupprovider.cpp \
+           src/satappconfirmprovider.cpp \
+           src/satappaction.cpp
+
+BLD_INF_RULES.prj_exports += "rom/satapp.iby CORE_MW_LAYER_IBY_EXPORT_PATH(satapp.iby)" \
+                             "rom/satapp_stub.sis /epoc32/data/z/system/install/satapp_stub.sis" \
+                             "resource/satapp.ts /epoc32/include/platform/qt/translations/satapp.ts"
+                             
 
 RESOURCES += resource/satapp.qrc
 

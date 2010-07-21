@@ -61,4 +61,5 @@ EXPORTS
 	?metaObject@DialpadKeyHandler@@UBEPBUQMetaObject@@XZ @ 60 NONAME ; struct QMetaObject const * DialpadKeyHandler::metaObject(void) const
 	??0DialpadKeyHandler@@QAE@PAVDialpad@@AAVHbMainWindow@@PAVQObject@@@Z @ 61 NONAME ; DialpadKeyHandler::DialpadKeyHandler(class Dialpad *, class HbMainWindow &, class QObject *)
 	?isCallButtonEnabled@Dialpad@@QBE_NXZ @ 62 NONAME ; bool Dialpad::isCallButtonEnabled(void) const
+	?changeEvent@Dialpad@@MAEXPAVQEvent@@@Z @ 63 NONAME ; void Dialpad::changeEvent(class QEvent *)
 

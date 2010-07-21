@@ -1,0 +1,4 @@
+EXPORTS
+	?CreateCaUiEngFactoryL@@YAPAVCCaUiEngFactory@@XZ @ 1 NONAME ; class CCaUiEngFactory * __cdecl CreateCaUiEngFactoryL(void)
+	?NewL@CCaUiReconnectQuery@@SAPAV1@AAVMCaUiReconnectQueryObserver@@@Z @ 2 NONAME ; class CCaUiReconnectQuery * CCaUiReconnectQuery::NewL(class MCaUiReconnectQueryObserver &)
+

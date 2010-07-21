@@ -39,6 +39,10 @@ void QObject::installEventFilter(QObject *obj)
     SMC_MOCK_METHOD1( void, QObject *, obj )
 }
 
+void QObject::removeEventFilter(QObject *obj)
+{
+    SMC_MOCK_METHOD1( void, QObject *, obj )
+}
 
 UT_DialpadKeyHandler::UT_DialpadKeyHandler()
     :
@@ -79,6 +83,7 @@ void UT_DialpadKeyHandler::cleanup()
 void UT_DialpadKeyHandler::t_constructionWithAllFilters()
 {
     EXPECT(QObject::installEventFilter).times(5);
+    EXPECT(QObject::removeEventFilter).times(5);
     
     DialpadKeyHandler::DialpadKeyEventFilters filters(
         DialpadKeyHandler::VoiceMailbox |
@@ -89,6 +94,8 @@ void UT_DialpadKeyHandler::t_constructionWithAllFilters()
         DialpadKeyHandler::Hash );
     
     m_keyHandler = new DialpadKeyHandler(m_dialPad, filters, this);
+    delete m_keyHandler;
+    m_keyHandler = 0;
     
     QVERIFY(verify());
 }

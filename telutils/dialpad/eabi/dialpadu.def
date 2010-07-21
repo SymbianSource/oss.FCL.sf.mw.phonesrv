@@ -68,4 +68,5 @@ EXPORTS
 	_ZThn8_N7DialpadD0Ev @ 67 NONAME
 	_ZThn8_N7DialpadD1Ev @ 68 NONAME
 	_ZNK7Dialpad19isCallButtonEnabledEv @ 69 NONAME
+	_ZN7Dialpad11changeEventEP6QEvent @ 70 NONAME
 

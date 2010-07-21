@@ -32,11 +32,11 @@ symbian {
 
 #ß
 HEADERS += ../../../inc/dialpademergencycalleventfilter.h \
-           xqservicerequest.h \
            ../shared/dialpadtestutil.h
 SOURCES += ut_dialpademergencycalleventfilter.cpp \
            ../../../src/dialpademergencycalleventfilter.cpp \
-           ../shared/dialpadtestutil.cpp
+           ../shared/dialpadtestutil.cpp \
+           ../shared/mock_cphcltemergencycall.cpp
 
 # 
-LIBS += -ldialpad
+LIBS += -ldialpad -lmocklib -lsymbianmock

@@ -64,6 +64,8 @@ protected:
     void paint(QPainter* painter,
                const QStyleOptionGraphicsItem* option,
                QWidget* widget);
+
+    void changeEvent(QEvent *event);
                
     void showEvent(QShowEvent *event);
 

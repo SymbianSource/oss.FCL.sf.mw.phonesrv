@@ -43,25 +43,23 @@ bool DialpadVoiceMailboxEventFilter::eventFilter(QObject *watched, QEvent *event
 {
     Q_UNUSED(watched)
     bool keyEventEaten(false);
-
-    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-    const int keyCode = keyEvent->key();
-    const int eventType = event->type();
-
-    if (eventType == QEvent::KeyPress) {
-        if (checkIfSendEventAndConsumeEvent(keyCode, eventType)) {
+    
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (checkIfSendEventAndConsumeEvent(keyEvent->key(), event->type())) {
             keyEventEaten = true;
-        } else if ((isLongKeyPressSupported(keyCode)) &&
+        } else if ((isLongKeyPressSupported(keyEvent->key())) &&
                 !(mDialpad->editor().text().length() >= 1)) {
             //Check that there is only one item in dialpad, if there is more than one
             //do not handle long key press.
             mLongPressTimer->stop();
             mLongPressTimer->start(DialpadLongKeyPressTimeOut);
         }
-    } else if (eventType == QEvent::KeyRelease) {
-        if (checkIfSendEventAndConsumeEvent(keyCode, eventType)) {
+    } else if (event->type() == QEvent::KeyRelease) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (checkIfSendEventAndConsumeEvent(keyEvent->key(), event->type())) {
             keyEventEaten = true;
-        } else if (isLongKeyPressSupported(keyCode)){
+        } else if (isLongKeyPressSupported(keyEvent->key())){
             mLongPressTimer->stop();
         }
     }

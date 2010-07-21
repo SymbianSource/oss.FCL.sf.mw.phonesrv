@@ -25,7 +25,9 @@
 // Ut_SatAppMainHandler::Ut_SatAppMainHandler
 // -----------------------------------------------------------------------------
 //
-Ut_SatAppMainHandler::Ut_SatAppMainHandler(QObject *parent):QObject(parent) 
+Ut_SatAppMainHandler::Ut_SatAppMainHandler(
+        HbMainWindow* mainWindow, QObject *parent)
+    :QObject(parent), mMainWindow(mainWindow)
 {
     qDebug("Ut_SatAppMainHandler::Ut_SatAppMainHandler >");
     qDebug("Ut_SatAppMainHandler::Ut_SatAppMainHandler <");
@@ -76,9 +78,7 @@ void Ut_SatAppMainHandler::cleanupTestCase()
 void Ut_SatAppMainHandler::testCreateMainHandler()
 {
     qDebug("Ut_SatAppMainHandler::testProfileState >");
-    HbMainWindow* window = new HbMainWindow();
-    QVERIFY(window);
-    mMainHandler = new SatAppMainHandler(*window);
+    mMainHandler = new SatAppMainHandler(*mMainWindow);
     QVERIFY(mMainHandler); 
     qDebug("Ut_SatAppMainHandler::testProfileState <");
 }

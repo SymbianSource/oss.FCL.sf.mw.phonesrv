@@ -4,7 +4,7 @@
         <file alias="satapp.docml">satapp.docml</file>
     </qresource>
     <qresource prefix="/translations" >
-        <file alias="satapp_en">satapp_en.qm</file>
+        <file alias="satapp">satapp.qm</file>
     </qresource>
     <qresource prefix="/icons" >
         <file>qtg_large_sat.svg</file>

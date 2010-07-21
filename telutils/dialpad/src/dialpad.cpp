@@ -27,6 +27,7 @@
 #include <hbapplication.h>
 #include <hbswipegesture.h>
 #include <hbeffect.h>
+#include <hbevent.h>
 
 #include "dialpad.h"
 #include "dialpadinputfield.h"
@@ -45,8 +46,8 @@ static const int DialpadOpenAnimDuration = 200; // ms
 static const qreal DialpadComponentMargin = 0.75; // units
 static const qreal DialpadCloseHandleHeight = 2.23; // units
 static const qreal DialpadCloseHandleWidth = 18.8; // units
-static const qreal DialpadCallButtonHeight = 8.0; // units
-static const qreal DialpadCallButtonHeightH = 6.0; // units
+static const qreal DialpadCallButtonHeight = 8.75; // units, same as numeric buttons
+static const qreal DialpadCallButtonHeightH = 7.25; // units
 
 static const QLatin1String handsetIcon("qtg_mono_call");
 static const QLatin1String vmbxIcon("qtg_mono_voice_mailbox");
@@ -113,7 +114,8 @@ void Dialpad::initialize()
     popupLayout->addItem(mKeypad);
     popupLayout->addItem(&mKeypad->callButton());
     popupLayout->setContentsMargins(margin, mCloseHandleHeight, margin, margin);
-    popupLayout->setSpacing(margin);
+    popupLayout->setSpacing(0);
+    popupLayout->setItemSpacing(0,margin);
     setLayout(popupLayout);
 
     // asterisk multitap handler
@@ -212,6 +214,16 @@ void Dialpad::paint(
 
     mIconDrawer->setFrameType(HbFrameDrawer::OnePiece);
     mIconDrawer->paint(painter, rect);
+}
+
+void Dialpad::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LayoutDirectionChange) {
+        mBackgroundDrawer->setLayoutDirection(layoutDirection());
+    } else if (event->type() == HbEvent::ThemeChanged) {
+        mBackgroundDrawer->themeChanged();
+        mIconDrawer->themeChanged();
+    }
 }
 
 bool Dialpad::isOpen() const

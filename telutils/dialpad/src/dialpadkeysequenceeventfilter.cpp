@@ -57,33 +57,32 @@ bool DialpadKeySequenceEventFilter::eventFilter(QObject *watched, QEvent *event)
     Q_UNUSED(watched)
     
     const bool eventFiltered = false;
-#ifdef Q_OS_SYMBIAN
-    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-    const int keyCode = keyEvent->key();
-    const int eventType = event->type();
-    
+#ifdef Q_OS_SYMBIAN    
     // Code is executed after '#' is pressed as specified in Dialer UI 
     // specification.
-    QString keySequenceCandidate = HbStringUtil::convertDigitsTo(
-        mDialpad->editor().text(), WesternDigit);
-    if (QEvent::KeyRelease == eventType && Qt::Key_NumberSign == keyCode) {
-        XQAiwInterfaceDescriptor keySequenceHandler = 
-            findKeySequenceHandler(keySequenceCandidate);
-        if (keySequenceHandler.isValid()) {
-            QScopedPointer<XQAiwRequest> request(mAiwMgr.create(
-                keySequenceHandler, 
-                "executeKeySequence(QString)",
-                false));
-            request->setSynchronous(true);
-            request->setBackground(true);
-            QList<QVariant> arguments;
-            arguments << keySequenceCandidate;
-            request->setArguments(arguments);
-            
-            QVariant keySequenceProcessed;
-            bool requestOk = request->send(keySequenceProcessed);
-            if (requestOk && keySequenceProcessed.toBool()) {
-                mDialpad->editor().setText(QString(""));
+    if (QEvent::KeyRelease == event->type()){
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (Qt::Key_NumberSign == keyEvent->key())  {        
+            QString keySequenceCandidate = HbStringUtil::convertDigitsTo(
+                mDialpad->editor().text(), WesternDigit);
+            XQAiwInterfaceDescriptor keySequenceHandler = 
+                findKeySequenceHandler(keySequenceCandidate);
+            if (keySequenceHandler.isValid()) {
+                QScopedPointer<XQAiwRequest> request(mAiwMgr.create(
+                    keySequenceHandler, 
+                    "executeKeySequence(QString)",
+                    false));
+                request->setSynchronous(true);
+                request->setBackground(true);
+                QList<QVariant> arguments;
+                arguments << keySequenceCandidate;
+                request->setArguments(arguments);
+                
+                QVariant keySequenceProcessed;
+                bool requestOk = request->send(keySequenceProcessed);
+                if (requestOk && keySequenceProcessed.toBool()) {
+                    mDialpad->editor().setText(QString(""));
+                }
             }
         }
     }

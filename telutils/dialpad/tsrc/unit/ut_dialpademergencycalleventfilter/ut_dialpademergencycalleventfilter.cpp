@@ -25,31 +25,18 @@
 #include <hbview.h>
 #include <hblineedit.h>
 #include <hbinstance.h>
+#include <mockservice.h>
 
-#ifdef Q_OS_SYMBIAN
-#include "xqservicerequest.h"
-#endif
-
+#include "mock_cphcltemergencycall.h"
 #include "dialpadtest.h"
 #include "dialpadtestutil.h"
 #include "dialpademergencycalleventfilter.h"
 #include "dialpad.h"
 
 const int WAIT_TIME = 300;
-QString mService;
-QString mMessage;
-bool mXQServiceConstructed;
-bool mSendCalled;
-
-#ifdef Q_OS_SYMBIAN
-XQServiceRequest::XQServiceRequest(const QString& service, const QString& message, const bool& synchronous) { mService=service; mMessage=message; mXQServiceConstructed=true; }
-XQServiceRequest::~XQServiceRequest() {}
-bool XQServiceRequest::send(QVariant& retValue) { mSendCalled=true; return true; }
-void XQServiceRequest::addArg(const QVariant& v) {}
-#endif
 
 // test cases
-class ut_DialpadEmergencyCallEventFilter : public QObject
+class ut_DialpadEmergencyCallEventFilter : public QObject, public MockService
 {
     Q_OBJECT
 
@@ -95,10 +82,7 @@ void ut_DialpadEmergencyCallEventFilter::initTestCase()
 
 void ut_DialpadEmergencyCallEventFilter::init()
 {
-    mService = QString("");
-    mMessage = QString("");
-    mXQServiceConstructed = false;
-    mSendCalled = false;
+    initialize();
 }
 
 void ut_DialpadEmergencyCallEventFilter::cleanupTestCase()
@@ -110,13 +94,24 @@ void ut_DialpadEmergencyCallEventFilter::cleanupTestCase()
 
 void ut_DialpadEmergencyCallEventFilter::cleanup()
 {
+    reset();
     mDialpad->editor().setText(QString());
     QTest::qWait( WAIT_TIME ); // delay between tests
 }
 
+void checkNumber(const TDesC& aNumber, TBool& aIsEmergencyNumber)
+{
+    if (aNumber == _L("112")) {
+        aIsEmergencyNumber = true;
+    }
+}
 
 void ut_DialpadEmergencyCallEventFilter::testEmergencyCallEventFilter()
 {
+    EXPECT(CPhCltEmergencyCallMock::IsEmergencyPhoneNumber).willOnce(
+            invoke(checkNumber));
+    EXPECT(CPhCltEmergencyCallMock::DialEmergencyCallL);
+    
     mDialpad->openDialpad();
     QTest::qWait(WAIT_TIME);
     mUtil->mouseClickDialpad(Qt::Key_1);
@@ -130,12 +125,7 @@ void ut_DialpadEmergencyCallEventFilter::testEmergencyCallEventFilter()
     
     mDialpad->closeDialpad();
 
-#ifdef Q_OS_SYMBIAN
-    QVERIFY(mXQServiceConstructed == true);
-    QVERIFY(mSendCalled == true);
-    QCOMPARE(mService, QString("com.nokia.symbian.ICallDial"));
-    QCOMPARE(mMessage, QString("dial(QString)"));
-#endif
+    QVERIFY(verify());
 }
 
 DIALPAD_TEST_MAIN(ut_DialpadEmergencyCallEventFilter)

@@ -1,0 +1,6 @@
+EXPORTS
+	??1CServiceRequest@@UAE@XZ @ 1 NONAME ; public: virtual __thiscall CServiceRequest::~CServiceRequest(void)
+	?NewL@CServiceRequest@@SAPAV1@AAVMServiceRequestObserver@@@Z @ 2 NONAME ; public: static class CServiceRequest * __cdecl CServiceRequest::NewL(class MServiceRequestObserver &)
+	?ShowCompletionNoteL@CServiceRequest@@QAEXHHW4TSerqNoteType@1@ABVTDesC16@@@Z @ 3 NONAME ; public: void __thiscall CServiceRequest::ShowCompletionNoteL(int,int,enum CServiceRequest::TSerqNoteType,class TDesC16 const &)
+	?StartL@CServiceRequest@@QAEXABVTDesC16@@@Z @ 4 NONAME ; public: void __thiscall CServiceRequest::StartL(class TDesC16 const &)
+

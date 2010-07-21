@@ -15,6 +15,6 @@ DialpadInputField > HbLineEdit::text{
     left: -var(hb-param-margin-gene-middle-horizontal);
     right: var(hb-param-margin-gene-middle-horizontal);
     top: -var(hb-param-margin-gene-middle-vertical);
-    bottom: var(hb-param-margin-gene-middle-vertical);;
+    bottom: var(hb-param-margin-gene-middle-vertical);
 }
 

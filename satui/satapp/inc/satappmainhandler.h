@@ -20,11 +20,15 @@
 #define SATAPPMAINHANDLER_H
 
 #include <QObject>
+#include <QVariant>
 
 class HbMainWindow;
-class SatAppUiProvider;
-class SatAppEventProvider;
-class SatAppCommandHandler;
+class SatAppServerDispatcher;
+class SatAppMenuProvider;
+class SatAppInputProvider;
+class SatAppToneProvider;
+class SatAppPopupProvider;
+class SatAppConfirmProvider;
 
 class SatAppMainHandler : public QObject
 {
@@ -36,11 +40,23 @@ public:
     
 private:
     void initConnections();
+    
+private slots:
+    void updateActivity();
+    void saveActivity();
 
+private:
+    void removeActivity();
+    
 private: // data
-    SatAppEventProvider *mEvent;
-    SatAppUiProvider *mUi;
-    SatAppCommandHandler *mCommand; 
+
+    SatAppServerDispatcher* mServer;
+    SatAppMenuProvider* mMenu;
+    SatAppInputProvider* mInput;
+    SatAppToneProvider* mTone;
+    SatAppPopupProvider* mPopup;
+    SatAppConfirmProvider *mConfirm;
+    QVariantHash mActivity;
 };
 
 #endif // SATAPPMAINHANDLER_H

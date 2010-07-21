@@ -18,53 +18,67 @@
 
 
 #include <QtTest/QtTest>
+#include "hbapplication.h"
+#include "hbinstance.h"
 
 #include "ut_satappmainhandler.h"
-#include "ut_csatuiobserver.h"
-#include "ut_satappeventhandler.h"
-#include "ut_playtoneprovider.h"
+#include "ut_satappmenuprovider.h"
+#include "ut_satappinputprovider.h"
+#include "ut_satapptoneprovider.h"
+#include "ut_satapppopupprovider.h"
+#include "ut_satappserverdispatcher.h"
+#include "ut_satappconfirmprovider.h"
+#include "ut_satappaction.h"
 
 int main(int argc, char *argv[])
 {
     qDebug("Ut_SatApp: main() >");
-    QApplication app(argc, argv);
+    HbApplication app(argc,argv);
+    HbInstance::instance();
+    HbMainWindow mainWindow;
 
-    int result(0);
+    // test cmdline parameters
     char *pass[3];
     pass[0] = argv[0];
     pass[1] = "-o"; 
+
+    int result(0);
+
+    Ut_SatAppPopupProvider utPopupProvider;
+    pass[2] = "c:\\logs\\sat\\Ut_SatAppPopupProvider.txt";
+    result += QTest::qExec(&utPopupProvider, /*3*/ 1, pass);
+
+    Ut_SatAppConfirmProvider utConfirmProvide;
+    pass[2] = "c:\\logs\\sat\\Ut_SatAppConfirmProvider.txt";
+    result += QTest::qExec(&utConfirmProvide, /*3*/ 1, pass);
+
+    Ut_SatAppAction utAction;
+    pass[2] = "c:\\logs\\sat\\Ut_SatAppAction.txt";
+    result += QTest::qExec(&utAction, /*3*/ 1, pass);
+
+    Ut_SatAppMenuProvider utMenuProvider(&mainWindow);
+    pass[2] = "c:\\logs\\sat\\Ut_SatAppMenuProvider.txt";
+    result += QTest::qExec(&utMenuProvider, /*3*/ 1, pass);
+
+    Ut_SatAppInputProvider utInputProvider;
+    pass[2] = "c:\\logs\\sat\\Ut_SatAppInputProvider.txt";
+    result += QTest::qExec(&utInputProvider, /*3*/ 1, pass);
+
+    Ut_SatAppToneProvider utToneProvider;
+    pass[2] = "c:\\logs\\sat\\Ut_SatAppToneProvider.txt";
+    result += QTest::qExec(&utToneProvider, /*3*/ 1, pass);
+
+    Ut_SatAppServerDispatcher utServerDispatcher;
+    pass[2] = "c:\\logs\\sat\\Ut_SatAppServerDispatcher.txt";
+    result += QTest::qExec(&utServerDispatcher, /*3*/ 1, pass);
+
+    Ut_SatAppMainHandler utMainHandler(&mainWindow);
     pass[2] = "c:\\logs\\sat\\ut_SatAppMainHandler.txt";
-    
-    qDebug("Test SatAppMainHandler");
-    Ut_SatAppMainHandler tc;
-    result = QTest::qExec(&tc, 3, pass);
-    qDebug("Ut_SatApp: main() test SatAppMainHandler, result=%d", result);
+    result = QTest::qExec(&utMainHandler, /*3*/ 1, pass);
 
-    //qDebug("Test CSatUiObserve");
-    Ut_CSatUiObserver utCSatUiObserver;
-    char *test[3];
-    test[0] = argv[0];
-    test[1] = "-o"; 
-    test[2] = "c:\\logs\\sat\\ut_CSatUiObserver.txt";
-    result = QTest::qExec(&utCSatUiObserver, 3, test);
-    qDebug("Ut_SatApp: main() test CSatUiObserver<, result=%d", result);
-
-    /*Ut_SatAppEventProvider utSatAppEventProvider;
-    char *test_event[3];
-    test_event[0] = argv[0];
-    test_event[1] = "-o"; 
-    test_event[2] = "c:\\logs\\sat\\ut_SatAppEventProvide.txt";
-    result = QTest::qExec(&utSatAppEventProvider, 3, test_event);
-    qDebug("Ut_SatApp: main() test SatAppEventProvide<, result=%d", result);*/
-
-    Ut_SatAppPlayToneProvider utPlayTone;
-    char *test_playtone[3];
-    test_playtone[0] = argv[0];
-    test_playtone[1] = "-o"; 
-    test_playtone[2] = "c:\\logs\\sat\\Ut_SatAppPlayToneProvider.txt";
-    result = QTest::qExec(&utPlayTone, 3, test_playtone);
-    qDebug("Ut_SatApp: main() test SatAppPlayToneProvider<, result=%d", result);
-
+    // cause a crash to free binary, so that we can recompile and run
+    // unit tests without restarting the emulator
+    //int crash = ((QString*)0)->length();
     return result;
 }
 

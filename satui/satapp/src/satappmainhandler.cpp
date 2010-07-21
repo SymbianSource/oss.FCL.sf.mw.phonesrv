@@ -16,12 +16,19 @@
 *
 */
 
+#include <HbApplication>
+#include <HbActivityManager>
 #include "satappmainhandler.h"
-#include "satappuiprovider.h"
-#include "satappeventprovider.h"
-#include "satappcommandhandler.h"
-#include "satappcommonconstant.h"
-#include "tflogger.h"
+#include "satappserverdispatcher.h"
+#include "satappmenuprovider.h"
+#include "satappinputprovider.h"
+#include "satapptoneprovider.h"
+#include "satapppopupprovider.h"
+#include "satappconstant.h"
+#include "satappconfirmprovider.h"
+
+// Activity ID for Sat Application
+const char *SATAPP_ACTIVITY_ID = "SIMServicesList";
 
 // ======== MEMBER FUNCTIONS ==================================================
 
@@ -31,16 +38,19 @@
 // ----------------------------------------------------------------------------
 //
 SatAppMainHandler::SatAppMainHandler(HbMainWindow &window, 
-    QObject */*parent*/):mEvent(NULL), mUi(NULL), mCommand(NULL)
+    QObject */*parent*/)
 {
-    TFLOGSTRING("SATAPP: SatAppMainHandler::SatAppMainHandler call")
-
-    mEvent = new SatAppEventProvider(this);
-    mUi = new SatAppUiProvider(window, *mEvent, this);
-    mCommand = new SatAppCommandHandler(*mUi, this);
-
+    qDebug("SATAPP: SatAppMainHandler::SatAppMainHandler >");
+    
+    mServer = new SatAppServerDispatcher(this);
+    mMenu = new SatAppMenuProvider(&window, this);
+    mInput = new SatAppInputProvider(this);
+    mTone = new SatAppToneProvider(this);
+    mPopup = new SatAppPopupProvider(this);
+    mConfirm = new SatAppConfirmProvider(this);
     initConnections();
-    TFLOGSTRING("SATAPP: SatAppMainHandler::SatAppMainHandler exit")
+    removeActivity();
+    qDebug("SATAPP: SatAppMainHandler::SatAppMainHandler <");
 }
 
 // ----------------------------------------------------------------------------
@@ -50,7 +60,23 @@ SatAppMainHandler::SatAppMainHandler(HbMainWindow &window,
 //
 SatAppMainHandler::~SatAppMainHandler()
 {
-    TFLOGSTRING("SATAPP: SatAppMainHandler::~SatAppMainHandler call-exit")
+    qDebug("SATAPP: SatAppMainHandler::~SatAppMainHandler");
+}
+
+// ----------------------------------------------------------------------------
+// Local override for connect-function
+// this method ENSURES that the connection is succesful.
+// ----------------------------------------------------------------------------
+//
+void doConnect(
+    const QObject *sender,
+    const char *signal,
+    const QObject *receiver,
+    const char *member)
+{
+    bool ret = QObject::connect(sender, signal,
+                receiver, member, Qt::DirectConnection);
+    Q_ASSERT_X(ret, "doConnect: connection failed for: ", signal);
 }
 
 // ----------------------------------------------------------------------------
@@ -60,181 +86,158 @@ SatAppMainHandler::~SatAppMainHandler()
 //
 void SatAppMainHandler::initConnections()
 {
-    TFLOGSTRING("SATAPP: SatAppMainHandler::initConnections call")
-    // For SetUpMenu
-    bool ret = connect(mEvent, SIGNAL(setUpMenuEvent(TSatUiResponse &,
-        QString, QStringList, bool, bool)),
-        mCommand, SLOT(setUpMenu(TSatUiResponse &,
-        QString, QStringList, bool, bool)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        SetUpMenu=%d", ret)
-    
-    // For SelectItem
-    ret = connect(mEvent, SIGNAL(selectItemEvent(TSatUiResponse&,
-        QString, QStringList, 
-        int, unsigned char&, bool, bool)),
-        mCommand, SLOT(selectItem(TSatUiResponse&,
-        QString,QStringList, 
-        int, unsigned char&, bool, bool)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        SelectItem=%d", ret)
-    
-    // for display text
-    ret = connect(mEvent, SIGNAL(displayTextEvent(TSatUiResponse &,
-        QString, QString, bool &, bool, int, bool)),
-        mCommand, SLOT(displayText(TSatUiResponse&,
-        QString, QString, bool &, bool, int, bool)),
-        Qt::DirectConnection);
-    
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        DisplayText=%d", ret)
-    
-    ret = connect(mEvent, SIGNAL(clearScreenEvent()),
-        mUi, SLOT(clearScreen()),
-        Qt::DirectConnection);
-    
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        ClearScreen=%d", ret)
-    
-    ret = connect(mEvent, SIGNAL(closeUiEvent()),
-        mUi, SLOT(closeUi()),
-        Qt::DirectConnection);
-    
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        CloseUi=%d", ret)
+    qDebug("SATAPP: SatAppMainHandler::initConnections >");
 
-    // For GetInkey
-    ret = connect(mEvent, SIGNAL(getInkeyEvent(TSatUiResponse &,
-        QString, TSatCharacterSet, QString &,
-        bool,unsigned int &)),
-        mCommand, SLOT(getInkey(TSatUiResponse &, QString,
-        TSatCharacterSet, QString &,
-        bool, unsigned int &)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        GetInkey=%d", ret)
+    // --------------------------------------
+    // MenuProvider
+    // --------------------------------------
 
-    ret = connect(mEvent, SIGNAL(getYesNoEvent(TSatUiResponse &,
-        QString, TSatCharacterSet, unsigned int &, //TSatIconId,
-        bool, unsigned int &, bool)),
-        mCommand, SLOT(getYesNo(TSatUiResponse &, QString,
-        TSatCharacterSet, unsigned int &, //TSatIconId,
-        bool, unsigned int &, bool)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        GetYesNo=%d", ret)
+    // SetupMenu command from server
+    doConnect(
+        mServer, SIGNAL( setUpMenu( SatAppAction &) ),
+        mMenu, SLOT( setUpMenu( SatAppAction &) ) );
     
-    // For GetInput
-    ret = connect(mEvent, SIGNAL(getInputEvent(TSatUiResponse &, QString,
-        TSatCharacterSet, QString &, int, int, bool, bool, unsigned int &)),
-        mCommand, SLOT(getInput(TSatUiResponse &, QString, TSatCharacterSet,
-        QString &, int, int, bool, bool, unsigned int &)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        GetInput=%d", ret)
+    // SelectItem command from server
+    doConnect(
+        mServer, SIGNAL( selectItem( SatAppAction &) ),
+        mMenu, SLOT( selectItem( SatAppAction &) ) );
+
+    // --------------------------------------
+    // InputProvider
+    // --------------------------------------
+
+    // GetInkey command    
+    doConnect(
+        mServer, SIGNAL( getInkey( SatAppAction &) ),
+        mInput, SLOT( getInkey( SatAppAction &) ) );
+    // GetInput command
+    doConnect(
+        mServer, SIGNAL( getInput( SatAppAction &) ),
+        mInput, SLOT( getInput( SatAppAction &) ) );
+
+    // clearScreen in InputProvider
+    doConnect(
+        mServer, SIGNAL( clearScreen() ),
+        mInput, SLOT( resetState() ));
+ 
+    // --------------------------------------
+    // Play tone
+    // --------------------------------------
+    // Play tone 
+    doConnect(
+        mServer, SIGNAL( playTone( SatAppAction &) ),
+        mTone, SLOT( playTone( SatAppAction &) ) );
+
+    // clearScreen in tone provider
+    doConnect(
+        mServer, SIGNAL( clearScreen() ),
+        mTone, SLOT( clearScreen() ) );
+
+    // --------------------------------------
+    // Show Popups
+    // --------------------------------------
+
+    // display text
+    doConnect(
+        mServer, SIGNAL(displayText( SatAppAction & )),
+        mPopup, SLOT(displayText( SatAppAction & )));
+
+    // show notification
+    doConnect(
+        mServer, SIGNAL( notification( SatAppAction & ) ),
+        mPopup, SLOT( notification( SatAppAction & ) ) );
+
+    // hide wait note
+    doConnect(
+        mServer, SIGNAL( stopShowWaitNote() ),
+        mPopup, SLOT( stopShowWaitNote() ) );
+
+    // clearScreen in popup note provider
+    doConnect(
+        mServer, SIGNAL(clearScreen()),
+        mPopup, SLOT(clearScreen()));
     
-    // For CallControl
-    ret = connect(mEvent, SIGNAL(callControlEvent(QString,
-        TSatAlphaIdStatus)),
-        mCommand, SLOT(callControl(QString, TSatAlphaIdStatus)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        CallControl=%d", ret)
+    // clearScreen in popup note provider
+    doConnect(
+        mServer, SIGNAL(showSsErrorNote()),
+        mPopup, SLOT(showSsErrorNote()));    
 
-    // For MoSmControl
-    ret = connect(mEvent, SIGNAL(moSmControlEvent(QString,
-        TSatAlphaIdStatus)),
-        mCommand, SLOT(moSmControl(QString, TSatAlphaIdStatus)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        MoSmControl=%d", ret)
+    // --------------------------------------
+    // Show Confirm
+    // --------------------------------------
 
-    // For send confirm
-    ret = connect(mEvent, SIGNAL(showSmsWaitNoteEvent(QString,
-        bool)),
-        mCommand, SLOT(showSmsWaitNote(QString,
-        bool)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        showSmsWaitNote=%d", ret)
+    // show confirmCommand
+    doConnect(
+        mServer, SIGNAL( confirmCommand( SatAppAction & ) ),
+        mConfirm, SLOT( confirmCommand( SatAppAction & ) ) );
+
+    // clearScreen
+    doConnect(
+        mServer, SIGNAL( clearScreen() ),
+        mConfirm, SLOT( clearScreen() ) );
+
+    // Task switcher
+    doConnect(
+        mServer, SIGNAL( setUpMenu( SatAppAction & ) ),
+        this, SLOT( updateActivity() ) );
+
+    doConnect(
+        qApp, SIGNAL( aboutToQuit() ),
+        this, SLOT( saveActivity() ) );
+
+    qDebug("SATAPP: SatAppMainHandler::initConnections <");
+}
+
+// ----------------------------------------------------------------------------
+// SatAppMainHandler::updateActivity
+// ----------------------------------------------------------------------------
+//
+void SatAppMainHandler::updateActivity()
+{
+    qDebug("SATAPP: SatAppMainHandler::updateActivity >");
+    mActivity.insert("screenshot", mMenu->takeScreenShot());
+    qDebug("SATAPP: SatAppMainHandler::updateActivity <");
+}
+
+// ----------------------------------------------------------------------------
+// SatAppMainHandler::saveActivity
+// ----------------------------------------------------------------------------
+//
+void SatAppMainHandler::saveActivity()
+{
+    qDebug("SATAPP: SatAppMenuProvider::saveActivity >");
+
+    // Add the activity to the activity manager
+    const bool ok = qobject_cast<HbApplication*>(qApp)->activityManager()->
+        addActivity(SATAPP_ACTIVITY_ID, QVariant(), mActivity);
+    
+    qDebug("SATAPP: SatAppMenuProvider::saveActivity < %d", ok);
+}
+
+// ----------------------------------------------------------------------------
+// SatAppMainHandler::removeActivity
+// ----------------------------------------------------------------------------
+//
+void SatAppMainHandler::removeActivity()
+{
+    qDebug("SATAPP: SatAppMenuProvider::removeActivity >");
         
-    //For Send DTMF
-    ret = connect(mEvent, SIGNAL(showDtmfWaitNoteEvent(
-        TSatUiResponse &, QString)),
-        mCommand, SLOT(showDtmfWaitNote(
-        TSatUiResponse &, QString)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        showDtmfsWaitNote=%d", ret)
+    QList<QVariantHash> activityList = 
+        qobject_cast<HbApplication*>(qApp)->activityManager()->activities();
+    qDebug("SATAPP: SatAppMenuProvider::removeActivity count=%d",
+        activityList.count());
+    foreach (QVariantHash activity, activityList){
+        if (activity.keys().contains(SATAPP_ACTIVITY_ID)){
+            mActivity = activity;
+            qDebug("SATAPP: SatAppMenuProvider::removeActivity store");
+            break;
+        }
+    }    
+
+    const bool ok = qobject_cast<HbApplication*>(qApp)->activityManager()->
+        removeActivity(SATAPP_ACTIVITY_ID);
     
-    //For DTMF, BIP cancel
-    ret = connect(mUi, SIGNAL(userCancelResponse()),
-                mEvent, SLOT(userCancelResponse()),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        userCancelResponse=%d", ret)
-    
-    //Stop wait note
-    ret = connect(mEvent, SIGNAL(stopShowWaitNoteEvent()),
-        mCommand, SLOT(stopShowWaitNote()),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        stopShowWaitNote=%d", ret)
-
-    // For SetUpCall
-    ret = connect(mEvent, SIGNAL(showSetUpCallConfirmEvent(
-        QString, QString, bool &)),
-        mCommand, SLOT(confirmSetUpCall(
-        QString, QString, bool &)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        showSetUpCallConfirm=%d", ret)
-        
-    ret = connect(mEvent, SIGNAL(showSsWaitNoteEvent(QString,
-        bool)),
-        mCommand, SLOT(showSsWaitNote(QString,
-        bool)),
-        Qt::DirectConnection);
-    
-    // For Send SS or USSD
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        showSsWaitNote=%d", ret)
-
-    //For showWaitNoteWithoutDelay
-    ret = connect(mEvent, SIGNAL(showWaitNoteWithoutDelayEvent()),
-        mUi, SLOT(showWaitNoteWithoutDelay()),
-        Qt::DirectConnection);
-     TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        showWaitNoteWithoutDelayEvent=%d", ret)
-
-    //For showSsErrorNote
-    ret = connect(mEvent, SIGNAL(showSsErrorNoteEvent()),
-        mUi, SLOT(showSsErrorNote()),
-        Qt::DirectConnection);
-     TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        showSsErrorNoteEvent=%d", ret)
-
-    // For Open Channel
-    ret = connect(mEvent, SIGNAL(showOpenChannelConfirmEvent(
-        QString, bool &)),
-        mUi, SLOT(showConfirmOpenChannelQuery(
-        QString, bool &)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-        showOpenChannelConfirm=%d", ret)
-
-    // For BIP wait note
-    ret = connect(mEvent, SIGNAL(showBIPNoteEvent(
-        int, QString)),
-        mCommand, SLOT(showBIPWaitNote(
-        int, QString)),
-        Qt::DirectConnection);
-    TFLOGSTRING2("SATAPP: SatAppMainHandler::initConnections: \
-         showBIPNote=%d", ret)
-
-    TFLOGSTRING("SATAPP: SatAppMainHandler::initConnections exit")
+    qDebug("SATAPP: SatAppMenuProvider::removeActivity < %d", ok);
 }
 
 //End of file

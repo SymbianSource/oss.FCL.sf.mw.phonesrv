@@ -29,9 +29,9 @@ DialpadHashEventFilter::DialpadHashEventFilter(
         Dialpad * dialpad,
         QObject * parent )
     :
-    QObject( parent )
+    DialpadMailboxEventFilterBase(dialpad, parent)
     {
-    Q_UNUSED(dialpad)
+
     }
 
 
@@ -57,4 +57,29 @@ bool DialpadHashEventFilter::eventFilter(
         QEvent *, event )
     }
 
+// -----------------------------------------------------------------------------
+// DialpadHashEventFilter::handleCallButtonPress
+// -----------------------------------------------------------------------------
+//
+bool DialpadHashEventFilter::handleCallButtonPress()
+{
+    return false;
+}
 
+// -----------------------------------------------------------------------------
+// DialpadHashEventFilter::handleMailboxOperation
+// -----------------------------------------------------------------------------
+//
+void DialpadHashEventFilter::handleMailboxOperation()
+{
+    
+}
+
+// -----------------------------------------------------------------------------
+// DialpadHashEventFilter::handleLongKeyPress
+// -----------------------------------------------------------------------------
+//
+void DialpadHashEventFilter::handleLongKeyPress()
+{
+    
+}

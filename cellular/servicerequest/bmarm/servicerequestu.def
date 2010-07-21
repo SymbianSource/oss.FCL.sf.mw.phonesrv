@@ -1,0 +1,6 @@
+EXPORTS
+	NewL__15CServiceRequestR23MServiceRequestObserver @ 1 NONAME R3UNUSED ; CServiceRequest::NewL(MServiceRequestObserver &)
+	ShowCompletionNoteL__15CServiceRequestiiQ215CServiceRequest13TSerqNoteTypeRC7TDesC16 @ 2 NONAME ; CServiceRequest::ShowCompletionNoteL(int, int, CServiceRequest::TSerqNoteType, TDesC16 const &)
+	StartL__15CServiceRequestRC7TDesC16 @ 3 NONAME R3UNUSED ; CServiceRequest::StartL(TDesC16 const &)
+	"_._15CServiceRequest" @ 4 NONAME R3UNUSED ; CServiceRequest::~CServiceRequest(void)
+

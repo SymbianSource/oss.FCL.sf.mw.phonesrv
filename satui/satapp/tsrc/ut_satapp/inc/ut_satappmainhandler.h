@@ -23,6 +23,7 @@
 
 
 // Class forwards
+class HbMainWindow;
 class SatAppMainHandler;
 
 /**
@@ -36,7 +37,8 @@ class Ut_SatAppMainHandler : public QObject
 
 public:
 
-    Ut_SatAppMainHandler(QObject *parent = 0);
+    Ut_SatAppMainHandler(
+            HbMainWindow* mainWindow, QObject *parent = 0);
 
     virtual ~Ut_SatAppMainHandler();
 
@@ -60,9 +62,8 @@ private slots:
     void testCreateMainHandler();
 
 private:
-     /**
-     * Own.
-     */
+    
+    HbMainWindow* mMainWindow; // not own
     SatAppMainHandler *mMainHandler;
 
 };

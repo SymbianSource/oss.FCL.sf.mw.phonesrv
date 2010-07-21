@@ -11,41 +11,68 @@
 *
 * Contributors:
 *
-* Description:
+* Description: satapp main
 *
 *
 */
 
+#include <QtGlobal>
 #include <QApplication>
 #include <QTranslator>
 #include <hbapplication.h>
 #include <hbmainwindow.h>
-
 #include "satappmainhandler.h"
-#include "tflogger.h"
 
+
+#ifdef SAT_DEBUG_TO_FILE
+    // ------------------------------------------------------------
+    // this segment provides functionality that copies all QT debug
+    // output to RFileLogger, and also the standard QT debug stream
+    #include <flogger.h>
+    #include <e32svr.h>
+    _LIT(KTfLogFolder, "sat");
+    _LIT(KTfLogFile, "satui.txt");
+    // original message handler
+    QtMsgHandler originalMsgHandler;
+    // debug redirection function
+    void qDebugToRFileLogger(QtMsgType type, const char *msg)
+    {
+        TPtrC8 symbian_msg((const TUint8*)msg);
+        RFileLogger::Write(KTfLogFolder,KTfLogFile,
+            EFileLoggingModeAppend,symbian_msg);
+        if (originalMsgHandler) originalMsgHandler(type,msg);
+    }
+    // ------------------------------------------------------------
+#endif
+
+
+    
 int main(int argc, char *argv[])
 {
-    TFLOGSTRING("SATAPP: main")
+#ifdef SAT_DEBUG_TO_FILE
+    originalMsgHandler = qInstallMsgHandler(qDebugToRFileLogger);
+#endif
+
+    qDebug("SATAPP: main");
 
     HbApplication app(argc, argv);
-    TFLOGSTRING("SATAPP: main app created")
+    qDebug("SATAPP: main app created");
     
     QTranslator translator;
-    bool ok = translator.load(":/translations/satapp_en");
-    TFLOGSTRING2("SATUI: main, translation %d (1=OK, 0=fail)", ok )
+    bool ok = translator.load(":/translations/satapp");
+    qDebug("SATUI: main, translation %d (1=OK, 0=fail)", ok );
     app.installTranslator(&translator);
 
     HbMainWindow window;
-    TFLOGSTRING("SATAPP: main window created")
+    qDebug("SATAPP: main window created");
 
     SatAppMainHandler *mainHandler = new SatAppMainHandler(window);
-        
+
     window.show();
-    TFLOGSTRING("SATAPP: main view showed")
+    qDebug("SATAPP: main view showed");
 
     int result = app.exec();
-    TFLOGSTRING2("SATAPP: main exit %d", result)
+    qDebug("SATAPP: main exit %d", result);
 
     delete mainHandler;
     return result;

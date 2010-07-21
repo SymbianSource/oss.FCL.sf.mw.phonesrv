@@ -23,8 +23,6 @@
 
 #ifdef Q_OS_SYMBIAN
 #include <cphcltemergencycall.h>
-#include <xqservicerequest.h>
-#include <xqserviceutil.h>
 #include <phclttypes.h>
 #endif //Q_OS_SYMBIAN
 

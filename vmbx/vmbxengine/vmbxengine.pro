@@ -116,14 +116,16 @@ symbian: {
     
     MMP_RULES += defFiles
 
-    BLD_INF_RULES.prj_exports += "rom/backup_registration.xml /epoc32/data/z/private/100058F5/backup_registration.xml" \
-                                 "conf/CI_voicemailbox.confml         MW_LAYER_CONFML(CI_voicemailbox.confml)" \
-                                 "conf/voicemailbox_101F874F.crml  MW_LAYER_CRML(voicemailbox_101F874F.crml)" \
-                                 "rom/backup_registration.xml   /epoc32/release/winscw/udeb/z/private/100058F5/backup_registration.xml" \
-                                 "rom/backup_registration.xml   /epoc32/release/winscw/urel/z/private/100058F5/backup_registration.xml" \
-                                 "rom/vmbxengine_stub.sis /epoc32/data/z/system/install/vmbxengine_stub.sis" \
-                                 "rom/vmbxengine.iby CORE_MW_LAYER_IBY_EXPORT_PATH(vmbxengine.iby)" \
-                                 "rom/vmbxresources.iby       LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(vmbxresources.iby)"
-TRANSLATIONS = vmbx.ts
+    BLD_INF_RULES.prj_exports += \
+        "rom/backup_registration.xml /epoc32/data/z/private/100058F5/backup_registration.xml" \
+        "conf/voicemailbox.confml         MW_LAYER_CONFML(voicemailbox.confml)" \
+        "conf/voicemailbox_101F874F.crml  MW_LAYER_CRML(voicemailbox_101F874F.crml)" \
+        "rom/backup_registration.xml   /epoc32/release/winscw/udeb/z/private/100058F5/backup_registration.xml" \
+        "rom/backup_registration.xml   /epoc32/release/winscw/urel/z/private/100058F5/backup_registration.xml" \
+        "rom/vmbxengine_stub.sis /epoc32/data/z/system/install/vmbxengine_stub.sis" \
+        "rom/vmbxengine.iby CORE_MW_LAYER_IBY_EXPORT_PATH(vmbxengine.iby)" \
+        "rom/vmbxresources.iby       LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(vmbxresources.iby)"
+
+    TRANSLATIONS = vmbx.ts
 
 }

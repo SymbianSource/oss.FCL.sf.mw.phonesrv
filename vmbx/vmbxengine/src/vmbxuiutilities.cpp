@@ -75,7 +75,7 @@ void CVmbxUiUtilities::ConstructL()
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ConstructL =>" );
     // create resource handler
-    iUiHandler = CVmbxUiHandler::NewL();
+    TRAP_IGNORE(iUiHandler = CVmbxUiHandler::NewL());
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ConstructL <=" );
     }
 
@@ -88,7 +88,28 @@ void CVmbxUiUtilities::ShowQueryL( const TVmbxType& aType,
         const TVmbxQueryMode & aMode, TDes& aNumber )
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryL =>" );
-    VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryL: aNumber =%S ", &aNumber );
+    VMBLOGSTRING3( "VMBX: CVmbxUiUtilities::ShowQueryL: aMode=%d aNumber=%S ",
+                    aMode, &aNumber );
+    if ( !iUiHandler ) 
+        {
+        VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryL no qt env Exit" )
+        User::Leave(KErrNotSupported);
+        }
+    
+    // Show "define mailbox number" notification at define mode
+    if (EVmbxDefineMode == aMode) {
+        switch( aType ) {
+        case EVmbxVoice:
+            ShowInformationdNoteL(EDefineVoiceNumber);
+            break;
+        case EVmbxVideo:
+            ShowInformationdNoteL(EDefineVideoNumber);
+            break;
+        default:
+            break;
+        }
+    }
+    
     TInt result( KErrNone );
     FOREVER
         {
@@ -122,50 +143,10 @@ void CVmbxUiUtilities::ShowQueryL( const TVmbxType& aType,
                 break;
                 }// number NULL
             }
-        }// End FOREVER;
+        }// End FOREVER
     VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryL: result=%I ", result );
     User::LeaveIfError( result );
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryL <=" );
-    }
-
-// ---------------------------------------------------------------------------
-// VmbxUtilities::ShowQueryDialogL
-// Show query dialog
-// ---------------------------------------------------------------------------
-//
-void CVmbxUiUtilities::ShowQueryDialogL( const TVmbxType& aType,
-                                         const TVmbxQueryMode& /*aMode*/,
-                                         TDes& aNumber, TInt& aResult )
-    {
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryDialogL =>" );
-
-    if( EVmbxVideo != aType && EVmbxVoice != aType  )
-        {
-        VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: \
-                            User::Leave( KErrNotSupported )" );
-        User::Leave( KErrNotSupported );
-        }
-    VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: in\
-    aNumber = %S", &aNumber );
-    // to show dialog via qt part
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryDialogL to show qt" );
-    iUiHandler->ShowVmbxQueryDialog( aType, aNumber, aResult );
-    VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: out\
-    aNumber = %S", &aNumber );
-    VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: aResult=%I <=",
-     aResult );
-    }
-
-// ---------------------------------------------------------------------------
-// VmbxUtilities::ShowInvalidWarningDialogL
-//
-// ---------------------------------------------------------------------------
-//
-void CVmbxUiUtilities::ShowInvalidWarningDialogL()
-    {
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInvalidWarningDialogL =>" );
-    iUiHandler->ShowInformationdNoteL( EInvalidNumber );
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInvalidWarningDialogL <=" );
     }
 
 // ---------------------------------------------------------------------------
@@ -176,20 +157,29 @@ void CVmbxUiUtilities::ShowInvalidWarningDialogL()
 void CVmbxUiUtilities::ShowInformationdNoteL(const TVmbxNoteType aType )
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInformationdNoteL =>" );
-    iUiHandler->ShowInformationdNoteL( aType );
+    if ( iUiHandler ) 
+        {
+        iUiHandler->ShowInformationdNoteL( aType );
+        }
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInformationdNoteL <=" );
     }
 
 // ---------------------------------------------------------------------------
-// VmbxUtilities::ShowDefineSelectionDialog
+// VmbxUtilities::ShowDefineSelectionDialogL
 // Show define number in selection list
 // ---------------------------------------------------------------------------
 //
-void CVmbxUiUtilities::ShowDefineSelectionDialog( TVmbxType& aType,
+void CVmbxUiUtilities::ShowDefineSelectionDialogL( TVmbxType& aType,
                                                          TInt& aResult )
     {
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowDefineSelectionDialogL =>" );
-    iUiHandler->ShowDefineSelectionDialog( aType, aResult );
+    if (!iUiHandler ) 
+        {
+        VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowDefineSelectionDialogL\
+            no qt env Exit" )
+        User::Leave(KErrNotSupported);
+        }
+    iUiHandler->ShowDefineSelectionDialogL( aType, aResult );
     VMBLOGSTRING3( "VMBX: CVmbxUiUtilities::ShowDefineSelectionDialogL: \
                      aType=%I, aResult=%I <=", aType, aResult );
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowDefineSelectionDialogL <=" );
@@ -206,12 +196,48 @@ void CVmbxUiUtilities::ShowCallSelectionDialogL(
                     TInt& aResult )
     {
     VMBLOGSTRING("VMBX: CVmbxUiUtilities::ShowCallSelectionDialogL  =>");
+    if (!iUiHandler) 
+        {
+        VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowCallSelectionDialogL\
+            no qt env Exit" )
+        User::Leave(KErrNotSupported);
+        }
     if ( aArray.Count() < 1 )
         {
-        User::Leave(KErrArgument);
+        User::Leave( KErrArgument );
         }
     iUiHandler->ShowCallSelectionDialogL( aArray, aParams, aResult );
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowCallSelectionDialogL <=" );
+    }
+
+// --------------------------------------------------------------------------
+// CVmbxUiUtilities::ShowNotAllowedEditingDialogL
+// --------------------------------------------------------------------------
+//
+void CVmbxUiUtilities::ShowNotAllowedEditingDialogL()
+    {
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowNotAllowedEditingDialogL =>" );
+    // Information user can't edit.
+    if ( iUiHandler) 
+        {
+        iUiHandler->ShowInformationdNoteL( ENotAllowUserEditing );
+        }
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowNotAllowedEditingDialogL <=" );
+    }
+
+// ---------------------------------------------------------------------------
+// VmbxUtilities::ShowInvalidWarningDialogL
+//
+// ---------------------------------------------------------------------------
+//
+void CVmbxUiUtilities::ShowInvalidWarningDialogL()
+    {
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInvalidWarningDialogL =>" );
+    if ( iUiHandler) 
+        {
+        iUiHandler->ShowInformationdNoteL( EInvalidNumber );
+        }
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowInvalidWarningDialogL <=" );
     }
 
 // ---------------------------------------------------------------------------
@@ -225,7 +251,7 @@ void CVmbxUiUtilities::DismissDialogL()
     "VMBX: CVmbxUiUtilities::DismissDialogL EMPTY IMPLEMENTATION!=>" );
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::DismissDialogL <=" );
     }
-    
+
 // Commented out because branding is not supported yet.
 // ---------------------------------------------------------------------------
 // CVmbxUiUtilities::GetVmbxImageL
@@ -238,16 +264,32 @@ CGulIcon* CVmbxUiUtilities::GetVmbxImageL(
     VMBLOGSTRING( "VMBX: CVmbxUiUtilities::GetVmbxImageL" );
 */
 
-// --------------------------------------------------------------------------
-// CVmbxUiUtilities::ShowNotAllowedEditingDialog
-// --------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// VmbxUtilities::ShowQueryDialogL
+// Show query dialog
+// ---------------------------------------------------------------------------
 //
-void CVmbxUiUtilities::ShowNotAllowedEditingDialogL()
+void CVmbxUiUtilities::ShowQueryDialogL( const TVmbxType& aType,
+                                         const TVmbxQueryMode& /*aMode*/,
+                                         TDes& aNumber, TInt& aResult )
     {
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowNotAllowedEditingDialogL =>" );
-    // Information user can't edit.
-    iUiHandler->ShowInformationdNoteL( ENotAllowUserEditing );
-    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowNotAllowedEditingDialogL <=" );
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryDialogL =>" );
+
+    if( EVmbxVideo != aType && EVmbxVoice != aType  )
+        {
+        VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: \
+                            User::Leave( KErrNotSupported )" );
+        User::Leave( KErrArgument );
+        }
+    VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: in\
+    aNumber = %S", &aNumber );
+    // to show dialog via qt part
+    VMBLOGSTRING( "VMBX: CVmbxUiUtilities::ShowQueryDialogL to show qt" );
+    iUiHandler->ShowVmbxQueryDialogL( aType, aNumber, aResult );
+    VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: out\
+    aNumber = %S", &aNumber );
+    VMBLOGSTRING2( "VMBX: CVmbxUiUtilities::ShowQueryDialogL: aResult=%I <=",
+     aResult );
     }
 
 // -----------------------------------------------------------------------------

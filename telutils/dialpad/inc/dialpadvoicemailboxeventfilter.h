@@ -18,7 +18,7 @@
 #ifndef DIALPADVOICEMAILBOXEVENTFILTER_H
 #define DIALPADVOICEMAILBOXEVENTFILTER_H
 
-#include <QObject>
+#include "dialpadmailboxeventfilterbase.h"
 
 class QTimer;
 class Dialpad;
@@ -28,7 +28,7 @@ class DialpadSymbianWrapper;
     DialpadVoiceMailboxEventFilter
     Class provides voice mailbox key handling.
 */
-class DialpadVoiceMailboxEventFilter : public QObject
+class DialpadVoiceMailboxEventFilter : public DialpadMailboxEventFilterBase
 {
     Q_OBJECT
 
@@ -38,31 +38,6 @@ public:
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
-
-private slots:
-    /*!
-       \fn void handleLongKeyPress()
-
-       Handles long key presses.
-    */
-    void handleLongKeyPress();
-
-private:
-    /*!
-        \fn bool isLongKeyPressSupported(const int key)
-
-        Checks if key is numeric key'1' or numbersign key if it is then
-        function return true, if key is something else for example
-        yes/send then this returns false.
-    */
-    bool isLongKeyPressSupported(const int key);
-
-    /*!
-       \fn bool checkIfSendEventAndConsumeEvent(const int pressedKey, const int eventType)
-
-       Checks that keycode is call related key if it is then handle it.
-       */
-    bool checkIfSendEventAndConsumeEvent(const int pressedKey, const int eventType);
 
     /*!
        \fn bool handleCallButtonPress()
@@ -74,31 +49,20 @@ private:
     bool handleCallButtonPress();
 
     /*!
-       \fn void clearEditor()
-
-       Clears dialpad editor.
-    */
-    void clearEditor();
-
-    /*!
-       \fn createCall(const QString phoneNumber)
-
-       Creates call request to QT Highway.
-    */
-    void createCall(const QString &phoneNumber);
-
-    /*!
        \fn handleMailboxOperation
 
        Start vmbx call or number definition procedures.
     */
     void handleMailboxOperation();
+    
+protected slots:
 
-private:
-    QTimer *mLongPressTimer;
-    DialpadSymbianWrapper *mSymbianWrapper;
-    Dialpad* mDialpad;
-    int mKeyEvent;
+    /*!
+       \fn void handleLongKeyPress()
+    
+       Handles long key presses.
+    */
+    void handleLongKeyPress();
 };
 
 #endif // DIALPADVOICEMAILBOXEVENTFILTER_H

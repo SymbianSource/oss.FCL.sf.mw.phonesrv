@@ -16,6 +16,7 @@
 */
 
 
+
 #include    <mtclreg.h>
 #include    <smsclnt.h>
 #include    <smutset.h>
@@ -25,7 +26,9 @@
 #include    <ProfileEngineSDKCRKeys.h>
 #include    <settingsinternalcrkeys.h>
 #include    <satdomainpskeys.h>
-#include    <activeidle2domainpskeys.h>
+#define Q_OS_SYMBIAN // needed to activate homescreendomainpskeys.h
+#include    <homescreendomainpskeys.h>
+
 // ******************************************************************
 // TODO: ScreensaverInternalPSKeys.h does no longer exist.
 // Must find an alternative way to check screen locked state.
@@ -273,16 +276,15 @@ TBool CSatSystemState::IsSilentMode()
 TBool CSatSystemState::IsPhoneInIdleStateL()
     {
     LOG( SIMPLE, "SATSYSTEMSTATE: CSatSystemState::IsPhoneInIdleState calling" )
-    TInt idleStatus;
+    TInt idleStatus(EHomeScreenIdleState) ;
 
     // Get the idle status from P&S
     User::LeaveIfError( RProperty::Get(
-        KPSUidAiInformation,
-        KActiveIdleState,
-        idleStatus ) );
-
-    // Returns true if phone in idle state.
-    const TBool result( EPSAiForeground == idleStatus );
+        KHsCategoryUid, 
+        KHsCategoryStateKey, 
+        idleStatus));
+    // Returns true if phone in idle state. 
+    const TBool result( EHomeScreenIdleState == idleStatus ); 
 
     LOG2( SIMPLE, "SATSYSTEMSTATE: CSatSystemState::IsPhoneInIdleState exiting \
         with value: %d", result )

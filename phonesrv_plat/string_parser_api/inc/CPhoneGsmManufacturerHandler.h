@@ -45,25 +45,20 @@ class CPhoneGsmManufacturerHandler
         * EBadPin2Unblock - bad PIN2 unblock request
         * EActivateRfsNormal - RFS activation
         * EActivateRfsDeep - RFS activation, deep version
-        * EActivateWarranty - Warranty application activation
         * EShowBtAddress - BT address display
         * EResetWallet - Wallet reset
-        * ELifeTimer - Life timer
         * EBTLoopback - BT RF loopback activation/deactivation
         * EBTDebugMode - BT debug mode activation
         */
         enum
             {
-            EShowVersion,
             EBadPinChange,
             EBadPin2Change,
             EBadPinUnblock,
             EBadPin2Unblock,
             EActivateRfsNormal,
             EActivateRfsDeep,
-            EActivateWarranty,
             EShowBtAddress,
-            ELifeTimer,
             EBTLoopback,
             EShowWlanMac,
             EBTDebugMode

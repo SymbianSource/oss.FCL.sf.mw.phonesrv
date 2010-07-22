@@ -721,8 +721,9 @@ void CPhSrvSubSessionImageHandler::
         bitMap );
     aImages.iImages[ EPhCltExtOperatorLogoIndex ] = bitMap->Handle();
     aImages.iImageCount = 1;
-    iOperatorLogos.Append( logoContainer );
-    
+    CleanupStack::PushL(logoContainer);
+    iOperatorLogos.AppendL( logoContainer );
+    CleanupStack::Pop(logoContainer);
     CleanupStack::Pop( bitMap );
     CleanupStack::PopAndDestroy( hbuf );
     

@@ -20,7 +20,7 @@
 #define CNWNETWORKREGISTRATIONSTATUSRECEIVER_H
 
 //  INCLUDES
-#include "NWHandlingEngine.h"
+#include <nwhandlingengine.h>
 
 // FORWARD DECLARATIONS
 class CNWNetworkRegistrationStatusMonitor;

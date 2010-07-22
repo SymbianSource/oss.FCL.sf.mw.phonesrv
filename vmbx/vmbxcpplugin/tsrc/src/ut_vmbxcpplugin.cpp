@@ -49,10 +49,5 @@ void Ut_vmbxCpPlugin::testCreateVmbxCpGroup()
     QVERIFY(group);
     delete group;
     group = NULL;
-    
-    group = new VmbxCpGroup();
-    QVERIFY(group);
-    delete group;
-    group = NULL;
 }
 //End of file

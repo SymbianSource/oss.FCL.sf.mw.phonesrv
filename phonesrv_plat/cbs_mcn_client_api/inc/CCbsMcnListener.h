@@ -21,7 +21,7 @@
 
 //  INCLUDES
 #include <e32base.h>    // CActive
-#include "CbsMcnCommon.h"
+#include <cbsmcncommon.h>
 
 //  FORWARD DECLARATIONS
 class CMcn;

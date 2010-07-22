@@ -19,9 +19,9 @@
 #include <etelmm.h>
 #include <mmtsy_names.h>
 
-
 #include "csetupcallrequesthandler.h"
 #include "CSetUpCallHandler.h"
+#include "csetupcalldtmfsender.h"
 #include "msatasynctosync.h"
 #include "SatLog.h"
 
@@ -60,6 +60,8 @@ CSetupCallRequestHandler* CSetupCallRequestHandler::NewL(
 
     CSetupCallRequestHandler* self =
         new ( ELeave ) CSetupCallRequestHandler( aPhone, aDispatcher );
+    
+    self->ConstructL();
  
     LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::NewL exiting" )
     return self;
@@ -76,17 +78,31 @@ CSetupCallRequestHandler::~CSetupCallRequestHandler()
             CSetupCallRequestHandler::~CSetupCallRequestHandler calling" )
     Cancel();
     iDispatcher = NULL;
+    
+    delete iDtmfSender;
+    iDtmfSender = NULL;
 
     LOG( SIMPLE, "SETUPCALL: \
             CSetupCallRequestHandler::~CSetupCallRequestHandler exiting" )
     }
 
 // -----------------------------------------------------------------------------
+// CSetupCallRequestHandler::ConstructL
+// -----------------------------------------------------------------------------
+//
+void CSetupCallRequestHandler::ConstructL()
+{
+    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::ConstructL calling" )
+    iDtmfSender = CSetupCallDtmfSender::NewL( iPhone );
+    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::ConstructL exiting" )
+}
+
+// -----------------------------------------------------------------------------
 // CSetupCallRequestHandler::DialNumber
 // -----------------------------------------------------------------------------
 //
 void CSetupCallRequestHandler::DialNumber( const TDesC8& aCallParams,
-                  const TDesC& aTelNumber, TBool aTerminateOtherCall,
+                  TDes& aTelNumber, TBool aTerminateOtherCall,
                   MSatAsyncToSync* aAsyncToSync )
     {
     LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::DialNumber calling" )
@@ -97,7 +113,7 @@ void CSetupCallRequestHandler::DialNumber( const TDesC8& aCallParams,
         {
         if( aAsyncToSync )
             {
-            iPhone.TerminateAllCalls( aAsyncToSync->RequestStatus() );
+            iPhone.TerminateActiveCalls( aAsyncToSync->RequestStatus() );
             terminateRes = aAsyncToSync->SetActiveAndWait();
             }
         else
@@ -112,6 +128,10 @@ void CSetupCallRequestHandler::DialNumber( const TDesC8& aCallParams,
         {
         if( KErrNone == terminateRes )
             {
+            // Separate dtmf string from whole number and store in iDtmfString
+            // the dtmf string will be removed from aTelNumber 
+            iDtmfSender->SeparateDtmfFromTelNumber(aTelNumber);
+            // Dial the pure tel number
             iPhone.DialNoFdnCheck( iStatus, aCallParams, aTelNumber );
             SetActive();
             }
@@ -138,7 +158,6 @@ void CSetupCallRequestHandler::DialEmergencyCall( const TDesC& aTelNumber )
      
     if( !IsActive() )
         {
-        iEmergencyCall = ETrue;
         iPhone.DialEmergencyCall( iStatus, aTelNumber );
         SetActive();
         }
@@ -147,7 +166,8 @@ void CSetupCallRequestHandler::DialEmergencyCall( const TDesC& aTelNumber )
         iDispatcher->SetupCallRequestComplete( KErrInUse );
         }
     
-    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::DialEmergencyCall exiting" )
+    LOG( SIMPLE, 
+        "SETUPCALL: CSetupCallRequestHandler::DialEmergencyCall exiting" )
     }
 
 // -----------------------------------------------------------------------------
@@ -157,17 +177,15 @@ void CSetupCallRequestHandler::DialEmergencyCall( const TDesC& aTelNumber )
 //
 void CSetupCallRequestHandler::RunL()
     {
-    LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::RunL calling" )
+    LOG2( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::RunL calling\
+        iStatus=%i", iStatus.Int() )
     
-    LOG2( NORMAL, "SETUPCALL: CSetupCallRequestHandler::RunL\
-          iStatus == %i", iStatus.Int() )
-
-    if ( iEmergencyCall )
+    iDispatcher->SetupCallRequestComplete( iStatus.Int() );
+    
+    if ( KErrNone == iStatus.Int() )
         {
-        iEmergencyCall = EFalse;
+        iDtmfSender->SendDtmfString();
         }
-    
-    iDispatcher->SetupCallRequestComplete( iStatus.Int() );                
     
     LOG( SIMPLE, "SETUPCALL: CSetupCallRequestHandler::RunL exiting" )
     }
@@ -181,6 +199,7 @@ void CSetupCallRequestHandler::CancelOperation()
     LOG( SIMPLE, "SETUPCALL: \
                   CSetupCallRequestHandler::CancelOperation calling" )
     iPhone.DialCancel();
+    iDtmfSender->Cancel();
     LOG( SIMPLE, 
         "SETUPCALL: CSetupCallRequestHandler::CancelOperation exiting" )
     }

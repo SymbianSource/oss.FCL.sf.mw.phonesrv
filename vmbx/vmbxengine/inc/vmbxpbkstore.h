@@ -138,12 +138,10 @@ private: // New functions
 
     /**
      * Retrieves the Mailbox numbers identifier information
-     * @param in aAlsLine curent als line
      * @param out aInfo information from RPhonebookStore
      * @retuns KErrNone if succesful
      **/
-    TInt GetMbdnInfo( const TVmbxAlsLineType aAlsLine,
-            RMobilePhone::TMobilePhoneVoicemailIdsV3& aInfo );
+    TInt GetMbdnInfo( RMobilePhone::TMobilePhoneVoicemailIdsV3& aInfo );
 
 
     /**
@@ -215,12 +213,6 @@ protected: // data
      * Sim Phonebook type
      */
     TVmbxSimPhonebookType iPhoneBookType;
-
-    /**
-     * Alpha string which is read from the SIM card
-     * Own.
-     */
-     HBufC* iAlphaStringFromSIM;
 
     /**
      * CActiveSchedulerWait

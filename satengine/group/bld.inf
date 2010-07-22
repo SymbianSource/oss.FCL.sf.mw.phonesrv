@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description:  Build information file for project SatServer
+* Description:  Build information file for project satserver
 *
 */
 
@@ -19,4 +19,4 @@
 PRJ_PLATFORMS
 DEFAULT
 
-#include "../SatServer/group/bld.inf"
+#include "../satserver/group/bld.inf"

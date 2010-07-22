@@ -22,7 +22,7 @@
 #define CNWPROGRAMMABLEOPERATORNAMECOMMAND_H
 
 //  INCLUDES
-#include "NWHandlingEngine.h"
+#include <nwhandlingengine.h>
 #include <etelmm.h>
 #include <rmmcustomapi.h>
 

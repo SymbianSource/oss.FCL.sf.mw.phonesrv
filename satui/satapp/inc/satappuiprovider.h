@@ -29,7 +29,6 @@ class SatAppEventProvider;  // Call back from SatServer
 class SatAppView;           // SetupMenu and SelectItem
 class HbMessageBox;         // DisplayText
 class HbDeviceMessageBox;   // CallControl
-class SatAppGetInkeyNote;   // GetInKey
 class HbInputDialog;        // GetInKey
 class QTimer;               // For SMS/DTMF
 class HbProgressDialog;
@@ -148,6 +147,7 @@ public:
     int showGetYesNoQuery(
             const QString &aText,
             const TSatCharacterSet aCharacterSet,
+            unsigned int &aInkey,
             unsigned int &aDuration,
             const bool aImmediateDigitResponse);
 
@@ -260,11 +260,6 @@ public slots:
     void closeUi();
 
     /*
-     * Digital response
-     */
-    void digitalResponse(const int aKey);
-
-    /*
      * The response of user selected the Primary action
      */
     void userPrimaryResponse();
@@ -280,6 +275,14 @@ public slots:
      */
     void updateQueryAction(QString text);
 
+    /*
+     * Handle HbLineEdit contentsChanged signal.
+     * when the input dialog in the password mode 
+     * there is no textChanged signal, get this from
+     * HbAbstractEdit 
+     */  
+    void contentChanged();
+    
     /*
      * User cancel response, Send DTMF, Send Data, Receive Data
      */
@@ -304,6 +307,11 @@ public slots:
             const QString &aText,
             bool &aActionAccepted);
 
+    /*
+     * handleImmediateCancel
+     */  
+    void handleImmediateCancel();
+
 private:
     /*
      * Reset the data member mUserRsp value
@@ -312,7 +320,9 @@ private:
 
     /*
      * Compose Dialog
-     * @param type 
+     * @param dlg
+     * @param dialog timeout
+     * @param dialog type: DisplayText, GetInput, and etc 
      * @param aModal 
      * @param aDismissPolicy 
      */
@@ -324,6 +334,12 @@ private:
      * Extend the note shown time
      */
     void extendNoteShowtime();
+    
+    /*
+     * Digital immediately response
+     * @param text 
+     */
+    void immediateResponse(QString text);
 
 private:
     /*
@@ -364,7 +380,12 @@ private:
     /*
      *  Own. YesNoPopup
      */
-    SatAppGetInkeyNote *mYesNoPopup;
+    HbMessageBox *mYesNoPopup;
+
+    /*
+     *  Own. Get inkey immediately response query dialog
+     */
+    HbInputDialog *mImmediateQuery;
 
     /*
      *  Own. GetInputQuery
@@ -399,7 +420,7 @@ private:
     /*
      *  GetInkey immediate digital response
      */
-    int mDigitalRsp;
+    unsigned int mDigitalRsp;
 
     /*
      *  GetInput min legnth, en/dis able ok buttion

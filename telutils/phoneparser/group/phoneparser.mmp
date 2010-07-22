@@ -51,7 +51,6 @@ SOURCE          cphonegsmemergencynumberhandler.cpp
 SOURCE          cphoneparserfeatures.cpp 
 SOURCE          cphonevoipnumberparser.cpp 
 SOURCE          cphonevoipnumberhandler.cpp 
-SOURCE          cphonegsmimeiparser.cpp 
 
 USERINCLUDE     ../inc 
 

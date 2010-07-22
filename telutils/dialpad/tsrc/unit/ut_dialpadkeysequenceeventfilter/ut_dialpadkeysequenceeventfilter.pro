@@ -42,9 +42,15 @@ HEADERS += ut_dialpadkeysequenceeventfilter.h
 SOURCES += ut_dialpadkeysequenceeventfilter.cpp
 
 HEADERS += ../../../../../phonesrv_plat/dialpad_api/inc/dialpad.h
-HEADERS += /epoc32/include/mw/xqservicerequest.h
+HEADERS += /epoc32/include/mw/xqservicerequest.h \
+           /epoc32/include/mw/xqappmgr.h         \
+           /epoc32/include/mw/xqaiwrequest.h
+
 SOURCES += ../shared/mock_dialpad.cpp          \
            ../shared/mock_xqservicerequest.cpp \
-           ../shared/mock_hblineedit.cpp
+           ../shared/mock_hblineedit.cpp       \
+           ../shared/mock_xqappmgr.cpp         \
+           ../shared/mock_xqaiwrequest.cpp     \
+           ../shared/mock_xqaiwinterfacedescriptor.cpp
 
 LIBS += -lmocklib -lsymbianmock -lxqserviceutil

@@ -18,11 +18,13 @@
 TEMPLATE = lib
 TARGET = dialpad
 CONFIG += hb
+HB += hbinput
 
 INCLUDEPATH += . inc ../../inc
 
 HEADERS += ../../phonesrv_plat/dialpad_api/inc/dialpad.h \
            ../../phonesrv_plat/dialpad_api/inc/dialpadkeyhandler.h \
+           ../../phonesrv_plat/dialpad_api/inc/dialpadvtkeyhandler.h \
            inc/dialpadbutton.h \
            inc/dialpadinputfield.h \
            inc/dialpadkeypad.h \
@@ -31,7 +33,11 @@ HEADERS += ../../phonesrv_plat/dialpad_api/inc/dialpad.h \
            inc/dialpadbackground.h \
            inc/dialpadvoicemailboxeventfilter.h \
            inc/dialpadbluetootheventfilter.h \
-           inc/dialpadkeysequenceeventfilter.h
+           inc/dialpadkeysequenceeventfilter.h \
+           inc/dialpadvideomailboxeventfilter.h \
+           inc/dialpadmailboxeventfilterbase.h \
+           inc/dialpademergencycalleventfilter.h \
+           inc/dialpadhasheventfilter.h
 
 SOURCES += src/dialpad.cpp \
            src/dialpadbutton.cpp \
@@ -43,7 +49,12 @@ SOURCES += src/dialpad.cpp \
            src/dialpadbackground.cpp \
            src/dialpadvoicemailboxeventfilter.cpp \
            src/dialpadbluetootheventfilter.cpp \
-           src/dialpadkeysequenceeventfilter.cpp
+           src/dialpadkeysequenceeventfilter.cpp \
+           src/dialpadvideomailboxeventfilter.cpp \
+           src/dialpadmailboxeventfilterbase.cpp \
+           src/dialpademergencycalleventfilter.cpp \
+           src/dialpadvtkeyhandler.cpp \
+           src/dialpadhasheventfilter.cpp
 
 RESOURCES += dialpad.qrc
 
@@ -70,7 +81,10 @@ symbian {
     
     LIBS += -lxqservice \
             -lxqserviceutil \
-            -lvmbxengine
+            -lvmbxengine \
+            -lfeatmgr \
+            -lphoneclient \
+            -lcentralrepository
 }
 else:win32 { 
     HEADERS += inc/dialpadsymbianwrapper_p_stub.h
@@ -82,7 +96,8 @@ else:win32 {
     INCLUDEPATH += ../../phonesrv_plat/dialpad_api/inc \
         c:/hb/include/hbcore \
         c:/hb/include/hbwidgets \
-        c:/hb/include/hbtools
+        c:/hb/include/hbtools \
+        c:/hb/include/hbinput
     INCLUDEPATH += ../xqtelephonyservice/inc
 }
 

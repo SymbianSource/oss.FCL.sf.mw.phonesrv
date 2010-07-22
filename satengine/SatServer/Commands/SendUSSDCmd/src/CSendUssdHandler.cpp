@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -18,6 +18,7 @@
 
 #include    <cphcltussdsatclient.h>
 #include	<cphcltussd.h>
+#include    <exterror.h>
 
 #include    "MSatSystemState.h"
 #include    "MSatApi.h"
@@ -256,6 +257,9 @@ TBool CSendUssdHandler::CommandAllowed()
 
     // Allow next terminal response to be sent
     iTerminalRespSent = EFalse;
+    
+    iSendUssdRsp.iUssdString.iUssdString.FillZ();
+    iSendUssdRsp.iUssdString.iDcs = 0;
 
     RMobilePhone::TMobilePhoneRegistrationStatus registrationStatus(
         iUtils->SystemState().GetNetworkRegistrationStatus() );
@@ -688,8 +692,17 @@ void CSendUssdHandler::HandleSendUssdResult( TInt aError )
     else if ( TSatExtErrorUtils::IsExtendedError( aError ) ) // extended error
         {
         TUint8 addInfo( 0 );
+        if ( KErrGsmCCCallRejected == aError )   
+           {
+           LOG( SIMPLE, 
+           "SENDUSSD: CSendUssdHandler::HandleSendUssdResult permanent error" )	
+           // ussd request is rejected by SIM
+           iSendUssdRsp.iGeneralResult = RSat::KInteractionWithCCPermanentError;
+           iSendUssdRsp.iInfoType = RSat::KMeProblem;
+           addInfo = RSat::KActionNotAllowed;
+           }   
         // Check and map network failure
-        if ( TSatExtErrorUtils::IsNetworkError( aError ) )
+        else if ( TSatExtErrorUtils::IsNetworkError( aError ) )
             {
             LOG( SIMPLE, 
             "SENDUSSD: CSendUssdHandler::HandleSendUssdResult NetworkError" )
@@ -745,6 +758,16 @@ void CSendUssdHandler::HandleSendUssdResult( TInt aError )
         "SENDUSSD: CSendUssdHandler::HandleSendUssdResult \
         KInteractionWithCCTemporaryError" )
         iSendUssdRsp.iGeneralResult = RSat::KInteractionWithCCTemporaryError;
+        iSendUssdRsp.iInfoType = RSat::KNoAdditionalInfo;
+        iSendUssdRsp.iAdditionalInfo.SetLength( 0 );
+        iSendUssdRsp.iAdditionalInfo.Zero();
+        }
+    else if ( KErrSatControl == aError )
+        {
+        LOG( SIMPLE, 
+        "SENDUSSD: CSendUssdHandler::HandleSendUssdResult \
+        KModifiedByCallControl" )
+        iSendUssdRsp.iGeneralResult = RSat::KModifiedByCallControl;
         iSendUssdRsp.iInfoType = RSat::KNoAdditionalInfo;
         iSendUssdRsp.iAdditionalInfo.SetLength( 0 );
         iSendUssdRsp.iAdditionalInfo.Zero();
@@ -866,6 +889,11 @@ void CSendUssdHandler::SendTerminalResponse()
         LOG( SIMPLE, 
         "SENDUSSD: CSendUssdHandler::SendTerminalResponse iTerminalRespSent \
         false" )
+        
+        LOG3(SIMPLE, "SENDUSSD: CSendUssdHandler::SendTerminalResponse \
+            iDcs=%d,iUssdString=%s", iSendUssdRsp.iUssdString.iDcs,
+            &iSendUssdRsp.iUssdString.iUssdString);
+        
         iTerminalRespSent = ETrue;
         iSendUssdRsp.SetPCmdNumber( iSendUssdData.PCmdNumber() );
         TerminalRsp( RSat::ESendUssd, iSendUssdRspPckg );

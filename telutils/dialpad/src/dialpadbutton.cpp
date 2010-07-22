@@ -22,7 +22,7 @@
 #include "dialpadbutton.h"
 
 DialpadButton::DialpadButton(QGraphicsItem *parent)
-    : HbPushButton(parent), mButtonType(NumericButton)
+    : HbPushButton(parent), mButtonType(FunctionButton)
 {
 }
 
@@ -40,21 +40,12 @@ void DialpadButton::setButtonType(DialpadButtonType type)
     mButtonType = type;
 }
 
-void DialpadButton::changeEvent(QEvent *event)
-{
-    if (event->type() == HbEvent::ThemeChanged) {
-        updatePrimitives();
-    }
-
-    HbPushButton::changeEvent(event);
-}
-
 bool DialpadButton::sceneEvent(QEvent *event)
 {
     bool result = HbPushButton::sceneEvent(event);
 
     if (event->type() == QEvent::UngrabMouse) {
-        if (isDown()) {
+        if (isVisible() && isDown()) {
             // this is needed in situation, where
             // longpress launches a dialog (vmbx)
             // and button release event goes to
@@ -80,7 +71,7 @@ void DialpadButton::updatePrimitives()
     HbPushButton::updatePrimitives();
 
     HbFrameItem* frame =
-        qgraphicsitem_cast<HbFrameItem*>(HbWidget::primitive("background"));
+        qgraphicsitem_cast<HbFrameItem*>(HbWidget::primitive(QLatin1String("background")));
 
     if (!frame) {
         return;
@@ -89,22 +80,18 @@ void DialpadButton::updatePrimitives()
     QString graphicsName;
 
     if (!isEnabled()) {
-        graphicsName = "qtg_fr_input_btn_function_disabled";
+        graphicsName = QLatin1String("qtg_fr_input_btn_function_disabled");
     } else if (isDown()) {
         if (buttonType()==CallButton) {
-            graphicsName = "qtg_fr_btn_green_pressed";
-        } else if (buttonType()==FunctionButton) {
-            graphicsName = "qtg_fr_input_btn_function_pressed";
+            graphicsName = QLatin1String("qtg_fr_btn_green_pressed");
         } else {
-            graphicsName = "qtg_fr_input_btn_keypad_pressed";
+            graphicsName = QLatin1String("qtg_fr_input_btn_function_pressed");
         }
     } else {
         if (buttonType()==CallButton) {
-            graphicsName = "qtg_fr_btn_green_normal";
-        } else if (buttonType()==FunctionButton) {
-            graphicsName = "qtg_fr_input_btn_function_normal";
+            graphicsName = QLatin1String("qtg_fr_btn_green_normal");
         } else {
-            graphicsName = "qtg_fr_input_btn_keypad_normal";
+            graphicsName = QLatin1String("qtg_fr_input_btn_function_normal");
         }
     }
 

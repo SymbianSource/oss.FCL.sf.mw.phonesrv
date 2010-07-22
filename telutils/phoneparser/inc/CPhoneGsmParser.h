@@ -52,8 +52,7 @@ NONSHARABLE_CLASS( CPhoneGsmParser )
             CPhoneGsmParserBase* aPhoneNumber,
             CPhoneGsmParserBase* aManufacturerSpecific,
             CPhoneGsmParserBase* aEmergencyNumberParser,
-            CPhoneGsmParserBase* iVoipNumber,
-            CPhoneGsmParserBase* iImeiParser );
+            CPhoneGsmParserBase* iVoipNumber);
         
         /**
         * Destructor.
@@ -86,8 +85,7 @@ NONSHARABLE_CLASS( CPhoneGsmParser )
             CPhoneGsmParserBase* aPhoneNumber,
             CPhoneGsmParserBase* aManufacturerSpecific,
             CPhoneGsmParserBase* aEmergencyNumberParser,
-            CPhoneGsmParserBase* iVoipNumber,
-            CPhoneGsmParserBase* iImeiParser );
+            CPhoneGsmParserBase* iVoipNumber);
 
         /**
         * By default Symbian OS constructor is private.
@@ -129,10 +127,6 @@ NONSHARABLE_CLASS( CPhoneGsmParser )
         
         // Owned voip number parser.
         CPhoneGsmParserBase* iVoipNumber;
-
-        // Owned IMEI parser.
-        CPhoneGsmParserBase* iImeiParser;
-
     };
 
 #endif      // CPHONEGSMPARSER_H

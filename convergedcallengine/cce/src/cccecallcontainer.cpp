@@ -370,7 +370,7 @@ void CCCECallContainer::ScheduleReleaseCall( MCCPCall& aCalltoRemove, const TUid
     TCallReleaseEntry entry;
     entry.iCallToRelease = &aCalltoRemove;
     entry.iUid = aUid;
-    iCallstoRelease.Append(entry);
+    iCallstoRelease.Append(entry); 
     if (!iIdle->IsActive())
         {
         iIdle->Start( TCallBack(ReleaseCalls,this) );
@@ -699,7 +699,9 @@ TInt CCCECallContainer::GetCall( TUid aImplementationUid,
             {
             if( call->ImplementationUid() == aImplementationUid )
                 {
-                aCallArray.Append(call);
+                // return value ignored. Ownership of the call object is not 
+                // transferred to array. 
+                aCallArray.Append(call); 
                 }
             }
         }
@@ -729,8 +731,10 @@ TInt CCCECallContainer::GetActiveOrConnectingCalls(
                  callState == CCPCall::EStateConnecting ||
                  callState == CCPCall::EStateConnected )
                 {
-                aCallArray.Append( call );
-                err = KErrNone;
+                // Ownership of the call object is not 
+                // transferred to array.
+                err = aCallArray.Append( call );
+                
                 }
             }
         }
@@ -742,8 +746,8 @@ TInt CCCECallContainer::GetActiveOrConnectingCalls(
              callState == CCPCall::EStateConnecting ||
              callState == CCPCall::EStateConnected )
             {
-            aCallArray.Append( iEmergencyCall );
-            err = KErrNone;
+            // Ownership of the iEmergencyCall object is not transfered.
+            err = aCallArray.Append( iEmergencyCall );
             }
         }
         

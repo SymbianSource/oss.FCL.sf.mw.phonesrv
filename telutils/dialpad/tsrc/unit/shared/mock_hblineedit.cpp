@@ -286,7 +286,7 @@ HbLineEdit::HbLineEdit(
         HbLineEditPrivate & dd,
         QGraphicsItem * parent )
     {
-    Q_UNUSED(text)
+    Q_UNUSED(dd)
     Q_UNUSED(parent)
     }
 

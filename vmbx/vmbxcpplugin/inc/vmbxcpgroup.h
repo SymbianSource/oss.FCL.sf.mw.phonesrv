@@ -21,12 +21,14 @@
 // System includes
 #include <cpsettingformitemdata.h>
 #include <voicemailboxdefs.h>
+#include <QModelIndex>
 
 
 // Forward declarations
 class VmbxUiEngine;
 class CpItemDataHelper;
 class HbDataFormModelItem;
+
 
 // Class declaration
 class VmbxCpGroup : public CpSettingFormItemData
@@ -49,17 +51,6 @@ public:
 private slots:
 
     /*!
-        Notification slot for engine signal about 
-        Voice Mailbox entries' changes
-    */
-    void voiceMailboxEngineEntriesUpdated();
-
-    /*!
-        Save default Mailbox
-    */
-    void saveDefaultMailbox(int aIndex);
-
-    /*!
         Query cs voice number when user click line edit
     */
     void queryCsVoiceNumber();
@@ -72,34 +63,30 @@ private slots:
     /*!
         Update number when vmbx number changed by OTA,OMA etc.
     */
-    void vmbxNumberChanged(const TVmbxType vmbxType);
+    void updateVmbxNumber(const TVmbxType vmbxType);
 
+    /*!
+         Slot which handles item updating when it is needed.
+     */
+    void itemShown(const QModelIndex &item);    
+    
 private:
     
     /*!
         Preparation before loading
     */
-    void loadingPreparation(CpItemDataHelper &itemDataHelper);    
+    void loadingPreparation();    
     
     /*!
-        Update default mailbox
-    */
-    void updateDefaultMailboxToUi();
+         Create the data form item by type
+     */
+    HbDataFormModelItem* createDataFormModelItem(const TVmbxType vmbxType);
+        
+    /*!
+      Update the vmbx number to the UI
+     */
+    void UpdateWidgetContent(const QModelIndex &item, const QString &string);
 
-    /*!
-       Update Cs voice primary 
-    */
-    void updateCsVoice1ToUi();
-
-    /*!
-       update Cs video primary
-    */
-    void updateCsVideo1ToUi();
-    
-    /*!
-        Update all mailboxes
-    */
-    void updateAllMailboxesToUi();
 
 private:
     
@@ -114,6 +101,15 @@ private:
 
     // Not own.
     HbDataFormModelItem *mCsVideo1Editor;
+    
+    // Index
+    QModelIndex mCsVoice1Index;
+
+    // Index
+    QModelIndex mCsVideo1Index;
+    
+    // Not own
+    CpItemDataHelper &mItemHelper;
 };
 
 #endif // VMBXCPGROUP_H

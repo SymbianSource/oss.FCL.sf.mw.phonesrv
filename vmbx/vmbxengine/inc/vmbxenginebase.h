@@ -64,8 +64,12 @@ public: // New functions
      * Leave with Symbian OS error code
      *
      * @param aEntry Entry data
+     * @param aShowNotesAllowed Provision mode is used to decide whether show
+     *          saved notification UI dialog. If aShowNotesAllowed is EFalse,
+     *          saved notification UI dialog will not show. 
      */
-    virtual void SaveL( const CVoiceMailboxEntry& aEntry ) = 0;
+    virtual void SaveL( const CVoiceMailboxEntry& aEntry,
+                        TBool aShowNotesAllowed ) = 0;
 
     /**
      * To save mailbox Provisioned entry value

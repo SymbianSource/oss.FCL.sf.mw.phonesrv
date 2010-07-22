@@ -15,7 +15,9 @@
 *
 */
 
-#include <QtGui>
+#include <QLocale>
+#include <QSignalMapper>
+
 #include <hbinstance.h>
 #include <hbinputkeymapfactory.h>
 #include <hbinputkeymap.h>
@@ -24,133 +26,105 @@
 #include <hbinputlanguage.h>
 #include <hbapplication.h>
 #include <hblineedit.h>
+#include <hbinputbutton.h>
 
 #include "dialpadkeypad.h"
 #include "dialpadbutton.h"
 #include "dialpadinputfield.h"
 
-static const int DialpadRowCount = 5;
+static const int DialpadRowCount = 4;
 static const int DialpadColumnCount = 3;
-static const QString handsetIcon("qtg_mono_call");
-static const QString vmbxIcon("qtg_mono_voice_mailbox");
+static const QLatin1String handsetIcon("qtg_mono_call");
+static const QLatin1String vmbxIcon("qtg_mono_voice_mailbox");
+static const qreal DialpadKeypadBorderWidth = 0.25;
 
-static const int DialpadButtonToKeyCodeTable[DialpadButtonCount] =
+static const int DialpadKeyCodeTable[DialpadRowCount*DialpadColumnCount] =
 {
     Qt::Key_1,        Qt::Key_2,      Qt::Key_3,
     Qt::Key_4,        Qt::Key_5,      Qt::Key_6,
     Qt::Key_7,        Qt::Key_8,      Qt::Key_9,
-    Qt::Key_Asterisk, Qt::Key_0,      Qt::Key_NumberSign,
-                      Qt::Key_Yes
-    // Qt::Key_BackSpace is in input field
+    Qt::Key_Asterisk, Qt::Key_0,      Qt::Key_NumberSign
+    // Qt::Key_Yes and Qt::Key_BackSpace are handled separately
 };
 
 DialpadKeypad::DialpadKeypad(
     const HbMainWindow& mainWindow,
     DialpadInputField& inputField,
     QGraphicsItem* parent) :
-    HbWidget(parent),
+    HbInputButtonGroup(parent),
     mMainWindow(mainWindow),
-    mInputField(inputField),
-    mLongPressDuration(0)
+    mInputField(inputField)
 {
-    // create signal mappers
-    mKeyPressedSignalMapper = new QSignalMapper(this);
-    connect(mKeyPressedSignalMapper,SIGNAL(mapped(int)),
-            SLOT(handleKeyPressed(int)));
+    setObjectName("keypad");
+
+    // create clicked signal mapper
     mKeyClickedSignalMapper = new QSignalMapper(this);
     connect(mKeyClickedSignalMapper,SIGNAL(mapped(int)),
             SLOT(handleKeyClicked(int)));
-    mKeyReleasedSignalMapper = new QSignalMapper(this);
-    connect(mKeyReleasedSignalMapper,SIGNAL(mapped(int)),
-            SLOT(handleKeyReleased(int)));
 
+    // connect backspace signals
     connect(&mInputField.backspaceButton(),SIGNAL(clicked()),
             mKeyClickedSignalMapper,SLOT(map()));
     mKeyClickedSignalMapper->setMapping(&mInputField.backspaceButton(),
                                         Qt::Key_Backspace);
 
     // create keypad
-    for (int i = 0; i < DialpadButtonCount; i++) {
-        int keyCode = DialpadButtonToKeyCodeTable[i];
+    setGridSize(QSize(DialpadColumnCount, DialpadRowCount));
+    setButtonBorderSize(DialpadKeypadBorderWidth);
 
-        DialpadButton* button = new DialpadButton(this);
-        mButtons[i] = button;
+    QList<HbInputButton*> buttons;
 
-        button->setStretched(true);
-        button->setFocusPolicy(Qt::NoFocus);
-        button->setFlag(QGraphicsItem::ItemIsFocusable,false);
+    for (int i = 0; i < DialpadRowCount * DialpadColumnCount; ++i) {
+        HbInputButton *item = new HbInputButton(
+            DialpadKeyCodeTable[i],
+            QPoint(i % DialpadColumnCount, i / DialpadColumnCount));
+        buttons.append(item);
 
-        QString buttonName;
-        buttonName.setNum(keyCode);
-        button->setObjectName(buttonName);
-
-        if (keyCode==Qt::Key_Yes) {
-            HbIcon callIcon(handsetIcon); // todo correct icon
-            button->setIcon(callIcon);
-            button->setButtonType(DialpadButton::CallButton); // for css
-        } else {
-            button->setButtonType(DialpadButton::NumericButton); // for css
-        }
-
-        if (keyCode==Qt::Key_1) {
-            HbIcon mboxIcon(vmbxIcon);
-            button->setIcon(mboxIcon);
-        }
-
-        // for Yes-key clicked() signal is enough
-        if (keyCode!=Qt::Key_Yes) {
-            connect(button,SIGNAL(pressed()),
-                    mKeyPressedSignalMapper,SLOT(map()));
-            mKeyPressedSignalMapper->setMapping(button,keyCode);
-
-            connect(button,SIGNAL(released()),
-                    mKeyReleasedSignalMapper,SLOT(map()));
-            mKeyReleasedSignalMapper->setMapping(button,keyCode);
-        }
-
-        connect(button,SIGNAL(clicked()),mKeyClickedSignalMapper,SLOT(map()));
-        mKeyClickedSignalMapper->setMapping(button,keyCode);
+        item->setType(HbInputButton::ButtonTypeNormal);
     }
+
+    setButtons(buttons);
+
+    // connect keypad signals
+    QObject::connect(this, SIGNAL(buttonPressed(const QKeyEvent&)),
+                     this, SLOT(sendKeyPressEvent(const QKeyEvent&)));
+    QObject::connect(this, SIGNAL(buttonReleased(const QKeyEvent&)),
+                     this, SLOT(sendKeyReleaseEvent(const QKeyEvent&)));
+    QObject::connect(this, SIGNAL(buttonLongPressed(const QKeyEvent&)),
+                     this, SLOT(sendLongPressEvent(const QKeyEvent&)));
+    QObject::connect(this, SIGNAL(pressedButtonChanged(const QKeyEvent&,
+                                                       const QKeyEvent&)),
+                     this, SLOT(handleKeyChangeEvent(const QKeyEvent&,
+                                                     const QKeyEvent&)));
+
+    // create call button (parent layouts this)
+    mCallButton = new DialpadButton(parent);
+    mCallButton->setButtonType(DialpadButton::CallButton);
+    mCallButton->setIcon(HbIcon(handsetIcon));
+    QString buttonName;
+    buttonName.setNum(Qt::Key_Yes);
+    mCallButton->setObjectName(buttonName);
+    connect(mCallButton,SIGNAL(clicked()),
+            mKeyClickedSignalMapper,SLOT(map()));
+    connect(mCallButton,SIGNAL(longPress(QPointF)),
+            mKeyClickedSignalMapper,SLOT(map()));
+    mKeyClickedSignalMapper->setMapping(mCallButton,
+                                        Qt::Key_Yes);
 
     // set button texts
     setButtonTexts();
+    // set button icons
+    button(0)->setIcon(HbIcon(vmbxIcon),
+        HbInputButton::ButtonIconIndexSecondaryFirstRow);
+
     // update button texts when input language is changed
     connect(HbInputSettingProxy::instance(),
             SIGNAL(globalInputLanguageChanged(HbInputLanguage)),
             this,SLOT(setButtonTexts()));
-
-    createButtonGrid();
-
-    // timer to handle long press
-    mLongPressTimer = new QTimer(this);
-    mLongPressTimer->setSingleShot(true);
-    connect(mLongPressTimer,SIGNAL(timeout()),SLOT(handleLongPress()));
 }
 
 DialpadKeypad::~DialpadKeypad()
 {
-}
-
-void DialpadKeypad::createButtonGrid()
-{
-    // button grid
-    mGridLayout = new QGraphicsGridLayout;
-
-    // 12 numeric buttons
-    int i=0;
-    for (int row = 0; row < DialpadRowCount-1; row++) {
-        for (int col = 0; col < DialpadColumnCount; col++) {
-           mGridLayout->addItem(mButtons[i],row,col);
-           i++;
-        }
-    }
-
-    // call button take the last row
-    mGridLayout->addItem(mButtons[12],4,0,1,3);
-    mGridLayout->setSpacing(0);
-    mGridLayout->setContentsMargins(0,0,0,0);
-
-    setLayout(mGridLayout);
 }
 
 void DialpadKeypad::setButtonTexts()
@@ -163,14 +137,17 @@ void DialpadKeypad::setButtonTexts()
     mGeneratedChar.clear();
 
     if (keymap) {
-        for (int i = 0; i < DialpadButtonCount-1; i++) {
-            int keyCode = DialpadButtonToKeyCodeTable[i];
+        int buttonCount = (DialpadRowCount*DialpadColumnCount);
+        for (int i = 0; i < buttonCount; i++) {
+            int keyCode = DialpadKeyCodeTable[i];
 
             if (keyCode == Qt::Key_Asterisk) {
                 // asterisk is not localized
                 QChar asterisk('*');
-                mButtons[i]->setText(asterisk);
-                mButtons[i]->setAdditionalText("+");
+                button(i)->setText(asterisk,
+                    HbInputButton::ButtonTextIndexPrimary);
+                button(i)->setText("+",
+                    HbInputButton::ButtonTextIndexSecondaryFirstRow);
                 mGeneratedChar.insert(Qt::Key_Asterisk, asterisk);
                 continue;
             }
@@ -178,8 +155,10 @@ void DialpadKeypad::setButtonTexts()
             if (keyCode == Qt::Key_NumberSign) {
                 // number sign is not localized
                 QChar numberSign('#');
-                mButtons[i]->setText(numberSign);
-                mButtons[i]->setAdditionalText(" ");
+                button(i)->setText(numberSign,
+                    HbInputButton::ButtonTextIndexPrimary);
+                button(i)->setText(" ",
+                    HbInputButton::ButtonTextIndexSecondaryFirstRow);
                 mGeneratedChar.insert(Qt::Key_NumberSign, numberSign);
                 continue;
             }
@@ -199,7 +178,8 @@ void DialpadKeypad::setButtonTexts()
                         inputLanguage.language());
 
                 // button text
-                mButtons[i]->setText(numberChar);
+                button(i)->setText(numberChar,
+                    HbInputButton::ButtonTextIndexPrimary);
                 mGeneratedChar.insert(keyCode,numberChar);
 
                 // additional text (letters)
@@ -215,108 +195,83 @@ void DialpadKeypad::setButtonTexts()
                 QString characters = key->characters(HbModifierNone);
 
                 if (numberOfCharacters==0 && keyCode!=Qt::Key_1) {
-                    mButtons[i]->setAdditionalText(" ");
+                    button(i)->setText(" ",
+                        HbInputButton::ButtonTextIndexSecondaryFirstRow);
                 } else {
-                    mButtons[i]->setAdditionalText(
-                        characters.left(numberOfCharacters));
+                    button(i)->setText(characters.left(numberOfCharacters),
+                        HbInputButton::ButtonTextIndexSecondaryFirstRow);
                 }
             }
         }
     }
 }
 
-void DialpadKeypad::handleKeyPressed(int key)
-{
-    // Editor is updated on key release (clicked()) or on long press,
-    // to prevent editor being updated during swipe.
-    mPressedNumericKey = key;
-    mLongPressTimer->start(mLongPressDuration);
-
-    postKeyEvent(QEvent::KeyPress, key);
-}
-
 void DialpadKeypad::handleKeyClicked(int key)
 {
-    if (!isNumericKey(key)) {
-        postKeyEvent(QEvent::KeyPress, key);
-        postKeyEvent(QEvent::KeyRelease, key);
-    } else if (mPressedNumericKey) {
-        // update editor: generate key press event.
-        sendKeyEventToEditor(QEvent::KeyPress, key);
-    }
-}
-
-void DialpadKeypad::handleKeyReleased(int key)
-{
-    mLongPressTimer->stop();
-
+    // concerns only yes and backspace keys
+    postKeyEvent(QEvent::KeyPress, key);
     postKeyEvent(QEvent::KeyRelease, key);
 }
 
 void DialpadKeypad::postKeyEvent(QEvent::Type type, int key)
 {
+    // send simulated key to application
     QKeyEvent *keyEvent = new QKeyEvent(type, key, Qt::NoModifier);
     HbApplication::postEvent(const_cast<HbMainWindow*>(&mMainWindow),keyEvent);
 }
 
 void DialpadKeypad::sendKeyEventToEditor(QEvent::Type type, int key)
 {
+    // send key event to editor
     QKeyEvent keyEvent(type, key, Qt::NoModifier, mGeneratedChar.value(key));
     HbApplication::sendEvent(&mInputField.editor(), &keyEvent);
 }
 
-void DialpadKeypad::handleLongPress()
+void DialpadKeypad::sendKeyPressEvent(const QKeyEvent& event)
 {
-    // key press
-    sendKeyEventToEditor(QEvent::KeyPress, mPressedNumericKey);
+    mPressedNumericKey = event.key();
+    postKeyEvent(QEvent::KeyPress, event.key());
+}
+
+void DialpadKeypad::sendKeyReleaseEvent(const QKeyEvent& event)
+{
+    if (mPressedNumericKey) {
+        // short press, update editor here
+        sendKeyEventToEditor(QEvent::KeyPress, event.key());
+    }
+
+    postKeyEvent(QEvent::KeyRelease, event.key());    
+}
+
+void DialpadKeypad::sendLongPressEvent(const QKeyEvent& event)
+{
+    sendKeyEventToEditor(QEvent::KeyPress, event.key());
+    resetButtons();
     mPressedNumericKey = 0;
 }
 
-bool DialpadKeypad::isNumericKey(int key)
+void DialpadKeypad::handleKeyChangeEvent(
+    const QKeyEvent& releaseEvent,
+    const QKeyEvent& pressEvent)
 {
-    if (key==Qt::Key_Yes || key==Qt::Key_Backspace) {
-        return false;
-    } else {
-        return true;
-    }
-}
+    Q_UNUSED(pressEvent)
 
-void DialpadKeypad::setLongPressDuration(int duration)
-{
-    mLongPressDuration = duration;
+    postKeyEvent(QEvent::KeyRelease, releaseEvent.key());
+    cancelButtonPress();
 }
 
 void DialpadKeypad::setCallButtonEnabled(bool enabled)
 {
-    mButtons[DialpadButtonCount-1]->setEnabled(enabled);
-}
-
-void DialpadKeypad::showEvent(QShowEvent *event)
-{
-    HbWidget::showEvent(event);
-
-    if (parentWidget()->isVisible()) {
-        // first show event comes before dialpad is open
-        // set fixed row and column dimensions
-        QSizeF effectiveSize(rect().width(),
-                             rect().height());
-
-        qreal width = effectiveSize.width() / DialpadColumnCount;
-        qreal height = effectiveSize.height() / DialpadRowCount;
-
-        for (int i=0; i < DialpadColumnCount ;i++) {
-            mGridLayout->setColumnFixedWidth(i, width);
-        }
-
-        for (int i=0; i < DialpadRowCount ;i++) {
-            mGridLayout->setRowFixedHeight(i, height);
-        }
-    }
+    mCallButton->setEnabled(enabled);
 }
 
 void DialpadKeypad::resetButtons()
 {
-    for(int i = 0; i < DialpadButtonCount; i++) {
-        mButtons[i]->setDown(false);
-    }
+    cancelButtonPress();
+    mCallButton->setDown(false);
+}
+
+DialpadButton& DialpadKeypad::callButton() const
+{
+    return *mCallButton;
 }

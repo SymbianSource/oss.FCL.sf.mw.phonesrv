@@ -19,9 +19,9 @@
 
 // INCLUDE FILES
 
-#include "CCbsMcnListener.h"
-#include "RCbsMcnSession.h"
-#include "CMcn.h"
+#include <ccbsmcnlistener.h>
+#include <rcbsmcnsession.h>
+#include <cmcn.h>
 #include "CbsLogger.h"
 
 // CONSTANTS

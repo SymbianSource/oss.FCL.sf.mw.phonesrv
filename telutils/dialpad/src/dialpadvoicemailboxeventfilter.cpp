@@ -28,27 +28,11 @@
 #include <xqserviceutil.h>
 #endif //Q_OS_SYMBIAN
 
-const int DialpadLongKeyPressTimeOut(1000);
 const QString VmbxCharacter("1");
 
-enum err {
-    DialpadErrorNone = 0,
-    DialpadErrorCancel = -3
-};
-
-const int DialpadLongKeyPressButtonCount(1);
-static const int DialpadLongKeyPressSupportingButtons[DialpadLongKeyPressButtonCount] =
-{ Qt::Key_1 };
-
-
 DialpadVoiceMailboxEventFilter::DialpadVoiceMailboxEventFilter(Dialpad* dialpad, QObject* parent) :
-    QObject(parent), mDialpad(dialpad), mKeyEvent(NULL)
+    DialpadMailboxEventFilterBase(dialpad, parent)
 {
-    PHONE_TRACE;
-    mLongPressTimer = new QTimer(this);
-    mLongPressTimer->setSingleShot(true);
-    connect(mLongPressTimer,SIGNAL(timeout()),this,SLOT(handleLongKeyPress()));
-    mSymbianWrapper = new DialpadSymbianWrapper(this);
 }
 
 DialpadVoiceMailboxEventFilter::~DialpadVoiceMailboxEventFilter()
@@ -83,38 +67,6 @@ bool DialpadVoiceMailboxEventFilter::eventFilter(QObject *watched, QEvent *event
     }
 
     return keyEventEaten;
-}
-
-bool DialpadVoiceMailboxEventFilter::checkIfSendEventAndConsumeEvent(const int pressedKey, const int eventType)
-{
-    PHONE_TRACE4("pressedKey:", pressedKey, "eventType:", eventType);
-    bool sendKeyHandled(false);
-    // first check that pressed key is send key.
-    if (pressedKey == Qt::Key_Yes ||
-        pressedKey == Qt::Key_Enter) {
-       if (eventType == QEvent::KeyPress) {
-           sendKeyHandled = handleCallButtonPress();
-       } else if ((eventType == QEvent::KeyRelease) &&
-                  (!mDialpad->editor().text().isEmpty())) {
-           sendKeyHandled = true;
-       }
-    }
-    return sendKeyHandled;
-}
-
-bool DialpadVoiceMailboxEventFilter::isLongKeyPressSupported(const int key)
-{
-    PHONE_TRACE2("key:", key);
-    bool longKeySupport(false);
-    // check if dialpad button is pressed.
-    for (int i = 0; i < DialpadLongKeyPressButtonCount; i++) {
-        if (key==DialpadLongKeyPressSupportingButtons[i]) {
-            longKeySupport = true;
-            // Save key code for handleCallButtonPress.
-            mKeyEvent = key;
-        }
-    }
-    return longKeySupport;
 }
 
 void DialpadVoiceMailboxEventFilter::handleLongKeyPress()
@@ -156,10 +108,10 @@ bool DialpadVoiceMailboxEventFilter::handleCallButtonPress()
 void DialpadVoiceMailboxEventFilter::handleMailboxOperation()
 {
     PHONE_TRACE;
-    QString mailboxNumber(NULL);
+    QString mailboxNumber;
     int error = mSymbianWrapper->getMailboxNumber(mailboxNumber);
     // If here is no vmbx number and dialpad must start vmbx number definition procedures.
-    if (DialpadErrorNone != error) {
+    if (DialpadErrorNone != error || mailboxNumber.length() == 0) {
         mDialpad->closeDialpad();
         // If define mailbox query was interupted than reopen dialpad.
         error = mSymbianWrapper->defineMailboxNumber(mailboxNumber);
@@ -175,22 +127,4 @@ void DialpadVoiceMailboxEventFilter::handleMailboxOperation()
         clearEditor();
         mDialpad->openDialpad();
     }
-}
-
-void DialpadVoiceMailboxEventFilter::clearEditor()
-{
-    PHONE_TRACE;
-    // Erase data from dialpad editor.
-    mDialpad->editor().setText(NULL);
-}
-
-void DialpadVoiceMailboxEventFilter::createCall(const QString &phoneNumber)
-{
-    PHONE_TRACE2("phoneNumber:", phoneNumber);
-#ifdef Q_OS_SYMBIAN
-    XQServiceRequest snd("com.nokia.symbian.ICallDial","dial(QString)", false);
-    snd << phoneNumber;
-    QVariant retValue;
-    snd.send(retValue);
-#endif // Q_OS_SYMBIAN
 }

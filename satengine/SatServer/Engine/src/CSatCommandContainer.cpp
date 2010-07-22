@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -66,6 +66,31 @@ const TInt8 KCreateSatAppNamePop( 2 );
 // Important plugins UIDs. These are started on startup
 // Implementation UID is from the <plugin>.rss
 const TUid KSetUpEventListUid = { 0x10202993 };
+
+// ======== LOCAL FUNCTIONS ========
+
+// -----------------------------------------------------------------------------
+// CleanupPointerArray
+// Cleanup RPointerArray objects by using the cleanup stack. Function will be 
+// called when application leaves while a RPointerArray object still alive, 
+// or when CleanupStack::PopAndDestroy is explicitly called to release a 
+// RPointerArray. See CleanupStack::PushL( TCleanupItem ) for more details.
+// -----------------------------------------------------------------------------
+//
+static void CleanupPointerArray( TAny* aArray )
+    {
+    LOG2( NORMAL, "SATENGINE: CSatCommandContainer::CleanupPointerArray \
+        calling array = 0x%08x", aArray )
+    
+    RImplInfoPtrArray* array = reinterpret_cast<RImplInfoPtrArray*>( aArray );
+    if ( array )
+        {
+        array->ResetAndDestroy();
+        }
+    
+    LOG( NORMAL, "SATENGINE: CSatCommandContainer::CleanupPointerArray \
+        exiting" )
+    }
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -158,6 +183,8 @@ void CSatCommandContainer::StartCommandHandlersL()
              in startup phase" )
         // Create command handlers.
         RImplInfoPtrArray satCommandImplementations;
+        CleanupStack::PushL( 
+            TCleanupItem( CleanupPointerArray, &satCommandImplementations ) );
         REComSession::ListImplementationsL( KSatInterfaceDefinitionUid,
             satCommandImplementations );
 
@@ -196,7 +223,7 @@ void CSatCommandContainer::StartCommandHandlersL()
                     }
                 }
             }
-        satCommandImplementations.ResetAndDestroy();
+        CleanupStack::PopAndDestroy( &satCommandImplementations );
         
         // Notify TSY about readiness i.e. all nofies are sent
         // Done only once in startup phase
@@ -219,6 +246,8 @@ void CSatCommandContainer::StartCommandHandlersL()
 
         // Create command handlers.
         RImplInfoPtrArray satCommandImplementations;
+        CleanupStack::PushL( 
+            TCleanupItem( CleanupPointerArray, &satCommandImplementations ) );
         REComSession::ListImplementationsL( KSatInterfaceDefinitionUid,
             satCommandImplementations );
 
@@ -253,7 +282,7 @@ void CSatCommandContainer::StartCommandHandlersL()
             // No commands, remove SAT Icon from shell
             iSatUiHandler.ShellController().RemoveSatUiL();
             }
-        satCommandImplementations.ResetAndDestroy();
+        CleanupStack::PopAndDestroy( &satCommandImplementations );
         }
     else
         {
@@ -1085,9 +1114,11 @@ void CSatCommandContainer::StartImportantCommandHandlersL()
 
     // Create command handlers.
     RImplInfoPtrArray satCommandImplementations;
+    CleanupStack::PushL( 
+        TCleanupItem( CleanupPointerArray, &satCommandImplementations ) );
     REComSession::ListImplementationsL( KSatInterfaceDefinitionUid,
         satCommandImplementations );
-
+    
     // Container for commands
     const TInt cmdCount( satCommandImplementations.Count() );
     LOG2( NORMAL, "SATENGINE: CSatCommandContainer::\
@@ -1118,8 +1149,8 @@ void CSatCommandContainer::StartImportantCommandHandlersL()
             CleanupStack::Pop( setUpEventListCmd );
             }
         }
-
-    satCommandImplementations.Close();
+    
+    CleanupStack::PopAndDestroy( &satCommandImplementations );
     LOG( NORMAL, "SATENGINE: CSatCommandContainer::\
         StartImportantCommandHandlersL exiting" )
     }
@@ -1142,3 +1173,5 @@ void CSatCommandContainer::CheckStartupState( const TInt aValue )
         }
     LOG( NORMAL, "SATENGINE: CSatCommandContainer::CheckStartupState exiting" )
     }
+
+// End Of File

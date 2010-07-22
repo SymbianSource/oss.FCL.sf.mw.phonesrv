@@ -440,4 +440,25 @@ PsServiceGroup PSetCallDivertingWrapperPrivate::convert(
     return ret;
 }
 
+TVmbxType PSetCallDivertingWrapperPrivate::convert(
+        PsService aService)
+{
+    TVmbxType ret = EVmbxNone;
+    switch (aService) {
+    case ServiceGroupVoice:
+        ret = EVmbxVoice;
+        break;
+    case ServiceGroupData:
+        ret = EVmbxVideo;
+        break;
+    case ServiceGroupAllTeleservices:
+    case ServiceGroupFax:
+    case ServiceGroupUnknown:
+    default:
+        ret = EVmbxNone;
+        break;
+    }
+    return ret;
+}
+
 // end of file

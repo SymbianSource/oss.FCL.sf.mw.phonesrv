@@ -73,7 +73,7 @@ public:
      * @param in aType vmbx type
      * @param out aResult the result of dialog
      */
-    virtual void ShowDefineSelectionDialog( TVmbxType& aType, TInt& aResult ) = 0;
+    virtual void ShowDefineSelectionDialogL( TVmbxType& aType, TInt& aResult ) = 0;
 
     /**
      * Show call number in selection dialog

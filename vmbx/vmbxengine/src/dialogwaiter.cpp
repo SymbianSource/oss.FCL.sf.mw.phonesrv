@@ -17,18 +17,36 @@
 */
 
 #include "dialogwaiter.h"
+#include "vmbxlogger.h"
 
+// ======== MEMBER FUNCTIONS ==================================================
+
+// ----------------------------------------------------------------------------
+// DialogWaiter::wait
+// 
+// ----------------------------------------------------------------------------
+//
 HbAction* DialogWaiter::wait()
 {
+    VMBLOGSTRING("DialogWaiter::wait=>")
     mLoop.exec();
     HbAction* a=mResult;
     mResult=0;
+    VMBLOGSTRING2("VMBX: DialogWaiter::wait action a %d <=",a)
     return a;
 }
 
+// ----------------------------------------------------------------------------
+// DialogWaiter::done
+// 
+// ----------------------------------------------------------------------------
+//
 void DialogWaiter::done(HbAction* result)
 {
+    VMBLOGSTRING("DialogWaiter::done=>")
     mResult=result;
     mLoop.quit();
+    VMBLOGSTRING("DialogWaiter::done<=")
 }
 
+//End of file

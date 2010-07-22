@@ -27,7 +27,7 @@
 #include <e32base.h>
 #include "CCbsObject.h"
 #include "MCbsMcnSubscriptionsProvider.h"
-#include "CbsMcnCommon.h"
+#include <cbsmcncommon.h>
 
 //  FORWARD DECLARATIONS
 

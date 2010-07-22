@@ -20,7 +20,7 @@
 //  INCLUDE FILES
 #include    "CNWMessageHandler.h"
 #include    "CNWNetworkModeMonitor.h"
-#include    "NWHandlingEngine.h"
+#include    <nwhandlingengine.h>
 #include    "NWPanic.pan"
 #include    "NWLogger.h"
 

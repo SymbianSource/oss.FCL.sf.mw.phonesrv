@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include <e32std.h>
-#include <Etelsat.h>
+#include <etelsat.h>
 #include <msatrefreshobserver.h>
 
 // FORWARD DECLARATIONS

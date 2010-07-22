@@ -63,9 +63,12 @@ symbian: plugin { # copy qtstub and manifest
 HEADERS += inc/vmbxcpplugin.h \
            inc/vmbxcpgroup.h \
            inc/vmbxuiengine.h \
-           inc/loggerutil.h
+           inc/loggerutil.h \
+           inc/actioncustomitem.h \
+           inc/customedit.h
 
 SOURCES += src/vmbxcpplugin.cpp \
            src/vmbxcpgroup.cpp \
-           src/vmbxuiengine.cpp
-
+           src/vmbxuiengine.cpp \
+           src/actioncustomitem.cpp \
+           src/customedit.cpp

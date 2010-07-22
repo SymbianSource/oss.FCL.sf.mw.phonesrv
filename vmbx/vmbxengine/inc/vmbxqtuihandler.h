@@ -98,6 +98,13 @@ public: // Constructors and destructor
     * @param aNoteType in TVmbxType type
     */
     void showInformationNote(const TVmbxNoteType aType);
+
+    /**
+    * Check qt environment supported or not.
+    *
+    * @return qt environment supported or not.
+    */
+    bool isQtEnvSupported();
     
 private slots:
     /**
@@ -123,7 +130,6 @@ private:
     * Query and Define mailbox dialog. Own
     */    
     HbInputDialog *iQueryDialog;
-
     };
 
 #endif  // VMBXQTUIHANDLER_H

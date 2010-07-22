@@ -22,15 +22,13 @@
 #include <QStringList>
 #include <cpitemdatahelper.h>
 #include <hblineedit.h>
+#include <hbdataformmodel.h>
+#include "actioncustomitem.h"
 
 // User includes
 #include "vmbxuiengine.h"
 #include "vmbxcpgroup.h"
 #include "loggerutil.h"
-
-// custom dataform type
-#define CustomDataFormType \
-    static_cast<HbDataFormModelItem::DataItemType>(HbDataFormModelItem::CustomItemBase)
 
 /*!
     Constructor
@@ -42,9 +40,10 @@ VmbxCpGroup::VmbxCpGroup(
         mUiEngine(NULL),
         mDefaultMailboxEditor(NULL),
         mCsVoice1Editor(NULL),
-        mCsVideo1Editor(NULL)
+        mCsVideo1Editor(NULL),
+        mItemHelper(itemDataHelper)
 { 
-    _DBGLOG2("VmbxCpGroup::VmbxCpGroup label=",label())
+    _DBGLOG("VmbxCpGroup::VmbxCpGroup >")
     // Localization file loading
     QTranslator translator; 
     QString lang = QLocale::system().name();
@@ -58,13 +57,14 @@ VmbxCpGroup::VmbxCpGroup(
     }
 
     mUiEngine = new VmbxUiEngine();
-    loadingPreparation(itemDataHelper);
 
+    loadingPreparation();
+    
     // Request notify when VMBX number changed
     mUiEngine->notifyVmbxNumberChange(true);
     bool ret = connect(mUiEngine,
             SIGNAL(voiceMailboxEngineEntriesUpdated(const TVmbxType)), 
-            this, SLOT(vmbxNumberChanged(const TVmbxType)));
+            this, SLOT(updateVmbxNumber(const TVmbxType)));
     _DBGLOG2("VmbxCpGroup::VmbxCpGroup connect ret=", ret)
     _DBGLOG("VmbxCpGroup::VmbxCpGroup <")
 }
@@ -82,176 +82,73 @@ VmbxCpGroup::~VmbxCpGroup()
 }
 
 /*!
-    Notification slot for engine signal about 
-    Voice Mailbox entries' changes
-*/
-void VmbxCpGroup::voiceMailboxEngineEntriesUpdated()
-{
-    _DBGLOG("VmbxCpGroup::voiceMailboxEngineEntriesUpdated")
-    // Consider is there need to pass the actual modified data 
-    // and mailbox type enum to slot (here) so only needed 
-    // data can be updated.
-    updateAllMailboxesToUi();
-}
-
-/*!
-    Save default mailbox when user selection finished
-*/ 
-void VmbxCpGroup::saveDefaultMailbox(int aIndex)
-{
-    if (0 == aIndex){
-        _DBGLOG("VmbxCpGroup::saveDefaultMailbox voice")
-    }else if(1 == aIndex){
-        _DBGLOG("VmbxCpGroup::saveDefaultMailbox video")
-    }else{
-        _DBGLOG("VmbxCpGroup::saveDefaultMailbox other")
-    }
-}
-
-/*!
     Preparation before loading
 */
-void VmbxCpGroup::loadingPreparation(CpItemDataHelper &itemDataHelper)
-{   
+void VmbxCpGroup::loadingPreparation()
+{
     _DBGLOG("VmbxCpGroup::loadingPreparation >")
     
-    // #Following code is reserved for TB10.2
-    // Create default mailbox selection
-    // appendChild takes ownership
-    //if (mUiEngine->isVideoSupport()){
-    //    mDefaultMailboxEditor = new CpSettingFormItemData(
-    //            HbDataFormModelItem::ComboBoxItem, 
-    //            hbTrId("Default mailbox"),
-    //            this);
-        //itemDataHelper.addConnection( 
-        //    mDefaultMailboxEditor, SIGNAL(currentIndexChanged(int)), 
-        //    mUiEngine, SLOT(saveCsVoice1Number()));
-        //QStringList list;
-        //list.append(hbTrId("Voice"));
-        //list.append(hbTrId("Video"));
-        //mDefaultMailboxEditor->setContentWidgetData("items", QVariant(list));
-        //appendChild(mDefaultMailboxEditor);          
-    //}
-
+    ActionCustomItem *viewItem = new ActionCustomItem();
+    mItemHelper.addItemPrototype(viewItem);
+    mItemHelper.connectToForm(
+        SIGNAL(itemShown(QModelIndex)), this, SLOT(itemShown(QModelIndex)));
+  
     // Create cs voice primary editor
-    mCsVoice1Editor= new HbDataFormModelItem(
-        CustomDataFormType,
-        hbTrId("txt_phone_setlabel_default_mbx_val_voice"));
-    _DBGLOG("VmbxCpGroup::loadingPreparation appendChild voice1 mailbox")
-
-    QString voice1Number;
-    mUiEngine->getCsVoice1Number(voice1Number);
-    // Show voice line1 number on lineedit
-    mCsVoice1Editor->setContentWidgetData(QString("text"), voice1Number);
-    // Connect ui editing signals and allow ui control
-    // eidting if vmbx allows editing
-    if (mUiEngine->isVoiceWritable()) {
-         // When click the lineedit, the query dialog would pop up.
-        itemDataHelper.addConnection(mCsVoice1Editor, SIGNAL(clicked()),
-            this, SLOT(queryCsVoiceNumber()));
-    } else {
-        // If not writable, Dim the voice editor
-        mCsVoice1Editor->setEnabled(false);
-    }
-    // Add child
-    appendChild(mCsVoice1Editor);
- 
-    // Create cs video primary editor
+    mCsVoice1Editor= createDataFormModelItem(EVmbxVoice);       
     if (mUiEngine->isVideoSupport()){
-        mCsVideo1Editor= new HbDataFormModelItem(
-            CustomDataFormType,
-            hbTrId("txt_phone_setlabel_default_mbx_val_video"));
-        _DBGLOG("VmbxCpGroup::loadingPreparation appendChild video1 mailbox")
-        QString video1Number;
-        mUiEngine->getCsVideo1Number(video1Number);
-        // Show video line1 number on lineedit
-        mCsVideo1Editor->setContentWidgetData(QString("text"), video1Number);
-        // Check video editing permission and connect signal
-        if (mUiEngine->isVideoWritable()) {
-            itemDataHelper.addConnection(mCsVideo1Editor, SIGNAL(clicked()),
-                this, SLOT(queryCsVideoNumber()));
-        } else {
-            // If not writable, Dim the Video editor
-            mCsVideo1Editor->setEnabled(false);
-        }
-        appendChild( mCsVideo1Editor );
+        _DBGLOG("VmbxCpGroup::loadingPreparation create video1 mailbox")
+        mCsVideo1Editor= createDataFormModelItem(EVmbxVideo);
     }
-    // TODO: Create cs voice als editor
-    // TODO: Create cs video als editor    
-    // TODO: Create all ps service editors
-    
-    updateAllMailboxesToUi();
-                
-    // TODO: here check CS ALS editing permission and connnect signal
-    // and enable editing 
-        
-    // No need for Video ALS on UI, implement later if necessary.
-    // Editing of PS Services is not allowed by default, disable ui editing
-    // for them.
-
     _DBGLOG("VmbxCpGroup::loadingPreparation <")
 }
 
-/*!
-    Update default mailbox
-*/
-void VmbxCpGroup::updateDefaultMailboxToUi()
+HbDataFormModelItem* VmbxCpGroup::createDataFormModelItem(
+    const TVmbxType vmbxType)
 {
-    _DBGLOG("VmbxCpGroup::updateDefaultMailboxToUi >")
-    // Consider should you check here if the number 
-    // length of the default mailbox
-    // and reset the default mailbox type selection to "none" if it is.
-    // If you do so, remember to save the new value to engine.
-    if (mDefaultMailboxEditor && mUiEngine) {
-        // TODO: Need a new API to save default mailbox
+    _DBGLOG("VmbxCpGroup::createDataFormModelItem >")
+    QString number("");
+    HbDataFormModelItem *item = 0;
+    QString name("");
+    bool create(false);
+    if (EVmbxVoice == vmbxType) {
+        _DBGLOG("VmbxCpGroup::createDataFormModelItem voice")
+        name = hbTrId("txt_phone_setlabel_default_mbx_val_voice");
+        create = true;
+    } else if (EVmbxVideo == vmbxType) {
+        _DBGLOG("VmbxCpGroup::createDataFormModelItem video")
+        name = hbTrId("txt_phone_setlabel_default_mbx_val_video");
+        create = true;
     }
-    _DBGLOG("VmbxCpGroup::updateDefaultMailboxToUi <")
-}
+    if (create) {
+        item = new HbDataFormModelItem(
+            static_cast<HbDataFormModelItem::DataItemType>(
+            ActionCustomItem::VmbxEditItem),name);
 
-/*!
-   Update Cs voice primary 
-*/
-void VmbxCpGroup::updateCsVoice1ToUi()
-{
-    _DBGLOG("VmbxCpGroup::updateCsVoice1ToUi")
-    if (mCsVoice1Editor && mUiEngine) {
-        QString newUiValue("");
-        mUiEngine->getCsVoice1Number(newUiValue);
-        _DBGLOG2("VmbxCpGroup::updateCsVoice1ToUi\
-             newUiValue=", newUiValue)
-        mCsVoice1Editor->setContentWidgetData("text", newUiValue);
+        appendChild(item);
+        
+        if (EVmbxVoice == vmbxType) {
+            if (mUiEngine->isVoiceWritable()) {
+                _DBGLOG("VmbxCpGroup::createDataFormModelItem add voice")
+                mItemHelper.addConnection(item, SIGNAL(editItemClicked()),
+                this, SLOT(queryCsVoiceNumber()));
+            }else {
+                _DBGLOG("VmbxCpGroup::createDataFormModelItem voice no read")
+                item->setEnabled(false);   
+            }                
+        } else if (EVmbxVideo == vmbxType) {
+            if (mUiEngine->isVideoWritable()) {
+                _DBGLOG("VmbxCpGroup::createDataFormModelItem add video")
+                mItemHelper.addConnection(item, SIGNAL(editItemClicked()),
+                    this, SLOT(queryCsVideoNumber()));
+            }else {
+                _DBGLOG("VmbxCpGroup::createDataFormModelItem video no read")
+                item->setEnabled(false);   
+            }                
+        }
     }
+    _DBGLOG("VmbxCpGroup::createDataFormModelItem <")
+    return item;
 }
-
-/*!
-   update Cs video primary
-*/
-void VmbxCpGroup::updateCsVideo1ToUi()
-{
-    _DBGLOG("VmbxCpGroup::updateCsVideo1ToUi >")
-    if (mCsVideo1Editor && mUiEngine){
-        QString newUiValue("");
-        mUiEngine->getCsVideo1Number(newUiValue);
-        _DBGLOG2("VmbxCpGroup::updateCsVideo1ToUi\
-             newUiValue=", newUiValue)
-        mCsVideo1Editor->setContentWidgetData("text", newUiValue);
-    }
-    _DBGLOG("VmbxCpGroup::updateCsVideo1ToUi <")
-}
-
-/*!
-    Update all mailboxes
-*/
-void VmbxCpGroup::updateAllMailboxesToUi()
-{
-    _DBGLOG("VmbxCpGroup::updateAllMailboxesToUi >")
-    updateCsVoice1ToUi();
-    if (mUiEngine->isVideoSupport()) {
-        updateDefaultMailboxToUi();
-        updateCsVideo1ToUi();
-    }
-    _DBGLOG("VmbxCpGroup::updateAllMailboxesToUi <")
-} 
 
 /*!
     Query voice number
@@ -264,9 +161,9 @@ void VmbxCpGroup::queryCsVoiceNumber()
     int result = mUiEngine->queryVoiceNumber(number);
     _DBGLOG2("VmbxCpGroup::queryCsVoiceNumber result=", result)
     if (KErrNone == result) {
-        mCsVoice1Editor->setContentWidgetData(QString("text"), number);
-        _DBGLOG2("VmbxCpGroup::queryCsVoiceNumber >, number=", number)
-        mUiEngine->setCsVoice1Number(number);   
+        _DBGLOG2("VmbxCpGroup::queryCsVoiceNumber >, number=", number) 
+        mUiEngine->setCsVoiceNumber(number);
+        UpdateWidgetContent(mCsVoice1Index, number);
     }
     mCsVoice1Editor->setEnabled(true);
     _DBGLOG("VmbxCpGroup::queryCsVoiceNumber <")
@@ -283,9 +180,9 @@ void VmbxCpGroup::queryCsVideoNumber()
     int result = mUiEngine->queryVideoNumber(number);
     _DBGLOG2("VmbxCpGroup::queryCsVideoNumber  result=", result)
     if (KErrNone == result) {
-        mCsVideo1Editor->setContentWidgetData(QString("text"), number);
         _DBGLOG2("VmbxCpGroup::queryCsVideoNumber >, number=", number)
-        mUiEngine->setCsVideo1Number(number);
+        mUiEngine->setCsVideoNumber(number);
+        UpdateWidgetContent(mCsVideo1Index, number);
     }
     mCsVideo1Editor->setEnabled(true);
     _DBGLOG("VmbxCpGroup::queryCsVideoNumber <")
@@ -294,17 +191,70 @@ void VmbxCpGroup::queryCsVideoNumber()
 /*!
     Update number when vmbx number changed by OTA,OMA etc.
 */
-void VmbxCpGroup::vmbxNumberChanged(const TVmbxType vmbxType)
+void VmbxCpGroup::updateVmbxNumber(const TVmbxType vmbxType)
 {
-    _DBGLOG("VmbxCpGroup::vmbxNumberChanged >")
-    // Update cs voice number
+    _DBGLOG("VmbxCpGroup::updateVmbxNumber >")
+
+    QString number("");
     if (EVmbxVoice == vmbxType) {
-       updateCsVoice1ToUi();
-    // Update cs video number
+        if (mCsVoice1Editor && mUiEngine){
+            mUiEngine->getCsVoiceNumber(number);
+            _DBGLOG2("VmbxCpGroup::updateVmbxNumber\
+                 number=", number)
+            UpdateWidgetContent(mCsVoice1Index, number); 
+        }
     } else if (EVmbxVideo == vmbxType) {
-       updateCsVideo1ToUi();
+        if (mCsVideo1Editor && mUiEngine){
+            mUiEngine->getCsVideoNumber(number);
+            _DBGLOG2("VmbxCpGroup::updateVmbxNumber\
+                 newUiValue=", number)
+            UpdateWidgetContent(mCsVideo1Index, number);  
+        }
+    }  
+    _DBGLOG("VmbxCpGroup::updateVmbxNumber <")
+}
+
+/*!
+  slot for item has been shown on the UI
+ */
+void VmbxCpGroup::itemShown(const QModelIndex &item)
+{
+    _DBGLOG("VmbxCpGroup::itemShown >")
+
+    HbDataFormModelItem* modelItem = mItemHelper.modelItemFromModelIndex(item);
+
+    if (modelItem == mCsVoice1Editor ) {
+        _DBGLOG("VmbxCpGroup::itemShown voice")
+        mCsVoice1Index = item;
+        updateVmbxNumber(EVmbxVoice);
+    }else if (modelItem == mCsVideo1Editor ) {
+        _DBGLOG("VmbxCpGroup::itemShown video")
+        mCsVideo1Index = item;
+        updateVmbxNumber(EVmbxVideo);
     }
-    _DBGLOG("VmbxCpGroup::vmbxNumberChanged <")
+    _DBGLOG("VmbxCpGroup::itemShown <")
+}
+
+/*!
+  Update the vmbx number to the UI
+ */
+void VmbxCpGroup::UpdateWidgetContent(const QModelIndex &item,
+        const QString &string)
+{
+    _DBGLOG("VmbxCpGroup::UpdateWidgetContent >")
+    HbLineEdit* widget = static_cast<HbLineEdit *>(
+            mItemHelper.widgetFromModelIndex(item));
+    if (widget) {
+        _DBGLOG("VmbxCpGroup::UpdateWidgetContent widegt found")
+        widget->setText(string);
+    }
+    if (item == mCsVoice1Index) {
+        mCsVoice1Editor->setContentWidgetData("setText", string);
+    } else if (item == mCsVideo1Index) {
+        mCsVideo1Editor->setContentWidgetData("setText", string);
+    }
+    _DBGLOG("VmbxCpGroup::UpdateWidgetContent <")
+
 }
 
 //End of file

@@ -19,6 +19,9 @@
 #include "dialpadsymbianwrapper_p.h"
 #include <cvoicemailbox.h>
 #include <cvoicemailboxentry.h>
+#include <centralrepository.h>
+#include <profileenginesdkcrkeys.h>
+#include <profileengineinternalcrkeys.h>
 
 DialpadSymbianWrapperPrivate::DialpadSymbianWrapperPrivate(DialpadSymbianWrapper *parent) : 
     q_ptr(parent)
@@ -38,10 +41,11 @@ int DialpadSymbianWrapperPrivate::getMailboxNumber(QString &vmbxNumber)
     int errValue(KErrNone);
     CVoiceMailboxEntry* vmbxEntry = NULL;
     TVoiceMailboxParams vmbxParams;
-    errValue = mVmbx->QueryVmbxType( vmbxParams );
+    vmbxParams.iType = EVmbxVoice;
+
+    errValue = mVmbx->GetStoredEntry(vmbxParams, vmbxEntry);
     
-    if ((KErrNone == errValue) && 
-        (KErrNone == mVmbx->GetStoredEntry(vmbxParams, vmbxEntry))) { 
+    if (KErrNone == errValue) {
         // Number retrieved succesfully:
         vmbxNumber = getVmbxNumber(*vmbxEntry);
      }
@@ -51,21 +55,54 @@ int DialpadSymbianWrapperPrivate::getMailboxNumber(QString &vmbxNumber)
     return errValue;
 }
 
+int DialpadSymbianWrapperPrivate::getVideoMailboxNumber(QString &vmbxNumber)
+{
+    int errValue(KErrNone);
+    CVoiceMailboxEntry* vmbxEntry = NULL;
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVideo;
+    
+    errValue = mVmbx->GetStoredEntry(vmbxParams, vmbxEntry);
+    
+    if (KErrNone == errValue) {
+        // Number retrieved succesfully:
+        vmbxNumber = getVmbxNumber(*vmbxEntry);
+     }
+    // Entry ownership was transferred.
+    delete vmbxEntry;
+    vmbxEntry = NULL;
+    return errValue;		
+}
 
 int DialpadSymbianWrapperPrivate::defineMailboxNumber(QString &vmbxNumber)
 {
     CVoiceMailboxEntry* vmbxEntry = NULL;
     TVoiceMailboxParams vmbxParams;
-    int errValue = mVmbx->QueryVmbxType( vmbxParams );
-    
-    if ((KErrNotFound == errValue)) {
-        errValue = mVmbx->QueryNewEntry(vmbxParams, vmbxEntry);
-        if (KErrNone == errValue) {
-            mVmbx->SaveEntry(*vmbxEntry);
-            // Do appropriate tasks, e.g. save number.
-            vmbxNumber = getVmbxNumber(*vmbxEntry);
-        }
+    vmbxParams.iType = EVmbxVoice;
+
+    int errValue = mVmbx->QueryNewEntry(vmbxParams, vmbxEntry);
+    if (KErrNone == errValue) {
+        mVmbx->SaveEntry(*vmbxEntry);
+        // Do appropriate tasks, e.g. save number.
+        vmbxNumber = getVmbxNumber(*vmbxEntry);
     }
+
+    return errValue;
+}
+
+int DialpadSymbianWrapperPrivate::defineVideoMailboxNumber(QString &vmbxNumber)
+{
+    CVoiceMailboxEntry* vmbxEntry = NULL;
+    TVoiceMailboxParams vmbxParams;
+    vmbxParams.iType = EVmbxVideo;
+
+    int errValue = mVmbx->QueryNewEntry(vmbxParams, vmbxEntry);
+    if (KErrNone == errValue) {
+        mVmbx->SaveEntry(*vmbxEntry);
+        // Do appropriate tasks, e.g. save number.
+        vmbxNumber = getVmbxNumber(*vmbxEntry);
+    }
+
     return errValue;
 }
 
@@ -77,5 +114,27 @@ QString DialpadSymbianWrapperPrivate::getVmbxNumber(CVoiceMailboxEntry &vmbxEntr
         dialpadText = QString::fromUtf16(ptrNumber.Ptr(), ptrNumber.Length());
     }
     return dialpadText;
+}
+
+bool DialpadSymbianWrapperPrivate::changeSilentModeState()
+{   
+    // first get present value from cenrep
+    int silenceMode( 0 );
+    CRepository* cenRep = CRepository::NewL( KCRUidProfileEngine );
+    int err = cenRep->Get( KProEngSilenceMode, silenceMode );
+    
+    // then set it to another one
+    if (KErrNone == err) {
+        if (silenceMode) {
+            silenceMode = 0;
+        }
+        else {
+            silenceMode = 1;
+        }
+    }
+
+    err = cenRep->Set( KProEngSilenceMode, silenceMode );
+    delete cenRep;
+    return silenceMode;
 }
 

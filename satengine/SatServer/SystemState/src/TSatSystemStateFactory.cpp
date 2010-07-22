@@ -18,7 +18,8 @@
 
 #include    <startupdomainpskeys.h>
 #include    <PSVariables.h>
-#include    <activeidle2domainpskeys.h>
+#define Q_OS_SYMBIAN // needed to activate homescreendomainpskeys.h
+#include    <homescreendomainpskeys.h>
 #include    <CommonEngineDomainCRKeys.h>
 #include    <BTSapDomainPSKeys.h>
 #include    <ProfileEngineSDKCRKeys.h>
@@ -61,10 +62,10 @@ EXPORT_C MSatSystemStateChangeNotifier*
         CreateIdleModeChangeNotifierL calling" )
 
     MSatSystemStateChangeNotifier* ret = CSatPSChangeNotifier::NewL(
-        KPSUidAiInformation,
-        KActiveIdleState,
+        KHsCategoryUid,
+        KHsCategoryStateKey,
         aObserver,
-        EPSAiForeground );
+        EHomeScreenIdleState );
 
     LOG( SIMPLE, "SATSYSTEMSTATE: TSatSystemStateFactory::\
         CreateIdleModeChangeNotifierL exiting" )

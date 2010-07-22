@@ -20,6 +20,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 CONFIG += hb
 CONFIG += qtestlib
+MOC_DIR = moc
 
 symbian: { 
     TARGET.CAPABILITY = CAP_GENERAL_DLL 
@@ -27,16 +28,19 @@ symbian: {
 
 symbian {
     INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE \
+                   $$MOC_DIR \
                    /epoc32/include/mw/QtTest \
-                  ../../inc\
-                  ./inc
-                  TARGET.EPOCALLOWDLLDATA = 1
+                   ../../inc\
+                   ./inc
+                   TARGET.EPOCALLOWDLLDATA = 1
 LIBS += -lcpframework
 }
 
 # Input
 HEADERS += inc\ut_vmbxuiengine.h\
            inc\ut_vmbxcpplugin.h \
+           inc\ut_actioncustomitem.h\
+           inc\ut_customedit.h \
            ..\inc\vmbxuiengine.h \
            ..\inc\vmbxcpplugin.h \
            ..\inc\vmbxcpgroup.h \
@@ -47,6 +51,8 @@ HEADERS += inc\ut_vmbxuiengine.h\
 SOURCES += src\main.cpp\
            src\ut_vmbxuiengine.cpp\
            src\ut_vmbxcpplugin.cpp \
+           src\ut_actioncustomitem.cpp \
+           src\ut_customedit.cpp \
            src\ut_dummyvoicemailbox.cpp\
            src\ut_dummyvoicemailboxentry.cpp\
            ..\src\vmbxuiengine.cpp \

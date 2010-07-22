@@ -103,7 +103,8 @@ TInt CCCEDtmf::GetDtmfProviders( RPointerArray<MCCPDTMFProvider>& aProviders ) c
             
         if( !error && provider )
             {
-            aProviders.InsertInAddressOrder( provider );
+            // Ref-to-Ptr -> ownership not transfered. 
+            err = aProviders.InsertInAddressOrder( provider ); 
             }
         }
         

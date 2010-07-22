@@ -18,9 +18,8 @@
 
 // qt
 #include <QString>
-#include <QCoreApplication>
 #include <QRegExp>
-
+#include <QCoreApplication>
 #include <hbinputdialog.h>
 #include <hblabel.h>
 #include <hbaction.h>
@@ -30,6 +29,7 @@
 #include <hbinputstandardfilters.h>
 #include <hbinputfilter.h> 
 #include <hblistwidget.h>
+#include <hbnotificationdialog.h>
 #include <dialogwaiter.h>
 
 #include <cvoicemailboxentry.h>
@@ -86,7 +86,7 @@ void  VmbxQtUiHandler::init()
     VMBLOGSTRING2("VmbxQtUiHandler::init load vmbx result %d",
             translatorLoaded)
     // Install vmbx localization
-    if (translatorLoaded && qApp) {
+    if (translatorLoaded) {
         VMBLOGSTRING("VmbxQtUiHandler::init qApp !")
         qApp->installTranslator(&iTranslator);
     }
@@ -94,7 +94,7 @@ void  VmbxQtUiHandler::init()
     bool loaded = iCommonTranslator.load( "common_"+lang, path);
     VMBLOGSTRING2("VmbxQtUiHandler::init load common result %d",
         loaded)
-    if (loaded && qApp) {
+    if (loaded) {
         VMBLOGSTRING("VmbxQtUiHandler::init qApp !!")
         qApp->installTranslator(&iCommonTranslator);
     }
@@ -121,6 +121,12 @@ void VmbxQtUiHandler::showVmbxQueryDialog(const TVmbxType& aType,
         VMBLOGSTRING( "VmbxQtUiHandler::showVmbxQueryDialog type error" )
         return;
     }
+    if (iQueryDialog) {
+        delete iQueryDialog;
+        iQueryDialog = 0;
+    }
+        
+    
     iQueryDialog = new HbInputDialog();
     iQueryDialog->setDismissPolicy(HbDialog::NoDismiss);
     iQueryDialog->setTimeout(HbDialog::NoTimeout);
@@ -131,17 +137,24 @@ void VmbxQtUiHandler::showVmbxQueryDialog(const TVmbxType& aType,
 
     // Set HbLineEdit  Content 
     iQueryDialog->lineEdit()->setText(aNumber); // default text
-    iQueryDialog->lineEdit()->setFocus(); // Enable the VKB
     iQueryDialog->lineEdit()->setMaxLength(KVmbxPhoneCharMaxLength);
     HbEditorInterface inputMode(iQueryDialog->lineEdit());
     inputMode.setFilter(HbPhoneNumberFilter::instance());
     bool ret = connect(iQueryDialog->lineEdit(), SIGNAL(textChanged(QString)),
         this, SLOT(updatePrimaryAction(QString)));    
     VMBLOGSTRING2( "VmbxQtUiHandler::showVmbxQueryDialog connect textChanged %d", ret)
+    
     DialogWaiter waiter;
+    HbAction *primary = 0;
+    if (iQueryDialog->actions().count()>= 1) {
+        primary = qobject_cast<HbAction*>(iQueryDialog->actions().at(0));
+    }
+    
     iQueryDialog->open(&waiter, SLOT(done(HbAction *)));
+    iQueryDialog->lineEdit()->setFocus(); // Enable the VKB
+    
     HbAction *result = waiter.wait();
-    if (result == iQueryDialog->primaryAction()) {
+    if (result == primary) {
         VMBLOGSTRING( "VmbxQtUiHandler::showVmbxQueryDialog select OK" )
         // asign OK KEY value
         aResult = KErrNone;
@@ -149,8 +162,20 @@ void VmbxQtUiHandler::showVmbxQueryDialog(const TVmbxType& aType,
     } else {
         aResult = KErrCancel;
     }
+    
+    disconnect(iQueryDialog->lineEdit(), SIGNAL(textChanged(QString)),
+            this, SLOT(updatePrimaryAction(QString))); 
+    
+
+    // TODO Delete Operation will case panic on EM
+    
+#ifdef __WINS__
+    iQueryDialog->close();
+#else
     delete iQueryDialog;
     iQueryDialog = 0;
+#endif // __WINS__
+
     VMBLOGSTRING2("VmbxQtUiHandler::showVmbxQueryDialog aResult = %d", aResult)
     VMBLOGSTRING("VmbxQtUiHandler::showVmbxQueryDialog Exit")
 }
@@ -182,10 +207,10 @@ void VmbxQtUiHandler::showDefineSelectionDialog(
     defineListDialog->setContentWidget(list);
 
     //  Sets the "Cancel"-action/button
-    HbAction *cancelAction =  new HbAction(hbTrId(
-            "txt_common_button_cancel"));
-    defineListDialog->setSecondaryAction(cancelAction);
-
+    HbAction *cancelAction = 
+        new HbAction(hbTrId("txt_common_button_cancel"),defineListDialog);
+    defineListDialog->addAction(cancelAction);
+    
     connect(list, SIGNAL(activated(HbListWidgetItem *)), 
         defineListDialog, SLOT(close()));
     DialogWaiter waiter;
@@ -209,8 +234,14 @@ void VmbxQtUiHandler::showDefineSelectionDialog(
     VMBLOGSTRING2("VmbxQtUiHandler::showDefineSelectionDialog: aType%d", aType)
     VMBLOGSTRING2("VmbxQtUiHandler::showDefineSelectionDialog: aResult%d", \
         aResult)
+        
+#ifdef __WINS__
+    defineListDialog->close();
+#else
     delete defineListDialog;
     defineListDialog = 0;
+#endif // __WINS__  
+
     VMBLOGSTRING("VmbxQtUiHandler::showDefineSelectionDialog Exit")
 }
 
@@ -280,10 +311,10 @@ void VmbxQtUiHandler::showCallSelectionDialog(
         }
     }
     //  Sets the "Cancel"-action/button
-    HbAction *cancelAction = new HbAction(hbTrId(
-        "txt_common_button_cancel_toolbar"));
-    callListDialog->setSecondaryAction(cancelAction);
-
+    HbAction *cancelAction = 
+        new HbAction(hbTrId("txt_common_button_cancel"),callListDialog);
+    callListDialog->addAction(cancelAction);
+    
     connect(list, SIGNAL(activated(HbListWidgetItem *)), 
             callListDialog, SLOT(close()));
     DialogWaiter waiter;
@@ -306,8 +337,13 @@ void VmbxQtUiHandler::showCallSelectionDialog(
         params.iType)
     VMBLOGSTRING2("VmbxQtUiHandler::showCallSelectionDialog: result%d",
         result)
+    
+#ifdef __WINS__
+    callListDialog->close();
+#else
     delete callListDialog;
     callListDialog = 0;
+#endif // __WINS__  
     VMBLOGSTRING("VmbxQtUiHandler::showCallSelectionDialog Exit")
 }
 
@@ -351,19 +387,7 @@ void VmbxQtUiHandler::showInformationNote(const TVmbxNoteType aType)
         VMBLOGSTRING("VmbxQtUiHandler::ShowInformationNote default")
         break;
     }
-    HbMessageBox *msgBox = 0;
-    if (EInvalidNumber == aType) {
-        msgBox = new HbMessageBox(HbMessageBox::MessageTypeWarning);   
-    } else {
-        msgBox = new HbMessageBox(HbMessageBox::MessageTypeInformation);
-    }
-    msgBox->setText(noteText);
-    msgBox->removeAction(msgBox->primaryAction());
-    DialogWaiter waiter;
-    msgBox->open(&waiter, SLOT(done(HbAction *)));
-    waiter.wait();
-    delete msgBox;
-    msgBox = 0;
+    HbNotificationDialog::launchDialog(noteText);
     VMBLOGSTRING("VmbxQtUiHandler::showInformationNote Exit")
 }
 
@@ -374,18 +398,22 @@ void VmbxQtUiHandler::showInformationNote(const TVmbxNoteType aType)
 //
 void VmbxQtUiHandler::updatePrimaryAction(const QString &aInput)
 {
-    HbAction *ok = iQueryDialog->primaryAction();
-    if (aInput.isEmpty() || aInput.contains(QRegExp("\\d\\d\\d"))){
-        if (!ok->isEnabled()){
-            ok->setEnabled(true);
-            VMBLOGSTRING("VmbxQtUiHandler::updatePrimaryAction enable OK")
+    if (iQueryDialog) {    
+        QAction *ok = iQueryDialog->actions().at(0);
+        if (ok) {
+            if ( aInput.isEmpty() || aInput.contains(QRegExp("\\d\\d\\d"))){
+                if (!ok->isEnabled()){
+                    ok->setEnabled(true);
+                    VMBLOGSTRING("VmbxQtUiHandler::updatePrimaryAction enable OK")
+                }
+            } else {
+                if (ok->isEnabled()){
+                    ok->setEnabled(false);
+                    VMBLOGSTRING("VmbxQtUiHandler::updatePrimaryAction disable OK")  
+                }
+            }
         }
-    }else{
-        if (ok->isEnabled()){
-            ok->setEnabled(false);
-            VMBLOGSTRING("VmbxQtUiHandler::updatePrimaryAction disable OK")  
-        }
-    }  
+    }
 }
 
 //End of file

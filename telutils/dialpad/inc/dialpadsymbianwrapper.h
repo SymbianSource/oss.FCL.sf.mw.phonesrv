@@ -37,8 +37,12 @@ public:
     ~DialpadSymbianWrapper();
     
     int getMailboxNumber(QString &vmbxNumber);
+    int getVideoMailboxNumber(QString &vmbxNumber);
         
     int defineMailboxNumber(QString &vmbxNumber);
+    int defineVideoMailboxNumber(QString &vmbxNumber);
+    
+    bool changeSilentModeState();
 
 protected:
     DialpadSymbianWrapperPrivate *const d_ptr;

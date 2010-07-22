@@ -276,7 +276,7 @@ void CSatApnHandler::InsertRecordL(
     cm.SetIntAttributeL( CMManager::ECmWapIPWSPOption, 
                          CMManager::ECmWapWspOptionConnectionOriented );
     cm.SetBoolAttributeL( CMManager::EPacketDataDisablePlainTextAuth, EFalse );
-    cm.SetIntAttributeL( CMManager::ECmIFPromptForAuth, EFalse );
+    cm.SetBoolAttributeL( CMManager::ECmIFPromptForAuth, EFalse );
 
     if ( aUserLogin != KNullDesC )
         {

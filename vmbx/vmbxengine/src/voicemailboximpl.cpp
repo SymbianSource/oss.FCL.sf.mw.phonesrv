@@ -31,9 +31,7 @@
 #include "voicemailboximpl.h"
 
 // phone application uid
-//const TInt KPhoneApplicationUid          = 0x100058B3;
-// Temp! using contropannel vmbxcp plugin uid for testing
-const TInt KPhoneApplicationUid          = 0x20025FD9;
+const TInt KPhoneApplicationUid          = 0x100058B3;
 
 // ============================ MEMBER FUNCTIONS =============================
 
@@ -402,7 +400,7 @@ void CVoiceMailboxImpl::SaveEntryL( const CVoiceMailboxEntry& aEntry )
     CleanupStack::PushL( vmbxBox );
     if ( vmbxBox->CheckConfiguration( params, EVmbxChangeNbrAllowedOnUi ) )
         {
-        vmbxBox->SaveL( aEntry );
+        vmbxBox->SaveL( aEntry, ETrue );
         }
     else
         {
@@ -544,7 +542,7 @@ void CVoiceMailboxImpl::QueryVmbxTypeL( TVoiceMailboxParams& aParams )
         if ( VmbxUtilities::VideoSupported() )
             {
             // query to be defined type
-            iUiUtilities->ShowDefineSelectionDialog( aParams.iType, result );
+            iUiUtilities->ShowDefineSelectionDialogL( aParams.iType, result );
             // if result is KErrNone(but result should be also KErrNotFound ),
             // it means user have seclected the defined type;
             // else user cancel to select the type, so should return result value

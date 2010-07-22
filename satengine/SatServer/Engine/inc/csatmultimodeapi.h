@@ -109,7 +109,13 @@ public:
      * Access RMobilePhone::SendDTMFTones
      * for the paramter information please see the etelmm.h
      */ 
-    void SendDTMFTones( TRequestStatus& aReqStatus, const TDesC& aTones);    
+    void SendDTMFTones( TRequestStatus& aReqStatus, const TDesC& aTones);   
+    
+    /**
+     * Access RMobilePhone::ContinueDTMFStringSending
+     * for the paramter information please see the etelmm.h
+     */ 
+    TInt ContinueDTMFStringSending( TBool aContinue );
     
     /**
      * Access RMobilePhone::CancelAsyncRequest
@@ -165,9 +171,9 @@ public:
      */
     void NotifyCallStatusChangeCancel();
     /**
-     * Access RMobilePhone::TerminateAllCalls NotifyMobileCallStatusChange
+     * Access RMobilePhone::TerminateActiveCalls NotifyMobileCallStatusChange
      */
-    void TerminateAllCalls(TRequestStatus& aReqStatus);
+    void TerminateActiveCalls(TRequestStatus& aReqStatus);
 
     
     /**

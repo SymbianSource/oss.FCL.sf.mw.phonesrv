@@ -23,10 +23,10 @@
 #include    "CNWNetworkViagBaseEngine.h"
 #include    "CNWNetworkViagTimer.h"
 #include    "NWPanic.pan"
-#include    "NetworkHandlingDomainPSKeys.h"
+#include    <networkhandlingdomainpskeys.h>
 #include    "NWLogger.h"
-#include    <CMcn.h>
-#include    <CMcnTopicArray.h>
+#include    <cmcn.h>
+#include    <cmcntopicarray.h>
 
 // CONSTANTS
 const TUint KNWzero = 0;

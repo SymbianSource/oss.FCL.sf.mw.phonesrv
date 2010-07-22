@@ -219,4 +219,14 @@ void PSetNetworkWrapper::setNetworkAccessMode(
     m_privateImpl->setNetworkAccessMode(mode);
 }
 
+/*!
+  Is manual network selection supported.
+*/
+bool PSetNetworkWrapper::isManualNetworkSelectionSupported() const
+{
+    DPRINT;
+    
+    return m_privateImpl->isManualNetworkSelectionSupported();
+}
+
 // End of File. 

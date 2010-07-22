@@ -413,7 +413,7 @@ TSatUiResponse SatAppEventProvider::GetYesNoL(
         immediateDigitResponse);
 
     aInkey = inKey;
-    TFLOGSTRING2("SATAPP: SatAppEventProvider::GetYesNoL key=%d", inKey)
+    TFLOGSTRING2("SATAPP: SatAppEventProvider::GetYesNoL key=%x", inKey)
     TFLOGSTRING("SATAPP: SatAppEventProvider::GetYesNoL exit")
     return response;
 }
@@ -681,6 +681,10 @@ TSatUiResponse SatAppEventProvider::ConfirmOpenChannelL(
         }
     bool actionAccepted = aActionAccepted;
     emit showOpenChannelConfirmEvent(title, actionAccepted);
+    // Show progress dialog when Openchannel confirmed
+    if( actionAccepted ) {
+        emit showWaitNoteWithoutDelayEvent();
+    }
     aActionAccepted = actionAccepted;
     TFLOGSTRING2( "SATAPP: SatAppEventProvider::ConfirmOpenChannelL exit\
         response: %d", response)

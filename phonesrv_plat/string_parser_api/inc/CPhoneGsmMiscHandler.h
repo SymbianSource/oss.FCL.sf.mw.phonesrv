@@ -36,11 +36,6 @@ class CPhoneGsmMiscHandler
     public: // New functions
         
         /**
-        * Process IMEI display.
-        */
-        virtual void ProcessShowIMEIL() = 0;
-
-        /**
         * Process USSD request.
         *
         * @param aString It is string to be sent.

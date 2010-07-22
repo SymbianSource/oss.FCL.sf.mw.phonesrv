@@ -1,19 +1,3 @@
-/*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
-* All rights reserved.
-* This component and the accompanying materials are made available
-* under the terms of "Eclipse Public License v1.0"
-* which accompanies this distribution, and is available
-* at the URL "http://www.eclipse.org/legal/epl-v10.html".
-*
-* Initial Contributors:
-* Nokia Corporation - initial contribution.
-*
-* Contributors:
-*
-* Description: 
-*
-*/
 #include <e32base.h>
 #include <QObject>
 #include <QtTest/QtTest>
@@ -24,21 +8,22 @@
 int main(int argc, char *argv[])
 {
     qDebug("main() IN");
-    CTrapCleanup* cleanup = CTrapCleanup::New();
-    QApplication app(argc, argv);
+//    CTrapCleanup* cleanup = CTrapCleanup::New();
+    QCoreApplication app(argc, argv);
     
     qDebug("testing start...");
     
     // API tester
-    Ut_VmbxEngine tc1;
+    int result = -1;
     char *pass[3];  
     pass[0] = argv[0];
     pass[1] = "-o"; 
+    
+    Ut_VmbxEngine tc1;
     pass[2] = "c:\\logs\\vmbx\\ut_vmbxengine.txt";
-    int result = -1;
     result = QTest::qExec(&tc1, 3, pass);
     qDebug("ut_vmbxengine result=%d", result);
-    
+
     Ut_PbkStore tc2;
     pass[2] = "c:\\logs\\vmbx\\ut_pbkstore.txt";
     result = QTest::qExec(&tc2, 3, pass);
@@ -53,8 +38,8 @@ int main(int argc, char *argv[])
     
     qDebug("testing end...");
     qDebug("main() OUT");
-    delete cleanup;
-    cleanup = NULL;
+//    delete cleanup;
+//    cleanup = NULL;
     return result;
 }
 

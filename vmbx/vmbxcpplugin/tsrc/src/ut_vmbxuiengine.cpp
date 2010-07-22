@@ -63,13 +63,13 @@ void Ut_VmbxUiEngine::testCsVoice1Number()
     QString in("123456");
     QString out("");
     setTestEnv(KErrNone);
-    mUiEngine->setCsVoice1Number(in);
-    mUiEngine->getCsVoice1Number(out);
+    mUiEngine->setCsVoiceNumber(in);
+    mUiEngine->getCsVoiceNumber(out);
     QCOMPARE(in, out);
     
     setTestEnv(KErrNotFound);
-    mUiEngine->setCsVoice1Number(in);
-    mUiEngine->getCsVoice1Number(out);
+    mUiEngine->setCsVoiceNumber(in);
+    mUiEngine->getCsVoiceNumber(out);
     QCOMPARE(in, out);
 }
 
@@ -86,13 +86,13 @@ void Ut_VmbxUiEngine::testCsVideo1Number()
     QString out("");
 
     setTestEnv(KErrNone);
-    mUiEngine->setCsVideo1Number(in);
-    mUiEngine->getCsVideo1Number(out);
+    mUiEngine->setCsVideoNumber(in);
+    mUiEngine->getCsVideoNumber(out);
     QCOMPARE(in, out);
     
     setTestEnv(KErrNotFound);
-    mUiEngine->setCsVideo1Number(in);
-    mUiEngine->getCsVideo1Number(out);
+    mUiEngine->setCsVideoNumber(in);
+    mUiEngine->getCsVideoNumber(out);
     QCOMPARE(in, out);
 }
 

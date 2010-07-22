@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -14,6 +14,7 @@
 * Description:  Handles LaunchBrowser command
 *
 */
+
 
 
 #include    <MSatShellController.h>
@@ -211,8 +212,8 @@ void CLaunchBrowserHandler::Event( TInt aEvent )
                 "LAUNCHBROWSER::Event ESetUpMenuRequested catched and unreg" )
             iUtils->UnregisterEvent( this, MSatUtils::ESetUpMenuRequested );
             // Browser is brought to the top after short period of time.
-            iUtils->SatUiHandler().ShellController().
-                BringBrowserToForegroundAfterPeriod();
+            //iUtils->SatUiHandler().ShellController().
+            //    BringBrowserToForegroundAfterPeriod();
             break;
             }
 
@@ -809,8 +810,9 @@ void CLaunchBrowserHandler::LaunchWithUrlL( const TDesC& aParam,
           url=%s, IAP=%d", &aParam, aAccessPointUid.iUid )        
 
     // Browser launching called.
-    TInt err = iUtils->SatUiHandler().ShellController().LaunchBrowserL(
-        aParam, aAccessPointUid );
+    //TInt err = iUtils->SatUiHandler().ShellController().LaunchBrowserL(
+    //    aParam, aAccessPointUid );
+    TInt err =  KErrNone;
 
     if ( KErrNone == err )
         {

@@ -332,6 +332,9 @@ void CPsetNetwork::RunL()
 
                     iTempNetInfo.iId.iNetworkCode.Copy( nwNames.iNetworkId );
                     __PHSLOGSTRING1("[PHS]   CPsetNetwork::RunL: NetworkCode: %S", &iTempNetInfo.iId.iNetworkCode);
+                    
+                    iTempNetInfo.iStatus = (MPsetNetworkSelect::TNetworkStatus)nwNames.iStatus;
+                    __PHSLOGSTRING1("[PHS]   CPsetNetwork::RunL: Status: %d", &iTempNetInfo.iStatus);
 
                     iTempNetInfo.iLongName.Copy( nwNames.iLongName );
                     __PHSLOGSTRING1("[PHS]   CPsetNetwork::RunL: LongName: %S", &iTempNetInfo.iLongName);
@@ -342,6 +345,10 @@ void CPsetNetwork::RunL()
                     if ( nwNames.iAccess == RMobilePhone::ENetworkAccessUtran )
                         {
                         iTempNetInfo.iAccess = ENetNetworkWCDMA;
+                        }
+                    else if ( nwNames.iAccess == RMobilePhone::ENetworkAccessGsmAndUtran )
+                        {
+                        iTempNetInfo.iAccess = ENetNetworkGSMandWCDMA;
                         }
                     else
                         {

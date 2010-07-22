@@ -91,7 +91,13 @@ const TUint32 KVmbxVideoNmbrLineAlternate  = 0x00000005;
 */
 const TUint32 KVmbxUiCaps                   = 0x00000006;
 
-
+/** Flag which Video mailbox is supported or NOT
+*
+* Integer type
+*
+* Default value: 1
+*/
+const TUint32 KVmbxVideoMbxSupport = 0x00000015;
 
 
 #endif      // VOICEMAILBOXPRIVATECRKEYS_H

@@ -21,7 +21,7 @@
 //  INCLUDE FILES
 #include    "CNWMessageHandler.h"
 #include    "cnwnetworkselectionsettingmonitor.h"
-#include    "NWHandlingEngine.h"
+#include    <nwhandlingengine.h>
 #include    "NWPanic.pan"
 #include    "NWLogger.h"
 

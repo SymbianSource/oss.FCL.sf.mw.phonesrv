@@ -22,10 +22,11 @@ symbian: {
 :BLD_INF_RULES.prj_mmpfiles += $$LITERAL_HASH"include \"group/bld.inf\""
 SUBDIRS += telutils/xqtelephonyservice
 SUBDIRS += telutils/dialpad
+SUBDIRS += telutils/keysequencerecognitionservice
 SUBDIRS += vmbx/vmbxcpplugin
 SUBDIRS += vmbx/vmbxengine
 SUBDIRS += cellular/sssettings/xqbindings/sssettingswrapper
 SUBDIRS += cellular/telephonysettings/xqbindings/psetwrapper
-#SUBDIRS += cbs/cbsui
 SUBDIRS += satui/satapp
+SUBDIRS += cellular/psuinotes
 }

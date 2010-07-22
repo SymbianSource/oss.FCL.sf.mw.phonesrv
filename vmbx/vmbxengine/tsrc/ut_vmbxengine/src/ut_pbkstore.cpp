@@ -1,19 +1,3 @@
-/*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
-* All rights reserved.
-* This component and the accompanying materials are made available
-* under the terms of "Eclipse Public License v1.0"
-* which accompanies this distribution, and is available
-* at the URL "http://www.eclipse.org/legal/epl-v10.html".
-*
-* Initial Contributors:
-* Nokia Corporation - initial contribution.
-*
-* Contributors:
-*
-* Description: 
-*
-*/
 #include <QtTest/QtTest>
 #include <cvoicemailboxentry.h>
 #include "vmbxpbkstore.h"
@@ -48,7 +32,7 @@ void Ut_PbkStore::testPhoneBookType()
     deletePbk(); 
 }
 
-/*
+
 void Ut_PbkStore::testWrite()
 {
     createPbk();
@@ -65,14 +49,14 @@ void Ut_PbkStore::testWrite()
     entry = NULL;
     deletePbk(); 
 }
-*/
+
 void Ut_PbkStore::testPhonebookStore()
 {
     createPbk();
     mPbk->PhonebookStore();
     deletePbk(); 
 }
-/*
+
 void Ut_PbkStore::testGetL()
 {
     createPbk();
@@ -87,7 +71,7 @@ void Ut_PbkStore::testGetL()
     entry = NULL;
     deletePbk(); 
 }
-*/
+
 void Ut_PbkStore::createPbk()
 {
     if (!mPbk){

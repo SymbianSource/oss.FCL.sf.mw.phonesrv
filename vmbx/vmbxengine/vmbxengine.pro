@@ -33,16 +33,17 @@ symbian: {
                    ../../inc \
                    ./inc
         
-    LIBS += -lcentralrepository.dll \
-            -lcenrepnotifhandler.dll \
-            -lfeatmgr.dll \
-            -lphoneclient.dll \
-            -lsssettings.dll \
-            -letelmm.dll \
-            -letel.dll \
-            -lsatclient.dll \
-            -lserviceprovidersettings.dll \
-            -lFlogger.dll
+    LIBS += -lcentralrepository \
+            -lcenrepnotifhandler \
+            -lfeatmgr \
+            -lphoneclient \
+            -lsssettings \
+            -letelmm \
+            -letel \
+            -lsatclient \
+            -lserviceprovidersettings \
+            -lefsrv \
+            -lFlogger
 
     HEADERS += inc/mvmbxcenrephandler.h \
                inc/mvmbxcenrepobserver.h \
@@ -76,7 +77,6 @@ symbian: {
                inc/vmsettingsuiiconfileprovider.h \
                inc/vmspshandler.h \
                inc/voicemailboxdefsinternal.h \
-               inc/voicemailboxdomaincrkeys.h \
                inc/voicemailboximpl.h \
                inc/voicemailboxprivatecrkeys.h \
                inc/dialogwaiter.h
@@ -115,10 +115,10 @@ symbian: {
         "$${LITERAL_HASH}endif"
     
     MMP_RULES += defFiles
-                          
-    BLD_INF_RULES.prj_exports += "conf/voicemailbox.confml         MW_LAYER_CONFML(voicemailbox.confml)" \
+
+    BLD_INF_RULES.prj_exports += "rom/backup_registration.xml /epoc32/data/z/private/100058F5/backup_registration.xml" \
+                                 "conf/CI_voicemailbox.confml         MW_LAYER_CONFML(CI_voicemailbox.confml)" \
                                  "conf/voicemailbox_101F874F.crml  MW_LAYER_CRML(voicemailbox_101F874F.crml)" \
-                                 "rom/backup_registration.xml /epoc32/data/z/private/100058F5/backup_registration.xml" \
                                  "rom/backup_registration.xml   /epoc32/release/winscw/udeb/z/private/100058F5/backup_registration.xml" \
                                  "rom/backup_registration.xml   /epoc32/release/winscw/urel/z/private/100058F5/backup_registration.xml" \
                                  "rom/vmbxengine_stub.sis /epoc32/data/z/system/install/vmbxengine_stub.sis" \
@@ -127,4 +127,3 @@ symbian: {
 TRANSLATIONS = vmbx.ts
 
 }
-

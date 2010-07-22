@@ -19,9 +19,9 @@
 #define __LOGGERUTIL_H
 
 //  INCLUDES
-#include <qdebug>
-#include <qfile>
-#include <qdatetime>
+#include <QDebug>
+#include <QFile>
+#include <QDateTime>
 
 /***************************
  * LOGGER SETTINGS

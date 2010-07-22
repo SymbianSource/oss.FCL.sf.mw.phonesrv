@@ -48,6 +48,8 @@ public:
     HbLineEdit& editor() const;
 
     bool isOpen() const;
+    
+    bool isCallButtonEnabled() const;
 
 public slots:
     void openDialpad();
@@ -63,17 +65,13 @@ protected:
                const QStyleOptionGraphicsItem* option,
                QWidget* widget);
                
-    bool sceneEvent(QEvent *event);
-
-    bool sceneEventFilter(QGraphicsItem *watched, QEvent *event);
-
-    bool handleSceneEvent(QEvent *event);
-
     void showEvent(QShowEvent *event);
 
     void hideEvent(QHideEvent *event);
 
     void closeEvent(QCloseEvent * event);
+
+    void gestureEvent(QGestureEvent *event);
 
 protected slots:
     void closeAnimValueChanged(qreal value);
@@ -101,8 +99,6 @@ private:
     DialpadInputField* mInputField;
     DialpadKeypad* mKeypad;
     DialpadMultitapHandler* mMultitap;
-    int mMouseButtonPressedDown;
-    QTime mSwipeTimer;
     QTimeLine mOpenTimeLine;
     QTimeLine mCloseTimeLine;
     bool mAnimationOngoing;

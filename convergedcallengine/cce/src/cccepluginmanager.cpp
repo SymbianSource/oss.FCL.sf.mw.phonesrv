@@ -471,7 +471,7 @@ void CCCEPluginManager::AddToAlternativeEmergencyArray( TUid aUid )
     else if( iAlternativeEmergencyPlugins.Find( aUid ) == KErrNotFound )
         {
         CCELOGSTRING("CCCEPluginManager::AddToAlternativeEmergencyArray: New plugin. Append to array ");    
-        iAlternativeEmergencyPlugins.Append( aUid );  
+        iAlternativeEmergencyPlugins.Append( aUid );  // return value ignored..
         }    
     else
         {
@@ -609,12 +609,16 @@ MCCPDTMFProvider& CCCEPluginManager::DtmfProviderL(
     {
     CCCEPlugin* plugin( NULL );
     
-    for( TInt i=0; i<iPluginArray.Count(); i++ )
+    // performance note: a loop is nothing but keeping count in a register, decrementing it's
+    // value after each iteration and jumping back.
+    // But, calling RPointerArray.Count() is expensive.. that's why const TInt count
+    const TInt count = iPluginArray.Count();
+    for( TInt i=0; i < count; i++ )
         {
         if( iPluginArray[i]->Type().iUid == aImplementationUid.iUid )
             {
             plugin =  iPluginArray[i];
-            i = iPluginArray.Count();
+            i = count;
             }
         }
   
@@ -656,14 +660,16 @@ void CCCEPluginManager::CCPPluginDiedEvent(TUid aPluginId, TInt /*aDeathType*/, 
         {
         if ( iPluginArray[a]->Type() == aPluginId )
             {
-            iPluginsToClose.Append(iPluginArray[a]);
-            if (!iIdle->IsActive())
-                {
-                iIdle->Start( TCallBack(RemovePlugins,this) );
+            if( KErrNone == iPluginsToClose.Append(iPluginArray[a]))
+                {          
+                if (!iIdle->IsActive())
+                    {
+                    iIdle->Start( TCallBack(RemovePlugins,this) );
+                    }
+                iPluginArray.Remove(a);
+                iPluginArray.Compress();
+                return;
                 }
-            iPluginArray.Remove(a);
-            iPluginArray.Compress();
-            return;
             }
         }
     }
@@ -688,14 +694,16 @@ void CCCEPluginManager::CCPPluginInitialisationFailed(TUid aPluginUid, TInt /*aE
         {
         if ( iPluginArray[a]->Type() == aPluginUid )
             {
-            iPluginsToClose.Append(iPluginArray[a]);
-            if (!iIdle->IsActive())
-                {
-                iIdle->Start( TCallBack(RemovePlugins,this) );
+            if( KErrNone == iPluginsToClose.Append(iPluginArray[a]))
+                {          
+                if (!iIdle->IsActive())
+                    {
+                    iIdle->Start( TCallBack(RemovePlugins,this) );
+                    }
+                iPluginArray.Remove(a);
+                iPluginArray.Compress();
+                return;
                 }
-            iPluginArray.Remove(a);
-            iPluginArray.Compress();
-            return;
             }
         }
     }

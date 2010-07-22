@@ -29,7 +29,8 @@ symbian {
 }
 
 #
-SOURCES += mt_dialpad.cpp
+HEADERS += ../shared/dialpadtestutil.h
+SOURCES += mt_dialpad.cpp ../shared/dialpadtestutil.cpp
 
 # 
 LIBS += -ldialpad

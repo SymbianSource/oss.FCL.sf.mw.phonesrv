@@ -186,7 +186,7 @@ EXPORT_C TInt CVoiceMailboxEntry::SetVmbxNumber( const TDesC& aVmbxNumber )
     TInt result( KErrNoMemory );
     if ( aVmbxNumber.Length() > KVmbxMaxNumberLength )
         {
-        result = KErrArgument;
+        result = KErrOverflow;
         }
     else
         {
@@ -291,7 +291,7 @@ EXPORT_C TInt CVoiceMailboxEntry::SetVmbxName( const TDesC& aVmbxName )
     TInt result( KErrNoMemory );
     if ( KVmbxMaxNumberLength < aVmbxName.Length() )
         {
-        result = KErrArgument;
+        result = KErrOverflow;
         }
     else
         {

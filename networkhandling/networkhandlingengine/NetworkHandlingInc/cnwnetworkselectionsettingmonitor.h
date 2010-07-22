@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include "CNWNetworkMonitorBase.h"
-#include "NetworkHandlingDomainPSKeys.h"
+#include <networkhandlingdomainpskeys.h>
 #include <e32property.h>
 
 // FORWARD DECLARATIONS

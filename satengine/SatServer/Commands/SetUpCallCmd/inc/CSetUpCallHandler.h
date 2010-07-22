@@ -67,21 +67,6 @@ public:
     */
     void SetupCallRequestComplete( const TInt aErrCode );
 
-    /**
-    * TSetupCallStatus
-    * setup call status, when there is an asynchronous
-    * operation is handling by the CSetupCallCallRequestHandler
-    * we will save some status information
-    */
-    enum TSetupCallStatus
-        {
-        ESetupCallIdle = 0,
-        ESetupCallDialWaiting,
-        ESetupCallTerminateWaiting,
-        ESetupCallEmergencyWaiting
-        };
-    
-    
 protected:
 
 // from base class CActive
@@ -250,11 +235,6 @@ private: // data
      * Indicates if call control is active
      */
     TBool iCallControlActive;
-
-    /**
-     * Dial completion status
-     */
-    TInt iSetUpCallStatus;
 
     /**
      * wait scheduler

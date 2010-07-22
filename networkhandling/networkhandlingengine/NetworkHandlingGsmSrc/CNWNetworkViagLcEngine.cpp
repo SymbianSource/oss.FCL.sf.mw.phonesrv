@@ -24,7 +24,7 @@
 #include "CNWNetworkViagBaseEngine.h"
 #include "CNWNetworkViagTimer.h"
 #include "NWPanic.pan"
-#include "NetworkHandlingDomainPSKeys.h"
+#include <networkhandlingdomainpskeys.h>
 #include "NWLogger.h"
 
 //TEST
@@ -1310,9 +1310,6 @@ TInt CNWNetworkViagLcEngine::CompareTIntCellIdValues(
             values not match " );
         return KErrNotFound;
         }
-    
-    NWLOGSTRING( KNWOBJECT, 
-        "NW: CNWNetworkViagLcEngine::CompareTIntCellIdValues() End " );
     }
 
 //  End of File  

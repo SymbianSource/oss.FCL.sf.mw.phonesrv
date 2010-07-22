@@ -15,7 +15,7 @@
 *
 */
 
-#include <QtGui>
+#include <QGraphicsLinearLayout>
 
 #include <hblineedit.h>
 #include <hbinputeditorinterface.h>
@@ -25,7 +25,7 @@
 #include "dialpadinputfield.h"
 #include "dialpadbutton.h"
 
-static const QString HbBackspaceIcon("qtg_mono_backspace2");
+static const QLatin1String HbBackspaceIcon("qtg_mono_backspace2");
 static const int DialpadAutoRepeatInterval = 150; // ms
 static const int DialpadAutoRepeatDelay = 1000; // ms
 static const qreal DialpadComponentMargin = 0.75; // units
@@ -43,7 +43,7 @@ DialpadInputField::DialpadInputField(QGraphicsItem* parent)
     editorInterface.setInputConstraints(HbEditorConstraintIgnoreFocus);
     mNumberEditor->setMaxLength(DialpadMaxEditStringLenght);
     mNumberEditor->setMinRows(1);
-    mNumberEditor->setMaxRows(2);
+    mNumberEditor->setMaxRows(1);    
     mNumberEditor->setAdjustFontSizeToFitHeight(true);
 
     // create backspace button

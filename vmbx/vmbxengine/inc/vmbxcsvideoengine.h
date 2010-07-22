@@ -63,8 +63,12 @@ public:  // Constructors and destructor
      * @see CVmbxEntryBase::SaveL
      *
      * @param aEntry Reference to CVoiceMailboxEntry
+     * @param aShowNotesAllowed Provision mode is used to decide whether show
+     *          saved notification UI dialog. If aShowNotesAllowed is EFalse, 
+     *          saved notification UI dialog will not show. 
      */
-    void SaveL( const CVoiceMailboxEntry& aEntry );
+    void SaveL( const CVoiceMailboxEntry& aEntry,
+                TBool aShowNotesAllowed );
 
     /**
      * To save mailbox Provisioned entry value

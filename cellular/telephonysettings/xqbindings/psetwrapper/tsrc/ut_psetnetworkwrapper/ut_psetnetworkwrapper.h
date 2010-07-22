@@ -64,6 +64,8 @@ private slots:
     
     void t_exceptionSafety();
     
+    void t_isManualNetworkSelectionSupported();
+    
 private:
     PSetNetworkWrapper *m_wrapper;
     CPsetContainer *m_psetContainerMock;

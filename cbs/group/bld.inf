@@ -16,7 +16,7 @@
 */
 
 
-#include "../CbsServer/Group/bld.inf"
+#include "../cbsserver/Group/bld.inf"
 
 
 // End of File

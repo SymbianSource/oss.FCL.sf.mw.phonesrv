@@ -45,7 +45,7 @@ public:
      * @param aNumber the voice mailbox number
      * @param aResult out the result of dialog
      */
-    virtual void ShowVmbxQueryDialog( const TVmbxType& aType,
+    virtual void ShowVmbxQueryDialogL( const TVmbxType& aType,
         TDes& aNumber, TInt& aResult )= 0;
 
 
@@ -55,7 +55,7 @@ public:
      * @param in aType vmbx type
      * @param out aResult the result of dialog
      */
-    virtual void ShowDefineSelectionDialog( 
+    virtual void ShowDefineSelectionDialogL( 
         TVmbxType& aType, TInt& aResult ) = 0;
 
     /**

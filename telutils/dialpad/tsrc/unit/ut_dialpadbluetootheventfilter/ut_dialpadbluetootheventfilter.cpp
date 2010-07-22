@@ -31,6 +31,7 @@
 #endif
 
 #include "dialpadtest.h"
+#include "dialpadtestutil.h"
 #include "dialpadbluetootheventfilter.h"
 #include "dialpad.h"
 
@@ -77,14 +78,6 @@ class ut_DialpadBluetoothEventFilter : public QObject
 {
     Q_OBJECT
 
-public:
-    enum MouseEventType
-    {
-        Press,
-        Release,
-        Click
-    };
-
 private slots:
     void initTestCase();
     void init();
@@ -94,15 +87,11 @@ private slots:
     void testShortAndLongPressAsteriskKey();
 
 private:
-    QGraphicsWidget* getWidgetByName(const QString& name);
-    void mouseClickDialpad(int key, MouseEventType type=Click, bool pause=true);
-
-private:
     HbMainWindow*  mMainWindow;
     Dialpad*       mDialpad;
     DialpadBluetoothEventFilter *mEventFilter;
     KeyEventCatcher* mKeyCatcher;
-    QMap<int,QString> mKeyNames;
+    DialpadTestUtil* mUtil;
 };
 
 void ut_DialpadBluetoothEventFilter::initTestCase()
@@ -111,6 +100,8 @@ void ut_DialpadBluetoothEventFilter::initTestCase()
 
     mKeyCatcher = new KeyEventCatcher;
     mMainWindow->installEventFilter(mKeyCatcher);
+
+    mUtil = new DialpadTestUtil(*mMainWindow);
 
     mDialpad = new Dialpad();
     mEventFilter = new DialpadBluetoothEventFilter(mDialpad, this);
@@ -122,21 +113,6 @@ void ut_DialpadBluetoothEventFilter::initTestCase()
 
     mDialpad->setPreferredSize(360,400);
     mDialpad->setPos(0,100);
-
-    mKeyNames.insert(Qt::Key_1,"49");
-    mKeyNames.insert(Qt::Key_2,"50");
-    mKeyNames.insert(Qt::Key_3,"51");
-    mKeyNames.insert(Qt::Key_4,"52");
-    mKeyNames.insert(Qt::Key_5,"53");
-    mKeyNames.insert(Qt::Key_6,"54");
-    mKeyNames.insert(Qt::Key_7,"55");
-    mKeyNames.insert(Qt::Key_8,"56");
-    mKeyNames.insert(Qt::Key_9,"57");
-    mKeyNames.insert(Qt::Key_Asterisk,"42");
-    mKeyNames.insert(Qt::Key_0,"48");
-    mKeyNames.insert(Qt::Key_NumberSign,"35");
-    mKeyNames.insert(Qt::Key_Backspace,"16777219");
-    mKeyNames.insert(Qt::Key_Yes,"16842753");
 
     mMainWindow->show();
     mDialpad->show();
@@ -156,6 +132,7 @@ void ut_DialpadBluetoothEventFilter::cleanupTestCase()
     delete mDialpad;
     delete mMainWindow;
     delete mKeyCatcher;
+    delete mUtil;
 }
 
 void ut_DialpadBluetoothEventFilter::cleanup()
@@ -166,61 +143,15 @@ void ut_DialpadBluetoothEventFilter::cleanup()
     QTest::qWait(WAIT_TIME); // delay between tests
 }
 
-QGraphicsWidget* ut_DialpadBluetoothEventFilter::getWidgetByName(const QString& name)
-{
-    Q_ASSERT(mMainWindow!=0);
-
-    QGraphicsWidget* widget = 0;
-
-    QList<QGraphicsItem*> items = mMainWindow->scene()->items();
-    foreach (QGraphicsItem* item, items) {
-        if (item->isWidget()) {
-            QGraphicsWidget *w = static_cast<QGraphicsWidget*>(item);
-            if (w->objectName()==name) {
-                widget = w;
-            }
-        }
-    }
-
-    return widget;
-}
-
-void ut_DialpadBluetoothEventFilter::mouseClickDialpad(int key, MouseEventType type, bool pause)
-{
-    QString name = mKeyNames.value(key);
-
-    QGraphicsWidget* widget = getWidgetByName(name);
-
-    if (widget) {
-        QPointF widgetPos = widget->scenePos() + widget->rect().center();
-
-        QPoint windowPos = mMainWindow->mapFromScene(widgetPos);
-
-        if (type==Press) {
-            QTest::mousePress(mMainWindow->viewport(), Qt::LeftButton, 0, windowPos);
-        } else if (type==Release) {
-            QTest::mouseRelease(mMainWindow->viewport(), Qt::LeftButton, 0, windowPos);
-        } else {
-            QTest::mouseClick(mMainWindow->viewport(), Qt::LeftButton, 0, windowPos);
-        }
-
-        if (pause) {
-            QTest::qWait(WAIT_TIME);
-        }
-    } else {
-        QFAIL("Button could not be accessed!");
-    }
-}
-
 void ut_DialpadBluetoothEventFilter::testLongPressAsteriskKey()
 {
     mDialpad->openDialpad();
     QTest::qWait(2*WAIT_TIME);
 
     // Basic long press
-    mouseClickDialpad(Qt::Key_Asterisk, Press);
+    mUtil->mouseClickDialpad(Qt::Key_Asterisk, DialpadTestUtil::Press);
     QTest::qWait(2000);
-    mouseClickDialpad(Qt::Key_Asterisk, Release);
+    mUtil->mouseClickDialpad(Qt::Key_Asterisk, DialpadTestUtil::Release);
     QTest::qWait(1000);
     QCOMPARE(mDialpad->editor().text(), QString(""));
     mDialpad->closeDialpad();
@@ -236,11 +167,11 @@ void ut_DialpadBluetoothEventFilter::testShortAndLongPressAsteriskKey()
     mDialpad->openDialpad();
 
     // Short press and long press shouldn't do anything
-    mouseClickDialpad(Qt::Key_Asterisk, Press);
-    mouseClickDialpad(Qt::Key_Asterisk, Release);
-    mouseClickDialpad(Qt::Key_Asterisk, Press);
+    mUtil->mouseClickDialpad(Qt::Key_Asterisk, DialpadTestUtil::Press);
+    mUtil->mouseClickDialpad(Qt::Key_Asterisk, DialpadTestUtil::Release);
+    mUtil->mouseClickDialpad(Qt::Key_Asterisk, DialpadTestUtil::Press);
     QTest::qWait(2000);
-    mouseClickDialpad(Qt::Key_Asterisk, Release);
+    mUtil->mouseClickDialpad(Qt::Key_Asterisk, DialpadTestUtil::Release);
     QCOMPARE(mDialpad->editor().text(), QString("**"));
     mDialpad->closeDialpad();	
 }

@@ -21,8 +21,8 @@
 #include    <MProfileEngine.h>
 #include    <MProfileTones.h>
 #include    <TProfileToneSettings.h>
-#include    <audiopreference.h>//KAudioPriorityLowLevel
-#include    <Mda/Common/Resource.h>//KMdaRepeatForever
+#include    <AudioPreference.h> //KAudioPriorityLowLevel
+#include    <mda/common/resource.h>//KMdaRepeatForever
 #include    <QTimer> // timeout callback
 #include    <hbmessagebox.h>//playtone note
 #include    <mdaaudiotoneplayer.h>// for CMdaAudioToneUtility&CMdaAudioPlayerUtility
@@ -39,6 +39,11 @@ const TInt KMaxSoundFileLength = 256;
 // numbers
 // Audio sample is repeated indefinitely.
 const TInt KSoundPlayerRepeatForever = KMdaRepeatForever;
+
+// The max volume value from settings.
+// From TProfileToneSettings.h
+const TInt KMaxVolumeFromProfile( 10 );
+
 
 // ----------------------------------------------------------------------------
 // SatAppPlayToneProvider::SatAppPlayToneProvider
@@ -220,6 +225,24 @@ void SatAppPlayToneProvider::GetProfileParamsL( TSatTone aTone /*= ESatToneNotSe
     const TProfileToneSettings& ts = tones.ToneSettings();
     mWarningAndPlayTones = ts.iWarningAndGameTones;
     mVolume = ts.iRingingVolume;
+    
+    TFLOGSTRING2( "SatAppCommandHandler::GetProfileParamsL \
+        mVolume before mapping %d", mVolume )
+    
+    // Max volume from profile is KMaxVolumeFromProfile, Max volume from 
+    // CMdaAudioToneUtility is different, maybe 10,000. So, 
+    // rate = maxVolumeFromPlayer / KMaxVolumeFromProfile
+    // User may never hear the TONE, because volume is too small.
+    // iVolume times the rate make it can be heard.
+    
+    CMdaAudioToneUtility* toneUtl = CMdaAudioToneUtility::NewL( *this );
+    TInt maxVolumeFromPlayer( toneUtl->MaxVolume() );
+    mVolume *= maxVolumeFromPlayer / KMaxVolumeFromProfile;
+    delete toneUtl;
+    toneUtl = NULL;
+    TFLOGSTRING2( "CSatUiViewAppUi::GetProfileParamsL \
+        mVolume after mapping %d", mVolume )
+    
     if ( ( ESatUserSelectedToneIncomingSms == aTone ) && ( aToneName ) )
         {
         TFLOGSTRING("SatAppCommandHandler::GetProfileParamsL message tone")

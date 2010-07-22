@@ -43,8 +43,7 @@ CPhoneGsmParser* CPhoneGsmParser::NewL(
         CPhoneGsmParserBase* aPhoneNumber,
         CPhoneGsmParserBase* aManufacturerSpecific,
         CPhoneGsmParserBase* aEmergencyNumberParser,
-        CPhoneGsmParserBase* aVoipNumber,
-        CPhoneGsmParserBase* aImeiParser )
+        CPhoneGsmParserBase* aVoipNumber)
     {
     // Ownership of these instances is transferred, thus
     // creation of the instance must not leave. 
@@ -56,8 +55,7 @@ CPhoneGsmParser* CPhoneGsmParser::NewL(
             aPhoneNumber,
             aManufacturerSpecific,
             aEmergencyNumberParser,
-            aVoipNumber,
-            aImeiParser );
+            aVoipNumber);
     
     if ( !self )
         {
@@ -67,7 +65,6 @@ CPhoneGsmParser* CPhoneGsmParser::NewL(
         delete aManufacturerSpecific;
         delete aEmergencyNumberParser;
         delete aVoipNumber;
-        delete aImeiParser;
         
         User::Leave( KErrNoMemory );
         }
@@ -91,7 +88,6 @@ CPhoneGsmParser::~CPhoneGsmParser()
     delete iGsmManufacturerProcedure;
     delete iGsmEmergencyNumber;
     delete iVoipNumber;
-    delete iImeiParser;
     CPhoneParserFeatures::Free();
     }
 
@@ -105,15 +101,13 @@ CPhoneGsmParser::CPhoneGsmParser(
         CPhoneGsmParserBase* aPhoneNumber,
         CPhoneGsmParserBase* aManufacturerSpecific,
         CPhoneGsmParserBase* aEmergencyNumberParser,
-        CPhoneGsmParserBase* aVoipNumber,
-        CPhoneGsmParserBase* aImeiParser )
+        CPhoneGsmParserBase* aVoipNumber)
     : iGsmSsProcedure( aSsProcedure ), 
       iGsmSimControlProcedure( aSimControlProcedure ),
       iGsmPhoneNumber( aPhoneNumber ),
       iGsmManufacturerProcedure( aManufacturerSpecific ),
       iGsmEmergencyNumber( aEmergencyNumberParser ),
-      iVoipNumber( aVoipNumber ),
-      iImeiParser( aImeiParser )
+      iVoipNumber( aVoipNumber )
     {
     }
 
@@ -148,10 +142,6 @@ void CPhoneGsmParser::ConstructL()
     if ( !iVoipNumber )
         {
         iVoipNumber = CPhoneGsmDummyParser::NewL();
-        }
-    if ( !iImeiParser )
-        {
-        iImeiParser = CPhoneGsmDummyParser::NewL();
         }
     }
 
@@ -198,15 +188,9 @@ TBool CPhoneGsmParser::DoParseL(
         }
 
     TBool sendOperation = aOptions.FindOptionStatus( KPhoneOptionSend );
-
-    // Check if it is the only phone control string, show imei.
-    result = iImeiParser->ParseL( aString, aResult, aOptions );
     
     // Check if emergency number.
-    if ( !result )
-        {
-        result = iGsmEmergencyNumber->ParseL( aString, aResult, aOptions );
-        }
+    result = iGsmEmergencyNumber->ParseL( aString, aResult, aOptions );
     
     // First check if string is GSM ss procedure supported by MS.
     if ( !result )

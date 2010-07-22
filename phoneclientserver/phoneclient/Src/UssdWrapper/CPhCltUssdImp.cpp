@@ -416,7 +416,7 @@ CPhCltUssdImp::~CPhCltUssdImp()
 //
 void CPhCltUssdImp::HandleSendEventL( const TInt aError )
     {
-    *iSendError = Min( aError , KErrNone );
+    iSendError = Min( aError , KErrNone );
     TFLOGSTRING2("CPhCltUssdImp: HandleSendEventL\
             aError = %d call", aError)
     // iNoteController is allocated only if notes are shown.
@@ -572,8 +572,7 @@ TInt CPhCltUssdImp::SendUssd(
         return KErrInUse;
         }
 
-    TInt error = KErrNone;
-    iSendError = &error;
+    iSendError = KErrNone;
     TFLOGSTRING("CPhCltUssdImp: SendUssd iRequestHandler")
     iRequestHandler->SendUssd( aMsgData , attributePckg );
     // iNoteController is allocated only if notes are shown.
@@ -588,13 +587,8 @@ TInt CPhCltUssdImp::SendUssd(
     // Set this active object to wait the completion of the send request.
     iWait->Start();
 
-    // If not deleted:
-    if ( iWait )
-        {
-        iSendError = NULL;
-        }
     TFLOGSTRING("CPhCltUssdImp: SendUssd exit") 
-    return error;
+    return iSendError;
     }
 
 

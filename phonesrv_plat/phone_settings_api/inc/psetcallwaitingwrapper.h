@@ -83,6 +83,11 @@ public: // Functions (adaptees):
     * Cancels the call waiting-request process.
     */
     void cancelProcess();
+    
+    /**
+    * Get CPsetCallwaiting reference.
+    */
+    CPsetCallWaiting &  getCPsetCallWaiting() const;
 
 signals: // Notify via signals     
 

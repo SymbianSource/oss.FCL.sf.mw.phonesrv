@@ -23,6 +23,7 @@
 
 class Dialpad;
 class DialpadKeySequenceEventFilter;
+class HbLineEdit;
 
 class UT_DialpadKeySequenceEventFilter : public QObject, public MockService
 {
@@ -42,11 +43,13 @@ private slots:
     void eventFilterNotAKeyEvent();
     void eventFilterNotAHashKey();
     void eventFilterNotValidKeySequence();
+    void eventFilterServiceRequestFails();
 #endif
     
 private:
     Dialpad *m_dialPad;
     DialpadKeySequenceEventFilter *m_eventFilter;
+    HbLineEdit *m_lineEditMock;
 };
 
 #endif  // UT_DIALPADKEYSEQUENCEEVENTFILTER_H

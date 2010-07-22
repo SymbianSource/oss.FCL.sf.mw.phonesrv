@@ -309,13 +309,23 @@ void UT_PSetNetworkWrapper::t_handleNetworkInfoReceived()
         HandleNetworkInfoReceivedL(infos, KErrNone));
     QVERIFY(KErrArgument == result);
     
-    const TInt KGranularity = 2;
+    const TInt KGranularity = 3;
     infos = new CNetworkInfoArray(KGranularity);
     QScopedPointer<CNetworkInfoArray> infoArrayGuard(infos);
     MPsetNetworkSelect::TNetworkInfo info1;
-    MPsetNetworkSelect::TNetworkInfo info2;
     infos->AppendL(info1);
+    TRAP(result, m_wrapper->m_privateImpl->
+        HandleNetworkInfoReceivedL(infos, KErrNone));
+    QVERIFY(KErrNone == result);
+    
+    MPsetNetworkSelect::TNetworkInfo info2;
     infos->AppendL(info2);
+    TRAP(result, m_wrapper->m_privateImpl->
+        HandleNetworkInfoReceivedL(infos, KErrNone));
+    QVERIFY(KErrNone == result);
+    
+    MPsetNetworkSelect::TNetworkInfo info3;
+    infos->AppendL(info3);
     TRAP(result, m_wrapper->m_privateImpl->
         HandleNetworkInfoReceivedL(infos, KErrNone));
     QVERIFY(KErrNone == result);
@@ -485,6 +495,20 @@ void UT_PSetNetworkWrapper::t_exceptionSafety()
     cleanup();
     
     OomTestExecuter::runAllTests(*this, "t_exceptionSafety");
+}
+
+/*!
+  UT_PSetNetworkWrapper::t_isManualNetworkSelectionSupported
+ */
+void UT_PSetNetworkWrapper::t_isManualNetworkSelectionSupported()
+{
+    expect("CPsetCustomerServiceProfile::IsNetworkSelectionSupported").returns(KErrNone);
+    m_wrapper->isManualNetworkSelectionSupported();
+    QVERIFY(verify());
+    
+    expect("CPsetCustomerServiceProfile::IsNetworkSelectionSupported").returns(KErrGeneral);
+    m_wrapper->isManualNetworkSelectionSupported();
+    QVERIFY(verify());
 }
 
 QTEST_MAIN_S60(UT_PSetNetworkWrapper)

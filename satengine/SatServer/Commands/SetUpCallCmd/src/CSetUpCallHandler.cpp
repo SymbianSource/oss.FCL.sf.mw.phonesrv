@@ -87,7 +87,6 @@ CSetUpCallHandler::~CSetUpCallHandler()
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::~CSetUpCallHandler calling" )
 
     Cancel();
-
     
     delete iRequestHandler;
     iRequestHandler = NULL;
@@ -537,7 +536,6 @@ void CSetUpCallHandler::SetupCallRequestComplete( TInt aErrCode )
     
     if( !iEmergencyCall )
         {
-        iSetUpCallStatus = ESetupCallIdle;
         CompleteSetupCallWithStatus( aErrCode );
         }
     else
@@ -567,7 +565,6 @@ void CSetUpCallHandler::SetupCallRequestComplete( TInt aErrCode )
     LOG2( NORMAL,
         "SETUPCALL: CSetUpCallHandler::SetupCallRequestComplete exiting %d", aErrCode )
     }
-
 
 // -----------------------------------------------------------------------------
 // C++ default constructor can NOT contain any code, that
@@ -624,7 +621,7 @@ void CSetUpCallHandler::DoSetupCall( CSetupCallRequestHandler& aHandler )
     {
     LOG( SIMPLE, "SETUPCALL: CSetUpCallHandler::DoSetupCallL calling" )
     
-    if( CheckSetupCallParam () )
+    if( CheckSetupCallParam() )
         {
 
         RSat::TSetUpCallType callType( iSetUpCallData.iType );
@@ -939,6 +936,7 @@ void CSetUpCallHandler::CheckNumber( TDes& aNumber ) const
             aNumber[i] = KExpansionChar;
             }
         }
+    
     LOG2( SIMPLE, 
     "SETUPCALL: CSetUpCallHandler::CheckNumber length of aNumber: %d",
      aNumber.Length() )
@@ -993,8 +991,7 @@ TBool CSetUpCallHandler::CheckSetupCallParam()
         }    
     LOG2( SIMPLE, 
     "SETUPCALL: CSetUpCallHandler::CheckSetupCallParam exiting %d", valid )
+    
     return valid;        
     }
-
-
 // End Of File

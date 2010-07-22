@@ -400,22 +400,32 @@ void SatAppView::menuItemSelected(HbListWidgetItem *item)
 void SatAppView::connectItem()
 {
     TFLOGSTRING("SATAPP: SatAppView::connectItem")
+    bool ret = false;
     if (!mSelectItem && mListWidget) {
-        const bool result = connect(
+        ret = connect(
             mListWidget, SIGNAL(activated(HbListWidgetItem *)), 
             this, SLOT(menuItemSelected(HbListWidgetItem *)));
         TFLOGSTRING2( 
-        "SATAPP: SatAppView::connectItem exit: setup menu item result=%d", 
-        result)
+        "SATAPP: SatAppView::connectItem SetupMenu short connect=%d", ret)
+        ret = connect(
+            mListWidget, SIGNAL(longPressed(HbListWidgetItem*, const QPointF&)), 
+            this, SLOT(menuItemSelected(HbListWidgetItem *)));
+        TFLOGSTRING2( 
+        "SATAPP: SatAppView::connectItem SetupMenue long connect=%d", ret)
     }
 
     if (mSelectItem && mSelectListWidget) {
-        const bool result = connect(
+        ret = connect(
             mSelectListWidget, SIGNAL(activated(HbListWidgetItem *)), 
             this, SLOT(menuItemSelected(HbListWidgetItem *)));
         TFLOGSTRING2( 
-        "SATAPP: SatAppView::connectItem exit: select item result=%d", 
-        result)
+        "SATAPP: SatAppView::connectItem SelectItem short connect=%d", ret)
+        ret = connect(
+            mSelectListWidget, 
+            SIGNAL(longPressed(HbListWidgetItem*, const QPointF&)), 
+            this, SLOT(menuItemSelected(HbListWidgetItem *)));
+        TFLOGSTRING2( 
+        "SATAPP: SatAppView::connectItem SelectItem long connect=%d", ret)        
     }
     TFLOGSTRING("SATAPP: SatAppView::connectItem exit")
 }
@@ -431,14 +441,21 @@ void SatAppView::disconnectItem()
     // setup menu view
     if (!mSelectItem && mListWidget) {
         disconnect(mListWidget, SIGNAL( activated(HbListWidgetItem *)),
-              this, SLOT( menuItemSelected( HbListWidgetItem *)));
-        TFLOGSTRING("SATAPP: SatAppView::disconnectItem: setup menu item ")
+              this, SLOT( menuItemSelected( HbListWidgetItem *)));        
+        disconnect(
+            mListWidget, SIGNAL(longPressed(HbListWidgetItem*, const QPointF&)), 
+            this, SLOT(menuItemSelected(HbListWidgetItem *)));
+        TFLOGSTRING("SATAPP: SatAppView::disconnectItem: SetupMenu")
     }
     // select item view
     if (mSelectItem && mSelectListWidget) {
         disconnect(mSelectListWidget, SIGNAL( activated(HbListWidgetItem *)),
               this, SLOT( menuItemSelected( HbListWidgetItem *)));
-        TFLOGSTRING("SATAPP: SatAppView::disconnectItem: select item ")
+        disconnect(
+            mSelectListWidget, 
+            SIGNAL(longPressed(HbListWidgetItem*, const QPointF&)), 
+            this, SLOT(menuItemSelected(HbListWidgetItem *)));        
+        TFLOGSTRING("SATAPP: SatAppView::disconnectItem: SelectItem")
     }
     TFLOGSTRING("SATAPP: SatAppView::disconnectItem exit")
 }

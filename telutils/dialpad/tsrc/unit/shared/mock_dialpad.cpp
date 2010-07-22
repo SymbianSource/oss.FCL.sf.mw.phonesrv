@@ -45,7 +45,6 @@ Dialpad::Dialpad(  )
     mInputField(0),
     mKeypad(0),
     mMultitap(0),
-    mMouseButtonPressedDown(false),
     mOpenTimeLine(DialpadOpenAnimDuration),
     mCloseTimeLine(DialpadCloseAnimDuration),
     mAnimationOngoing(false),
@@ -69,7 +68,6 @@ Dialpad::Dialpad( const HbMainWindow & mainWindow )
     mInputField(0),
     mKeypad(0),
     mMultitap(0),
-    mMouseButtonPressedDown(false),
     mOpenTimeLine(DialpadOpenAnimDuration),
     mCloseTimeLine(DialpadCloseAnimDuration),
     mAnimationOngoing(false),
@@ -168,42 +166,6 @@ void Dialpad::paint(
         QWidget *, widget )
     }
 
-
-// -----------------------------------------------------------------------------
-// Dialpad::sceneEvent
-// -----------------------------------------------------------------------------
-//
-bool Dialpad::sceneEvent( 
-        QEvent * event )
-    {
-    SMC_MOCK_METHOD1( bool, QEvent *, event )
-    }
-
-
-// -----------------------------------------------------------------------------
-// Dialpad::sceneEventFilter
-// -----------------------------------------------------------------------------
-//
-bool Dialpad::sceneEventFilter( 
-        QGraphicsItem * watched,
-        QEvent * event )
-    {
-    SMC_MOCK_METHOD2( bool, QGraphicsItem *, watched, 
-        QEvent *, event )
-    }
-
-
-// -----------------------------------------------------------------------------
-// Dialpad::handleSceneEvent
-// -----------------------------------------------------------------------------
-//
-bool Dialpad::handleSceneEvent( 
-        QEvent * event )
-    {
-    SMC_MOCK_METHOD1( bool, QEvent *, event )
-    }
-
-
 // -----------------------------------------------------------------------------
 // Dialpad::showEvent
 // -----------------------------------------------------------------------------
@@ -297,6 +259,15 @@ void Dialpad::orientationChangeFinished(
         Qt::Orientation current )
     {
     SMC_MOCK_METHOD1( void, Qt::Orientation, current )
+    }
+
+// -----------------------------------------------------------------------------
+// Dialpad::gestureEvent
+// -----------------------------------------------------------------------------
+//
+void Dialpad::gestureEvent(QGestureEvent *event)
+    {
+	 	SMC_MOCK_METHOD1( void, QGestureEvent *, event )
     }
 
 

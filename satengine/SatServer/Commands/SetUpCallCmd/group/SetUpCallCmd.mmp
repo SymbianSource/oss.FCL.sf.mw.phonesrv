@@ -31,6 +31,7 @@ SOURCEPATH              ../src
 SOURCE                  std.cpp
 SOURCE                  CSetUpCallHandler.cpp
 SOURCE                  csetupcallrequesthandler.cpp
+SOURCE                  csetupcalldtmfsender.cpp
 
 START RESOURCE          1000f005.rss
 TARGET                  SetUpCallCmd.rsc
@@ -48,7 +49,7 @@ LIBRARY                 euser.lib
 LIBRARY                 etelsat.lib
 LIBRARY                 etelmm.lib
 LIBRARY                 etel.lib
-LIBRARY                 SatEngine.lib
+LIBRARY                 satengine.lib
 
 #ifdef ENABLE_SAT_LOGGING
 LIBRARY                 flogger.lib

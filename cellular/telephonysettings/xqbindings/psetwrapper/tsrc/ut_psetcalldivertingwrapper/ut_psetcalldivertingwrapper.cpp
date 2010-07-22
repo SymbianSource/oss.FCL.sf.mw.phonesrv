@@ -361,47 +361,93 @@ void UT_PSetCallDivertingWrapper::t_getVoiceMailBoxNumber()
 {
     // Fail case #1, illegal argument
     QString defNumber;
+    int ret;
+    
     expect("CVoiceMailbox::GetStoredEntry").returns(-2).times(1);
-    mWrapper->getVoiceMailBoxNumber(defNumber);
+    ret = mWrapper->getVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, 0);
+    
+    // Fail case #2, Not supported.
+    expect("CVoiceMailbox::GetStoredEntry").returns(-5).times(1);
+    ret = mWrapper->getVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, -1);
 
-    // Fail case #2, New number not given.
-    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
-    expect("CVoiceMailbox::QueryNewEntry").returns(-5).times(1);
-    mWrapper->getVoiceMailBoxNumber(defNumber);
-
-    // Fail case #3, save nok
-    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
-    expect("CVoiceMailbox::QueryNewEntry").times(1);
-    expect("CVoiceMailbox::SaveEntry").returns(-4).times(1);
-    mWrapper->getVoiceMailBoxNumber(defNumber);
-
-    // Fail case #4, number nok
+    // Fail case #3, number nok
     expect("CVoiceMailbox::GetStoredEntry").times(1);
     expect("CVoiceMailboxEntry::GetVmbxNumber").returns(-1).times(1);
-    mWrapper->getVoiceMailBoxNumber(defNumber);
+    ret = mWrapper->getVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, 0);
 
-    // ok case#2, number and save ok but no new number. 
+    // ok case#1, number and save ok but no new number. 
     expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
-    expect("CVoiceMailbox::QueryNewEntry").times(1);
-    expect("CVoiceMailbox::SaveEntry").times(1);
-    expect("CVoiceMailboxEntry::GetVmbxNumber").returns(-5).times(1);
-    mWrapper->getVoiceMailBoxNumber(defNumber);
+    ret = mWrapper->getVoiceMailBoxNumber(defNumber, ServiceGroupData);
+    QCOMPARE(ret, 0);
 
-    // ok case#1, number ok
+    // ok case#2, number ok
     expect("CVoiceMailbox::GetStoredEntry").times(1);
     expect("CVoiceMailboxEntry::GetVmbxNumber").times(1);
-    mWrapper->getVoiceMailBoxNumber(defNumber);
-
-    // ok case#2, number and save ok
-    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
-    expect("CVoiceMailbox::QueryNewEntry").times(1);
-    expect("CVoiceMailbox::SaveEntry").times(1);
-    mWrapper->getVoiceMailBoxNumber(defNumber);
+    ret = mWrapper->getVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, 0);
 
     expect("CVoiceMailbox::NewL")
         .willOnce(invoke(SimulateLeaveL));
     EXPECT_EXCEPTION(
-        mWrapper->getVoiceMailBoxNumber(defNumber);
+        mWrapper->getVoiceMailBoxNumber(defNumber, ServiceGroupFax);
+    )
+    
+    QVERIFY(true == verify());
+}
+
+/*!
+  UT_PSetCallDivertingWrapper::t_queryVoiceMailBoxNumber
+ */
+void UT_PSetCallDivertingWrapper::t_queryVoiceMailBoxNumber()
+{
+    // Fail case #1, illegal argument
+    QString defNumber;
+    int ret;
+    expect("CVoiceMailbox::GetStoredEntry").returns(-2).times(1);
+    ret = mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, 0);
+    
+    // Fail case #2, Not supported.
+    expect("CVoiceMailbox::GetStoredEntry").returns(-5).times(1);
+    ret = mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, -1);
+    
+    // Fail case #3, New number not given.
+    expect("CVoiceMailbox::GetStoredEntry").times(1);
+    expect("CVoiceMailbox::QueryNewEntry").returns(-5).times(1);
+    ret = mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, 0);
+    
+    // Fail case #4, save nok
+    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
+    expect("CVoiceMailbox::QueryNewEntry").times(1);
+    expect("CVoiceMailbox::SaveEntry").returns(-4).times(1);
+    ret = mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupData);
+    QCOMPARE(ret, 0);
+    
+    // ok case#1, number and save ok but no new number. 
+    expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
+    expect("CVoiceMailbox::QueryNewEntry").times(1);
+    expect("CVoiceMailbox::SaveEntry").times(1);
+    expect("CVoiceMailboxEntry::GetVmbxNumber").returns(-5).times(1);
+    ret = mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, 0);
+    
+    // ok case#2, number ok
+    expect("CVoiceMailbox::GetStoredEntry").times(1);
+    expect("CVoiceMailbox::QueryNewEntry").times(1);
+    expect("CVoiceMailbox::SaveEntry").times(1);
+    expect("CVoiceMailboxEntry::GetVmbxNumber").times(1);
+    ret = mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
+    QCOMPARE(ret, 0);
+
+    expect("CVoiceMailbox::NewL")
+        .willOnce(invoke(SimulateLeaveL));
+    EXPECT_EXCEPTION(
+        mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupFax);
     )
     
     QVERIFY(true == verify());

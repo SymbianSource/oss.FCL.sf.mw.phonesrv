@@ -18,6 +18,7 @@
 #include <QFocusEvent>
 #include <HbMainWindow>
 #include <QEvent>
+#include <QEventLoop>
 #include "ut_customedit.h"
 #include "customedit.h"
 
@@ -44,9 +45,15 @@ void Ut_CustomEdit::testFocusInEvent()
         Qt::MouseFocusReason);
     QVERIFY(event);
     edit->focusInEvent(event);
+    // test for emitEditItemClicked    
+    QEventLoop loop;
+    QTimer timer;
+    timer.start(150);
+    connect( &timer,SIGNAL(timeout()),
+        &loop,SLOT(quit()));
+    loop.exec();
     delete event;
     event = NULL;
-    
     delete edit;
     edit = NULL;
     QVERIFY(!edit);

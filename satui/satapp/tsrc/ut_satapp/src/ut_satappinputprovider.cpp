@@ -187,9 +187,9 @@ void Ut_SatAppInputProvider::testGetInkeyAndDelete()
     test.mInput->getInkey(a);
     }
     // at this point everything should be cleaned up safely, and action
-    // should be completed with ESatNoResponseFromUser
+    // should be completed later when application exit or timeout
     
-    QCOMPARE(a.response(),ESatNoResponseFromUser);
+    QCOMPARE(a.response(),ESatFailure);
 }
 
 void Ut_SatAppInputProvider::testGetInkeyImmediateAndOk()
@@ -366,9 +366,9 @@ void Ut_SatAppInputProvider::testGetInputAndDelete()
     test.mInput->getInput(a);
     }
     // at this point input dialog out of scope and destroyed.
-    // pending action should have been completed with ESatNoResponseFromUser
+    // pending action should have been completed later when application exit or timeout
 
-    QCOMPARE(a.response(),ESatNoResponseFromUser);
+    QCOMPARE(a.response(),ESatFailure);
 }
 
 

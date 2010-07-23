@@ -169,7 +169,9 @@ void SatAppMenuProvider::switchView()
 void SatAppMenuProvider::setUpMenu(SatAppAction &action)
 {
     qDebug("SATAPP: SatAppMenuProvider::setUpMenu >");
-    if (!mSetupMenuView) loadMainView();
+    if (!mSetupMenuView) {
+        loadMainView();
+    }
     resetState();
     mCurrentAction = &action;
     switchView();
@@ -209,7 +211,11 @@ void SatAppMenuProvider::setUpMenu(SatAppAction &action)
 void SatAppMenuProvider::selectItem( SatAppAction &action)
 {
     qDebug("SATAPP: SatAppMenuProvider::selectItem >");
-
+    
+    if (!mSetupMenuView) {
+        loadMainView();
+    }
+    
     resetState();
     mCurrentAction = &action;
     switchView();

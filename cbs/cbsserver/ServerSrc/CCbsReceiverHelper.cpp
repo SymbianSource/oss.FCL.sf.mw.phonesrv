@@ -40,13 +40,15 @@
 #include "CCbsDbImpTopicMessages.h"
 #include "CCbsDbImpTopicCollection.h"
 #include "CCbsRecMessage.h"
-#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
-#include <viewcli.h>            // View server access
-#else
-#include <viewclipartner.h>
-#endif
-#include <AknNotifyStd.h>       // ECellBroadcastNotification
-#include <AknSoftNotifier.h>    // Soft Notification API
+// <-- QT PHONE START -->
+//#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+//#include <viewcli.h>            // View server access
+//#else
+//#include <viewclipartner.h>
+//#endif
+//#include <AknNotifyStd.h>       // ECellBroadcastNotification
+//#include <AknSoftNotifier.h>    // Soft Notification API
+// <-- QT PHONE END -->
 #include <e32property.h>
 #include <coreapplicationuisdomainpskeys.h>
 // <-- QT PHONE START -->
@@ -62,12 +64,17 @@
 
 // CONSTANTS
 
+// <-- QT PHONE START -->
 // UID of CBS UI application
-#define KUidCbsUiappDef 0x101F4CD3
-const TUid KUidCbsUiappApp = { KUidCbsUiappDef };
+//#define KUidCbsUiappDef 0x101F4CD3
+//const TUid KUidCbsUiappApp = { KUidCbsUiappDef };
+// <-- QT PHONE END -->
 
-const TInt KCbsImmediateMessageIdInt = 313;
-const TUid KCbsImmediateMessageId = { KCbsImmediateMessageIdInt };
+// <-- QT PHONE START -->
+//const TInt KCbsImmediateMessageIdInt = 313;
+//const TUid KCbsImmediateMessageId = { KCbsImmediateMessageIdInt };
+// <-- QT PHONE END -->
+
 // <-- QT PHONE START -->
 //const TInt KCbsMessageTone  = 2; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
 // <-- QT PHONE END -->
@@ -325,7 +332,11 @@ void CCbsReceiverHelper::ConstructL()
     {
     CBSLOGSTRING("CBSSERVER: >>> CCbsReceiverHelper::ConstructL()");
 
+    // <-- QT PHONE START -->
+    /*
     iVwsSession = CVwsSessionWrapper::NewL();
+    */
+    // <-- QT PHONE END-->
 
     // Array for SIM Topic numbers. This way we know which topics
     // to delete also from the SIM card (when deleting all topics).
@@ -366,7 +377,11 @@ CCbsReceiverHelper::~CCbsReceiverHelper()
     CBSLOGSTRING("CBSSERVER: >>> CCbsReceiverHelper::~CCbsReceiverHelper()");
 
     delete iSimTopics;
+    // <-- QT PHONE START -->
+    /*
     delete iVwsSession;
+    */
+    // <-- QT PHONE END-->
 
     CBSLOGSTRING("CBSSERVER: <<< CCbsReceiverHelper::~CCbsReceiverHelper()");
     }
@@ -835,8 +850,10 @@ void CCbsReceiverHelper::ParseTopicIdentitiesL(
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-void CCbsReceiverHelper::LaunchMessageSoftNotificationL( const TBool aPlayTone )
+void CCbsReceiverHelper::LaunchMessageSoftNotificationL( const TBool /*aPlayTone*/ )
     {
+    // <-- QT PHONE START -->
+    /*
     TInt numberOfHotMsgs( 0 );
     numberOfHotMsgs = iDatabase.TopicListL().UnreadHotmarkedMessageCount();
 
@@ -851,6 +868,8 @@ void CCbsReceiverHelper::LaunchMessageSoftNotificationL( const TBool aPlayTone )
 
     notifier->SetNotificationCountL( ECellBroadcastNotification, numberOfHotMsgs );
     CleanupStack::PopAndDestroy( notifier );
+    */
+    // <-- QT PHONE END-->
     }
 
 // -----------------------------------------------------------------------------
@@ -860,14 +879,18 @@ void CCbsReceiverHelper::LaunchMessageSoftNotificationL( const TBool aPlayTone )
 // -----------------------------------------------------------------------------
 //
 void CCbsReceiverHelper::LaunchMessageImmediateDisplay(
-    const TCbsDbMessage& aMessage )
+    const TCbsDbMessage& /*aMessage*/ )
     {
+    // <-- QT PHONE START -->
+    /*
     TUid uiViewUid( TUid::Uid( ECbsUiMsgViewId ) );
     TVwsViewId id( KUidCbsUiappApp, uiViewUid );
     TPckgBuf<TCbsMessageHandle> pckg( aMessage.iHandle );
 
     // Ignore result value.
     iVwsSession->CreateActivateViewEvent( id, KCbsImmediateMessageId, pckg );
+    */
+    // <-- QT PHONE END-->
     }
 
 // -----------------------------------------------------------------------------

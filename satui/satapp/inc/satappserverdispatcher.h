@@ -96,7 +96,6 @@ private:
     
     void ConnectSatSessionL();
     void DisconnectSatSession();
-    int ProfileState();
     
 public: // from MSatUiObserver
 

@@ -15,9 +15,16 @@
 *
 *
 */
-
+//Qt
 #include <HbApplication>
 #include <HbActivityManager>
+#include <hbapplication.h>
+#include <hbmessagebox.h>
+
+// symbian
+#include <centralrepository.h>
+#include <ProfileEngineSDKCRKeys.h>
+
 #include "satappmainhandler.h"
 #include "satappserverdispatcher.h"
 #include "satappmenuprovider.h"
@@ -38,18 +45,25 @@ const char *SATAPP_ACTIVITY_ID = "SIMServicesList";
 // ----------------------------------------------------------------------------
 //
 SatAppMainHandler::SatAppMainHandler(HbMainWindow &window, 
-    QObject */*parent*/)
+    QObject */*parent*/):
+mOfflineWarningDlg(NULL)
 {
     qDebug("SATAPP: SatAppMainHandler::SatAppMainHandler >");
-    
-    mServer = new SatAppServerDispatcher(this);
-    mMenu = new SatAppMenuProvider(&window, this);
-    mInput = new SatAppInputProvider(this);
-    mTone = new SatAppToneProvider(this);
-    mPopup = new SatAppPopupProvider(this);
-    mConfirm = new SatAppConfirmProvider(this);
-    initConnections();
+
+    if(!isOffline()){
+        mServer = new SatAppServerDispatcher(this);
+        mMenu = new SatAppMenuProvider(&window, this);
+        mInput = new SatAppInputProvider(this);
+        mTone = new SatAppToneProvider(this);
+        mPopup = new SatAppPopupProvider(this);
+        mConfirm = new SatAppConfirmProvider(this);
+        initConnections();
+    }
+    else{
+        showOfflineWarning();
+    }
     removeActivity();
+    
     qDebug("SATAPP: SatAppMainHandler::SatAppMainHandler <");
 }
 
@@ -60,7 +74,9 @@ SatAppMainHandler::SatAppMainHandler(HbMainWindow &window,
 //
 SatAppMainHandler::~SatAppMainHandler()
 {
-    qDebug("SATAPP: SatAppMainHandler::~SatAppMainHandler");
+    qDebug("SATAPP: SatAppMainHandler::~SatAppMainHandler >");
+    delete mOfflineWarningDlg;
+    qDebug("SATAPP: SatAppMainHandler::~SatAppMainHandler <");
 }
 
 // ----------------------------------------------------------------------------
@@ -205,13 +221,13 @@ void SatAppMainHandler::updateActivity()
 //
 void SatAppMainHandler::saveActivity()
 {
-    qDebug("SATAPP: SatAppMenuProvider::saveActivity >");
+    qDebug("SATAPP: SatAppMainHandler::saveActivity >");
 
     // Add the activity to the activity manager
     const bool ok = qobject_cast<HbApplication*>(qApp)->activityManager()->
         addActivity(SATAPP_ACTIVITY_ID, QVariant(), mActivity);
     
-    qDebug("SATAPP: SatAppMenuProvider::saveActivity < %d", ok);
+    qDebug("SATAPP: SatAppMainHandler::saveActivity < %d", ok);
 }
 
 // ----------------------------------------------------------------------------
@@ -220,7 +236,7 @@ void SatAppMainHandler::saveActivity()
 //
 void SatAppMainHandler::removeActivity()
 {
-    qDebug("SATAPP: SatAppMenuProvider::removeActivity >");
+    qDebug("SATAPP: SatAppMainHandler::removeActivity >");
         
     QList<QVariantHash> activityList = 
         qobject_cast<HbApplication*>(qApp)->activityManager()->activities();
@@ -237,7 +253,50 @@ void SatAppMainHandler::removeActivity()
     const bool ok = qobject_cast<HbApplication*>(qApp)->activityManager()->
         removeActivity(SATAPP_ACTIVITY_ID);
     
-    qDebug("SATAPP: SatAppMenuProvider::removeActivity < %d", ok);
+    qDebug("SATAPP: SatAppMainHandler::removeActivity < %d", ok);
+}
+
+// ----------------------------------------------------------------------------
+// SatAppMainHandler::isOffline
+// ----------------------------------------------------------------------------
+//
+bool SatAppMainHandler::isOffline()
+{
+    //If current active profile is offline, show a warning and quit
+    qDebug("SATAPP: SatAppMainHandler::isOffline >");
+    TInt profileId(0);
+    CRepository* cr (NULL);
+    TRAPD(err, cr = CRepository::NewL(KCRUidProfileEngine));
+    if ( KErrNone == err )
+    {
+        // Get the ID of the currently active profile:
+        const TInt error = cr->Get(KProEngActiveProfile, profileId);
+        qDebug("SATAPP: SatAppMainHandler::isOffline get active \
+                profile error=%d",error);
+        delete cr;
+    }
+    qDebug("SATAPP: SatAppMainHandler::isOffline< profileId = %d",profileId);
+    return ( KSatActiveProfileOffline == profileId );
+}
+
+// ----------------------------------------------------------------------------
+// SatAppMainHandler::showOfflineWarning
+// ----------------------------------------------------------------------------
+//
+void SatAppMainHandler::showOfflineWarning()
+{
+    qDebug("SATAPP: SatAppMainHandler::showOfflineWarning >");
+    mOfflineWarningDlg = 
+        new HbMessageBox(HbMessageBox::MessageTypeWarning);
+    mOfflineWarningDlg->setText(
+        hbTrId("txt_simatk_dpopinfo_sim_services_not_available"));
+    mOfflineWarningDlg->clearActions();
+    mOfflineWarningDlg->setDismissPolicy(HbDialog::TapOutside);
+    mOfflineWarningDlg->setTimeout(KDisplayTxtUserClearTimeout);
+    SAT_ASSERT(connect(mOfflineWarningDlg, SIGNAL(aboutToClose()),
+                qApp, SLOT(quit())));
+    mOfflineWarningDlg->open();
+    qDebug("SATAPP: SatAppMainHandler::showOfflineWarning <");
 }
 
 //End of file

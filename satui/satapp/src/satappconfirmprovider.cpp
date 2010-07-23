@@ -42,7 +42,8 @@ SatAppConfirmProvider::SatAppConfirmProvider(QObject *parent)
 SatAppConfirmProvider::~SatAppConfirmProvider()
 {
     qDebug("SATAPP: SatAppConfirmProvider::~SatAppConfirmProvider >");
-    clearScreen();
+    delete mConfirmQuery;
+    mConfirmQuery = 0;
     qDebug("SATAPP: SatAppConfirmProvider::~SatAppConfirmProvider <");
 }
 

@@ -112,12 +112,13 @@ SOURCES += src\mpbutil_mock.cpp
 SOURCES += src\qtuihandler_mock.cpp
 SOURCES += src\cenrep_mock.cpp
 
-LIBS += -lflogger.dll
-LIBS += -lfeatmgr.dll    
-LIBS += -lcenrepnotifhandler.dll
-LIBS += -lphoneclient.dll
-LIBS += -lsssettings.dll
-LIBS += -lsatclient.dll
-LIBS += -lserviceprovidersettings.dll
+LIBS += -lflogger
+LIBS += -lfeatmgr    
+LIBS += -lcenrepnotifhandler
+LIBS += -lphoneclient
+LIBS += -lsssettings
+LIBS += -lsatclient
+LIBS += -lserviceprovidersettings
+LIBS += -lefsrv
     
-#End of files
+#End of file

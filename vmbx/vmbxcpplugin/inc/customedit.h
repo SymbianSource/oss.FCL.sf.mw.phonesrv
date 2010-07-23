@@ -19,6 +19,8 @@
 #define CUSTOMEDIT_H
 
 #include <hblineedit.h>
+#include <QTimer>
+
 
 class CustomEdit : public HbLineEdit
 {
@@ -46,7 +48,17 @@ signals:
         Click line edit
     */
     void editItemClicked();
+
+private slots:
+
+    // emits the editItemClicked signal
+    void emitEditItemClicked();
+
+private:
+
+    // timer for item clicked emission
+    QTimer mItemClickedTimer;
+
 };
 
 #endif //CUSTOMEDIT_H
-

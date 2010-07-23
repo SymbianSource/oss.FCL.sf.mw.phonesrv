@@ -49,7 +49,26 @@ SatAppPopupProvider::SatAppPopupProvider( QObject *parent)
 SatAppPopupProvider::~SatAppPopupProvider()
 {
     qDebug("SATAPP: SatAppPopupProvider::~SatAppPopupProvider >");
-    clearScreen();
+    
+    if (mWaitDialog) {
+        qDebug("SATAPP: SatAppPopupProvider::~SatAppPopupProvider wait note");
+        mWaitDialog->close();
+        delete mWaitDialog;
+        mWaitDialog = NULL;
+    }
+    
+    if (mWaitDeviceDialog) {
+        qDebug("SATAPP: SatAppPopupProvider::~SatAppPopupProvider device note");
+        mWaitDeviceDialog->close();
+        delete mWaitDeviceDialog;
+        mWaitDeviceDialog = NULL;            
+    }
+    
+    if (mDisplayText){
+        qDebug( "SatAppPopupProvider::~SatAppPopupProvider DisplayText" );
+        delete mDisplayText;
+        mDisplayText = 0;
+    }
     qDebug("SATAPP: SatAppPopupProvider::~SatAppPopupProvider <");
 }
 
@@ -236,8 +255,7 @@ void SatAppPopupProvider::stopShowWaitNote()
         mWaitDeviceDialog = NULL;            
     }
 
-    qDebug("SATAPP:SatAppPopupProvider::stopShowWaitNote: <mWaitDialog = %x", 
-        mWaitDialog );
+    qDebug("SATAPP:SatAppPopupProvider::stopShowWaitNote: <" );
 }
 
 // ----------------------------------------------------------------------------
@@ -254,6 +272,7 @@ QString SatAppPopupProvider::alphaId(SatAppAction& action)
     int controlResult = action.value(KeyControlResult).toInt();
 
     if (!alpha.isEmpty()) {
+        qDebug("SATAPP:SatAppPopupProvider::alphaId not empty<");
         return alpha;
     }
     switch (commandId)

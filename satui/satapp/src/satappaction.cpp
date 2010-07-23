@@ -80,6 +80,12 @@ void SatAppAction::waitUntilCompleted()
     mState=Waiting;
     qDebug("SATAPP: waitUntilCompleted: waiting...");
     loop.exec();
+    // When use the FSW complete the satapp, the signal aboutToExit
+    // can not be recieved. temp solution
+    if(Waiting == mState){
+        mState=Completed;
+        mResponse=ESatSessionTerminatedByUser;
+    }
     qDebug("SATAPP: waitUntilCompleted: ...released");
 }
 

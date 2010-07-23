@@ -124,30 +124,6 @@ void SatAppServerDispatcher::DisconnectSatSession()
 }
 
 // ----------------------------------------------------------------------------
-// SatAppServerDispatcher::ProfileState
-// Get the profile status
-// ----------------------------------------------------------------------------
-//
-TInt SatAppServerDispatcher::ProfileState()
-    {
-    qDebug("SATAPP: SatAppServerDispatcher::ProfileState");
-    TInt profileId(0);
-    CRepository* cr (NULL);
-
-    TRAPD(err, cr = CRepository::NewL(KCRUidProfileEngine));
-    if ( KErrNone == err )
-        {
-        // Get the ID of the currently active profile:
-        const TInt error = cr->Get(KProEngActiveProfile, profileId);
-        qDebug("SATAPP: SatAppServerDispatcher::ProfileState error=%d",
-                error);
-        delete cr;
-        }
-
-    return profileId;
-    }
-
-// ----------------------------------------------------------------------------
 // My own quick string -> descriptor conversion function :-)
 // ----------------------------------------------------------------------------
 //
@@ -325,8 +301,7 @@ TSatUiResponse SatAppServerDispatcher::SetUpMenuL(
     QT_TRYCATCH_LEAVING(
 
         // validate
-        if (!aMenuItems.MdcaCount() ||
-            (KSatActiveProfileOffline == ProfileState())) {
+        if (!aMenuItems.MdcaCount()) {
             emit clearScreen();
             QCoreApplication::instance()->quit();
             return ESatSuccess;

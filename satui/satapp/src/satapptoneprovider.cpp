@@ -51,10 +51,23 @@ SatAppToneProvider::SatAppToneProvider(QObject *parent) :
 SatAppToneProvider::~SatAppToneProvider()
 {
     qDebug("SATAPP: SatAppToneProvider::~SatAppToneProvider >");
+    
     if (mCurrentAction) {
         stopPlayTone();
     }
-    resetState();
+    
+    if (mPermanentNote) {
+        qDebug("SatAppToneProvider::resetState delete mPermanentNote");
+        delete mPermanentNote;
+        mPermanentNote = 0;
+    }
+    
+    if (mTimer) {
+        qDebug("SatAppToneProvider::resetState delete timer");
+        delete mTimer;
+        mTimer = 0;
+    }
+    
     qDebug("SATAPP: SatAppToneProvider::~SatAppToneProvider <");
 }
 

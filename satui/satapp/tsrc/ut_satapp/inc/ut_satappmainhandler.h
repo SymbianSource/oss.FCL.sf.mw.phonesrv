@@ -60,6 +60,12 @@ private slots:
      * 
      */
     void testCreateMainHandler();
+    
+    /**
+     * Test SatAppMainHandler's constructor in offline.
+     * 
+     */
+    void testCreateMainHandler_OfflineMode();
 
 private:
     

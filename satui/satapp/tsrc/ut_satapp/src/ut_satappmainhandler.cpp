@@ -17,9 +17,12 @@
 
 
 #include <hbmainwindow.h>
+#include <centralrepository.h>
+#include <ProfileEngineSDKCRKeys.h>
 #include "ut_satappmainhandler.h"
 //test class
 #include "satappmainhandler.h"
+#include "satappconstant.h"
 
 // -----------------------------------------------------------------------------
 // Ut_SatAppMainHandler::Ut_SatAppMainHandler
@@ -71,16 +74,52 @@ void Ut_SatAppMainHandler::cleanupTestCase()
 }
 
 // -----------------------------------------------------------------------------
-// Ut_SatAppMainHandler::testProfileState
+// Ut_SatAppMainHandler::testCreateMainHandler
 // 
 // Connects to test object signal and verifies received data.
 // -----------------------------------------------------------------------------
 void Ut_SatAppMainHandler::testCreateMainHandler()
 {
-    qDebug("Ut_SatAppMainHandler::testProfileState >");
+    qDebug("Ut_SatAppMainHandler::testCreateMainHandler >");
     mMainHandler = new SatAppMainHandler(*mMainWindow);
     QVERIFY(mMainHandler); 
-    qDebug("Ut_SatAppMainHandler::testProfileState <");
+    qDebug("Ut_SatAppMainHandler::testCreateMainHandler <");
 }
 
+// -----------------------------------------------------------------------------
+// Ut_SatAppMainHandler::testCreateMainHandler_OfflineMode
+// 
+// Connects to test object signal and verifies received data.
+// -----------------------------------------------------------------------------
+void Ut_SatAppMainHandler::testCreateMainHandler_OfflineMode()
+{
+    qDebug("Ut_SatAppMainHandler::testCreateMainHandler_OfflineMode >");
+    cleanupTestCase();
+    TInt profileId(0);
+    CRepository* cr (NULL);
+    TRAPD(err, cr = CRepository::NewL(KCRUidProfileEngine));
+    if ( KErrNone == err )
+    {
+        // Get the ID of the currently active profile:
+        TInt error = cr->Get(KProEngActiveProfile, profileId);
+        qDebug("Ut_SatAppMainHandler::SatAppMainHandler get active \
+                profile error=%d, profileId=%d", error, profileId);
+        if( KErrNone != error){
+            delete cr;
+            return;
+        }
+        error = cr->Set(KProEngActiveProfile,
+                KSatActiveProfileOffline);
+        qDebug("Ut_SatAppMainHandler::SatAppMainHandler set active \
+                profile error=%d",error);
+        mMainHandler = new SatAppMainHandler(*mMainWindow);
+        QVERIFY(mMainHandler); 
+        error = cr->Set(KProEngActiveProfile, profileId);
+        qDebug("Ut_SatAppMainHandler::SatAppMainHandler set active \
+                profile error=%d",error);
+        delete cr;
+    }
+    
+    qDebug("Ut_SatAppMainHandler::testCreateMainHandler_OfflineMode <");
+}
 // End of file

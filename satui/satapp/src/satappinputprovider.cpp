@@ -51,7 +51,8 @@ SatAppInputProvider::SatAppInputProvider(QObject *parent)
 SatAppInputProvider::~SatAppInputProvider()
 {
     qDebug("SATAPP: SatAppInputProvider::~SatAppInputProvider >");
-    resetState();
+    delete mCurrentDialog;
+    mCurrentDialog = 0;
     qDebug("SATAPP: SatAppInputProvider::~SatAppInputProvider <");
 }
 

@@ -120,7 +120,7 @@ void Ut_SatAppPopupProvider::testDisplayTextAndTimeout()
     SatAppAction a(ESatDisplayTextAction);
     a.set(KeyText,"hello world");
     a.set(KeyApplicationName,"sat");
-    a.set(KeySustainedText,true);
+    a.set(KeySustainedText,false);
     a.set(KeyDuration,1000);
     a.set(KeyWaitUserToClear,true);
     a.setResponse(ESatFailure);

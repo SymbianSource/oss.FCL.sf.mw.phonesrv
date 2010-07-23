@@ -23,6 +23,7 @@
 #include <QVariant>
 
 class HbMainWindow;
+class HbMessageBox;
 class SatAppServerDispatcher;
 class SatAppMenuProvider;
 class SatAppInputProvider;
@@ -37,6 +38,7 @@ class SatAppMainHandler : public QObject
 public:
     SatAppMainHandler(HbMainWindow &window, QObject *parent = 0);
     ~SatAppMainHandler();
+    void showOfflineWarning();
     
 private:
     void initConnections();
@@ -47,7 +49,7 @@ private slots:
 
 private:
     void removeActivity();
-    
+    bool isOffline();
 private: // data
 
     SatAppServerDispatcher* mServer;
@@ -57,6 +59,8 @@ private: // data
     SatAppPopupProvider* mPopup;
     SatAppConfirmProvider *mConfirm;
     QVariantHash mActivity;
+    
+    HbMessageBox *mOfflineWarningDlg;
 };
 
 #endif // SATAPPMAINHANDLER_H

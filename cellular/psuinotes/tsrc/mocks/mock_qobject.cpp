@@ -330,13 +330,13 @@ bool QObject::connect(
         const char * signal,
         const QObject * receiver,
         const char * member,
-        Qt:: ConnectionType )
+        Qt::ConnectionType ConnectionType )
     {
-//    SMC_MOCK_METHOD5( bool, const QObject *, sender, 
-//        const char *, signal, 
-//        const QObject *, receiver, 
-//        const char *, member, 
-//        Qt::, ConnectionType )
+    SMC_MOCK_METHOD5( bool, const QObject *, sender, 
+        const char *, signal, 
+        const QObject *, receiver, 
+        const char *, member, 
+        Qt::ConnectionType, ConnectionType )
     }
 
 

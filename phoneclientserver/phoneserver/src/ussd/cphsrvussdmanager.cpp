@@ -866,6 +866,7 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
             iDeviceDialog->SetObserver( this );
             iDeviceDialog->SetTimeout( KPhSrvUssdTimeout );
             iDeviceDialog->SetDismissPolicy ( KPhSrvUssdPopupDismissPolicy );
+            iDeviceDialog->SetIconVisible(EFalse);
             
             // Show left key with empty string accoring to ui concept
             iDeviceDialog->SetButton( 

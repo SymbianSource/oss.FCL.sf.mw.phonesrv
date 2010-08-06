@@ -136,12 +136,12 @@ void SatAppConfirmProvider::showSetUpCallConfirm(SatAppAction &action)
     QString alphaId;
     if (text.length() == 0) {
         qDebug("SATAPP: SatAppConfirmProvider::showSetUpCallConfirm length 0");
+        alphaId = hbTrId("txt_simatk_info_1_about_to_call");
         if (additionText.length() > 0) {
-            alphaId.append(additionText);
+            alphaId = alphaId.arg(additionText);
         } else {
-            alphaId.append(hbTrId("txt_simatk_title_sim_services"));
+            alphaId = alphaId.arg(hbTrId("txt_simatk_title_sim_services"));
         }
-       alphaId.append(hbTrId("txt_simatk_info_1_about_to_call")); 
     } else {
         qDebug("SATAPP: SatAppConfirmProvider::showSetUpCallConfirm text");
         alphaId.append(text);

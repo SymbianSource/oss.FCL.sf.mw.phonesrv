@@ -239,6 +239,8 @@ void DialpadKeypad::sendKeyPressEvent(const QKeyEvent& event)
 
 void DialpadKeypad::sendKeyReleaseEvent(const QKeyEvent& event)
 {
+    updateButtonLabels();
+
     if (mPressedNumericKey) {
         // short press, update editor here
         sendKeyEventToEditor(QEvent::KeyPress, event.key());

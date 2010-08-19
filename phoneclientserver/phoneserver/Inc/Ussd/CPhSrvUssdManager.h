@@ -38,6 +38,8 @@ class MPhSrvUssdMessageSentObserver;
 class CAknGlobalMsgQuery;
 class CPhSrvUssdSessionCancelWaiter;
 class CPhSrvUssdNotifyNWRelease;
+// RM-RIM 417-66528
+class CUssdExtensionInterface;
 
 // CLASS DECLARATION
 
@@ -214,6 +216,18 @@ class CPhSrvUssdManager :
             const TDes8& aMsgData, 
             const RMobileUssdMessaging::TMobileUssdAttributesV1& 
                   aMsgAttributes);
+
+        // RM-RIM 417-66528
+        /** Third stage handler for received messages meant for extension 
+        */
+        void PorcessReceivedMessageInExtesnionL(const TDes8& aMsgData, 
+                const RMobileUssdMessaging::TMobileUssdAttributesV1& 
+                      aMsgAttributes);
+        /** Third stage handler for received messages 
+        */
+        void ProcessReceivedMessageL(const TDes8& aMsgData, 
+                const RMobileUssdMessaging::TMobileUssdAttributesV1& 
+                      aMsgAttributes);
         // Restart the reply timer
         void RestartReplyTimerL();
         
@@ -223,6 +237,11 @@ class CPhSrvUssdManager :
         // Set timer and activate it if there are notifications available
         void SetActiveIfPendingNotificationsExist();
         
+        // RM-RIM 417-66528
+        // Create and Initialize the global message query
+        void CreateGlobalMessageQueryL( 
+                const RMobileUssdMessaging::TMobileUssdAttributesV1& 
+                      aMsgAttributes);
         // Launch the global message query (used from RunL)
         void LaunchGlobalMessageQueryL();
         
@@ -418,6 +437,10 @@ class CPhSrvUssdManager :
         
         // An asynchronous callback for sending MO ACK messages
         CAsyncCallBack* iMoAckCallback;
+        
+        // RM-RIM 417-66528
+        // Pointer to the UssdExtension
+        CUssdExtensionInterface* iUssdExtnInterface;
     };
     
 #endif // CPHSRVUSSDMANAGER_H

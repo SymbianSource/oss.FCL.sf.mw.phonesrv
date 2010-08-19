@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -287,21 +287,6 @@ void CSatMultiModeApi::DialCancel()
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialCancel calling" )
     iCall.DialCancel();
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialCancel exiting" )
-    }
-
-// -----------------------------------------------------------------------------
-// CSatMultiModeApi::GetCurrentActiveUSimApplication
-// (other items were commented in a header).
-// -----------------------------------------------------------------------------
-//
-void CSatMultiModeApi::GetCurrentActiveUSimApplication(
-                         TRequestStatus& aReqStatus, RMobilePhone::TAID& aAID )
-    {
-    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::\
-            GetCurrentActiveUSimApplication calling" )
-    iPhone.GetCurrentActiveUSimApplication( aReqStatus,aAID );
-    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::\
-            GetCurrentActiveUSimApplication exiting" )
     }
 
 // -----------------------------------------------------------------------------

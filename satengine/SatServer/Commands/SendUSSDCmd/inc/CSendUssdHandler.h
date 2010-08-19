@@ -289,6 +289,10 @@ private: // data
      */
     TBool iIconCommand;
 
+    /**
+     * Indicates whether the result of sending USSD is displayed
+     */
+    TBool iIsSatDisplayUssdResult;
     };
 
 #endif      // CSENDUSSDHANDLER_H

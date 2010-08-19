@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -102,29 +102,6 @@ class CRefreshRequiredHandler : public CSatCommandHandler
     private:
 
         /**
-        * The indicated AID may be of four states.  
-        * We treat it as the Active AID case if the indicated AID is NULL. 
-        */
-        enum TAidState
-            {
-            EAidInvalid,
-            EAidActive,
-            EAidNotActive,
-            EAidNull
-            };
-        /**
-        * The header of AID from etelsat is A0 in hex equaled to 160 in decemal.
-        * The second, third and fourth byte of AID is 0. 
-        */    
-        enum TAidBytes
-            {
-            EAid0,
-            EAidA0 = 160
-            };
-
-    private:
-
-        /**
         * C++ default constructor.
         */
         CRefreshRequiredHandler();
@@ -178,19 +155,6 @@ class CRefreshRequiredHandler : public CSatCommandHandler
         */
         void RefreshAllowed( const TDesC8& aRsp );
         
-        /**
-        * Get the indicated AID state according to 
-        * the current application's AID. 
-        * @return TAidstate indicating the state of the indicated AID. 
-        */
-        TAidState AidState() const;
-
-        /**
-        * Check whether the current application's AID is valid. 
-        * @return TBool indicating whether the indicated AID is valid. 
-        * @param aAid RefreshRequired AID data from etelsat.       
-        */
-        TBool IsValidAid( const RSat::TAid& aAid ) const;
     private:    // Data
 
         // Refresh command data.
@@ -222,7 +186,7 @@ class CRefreshRequiredHandler : public CSatCommandHandler
 
         // Response of refresh query.
         TBool iAllowRefresh;
-
+        
     };
 
 #endif      // CREFRESHREQUIREDHANDLER_H

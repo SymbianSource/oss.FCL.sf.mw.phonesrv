@@ -340,6 +340,12 @@ void CPsetNetwork::RunL()
                         {
                         iTempNetInfo.iAccess = ENetNetworkGSM;
                         }
+
+                    /** Implementation of forbidden operator icon begins */
+                    // Set network status for displaying forbidden operator icon
+                    iTempNetInfo.iStatus = static_cast<MPsetNetworkSelect::TNetworkStatus>( nwNames.iStatus );
+                    /** Implementation of forbidden operator icon ends */
+                        
                     array->AppendL( iTempNetInfo );
                     i++;       
                     }

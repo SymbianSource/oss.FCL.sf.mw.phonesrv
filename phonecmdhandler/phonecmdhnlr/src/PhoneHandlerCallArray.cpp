@@ -16,7 +16,7 @@
 */
 
 #include <callinformation.h>
-#include "phonehandlercallarray.h"
+#include "PhoneHandlerCallArray.h"
 
 // ---------------------------------------------------------------------------
 // CPhoneHandlerCallArray::NewL.

@@ -37,7 +37,7 @@
 #include <rsatsession.h>
 #include <rsatrefresh.h>
 #include <centralrepository.h>
-#include <CenRepNotifyHandler.h>
+#include <cenrepnotifyhandler.h>
 #include <aknappui.h>
 #include <AknQueryDialog.h>
 #include <CPhCltEmergencyCall.h>     // CPhCltEmergencyCall

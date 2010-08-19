@@ -21,6 +21,8 @@
 #include    <AknGlobalNote.h>
 #include    <exterror.h>
 #include    <avkon.rsg>
+#include    <centralrepository.h>
+#include    <SATPrivateCRKeys.h>
 
 #include    "MSatSystemState.h"
 #include    "MSatApi.h"
@@ -566,10 +568,40 @@ CSendUssdHandler::CSendUssdHandler() :
     iNotificationRsp(),
     iNotificationRspPckg( iNotificationRsp ),
     // To be removed when icons are allowed in this command
-    iIconCommand( EFalse )
+    iIconCommand( EFalse ),
+    iIsSatDisplayUssdResult( EFalse )
     {
     LOG( SIMPLE,
-        "SENDUSSD: CSendUssdHandler::CSendUssdHandler calling - exiting" )
+        "SENDUSSD: CSendUssdHandler::CSendUssdHandler calling" )
+    CRepository* repository = NULL;
+
+    TRAPD( result, repository = CRepository::NewL( KCRUidSatServer ); );
+    LOG2( NORMAL, "SENDUSSD: CSendUssdHandler::CSendUssdHandler \
+        open CRepository result: %d", result )
+
+    if ( repository && ( KErrNone == result ) )
+        {
+        result = repository->Get( KSatDisplayUssdResult, 
+        iIsSatDisplayUssdResult );
+        LOG2( NORMAL, 
+             "SENDUSSD: CSendUssdHandler::CSendUssdHandler \
+              get CRepository key iIsSatDisplayUssdResult: %d", 
+              iIsSatDisplayUssdResult )
+        
+        if ( KErrNone != result )
+            {
+            LOG2( NORMAL, 
+                 "SENDUSSD: CSendUssdHandler::CSendUssdHandler \
+                 get CRepository key error result: %d", 
+                 result )
+            }
+        }
+
+    delete repository;
+    repository = NULL;
+
+    LOG( SIMPLE,
+        "SENDUSSD: CSendUssdHandler::CSendUssdHandler exiting" )
     }
 
 
@@ -597,12 +629,15 @@ void CSendUssdHandler::SendUssdString()
 
     iSendUssdRsp.iUssdString.iUssdString.Copy( receiveMessage );
 
-    if ( RSat::EAlphaIdProvided != iSendUssdData.iAlphaId.iStatus )
+    if ( ( RSat::EAlphaIdProvided != iSendUssdData.iAlphaId.iStatus )
+          && iIsSatDisplayUssdResult )
         {
         // if no Alpha ID provided, show the text note.
-        LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SendUssdString Show Note" )
+        LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SendUssdString \
+        Show USSD result Note" )
         TRAP_IGNORE( 
-            ShowUssdResponseNoteL( iSendUssdRsp.iUssdString.iUssdString ) );
+        ShowUssdResponseNoteL( 
+        iSendUssdRsp.iUssdString.iUssdString ) );
         }
 
     HandleSendUssdResult( error );

@@ -135,5 +135,6 @@ LIBRARY		   estor.lib
 LIBRARY        centralrepository.lib
 LIBRARY        imageconversion.lib 	
 LIBRARY        bitmaptransforms.lib 
+LIBRARY        ecom.lib 
 
 //  End of File  

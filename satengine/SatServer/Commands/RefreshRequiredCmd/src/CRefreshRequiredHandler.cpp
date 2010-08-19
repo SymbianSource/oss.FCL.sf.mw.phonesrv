@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -30,11 +30,7 @@
 #include    "MSatUiSession.h"
 #include    "SatSOpcodes.h"
 #include    "MSatRefreshSubSession.h"
-#include    "msatmultimodeapi.h"
 #include    "SatLog.h"
-
-// CONSTANTS
-const TInt KAidMinSize( 12 );
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -366,38 +362,6 @@ TBool CRefreshRequiredHandler::CommandAllowed()
         iRefreshRequiredRsp.iAdditionalInfo.SetLength( 1 );
         iRefreshRequiredRsp.iAdditionalInfo[0] = RSat::KMeBusyOnCall;
         commandAllowed = EFalse;
-        }
-    //Check the AidState.
-    else
-        {
-        const TAidState aidState = AidState();
-        LOG2( NORMAL, "REFRESHREQ: AID state: %i", aidState )
-        switch ( aidState )
-            {
-            case EAidNotActive:
-                {
-                iRefreshRequiredRsp.iGeneralResult =
-                    RSat::KRefreshUSIMNotActive;
-                iRefreshRequiredRsp.iInfoType = RSat::KNoAdditionalInfo;
-                commandAllowed = EFalse;
-                break;
-                }
-
-            case EAidInvalid:
-                {
-                iRefreshRequiredRsp.iGeneralResult =
-                    RSat::KCmdDataNotUnderstood;
-                iRefreshRequiredRsp.iInfoType = RSat::KNoAdditionalInfo;
-                commandAllowed = EFalse;
-                break;
-                }
-
-            default:
-                {
-                LOG( NORMAL, "REFRESHREQ:   Refresh allowed" )
-                break;
-                }
-            }
         }
 
     // When refresh is not allowed, send terminal response to sim.
@@ -760,88 +724,6 @@ void CRefreshRequiredHandler::RefreshAllowed( const TDesC8& aRsp )
     Start();
 
     LOG( SIMPLE, "REFRESHREQ: CRefreshRequiredHandler::RefreshAllowed exiting" )
-    }
-    
-// -----------------------------------------------------------------------------
-// CRefreshHandler::CheckIndicatedAid
-// Check the state of the indicated Aid.
-// -----------------------------------------------------------------------------
-//
-CRefreshRequiredHandler::TAidState 
-CRefreshRequiredHandler::AidState() const
-    {
-    LOG( SIMPLE, "REFRESHREQ: CRefreshRequiredHandler::AidState calling" )
-
-    TAidState aidState( EAidNotActive );
-    if ( !iRefreshRequiredData.iAid.Length() )
-        {
-        aidState = EAidNull;
-        LOG( SIMPLE, "REFRESHREQ: Indicated AID Null" )
-        }
-    else if ( !IsValidAid( iRefreshRequiredData.iAid ) )
-        {
-        aidState = EAidInvalid;
-        LOG( SIMPLE, "REFRESHREQ: Indicated AID Invalid" )
-        }
-    else
-        {
-        RSat::TAid aid;
-        MSatAsyncToSync* wrapper = iUtils->CreateAsyncToSyncHelper();
-        if ( wrapper )
-            {
-            iUtils->MultiModeApi().GetCurrentActiveUSimApplication(
-                wrapper->RequestStatus() , aid );
-            // wait until GetCurrentActiveUSimApplication return aid
-            TInt err = wrapper->SetActiveAndWait();
-            LOG2( NORMAL, "REFRESHREQ: CRefreshHandler::TAidState err %d",err )
-            wrapper->Release();
-            
-            if ( KErrNone == err )
-                {
-                #ifdef ENABLE_SAT_LOGGING
-                for ( TInt i=0; i < aid.Length(); i++ )
-                    {
-                    LOG2( DETAILED, "REFRESHREQ: AID from TSY: %x", aid[i] )
-                    }
-                #endif
-                if ( aid == iRefreshRequiredData.iAid )
-                    {
-                    aidState = EAidActive;
-                    }
-                }
-            else if ( KErrNotSupported == err )
-                {
-                aidState = EAidActive;
-                }
-            }
-        LOG( SIMPLE, "REFRESHREQ: CRefreshRequiredHandler::AidState exit" )
-        }
-    return aidState;
-    }
-
-// -----------------------------------------------------------------------------
-// Check whether the given AID is valid.
-// According to TS 110 220
-// -----------------------------------------------------------------------------
-TBool CRefreshRequiredHandler::IsValidAid( const RSat::TAid& aAid ) const
-    {
-    LOG( SIMPLE, "REFRESHREQ: CRefreshRequiredHandler::\
-            IsValidAid calling-exiting" )
-    TInt result ( EFalse );
-    // Check the length of AID, it should be between 12 to 16 bytes
-    // ETSI: A0,00,00,00,09;
-    // 3GPP: A0,00,00,00,87
-    // the fifth byte is not sure in other situations. 
-    //compare the first to fourth byte
-    if ( KAidMinSize <= aAid.Length() && RSat::KAidMaxSize >= aAid.Length() )
-        {
-        if ( EAidA0 == aAid[0]&& EAid0 == aAid[1] &&
-            EAid0 == aAid[2]&& EAid0 == aAid[3] )
-            {
-            result = ETrue;
-            }
-        }
-    return result;
     }
 
 //  End of File

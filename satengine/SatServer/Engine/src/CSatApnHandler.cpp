@@ -397,59 +397,33 @@ TUint32 CSatApnHandler::FindDefaultApL(
     {
     LOG( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL calling" );
     TUint32 defaultIap( 0 );
-    TInt pdpType;
-    TBool isFound( EFalse );
+    TInt pdpType( 0 );
 
-    // create a network destination
-    RCmDestination des;
-    RCmConnectionMethod cm;
-
-    // Create CMManager Session
+    // create CMManager Session
     RCmManager cmManager;
     cmManager.OpenL();
     CleanupClosePushL( cmManager );
 
-    // Get the Connection Method list from the open CMManager session
-    RArray<TUint32> array = RArray<TUint32>( KSatCMGranularity );
-    CleanupClosePushL( array );
+    // create a network connection method
+    RCmConnectionMethod cm;
+    CleanupClosePushL( cm );
+    // get a default connection method
+    GetDefConnMethodL( cmManager, cm );
 
-    // list all available destinations' id
-    cmManager.AllDestinationsL( array );
-    for( TInt i = 0; ( i < array.Count() ) && !isFound; ++i )
+    // get pdp type
+    pdpType = cm.GetIntAttributeL( CMManager::EPacketDataPDPType );
+    if ( pdpType == aPdpType )
         {
-        des = cmManager.DestinationL( array[i] );
-        CleanupClosePushL( des );
-
-        if ( CMManager::ESnapPurposeInternet ==
-        des.MetadataL( CMManager::ESnapMetadataPurpose ) )
-            {
-            LOG( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL \
-            the fixed destination is identified as 'Internet'" );
-            for( TInt j = 0; ( j < des.ConnectionMethodCount() ) &&
-            !isFound; ++j )
-                {
-                cm = des.ConnectionMethodL( j );
-                CleanupClosePushL( cm );
-                pdpType = cm.GetIntAttributeL(
-                        CMManager::EPacketDataPDPType );
-                LOG2( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL \
-                        current protocol type is %d", pdpType )
-                if ( pdpType == aPdpType )
-                    {
-                    defaultIap = cm.GetIntAttributeL( CMManager::ECmIapId );
-                    isFound  = ETrue;
-                    LOG2( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL \
-                            default iap had been found %d", defaultIap )
-                    }
-                CleanupStack::PopAndDestroy( &cm );
-                }
-            }
-        CleanupStack::PopAndDestroy( &des );
+        // get a default iap id
+        defaultIap = cm.GetIntAttributeL( CMManager::ECmIapId );
+        LOG2( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL \
+                  default iap had been found defaultIap = %d", defaultIap )
         }
-    CleanupStack::PopAndDestroy( &array );
+
+    CleanupStack::PopAndDestroy( &cm );
     CleanupStack::PopAndDestroy( &cmManager );
 
-    if ( !isFound )
+    if ( !defaultIap )
         {
         LOG( SIMPLE, "SATENGINE: CSatApnHandler: default AP not found" );
         User::Leave( KErrNotFound );
@@ -457,5 +431,49 @@ TUint32 CSatApnHandler::FindDefaultApL(
 
     LOG( SIMPLE, "SATENGINE: CSatApnHandler::FindDefaultApL exit" )
     return defaultIap;
+    }
+
+// --------------------------------------------------------------------------
+// CSatApnHandler::GetDefConnMethodL
+// --------------------------------------------------------------------------
+void CSatApnHandler::GetDefConnMethodL( RCmManager& aCmManager, 
+        RCmConnectionMethod& aDefCm )
+    {
+    LOG( SIMPLE, "SATENGINE: CSatApnHandler::GetDefConnMethodL calling" )
+
+    // Go through the default connection methods to find
+    // the one valid method
+    TCmDefConnValue defConn;
+    aCmManager.ReadDefConnL( defConn );
+
+    LOG3( SIMPLE, "SATENGINE: CSatApnHandler::\
+    GetDefConnMethodL DefConn type=%d, id=%d", 
+    defConn.iType, defConn.iId )
+
+    // Default setting is a connection method
+    if ( ECmDefConnConnectionMethod == defConn.iType )
+        {
+        LOG( SIMPLE, "SATENGINE: CSatApnHandler::\
+        GetDefConnMethodL ECmDefConnConnectionMethod" )
+        // get a default connection method 
+        aDefCm = aCmManager.ConnectionMethodL( defConn.iId );
+        }
+    // Default setting is a destination method
+    else if ( ECmDefConnDestination == defConn.iType )
+        {
+        RCmDestination defDes;
+        CleanupClosePushL( defDes );
+
+        LOG( SIMPLE, "SATENGINE: CSatApnHandler::\
+        GetDefConnMethodL ECmDefConnDestination" )
+        // get a default destination
+        defDes = aCmManager.DestinationL( defConn.iId );
+        // get the first default connection method from destination
+        aDefCm = defDes.ConnectionMethodL( 0 );
+
+        CleanupStack::PopAndDestroy( &defDes );
+        }
+
+    LOG( SIMPLE, "SATENGINE: CSatApnHandler::GetDefConnMethodL exit" )
     }
 //  End of File

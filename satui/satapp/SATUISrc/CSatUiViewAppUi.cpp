@@ -1268,7 +1268,7 @@ void CSatUiViewAppUi::HandleForegroundEventL( TBool aForeground )
         {
         TFLOGSTRING( "CSatUiViewAppUi::HandleForegroundEventL \
             need to display a dialog" )
-        if ( iForegroundControl )
+        if ( iForegroundControl && ForegroundAlive() )
             {
             iForegroundControl->SetFocus( ETrue, EDrawNow );
             }
@@ -3529,6 +3529,35 @@ void CSatUiViewAppUi::StopPlayToneL()
             }
         }
     TFLOGSTRING( "CSatUiViewAppUi::StopPlayToneL exiting" )
+    }
+    
+// -----------------------------------------------------------------------------
+// CSatUiViewAppUi::ForegroundAlive
+// Check if foreground control is alive when HandleForegroundEventL is called.
+// -----------------------------------------------------------------------------
+//
+TBool CSatUiViewAppUi::ForegroundAlive() const
+    {
+    TFLOGSTRING( "CSatUiViewAppUi::ForegroundAlive called" )
+    
+    // Only if value of iForegroundControl equals to one of the following 8
+    // pointers, the alive value will be set to true. This will check if 
+    // the foreground control is alive.
+    TBool alive = 
+        iForegroundControl == static_cast<CCoeControl*>( iWaitNote ) 
+        || iForegroundControl == static_cast<CCoeControl*>( 
+           iDisplayTextIconDialog )
+        || iForegroundControl == static_cast<CCoeControl*>( 
+           iDisplayTextDialog )
+        || iForegroundControl == static_cast<CCoeControl*>( iGetInputDialog )
+        || iForegroundControl == static_cast<CCoeControl*>( iPermanentNote )
+        || iForegroundControl == static_cast<CCoeControl*>( iNoteDialog )
+        || iForegroundControl == static_cast<CCoeControl*>( iBipWaitNote )
+        || iForegroundControl == static_cast<CCoeControl*>( iQueryDialog );
+    
+    TFLOGSTRING2( "CSatUiViewAppUi::ForegroundAlive exiting alive=%d", alive )
+    
+    return alive;
     }
 
 // End of File

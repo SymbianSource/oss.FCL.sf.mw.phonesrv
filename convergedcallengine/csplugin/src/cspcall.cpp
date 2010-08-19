@@ -216,6 +216,8 @@ void CSPCall::NotifyCallStateChangedETel( RMobileCall::TMobileCallStatus aState 
         case RMobileCall::EStatusDialling:
             CSPLOGSTRING(CSPINT, "CSPCall callstate Dialling");
             {
+			// Start streams also for MO video call to prevent audio routing problems
+			// with other applications.
             if ( iAudioHandler 
                  && ( iParams->CallType() == CCPCall::ECallTypeCSVoice 
                     || iParams->CallType() == CCPCall::ECallTypeVideo ) )
@@ -283,6 +285,17 @@ void CSPCall::NotifyCallStateChangedETel( RMobileCall::TMobileCallStatus aState 
             // Agreement with TSY is that the
             // COLP number is available in connected state.
             NotifyRemotePartyNumberChanged();            
+            
+            // Stop streams for MO video call so that Video Telephony can 
+            // receive RemCon commands instead of Phone.
+            if ( iMobileOriginated
+                && iAudioHandler 
+                && iAudioStatus == ECSPCallAudioStatusActive
+                && iParams->CallType() == CCPCall::ECallTypeVideo )
+                {
+                iAudioStatus = ECSPCallAudioStatusInactive;
+                iAudioHandler->Stop();
+                }
             break;
             }
         // Indicates that call is disconnecting. (Same as RCall::HangingUp)

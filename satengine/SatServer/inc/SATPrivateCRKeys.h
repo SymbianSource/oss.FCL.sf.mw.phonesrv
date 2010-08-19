@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -60,6 +60,14 @@ const TUint32 KSatLaunchBrowserGCF( 0x00000016 );
 * Default value: N/A
 */
 const TUint32 KSatHomeZoneIconVisible( 0x00000032 );
+
+// Defines whether USSD sending result is shown if no alpha id
+/**
+* Support is disabled if value is 0
+*
+* Default value: N/A
+*/
+const TUint32 KSatDisplayUssdResult( 0x00000064 );
 #endif      // SATPRIVATECRKEYS_H
 
 // End of File

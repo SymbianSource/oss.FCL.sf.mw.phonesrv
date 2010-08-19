@@ -48,6 +48,7 @@ LIBRARY                 etelsat.lib
 LIBRARY                 SatEngine.lib
 LIBRARY                 phoneclient.lib         // Ussd sender
 LIBRARY                 aknnotify.lib
+LIBRARY                 centralrepository.lib   // CRepository
 
 #ifdef ENABLE_SAT_LOGGING
 LIBRARY                 flogger.lib

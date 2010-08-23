@@ -131,4 +131,5 @@ EXPORTS
 	_ZTV22PSetCallBarringWrapper @ 130 NONAME
 	_ZTV22PSetCallWaitingWrapper @ 131 NONAME
 	_ZTV24PSetCallDivertingWrapper @ 132 NONAME
+	_ZN18PSetNetworkWrapper38chageVisbilityOfManualNetworkSelectionEb @ 133 NONAME
 

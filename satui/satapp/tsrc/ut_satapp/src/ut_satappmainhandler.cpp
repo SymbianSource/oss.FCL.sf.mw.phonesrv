@@ -18,7 +18,7 @@
 
 #include <hbmainwindow.h>
 #include <centralrepository.h>
-#include <ProfileEngineSDKCRKeys.h>
+#include <coreapplicationuissdkcrkeys.h>
 #include "ut_satappmainhandler.h"
 //test class
 #include "satappmainhandler.h"
@@ -97,24 +97,24 @@ void Ut_SatAppMainHandler::testCreateMainHandler_OfflineMode()
     cleanupTestCase();
     TInt profileId(0);
     CRepository* cr (NULL);
-    TRAPD(err, cr = CRepository::NewL(KCRUidProfileEngine));
+    TRAPD(err, cr = CRepository::NewL(KCRUidCoreApplicationUIs));
     if ( KErrNone == err )
     {
         // Get the ID of the currently active profile:
-        TInt error = cr->Get(KProEngActiveProfile, profileId);
+        TInt error = cr->Get(KCoreAppUIsNetworkConnectionAllowed, profileId);
         qDebug("Ut_SatAppMainHandler::SatAppMainHandler get active \
                 profile error=%d, profileId=%d", error, profileId);
         if( KErrNone != error){
             delete cr;
             return;
         }
-        error = cr->Set(KProEngActiveProfile,
-                KSatActiveProfileOffline);
+        error = cr->Set(KCoreAppUIsNetworkConnectionAllowed,
+            ECoreAppUIsNetworkConnectionNotAllowed);
         qDebug("Ut_SatAppMainHandler::SatAppMainHandler set active \
                 profile error=%d",error);
         mMainHandler = new SatAppMainHandler(*mMainWindow);
         QVERIFY(mMainHandler); 
-        error = cr->Set(KProEngActiveProfile, profileId);
+        error = cr->Set(KCoreAppUIsNetworkConnectionAllowed, profileId);
         qDebug("Ut_SatAppMainHandler::SatAppMainHandler set active \
                 profile error=%d",error);
         delete cr;

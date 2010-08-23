@@ -24,6 +24,7 @@
 class PSetNetworkWrapper;
 class CPsetContainer;
 class CPsetNetwork;
+class CPSetRefreshHandlerMock;
 
 class UT_PSetNetworkWrapper : public QObject, public MockService
 {
@@ -65,12 +66,15 @@ private slots:
     void t_exceptionSafety();
     
     void t_isManualNetworkSelectionSupported();
+    void t_AllowRefresh();
+    void t_Refresh();
     
 private:
     PSetNetworkWrapper *m_wrapper;
     CPsetContainer *m_psetContainerMock;
     CPsetNetwork *m_psetNetworkMock;
     CPsetNetwork *m_psetNetworkModeMock;
+    CPSetRefreshHandlerMock *m_refreshHandler;
 };
 
 #endif

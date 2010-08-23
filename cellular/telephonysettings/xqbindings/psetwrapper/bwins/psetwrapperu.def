@@ -131,4 +131,5 @@ EXPORTS
 	??_EPSetCallWaitingWrapper@@UAE@I@Z @ 130 NONAME ; PSetCallWaitingWrapper::~PSetCallWaitingWrapper(unsigned int)
 	??0PSetCallWaitingWrapper@@QAE@AAVCPsetContainer@@PAVQObject@@@Z @ 131 NONAME ; PSetCallWaitingWrapper::PSetCallWaitingWrapper(class CPsetContainer &, class QObject *)
 	?qt_metacall@PSetCallBarringWrapper@@UAEHW4Call@QMetaObject@@HPAPAX@Z @ 132 NONAME ; int PSetCallBarringWrapper::qt_metacall(enum QMetaObject::Call, int, void * *)
+	?chageVisbilityOfManualNetworkSelection@PSetNetworkWrapper@@IAEX_N@Z @ 133 NONAME ; void PSetNetworkWrapper::chageVisbilityOfManualNetworkSelection(bool)
 

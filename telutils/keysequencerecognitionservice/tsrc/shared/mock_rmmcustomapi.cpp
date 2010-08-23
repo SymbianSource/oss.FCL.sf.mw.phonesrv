@@ -37,8 +37,8 @@ CMmCustomPtrHolder::CMmCustomPtrHolder(  )
 // -----------------------------------------------------------------------------
 //
 void CMmCustomPtrHolder::ConstructL( 
-        const TInt aSizeOfPtrArray,
-        const TInt aSizeOfPtrCArray )
+        const TInt /*aSizeOfPtrArray*/,
+        const TInt /*aSizeOfPtrCArray*/ )
     {
     
     }

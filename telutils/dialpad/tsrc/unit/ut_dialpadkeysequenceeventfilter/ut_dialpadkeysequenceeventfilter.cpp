@@ -63,11 +63,11 @@ void UT_DialpadKeySequenceEventFilter::init()
     bool isEmbedded = false;
     QList<XQAiwInterfaceDescriptor> interfaceList;
     interfaceList.append(descriptor);
-    EXPECT(XQApplicationManager::list).returns(interfaceList);
+    EXPECT(XQApplicationManager, list).returns(interfaceList);
     QPointer<XQAiwRequest> aiwRequest(new XQAiwRequest(
         descriptor, dummyOperation, isEmbedded));
-    EXPECT(XQApplicationManager::create).returns(aiwRequest.data());
-    EXPECT(XQAiwRequest::send)
+    EXPECT(XQApplicationManager, create).returns(aiwRequest.data());
+    EXPECT(XQAiwRequest, send)
         .willOnce(invoke(setValidatorReturnValue))
         .returns(true);
     
@@ -103,15 +103,15 @@ void setServiceRequestReturnValue(QVariant & returnValue)
 
 void UT_DialpadKeySequenceEventFilter::eventFilterValidKeySequence()
 {
-    EXPECT(HbLineEdit::text).returns(KValidKeySequence);
-    EXPECT(XQAiwInterfaceDescriptor::isValid).returns(false);
-    EXPECT(XQAiwInterfaceDescriptor::isValid).returns(true);
+    EXPECT(HbLineEdit, text).returns(KValidKeySequence);
+    EXPECT(XQAiwInterfaceDescriptor, isValid).returns(false);
+    EXPECT(XQAiwInterfaceDescriptor, isValid).returns(true);
     XQAiwInterfaceDescriptor dummyDescriptor;
     QString dummyOperation;
     QPointer<XQAiwRequest> aiwRequest(new XQAiwRequest(
         dummyDescriptor, dummyOperation, false));
-    EXPECT(XQApplicationManager::create).returns(aiwRequest.data());
-    EXPECT(XQAiwRequest::send)
+    EXPECT(XQApplicationManager, create).returns(aiwRequest.data());
+    EXPECT(XQAiwRequest, send)
         .willOnce(invoke(setServiceRequestReturnValue))
         .returns(true);
     QKeyEvent keyEvent(
@@ -126,7 +126,7 @@ void UT_DialpadKeySequenceEventFilter::eventFilterValidKeySequence()
 
 void UT_DialpadKeySequenceEventFilter::eventFilterNotAKeyEvent()
 {
-    EXPECT(XQAiwRequest::send).times(0);
+    EXPECT(XQAiwRequest, send).times(0);
     QMouseEvent mouseEvent(
         QEvent::MouseMove,
         QPoint(),
@@ -140,7 +140,7 @@ void UT_DialpadKeySequenceEventFilter::eventFilterNotAKeyEvent()
 
 void UT_DialpadKeySequenceEventFilter::eventFilterNotAHashKey()
 {
-    EXPECT(XQAiwRequest::send).times(0);
+    EXPECT(XQAiwRequest, send).times(0);
     QKeyEvent keyEvent(
         QEvent::KeyRelease,
         Qt::Key_Escape,
@@ -157,9 +157,9 @@ void UT_DialpadKeySequenceEventFilter::eventFilterNotValidKeySequence()
     const QString KInvalidKeySequence3("**1234#");
     const QString KInvalidKeySequence4("*#1234*");
     
-    EXPECT(XQAiwRequest::send).times(0);
+    EXPECT(XQAiwRequest, send).times(0);
     
-    EXPECT(HbLineEdit::text).returns(KInvalidKeySequence1);
+    EXPECT(HbLineEdit, text).returns(KInvalidKeySequence1);
     QKeyEvent keyEvent(
         QEvent::KeyRelease,
         Qt::Key_NumberSign,
@@ -167,15 +167,15 @@ void UT_DialpadKeySequenceEventFilter::eventFilterNotValidKeySequence()
     bool filtered = m_eventFilter->eventFilter(m_dialPad, &keyEvent);
     QVERIFY(!filtered);
     
-    EXPECT(HbLineEdit::text).returns(KInvalidKeySequence2);
+    EXPECT(HbLineEdit, text).returns(KInvalidKeySequence2);
     filtered = m_eventFilter->eventFilter(m_dialPad, &keyEvent);
     QVERIFY(!filtered);
     
-    EXPECT(HbLineEdit::text).returns(KInvalidKeySequence3);
+    EXPECT(HbLineEdit, text).returns(KInvalidKeySequence3);
     filtered = m_eventFilter->eventFilter(m_dialPad, &keyEvent);
     QVERIFY(!filtered);
     
-    EXPECT(HbLineEdit::text).returns(KInvalidKeySequence4);
+    EXPECT(HbLineEdit, text).returns(KInvalidKeySequence4);
     filtered = m_eventFilter->eventFilter(m_dialPad, &keyEvent);
     QVERIFY(!filtered);
     
@@ -185,15 +185,15 @@ void UT_DialpadKeySequenceEventFilter::eventFilterNotValidKeySequence()
 void UT_DialpadKeySequenceEventFilter::eventFilterServiceRequestFails()
 {
     // Qt Highway error while issuing service request
-    EXPECT(HbLineEdit::text).returns(KValidKeySequence);
-    EXPECT(XQAiwInterfaceDescriptor::isValid).returns(false);
-    EXPECT(XQAiwInterfaceDescriptor::isValid).returns(true);
+    EXPECT(HbLineEdit, text).returns(KValidKeySequence);
+    EXPECT(XQAiwInterfaceDescriptor, isValid).returns(false);
+    EXPECT(XQAiwInterfaceDescriptor, isValid).returns(true);
     XQAiwInterfaceDescriptor dummyDescriptor;
     QString dummyOperation;
     QPointer<XQAiwRequest> aiwRequest1(new XQAiwRequest(
         dummyDescriptor, dummyOperation, false));
-    EXPECT(XQApplicationManager::create).returns(aiwRequest1.data());
-    EXPECT(XQAiwRequest::send).returns(false);
+    EXPECT(XQApplicationManager, create).returns(aiwRequest1.data());
+    EXPECT(XQAiwRequest, send).returns(false);
     QKeyEvent keyEvent(
         QEvent::KeyRelease,
         Qt::Key_NumberSign,
@@ -204,13 +204,13 @@ void UT_DialpadKeySequenceEventFilter::eventFilterServiceRequestFails()
     QVERIFY(verify());
     
     // service provider fails to fulfill request
-    EXPECT(HbLineEdit::text).returns(KValidKeySequence);
-    EXPECT(XQAiwInterfaceDescriptor::isValid).returns(false);
-    EXPECT(XQAiwInterfaceDescriptor::isValid).returns(true);
+    EXPECT(HbLineEdit, text).returns(KValidKeySequence);
+    EXPECT(XQAiwInterfaceDescriptor, isValid).returns(false);
+    EXPECT(XQAiwInterfaceDescriptor, isValid).returns(true);
     QPointer<XQAiwRequest> aiwRequest2(new XQAiwRequest(
         dummyDescriptor, dummyOperation, false));
-    EXPECT(XQApplicationManager::create).returns(aiwRequest2.data());
-    EXPECT(XQAiwRequest::send).returns(true);
+    EXPECT(XQApplicationManager, create).returns(aiwRequest2.data());
+    EXPECT(XQAiwRequest, send).returns(true);
     filtered = m_eventFilter->eventFilter(m_dialPad, &keyEvent);
     QVERIFY(!filtered);
     QVERIFY(aiwRequest2.isNull());

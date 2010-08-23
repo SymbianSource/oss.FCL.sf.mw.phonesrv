@@ -66,6 +66,7 @@ CPSetCallDivertingBasicImpl* CPSetCallDivertingBasicImpl::NewL(
 //
 CPSetCallDivertingBasicImpl::~CPSetCallDivertingBasicImpl()
     {
+    Cancel();
     }
 
 // -----------------------------------------------------------------------------

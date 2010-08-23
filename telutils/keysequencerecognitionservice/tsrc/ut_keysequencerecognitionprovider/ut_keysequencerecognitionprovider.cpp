@@ -66,8 +66,8 @@ void UT_KeySequenceRecognitionProvider::cleanup()
 void UT_KeySequenceRecognitionProvider::t_setupLocalization()
 {
     // localization setup ok
-    EXPECT(QTranslator::load).returns(true);
-    EXPECT(QCoreApplication::installTranslator).times(1);
+    EXPECT(QTranslator, load).returns(true);
+    EXPECT(QCoreApplication, installTranslator).times(1);
     
     QScopedPointer<KeySequenceRecognitionProvider> provider1(
         new KeySequenceRecognitionProvider());
@@ -75,8 +75,8 @@ void UT_KeySequenceRecognitionProvider::t_setupLocalization()
     QVERIFY(verify());
     
     // localization setup fails
-    EXPECT(QTranslator::load).returns(false);
-    EXPECT(QCoreApplication::installTranslator).times(0);
+    EXPECT(QTranslator, load).returns(false);
+    EXPECT(QCoreApplication, installTranslator).times(0);
     
     QScopedPointer<KeySequenceRecognitionProvider> provider2(
         new KeySequenceRecognitionProvider());
@@ -88,11 +88,11 @@ void UT_KeySequenceRecognitionProvider::t_setupLocalization()
 void UT_KeySequenceRecognitionProvider::t_keySequenceValidator()
 {
     QString KExpectedValidator = "1|2|3";
-    EXPECT(KeySequenceHandler::keySequenceValidator)
+    EXPECT(KeySequenceHandler, keySequenceValidator)
         .returns(QString("1"));
-    EXPECT(KeySequenceHandler::keySequenceValidator)
+    EXPECT(KeySequenceHandler, keySequenceValidator)
         .returns(QString("2"));
-    EXPECT(KeySequenceHandler::keySequenceValidator)
+    EXPECT(KeySequenceHandler, keySequenceValidator)
         .returns(QString("3"));
     
     QString actualValidator = m_provider->keySequenceValidator();
@@ -101,7 +101,7 @@ void UT_KeySequenceRecognitionProvider::t_keySequenceValidator()
     QVERIFY(verify());
     
     // second query should not require validator string construction again
-    EXPECT(KeySequenceHandler::keySequenceValidator).times(0);
+    EXPECT(KeySequenceHandler, keySequenceValidator).times(0);
     actualValidator = m_provider->keySequenceValidator();
     QCOMPARE(actualValidator, KExpectedValidator);
     QVERIFY(verify());
@@ -111,11 +111,11 @@ void UT_KeySequenceRecognitionProvider::t_keySequenceValidator()
 void UT_KeySequenceRecognitionProvider::t_keySequenceValidatorEmptyString()
 {
     QString KExpectedValidator = "";
-    EXPECT(KeySequenceHandler::keySequenceValidator)
+    EXPECT(KeySequenceHandler, keySequenceValidator)
         .returns(QString(""));
-    EXPECT(KeySequenceHandler::keySequenceValidator)
+    EXPECT(KeySequenceHandler, keySequenceValidator)
         .returns(QString(""));
-    EXPECT(KeySequenceHandler::keySequenceValidator)
+    EXPECT(KeySequenceHandler, keySequenceValidator)
         .returns(QString(""));
     
     QString actualValidator = m_provider->keySequenceValidator();

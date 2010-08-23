@@ -50,9 +50,10 @@ HEADERS += ../../../../../phonesrv_plat/dialpad_api/inc/dialpad.h \
            ../../../inc/dialpadvideomailboxeventfilter.h          \
            ../../../inc/dialpadvoicemailboxeventfilter.h          \
            ../../../inc/dialpadhasheventfilter.h                  \
-           /epoc32/include/mw/xqservicerequest.h                  \
+           #/epoc32/include/mw/xqservicerequest.h                 \
            /epoc32/include/mw/xqappmgr.h                          \
-           /epoc32/include/mw/xqaiwrequest.h
+           /epoc32/include/mw/xqaiwrequest.h                      \
+           /epoc32/include/mw/xqrequestinfo.h
 
 SOURCES += ../shared/mock_dialpad.cpp                             \
            ../shared/mock_dialpadbluetootheventfilter.cpp         \
@@ -66,6 +67,7 @@ SOURCES += ../shared/mock_dialpad.cpp                             \
            ../shared/mock_xqappmgr.cpp                            \
            ../shared/mock_xqaiwrequest.cpp                        \
            ../shared/mock_xqaiwinterfacedescriptor.cpp            \
-           ../shared/mock_hbmainwindow.cpp
+           ../shared/mock_hbmainwindow.cpp                        \
+           ../shared/mock_xqrequestinfo.cpp
 
 LIBS += -lmocklib -lsymbianmock -lxqservice -lxqserviceutil

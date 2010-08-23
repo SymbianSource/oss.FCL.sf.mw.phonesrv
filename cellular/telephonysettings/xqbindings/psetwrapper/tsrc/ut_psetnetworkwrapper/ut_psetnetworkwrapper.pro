@@ -48,4 +48,6 @@ SOURCES += ../../src/psetnetworkwrapper.cpp    \
 # mocks needed for testing
 SOURCES += ../mocks/mock_psetcontainer.cpp \
            ../mocks/mock_psetnetwork.cpp \
-           ../mocks/mock_psetcsp.cpp
+           ../mocks/mock_psetcsp.cpp \
+           ../mocks/mock_cpsetrefreshhandler.cpp
+HEADERS += ../mocks/mock_cpsetrefreshhandler.h

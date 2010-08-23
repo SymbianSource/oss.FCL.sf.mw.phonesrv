@@ -18,6 +18,7 @@
 #include <PsetContainer.h>
 #include <mpsetnetworkinfoobs.h>
 #include <gsmerror.h>
+#include <mock_cpsetrefreshhandler.h>
 #include "ut_psetnetworkwrapper.h"
 #include "testutilities.h"
 #define private public
@@ -125,6 +126,8 @@ void UT_PSetNetworkWrapper::init()
     initialize();
     
     m_psetContainerMock = new CPsetContainer();
+    m_refreshHandler = CPSetRefreshHandlerMock::NewL();
+    SmcDefaultValue<CPSetRefreshHandler *>::SetL(m_refreshHandler);
     
     RMobilePhone dummyHandle;
     NetworkInfoObserver dummyObserver;
@@ -508,6 +511,35 @@ void UT_PSetNetworkWrapper::t_isManualNetworkSelectionSupported()
     
     expect("CPsetCustomerServiceProfile::IsNetworkSelectionSupported").returns(KErrGeneral);
     m_wrapper->isManualNetworkSelectionSupported();
+    QVERIFY(verify());
+}
+
+/*!
+  UT_PSetNetworkWrapper::t_AllowRefresh
+ */
+void UT_PSetNetworkWrapper::t_AllowRefresh()
+{
+    TSatRefreshType type;
+    TSatElementaryFiles file;
+    m_refreshHandler->trigerAllowRefresh(type, file);
+}
+
+/*!
+  UT_PSetNetworkWrapper::t_Refresh
+ */
+void UT_PSetNetworkWrapper::t_Refresh()
+{
+    TSatElementaryFiles file;
+    expect("CPsetCustomerServiceProfile::IsNetworkSelectionSupported").returns(KErrNone);
+    m_refreshHandler->trigerRefresh(EFileChangeNotification, KCsp1Ef);
+    QVERIFY(verify());
+    
+    expect("CPsetCustomerServiceProfile::IsNetworkSelectionSupported").returns(KErrGeneral);
+    m_refreshHandler->trigerRefresh(EFileChangeNotification, KCsp1Ef);
+    QVERIFY(verify());
+ 
+    expect("CPsetCustomerServiceProfile::IsNetworkSelectionSupported").times(0);
+    m_refreshHandler->trigerRefresh(EFileChangeNotification, KCsp2Ef);
     QVERIFY(verify());
 }
 

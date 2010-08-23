@@ -89,7 +89,7 @@ void UT_LifeTimerKeySequenceHandler::cleanup()
 
 void UT_LifeTimerKeySequenceHandler::t_constructionFails()
 {
-    EXPECT(CRepository::NewL).willOnce(invoke(generateLeaveL));
+    EXPECT(CRepository, NewL).willOnce(invoke(generateLeaveL));
     
     int result = 0;
     QT_TRYCATCH_ERROR(result, 
@@ -103,7 +103,7 @@ void UT_LifeTimerKeySequenceHandler::t_constructionFails()
 void UT_LifeTimerKeySequenceHandler::t_keySequenceValidator()
 {
     // life timer feature enabled scenario
-    EXPECT(CRepository::Get)
+    EXPECT(CRepository, Get)
         .willOnce(invoke(this, setLifeTimerData))
         .returns(KErrNone);
     expect("KeySequenceHandler::setKeySequenceValidator")
@@ -115,7 +115,7 @@ void UT_LifeTimerKeySequenceHandler::t_keySequenceValidator()
     QVERIFY(verify());
     
     // life timer feature not enabled scenario
-    EXPECT(CRepository::Get).returns(KErrNotFound);
+    EXPECT(CRepository, Get).returns(KErrNotFound);
     expect("KeySequenceHandler::setKeySequenceValidator").times(0);
     
     QScopedPointer<LifeTimerKeySequenceHandler> handler2(
@@ -127,14 +127,14 @@ void UT_LifeTimerKeySequenceHandler::t_keySequenceValidator()
 
 void UT_LifeTimerKeySequenceHandler::t_executeValidKeySequence()
 {
-    EXPECT(CRepository::Get)
+    EXPECT(CRepository, Get)
         .willOnce(invoke(this, setLifeTimerData))
         .returns(KErrNone);
-    EXPECT(RMmCustomAPI::GetLifeTime)
+    EXPECT(RMmCustomAPI, GetLifeTime)
         .willOnce(invoke(this, setLifeTimeData));
     
-    EXPECT(HbDeviceMessageBox::setTimeout).with(HbPopup::NoTimeout);
-    EXPECT(HbDeviceMessageBox::show);
+    EXPECT(HbDeviceMessageBox, setTimeout).with(HbPopup::NoTimeout);
+    EXPECT(HbDeviceMessageBox, show);
     bool handled = m_handler->executeKeySequence(KCodeLifeTimer);
     QCOMPARE(handled, true);
     
@@ -152,10 +152,10 @@ void UT_LifeTimerKeySequenceHandler::t_executeInvalidKeySequence()
 
 void UT_LifeTimerKeySequenceHandler::t_executeKeySequenceEtelConnectionCreationFails()
 {
-    EXPECT(CRepository::Get)
+    EXPECT(CRepository, Get)
         .willOnce(invoke(this, setLifeTimerData))
         .returns(KErrNone);
-    EXPECT(RTelServer::Connect).willOnce(invoke(generateLeaveL));
+    EXPECT(RTelServer, Connect).willOnce(invoke(generateLeaveL));
     
     int result = 0;
     QT_TRYCATCH_ERROR(result, m_handler->executeKeySequence(KCodeLifeTimer));
@@ -167,10 +167,10 @@ void UT_LifeTimerKeySequenceHandler::t_executeKeySequenceEtelConnectionCreationF
 
 void UT_LifeTimerKeySequenceHandler::t_executeKeySequenceLifeTimeDataQueryFails()
 {
-    EXPECT(CRepository::Get)
+    EXPECT(CRepository, Get)
         .willOnce(invoke(this, setLifeTimerData))
         .returns(KErrNone);
-    EXPECT(RMmCustomAPI::GetLifeTime).returns(KErrArgument);
+    EXPECT(RMmCustomAPI, GetLifeTime).returns(KErrArgument);
     
     bool handled = m_handler->executeKeySequence(KCodeLifeTimer);
     

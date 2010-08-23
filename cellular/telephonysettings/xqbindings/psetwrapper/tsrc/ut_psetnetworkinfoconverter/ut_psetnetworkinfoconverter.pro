@@ -38,6 +38,9 @@ HEADERS += ut_psetnetworkinfoconverter.h
 SOURCES += ut_psetnetworkinfoconverter.cpp
 
 # code to be tested
-HEADERS += ../../../../../../phonesrv_plat/phone_settings_api/inc/psetnetworkwrapper.h
 HEADERS += ../../src/psetnetworkinfoconverter.h
 SOURCES += ../../src/psetnetworkinfoconverter.cpp
+
+# mocks
+HEADERS += ../../../../../../phonesrv_plat/phone_settings_api/inc/psetnetworkwrapper.h
+SOURCES += ../mocks/mock_psetnetworkwrapper.cpp

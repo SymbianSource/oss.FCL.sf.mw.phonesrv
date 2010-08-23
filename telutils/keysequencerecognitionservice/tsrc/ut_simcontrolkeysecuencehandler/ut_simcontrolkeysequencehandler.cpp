@@ -67,7 +67,7 @@ void UT_SimControlKeySequenceHandler::cleanup()
 
 void UT_SimControlKeySequenceHandler::t_constructionFails()
 {
-    EXPECT( CManualSecuritySettings::NewL() ).willOnce(invokeWithoutArguments(generateLeaveL));
+    EXPECT( CManualSecuritySettings, NewL ).willOnce(invokeWithoutArguments(generateLeaveL));
     
     int result = 0;
     QT_TRYCATCH_ERROR(result, 
@@ -82,7 +82,7 @@ void UT_SimControlKeySequenceHandler::t_changePin1()
     {
     const QString KChangePin1KeySequence( "**04*1234*4321*4321*" );
     
-    EXPECT(CManualSecuritySettings::ChangePinL)
+    EXPECT(CManualSecuritySettings, ChangePinL)
         .with(CManualSecuritySettings::EPin1, KOldPinCode(), KNewPinCode(), KVerifyNewPinCode());
     
     m_handler->executeKeySequence( KChangePin1KeySequence );
@@ -91,7 +91,7 @@ void UT_SimControlKeySequenceHandler::t_changePin1()
     
     
     // leave handling
-    EXPECT( CManualSecuritySettings::ChangePinL ).willOnce(invokeWithoutArguments(generateLeaveL))
+    EXPECT( CManualSecuritySettings, ChangePinL ).willOnce(invokeWithoutArguments(generateLeaveL))
         .with(CManualSecuritySettings::EPin1, KOldPinCode(), KNewPinCode(), KVerifyNewPinCode());
     int result = 0;
     QT_TRYCATCH_ERROR(result, 
@@ -104,7 +104,7 @@ void UT_SimControlKeySequenceHandler::t_changePin2()
     {
     const QString KChangePin2KeySequence( "**042*1234*4321*4321*" );
     
-    EXPECT(CManualSecuritySettings::ChangePinL)
+    EXPECT(CManualSecuritySettings, ChangePinL)
         .with(CManualSecuritySettings::EPin2, KOldPinCode(), KNewPinCode(), KVerifyNewPinCode());
     
     m_handler->executeKeySequence(KChangePin2KeySequence);
@@ -113,7 +113,7 @@ void UT_SimControlKeySequenceHandler::t_changePin2()
     
     
     //leave handling
-    EXPECT( CManualSecuritySettings::ChangePinL ).willOnce(invokeWithoutArguments(generateLeaveL))
+    EXPECT( CManualSecuritySettings, ChangePinL ).willOnce(invokeWithoutArguments(generateLeaveL))
             .with(CManualSecuritySettings::EPin2, KOldPinCode(), KNewPinCode(), KVerifyNewPinCode());
     
     int result = 0;
@@ -127,7 +127,7 @@ void UT_SimControlKeySequenceHandler::t_unblockPin1()
     {
     const QString KUnblockPin1KeySequence( "**05*11111111*4321*4321*" );
     
-    EXPECT(CManualSecuritySettings::UnblockPinL)
+    EXPECT(CManualSecuritySettings, UnblockPinL)
         .with(CManualSecuritySettings::EPin1, KPukCode(), KNewPinCode(), KVerifyNewPinCode());
     
     m_handler->executeKeySequence(KUnblockPin1KeySequence);
@@ -136,7 +136,7 @@ void UT_SimControlKeySequenceHandler::t_unblockPin1()
     
     
     //leave handling
-    EXPECT( CManualSecuritySettings::UnblockPinL ).willOnce(invokeWithoutArguments(generateLeaveL))
+    EXPECT( CManualSecuritySettings, UnblockPinL ).willOnce(invokeWithoutArguments(generateLeaveL))
         .with(CManualSecuritySettings::EPin1, KPukCode(), KNewPinCode(), KVerifyNewPinCode());
     
     int result = 0;
@@ -151,7 +151,7 @@ void UT_SimControlKeySequenceHandler::t_unblockPin2()
     {
      const QString KUnblockPin2KeySequence( "**052*11111111*4321*4321*" );
     
-     EXPECT(CManualSecuritySettings::UnblockPinL)
+     EXPECT(CManualSecuritySettings, UnblockPinL)
          .with(CManualSecuritySettings::EPin2, KPukCode(), KNewPinCode(), KVerifyNewPinCode());
      
      m_handler->executeKeySequence(KUnblockPin2KeySequence);
@@ -160,7 +160,7 @@ void UT_SimControlKeySequenceHandler::t_unblockPin2()
      
      
      //leave handling
-     EXPECT( CManualSecuritySettings::UnblockPinL ).willOnce(invokeWithoutArguments(generateLeaveL))
+     EXPECT( CManualSecuritySettings, UnblockPinL ).willOnce(invokeWithoutArguments(generateLeaveL))
          .with(CManualSecuritySettings::EPin2, KPukCode(), KNewPinCode(), KVerifyNewPinCode());
      
      int result = 0;

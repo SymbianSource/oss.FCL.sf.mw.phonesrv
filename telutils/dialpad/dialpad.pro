@@ -86,7 +86,8 @@ symbian {
             -lvmbxengine \
             -lfeatmgr \
             -lphoneclient \
-            -lcentralrepository
+            -lcentralrepository \
+            -lxqsettingsmanager
 }
 else:win32 { 
     HEADERS += inc/dialpadsymbianwrapper_p_stub.h

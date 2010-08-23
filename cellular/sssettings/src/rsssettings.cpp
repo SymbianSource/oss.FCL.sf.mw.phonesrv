@@ -500,10 +500,6 @@ EXPORT_C TInt RSSSettings::Get( TSSSettingsSetting aSetting, TInt& aValue )
 
     TInt error(KErrNone);
     TInt value(0);
-    if ( error != KErrNone )
-        {
-        return error;
-        }
 
     // If Get fails, we try to save the default data.
     switch ( aSetting )
@@ -760,10 +756,6 @@ EXPORT_C TInt RSSSettings::Set( TSSSettingsSetting aSetting, TInt aValue )
                     Panic( SSSettingsPanicInvalidRequest ) );
 
     TInt error(KErrNone);
-    if ( error != KErrNone )
-        {
-        return error;
-        }
 
     switch ( aSetting )
         {

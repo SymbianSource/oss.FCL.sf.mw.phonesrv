@@ -115,8 +115,8 @@ protected:
     void focusInEvent ( QFocusEvent * event );
 private:
     Q_DISABLE_COPY(HbLineEdit)
-    //Q_DECLARE_PRIVATE_D(d_ptr, HbLineEdit)
-    Q_PRIVATE_SLOT(d_func(), void _q_textChanged())
+//    Q_DECLARE_PRIVATE_D(d_ptr, HbLineEdit)
+//    Q_PRIVATE_SLOT(d_func(), void _q_textChanged())
 };
 
 #endif // HBLINEEDIT_H

@@ -49,5 +49,6 @@ symbian {
   
     LIBS += -lxqservice -lxqserviceutil -lxqutils \
             -letel -letelmm -lcustomapi \
-            -lcentralrepository -lQtSystemInfo -lsecui
+            -lcentralrepository -lQtSystemInfo -lsecui \
+            -ltstaskmonitorclient
 }

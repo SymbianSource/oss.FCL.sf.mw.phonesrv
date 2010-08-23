@@ -286,3 +286,11 @@ QVariant HbNotificationDialog::itemChange(
     }
 
 
+// -----------------------------------------------------------------------------
+// HbNotificationDialog::orientationChanged
+// -----------------------------------------------------------------------------
+//
+void HbNotificationDialog::orientationChanged(Qt::Orientation orientation)
+{
+    SMC_MOCK_METHOD1( void, Qt::Orientation, orientation )
+}

@@ -243,12 +243,12 @@ NONSHARABLE_CLASS( CPSetCallDivertingBase ) : public CActive,
         /**
         * @see CActive::RunL().
         */
-        void RunL();
+        virtual void RunL();
            
         /**
         * @see CActive::DoCancel().
         */
-        void DoCancel();
+        virtual void DoCancel();
            
         /**
         * @see MSSSettingsObserver::PhoneSettingChanged().

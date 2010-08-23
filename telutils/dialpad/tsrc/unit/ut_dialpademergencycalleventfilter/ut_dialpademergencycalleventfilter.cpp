@@ -108,9 +108,9 @@ void checkNumber(const TDesC& aNumber, TBool& aIsEmergencyNumber)
 
 void ut_DialpadEmergencyCallEventFilter::testEmergencyCallEventFilter()
 {
-    EXPECT(CPhCltEmergencyCallMock::IsEmergencyPhoneNumber).willOnce(
+    EXPECT(CPhCltEmergencyCallMock, IsEmergencyPhoneNumber).willOnce(
             invoke(checkNumber));
-    EXPECT(CPhCltEmergencyCallMock::DialEmergencyCallL);
+    EXPECT(CPhCltEmergencyCallMock, DialEmergencyCallL);
     
     mDialpad->openDialpad();
     QTest::qWait(WAIT_TIME);

@@ -105,21 +105,14 @@ void DialpadTestView::setDialpadPosition()
 
     if (mMainWindow.orientation() == Qt::Horizontal) {
         // dialpad takes half of the screen
-        if (layoutDirection() == Qt::LeftToRight) {
-            mDialpad->setPos(QPointF(screenRect.width()/2,
-                                     this->scenePos().y()));
-            mDialpad->setPreferredSize(screenRect.width()/2,
-                                       (screenRect.height()-scenePos().y()));
-        } else {
-            mDialpad->setPos(QPointF(0,this->scenePos().y()));
-            mDialpad->setPreferredSize(screenRect.width()/2,
-                                       (screenRect.height()-scenePos().y()));
-        }
+        mDialpad->setPos(QPointF(screenRect.width()/2,
+                                 this->scenePos().y()));
+        mDialpad->resize(screenRect.width()/2,
+                         (screenRect.height()-scenePos().y()));
     } else {
         qreal screenHeight = screenRect.height();
         mDialpad->setPos(0, screenHeight/2.25);
-        mDialpad->setPreferredSize(screenRect.width(),
-                                   screenHeight - screenHeight/2.25);
+        mDialpad->resize(screenRect.width(),screenHeight - screenHeight/2.25);
     }
 }
 

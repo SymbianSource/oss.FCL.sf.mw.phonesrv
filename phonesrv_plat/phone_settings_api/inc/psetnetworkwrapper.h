@@ -148,6 +148,8 @@ signals:
     void networkChanged(
         PSetNetworkWrapper::NetworkInfo& currentInfo,
         PSetNetworkWrapper::RegistrationStatus& status);
+
+    void chageVisbilityOfManualNetworkSelection(bool visible);
     
 private:
     

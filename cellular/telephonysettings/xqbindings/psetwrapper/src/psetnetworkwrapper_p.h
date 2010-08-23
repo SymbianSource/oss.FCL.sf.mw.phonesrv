@@ -22,17 +22,20 @@
 #include <mpsetnetworkmodeobs.h>
 #include <mpsetnetworkselect.h>
 #include <QList>
+#include <MSSSettingsRefreshObserver.h>
 #include "psetnetworkwrapper.h"
 
 class PSetNetworkWrapper;
 class CPsetContainer;
 class CPsetNetwork;
 class CPsetCustomerServiceProfile;
+class CPSetRefreshHandler;
 
 class PSetNetworkWrapperPrivate
     :
     public MPsetNetworkInfoObserver, 
-    public MPsetNetworkModeObserver
+    public MPsetNetworkModeObserver,
+    public MSSSettingsRefreshObserver
 {
 public:
     
@@ -103,6 +106,16 @@ public: // From MPsetNetworkModeObserver
     void HandleNetworkErrorL(
         const MPsetNetworkModeObserver::TServiceRequest aRequest,
         const TInt aError );
+    
+public: // From MSSSettingsRefreshObserver
+
+        TBool AllowRefresh(
+            const TSatRefreshType aType,
+            const TSatElementaryFiles aFiles );
+
+        void Refresh(
+            const TSatRefreshType aType,
+            const TSatElementaryFiles aFiles );
 
 private:
     
@@ -125,8 +138,9 @@ private:
     
     /*! Own. */
     QScopedPointer<CPsetCustomerServiceProfile> m_csp;
-
-
+    
+    /*! Own. */
+    QScopedPointer<CPSetRefreshHandler> m_refreshHandler;
     
 };
 

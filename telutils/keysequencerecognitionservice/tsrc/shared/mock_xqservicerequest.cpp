@@ -265,31 +265,19 @@ void XQServiceRequest::deserializeArguments(
 
 
 // -----------------------------------------------------------------------------
-// XQServiceRequest::serialize
+// XQServiceRequest::addArg
 // -----------------------------------------------------------------------------
 //
-template <typename Stream > void XQServiceRequest::serialize( 
-        Stream & stream ) const
-    {
-    SMC_MOCK_METHOD1( template <typename Stream > void, Stream &, stream )
-    }
-
-
-// -----------------------------------------------------------------------------
-// XQServiceRequest::deserialize
-// -----------------------------------------------------------------------------
-//
-template <typename Stream > void XQServiceRequest::deserialize( 
-        Stream & stream )
-    {
-    SMC_MOCK_METHOD1( template <typename Stream > void, Stream &, stream )
-    }
-
 void XQServiceRequest::addArg(const QVariant& v)
 {
     Q_UNUSED(v)
 }
 
+
+// -----------------------------------------------------------------------------
+// XQServiceRequest::handleSharableFileArgs
+// -----------------------------------------------------------------------------
+//
 bool XQServiceRequest::handleSharableFileArgs()
 {
     SMC_MOCK_METHOD0( bool )

@@ -48,7 +48,8 @@ symbian {
         ../shared/mock_lifetimerkeysequencehandler.cpp    \
         ../shared/mock_manufacturerkeysequencehandler.cpp \
         ../shared/mock_simcontrolkeysequencehandler.cpp   \
-        ../shared/mock_centralrepository.cpp
-    
+        ../shared/mock_centralrepository.cpp              \
+        ../shared/mock_tstasksettings.cpp
+
     LIBS += -lmocklib -lsymbianmock -lxqservice -lxqserviceutil
 }

@@ -20,9 +20,18 @@ TARGET =
 INCLUDEPATH += . ../../../inc ../../../../../inc  ../shared
 
 CONFIG += hb qtestlib
+DEFINES += XQSETTINGSMANAGER_NO_LIBRARY
 
 symbian {
     INCLUDEPATH += $$APP_LAYER_SYSTEMINCLUDE
+    
+    # mocks
+    HEADERS += /epoc32/include/platform/mw/xqsettingskey.h \
+               /epoc32/include/platform/mw/xqsettingsmanager.h
+    SOURCES += ../shared/mock_xqsettingsmanager.cpp \
+               ../shared/mock_xqsettingskey.cpp
+    
+    LIBS += -lsymbianmock -lmocklib
 } else:win32 {
     DESTDIR = ./
     INCLUDEPATH += ../../../../../phonesrv_plat/dialpad_api/inc
@@ -40,5 +49,5 @@ SOURCES += ut_dialpadvideomailboxeventfilter.cpp \
            ../../../src/dialpadmailboxeventfilterbase.cpp \
            ../shared/dialpadtestutil.cpp
 
-# 
+#
 LIBS += -ldialpad

@@ -19,6 +19,7 @@
 #include <QTimer>
 #include <QTranslator>
 #include <QLocale>
+#include <tstasksettings.h>
 #include "keysequencerecognitionprovider.h"
 #include "manufacturerkeysequencehandler.h"
 #include "imeikeysequencehandler.h"
@@ -47,6 +48,10 @@ KeySequenceRecognitionProvider::KeySequenceRecognitionProvider(
     // created because memory for handlers will be leaked on an exception 
     // while being in c++ constructor.
     constructKeySequenceHandlers();
+
+    // Keysequencerecognitionprovider to be invisible in taskswitcher 
+    TsTaskSettings taskSettings;
+    taskSettings.setVisibility(false);
 }
 
 

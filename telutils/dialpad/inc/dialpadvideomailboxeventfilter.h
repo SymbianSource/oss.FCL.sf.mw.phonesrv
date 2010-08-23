@@ -63,6 +63,9 @@ protected slots:
        Handles long key presses.
     */
     void handleLongKeyPress();
+
+private:
+    bool isVideoMbxSupported();
 };
 
 #endif // DIALPADVIDEOMAILBOXEVENTFILTER_H

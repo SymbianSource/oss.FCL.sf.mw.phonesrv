@@ -61,18 +61,7 @@ Dialpad::Dialpad(  )
 //
 Dialpad::Dialpad( const HbMainWindow & mainWindow )
     :
-    mMainWindow(mainWindow),
-    mBackgroundDrawer(0),
-    mIconDrawer(0),
-    mBackgroundItem(0),
-    mInputField(0),
-    mKeypad(0),
-    mMultitap(0),
-    mOpenTimeLine(DialpadOpenAnimDuration),
-    mCloseTimeLine(DialpadCloseAnimDuration),
-    mAnimationOngoing(false),
-    mOrientation(Qt::Vertical),
-    mIsOpen(false)
+    mMainWindow(mainWindow)
     {
     
     }
@@ -84,9 +73,6 @@ Dialpad::Dialpad( const HbMainWindow & mainWindow )
 //
 Dialpad::~Dialpad(  )
     {
-    delete mBackgroundDrawer;
-    delete mIconDrawer;
-    delete mBackgroundItem;
     }
 
 
@@ -97,6 +83,16 @@ Dialpad::~Dialpad(  )
 HbLineEdit & Dialpad::editor(  ) const
     {
     SMC_MOCK_METHOD0( HbLineEdit & )
+    }
+
+
+// -----------------------------------------------------------------------------
+// Dialpad::changeEvent
+// -----------------------------------------------------------------------------
+//
+void Dialpad::changeEvent(QEvent *event)
+    {
+    SMC_MOCK_METHOD1( void, QEvent *, event )
     }
 
 

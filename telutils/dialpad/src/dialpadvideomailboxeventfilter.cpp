@@ -24,9 +24,13 @@
 #include "qtphonesrvlog.h"
 
 #ifdef Q_OS_SYMBIAN
-#include <xqservicerequest.h>
 #include <xqserviceutil.h>
 #endif //Q_OS_SYMBIAN
+
+#include <xqsettingsmanager.h>
+#include <xqsettingskey.h>
+#include <voicemailboxdomaincrkeys.h>
+
 
 const QString VideoVmbxCharacter("2");
 
@@ -106,24 +110,40 @@ bool DialpadVideoMailboxEventFilter::handleCallButtonPress()
 void DialpadVideoMailboxEventFilter::handleMailboxOperation()
 {
     PHONE_TRACE;
-    QString mailboxNumber;
-    int error = mSymbianWrapper->getVideoMailboxNumber(mailboxNumber);
-    // If here is no vmbx number and dialpad must start vmbx number definition procedures.
-    if (DialpadErrorNone != error || mailboxNumber.length() == 0) {
-        mDialpad->closeDialpad();
-        // If define mailbox query was interupted than reopen dialpad.
-        error = mSymbianWrapper->defineVideoMailboxNumber(mailboxNumber);
-        if (DialpadErrorCancel == error) {
+    
+    if (isVideoMbxSupported()) {
+        QString mailboxNumber;
+        int error = mSymbianWrapper->getVideoMailboxNumber(mailboxNumber);
+        // If here is no vmbx number and dialpad must start vmbx number definition procedures.
+        if (DialpadErrorNone != error || mailboxNumber.length() == 0) {
+            mDialpad->closeDialpad();
+            // If define mailbox query was interupted than reopen dialpad.
+            error = mSymbianWrapper->defineVideoMailboxNumber(mailboxNumber);
+            if (DialpadErrorCancel == error) {
+                mDialpad->openDialpad();
+            }
+        }
+    
+        // Valid vmbx number found or defined and there vmbx didnt
+        // return error values then create a call.
+        if ((DialpadErrorNone == error) &&
+            (mailboxNumber.length() != 0)) {
+            createCall(mailboxNumber, true);
+            clearEditor();
             mDialpad->openDialpad();
         }
     }
-
-    // Valid vmbx number found or defined and there vmbx didnt
-    // return error values then create a call.
-    if ((DialpadErrorNone == error) &&
-        (mailboxNumber.length() != 0)) {
-        createCall(mailboxNumber, true);
-        clearEditor();
-        mDialpad->openDialpad();
-    }
 }
+
+bool DialpadVideoMailboxEventFilter::isVideoMbxSupported()
+{
+    XQSettingsKey key(XQSettingsKey::TargetCentralRepository,
+        KCRUidVideoMailbox.iUid,
+        KVideoMbxSupport);
+    XQSettingsManager settingsMgr;
+    
+    int ret = settingsMgr.readItemValue(key, XQSettingsManager::TypeInt).toInt();
+    PHONE_TRACE2("Video mbx support:", ret);
+    return ret;
+}
+

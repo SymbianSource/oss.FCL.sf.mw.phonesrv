@@ -117,6 +117,7 @@ void Dialpad::initialize()
     popupLayout->setSpacing(0);
     popupLayout->setItemSpacing(0,margin);
     setLayout(popupLayout);
+    setLayoutDirection(Qt::LeftToRight);
 
     // asterisk multitap handler
     mMultitap = new DialpadMultitapHandler(mInputField->editor(),this);
@@ -200,16 +201,9 @@ void Dialpad::paint(
         rect.setWidth(mCloseHandleWidth);
         rect.setHeight(mCloseHandleHeight);
     } else {
-        if (layoutDirection()==Qt::LeftToRight) {
-            rect.setTop((rect.height() - mCloseHandleWidth)/2);
-            rect.setWidth(mCloseHandleHeight);
-            rect.setHeight(mCloseHandleWidth);
-        } else {
-            rect.setLeft((rect.width() - mCloseHandleHeight));
-            rect.setTop((rect.height() - mCloseHandleWidth)/2);
-            rect.setWidth(mCloseHandleHeight);
-            rect.setHeight(mCloseHandleWidth);
-        }
+        rect.setTop((rect.height() - mCloseHandleWidth)/2);
+        rect.setWidth(mCloseHandleHeight);
+        rect.setHeight(mCloseHandleWidth);
     }
 
     mIconDrawer->setFrameType(HbFrameDrawer::OnePiece);
@@ -259,11 +253,7 @@ void Dialpad::openDialpad()
         setPos(mPosition.x(),mPosition.y()+height);
     } else {
         qreal width = geometry().width();
-        if (layoutDirection()==Qt::LeftToRight) {
-            setPos(mPosition.x()+width,mPosition.y());
-        } else {
-            setPos(mPosition.x()-width,mPosition.y());
-        }
+        setPos(mPosition.x()+width,mPosition.y());
     }
 
     if (mOrientation!=previousOrientation) {
@@ -371,13 +361,8 @@ void Dialpad::closeAnimValueChanged(qreal value)
     } else {
         qreal width = geometry().width();
 
-        if (layoutDirection()==Qt::LeftToRight) {
-            newPos.setY(currentPos.y());
-            newPos.setX(mPosition.x()+(width*value));
-        } else {
-            newPos.setY(currentPos.y());
-            newPos.setX(mPosition.x()-(width*value));
-        }
+        newPos.setY(currentPos.y());
+        newPos.setX(mPosition.x()+(width*value));
     }
 
     setPos(newPos);
@@ -404,13 +389,8 @@ void Dialpad::openAnimValueChanged(qreal value)
     } else {
         qreal width = geometry().width();
 
-        if (layoutDirection()==Qt::LeftToRight) {
-            newPos.setY(currentPos.y());
-            newPos.setX(mPosition.x()+(width*(1-value)));
-        } else {
-            newPos.setY(currentPos.y());
-            newPos.setX(mPosition.x()-(width*(1-value)));
-        }
+        newPos.setY(currentPos.y());
+        newPos.setX(mPosition.x()+(width*(1-value)));
     }
 
     setPos(newPos);
@@ -493,11 +473,8 @@ void Dialpad::gestureEvent(QGestureEvent *event)
             if ( mOrientation==Qt::Vertical &&
                  gesture->sceneVerticalDirection() == QSwipeGesture::Down ) {
                 closeGesture = true;
-            } else if (layoutDirection()==Qt::LeftToRight &&
+            } else if (mOrientation==Qt::Horizontal &&
                 gesture->sceneHorizontalDirection() == QSwipeGesture::Right) {
-                closeGesture = true;
-            } else if (layoutDirection()==Qt::RightToLeft &&
-                gesture->sceneHorizontalDirection() == QSwipeGesture::Left) {
                 closeGesture = true;
             }
         }

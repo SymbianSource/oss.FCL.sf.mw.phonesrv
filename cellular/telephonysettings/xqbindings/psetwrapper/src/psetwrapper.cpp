@@ -55,8 +55,8 @@ PSetWrapper::~PSetWrapper()
     delete m_callWaitingWrapper;
     delete m_callDivertingWrapper;
     delete m_networkWrapper;
-    delete m_psetContainer;
     delete m_callBarringWrapper;
+    delete m_psetContainer;
     
     DPRINT << ": OUT ";
 }

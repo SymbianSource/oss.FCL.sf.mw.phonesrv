@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -17,16 +17,13 @@
 
 
 // INCLUDE FILES
+#include    <coreapplicationuissdkcrkeys.h>
 #include    "TSatSystemStateFactory.h"
 #include    "MSatSystemStateChangeNotifier.h"
 #include    "MSatUtils.h"
 #include    "csatprofilechangeobserver.h"
 #include    "SatLog.h"
 #include    "CSatSUiClientHandler.h"
-
-
-// CONSTANTS
-const TInt KSatActiveProfileOffline = 5; // value from ProfileEngine
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -112,7 +109,7 @@ void CSatProfileChangeObserver::StateChanged( const TInt aValue )
         with value %d", aValue )
 
     // If profile is off-line send removing event
-    if ( KSatActiveProfileOffline == aValue )
+    if ( ECoreAppUIsNetworkConnectionNotAllowed == aValue )
         {
         LOG( SIMPLE, "SATENGINE: Off-line" )
         // Off-line state activated.
@@ -126,8 +123,8 @@ void CSatProfileChangeObserver::StateChanged( const TInt aValue )
     // SetupMenu command is received from SIM card not before phone is
     // in online mode. iPreviousProfile is -1 when StateChanged is called
     // first time.
-    else if ( ( KSatActiveProfileOffline != aValue ) &&  
-        ( KSatActiveProfileOffline  == iPreviousProfile ) )
+    else if ( ( ECoreAppUIsNetworkConnectionNotAllowed != aValue ) &&  
+        ( ECoreAppUIsNetworkConnectionNotAllowed  == iPreviousProfile ) )
         {
         LOG( SIMPLE, "SATENGINE: !Off-line" )
         // Notify listeners about SAT UI icon adding

@@ -45,6 +45,8 @@ HEADERS += ../../../inc/dialpadhasheventfilter.h \
            /epoc32/include/mw/xqappmgr.h \
            /epoc32/include/mw/xqaiwrequest.h \
            ../../../../../phonesrv_plat/dialpad_api/inc/dialpad.h \
+           /epoc32/include/mw/hb/hbwidgets/hbnotificationdialog.h \
+           hblineedit.h
 
 SOURCES += ut_dialpadhasheventfilter.cpp \
            ../../../src/dialpadhasheventfilter.cpp \

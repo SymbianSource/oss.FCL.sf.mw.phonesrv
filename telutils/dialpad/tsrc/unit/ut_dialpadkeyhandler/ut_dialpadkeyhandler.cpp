@@ -82,8 +82,8 @@ void UT_DialpadKeyHandler::cleanup()
 
 void UT_DialpadKeyHandler::t_constructionWithAllFilters()
 {
-    EXPECT(QObject::installEventFilter).times(5);
-    EXPECT(QObject::removeEventFilter).times(5);
+    EXPECT(QObject, installEventFilter).times(5);
+    EXPECT(QObject, removeEventFilter).times(5);
     
     DialpadKeyHandler::DialpadKeyEventFilters filters(
         DialpadKeyHandler::VoiceMailbox |
@@ -103,7 +103,7 @@ void UT_DialpadKeyHandler::t_constructionWithAllFilters()
 
 void UT_DialpadKeyHandler::t_constructionWithNoFilters()
 {
-    EXPECT(QObject::installEventFilter).times(0);
+    EXPECT(QObject, installEventFilter).times(0);
     
     DialpadKeyHandler::DialpadKeyEventFilters filters;
     m_keyHandler = new DialpadKeyHandler(m_dialPad, filters, this);
@@ -115,8 +115,8 @@ void UT_DialpadKeyHandler::t_constructionWithNoFilters()
 void UT_DialpadKeyHandler::t_deprecatedConstructionWithVideoMailbox()
 {
 #ifdef Q_OS_SYMBIAN
-    EXPECT(FeatureManager::FeatureSupported).returns(true);
-    EXPECT(QObject::installEventFilter).times(4);
+    EXPECT(FeatureManager, FeatureSupported).returns(true);
+    EXPECT(QObject, installEventFilter).times(4);
     
     HbMainWindow *dummyWindow = 0;
     m_keyHandler = new DialpadKeyHandler(m_dialPad, *dummyWindow, this);
@@ -128,8 +128,8 @@ void UT_DialpadKeyHandler::t_deprecatedConstructionWithVideoMailbox()
 
 void UT_DialpadKeyHandler::t_deprecatedConstructionWithoutVideoMailbox()
 {
-    EXPECT(FeatureManager::FeatureSupported).returns(false);
-    EXPECT(QObject::installEventFilter).times(3);
+    EXPECT(FeatureManager, FeatureSupported).returns(false);
+    EXPECT(QObject, installEventFilter).times(3);
     
     HbMainWindow *dummyWindow = 0;
     m_keyHandler = new DialpadKeyHandler(m_dialPad, *dummyWindow, this);

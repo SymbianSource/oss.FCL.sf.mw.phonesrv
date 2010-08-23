@@ -82,8 +82,6 @@ const QString KeyIconQualifier="iconqualifier"; // int (TSatIconQualifier)
 const QString KeyIcon="icon"; // HbIcon
 const QString KeyIconArray="icons"; // QList<QVariant/QPixmap>
 
-const TInt KSatActiveProfileOffline = 5; // value from ProfileEngine
-
 /**
  * Play Tone Constants
  */

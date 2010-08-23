@@ -85,12 +85,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceDeviceManagerCodes()
     XQAiwInterfaceDescriptor dummyDescriptor;
     QPointer<XQAiwRequest> request =
         new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.services"), QString("devicemanager"), 
             QString("showVersionNumber()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(true);
+    EXPECT(XQAiwRequest, send).returns(true);
     
     bool handled = m_handler->executeKeySequence(KCodeSwVersion);
     
@@ -106,12 +106,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceFactoryResetCodes()
     XQAiwInterfaceDescriptor dummyDescriptor;
     QPointer<XQAiwRequest> request =
         new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.symbian"), QString("IFactoryReset"), 
             QString("showResetUi()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(true);
+    EXPECT(XQAiwRequest, send).returns(true);
     
     bool handled = m_handler->executeKeySequence(KCodeActivateRfsNormal);
     
@@ -121,12 +121,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceFactoryResetCodes()
     QCOMPARE(handled, true);
     
     request = new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.symbian"), QString("IFactoryReset"), 
             QString("showResetUi()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(true);
+    EXPECT(XQAiwRequest, send).returns(true);
     
     handled = m_handler->executeKeySequence(KCodeActivateRfsDeep);
     
@@ -142,12 +142,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceBluetoothCodes()
     XQAiwInterfaceDescriptor dummyDescriptor;
     QPointer<XQAiwRequest> request =
         new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.services"), QString("bluetooth"), 
             QString("showBluetoothDeviceAddress()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(true);
+    EXPECT(XQAiwRequest, send).returns(true);
     
     bool handled = m_handler->executeKeySequence(KCodeBtAddress);
     
@@ -157,12 +157,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceBluetoothCodes()
     QCOMPARE(handled, true);
     
     request = new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.services"), QString("bluetooth"), 
             QString("showBluetoothLoopback()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(true);
+    EXPECT(XQAiwRequest, send).returns(true);
     
     handled = m_handler->executeKeySequence(KCodeRFLoopback);
     
@@ -187,12 +187,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceRequestDispatchingFa
     XQAiwInterfaceDescriptor dummyDescriptor;
     QPointer<XQAiwRequest> request =
         new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.services"), QString("devicemanager"), 
             QString("showVersionNumber()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(false);
+    EXPECT(XQAiwRequest, send).returns(false);
     
     bool handled = m_handler->executeKeySequence(KCodeSwVersion);
     m_handler->requestError(0, QString(""));
@@ -203,12 +203,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceRequestDispatchingFa
     
     // controlled asynchronous Qt Highway error during request processing
     request = new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.services"), QString("devicemanager"), 
             QString("showVersionNumber()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(true);
+    EXPECT(XQAiwRequest, send).returns(true);
     
     handled = m_handler->executeKeySequence(KCodeSwVersion);
     
@@ -220,12 +220,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceRequestDispatchingFa
     
     // exception during service request dispatching/send
     request = new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.services"), QString("devicemanager"), 
             QString("showVersionNumber()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send)
+    EXPECT(XQAiwRequest, send)
         .willOnce(invokeWithoutArguments(generateException));
     
     int result = 0;
@@ -247,12 +247,12 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceSimultaneousRequest(
     XQAiwInterfaceDescriptor dummyDescriptor;
     QPointer<XQAiwRequest> request =
         new XQAiwRequest(dummyDescriptor, QString(""), KIsEmbedded);
-    EXPECT(XQApplicationManager::create)
+    EXPECT(XQApplicationManager, create)
         .with(
             QString("com.nokia.services"), QString("devicemanager"), 
             QString("showVersionNumber()"), KIsEmbedded)
         .returns(request.data());
-    EXPECT(XQAiwRequest::send).returns(true);
+    EXPECT(XQAiwRequest, send).returns(true);
     
     bool handled = m_handler->executeKeySequence(KCodeSwVersion);
     
@@ -261,8 +261,8 @@ void UT_ManufacturerKeySequenceHandler::t_executeKeySequenceSimultaneousRequest(
     QCOMPARE(handled, true);
     
     // simultaneous request attempt
-    EXPECT(XQApplicationManager::create).times(0);
-    EXPECT(XQAiwRequest::send).times(0);
+    EXPECT(XQApplicationManager, create).times(0);
+    EXPECT(XQAiwRequest, send).times(0);
     handled = m_handler->executeKeySequence(KCodeSwVersion);
     QCOMPARE(handled, false);
 }

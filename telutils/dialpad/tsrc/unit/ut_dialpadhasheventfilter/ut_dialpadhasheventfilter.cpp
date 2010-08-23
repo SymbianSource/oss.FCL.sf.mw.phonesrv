@@ -63,11 +63,11 @@ void UT_DialpadHashEventFilter::init()
     bool isEmbedded = false;
     QList<XQAiwInterfaceDescriptor> interfaceList;
     interfaceList.append(descriptor);
-    /*EXPECT(XQApplicationManager::list).returns(interfaceList);
+    /*EXPECT(XQApplicationManager, list).returns(interfaceList);
     QPointer<XQAiwRequest> aiwRequest(new XQAiwRequest(
         descriptor, dummyOperation, isEmbedded));
-    EXPECT(XQApplicationManager::create).returns(aiwRequest.data());
-    EXPECT(XQAiwRequest::send)
+    EXPECT(XQApplicationManager, create).returns(aiwRequest.data());
+    EXPECT(XQAiwRequest, send)
         .willOnce(invoke(setValidatorReturnValue))
         .returns(true);*/
     
@@ -104,7 +104,7 @@ void UT_DialpadHashEventFilter::cleanup()
 void UT_DialpadHashEventFilter::testeventFilter()
 {
     // start long press timer
-    EXPECT(XQAiwRequest::send).times(0);
+    EXPECT(XQAiwRequest, send).times(0);
     QKeyEvent keyEvent(
         QEvent::KeyPress,
         Qt::Key_NumberSign,
@@ -124,7 +124,7 @@ void UT_DialpadHashEventFilter::testeventFilter()
     QVERIFY(verify());
     
     // some other buttons pressed and released
-    EXPECT(XQAiwRequest::send).times(0);
+    EXPECT(XQAiwRequest, send).times(0);
     QKeyEvent keyEvent3(
         QEvent::KeyPress,
         Qt::Key_3,
@@ -155,7 +155,7 @@ void UT_DialpadHashEventFilter::testhandleLongKeyPress()
 void UT_DialpadHashEventFilter::testhandleCallButtonPress()
 {   
     // inherited method not supported
-    EXPECT(XQAiwRequest::send).times(0);
+    EXPECT(XQAiwRequest, send).times(0);
     bool callButtonPress = m_eventFilter->handleCallButtonPress();
     QVERIFY(!callButtonPress);
 }

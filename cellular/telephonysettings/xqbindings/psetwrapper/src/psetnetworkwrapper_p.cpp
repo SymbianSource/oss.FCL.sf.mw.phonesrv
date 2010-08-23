@@ -49,6 +49,12 @@ PSetNetworkWrapperPrivate::PSetNetworkWrapperPrivate(
     m_psetNetwork->SetNetSAObserver(*this);
     QT_TRAP_THROWING(
         m_psetNetworkMode.reset(psetContainer.CreateNetworkModeObjectL(*this)));
+    QT_TRAP_THROWING(
+        m_refreshHandler.reset(psetContainer.CreateRefreshHandlerL()));
+    QT_TRAP_THROWING(m_refreshHandler->NotifyFileChangeL(
+                *this,
+                KCsp1Ef,
+                EFileChangeNotification));
     
     QT_TRAP_THROWING(m_csp.reset(CPsetCustomerServiceProfile::NewL()));
     QT_TRAP_THROWING(m_csp->OpenCSProfileL());
@@ -461,6 +467,9 @@ PSetNetworkWrapper::ErrorCode PSetNetworkWrapperPrivate::ConvertToQtErrorCode(
     }    
 }
 
+/*!
+     PSetNetworkWrapperPrivate::isManualNetworkSelectionSupported
+*/
 bool PSetNetworkWrapperPrivate::isManualNetworkSelectionSupported() const
 {
     DPRINT << ": IN ";
@@ -476,5 +485,41 @@ bool PSetNetworkWrapperPrivate::isManualNetworkSelectionSupported() const
 
     DPRINT << ": OUT ";
     return settingSupported;
+}
+
+/*!
+     PSetNetworkWrapperPrivate::AllowRefresh
+*/
+TBool PSetNetworkWrapperPrivate::AllowRefresh(
+                const TSatRefreshType aType,
+                const TSatElementaryFiles aFiles )
+{
+    DPRINT << "aType: " << aType;
+    DPRINT << "aFiles: " << aFiles;
+    
+    return ETrue;
+}
+
+/*!
+     PSetNetworkWrapperPrivate::Refresh
+*/
+void PSetNetworkWrapperPrivate::Refresh(
+                const TSatRefreshType aType,
+                const TSatElementaryFiles aFiles )
+{
+    DPRINT << "aType: " << aType;
+    DPRINT << "aFiles: " << aFiles;
+    
+    if ((aType != EFileChangeNotification) ||
+        ((aType == EFileChangeNotification) &&
+        (aFiles == KCsp1Ef))) {
+        TBool networkSelectionSupported;
+        if (KErrNone == m_csp->IsNetworkSelectionSupported(networkSelectionSupported)) {
+            DPRINT << "networkSelectionSupported " << networkSelectionSupported;
+            emit m_owner.chageVisbilityOfManualNetworkSelection(networkSelectionSupported);
+        }
+    }
+    
+    DPRINT << ": OUT";
 }
 

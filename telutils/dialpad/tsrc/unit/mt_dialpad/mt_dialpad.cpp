@@ -79,7 +79,6 @@ private slots:
 
 #ifndef Q_OS_SYMBIAN
     void testCloseGestureLandscape();
-    void testCloseGestureLandscapeMirrored();
     void testOrientationChange();
 #endif
 
@@ -105,7 +104,7 @@ void mt_Dialpad::initTestCase()
     rect.setHeight(rect.height()*0.7);
     rect.moveTop((mMainWindow->contentsRect().height()-rect.height())/2);
 
-    mDialpad->setPreferredSize(mMainWindow->layoutRect().width(),
+    mDialpad->resize(mMainWindow->layoutRect().width(),
                                mMainWindow->layoutRect().height()/2);
     mDialpad->setPos(0,mMainWindow->layoutRect().height()/4);
 
@@ -325,7 +324,7 @@ void mt_Dialpad::testCloseGestureLandscape()
     mMainWindow->resize(640,360);
     QTest::qWait( 1000 );
 
-    mDialpad->setPreferredSize(mMainWindow->layoutRect().width()/2,
+    mDialpad->resize(mMainWindow->layoutRect().width()/2,
                                mMainWindow->layoutRect().height());
     mDialpad->setPos(mMainWindow->layoutRect().width()/2,0);
 
@@ -345,46 +344,6 @@ void mt_Dialpad::testCloseGestureLandscape()
     QTest::qWait( 200 );
     mUtil->mouseClickDialpad(Qt::Key_5, Release, false);
     QTest::qWait( 500 );
-    QVERIFY(mDialpad->isVisible()==true);
-
-    // ok swipe
-    mDialpad->editor().setText(QString());
-    QTest::qWait( WAIT_TIME );
-    mUtil->mouseClickDialpad(Qt::Key_4, Press, false);
-    QTest::qWait( 200 );
-    mUtil->mouseClickDialpad(Qt::Key_6, Release, false);
-    QVERIFY(mDialpad->editor().text()=="");
-    QTest::qWait( 1000 );
-    QVERIFY(mDialpad->isVisible()==false);*/
-}
-
-void mt_Dialpad::testCloseGestureLandscapeMirrored()
-{
-    /*
-    // switch to mirrored landscape
-    mMainWindow->setOrientation(Qt::Horizontal);
-    mMainWindow->resize(640,360);
-    mMainWindow->setLayoutDirection(Qt::RightToLeft);
-    QTest::qWait( 1000 );
-
-    mDialpad->setPos(0,0);
-
-    mDialpad->openDialpad();
-
-    // slow swipe
-    QTest::qWait( WAIT_TIME );
-    mUtil->mouseClickDialpad(Qt::Key_4, Press, false);
-    QTest::qWait( 500 ); // longer than swipe
-    mUtil->mouseClickDialpad(Qt::Key_6, Release, false);
-    QTest::qWait( WAIT_TIME );
-    QVERIFY(mDialpad->isVisible()==true);
-
-    // short swipe
-    QTest::qWait( WAIT_TIME );
-    mUtil->mouseClickDialpad(Qt::Key_4, Press, false);
-    QTest::qWait( 200 );
-    mUtil->mouseClickDialpad(Qt::Key_5, Release, false);
-    QTest::qWait( 1000 );
     QVERIFY(mDialpad->isVisible()==true);
 
     // ok swipe
@@ -404,11 +363,10 @@ void mt_Dialpad::testOrientationChange()
     QTest::qWait( WAIT_TIME );
 
     // test landscape
-    mMainWindow->setLayoutDirection(Qt::LeftToRight);
     mMainWindow->setOrientation(Qt::Horizontal);
     mMainWindow->resize(640,360);
     QTest::qWait( 1000 );
-    mDialpad->setPreferredSize(mMainWindow->layoutRect().width()/2,
+    mDialpad->resize(mMainWindow->layoutRect().width()/2,
                                mMainWindow->layoutRect().height());
     mDialpad->setPos(mMainWindow->layoutRect().width()/2,0);
     QTest::qWait( 1000 );
@@ -421,7 +379,7 @@ void mt_Dialpad::testOrientationChange()
     // test portrait
     mMainWindow->setOrientation(Qt::Vertical);
     mMainWindow->resize(360,640);
-    mDialpad->setPreferredSize(mMainWindow->layoutRect().width(),
+    mDialpad->resize(mMainWindow->layoutRect().width(),
                                mMainWindow->layoutRect().height()/2);
     mDialpad->setPos(0,mMainWindow->layoutRect().height()/4);
     QTest::qWait( 1000 );

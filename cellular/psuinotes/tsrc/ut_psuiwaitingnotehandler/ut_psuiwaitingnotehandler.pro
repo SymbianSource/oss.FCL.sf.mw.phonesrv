@@ -49,4 +49,5 @@ SOURCES += ../mocks/mock_psuinotes.cpp \
 		../mocks/mock_psetcallwaitingwrapper.cpp \ 
 		../mocks/mock_qobject.cpp \
 		../mocks/mock_psuiutils.cpp \
-		../mocks/mock_psetcallwaitingwrapper_p.cpp
+		../mocks/mock_psetcallwaitingwrapper_p.cpp \
+		../mocks/mock_psetcalldivertingwrapper.cpp

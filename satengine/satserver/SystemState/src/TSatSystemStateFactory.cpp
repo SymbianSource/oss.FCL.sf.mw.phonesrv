@@ -15,21 +15,19 @@
 *
 */
 
-
 #include    <startupdomainpskeys.h>
 #include    <PSVariables.h>
 #define Q_OS_SYMBIAN // needed to activate homescreendomainpskeys.h
 #include    <homescreendomainpskeys.h>
 #include    <CommonEngineDomainCRKeys.h>
 #include    <BTSapDomainPSKeys.h>
-#include    <ProfileEngineSDKCRKeys.h>
+#include    <coreapplicationuissdkcrkeys.h>
 #include    "TSatSystemStateFactory.h"
 #include    "CSatSystemState.h"
 #include    "msatmultimodeapi.h"
 #include    "CSatPSChangeNotifier.h"
 #include    "CSatCenRepChangeNotifier.h"
 #include    "SatLog.h"
-
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -172,8 +170,8 @@ EXPORT_C MSatSystemStateChangeNotifier*
         CreateProfileChangeNotifierL calling" )
 
     MSatSystemStateChangeNotifier* ret = CSatCenRepChangeNotifier::NewL(
-        KCRUidProfileEngine,
-        KProEngActiveProfile,
+        KCRUidCoreApplicationUIs,
+        KCoreAppUIsNetworkConnectionAllowed,
         aObserver,
         CSatCenRepChangeNotifier::ECRTypeInteger );
 

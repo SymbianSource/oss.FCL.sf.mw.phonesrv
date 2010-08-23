@@ -115,7 +115,7 @@ void UT_PSetCallBarringWrapper::init()
     CPsetCallBarring *barringMock = NULL;
     TRAPD(result, barringMock = CPsetCallBarring::NewL(dummyObserver, dummyPhone));
     QScopedPointer<CPsetCallBarring> barringMockGuard(barringMock);
-    EXPECT(CPsetContainer::CreateCBObjectL)
+    EXPECT(CPsetContainer, CreateCBObjectL)
         .returns(barringMock);
     m_wrapper = new PSetCallBarringWrapper(*m_psetContainerMock, NULL);
     barringMockGuard.take();
@@ -143,7 +143,7 @@ void UT_PSetCallBarringWrapper::cleanup()
  */
 void UT_PSetCallBarringWrapper::t_construction()
 {
-    EXPECT(CPsetContainer::CreateCBObjectL).
+    EXPECT(CPsetContainer, CreateCBObjectL).
         willOnce(invokeWithoutArguments(this, simulateLeaveAtMockMethodCall));
     PSetCallBarringWrapper *wrapper = NULL;
     EXPECT_EXCEPTION(
@@ -157,16 +157,16 @@ void UT_PSetCallBarringWrapper::t_construction()
 void UT_PSetCallBarringWrapper::t_barringStatus()
 {
 // test status query with different service groups
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeAllBarrings);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupData, EBarringTypeAllBarrings);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupFax, EBarringTypeAllBarrings);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupAllTeleservices, EBarringTypeAllBarrings);
     // invalid/unknown enumeration as service group identifier
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeAllBarrings);
     
     //TODO: remove SeviceGroupUnknown enumeration?
@@ -185,25 +185,25 @@ void UT_PSetCallBarringWrapper::t_barringStatus()
         PSetCallBarringWrapper::BarringTypeAllBarrings);
 
 // test status query with different barring types    
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeAllOutgoing);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeOutgoingInternational);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, 
             EBarringTypeOutgoingInternationalExceptToHomeCountry);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeAllIncoming);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeIncomingWhenRoaming);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeAllServices);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeAllOutgoingServices);
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeAllIncomingServices);
     // invalid/unknown enumeration as barring type
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .with(EServiceGroupVoice, EBarringTypeAllBarrings);
     m_wrapper->barringStatus(ServiceGroupVoice, 
         PSetCallBarringWrapper::BarringTypeAllOutgoing);
@@ -235,7 +235,7 @@ void UT_PSetCallBarringWrapper::t_barringStatus()
  */
 void UT_PSetCallBarringWrapper::t_barringStatusExceptionOccurs()
 {
-    EXPECT(CPsetCallBarring::GetBarringStatusL)
+    EXPECT(CPsetCallBarring, GetBarringStatusL)
         .willOnce(invokeWithoutArguments(this, simulateLeaveAtMockMethodCall));
     
     EXPECT_EXCEPTION(
@@ -259,7 +259,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
     setting.iSetting = EActivateBarring;
     setting.iServiceGroup = EServiceGroupVoice;
     setting.iPassword.Copy(KPassword());
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -267,7 +267,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
 
     setting.iType = EBarringTypeAllOutgoing;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -275,7 +275,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeOutgoingInternational;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -283,7 +283,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
 
     setting.iType = EBarringTypeOutgoingInternationalExceptToHomeCountry;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -291,7 +291,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeAllIncoming;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -299,7 +299,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeIncomingWhenRoaming;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -307,7 +307,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeAllServices;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -315,7 +315,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
 
     setting.iType = EBarringTypeAllOutgoingServices;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -323,7 +323,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeAllIncomingServices;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->enableBarring(
         ServiceGroupVoice, 
@@ -331,7 +331,7 @@ void UT_PSetCallBarringWrapper::t_enableBarring()
         QString("1234"));
 
 // error handling    
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .willOnce(invokeWithoutArguments(simulateLeaveL));
     EXPECT_EXCEPTION(
         m_wrapper->enableBarring(
@@ -355,7 +355,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
     setting.iSetting = ECancelBarring;
     setting.iServiceGroup = EServiceGroupVoice;
     setting.iPassword.Copy(KPassword());
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -363,7 +363,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
 
     setting.iType = EBarringTypeAllOutgoing;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -371,7 +371,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeOutgoingInternational;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -379,7 +379,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
 
     setting.iType = EBarringTypeOutgoingInternationalExceptToHomeCountry;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -387,7 +387,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeAllIncoming;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -395,7 +395,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeIncomingWhenRoaming;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -403,7 +403,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeAllServices;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -411,7 +411,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
 
     setting.iType = EBarringTypeAllOutgoingServices;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -419,7 +419,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
     
     setting.iType = EBarringTypeAllIncomingServices;
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .with(setting, EAllTeleAndBearer);
     m_wrapper->disableBarring(
         ServiceGroupVoice, 
@@ -427,7 +427,7 @@ void UT_PSetCallBarringWrapper::t_disableBarring()
         QString("1234"));
     
 // error handling    
-    EXPECT(CPsetCallBarring::SetBarringL)
+    EXPECT(CPsetCallBarring, SetBarringL)
         .willOnce(invokeWithoutArguments(simulateLeaveL));
     EXPECT_EXCEPTION(
         m_wrapper->disableBarring(
@@ -452,14 +452,14 @@ void UT_PSetCallBarringWrapper::t_changeBarringPassword()
     passwordChange.iOldPassword.Copy(oldPassword.utf16());
     passwordChange.iNewPassword.Copy(newPassword.utf16());
     passwordChange.iVerifiedPassword.Copy(verifiedPassword.utf16());
-    EXPECT(CPsetCallBarring::ChangePasswordL)
+    EXPECT(CPsetCallBarring, ChangePasswordL)
         .with(passwordChange);
     
     m_wrapper->changeBarringPassword(
         oldPassword, newPassword, verifiedPassword);
     
 // error handling    
-    EXPECT(CPsetCallBarring::ChangePasswordL)
+    EXPECT(CPsetCallBarring, ChangePasswordL)
         .willOnce(invokeWithoutArguments(simulateLeaveL));
     EXPECT_EXCEPTION(
         m_wrapper->changeBarringPassword(

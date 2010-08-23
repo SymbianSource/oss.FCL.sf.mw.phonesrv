@@ -1,8 +1,6 @@
 #include <QtTest/QtTest>
 #include <mock_centralrepository.h>
 
-_LIT(KStringValue, "123");
-
 // TODO: Add a new class named Ut_Utility to config all CR key
 // to simulate 3 different images
 CRepository* CRepository::NewL(TUid /*aRepositoryUid*/)

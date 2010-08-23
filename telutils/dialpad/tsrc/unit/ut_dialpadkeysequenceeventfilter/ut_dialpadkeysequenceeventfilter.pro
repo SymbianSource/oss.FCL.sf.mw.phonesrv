@@ -44,7 +44,8 @@ SOURCES += ut_dialpadkeysequenceeventfilter.cpp
 HEADERS += ../../../../../phonesrv_plat/dialpad_api/inc/dialpad.h
 HEADERS += /epoc32/include/mw/xqservicerequest.h \
            /epoc32/include/mw/xqappmgr.h         \
-           /epoc32/include/mw/xqaiwrequest.h
+           /epoc32/include/mw/xqaiwrequest.h     \
+           hblineedit.h
 
 SOURCES += ../shared/mock_dialpad.cpp          \
            ../shared/mock_xqservicerequest.cpp \

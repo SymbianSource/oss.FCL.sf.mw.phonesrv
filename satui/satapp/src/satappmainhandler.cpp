@@ -23,7 +23,7 @@
 
 // symbian
 #include <centralrepository.h>
-#include <ProfileEngineSDKCRKeys.h>
+#include <coreapplicationuissdkcrkeys.h>
 
 #include "satappmainhandler.h"
 #include "satappserverdispatcher.h"
@@ -266,17 +266,18 @@ bool SatAppMainHandler::isOffline()
     qDebug("SATAPP: SatAppMainHandler::isOffline >");
     TInt profileId(0);
     CRepository* cr (NULL);
-    TRAPD(err, cr = CRepository::NewL(KCRUidProfileEngine));
+    TRAPD(err, cr = CRepository::NewL(KCRUidCoreApplicationUIs));
     if ( KErrNone == err )
     {
         // Get the ID of the currently active profile:
-        const TInt error = cr->Get(KProEngActiveProfile, profileId);
+        const TInt error = 
+            cr->Get(KCoreAppUIsNetworkConnectionAllowed, profileId);
         qDebug("SATAPP: SatAppMainHandler::isOffline get active \
                 profile error=%d",error);
         delete cr;
     }
     qDebug("SATAPP: SatAppMainHandler::isOffline< profileId = %d",profileId);
-    return ( KSatActiveProfileOffline == profileId );
+    return ( ECoreAppUIsNetworkConnectionNotAllowed == profileId );
 }
 
 // ----------------------------------------------------------------------------

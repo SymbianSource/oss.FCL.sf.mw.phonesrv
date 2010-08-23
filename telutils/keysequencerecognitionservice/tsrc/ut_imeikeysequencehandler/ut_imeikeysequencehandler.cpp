@@ -72,9 +72,9 @@ void UT_ImeiKeySequenceHandler::t_keySequenceValidator()
 void UT_ImeiKeySequenceHandler::t_executeValidKeySequence()
 {
     const QString KSerialNumber = "1234567890";
-    EXPECT(QtMobility::QSystemDeviceInfo::imei).returns(KSerialNumber);
-    EXPECT(HbDeviceMessageBox::setTimeout).with(HbPopup::NoTimeout);
-    EXPECT(HbDeviceMessageBox::show);
+    EXPECT(QtMobility::QSystemDeviceInfo, imei).returns(KSerialNumber);
+    EXPECT(HbDeviceMessageBox, setTimeout).with(HbPopup::NoTimeout);
+    EXPECT(HbDeviceMessageBox, show);
     bool handled = m_handler->executeKeySequence(KCodeImei);
     QCOMPARE(handled, true);
     QVERIFY(verify());

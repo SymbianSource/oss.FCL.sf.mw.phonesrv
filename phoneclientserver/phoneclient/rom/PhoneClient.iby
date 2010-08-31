@@ -20,6 +20,6 @@
 #define __PHONECLIENT_IBY__
 
 
-file=ABI_DIR\BUILD_DIR\phoneclient.DLL              SHARED_LIB_DIR\phoneclient.dll
-data=ZSYSTEM\install\PhoneClient_stub.sis           system\install\PhoneClient_stub.sis
+file=ABI_DIR\BUILD_DIR\phoneclient.dll              SHARED_LIB_DIR\phoneclient.dll
+data=ZSYSTEM\install\phoneclient_stub.sis           system\install\phoneclient_stub.sis
 #endif

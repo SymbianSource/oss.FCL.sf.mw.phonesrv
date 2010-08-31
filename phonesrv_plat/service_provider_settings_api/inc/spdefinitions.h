@@ -24,29 +24,29 @@ const TInt KSPMaxDesLength = 512;
 
 /** Service attribute mask */
 enum TPropertyServiceAttributes
-	{
-	ESupportsCSVoiceCall 			= 0x00000001, // Supports CS voice call
-	ESupportsCSVideoCall			= 0x00000002, // Supports CS video call
-	ESupportsCSData					= 0x00000004, // Supports CS data transfer
-	ESupportsFax					= 0x00000008, // Service supports fax
-	ESupportsInternetCall			= 0x00000010, // Service supports internet call
-	ESupportsEmergencyCall 			= 0x00000020, // service supports emergency call
-	ESupportsMSISDNAddressing		= 0x00000040, // Service supports MSISDN addressing
-	ESupportsAlphanumericAddressing	= 0x00000080, // Service supports alphanumeric addressing
-	EIsVisibleInCallMenu 			= 0x00000100, // Service is visible in call menu
-	EBootstrapCallProvider			= 0x00000200, // Boostrap call provider
-	ESupportVoIPSS                  = 0x00000400, // Supports VoIP SS
-	ESimplifiedConferenceCallBubble	= 0x00000800  // Simplified conference call bubble
-	};
-	
-/** Supported feature check */	
+    {
+    ESupportsCSVoiceCall            = 0x00000001, // Supports CS voice call
+    ESupportsCSVideoCall            = 0x00000002, // Supports CS video call
+    ESupportsCSData                 = 0x00000004, // Supports CS data transfer
+    ESupportsFax                    = 0x00000008, // Service supports fax
+    ESupportsInternetCall           = 0x00000010, // Service supports internet call
+    ESupportsEmergencyCall          = 0x00000020, // service supports emergency call
+    ESupportsMSISDNAddressing       = 0x00000040, // Service supports MSISDN addressing
+    ESupportsAlphanumericAddressing = 0x00000080, // Service supports alphanumeric addressing
+    EIsVisibleInCallMenu            = 0x00000100, // Service is visible in call menu
+    EBootstrapCallProvider          = 0x00000200, // Boostrap call provider
+    ESupportVoIPSS                  = 0x00000400, // Supports VoIP SS
+    ESimplifiedConferenceCallBubble = 0x00000800  // Simplified conference call bubble
+    };
+    
+/** Supported feature check */  
 enum TSPServiceFeature
-	{
-	ESupportInternetCallFeature,	//ESupportsInternetCall + ESupportsAlphanumericAddressing + EIsVisibleInCallMenu 
-	ESupportCallOutFeature,			//ESupportsInternetCall + ESupportsMSISDNAddressing + EIsVisibleInCallMenu
-	ESupportVoIPSSFeature,			//ESupportVoIPSS
-	ESupportVoIPFeature				//FeatureManager::FeatureSupported()+dynamic voip flag check+with subservice voip
-	};
+    {
+    ESupportInternetCallFeature,    //ESupportsInternetCall + ESupportsAlphanumericAddressing + EIsVisibleInCallMenu 
+    ESupportCallOutFeature,         //ESupportsInternetCall + ESupportsMSISDNAddressing + EIsVisibleInCallMenu
+    ESupportVoIPSSFeature,          //ESupportVoIPSS
+    ESupportVoIPFeature             //FeatureManager::FeatureSupported()+dynamic voip flag check+with subservice voip
+    };
 
 /**  Service provider ID not defined */
 const TInt KSPNoId = 0;
@@ -135,7 +135,7 @@ enum TServicePropertyName
     EPropertyContactStoreId                 = 0x0002D000, // Virtual phonebook contact store ID. Set by RCSE
     EPropertyServiceBookmarkUri             = 0x0002E000, // Service provider bookmark URI. Set by VoIP adapter
     EPropertyIncomingEmailserver            = 0x0002F000, // Service incoming e-mail server
-    			
+                
 
     // Subproperties
     // VoIP subproperties
@@ -190,7 +190,7 @@ enum TServicePropertyName
     ESubPropertyVccDtWLANHoHysteresis           = 0x0004D000,
     ESubPropertyVccDtWLANHoHysteresisTimerLow   = 0x0004E000,
     ESubPropertyVccDtWLANHoHysteresisTimerHigh  = 0x0004F000,
-    ESubPropertyVccHoNotificationToneMode		= 0x00050000,
+    ESubPropertyVccHoNotificationToneMode       = 0x00050000,
     ESubPropertyVccDtVoipServiceId              = 0x00051000,
     ESubPropertyVccDtAllowedWhenCsOriginated    = 0x00052000,
     ESubPropertyVccAppId                        = 0x00053000,
@@ -218,11 +218,11 @@ enum TPropertyDataType
     
 /** List of subservice launching method */
 enum TSPSubServiceLaunchMethod
-	{
-	ESPFrameWorkPlugin,
-	ESPLauncherPlugin,
-	ESPApplication
-	};
+    {
+    ESPFrameWorkPlugin,
+    ESPLauncherPlugin,
+    ESPApplication
+    };
 
 
 /**  Service ID */
@@ -238,7 +238,7 @@ typedef RArray<TServiceId> RIdArray;
 /**  Array of service provider IDs */
 typedef RArray<TServicePropertyName> RPropertyNameArray;
 
-/**	 central repsitory keys array */
+/**  central repsitory keys array */
 typedef RArray<TUint32> RKeyArray;
 
 

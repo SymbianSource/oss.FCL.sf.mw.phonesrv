@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -25,7 +25,7 @@ CAPABILITY CAP_SERVER NetworkControl
 VENDORID VID_DEFAULT
 
 TARGET          phoneserver.exe
-EPOCSTACKSIZE	0x5000
+EPOCSTACKSIZE   0x5000
 
 TARGETPATH      /system/programs
 TARGETTYPE      EXE
@@ -33,87 +33,99 @@ TARGETTYPE      EXE
 UID             0x1000008d 0x10000850
 
 SOURCEPATH     .
-START RESOURCE ../Src/Resources/PhoneServer.rss
+START RESOURCE ../src/resources/phoneserver.rss 
 HEADER
 TARGETPATH   RESOURCE_FILES_DIR
 LANGUAGE_IDS
 END  // RESOURCE
 
-SOURCEPATH      ../Src/Standard
-SOURCE          PhSrvStartUp.cpp
-SOURCE          PhSrvSubSessionFactory.cpp
-SOURCE          PhSrvUtils.cpp
+SOURCEPATH      ../src/standard 
+SOURCE          phsrvstartup.cpp 
+SOURCE          phsrvsubsessionfactory.cpp 
+SOURCE          phsrvutils.cpp 
 
-SOURCE          CPhSrvScheduler.cpp
-SOURCE          CPhSrvServer.cpp
-SOURCE          CPhSrvSession.cpp
-SOURCE          CPhSrvResourceManager.cpp
-SOURCE          CPhSrvPhoneController.cpp
-SOURCE          CPhSrvEmergencyNumberManager.cpp
+SOURCE          cphsrvscheduler.cpp 
+SOURCE          cphsrvserver.cpp 
+SOURCE          cphsrvsession.cpp 
+SOURCE          cphsrvresourcemanager.cpp 
+SOURCE          cphsrvphonecontroller.cpp 
+SOURCE          cphsrvemergencynumbermanager.cpp 
 
-SOURCE          CPhSrvSubSessionBase.cpp
-SOURCE          CPhSrvSubSessionUssd.cpp
+SOURCE          cphsrvsubsessionbase.cpp 
+SOURCE          cphsrvsubsessionussd.cpp 
 
-SOURCE          PhSrvDebugInfo.cpp
+SOURCE          phsrvdebuginfo.cpp 
 
-SOURCEPATH	../Src/Standard/Standard_Aiw
-SOURCE			CPhCltExtPhoneDialData.cpp
+SOURCEPATH  ../src/standard/standard_aiw 
+SOURCE          cphcltextphonedialdata.cpp 
 SOURCE          cphcltdialdata.cpp
-SOURCE          CPhSrvEmergencyRequestManager.cpp
-SOURCE          CPhSrvCallRequest.cpp
-SOURCE          CPhSrvCallRequestManager.cpp
-SOURCE          CPhSrvSubSessionNotifier.cpp
-SOURCE          CPhSrvSubSessionExtCall.cpp
-SOURCE          CPhSrvSubSessionEmergencyNum.cpp
+SOURCE          cphsrvemergencyrequestmanager.cpp 
+SOURCE          cphsrvcallrequest.cpp 
+SOURCE          cphsrvcallrequestmanager.cpp 
+SOURCE          cphsrvsubsessionnotifier.cpp 
+SOURCE          cphsrvsubsessionextcall.cpp 
+SOURCE          cphsrvsubsessionemergencynum.cpp 
 
-SOURCEPATH	../Src/ImageHandler
-SOURCE		CPhSrvSubSessionImageHandler.cpp
-SOURCE		cphsrvimagesaver.cpp
+SOURCEPATH  ../src/imagehandler 
+SOURCE      cphsrvsubsessionimagehandler.cpp 
+SOURCE      cphsrvimagesaver.cpp
 
-SOURCEPATH      ../Src/Ussd
-SOURCE          CPhSrvUssdReplyTimer.cpp
-SOURCE          CPhSrvUssdSendHandler.cpp
-SOURCE          CPhSrvUssdReceiveHandler.cpp
-SOURCE          CPhSrvUssdManager.cpp
-SOURCE 		CPhSrvUssdNotifyNWRelease.cpp
+SOURCEPATH      ../src/ussd 
+SOURCE          cphsrvussdreplytimer.cpp 
+SOURCE          cphsrvussdsendhandler.cpp 
+SOURCE          cphsrvussdreceivehandler.cpp 
+SOURCE          cphsrvussdmanager.cpp 
+SOURCE      cphsrvussdnotifynwrelease.cpp 
 
-SOURCEPATH      ../Src/CommandHandler
+SOURCEPATH      ../src/commandhandler 
 #if defined( __AT_HANDLER )
-SOURCE          CPhSrvSubSessionCommandHandler.cpp
-SOURCE          CPhSrvComHandRequest.cpp
+SOURCE          cphsrvsubsessioncommandhandler.cpp 
+SOURCE          cphsrvcomhandrequest.cpp 
 #else  // No __AT_HANDLER defined, so stub version is used.
-SOURCE          CPhSrvSubSessionCommandHandlerStub.cpp
-SOURCE          CPhSrvSubSessionCommandHandlerNotifyStub.cpp
+SOURCE          cphsrvsubsessioncommandhandlerstub.cpp 
+SOURCE          cphsrvsubsessioncommandhandlernotifystub.cpp 
 #endif // __AT_HANDLER
 
-SOURCEPATH      ../Src/CommandHandler/Commandhandler_Aiw
+SOURCEPATH      ../src/commandhandler/commandhandler_aiw 
 
 #if defined( __AT_HANDLER )
-SOURCE          CPhSrvComHandRequestManager.cpp
+SOURCE          cphsrvcomhandrequestmanager.cpp 
 #else  // No __AT_HANDLER defined, so stub version is used.
-SOURCE          CPhSrvComHandRequestManagerStub.cpp
+SOURCE          cphsrvcomhandrequestmanagerstub.cpp 
 #endif // __AT_HANDLER
 
-SOURCEPATH      ../Src/Messenger
-SOURCE          CPhSrvMessengerObject.cpp
-SOURCE          CPhSrvMessengerRequestManager.cpp
-SOURCE          CPhSrvSubSessionMessenger.cpp
+SOURCEPATH      ../src/messenger 
+#if defined( __CS_VIDEO_TELEPHONY )
+SOURCE          cphsrvmessengerobject.cpp 
+SOURCE          cphsrvmessengerrequestmanager.cpp 
+SOURCE          cphsrvsubsessionmessenger.cpp 
+#else  // No __CS_VIDEO_TELEPHONY defined, so stub version is used.
+SOURCE          cphsrvmessengerrequestmanagerstub.cpp 
+SOURCE          cphsrvsubsessionmessengerstub.cpp 
+#endif // __CS_VIDEO_TELEPHONY
 
-USERINCLUDE     ../Inc/Standard
-USERINCLUDE     ../Inc/Standard/Standard_Aiw
-USERINCLUDE     ../Inc/Ussd
-USERINCLUDE     ../Inc/CommandHandler
-USERINCLUDE     ../Inc/Messenger
-USERINCLUDE     ../Inc/ImageHandler
+USERINCLUDE     ../inc/standard 
+USERINCLUDE     ../inc/standard/standard_aiw 
+USERINCLUDE     ../inc/ussd 
+USERINCLUDE     ../inc/commandhandler 
+USERINCLUDE     ../inc/messenger 
+USERINCLUDE     ../inc/imagehandler 
 
-USERINCLUDE     ../../phoneclient/Inc/SharedClientServer
+USERINCLUDE     ../../phoneclient/inc/sharedclientserver 
 
-APP_LAYER_SYSTEMINCLUDE
+// <-- QT PHONE START-->
+MW_LAYER_SYSTEMINCLUDE
+// <-- QT PHONE END-->
+
 SYSTEMINCLUDE   ../../../inc
 SYSTEMINCLUDE    ../../inc // for RPhCltEmergencyCall.h, CPhCltExtPhoneDialData.h
 
 // TEMPORARY DEFINITION FOR TELEPHONY VARIATION HEADERS
-SYSTEMINCLUDE	../../../../../app/phone/inc
+SYSTEMINCLUDE   ../../../../../app/phone/inc
+
+// TEMPORARY DEFINITION FOR Orbit Device Dialog
+SYSTEMINCLUDE /epoc32/include/mw/hb/hbwidgets
+SYSTEMINCLUDE /epoc32/include/mw/hb/hbcore
 
 LIBRARY        efsrv.lib
 LIBRARY        apgrfx.lib
@@ -122,19 +134,18 @@ LIBRARY        euser.lib
 LIBRARY        ws32.lib
 LIBRARY        etel.lib
 LIBRARY        bafl.lib
-LIBRARY        aknnotify.lib
 LIBRARY        gsmu.lib
-LIBRARY        avkon.lib
 LIBRARY        apparc.lib
 LIBRARY        customapi.lib
 LIBRARY        etelmm.lib 
 LIBRARY        commonengine.lib
 LIBRARY        featmgr.lib
 LIBRARY        fbscli.lib 
-LIBRARY		   estor.lib	
+LIBRARY        estor.lib    
 LIBRARY        centralrepository.lib
-LIBRARY        imageconversion.lib 	
+LIBRARY        imageconversion.lib  
 LIBRARY        bitmaptransforms.lib 
-LIBRARY        ecom.lib 
+LIBRARY        hbwidgets.lib
+LIBRARY        hbcore.lib
 
 //  End of File  

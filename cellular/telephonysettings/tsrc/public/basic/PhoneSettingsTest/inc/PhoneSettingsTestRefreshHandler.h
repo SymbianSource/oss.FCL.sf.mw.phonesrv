@@ -21,7 +21,7 @@
 #define PHONESETTINGSTESTREFRESHHANDLER_H
 
 #include <e32base.h>
-#include <PSetRefreshHandler.h>
+#include <psetrefreshhandler.h>
 #include "PhoneSettingsTestParser.h"
 
 // CLASS DECLARATION

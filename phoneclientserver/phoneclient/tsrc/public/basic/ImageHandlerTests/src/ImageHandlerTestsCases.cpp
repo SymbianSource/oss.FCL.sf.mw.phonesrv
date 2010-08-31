@@ -19,8 +19,8 @@
 
 // INCLUDE FILES
 #include <e32math.h>
-#include <CPhCltImageHandler.h>
-#include <CPhCltBaseImageParams.h>
+#include <cphcltimagehandler.h>
+#include <cphcltbaseimageparams.h>
 #include <fbs.h>
 
 #include "ImageHandlerTests.h"

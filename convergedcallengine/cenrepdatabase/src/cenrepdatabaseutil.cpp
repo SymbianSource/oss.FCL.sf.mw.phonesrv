@@ -144,16 +144,16 @@ EXPORT_C void CCenRepDatabaseUtil::BeginTransactionL()
     CENREPDATABASELOG( "CCenRepDatabaseUtil::BeginTransactionL - IN" );
     
     iSemaphore.Wait();
-	TCleanupItem cleanup( CCenRepDatabaseUtil::ReleaseSemaphore, this );
-	CleanupStack::PushL( cleanup );
+    TCleanupItem cleanup( CCenRepDatabaseUtil::ReleaseSemaphore, this );
+    CleanupStack::PushL( cleanup );
     
     User::LeaveIfError( 
         iRepository->StartTransaction( CRepository::EReadWriteTransaction ) );
     
-	iRepository->CleanupRollbackTransactionPushL(); // if leave happens,
-	                                                // only roll back, no delete
-	
-	CENREPDATABASELOG( "CCenRepDatabaseUtil::BeginTransactionL - OUT" );                                                
+    iRepository->CleanupRollbackTransactionPushL(); // if leave happens,
+                                                    // only roll back, no delete
+    
+    CENREPDATABASELOG( "CCenRepDatabaseUtil::BeginTransactionL - OUT" );                                                
     }
 
 // ---------------------------------------------------------------------------
@@ -164,15 +164,15 @@ EXPORT_C TInt CCenRepDatabaseUtil::CommitTransaction()
     {
     CENREPDATABASELOG( "CCenRepDatabaseUtil::CommitTransaction - IN" );
     
-	TUint32 temp;
-	
-	TInt retval = iRepository->CommitTransaction( temp );
-	
-	iSemaphore.Signal();
+    TUint32 temp;
+    
+    TInt retval = iRepository->CommitTransaction( temp );
+    
+    iSemaphore.Signal();
 
-	CleanupStack::Pop( 2 ); // semaphore and repository
-	
-	CENREPDATABASELOG( "CCenRepDatabaseUtil::CommitTransaction - OUT" );
+    CleanupStack::Pop( 2 ); // semaphore and repository
+    
+    CENREPDATABASELOG( "CCenRepDatabaseUtil::CommitTransaction - OUT" );
 
     return retval;
     }
@@ -185,12 +185,12 @@ EXPORT_C void CCenRepDatabaseUtil::RollbackTransaction()
     {
     CENREPDATABASELOG( "CCenRepDatabaseUtil::RollbackTransaction - IN" );
     
-	CleanupStack::Pop( 2 ); // rollback transaction item and semaphore
+    CleanupStack::Pop( 2 ); // rollback transaction item and semaphore
 
-	iRepository->RollbackTransaction();
-	iSemaphore.Signal();
-	
-	CENREPDATABASELOG( "CCenRepDatabaseUtil::RollbackTransaction - OUT" );
+    iRepository->RollbackTransaction();
+    iSemaphore.Signal();
+    
+    CENREPDATABASELOG( "CCenRepDatabaseUtil::RollbackTransaction - OUT" );
     }
     
 // ---------------------------------------------------------------------------
@@ -600,28 +600,28 @@ EXPORT_C TInt CCenRepDatabaseUtil::FindEntryIdsFromPropertiesL(
 // ---------------------------------------------------------------------------
 //
 void CCenRepDatabaseUtil::ReleaseSemaphore( TAny* aPtr )
-	{
-	CENREPDATABASELOG( "CCenRepDatabaseUtil::ReleaseSemaphore - IN" );
-	
-	ASSERT ( aPtr );
-	CCenRepDatabaseUtil* utils = static_cast<CCenRepDatabaseUtil*>( aPtr );
-	utils->DoReleaseSemaphore();
-	
-	CENREPDATABASELOG( "CCenRepDatabaseUtil::ReleaseSemaphore - OUT" );
-	}
+    {
+    CENREPDATABASELOG( "CCenRepDatabaseUtil::ReleaseSemaphore - IN" );
+    
+    ASSERT ( aPtr );
+    CCenRepDatabaseUtil* utils = static_cast<CCenRepDatabaseUtil*>( aPtr );
+    utils->DoReleaseSemaphore();
+    
+    CENREPDATABASELOG( "CCenRepDatabaseUtil::ReleaseSemaphore - OUT" );
+    }
 
 // ---------------------------------------------------------------------------
 // Release semaphore
 // ---------------------------------------------------------------------------
 //
 void CCenRepDatabaseUtil::DoReleaseSemaphore()
-	{
-	CENREPDATABASELOG( "CCenRepDatabaseUtil::DoReleaseSemaphore - IN" );
-	
-	iSemaphore.Signal();
-	
-	CENREPDATABASELOG( "CCenRepDatabaseUtil::DoReleaseSemaphore - OUT" );
-	}
+    {
+    CENREPDATABASELOG( "CCenRepDatabaseUtil::DoReleaseSemaphore - IN" );
+    
+    iSemaphore.Signal();
+    
+    CENREPDATABASELOG( "CCenRepDatabaseUtil::DoReleaseSemaphore - OUT" );
+    }
 
 // ---------------------------------------------------------------------------
 // Set value of key or create a new one.
@@ -713,9 +713,9 @@ TUint32 CCenRepDatabaseUtil::GetNewIdKeyL()
             }
         }
     else
-    	{
-    	User::Leave( err );
-    	}
+        {
+        User::Leave( err );
+        }
 
     CleanupStack::PopAndDestroy( &keys );
 
@@ -777,8 +777,8 @@ void CCenRepDatabaseUtil::CheckEntryHasPropertiesL(
     TBool& aOk )
     {
     RIpAppPropArray allArray;
-	TCleanupItem cleanup( CCenRepDatabaseUtil::CleanupPointerArray, &allArray );
-	CleanupStack::PushL( cleanup );
+    TCleanupItem cleanup( CCenRepDatabaseUtil::CleanupPointerArray, &allArray );
+    CleanupStack::PushL( cleanup );
     
     TInt err = FindEntryL( aEntryId, allArray );
     if( err == KErrNone )
@@ -823,10 +823,10 @@ void CCenRepDatabaseUtil::CheckEntryHasPropertiesL(
 // ---------------------------------------------------------------------------
 //
 void CCenRepDatabaseUtil::CleanupPointerArray(  TAny* aPointer )
-	{
-	RIpAppPropArray* array = static_cast<RIpAppPropArray*>( aPointer );
-	array->ResetAndDestroy();
-	}
+    {
+    RIpAppPropArray* array = static_cast<RIpAppPropArray*>( aPointer );
+    array->ResetAndDestroy();
+    }
     
 
 

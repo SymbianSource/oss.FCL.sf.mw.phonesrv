@@ -58,7 +58,7 @@ const TInt KCCEMaxNumberOfCalls = 3;   // = 1 active, 1 onhold, 1 waiting
 #ifndef RMMCUSTOMAPI_H 
 /** defenition for OG, most likely will be deprecated later on */
 ///_LIT(KTerminateAllCalls,"ALL_CALLS");
-#include <rmmcustomapi.h> // Add reference there, cs classes need that too
+#include <rmmcustomapi.h> // Add reference there, cs classes need that too 
 #endif
 
 /**
@@ -130,7 +130,7 @@ public:
     * @return none
     */
     IMPORT_C void SetObserver( MCCEObserver& aObserver,
-    						   MCCESsObserver& aSsObserver );
+                               MCCESsObserver& aSsObserver );
 
     /**
     * Opens new call. 
@@ -246,24 +246,24 @@ public:
     */
    IMPORT_C MCCEExtensionInterface& ExtensionInterfaceL( const MCCEExtensionObserver& aObserver );
 
-	/**
-	* This method gets the lifetime of the MS. The lifetime information 
-	* includes the manufacturing date of the MS and the total amount of airtime use, 
-	* from the manufacturing date until the call to this method. Calling this method 
-	* does not reset any data.
-	* Forwarded to CS plugin.
-	* @since S60 3.2
-	* @param aLifeTimeInfo Life time information
-	* @return Get succeeded or not.
-	*/
+    /**
+    * This method gets the lifetime of the MS. The lifetime information 
+    * includes the manufacturing date of the MS and the total amount of airtime use, 
+    * from the manufacturing date until the call to this method. Calling this method 
+    * does not reset any data.
+    * Forwarded to CS plugin.
+    * @since S60 3.2
+    * @param aLifeTimeInfo Life time information
+    * @return Get succeeded or not.
+    */
    IMPORT_C TBool GetLifeTime( TDes8& aLifeTimeInfo );
 
-	/**
-	* This method gets cs specific information from cs-plugin. This is used only CS, 
-	* @since S60 3.2
-	* @param aCSInfo CS specific information from cs-plugin.
-	* @return Get succeeded or not.
-	*/
+    /**
+    * This method gets cs specific information from cs-plugin. This is used only CS, 
+    * @since S60 3.2
+    * @param aCSInfo CS specific information from cs-plugin.
+    * @return Get succeeded or not.
+    */
    IMPORT_C TBool GetCSInfo( CSInfo& aCSInfo );
 
 private:

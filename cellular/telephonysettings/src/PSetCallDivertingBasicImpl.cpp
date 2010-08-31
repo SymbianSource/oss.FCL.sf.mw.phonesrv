@@ -17,26 +17,25 @@
 
 
 // INCLUDE FILES
-#include "PSetCallDivertingBasicImpl.h"
+#include "psetcalldivertingbasicimpl.h" 
 
 #include <badesca.h>
 #include <etelmm.h>           
 #include <e32math.h>
-#include <vmnumber.h>
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
-#include <settingsinternalcrkeys.h>
+#include <settingsinternalcrkeys.h> 
 
-#include "PsetCallDiverting.h"
-#include "PsetContainer.h"
-#include "MPsetDivertObs.h"
-#include "PsetTelephony.h"
-#include "PSetPanic.h"
-#include "MPsetRequestObs.h"
-#include "PSetUtility.h"
-#include "PhoneSettingsLogger.h"
-#include "PsetSAObserver.h"
+#include "psetcalldiverting.h" 
+#include "psetcontainer.h" 
+#include "mpsetdivertobs.h" 
+#include "psettelephony.h" 
+#include "psetpanic.h" 
+#include "mpsetrequestobs.h" 
+#include "psetutility.h" 
+#include "phonesettingslogger.h" 
+#include "psetsaobserver.h" 
 
 //  LOCAL CONSTANTS AND MACROS
 _LIT( KPSetIntNbr, "+" );
@@ -67,6 +66,7 @@ CPSetCallDivertingBasicImpl* CPSetCallDivertingBasicImpl::NewL(
 //
 CPSetCallDivertingBasicImpl::~CPSetCallDivertingBasicImpl()
     {
+    Cancel();
     }
 
 // -----------------------------------------------------------------------------
@@ -105,6 +105,7 @@ void CPSetCallDivertingBasicImpl::SetDivertingL( const TCallDivertSetting& aDive
        User::Leave( KErrInUse );
        }
    iBsc = aBsc;
+   iRequestedServiceGroup = aDivert.iServiceGroup;
    
    CPsetTelephony::CheckLineModeL( aDivert.iServiceGroup, &iPhone, iLine );
    if ( !iLine->SubSessionHandle() )
@@ -203,6 +204,10 @@ void CPSetCallDivertingBasicImpl::RunL()
            __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBasicImpl::RunL: EPSetChangeDivert" );
            //Notify Observer            
            iDivertStatus.iStatus = PSetUtility::GetChangeInfoStatus( iChangeInfo.iAction );
+           iDivertStatus.iNumber = iChangeInfo.iNumber.iTelNumber;
+           iDivertStatus.iCondition = PSetUtility::GetDivertReason(iReason);
+           iDivertStatus.iNoReplyTimer = iChangeInfo.iTimeout;
+           iDivertStatus.iServiceGroup = iRequestedServiceGroup;
            
             // Check is done because of VOIP notification functionality(PSetNotesUI).
            if ( iVoiceDivert && !iVideoDivert )

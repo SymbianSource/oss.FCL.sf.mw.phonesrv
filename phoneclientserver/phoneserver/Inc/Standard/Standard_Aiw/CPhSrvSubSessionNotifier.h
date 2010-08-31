@@ -22,12 +22,12 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <cphcltextphonedialdata.h>
-#include <CPhCltEmergencyCall.h> // for TPhCltEmergencyNumber
-#include "CPhSrvSubSessionBase.h"
-#include "MPhSrvEmergencyInitiators.h"
-#include "MPhSrvObjectInitiators.h"
-#include "MPhSrvComHandInitiators.h"
+#include <cphcltextphonedialdata.h> 
+#include <cphcltemergencycall.h> // for TPhCltEmergencyNumber 
+#include "cphsrvsubsessionbase.h" 
+#include "mphsrvemergencyinitiators.h" 
+#include "mphsrvobjectinitiators.h" 
+#include "mphsrvcomhandinitiators.h" 
 
 // CLASS DECLARATION
 
@@ -82,9 +82,9 @@ class CPhSrvSubSessionNotifier :
         * be informed that it needs to make a call.
         *
         * @see MPhSrvInitiatorCall
-        */		
-		void InitiatorMakeAsynchronousCallL( CPhCltExtPhoneDialData& aArgs  );
-        /**								
+        */      
+        void InitiatorMakeAsynchronousCallL( CPhCltExtPhoneDialData& aArgs  );
+        /**                             
         * Does this subsession have a pending request?
         *
         * @see MPhSrvInitiatorCall
@@ -130,7 +130,7 @@ class CPhSrvSubSessionNotifier :
         
         void CmdSubSessionDialDataL ( const RMessage2& aMessage );
 
-		void CmdSubSessionNotifyEmergencyL ( const RMessage2& aMessage );
+        void CmdSubSessionNotifyEmergencyL ( const RMessage2& aMessage );
 
         void CmdSubSessionNotifyEmergencyCancel( const RMessage2& aMessage );
 

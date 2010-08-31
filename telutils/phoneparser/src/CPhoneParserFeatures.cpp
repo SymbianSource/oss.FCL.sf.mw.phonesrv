@@ -17,12 +17,12 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneParserFeatures.h"
+#include    "cphoneparserfeatures.h" 
 #include    <featmgr.h>
 #include    <centralrepository.h>
 #include    <telservicesvariant.hrh>
 #include    <telservicesinternalcrkeys.h>
-#include    <CPhCltEmergencyCall.h>
+#include    <cphcltemergencycall.h> 
 
 // FORWARD DECLARATION
 
@@ -127,16 +127,6 @@ CPhoneParserFeatures::~CPhoneParserFeatures()
 //
 void CPhoneParserFeatures::HandleEmergencyDialL( const TInt /*aStatus*/ )
     {
-    }
-
-// -----------------------------------------------------------------------------
-// CPhoneParserFeatures::LifeTimerEnabled
-// -----------------------------------------------------------------------------
-//
-TBool CPhoneParserFeatures::LifeTimerEnabled()
-    {
-    return Instance() ? 
-        Instance()->GetTelephoneVariant() & KTelSrvLVFlagLifeTimer : EFalse;
     }
 
 // -----------------------------------------------------------------------------

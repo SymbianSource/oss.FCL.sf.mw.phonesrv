@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvSubSessionBase.h"
-#include "CPhSrvSession.h"
-#include "CPhSrvSubSessionNotifier.h"
+#include "cphsrvsubsessionbase.h" 
+#include "cphsrvsession.h" 
+#include "cphsrvsubsessionnotifier.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

@@ -17,17 +17,17 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvSubSessionUssd.h"
+#include "cphsrvsubsessionussd.h" 
 
 #include    <etelmm.h>            // ETel
 
-#include "PhSrvUtils.h"
-#include "CPhSrvSession.h"
-#include "CPhSrvServer.h"
+#include "phsrvutils.h" 
+#include "cphsrvsession.h" 
+#include "cphsrvserver.h" 
 
-#include "CPhSrvUssdManager.h"
+#include "cphsrvussdmanager.h" 
 
-#include <PhCltTypes.h>
+#include <phclttypes.h> 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

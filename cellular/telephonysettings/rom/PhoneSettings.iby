@@ -21,6 +21,6 @@
 // Network Settings Engine Library
 file=ABI_DIR\BUILD_DIR\phonesettings.dll        SHARED_LIB_DIR\phonesettings.dll
 
-data=ZSYSTEM\install\phonesettings_stub.SIS     System\Install\phonesettings_stub.SIS
+data=ZSYSTEM\install\phonesettings_stub.sis     System\Install\phonesettings_stub.sis
 
 #endif

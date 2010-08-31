@@ -88,8 +88,8 @@ private:
 
 private: // data    
     
-    CCallRemotePartyInformationImpl* iImpl;	
-	
+    CCallRemotePartyInformationImpl* iImpl; 
+    
     };
 
 #endif // CCALLREMOTEPARTYINFORMATION_H

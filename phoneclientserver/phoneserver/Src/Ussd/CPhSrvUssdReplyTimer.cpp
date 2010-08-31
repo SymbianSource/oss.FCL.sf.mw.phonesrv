@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvUssdReplyTimer.h"
-#include "MPhSrvUssdReplyTimerObserver.h"
+#include "cphsrvussdreplytimer.h" 
+#include "mphsrvussdreplytimerobserver.h" 
 
 
 // CONSTANTS

@@ -18,18 +18,17 @@
 
 
 // INCLUDE FILES
-#include    "CaUiPlugin.h"  // This class interface.
-#include    "cauieng.h"     // CaUiEngine.
-#include    <AiwCommon.hrh> // AIW constants.
-#include    "CaUI.hrh"      // CallUI constants.
-#include    <AiwMenu.h>     // AIW Menu pane.
+#include    "cauiplugin.h" // This class interface. 
+#include    "cauieng.h" // CaUiEngine. 
+#include    <aiwcommon.hrh> // AIW constants. 
+#include    "caui.hrh" // CallUI constants. 
+#include    <aiwmenu.h> // AIW Menu pane. 
 
-#include	<AiwServiceHandler.h>
-#include    <PhCltTypes.h>  // PhoneClient types.
-#include    "cauilogger.h"  // Call Ui Logger
-#include    <StringLoader.h>
-#include    <CallUI.rsg>
-#include    <featmgr.h>      // FeatureManager.
+#include    <aiwservicehandler.h> 
+#include    <phclttypes.h> // PhoneClient types. 
+#include    "cauilogger.h" // Call Ui Logger 
+#include    <stringloader.h>
+#include    <callui.rsg>
 
 // CONSTANTS
 
@@ -37,7 +36,7 @@
 _LIT( KCaUiNullResFile, "" );
 
 // The library to be loaded.
-_LIT( KCaUiLoadedLib, "CaUiEngine.dll" );
+_LIT( KCaUiLoadedLib, "cauiengine.dll" );
 
 
 
@@ -247,13 +246,7 @@ void CCaUiPlugin::InitializeMenuPaneL(
                 }
             }
         }
-    
-    if ( csVideoMenuItemAvailable && 
-    		!FeatureManager::FeatureSupported( KFeatureIdCsVideoTelephony ) )
-    	{
-    	csVideoMenuItemAvailable = EFalse;
-    	}
-    
+
     // Add menu items
 
     TInt menuIndex = aIndex;

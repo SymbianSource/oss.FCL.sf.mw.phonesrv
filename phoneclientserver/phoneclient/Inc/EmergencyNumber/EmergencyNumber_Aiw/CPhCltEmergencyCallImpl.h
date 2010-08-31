@@ -21,9 +21,9 @@
 
 //  INCLUDES
 #include <e32std.h>
-#include "RPhCltServer.h"
-#include "CPhCltEmergencyCall.h"
-#include "RPhCltEmergencyCall.h"
+#include "rphcltserver.h" 
+#include "cphcltemergencycall.h" 
+#include "rphcltemergencycall.h" 
 
 
 // FORWARD DECLARATIONS

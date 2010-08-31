@@ -23,37 +23,37 @@ TARGETTYPE      DLL
 UID             0x1000008d 0x10205046
 
 CAPABILITY      CAP_GENERAL_DLL
-VENDORID		VID_DEFAULT
+VENDORID        VID_DEFAULT
 
 SOURCEPATH      ../src
 
-SOURCE		PhoneHandler.cpp
-SOURCE		PhoneHandlerControl.cpp
-SOURCE		PhoneHandlerActive.cpp
-SOURCE		PhoneHandlerCallBase.cpp
-SOURCE		PhoneHandlerAnswerCall.cpp
-SOURCE		PhoneHandlerEndCall.cpp
-SOURCE		PhoneHandlerDialCall.cpp
-SOURCE		PhoneHandlerVoiceDial.cpp
-SOURCE		PhoneHandlerRedial.cpp
-SOURCE		PhoneHandlerMultipartyCall.cpp
-SOURCE		PhoneHandlerDTMF.cpp
-SOURCE		PhoneHandlerResponse.cpp
-SOURCE		PhoneHandlerCallState.cpp
-SOURCE          PhoneHandlerCallArray.cpp
+SOURCE      phonehandler.cpp 
+SOURCE      phonehandlercontrol.cpp 
+SOURCE      phonehandleractive.cpp 
+SOURCE      phonehandlercallbase.cpp 
+SOURCE      phonehandleranswercall.cpp 
+SOURCE      phonehandlerendcall.cpp 
+SOURCE      phonehandlerdialcall.cpp 
+SOURCE      phonehandlervoicedial.cpp 
+SOURCE      phonehandlerredial.cpp 
+SOURCE      phonehandlermultipartycall.cpp 
+SOURCE      phonehandlerdtmf.cpp 
+SOURCE      phonehandlerresponse.cpp 
+SOURCE      phonehandlercallstate.cpp 
 
 USERINCLUDE     ../inc 
 
 APP_LAYER_SYSTEMINCLUDE
 
-LIBRARY		euser.lib
-LIBRARY		remconinterfacebase.lib
-LIBRARY		remconextensionapi.lib
-LIBRARY		phoneclient.lib
-LIBRARY 	logcli.lib
-LIBRARY		efsrv.lib
-LIBRARY		pbkeng.lib
-LIBRARY         telephonyservice.lib
+LIBRARY     euser.lib
+LIBRARY     remconinterfacebase.lib
+LIBRARY     remconextensionapi.lib
+LIBRARY     phoneclient.lib
+LIBRARY     logcli.lib
+LIBRARY     efsrv.lib
+// <-- QT PHONE START -->
+//LIBRARY       pbkeng.lib
+// <-- QT PHONE END -->
 
 MACRO       API_TRACE_FLAG
 MACRO       COMPONENT_TRACE_FLAG

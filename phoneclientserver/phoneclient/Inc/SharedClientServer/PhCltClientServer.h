@@ -58,7 +58,7 @@ _LIT( KPhClientPanicCategory, "PhoneClient" );
 _LIT( KPhClientAndServerResourceFileName, "PhoneServer" );
 _LIT( KPhCltServerZDrive, "z:" );
 
-_LIT( KPhClientAndServerResourceFileExtensionWild, ".R*" );
+_LIT( KPhClientAndServerResourceFileExtensionWild, ".R??" );
 _LIT( KPhClientAndServerResourceFileExtensionNoWild, ".RSC" );
 const TInt KPhSrvMagicResourceFileSignature = 0;
 
@@ -267,7 +267,7 @@ enum TPhCltMessengerServerRequest
 enum TPhCltImageHandlerRequest 
     {
     EPhoneServerImageHandlerSubSessionOpen = EPhoneServerExtensionBase + 300,
-    EPhoneServerImageHandlerSubSessionClose, 	 // Closes image handler subsession.
+    EPhoneServerImageHandlerSubSessionClose,     // Closes image handler subsession.
     EPhoneServerImageHandlerSubSessionSave,      // SaveImages (deprecated for VT)
     EPhoneServerImageHandlerSubSessionLoad,      // LoadImages (deprecated for VT)
     EPhoneServerImageHandlerSubSessionCommitLoad, // Finalize load operation

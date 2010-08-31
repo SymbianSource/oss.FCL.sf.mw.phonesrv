@@ -19,7 +19,7 @@
 #ifndef CSATSENDSSCALLWAITINGNOUIOBS_H
 #define CSATSENDSSCALLWAITINGNOUIOBS_H
 
-#include <MPsetCallWaitingObs.h>
+#include <mpsetcallwaitingobs.h>
 
 /**
 *  Implements MPsetCallWaitingObserver and gets notifications

@@ -19,12 +19,12 @@
 
 
 // INCLUDE FILES
-#include    "CPhSrvSubSessionImageHandler.h"
-#include    "CPhSrvSession.h"
-#include    "CPhSrvServer.h"
+#include    "cphsrvsubsessionimagehandler.h" 
+#include    "cphsrvsession.h" 
+#include    "cphsrvserver.h" 
 #include    <e32property.h>
-#include    <PhCltTypes.h>
-#include    "PhSrvDebugInfo.h"  
+#include    <phclttypes.h> 
+#include    "phsrvdebuginfo.h" 
 
 // CONSTANTS
 _LIT( KPhSrvImageDriveRom, "z:" );
@@ -532,8 +532,8 @@ void CPhSrvSubSessionImageHandler::DoLoadVTImagesL( TPhCltImageArray& aImages )
     // Load the images from file.
     const TBool loadDefaultImage = aImages.iType == EPhCltTypeVTDefault;    
     DoReadVTImagesL( loadDefaultImage );
-	
-	// Copy handles.
+    
+    // Copy handles.
     aImages.iImageCount = iVTBitMaps.Count();
     for ( TInt i = 0; i < aImages.iImageCount; i++ )
         {
@@ -562,7 +562,7 @@ void CPhSrvSubSessionImageHandler::DoReadVTImagesL( const TBool aDefaultImage )
         aDefaultImage, path );
 
 #ifdef __PHENG_DEBUG_INFO__
-		TPtr ptr = searchPath->Des();  // temp pointer to avoid lvalue compile warning
+        TPtr ptr = searchPath->Des();  // temp pointer to avoid lvalue compile warning
         RDebug::Print( _L( 
             "CPhSrvSubSessionImageHandler::ReadVT: %S"), ( &ptr ));
 #endif    
@@ -721,8 +721,9 @@ void CPhSrvSubSessionImageHandler::
         bitMap );
     aImages.iImages[ EPhCltExtOperatorLogoIndex ] = bitMap->Handle();
     aImages.iImageCount = 1;
-    iOperatorLogos.Append( logoContainer );
-    
+    CleanupStack::PushL(logoContainer);
+    iOperatorLogos.AppendL( logoContainer );
+    CleanupStack::Pop(logoContainer);
     CleanupStack::Pop( bitMap );
     CleanupStack::PopAndDestroy( hbuf );
     

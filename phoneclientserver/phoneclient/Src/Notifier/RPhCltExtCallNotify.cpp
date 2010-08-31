@@ -19,9 +19,9 @@
 
 //  Include Files
 
-#include    "RPhCltCallNotify.h"
-#include    "PhCltClientServer.h"
-#include    "RPhCltServer.h"
+#include    "rphcltcallnotify.h" 
+#include    "phcltclientserver.h" 
+#include    "rphcltserver.h" 
 
 
 

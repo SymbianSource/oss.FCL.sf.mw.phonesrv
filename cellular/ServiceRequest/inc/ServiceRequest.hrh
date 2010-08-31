@@ -24,7 +24,7 @@
 enum TSerqNotes
     {
     ESerqRequestingNote = 1
-    };	
+    };  
 
 #endif
 

@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include <e32std.h>
-#include "PsetConstants.h"
+#include "psetconstants.h" 
 
 //  DATA TYPES  
 //basic service groups
@@ -162,13 +162,13 @@ enum TDivertingStatus
 
 //call forwarding cenrep key statuses.
 enum TCallForwardingStatus
-	{
-	EForwardingUnknown      = 0x0,
-	EForwardingActiveVoice  = 0x01,
-	EForwardingActiveFax    = 0x02,
-	EForwardingActiveData   = 0x04
-	};
-		
+    {
+    EForwardingUnknown      = 0x0,
+    EForwardingActiveVoice  = 0x01,
+    EForwardingActiveFax    = 0x02,
+    EForwardingActiveData   = 0x04
+    };
+        
 //  CLASS DEFINITIONS 
 // Supplemental class to contain all call barring settings.
 class   TCallBarringSetting

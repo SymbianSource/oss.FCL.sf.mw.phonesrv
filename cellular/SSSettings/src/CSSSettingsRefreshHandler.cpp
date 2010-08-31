@@ -19,13 +19,13 @@
 
 // INCLUDE FILES
 #include    <centralrepository.h>
-#include    <rsatrefresh.h>
-#include    <BTSapDomainPSKeys.h>     // BT SAP Central Repository key.
+#include    <rsatrefresh.h> 
+#include    <BTSapDomainPSKeys.h> // bt sap central repository key. 
 #include    <featmgr.h>
 
-#include    "CSSSettingsRefreshHandler.h"
-#include    "SSSettingsLogger.h"
-#include    "CSSSettingsActiveObject.h"
+#include    "csssettingsrefreshhandler.h" 
+#include    "sssettingslogger.h" 
+#include    "csssettingsactiveobject.h" 
 
 // ============================= LOCAL FUNCTIONS ===============================
 

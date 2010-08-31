@@ -55,4 +55,6 @@
 #include "../call_information_api/group/bld.inf"
 #include "../call_remote_party_information_api/group/bld.inf"
 #include "../telephony_mediator_api/group/bld.inf"
+#include "../dialpad_api/group/bld.inf"
+#include "../phone_settings_ui_notes_api/group/bld.inf"
 // End of file

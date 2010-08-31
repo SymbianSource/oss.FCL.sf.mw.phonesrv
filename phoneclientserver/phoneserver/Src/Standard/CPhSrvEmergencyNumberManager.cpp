@@ -18,14 +18,14 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvEmergencyNumberManager.h"
-#include "MPhSrvPhoneInterface.h"
-#include "PhSrvDebugInfo.h"
-#include <cemergencynumberpolicy.h>
+#include "cphsrvemergencynumbermanager.h" 
+#include "mphsrvphoneinterface.h" 
+#include "phsrvdebuginfo.h" 
+#include <cemergencynumberpolicy.h> 
 
 // CONSTANTS
-_LIT(KPhSrvDosEnPolicyLibName, "DosEnPolicy.dll");  // DOS emergency number policy
-_LIT(KPhSrvSosEnPolicyLibName, "SosEnPolicy.dll");  // SOS emergency number policy
+_LIT(KPhSrvDosEnPolicyLibName, "dosenpolicy.dll");  // DOS emergency number policy
+_LIT(KPhSrvSosEnPolicyLibName, "sosenpolicy.dll");  // SOS emergency number policy
 
 // ============================ MEMBER FUNCTIONS ===============================
 

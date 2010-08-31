@@ -19,7 +19,7 @@
 #ifndef CSATSENDSSBARRINGNOUIOBS_H
 #define CSATSENDSSBARRINGNOUIOBS_H
 
-#include <MPsetBarringObs.h>
+#include <mpsetbarringobs.h>
 
 /**
 *  Implements MPsetBarringObserver and gets notifications of the barring process

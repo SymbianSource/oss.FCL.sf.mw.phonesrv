@@ -31,7 +31,7 @@ SOURCEPATH      ../src
 SOURCE          cccpcallparameters.cpp
 
 USERINCLUDE     ../inc
-SYSTEMINCLUDE	../../../inc
+SYSTEMINCLUDE   ../../../inc
 MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY         euser.lib

@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include    "CPhCltEmergencyCall.h"
-#include    "CPhCltEmergencyCallImpl.h"
-#include    "PhCltTypes.h"
+#include    "cphcltemergencycall.h" 
+#include    "cphcltemergencycallimpl.h" 
+#include    "phclttypes.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

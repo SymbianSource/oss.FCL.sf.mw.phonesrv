@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "MPhSrvObjectNegotiators.h"
-#include "MPhSrvObjectInitiators.h"
+#include "mphsrvobjectnegotiators.h" 
+#include "mphsrvobjectinitiators.h" 
 
 
 // FORWARD DECLARATIONS

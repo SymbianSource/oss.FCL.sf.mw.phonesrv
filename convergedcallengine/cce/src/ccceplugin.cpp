@@ -250,10 +250,10 @@ void CCCEPlugin::MoCallCreated( MCCPCall& aCall )
 // ---------------------------------------------------------------------------
 //
 void CCCEPlugin::DataPortName( TName& aPortName )
-	{
-	CCELOGSTRING( "CCCEPlugin::DataPortName" );
-	iObserver.DataPortName( aPortName );
-	}
+    {
+    CCELOGSTRING( "CCCEPlugin::DataPortName" );
+    iObserver.DataPortName( aPortName );
+    }
 
 // ---------------------------------------------------------------------------
 // From class MCCPCSObserver
@@ -559,7 +559,7 @@ void CCCEPlugin::BarringEventOccurred( const MCCPSsObserver::TCCPSsBarringEvent 
 
     CCELOGSTRING( "CCCEPlugin::BarringEventOccurred:OUT" );
     }
-					  
+                      
 
 // ---------------------------------------------------------------------------
 // CCCEPlugin::CLIEventOccurred
@@ -571,18 +571,18 @@ void CCCEPlugin::CLIEventOccurred( const MCCPSsObserver::TCCPSsCLIEvent aCallLin
 
     if( iCallContainer.SsObserver() )
         {
-    	// one to one mapping at the moment can be casted directly, change if mapping gets out of sync
+        // one to one mapping at the moment can be casted directly, change if mapping gets out of sync
         iCallContainer.SsObserver()->CLIEventOccurred(
-        			(MCCESsObserver::TCCESsCLIEvent)aCallLineEvent );
+                    (MCCESsObserver::TCCESsCLIEvent)aCallLineEvent );
         }
-	else
-		{
-    	CCELOGSTRING( "CCCEPlugin::CLIEventOccurred: Event ignored no observer is set!" );
-		}
+    else
+        {
+        CCELOGSTRING( "CCCEPlugin::CLIEventOccurred: Event ignored no observer is set!" );
+        }
 
     CCELOGSTRING( "CCCEPlugin::CLIEventOccurred:OUT" );
     }
-							  
+                              
 
 // ---------------------------------------------------------------------------
 // CCCEPlugin::BarringEventOccurred
@@ -596,15 +596,15 @@ void CCCEPlugin::CallForwardEventOccurred(
 
     if( iCallContainer.SsObserver() )
         {
-    	// one to one mapping at the moment can be casted directly, change if mapping gets out of sync
+        // one to one mapping at the moment can be casted directly, change if mapping gets out of sync
         iCallContainer.SsObserver()->CallForwardEventOccurred(
-			(MCCESsObserver::TCCESsCallForwardEvent)aCallForwardEvent,
-			aRemoteAddress );
+            (MCCESsObserver::TCCESsCallForwardEvent)aCallForwardEvent,
+            aRemoteAddress );
         }
-	else
-		{
-    	CCELOGSTRING( "CCCEPlugin::CallForwardEventOccurred: Event ignored no observer is set!" );
-		}
+    else
+        {
+        CCELOGSTRING( "CCCEPlugin::CallForwardEventOccurred: Event ignored no observer is set!" );
+        }
 
     CCELOGSTRING( "CCCEPlugin::CallForwardEventOccurred:OUT" );
     
@@ -621,14 +621,14 @@ void CCCEPlugin::CallCugEventOccurred( const MCCPSsObserver::TCCPSsCugEvent aCug
 
     if( iCallContainer.SsObserver() )
         {
-    	// one to one mapping at the moment can be casted directly, change if mapping gets out of sync
+        // one to one mapping at the moment can be casted directly, change if mapping gets out of sync
         iCallContainer.SsObserver()->CallCugEventOccurred(
             (MCCESsObserver::TCCESsCugEvent)aCugEvent );
         }
-	else
-		{
-    	CCELOGSTRING( "CCCEPlugin::CallCugEventOccurred: Event ignored no observer is set!" );
-		}
+    else
+        {
+        CCELOGSTRING( "CCCEPlugin::CallCugEventOccurred: Event ignored no observer is set!" );
+        }
 
     CCELOGSTRING( "CCCEPlugin::CallCugEventOccurred:OUT" );
     }
@@ -645,10 +645,10 @@ void CCCEPlugin::NotifyCurrentActiveALSLine( TInt aLine )
         {
         iCallContainer.SsObserver()->NotifyCurrentActiveALSLine(aLine);
         }
-	else
-		{
-    	CCELOGSTRING( "CCCEPlugin::NotifyCurrentActiveALSLine: Event ignored no observer is set!" );
-		}
+    else
+        {
+        CCELOGSTRING( "CCCEPlugin::NotifyCurrentActiveALSLine: Event ignored no observer is set!" );
+        }
 
     CCELOGSTRING( "CCCEPlugin::NotifyCurrentActiveALSLine():OUT" );
     }

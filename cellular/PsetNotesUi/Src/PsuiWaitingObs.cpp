@@ -17,13 +17,13 @@
 
 
 // INCLUDE FILES
-#include <Psui.rsg>
-#include <PsuiContainer.h>
+#include <psui.rsg> 
+#include <psuicontainer.h> 
 #include <etelsat.h>
  
-#include "PsuiInternalConstants.h"
-#include "PsuiNoteController.h"
-#include "PsuiVariationProxy.h"
+#include "psuiinternalconstants.h" 
+#include "psuinotecontroller.h" 
+#include "psuivariationproxy.h" 
 
 //  MEMBER FUNCTIONS
 // ---------------------------------------------------------------------------
@@ -110,7 +110,7 @@ void CPsuiWaitingObs::HandleCallWaitingGetStatusL(
     TUint8 aBsc[KPSUIMaxBscNumber] )
     {
     
-   	if ( iCallWaitingDistinguishEnabled && aStatus == MPsetCallWaiting::EStatusNotProvisioned )
+    if ( iCallWaitingDistinguishEnabled && aStatus == MPsetCallWaiting::EStatusNotProvisioned )
         {
         CPsuiNoteController::InstanceL()->ShowNoteL( 
             EPsuiConfirmationNote, R_CW_NOT_PROVISIONED_NOTE );
@@ -123,30 +123,30 @@ void CPsuiWaitingObs::HandleCallWaitingGetStatusL(
     else
         {
         if( iCallWaitingDistinguishEnabled )
-        	{
-        		
-        	//show only "CW active" even if the bsc list is present. 
-        	//This change is to fix the error ENYI-6DYFKZ
-         	CPsuiNoteController::InstanceL()->ShowNoteL( EPsuiConfirmationNote, 
+            {
+                
+            //show only "CW active" even if the bsc list is present. 
+            //This change is to fix the error ENYI-6DYFKZ
+            CPsuiNoteController::InstanceL()->ShowNoteL( EPsuiConfirmationNote, 
                 R_CW_ACTIVE_NO_BSC_NOTE );
-        	}
+            }
         else
-        	{
-        		
-        	//if no bsc-list present, show only "CW active"
-        	if ( aBsc[0] == KPSUINoBscGroup )
-            	{
-            	CPsuiNoteController::InstanceL()->ShowNoteL( EPsuiConfirmationNote, 
+            {
+                
+            //if no bsc-list present, show only "CW active"
+            if ( aBsc[0] == KPSUINoBscGroup )
+                {
+                CPsuiNoteController::InstanceL()->ShowNoteL( EPsuiConfirmationNote, 
                 R_CW_ACTIVE_NO_BSC_NOTE );
-            	}
-        	else
-            	{
+                }
+            else
+                {
             
-            	CPsuiNoteController::InstanceL()->ShowBscListL( 
+                CPsuiNoteController::InstanceL()->ShowBscListL( 
                 R_CW_STATUS_HEADING, 
                 aBsc );
-            	}
-        	}
+                }
+            }
         }
     }
 

@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include <etelmm.h> 
 #include <MmTsy_names.h> 
-#include "PSetConstants.h"
+#include "psetconstants.h"
 #include "PhoneSettingsTestUtilities.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

@@ -70,9 +70,9 @@ CCCEDtmf::~CCCEDtmf()
     {
     CCELOGSTRING("CCCEDtmf::~CCCEDtmf");
 
-	while( iObservers.Count() )
-		{
-    	CCELOGSTRING("CCCEDtmf::~CCCEDtmf: There are dtmf observers in the array. Should be removed before dtor!");
+    while( iObservers.Count() )
+        {
+        CCELOGSTRING("CCCEDtmf::~CCCEDtmf: There are dtmf observers in the array. Should be removed before dtor!");
         iObservers.Remove ( 0 );
         iObservers.Compress();
         }
@@ -103,7 +103,8 @@ TInt CCCEDtmf::GetDtmfProviders( RPointerArray<MCCPDTMFProvider>& aProviders ) c
             
         if( !error && provider )
             {
-            aProviders.InsertInAddressOrder( provider );
+            // Ref-to-Ptr -> ownership not transfered. 
+            err = aProviders.InsertInAddressOrder( provider ); 
             }
         }
         
@@ -248,7 +249,7 @@ void CCCEDtmf::AddObserverL( const MCCEDtmfObserver& aObserver )
     else
         {
         // already added, ignore 
-	CCELOGSTRING("CCCEDtmf::AddObserverL. Observer to be added already existed. Operation ignored!");
+    CCELOGSTRING("CCCEDtmf::AddObserverL. Observer to be added already existed. Operation ignored!");
         }    
     }    
 
@@ -259,17 +260,17 @@ void CCCEDtmf::AddObserverL( const MCCEDtmfObserver& aObserver )
 TInt CCCEDtmf::RemoveObserver( const MCCEDtmfObserver& aObserver )
     {
     CCELOGSTRING("CCCEDtmf::RemoveObserver");
-    TInt index = iObservers.Find( &aObserver );	
+    TInt index = iObservers.Find( &aObserver ); 
     
     if( index!=KErrNotFound )
         {
         iObservers.Remove ( index );
         iObservers.Compress();
         }
-	else
-		{
-		return KErrNotFound;
-		}
+    else
+        {
+        return KErrNotFound;
+        }
 
     return KErrNone;
     } 
@@ -289,11 +290,11 @@ void CCCEDtmf::HandleDTMFEvent( const TCCPDtmfEvent aEvent,
     
     MCCEDtmfObserver::TCCEDtmfEvent event = (MCCEDtmfObserver::TCCEDtmfEvent)(aEvent);
     
-	for( TInt i=0; i<iObservers.Count(); i++ )
-	    {
-		// notify all observers
-    		const_cast<MCCEDtmfObserver*>(iObservers[i])->HandleDTMFEvent( event,
-        										 					   aError, 
-        															   aTone );
+    for( TInt i=0; i<iObservers.Count(); i++ )
+        {
+        // notify all observers
+            const_cast<MCCEDtmfObserver*>(iObservers[i])->HandleDTMFEvent( event,
+                                                                       aError, 
+                                                                       aTone );
         }
     }

@@ -33,7 +33,7 @@ SOURCE          aiwdialdataext.cpp
 SOURCE          aiwinternaldialdata.cpp
 
 USERINCLUDE     ../inc
-SYSTEMINCLUDE	../../../inc
+SYSTEMINCLUDE   ../../../inc
 MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY         euser.lib

@@ -21,8 +21,8 @@
 #define CPHONEHANDLERLASTNUMBERREDIAL_H
 
 //  INCLUDES
-#include "PhoneHandlerCallBase.h"
-#include <RemConExtensionApi.h>
+#include "phonehandlercallbase.h" 
+#include <RemConExtensionApi.h> 
 #include <f32file.h>        
 #include <logcli.h>
 #include <logview.h>
@@ -47,19 +47,19 @@ class CPhoneHandlerControl;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerLastNumberRedial ) : public CPhoneHandlerCallBase
-									  				 
+                                                     
     {
-    public:	// Constructors and destructor         
+    public: // Constructors and destructor         
     
         /**
         * Two-phased constructor.
         */
         static CPhoneHandlerLastNumberRedial* 
-        	NewL( CPhoneHandlerControl& aControl,
-        		  TRemConExtCallHandlingApiOperationId aOperation 
-        		  	= ERemConExtLastNumberRedial );
+            NewL( CPhoneHandlerControl& aControl,
+                  TRemConExtCallHandlingApiOperationId aOperation 
+                    = ERemConExtLastNumberRedial );
         
-	    /**
+        /**
         * Destructor.
         */
         virtual ~CPhoneHandlerLastNumberRedial();
@@ -68,7 +68,7 @@ NONSHARABLE_CLASS( CPhoneHandlerLastNumberRedial ) : public CPhoneHandlerCallBas
     
     public: // Functions from base classes
     
-     	/**
+        /**
         * From MPhoneHandlerService. Starts processing service.
         * @since S60 3.1
         * @return void
@@ -97,41 +97,41 @@ NONSHARABLE_CLASS( CPhoneHandlerLastNumberRedial ) : public CPhoneHandlerCallBas
 
     private:
     
-	    /**
+        /**
         * C++ default constructor.
         */
         CPhoneHandlerLastNumberRedial( 
-        	CPhoneHandlerControl& aControl,
-        	TRemConExtCallHandlingApiOperationId aOperation );
+            CPhoneHandlerControl& aControl,
+            TRemConExtCallHandlingApiOperationId aOperation );
 
-	    /**
+        /**
         * By default Symbian 2nd phase constructor is private.
         */
         void ConstructL();
-	
-	public:     // Data
+    
+    public:     // Data
     
     protected:  // Data
     
     private:    // Data
             
-		// A handle to a file server session.
+        // A handle to a file server session.
         RFs iFsSession;
 
         // Log Engine implementation
-		CLogClient* iLogClientPtr; // owned
+        CLogClient* iLogClientPtr; // owned
 
         // A view on a recent event list.
-		CLogViewRecent* iLogViewRecentPtr; // owned
-				
-		// reference to control
-		CPhoneHandlerControl& iControl;
-		
-		// iOperation is used to give response to exact RemConExtensionApi
+        CLogViewRecent* iLogViewRecentPtr; // owned
+                
+        // reference to control
+        CPhoneHandlerControl& iControl;
+        
+        // iOperation is used to give response to exact RemConExtensionApi
         // command
         TRemConExtCallHandlingApiOperationId iOperation;
-		
-	public:     // Friend classes
+        
+    public:     // Friend classes
     
     protected:  // Friend classes
     

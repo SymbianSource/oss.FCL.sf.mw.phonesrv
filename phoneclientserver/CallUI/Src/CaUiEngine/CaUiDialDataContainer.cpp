@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include    "CaUiDialDataContainer.h"
+#include    "cauidialdatacontainer.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

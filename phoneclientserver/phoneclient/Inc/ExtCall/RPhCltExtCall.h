@@ -21,8 +21,8 @@
 
 //  INCLUDES
 #include <e32std.h>
-#include "PhCltTypes.h"
-#include "RPhCltServer.h"
+#include "phclttypes.h" 
+#include "rphcltserver.h" 
 
 // FORWARD DECLARATIONS
 class TPhCltExtPhoneDialData;

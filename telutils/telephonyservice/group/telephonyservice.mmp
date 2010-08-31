@@ -42,6 +42,6 @@ USERINCLUDE             ../inc
 
 MW_LAYER_SYSTEMINCLUDE
 
-LIBRARY    				euser.lib
-LIBRARY					mediatorclient.lib
-LIBRARY					estor.lib
+LIBRARY                 euser.lib
+LIBRARY                 mediatorclient.lib
+LIBRARY                 estor.lib

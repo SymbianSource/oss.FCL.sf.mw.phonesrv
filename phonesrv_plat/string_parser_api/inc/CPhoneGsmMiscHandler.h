@@ -20,7 +20,7 @@
 #define CPHONEGSMMISCHANDLER_H
 
 // INCLUDES
-#include    "CPhoneGsmHandlerBase.h"
+#include    "cphonegsmhandlerbase.h" 
 
 // CLASS DECLARATION
 
@@ -35,11 +35,6 @@ class CPhoneGsmMiscHandler
     {
     public: // New functions
         
-        /**
-        * Process IMEI display.
-        */
-        virtual void ProcessShowIMEIL() = 0;
-
         /**
         * Process USSD request.
         *

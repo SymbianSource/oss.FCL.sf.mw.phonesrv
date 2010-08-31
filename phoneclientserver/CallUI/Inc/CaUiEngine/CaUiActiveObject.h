@@ -194,10 +194,10 @@ NONSHARABLE_CLASS( CCaUiGlnActiveObject )
         CPhCntMatcher*                  iPhCntMatcher;
 
         // Is CPhCntMatcher owned.
-        TBool   						iOwnMatcher;
+        TBool                           iOwnMatcher;
         
         // Message sender
-        CCaUiMessageSender*				iMessageSender;
+        CCaUiMessageSender*             iMessageSender;
 
     };
 

@@ -17,26 +17,26 @@
 
 
 // INCLUDE FILES
-#include <Psui.rsg>                 
+#include <psui.rsg> 
 #include <aknlists.h>               
-#include <PsuiContainer.h>
-#include <StringLoader.h>           
+#include <psuicontainer.h> 
+#include <StringLoader.h> 
 #include <exterror.h>               
 #include <gsmerror.h>
 #include <mmlist.h>
 #include <featmgr.h>
-#include <NumberGrouping.h>
+#include <NumberGrouping.h> 
 #include <cservicerequest.h>
 #include <e32property.h>
-#include <BTSapDomainPSKeys.h>
+#include <BTSapDomainPSKeys.h> 
 
-#include "PsuiInternalConstants.h" 
-#include "PsuiNoteMaster.h"
-#include "PsuiReqObserver.h"
-#include "PsuiQueryDialog.h"
+#include "psuiinternalconstants.h" 
+#include "psuinotemaster.h" 
+#include "psuireqobserver.h" 
+#include "psuiquerydialog.h" 
  
 #include <centralrepository.h>
-#include <NumberGroupingCRKeys.h>
+#include <NumberGroupingCRKeys.h> 
 // MACROS
 
 #ifdef _DEBUG
@@ -130,11 +130,11 @@ void CPsuiNoteMaster::ShowNoteL( TPsuiNoteTypes aType, TInt aResourceID )
     {
     if ( aResourceID < 0 )
         {
-		if ( aType  == EPsuiWaitingNote )
-			{
-        	iRequesting = ETrue;
-        	iServiceRequest->StartL( KNullDesC );
- 			}
+        if ( aType  == EPsuiWaitingNote )
+            {
+            iRequesting = ETrue;
+            iServiceRequest->StartL( KNullDesC );
+            }
         return; 
         }
 
@@ -295,7 +295,7 @@ void CPsuiNoteMaster::ShowCfInfoL( TCFType& aCFType,
         }
     
     // Get base text and set phone number into it.
-	// Note that two characters are reserved for LRM markers.
+    // Note that two characters are reserved for LRM markers.
     TBuf<KPSUIDetailsText+2> string;    
     StringLoader::Load( string, R_TO_NUMBER );
     string.Append( KPSUIListDivider ); 
@@ -305,14 +305,14 @@ void CPsuiNoteMaster::ShowCfInfoL( TCFType& aCFType,
     CRepository* repository = CRepository::NewL( KCRUidNumberGrouping );
     pngErr = repository->Get( KNumberGrouping, pngSupported );
     delete repository;
-    	
+        
     if ( KErrNone == pngErr && pngSupported != 0 )
         {
         CPNGNumberGrouping* numberGrouping = 
             CPNGNumberGrouping::NewL( KPSUIMaxPSUIItemLength );
         CleanupStack::PushL( numberGrouping );
 
-		//Check that number fits (with or w/o number formatting).
+        //Check that number fits (with or w/o number formatting).
         if ( (aSetting.iNumber.iTelNumber.Length() + 2) <= numberGrouping->MaxDisplayLength() )
             {
             numberGrouping->Set( aSetting.iNumber.iTelNumber );
@@ -354,10 +354,10 @@ void CPsuiNoteMaster::ShowCfInfoL( TCFType& aCFType,
     iQuery = CPsuiQueryDialog::NewL( CAknQueryDialog::ENoTone );
     TInt command( iQuery->ExecuteLD( R_CONFIRMATION_QUERY, string ) );
     if( command == EKeyNo )
-	    {
-	    // End -key was pressed so don't relaunch previous query
-		aCFType = EPsuiNoCF;	    	
-	    }
+        {
+        // End -key was pressed so don't relaunch previous query
+        aCFType = EPsuiNoCF;            
+        }
     iQuery = NULL;
     }
 
@@ -570,11 +570,11 @@ void CPsuiNoteMaster::SetTitleL( const TInt& aResourceHeading )
 // CPsuiNoteMaster::AppendCFNumber
 // ---------------------------------------------------------------------------
 void CPsuiNoteMaster::AppendCFNumber( TDes& aString, const TDesC& aNumber )
-	{
-		aString.Append( KLRMarker );
-		aString.Append( aNumber );
-		aString.Append( KLRMarker );
-	}
+    {
+        aString.Append( KLRMarker );
+        aString.Append( aNumber );
+        aString.Append( KLRMarker );
+    }
 // ---------------------------------------------------------------------------
 // CPsuiNoteMaster::SetBsGroupLC
 // ---------------------------------------------------------------------------
@@ -587,7 +587,7 @@ HBufC* CPsuiNoteMaster::SetBsGroupLC( TUint8 aBscCode )
             string = StringLoader::LoadLC( R_BS_ALPHA_0 );
             break;
         case 10:
-			string = StringLoader::LoadLC( R_BS_ALPHA_10 );
+            string = StringLoader::LoadLC( R_BS_ALPHA_10 );
             break;
         case 11:
             string = StringLoader::LoadLC( R_BS_ALPHA_11 );

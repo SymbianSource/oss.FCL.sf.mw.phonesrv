@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "MPhSrvEmergencyNegotiators.h"
-#include "MPhSrvEmergencyInitiators.h"
+#include "mphsrvemergencynegotiators.h" 
+#include "mphsrvemergencyinitiators.h" 
 
 
 // FORWARD DECLARATIONS

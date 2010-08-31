@@ -20,7 +20,7 @@
 #define C_SSICONFILEPROVIDER_H
 
 #include <e32base.h>
-#include <AknIconUtils.h>
+#include <AknIconUtils.h> 
 
 /**
  *  Declarition of CSsIconFileProvider.
@@ -65,7 +65,7 @@ NONSHARABLE_CLASS( CSsIconFileProvider ) : public CBase,
          /**
           * By default Symbian 2nd phase constructor is private.
           */
-	    void ConstructL( RFile& aFile );
+        void ConstructL( RFile& aFile );
 
     private: // data
 

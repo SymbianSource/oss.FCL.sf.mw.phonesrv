@@ -209,11 +209,7 @@ void CNWGsmNetworkCellReselectionHandler::HandleCellReselection( )
 //
 CMcn* CNWGsmNetworkCellReselectionHandler::GetMcnPtr()
     {
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::GetMcnPtr() Begin " );
-    
     return iMcn;
-    
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::GetMcnPtr() End " );
     }
 
 // ----------------------------------------------------------------------------

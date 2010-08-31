@@ -22,7 +22,7 @@
 
 
 //  INCLUDES
-#include <MSSSettingsRefreshObserver.h>
+#include <msssettingsrefreshobserver.h> 
 #include <msatrefreshobserver.h>
 
 
@@ -43,25 +43,25 @@ class MSSSettingsRefreshHandler
     public: // New functions
 
         /**
-		* Start the waiting for refresh events.
+        * Start the waiting for refresh events.
         * 
         * @param aObserver The observer to handle refresh events.
         * @param aObservedFile The file change to be observed.
         * @param aObservedRefreshType The refresh type(s) to be observed.
-		*/
-		virtual void NotifyFileChangeL(
+        */
+        virtual void NotifyFileChangeL(
             MSSSettingsRefreshObserver& aObserver,
             TSatElementaryFiles aObservedFile,
             TSatRefreshType aObservedRefreshType ) = 0;
 
-		/**
-		* Cancel the notification started in NotifyFileChangeL.
+        /**
+        * Cancel the notification started in NotifyFileChangeL.
         * 
         * @param aObserver The observer whose notify to be canceled.
         * @param aObservedFile The file change to be canceled.
         * @param aObservedRefreshType The refresh type to be canceled.
-		*/
-		virtual void CancelNotify() = 0;
+        */
+        virtual void CancelNotify() = 0;
 
         /**
         * Get the changed CSP information after Refresh.

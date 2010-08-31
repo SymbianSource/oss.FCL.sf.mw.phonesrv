@@ -24,7 +24,7 @@
 #include <e32base.h>
 #include <s32mem.h>
 #include <bldvariant.hrh>
-#include <PhCltTypes.h>
+#include <phclttypes.h> 
 
 
 // Constant used as window group id to indicate that we wish to go to idle.
@@ -34,7 +34,7 @@ const TInt KPhCltGoToIdle = 0;
 const TInt KPhCltRedialDefault = -1;          // Default redial.
 const TInt KPhCltRedialOff = -2;              // Redial is off.
 const TInt KPhCltRedialWithDefaultTime = -3;  // Redial on, with default time.
-const TInt KPhCltRedial = 0;	// Forced redial.
+const TInt KPhCltRedial = 0;    // Forced redial.
 
 
 // CONSTANTS
@@ -143,7 +143,7 @@ NONSHARABLE_CLASS( CPhCltDialData ): public CBase
         * End other calls param.
         * @since Series 60 3.2
         * @return Returns ETrue if other calls will be terminated.
-        *				  EFalse if calls are not terminated.
+        *                 EFalse if calls are not terminated.
         */
         virtual TBool EndOtherCalls() const = 0;
         
@@ -227,9 +227,9 @@ NONSHARABLE_CLASS( CPhCltDialData ): public CBase
          */
         virtual const TDesC& UUI() const = 0;
         
-	public: // Access - Setters
-	
-		/**
+    public: // Access - Setters
+    
+        /**
         * Set whether the name entered in SetName should be matched
         * against the personal directory.
         * @since Series 60 3.2
@@ -239,8 +239,8 @@ NONSHARABLE_CLASS( CPhCltDialData ): public CBase
         * @param aAllowMatch Whether to allow matches.
         */
         virtual void SetAllowMatch( TBool aAllowMatch ) = 0;
-	
-		/**
+    
+        /**
         * Set the bearer capability.
         * @since Series 60 3.2
         * @param aBearer The bearer capabilities as defined in GSM 04.08.
@@ -379,9 +379,9 @@ NONSHARABLE_CLASS( CPhCltDialData ): public CBase
                       
     // Constructors
     
-	 protected: 
-	 
-  		/**
+     protected: 
+     
+        /**
         * C++ default constructor.
         * @since Series 60 3.2
         */
@@ -419,7 +419,7 @@ NONSHARABLE_CLASS( CPhCltDialData ): public CBase
         
         
         //The contact Link storage.
-        HBufC8* 				  iContactLink;
+        HBufC8*                   iContactLink;
         
         // The calling party subaddress.
         TPhCltSubAddress          iSubAddress;
@@ -447,10 +447,10 @@ NONSHARABLE_CLASS( CPhCltDialData ): public CBase
 
         
         //Intialization call 
-        TBool 					  iInitCall;
+        TBool                     iInitCall;
        
         // Flags value
-        TUint 					  iFlags;
+        TUint                     iFlags;
 
         // service id
         TUint32                   iServiceId;

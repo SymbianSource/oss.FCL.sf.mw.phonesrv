@@ -1,0 +1,62 @@
+
+22-Oct-2009 Tommi Kenakkala
+
+HOW TO INTEGRATE:
+- This version uses MCLwk32+QtOrbitDeltawk37+QtControlPanelwk38
+- To get this working you have use the refactored vmbxengine.
+Copy cvoicemailbox.h, cvoicemailboxentry.h, voicemailboxdefs.h to the phonesrv_plat api folder (Same as old)
+(I'll also remove vmbxengine app layer api dependencies from mercurial)
+- Copy Qt control panel to root 
+- Edit \qtcontrolpanel\qtcontrolpanel\controlpanelplugins\communicationplugin\data\cpcommunicationplugin.cpcfg
+by adding:
+  <plugin displayname = "displayname" id = "0X20029F5D"  dll = "vmbxcpplugin.dll">
+    <desc>I'm a description</desc>
+  </plugin>
+(remember to check that uid matches to implementation)
+- To get signals from ui control in QtControlPanelwk38 package you have to fix the mistyped connect
+in qtcontrolpanel\qtcontrolpanel\cpframework\src\cpsettingformitemdata.cpp:
+"lineEditTextChanged" is mistyped as "lineEditTextChangge"
+Signal is emitted on every character change so we or control panel have to fix that.
+- After above is done compile qtcontrolpanel:
+           qmake -spec symbian-abld
+           bldmake bldfiles
+           abld build winscw udeb
+- Copy vmbxcpplugin to root and compile similarly
+
+- If you want to avoid carbide:
+ - Install DebugView (debug traces are printed there)
+ - launch epoc.exe from shell, launch DebugView PC app
+ - In emulator open eshell and launch the application there by typing the exe name
+
+- If vmbxcpplugin is not loaded enable QtControlPanel tracing and check the control 
+panel fw traces, there should be a trace for every plugin load attemp. 
+After "desc" tag there's a "loading failed" string if e.g. vmbxcpplugin.dll 
+loading failed because linking to vmbxengine.dll had problems.
+Here is an ok trace from qtcontrolpanel:  
+    "[1876]  diplayname =  "displayname"  
+    [1876]  dll =  "vmbxcpplugin.dll"  
+    [1876]  desc =  "I'm a description"  " 
+
+HOW TO USE QT CONTROL PANEL ON UI: 
+- launch by selecting applications > qtcontrolpanel 
+or applications > eshell and type qtcontrolpanel
+- Click the "+" to open communications group
+- Click the "+" to open vmbx group
+- when you start editing the number, it will be save every time you change even a single character
+
+ABOUT DESIGN & FEATURES:
+
+- TODO: update VmbxCpGroup to class VmbxCpGroup : public CpSettingFormItemData 
+when DataForm bug is fixed (QTControlPanel wk39-41?), now append/addchild() panics.
+After the base class switch API will change but it should be just a few minutes of work to do that.
+
+- Ps Services to be implemented later when we know if they will be in vmbx control panel group or in service settings group.
+- UI editing permit checking must be implemented
+- Video ALS support not to be implemented on UI, do it later if there really is someone using it.
+- Default mailbox setting to be implemented later to CVoiceMailbox API and to UI, if future UI concepts still specify it.
+- Use QT_TRAP_THROWING when qt 4.6 available, but do test then that qt throws and symbian leaves work ok together.
+- Triple-check cleanup everywhere
+- .pro file include paths are hard-coded, fix those for phonesrv_plat api folders.
+
+test
+

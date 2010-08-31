@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -18,7 +18,7 @@
 
 #include    <e32property.h>
 #include    <centralrepository.h>
-#include    <NetworkHandlingDomainPSKeys.h>
+#include    <networkhandlingdomainpskeys.h>
 #include    "SATPrivateCRKeys.h"
 #include    "MSatApi.h"
 #include    "MSatUtils.h"
@@ -65,14 +65,6 @@ void CSetUpIdleModeTextHandler::ConstructL()
     {
     LOG( SIMPLE, "SETUPIDLEMODETEXT: \
         CSetUpIdleModeTextHandler::ConstructL calling" )
-
-    iWaitingForResponse = EFalse;
-
-    // Register to listen Idle mode responses.
-    iUtils->RegisterL( this, MSatUtils::EIdleModeResponseSuccess );
-    iUtils->RegisterL( this, MSatUtils::EIdleModeResponseSuccessNoIcon );
-    iUtils->RegisterL( this, MSatUtils::EIdleModeResponseUnableToProcess );
-    iUtils->RegisterL( this, MSatUtils::EIdleModeResponseBeyondCapabilities );
 
     // Register to listen ESimReset execution.
     iUtils->RegisterL( this, MSatUtils::ESimResetCalled );
@@ -135,50 +127,9 @@ void CSetUpIdleModeTextHandler::Event( TInt aEvent )
     {
     LOG( SIMPLE,
         "SETUPIDLEMODETEXT: CSetUpIdleModeTextHandler::Event calling" )
-    TBool responseOk( EFalse );
-
     // Check the response
     switch ( aEvent )
         {
-        case MSatUtils::EIdleModeResponseSuccess:
-            {
-            LOG( NORMAL, "SETUPIDLEMODETEXT: CSetUpIdleModeTextHandler \
-                KSuccess")
-            iSetUpIdleModeTextRsp.iGeneralResult = RSat::KSuccess;
-            responseOk = ETrue;
-            break;
-            }
-
-        case MSatUtils::EIdleModeResponseSuccessNoIcon:
-            {
-            LOG( NORMAL, "SETUPIDLEMODETEXT: CSetUpIdleModeTextHandler \
-                KSuccessReqIconNotDisplayed")
-            iSetUpIdleModeTextRsp.iGeneralResult =
-                RSat::KSuccessRequestedIconNotDisplayed;
-            responseOk = ETrue;
-            break;
-            }
-
-        case MSatUtils::EIdleModeResponseUnableToProcess:
-            {
-            LOG( NORMAL, "SETUPIDLEMODETEXT: CSetUpIdleModeTextHandler \
-                KMeUnableToProcessCmd")
-            iSetUpIdleModeTextRsp.iGeneralResult =
-                RSat::KMeUnableToProcessCmd;
-            responseOk = ETrue;
-            break;
-            }
-
-        case MSatUtils::EIdleModeResponseBeyondCapabilities:
-            {
-            LOG( NORMAL, "SETUPIDLEMODETEXT: CSetUpIdleModeTextHandler \
-                KBeyondMeCapabilities")
-            iSetUpIdleModeTextRsp.iGeneralResult =
-                RSat::KCmdBeyondMeCapabilities;
-            responseOk = ETrue;
-            break;
-            }
-
         case MSatUtils::ESimResetCalled:
             {
             LOG( NORMAL, "SETUPIDLEMODETEXT: CSetUpIdleModeTextHandler \
@@ -244,17 +195,6 @@ void CSetUpIdleModeTextHandler::Event( TInt aEvent )
             break;
             }
         }
-
-    if ( responseOk && iWaitingForResponse )
-        {
-        LOG( NORMAL, "SETUPIDLEMODETEXT: CSetUpIdleModeTextHandler \
-        send response")
-        iWaitingForResponse = EFalse;
-
-        // Send terminal response, if the event was solved
-        TerminalRsp( RSat::ESetUpIdleModeText, iSetUpIdleModeTextRspPckg );
-        }
-
     LOG( SIMPLE,
         "SETUPIDLEMODETEXT: CSetUpIdleModeTextHandler::Event exiting" )
     }
@@ -402,8 +342,6 @@ void CSetUpIdleModeTextHandler::HandleCommand()
         }
     else
         {
-        iWaitingForResponse = ETrue;
-
         // Save data for restore.
         iSimResetExecuting = EFalse;
         iLastValidText = idleModeText;
@@ -431,6 +369,9 @@ void CSetUpIdleModeTextHandler::HandleCommand()
                     remove the homezone indicator and return %d", errorCode )
                 }
             }
+        
+        iSetUpIdleModeTextRsp.iGeneralResult = RSat::KSuccess;
+        TerminalRsp( RSat::ESetUpIdleModeText, iSetUpIdleModeTextRspPckg );
         }
 
     LOG( SIMPLE,

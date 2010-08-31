@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -138,13 +138,6 @@ private:
         TDes& aReceiveMessage,
         TBool& aSendCompletedFirst,
         TUint8& aReceivedDcs );
-
-    /**
-     * Show the ussd response note.
-     *
-     * @param aText The USSD response string to be shown.
-     */
-    void ShowUssdResponseNoteL( const TDesC& aText );
 
     /**
      * Handles the result of Ussd sending
@@ -289,10 +282,6 @@ private: // data
      */
     TBool iIconCommand;
 
-    /**
-     * Indicates whether the result of sending USSD is displayed
-     */
-    TBool iIsSatDisplayUssdResult;
     };
 
 #endif      // CSENDUSSDHANDLER_H

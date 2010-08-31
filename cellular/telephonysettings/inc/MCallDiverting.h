@@ -29,7 +29,11 @@
 class MCallDiverting
     {
     public:
-
+        /**
+         * Sets observer which informs when request is completed
+         */
+        virtual void SetRequestObserver( MPsetRequestObserver* aObs ) = 0;
+    
         /**
         * Sets diverting to the network.
         * 
@@ -107,15 +111,6 @@ class MCallDiverting
         * is open before calling this function.
         */
         virtual TInt SaveKey( TUint32 aKeyId, const TDesC& aKeyValue ) = 0;
-        
-        /**
-        * Opens Vmbx connection. Leaves vmbx to the stack. 
-        * 
-        * @param aTelNumber vmbx number.
-        * @param aVmbx vmbx connection.
-        * @return used vmbx number.
-        */ 
-        virtual TInt OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx ) = 0;
         
         /*
         * Virtual destructor. 

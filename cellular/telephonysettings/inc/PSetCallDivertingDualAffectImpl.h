@@ -21,13 +21,13 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <PsetCallDiverting.h>
+#include <psetcalldiverting.h> 
 #include <mmretrieve.h>
 #include <ctsydomaincrkeys.h>
-#include "MSSSettingsObserver.h"
+#include "msssettingsobserver.h" 
 #include "nwdefs.h"             
-#include "PsetConstants.h"
-#include "PSetCallDivertingBase.h"
+#include "psetconstants.h" 
+#include "psetcalldivertingbase.h" 
 
 // CLASS DECLARATION
 class CPsetSAObserver;

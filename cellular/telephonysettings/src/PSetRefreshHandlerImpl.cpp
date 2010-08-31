@@ -18,12 +18,12 @@
 
 
 // INCLUDE FILES
-#include    "PSetRefreshHandlerImpl.h"
+#include    "psetrefreshhandlerimpl.h" 
 #include    <etelmm.h>
-#include    <MSSSettingsRefreshHandler.h>
+#include    <msssettingsrefreshhandler.h>
 #include    <csssettingsrefreshcontainer.h>
-#include    <PsetCSP.h>
-#include    "PhoneSettingsLogger.h"
+#include    <psetcsp.h> 
+#include    "phonesettingslogger.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

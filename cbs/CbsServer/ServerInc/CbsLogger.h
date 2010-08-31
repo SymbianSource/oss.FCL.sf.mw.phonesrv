@@ -15,6 +15,8 @@
 *
 */
 
+
+
 #ifndef CBSLOGGER_H
 #define CBSLOGGER_H
 
@@ -28,10 +30,11 @@
     #define CBS_LOGGING_METHOD  0   // No logging in UREL builds
 #else
     // UDEB BUILD:
-    #define CBS_LOGGING_METHOD  2   // 0 = No logging, 
-                                    // 1 = Flogger, 
-                                    // 2 = RDebug
+    #define CBS_LOGGING_METHOD  1   // 0 = No logging, 
+                                        // 1 = Flogger, 
+                                        // 2 = RDebug
 #endif //_DEBUG
+
 
 #if CBS_LOGGING_METHOD > 0
     #define CBS_LOGGING_ENABLED     // This is for backward compatibility
@@ -55,6 +58,7 @@
 
 #endif //CBS_LOGGING_METHOD
 
+
 /*
 -----------------------------------------------------------------------------
     LOGGING MACROs
@@ -62,6 +66,7 @@
     USE THESE MACROS IN YOUR CODE !
 -----------------------------------------------------------------------------
 */
+
 
 #if CBS_LOGGING_METHOD == 1      // Flogger
 

@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include    "CPhCltOperatorLogoContainer.h"
+#include    "cphcltoperatorlogocontainer.h" 
 
 // CONSTANTS
 

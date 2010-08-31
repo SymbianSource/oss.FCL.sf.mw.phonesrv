@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include    <CSSSettingsRefreshContainer.h>
-#include    "CSSSettingsRefreshHandler.h"
+#include    <csssettingsrefreshcontainer.h> 
+#include    "csssettingsrefreshhandler.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

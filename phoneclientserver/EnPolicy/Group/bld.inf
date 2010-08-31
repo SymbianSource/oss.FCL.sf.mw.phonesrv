@@ -22,19 +22,19 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../Inc/CEmergencyNumberPolicy.h         |../../../inc/cemergencynumberpolicy.h
+../inc/cemergencynumberpolicy.h         |../../../inc/cemergencynumberpolicy.h
 #ifdef __EN_POLICY_DOS
-DosEnPolicy_stub.SIS                 /epoc32/data/z/system/install/dosenpolicy_stub.sis
+dosenpolicy_stub.sis                 /epoc32/data/z/system/install/dosenpolicy_stub.sis
 #else
-SosEnPolicy_stub.sis                 /epoc32/data/z/system/install/SosEnPolicy_stub.sis
+sosenpolicy_stub.sis                 /epoc32/data/z/system/install/sosenpolicy_stub.sis
 #endif
 
 // IBY files
 ../rom/enpolicy.iby                 CORE_MW_LAYER_IBY_EXPORT_PATH(enpolicy.iby)
 
 PRJ_MMPFILES
-../Group/DOSENPolicy.mmp
-../Group/SOSENPolicy.mmp
+../group/dosenpolicy.mmp
+../group/sosenpolicy.mmp
 
 PRJ_TESTMMPFILES
 // specify the .mmp files required for building any test programs here

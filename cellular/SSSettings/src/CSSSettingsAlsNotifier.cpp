@@ -20,14 +20,14 @@
 // INCLUDE FILES
 #include    <rmmcustomapi.h>
 #include    <startupdomainpskeys.h>
-#include 	<centralrepository.h>
-#include 	<SSSettingsPrivatePSKeys.h>  // SSSettings Pub&Sub keys.
-#include 	<SSSettingsPrivateCRKeys.h>  // SSSettings CentRep keys.
-#include 	<PSVariables.h>
+#include    <centralrepository.h>
+#include    <sssettingsprivatepskeys.h> // sssettings pub&sub keys. 
+#include    <sssettingsprivatecrkeys.h> // sssettings centrep keys. 
+#include    <PSVariables.h> 
 
-#include    "CSSSettingsAlsNotifier.h"
-#include    "CSSSettingsActiveObject.h"
-#include    "SSSettingsLogger.h"
+#include    "csssettingsalsnotifier.h" 
+#include    "csssettingsactiveobject.h" 
+#include    "sssettingslogger.h" 
 
 // ================= MEMBER FUNCTIONS =======================
 // -----------------------------------------------------------------------------
@@ -488,7 +488,7 @@ TInt CSSSettingsAlsNotifier::EnsureAlsStatus()
     if ( error == KErrNone )
         {
         // Make sure that SIM state is OK otherwise parameters coming from SIM are mess.
-    	if ( simState ==ESimUsable )
+        if ( simState ==ESimUsable )
             {
             // Get Als support from Product Profile.
             error = CheckAlsSupportInProductProfile( iPPSupportAls );
@@ -514,30 +514,30 @@ TInt CSSSettingsAlsNotifier::EnsureAlsStatus()
                 
             // Open connection RCustomerServiceProfileCache.
             RCustomerServiceProfileCache alsProfileCache;
-        	error = alsProfileCache.Open();
-        	if ( error != KErrNone )
-        		{
-        		return error;
-        		} 
-        		
+            error = alsProfileCache.Open();
+            if ( error != KErrNone )
+                {
+                return error;
+                } 
+                
             // Get ALS CSP bit from cache.
-    		iAlsCSPError = alsProfileCache.CspCPHSTeleservices( params );
-    		
-			if ( iAlsCSPError == KErrNone || iAlsCSPError == KErrNotSupported )
-    			{
-    			// Checks CSP ALS support.
-    			iAlsCSPSupport = CheckIfAlsCSPSupported( params );
-    			}
-    		// If ETEL/TSY responses with error KErrNotReady/KErrServerBusy then CSP value is not correct one
-    		// and iAlsStatusChecked is set to EFalse.		
-    	    else if ( iAlsCSPError == KErrNotReady || iAlsCSPError == KErrServerBusy ) 
-        	    {
-        	    iAlsStatusChecked = EFalse;
-        	    alsProfileCache.Close();
-        	    return iAlsCSPError;
-        	    } 
-        	// Close connection RCustomerServiceProfileCache.
-    		alsProfileCache.Close();   
+            iAlsCSPError = alsProfileCache.CspCPHSTeleservices( params );
+            
+            if ( iAlsCSPError == KErrNone || iAlsCSPError == KErrNotSupported )
+                {
+                // Checks CSP ALS support.
+                iAlsCSPSupport = CheckIfAlsCSPSupported( params );
+                }
+            // If ETEL/TSY responses with error KErrNotReady/KErrServerBusy then CSP value is not correct one
+            // and iAlsStatusChecked is set to EFalse.      
+            else if ( iAlsCSPError == KErrNotReady || iAlsCSPError == KErrServerBusy ) 
+                {
+                iAlsStatusChecked = EFalse;
+                alsProfileCache.Close();
+                return iAlsCSPError;
+                } 
+            // Close connection RCustomerServiceProfileCache.
+            alsProfileCache.Close();   
 
             // Save PP and SIM als values to P&S.
             if ( savePPSimAls )
@@ -577,11 +577,11 @@ TInt CSSSettingsAlsNotifier::EnsureAlsStatus()
 TBool CSSSettingsAlsNotifier::CheckIfAlsCSPSupported(
     const RMobilePhone::TCspCPHSTeleservices aContainer ) const
     {
-	TBool supported(EFalse);
+    TBool supported(EFalse);
 
     if ( ( aContainer & RMobilePhone::KCspALS ) != 0 )
-        {		
-        supported = ETrue;	
+        {       
+        supported = ETrue;  
         }
     return supported;
     }
@@ -664,9 +664,9 @@ TInt CSSSettingsAlsNotifier::HandleRefresh()
     if ( error == KErrNone )
         {
         error = RProperty::Set( 
-	        KPSUidSSConfig, 
-	        KSettingsPPSupportsALS, 
-	        iPPSupportAls );
+            KPSUidSSConfig, 
+            KSettingsPPSupportsALS, 
+            iPPSupportAls );
         }
         
     if ( error != KErrNone )

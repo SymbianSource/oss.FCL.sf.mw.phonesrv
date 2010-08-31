@@ -20,7 +20,7 @@
 #define CPHONEGSMSIMCONTROLHANDLER_H
 
 // INCLUDES
-#include    "CPhoneGsmHandlerBase.h"
+#include    "cphonegsmhandlerbase.h" 
 
 // CLASS DECLARATION
 

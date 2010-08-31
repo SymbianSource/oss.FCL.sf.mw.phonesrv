@@ -21,8 +21,8 @@
 #define CPSUICLIOBSERVER_H
 
 // INCLUDES            
-#include <MPsetCliObserver.h>   
-#include "PsuiConstants.h"      
+#include <mpsetcliobserver.h> 
+#include "psuiconstants.h" 
 
 // FORWARD DECLARATION
 class CPsuiResourceLoader;

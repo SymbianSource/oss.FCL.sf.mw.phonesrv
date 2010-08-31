@@ -27,7 +27,7 @@
 
 // INCLUDES
 #include "e32base.h"
-#include "RCbsMcnSession.h"
+#include <rcbsmcnsession.h>
 
 // CONSTANTS
 // Maximum length of a MCN message.

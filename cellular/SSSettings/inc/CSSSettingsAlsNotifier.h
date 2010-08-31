@@ -23,8 +23,8 @@
 #include <etelmm.h>
 #include <cenrepnotifyhandler.h>
 
-#include "RSSSettings.h"
-#include "CSSSettingsActiveObject.h"
+#include "rsssettings.h" 
+#include "csssettingsactiveobject.h" 
 
 // FORWARD DECLARATIONS
 class RMmCustomAPI;

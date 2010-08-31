@@ -21,7 +21,7 @@
 // INCLUDE FILES
 #include "CNWGsmSessionImplementation.h"
 #include "CNWGsmMessageHandler.h"
-#include "NWHandlingEngine.h"
+#include <nwhandlingengine.h>
 #include "NWLogger.h"
 
 

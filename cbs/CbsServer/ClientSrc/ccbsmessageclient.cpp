@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include "CCbsMessageClient.h"
+#include <ccbsmessageclient.h>
 #include "ccbsmessageclientimpl.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

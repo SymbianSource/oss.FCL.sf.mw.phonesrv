@@ -18,11 +18,11 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvServer.h"
-#include "CPhSrvSession.h"
-#include "CPhSrvSubSessionBase.h"
-#include "PhSrvSubSessionFactory.h"
-#include "PhCltClientServer.h"
+#include "cphsrvserver.h" 
+#include "cphsrvsession.h" 
+#include "cphsrvsubsessionbase.h" 
+#include "phsrvsubsessionfactory.h" 
+#include "phcltclientserver.h" 
 
 // CONSTANTS
 
@@ -60,7 +60,6 @@ CPhSrvSession::CPhSrvSession()
 // Destructor.
 // -----------------------------------------------------------------------------
 //
-
 CPhSrvSession::~CPhSrvSession()
     {
     if ( iServer )
@@ -69,10 +68,9 @@ CPhSrvSession::~CPhSrvSession()
         }
 
     delete iObjectIx;
-
-    if ( iContainer )
+   
+   if ( iContainer )
         {
-        //coverity[var_deref_model]
         iServer->RemoveContainer( iContainer );
         iContainer = NULL;
         }
@@ -183,18 +181,18 @@ void CPhSrvSession::ProcessRequestL( const RMessage2& aMessage )
         
         if ( subSession )
             {
-	        // Check that the subsession can handle this request
-	        if ( !subSession->PhSrvMessageDecoderCanProcessMessage( function ) )
-	            {
-	            PanicClient(
-	                aMessage,
-	                EPhCltServerInitiatedPanicInvalidHandle );
-	            }
-	        else
-	            {
-	            // Get it to process this request
-	            subSession->PhSrvMessageProcessorHandleMessageL( aMessage );
-	            }
+            // Check that the subsession can handle this request
+            if ( !subSession->PhSrvMessageDecoderCanProcessMessage( function ) )
+                {
+                PanicClient(
+                    aMessage,
+                    EPhCltServerInitiatedPanicInvalidHandle );
+                }
+            else
+                {
+                // Get it to process this request
+                subSession->PhSrvMessageProcessorHandleMessageL( aMessage );
+                }
             }            
         }
     }

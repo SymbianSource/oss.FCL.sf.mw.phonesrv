@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvUssdNotifyNWRelease.h"
-#include "MPhSrvUssdNetworkObserver.h"
-#include "PhSrvDebugInfo.h"
+#include "cphsrvussdnotifynwrelease.h" 
+#include "mphsrvussdnetworkobserver.h" 
+#include "phsrvdebuginfo.h" 
 
 // CONSTANTS
 const TInt KPhSrvUssdReceiverPriority = CActive::EPriorityLow + 2;

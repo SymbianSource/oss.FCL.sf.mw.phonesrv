@@ -21,8 +21,8 @@
 #define RPHCLTEMERGENCYNUMBER_H
 
 //  INCLUDES
-#include "PhCltTypes.h"
-#include "RPhCltServer.h"
+#include "phclttypes.h" 
+#include "rphcltserver.h" 
 #include <e32std.h>
 
 // FORWARD DECLARATIONS

@@ -23,7 +23,7 @@
 // INCLUDES
 #include    <etelmm.h>            // ETel
 #include <rmmcustomapi.h>         // CustomAPI
-#include "MPhSrvPhoneInterface.h" // The interface class
+#include "mphsrvphoneinterface.h" // The interface class 
 
 
 // CLASS DECLARATION

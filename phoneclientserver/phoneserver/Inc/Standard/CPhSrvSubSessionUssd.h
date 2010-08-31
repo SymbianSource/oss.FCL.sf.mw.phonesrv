@@ -20,8 +20,8 @@
 
 
 // INCLUDES
-#include "CPhSrvSubSessionBase.h"
-#include "MPhSrvUssdMessageSentObserver.h"
+#include "cphsrvsubsessionbase.h" 
+#include "mphsrvussdmessagesentobserver.h" 
 
 
 // CLASS DECLARATION

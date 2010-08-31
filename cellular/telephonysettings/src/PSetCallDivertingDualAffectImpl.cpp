@@ -17,27 +17,26 @@
 
 
 // INCLUDE FILES
-#include "PSetCallDivertingDualAffectImpl.h"
-#include "PSetSubscriberIdCheck.h"
+#include "psetcalldivertingdualaffectimpl.h" 
+#include "psetsubscriberidcheck.h" 
 
 #include <badesca.h>
 #include <etelmm.h>
 #include <e32math.h>
-#include <vmnumber.h>
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
-#include <settingsinternalcrkeys.h>
+#include <settingsinternalcrkeys.h> 
 
-#include "PsetCallDiverting.h"
-#include "PsetContainer.h"
-#include "MPsetDivertObs.h"
-#include "PsetTelephony.h"
-#include "PSetPanic.h"
-#include "MPsetRequestObs.h"
-#include "PSetUtility.h"
-#include "PhoneSettingsLogger.h"
-#include "PsetSAObserver.h"
+#include "psetcalldiverting.h" 
+#include "psetcontainer.h" 
+#include "mpsetdivertobs.h" 
+#include "psettelephony.h" 
+#include "psetpanic.h" 
+#include "mpsetrequestobs.h" 
+#include "psetutility.h" 
+#include "phonesettingslogger.h" 
+#include "psetsaobserver.h" 
 
 //  LOCAL CONSTANTS AND MACROS
 _LIT( KPSetIntNbr, "+" );

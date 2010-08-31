@@ -18,12 +18,12 @@
 
 
 // INCLUDE FILES
-#include "CPhSrvSubSessionBase.h"
-#include "CPhSrvSession.h"
-#include "CPhSrvServer.h"
-#include <PhCltTypes.h>
-#include "MPhSrvComHandNegotiators.h"
-#include "CPhSrvSubSessionCommandHandler.h"
+#include "cphsrvsubsessionbase.h" 
+#include "cphsrvsession.h" 
+#include "cphsrvserver.h" 
+#include <phclttypes.h> 
+#include "mphsrvcomhandnegotiators.h" 
+#include "cphsrvsubsessioncommandhandler.h" 
 
 
 

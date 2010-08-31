@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include    <featmgr.h>
-#include    "NWHandlingEngine.h"
+#include    <nwhandlingengine.h>
 #include    "CNWMessageHandler.h"
 #include    "CNWNetworkCurrentNetworkMonitor.h"
 #include    "CNWNetworkRegistrationStatusMonitor.h"

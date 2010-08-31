@@ -22,9 +22,9 @@
 TARGET          serviceselector.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x20019532    
-VENDORID		VID_DEFAULT
+VENDORID        VID_DEFAULT
 
-CAPABILITY		CAP_GENERAL_DLL
+CAPABILITY      CAP_GENERAL_DLL
 
 SOURCEPATH      ../src
 
@@ -37,8 +37,8 @@ SOURCE          cssservicehandlervoice.cpp
 SOURCE          cssservicehandlervoip.cpp
 SOURCE          csslistquerydialog.cpp 
 SOURCE          csssettingshandler.cpp
-SOURCE 	        cssnotedialog.cpp
-SOURCE 	        cssbshandler.cpp
+SOURCE          cssnotedialog.cpp
+SOURCE          cssbshandler.cpp
 SOURCE          cssiconfileprovider.cpp
 
 USERINCLUDE     ../inc
@@ -59,16 +59,18 @@ END
 LIBRARY     euser.lib
 LIBRARY     featmgr.lib // Feature manager. 
 LIBRARY     flogger.lib // For logging.
-LIBRARY     cch.lib // Converged connection handler client API
+// <-- QT PHONE START -->
+//LIBRARY     cch.lib // Converged connection handler client API
+// <-- QT PHONE END -->
 LIBRARY     serviceprovidersettings.lib // For service settings
 LIBRARY     avkon.lib // For UI queries
 LIBRARY     eikdlg.lib // For UI queries
-LIBRARY	    eikctl.lib // For UI queries
-LIBRARY	    cone.lib
+LIBRARY     eikctl.lib // For UI queries
+LIBRARY     cone.lib
 LIBRARY     eikcoctl.lib // menu bar
-LIBRARY	    eikcore.lib
-LIBRARY	    bafl.lib // For CDesArrays
-LIBRARY	    commonengine.lib // For stringloader
+LIBRARY     eikcore.lib
+LIBRARY     bafl.lib // For CDesArrays
+LIBRARY     commonengine.lib // For stringloader
 LIBRARY     aknicon.lib
 LIBRARY     egul.lib
 LIBRARY     bsclient.lib

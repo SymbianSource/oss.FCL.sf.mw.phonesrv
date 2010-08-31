@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include "CPhCltExtPhoneDialData.h"
+#include "cphcltextphonedialdata.h" 
 #include <cphcltdialdata.h>
 
 

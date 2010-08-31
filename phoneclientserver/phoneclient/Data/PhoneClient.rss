@@ -23,7 +23,7 @@ NAME    PhCl
 
 #include <eikon.rh>
 #include <avkon.loc>
-#include "PhoneClient.hrh"
+#include "phoneclient.hrh" 
 #include "eikon.rsg"
 #include <avkon.rsg>
 #include <avkon.rh>

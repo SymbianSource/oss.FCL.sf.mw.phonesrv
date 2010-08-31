@@ -18,8 +18,8 @@
 
 // INCLUDE FILES
 
-#include "CPhSrvCallRequest.h"
-#include "PhSrvUtils.h"
+#include "cphsrvcallrequest.h" 
+#include "phsrvutils.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -35,7 +35,7 @@ CPhSrvCallRequest::CPhSrvCallRequest(
     const RMessage2& aMessage, 
     CPhCltExtPhoneDialData& aArguments,
     TInt aSubSessionHandle )
-	: iPendingRequestPointer( aMessage ),      
+    : iPendingRequestPointer( aMessage ),      
     iSubSessionHandle( aSubSessionHandle )
     {
     iCallArguments = &aArguments;
@@ -153,7 +153,7 @@ void CPhSrvCallRequest::UpdateEmercgencyCall(
     TInt aSubSessionHandle)
     {
   
-	__ASSERT_ALWAYS(  aArguments.TelephoneNumber() == KPhSrvUsedEmergencyCallNumber, 
+    __ASSERT_ALWAYS(  aArguments.TelephoneNumber() == KPhSrvUsedEmergencyCallNumber, 
         PhoneServerUtils::Panic( 
             EPhoneServerPanicEmergencyCallRequestFailure ) );
             
@@ -174,7 +174,7 @@ void CPhSrvCallRequest::ClearEmergencyCall()
         {
         return;
         }
-	__ASSERT_ALWAYS(  
+    __ASSERT_ALWAYS(  
         iCallArguments->TelephoneNumber() == KPhSrvUsedEmergencyCallNumber, 
         PhoneServerUtils::Panic( 
             EPhoneServerPanicEmergencyCallRequestFailure ) );

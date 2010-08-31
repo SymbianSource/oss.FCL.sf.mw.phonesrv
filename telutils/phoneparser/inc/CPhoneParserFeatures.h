@@ -25,7 +25,7 @@ class CPhCltEmergencyCall;
 class CRepository;
 
 // INCLUDES
-#include    <MPhCltEmergencyCallObserver.h>
+#include    <mphcltemergencycallobserver.h> 
 
 // FORWARD DECLARATIONS
 
@@ -63,13 +63,6 @@ NONSHARABLE_CLASS( CPhoneParserFeatures )
 
     public: // New functions
         
-        /**
-        * Checks if life timer is enabled.
-        *
-        * @return ETrue if supported.
-        */
-        static TBool LifeTimerEnabled();
-            
         /**
         * Checks if two digit calling is enabled.
         *

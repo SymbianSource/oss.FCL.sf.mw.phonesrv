@@ -68,6 +68,11 @@ private: // New functions
     TBool NoBackupRestore( TInt aBackupStateValue );
     
     /**
+     * Check the sbs status
+     */
+    void CheckStatusL();
+    
+    /**
      * Subscribe P&S key
      */
     void Subscribe();
@@ -85,6 +90,11 @@ private:
     void ConstructL();
 
 private:
+    /**
+     * Active backup client
+     */
+    CActiveBackupClient* iABClient;
+    
     /**
      * Performs restore finalization
      */

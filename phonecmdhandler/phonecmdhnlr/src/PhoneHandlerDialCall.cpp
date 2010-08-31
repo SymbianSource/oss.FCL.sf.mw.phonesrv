@@ -17,13 +17,13 @@
 
 
 // INCLUDE FILES
-#include    "PhoneHandlerDialCall.h"
-#include 	"PhoneHandlerControl.h"
-#include 	"PhoneHandlerDebug.h"
+#include    "phonehandlerdialcall.h" 
+#include    "phonehandlercontrol.h" 
+#include    "phonehandlerdebug.h" 
 
-#include	<CPhCltCommandHandler.h>
-#include	<PhCltTypes.h>
-#include	<RemConCallHandlingTarget.h>
+#include    <cphcltcommandhandler.h> 
+#include    <phclttypes.h> 
+#include    <RemConCallHandlingTarget.h> 
 
 // EXTERNAL DATA STRUCTURES
 
@@ -52,8 +52,8 @@
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerDialCall::CPhoneHandlerDialCall( 
-							CPhoneHandlerControl& aControl,
-							TRemConExtCallHandlingApiOperationId aOperation )
+                            CPhoneHandlerControl& aControl,
+                            TRemConExtCallHandlingApiOperationId aOperation )
 : iControl( aControl ),
   iOperation( aOperation )
     {
@@ -67,11 +67,11 @@ CPhoneHandlerDialCall::CPhoneHandlerDialCall(
 void CPhoneHandlerDialCall::ConstructL()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::ConstructL() start" );
-	    
+        
     LoadServiceL();
     
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::ConstructL() end" );
-	}
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerDialCall::NewL
@@ -79,14 +79,14 @@ void CPhoneHandlerDialCall::ConstructL()
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerDialCall* CPhoneHandlerDialCall::NewL( 
-							CPhoneHandlerControl& aControl,
-							TRemConExtCallHandlingApiOperationId aOperation )
+                            CPhoneHandlerControl& aControl,
+                            TRemConExtCallHandlingApiOperationId aOperation )
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::NewL()" );
-	    
+        
     CPhoneHandlerDialCall* self = new( ELeave ) CPhoneHandlerDialCall( 
-    												aControl, 
-    												aOperation );
+                                                    aControl, 
+                                                    aOperation );
     
     CleanupStack::PushL( self );
     self->ConstructL();
@@ -100,7 +100,7 @@ CPhoneHandlerDialCall* CPhoneHandlerDialCall::NewL(
 CPhoneHandlerDialCall::~CPhoneHandlerDialCall()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::~CPhoneHandlerDialCall()" );
-	
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -110,14 +110,14 @@ CPhoneHandlerDialCall::~CPhoneHandlerDialCall()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerDialCall::Process()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::Process()" );
-	
+    {
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::Process()" );
+    
     COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerDialCall::Process() telephone number is %S", &(iControl.TelephoneNumber() ) );
-	iCommandHandler->Atd( GetStatus(), iControl.TelephoneNumber() ); 
-			
-	Activate();							
-	}
+    iCommandHandler->Atd( GetStatus(), iControl.TelephoneNumber() ); 
+            
+    Activate();                         
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerDialCall::Delete
@@ -125,11 +125,11 @@ void CPhoneHandlerDialCall::Process()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerDialCall::Delete()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::Delete()" );
-		
-	delete this;
-	}
+    {
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::Delete()" );
+        
+    delete this;
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerDialCall::RequestCompleted
@@ -140,33 +140,33 @@ void CPhoneHandlerDialCall::Delete()
 void CPhoneHandlerDialCall::RequestCompleted( const TInt aError )
     {
     COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerDialCall::RequestCompleted() aError=%d, iState=%d", aError, iState );
-	    
-	switch( iState )
-		{
-		case EPhoneHandlerState1:
-			{
-			NextState();
-			iControl.CommandInitiator().SendResponse( GetStatus(), 
-													  iOperation,
-													  aError );
-			Activate();
-			break;
-			}
-			
-		case EPhoneHandlerState2:
-			{
-			IdleState();
-			delete this; 
-			break;
-			}
-			
-		default:
-			{
-			COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::AsynchronousRequestCompleted() Unspecified state" );
-			break;
-			}
-		};
-	}
+        
+    switch( iState )
+        {
+        case EPhoneHandlerState1:
+            {
+            NextState();
+            iControl.CommandInitiator().SendResponse( GetStatus(), 
+                                                      iOperation,
+                                                      aError );
+            Activate();
+            break;
+            }
+            
+        case EPhoneHandlerState2:
+            {
+            IdleState();
+            delete this; 
+            break;
+            }
+            
+        default:
+            {
+            COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerDialCall::AsynchronousRequestCompleted() Unspecified state" );
+            break;
+            }
+        };
+    }
     
 // ========================== OTHER EXPORTED FUNCTIONS =========================
 

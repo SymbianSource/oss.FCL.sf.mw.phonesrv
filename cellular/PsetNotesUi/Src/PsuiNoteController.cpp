@@ -17,8 +17,8 @@
 
 
 // INCLUDE FILES
-#include "PsuiNoteController.h"
-#include "PsuiInternalConstants.h"
+#include "psuinotecontroller.h" 
+#include "psuiinternalconstants.h" 
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -74,7 +74,7 @@ void CPsuiNoteController::ConstructL()
 //
 void CPsuiNoteController::ShowNoteL( TPsuiNoteTypes aType, TInt aResourceID )
     {
-	  iNote->ShowNoteL( aType, aResourceID );
+      iNote->ShowNoteL( aType, aResourceID );
     }       
 
 // ---------------------------------------------------------
@@ -83,7 +83,7 @@ void CPsuiNoteController::ShowNoteL( TPsuiNoteTypes aType, TInt aResourceID )
 //
 void CPsuiNoteController::ShowBscListL( TInt aResourceHeading, TUint8 aBsc[KPSUIMaxBscNumber] )
     {
-	  iNote->ShowBscListL( aResourceHeading, aBsc );
+      iNote->ShowBscListL( aResourceHeading, aBsc );
     }
 
 // ---------------------------------------------------------
@@ -92,7 +92,7 @@ void CPsuiNoteController::ShowBscListL( TInt aResourceHeading, TUint8 aBsc[KPSUI
 //
 TInt CPsuiNoteController::SetErrorNoteResourceID ( const TInt aErrorCode )
     {
-	  return iNote->SetErrorNoteResourceID( aErrorCode );
+      return iNote->SetErrorNoteResourceID( aErrorCode );
     }
 
 // ---------------------------------------------------------
@@ -101,9 +101,9 @@ TInt CPsuiNoteController::SetErrorNoteResourceID ( const TInt aErrorCode )
 //
 void CPsuiNoteController::RemoveNotesL()
     {
-	  delete iNote;
-	  iNote = NULL;
-	  iNote = CPsuiNoteMaster::NewL();
+      delete iNote;
+      iNote = NULL;
+      iNote = CPsuiNoteMaster::NewL();
     }
 
 // ---------------------------------------------------------
@@ -112,7 +112,7 @@ void CPsuiNoteController::RemoveNotesL()
 //
 void CPsuiNoteController::KillStaticNoteL()
     {
-	  iNote->KillStaticNoteL();
+      iNote->KillStaticNoteL();
     }
 
 // ---------------------------------------------------------
@@ -124,7 +124,7 @@ void CPsuiNoteController::SetEngineContacts( MPsetCallWaiting* aWaitingEngine,
     MPsetCli* aCliEngine )
     {
     iNote->SetEngineContacts( aWaitingEngine, aBarringEngine,
-        aDivertEngine, aCliEngine );	
+        aDivertEngine, aCliEngine );    
     }
 
 // ---------------------------------------------------------
@@ -135,7 +135,7 @@ TCFType CPsuiNoteController::ShowBscCFListL( TInt aResourceHeading,
     CMobilePhoneCFList& aList, TCFType aCFType, TInt& aIndex )
     {
     return iNote->ShowBscCFListL( aResourceHeading, aList,
-        aCFType, aIndex );	
+        aCFType, aIndex );  
     }
 
 // ---------------------------------------------------------
@@ -145,7 +145,7 @@ TCFType CPsuiNoteController::ShowBscCFListL( TInt aResourceHeading,
 void CPsuiNoteController::ShowCfInfoL( TCFType& aCFType,
     const RMobilePhone::TMobilePhoneCFInfoEntryV1& aSetting )
     {
-    iNote->ShowCfInfoL( aCFType, aSetting );	
+    iNote->ShowCfInfoL( aCFType, aSetting );    
     }
 
 // End of File

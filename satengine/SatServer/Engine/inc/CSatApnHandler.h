@@ -25,8 +25,6 @@
 #include "MSatApnHandler.h"
 
 class MSatUtils;
-class RCmConnectionMethod;
-class RCmManager;
 
 /**
 *  Handles the Access point operations with CMManager. Searches, inserts and
@@ -125,15 +123,6 @@ class CSatApnHandler : public CBase,
         */
         HBufC* FormatAPN( const RSat::TAccessName& aReqApn ) const;
 
-        /**
-         * Get default connection method.
-         *
-         * @param aCmManager Input Connection method manager.
-         * @param aDefCm Output reference to RCmConnectionMethod.
-         * @return None
-         */
-        void GetDefConnMethodL( RCmManager& aCmManager, 
-            RCmConnectionMethod& aDefCm );
     private:  // Data
 
         // Reference to command container

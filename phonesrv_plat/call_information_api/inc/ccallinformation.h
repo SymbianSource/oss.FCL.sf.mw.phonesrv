@@ -106,8 +106,8 @@ private:
 
 private: // data    
     
-	CCallInformationImpl* iImpl;	
-	
+    CCallInformationImpl* iImpl;    
+    
     };
 
 

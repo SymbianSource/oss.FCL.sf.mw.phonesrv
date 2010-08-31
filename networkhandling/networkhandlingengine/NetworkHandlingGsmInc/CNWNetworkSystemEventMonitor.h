@@ -24,7 +24,7 @@
 
 #include <e32base.h>
 
-#include    "NetworkHandlingDomainPSKeys.h"
+#include <networkhandlingdomainpskeys.h>
 #include <PSVariables.h>
 
 // CONSTANTS

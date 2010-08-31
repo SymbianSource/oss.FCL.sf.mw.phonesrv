@@ -233,7 +233,7 @@ EXPORT_C TInt CSPEntry::UpdateProperty( TServicePropertyName aPropertyName, TOnO
 // ---------------------------------------------------------------------------
 //
 EXPORT_C TInt CSPEntry::GetProperty( const CSPProperty*& aProperty, 
-    								TServicePropertyName aPropertyName ) const
+                                    TServicePropertyName aPropertyName ) const
     {
     TInt index = SearchProperty( aPropertyName );
 
@@ -254,7 +254,7 @@ EXPORT_C TInt CSPEntry::GetProperty( const CSPProperty*& aProperty,
 // ---------------------------------------------------------------------------
 //
 EXPORT_C TInt CSPEntry::GetProperty( const CSPProperty*& aProperty, 
-    								TInt aIndex ) const
+                                    TInt aIndex ) const
     {
     if ( iPropertyArray.Count() > aIndex && 0 <= aIndex )
         {
@@ -347,9 +347,9 @@ TInt CSPEntry::SearchProperty( TServicePropertyName aProperty ) const
 // ---------------------------------------------------------------------------
 //
 EXPORT_C void CSPEntry::Reset()
-	{
-	iServiceId = KSPNoId;
-	iServiceName.Close();
-	iPropertyArray.ResetAndDestroy();
-	}
+    {
+    iServiceId = KSPNoId;
+    iServiceName.Close();
+    iPropertyArray.ResetAndDestroy();
+    }
 

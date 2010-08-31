@@ -18,8 +18,8 @@
 
 
 //  Include Files
-#include    "RPhCltCallNotify.h"
-#include    "RPhCltServer.h"
+#include    "rphcltcallnotify.h" 
+#include    "rphcltserver.h" 
 
 
 // ============================= LOCAL FUNCTIONS ===============================

@@ -23,15 +23,15 @@ DEFAULT ARMV5
 
 PRJ_EXPORTS
 
-../inc/CSSSettingsRefreshContainer.h  |../../../inc/csssettingsrefreshcontainer.h
-../inc/MSSSettingsRefreshHandler.h    |../../../inc/MSSSettingsRefreshHandler.h
+../inc/csssettingsrefreshcontainer.h  |../../../inc/csssettingsrefreshcontainer.h
+../inc/msssettingsrefreshhandler.h    |../../../inc/msssettingsrefreshhandler.h
 
-../group/SSSettings_stub.SIS          /epoc32/data/z/system/install/sssettings_stub.sis
+../group/sssettings_stub.sis          /epoc32/data/z/system/install/sssettings_stub.sis
 
 // IBY files
-../rom/SSSettings.iby                 CORE_APP_LAYER_IBY_EXPORT_PATH(SSSettings.iby)
+../rom/sssettings.iby                 CORE_APP_LAYER_IBY_EXPORT_PATH(sssettings.iby)
 
 PRJ_MMPFILES
-../group/SSSettings.mmp
+../group/sssettings.mmp
 
 //End of file

@@ -15,7 +15,7 @@
 *
 */
 
-#include "../EunitTest/Group/bld.inf"
+#include "../EunitTest/group/bld.inf"
 
 
 // End of file

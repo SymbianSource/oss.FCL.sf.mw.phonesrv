@@ -21,19 +21,19 @@
 #include <e32base.h>
 #include <e32cmn.h>
 #include <featmgr.h>
-#include <StringLoader.h>
-#include <CallUI.rsg>                // Resources.
+#include <stringloader.h> 
+#include <callui.rsg> // Resources. 
 #include <aknmessagequerydialog.h>
 #include <aknnotewrappers.h>
-#include <AknGlobalListQuery.h>
-#include <AknGlobalNote.h>
+#include <akngloballistquery.h> 
+#include <aknglobalnote.h> 
 #include <mcauireconnectqueryobserver.h>
-#include "CaUiDialogs.h"
-#include "cauilogger.h"
-#include "CaUiQuery.h"
-#include "CaUiEngine.h"
-#include "cphcntmatcher.h"
-#include "CaUiActiveObject.h"
+#include "cauidialogs.h" 
+#include "cauilogger.h" 
+#include "cauiquery.h" 
+#include "cauiengine.h" 
+#include "cphcntmatcher.h" 
+#include "cauiactiveobject.h" 
 
 // CLASS DECLARATION
 

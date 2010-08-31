@@ -21,12 +21,12 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include "MPhCltUssdRequestHandler.h"
-#include "MPhCltUssdNoteControllerCallBack.h"
+#include "mphcltussdrequesthandler.h" 
+#include "mphcltussdnotecontrollercallback.h" 
 #include "rphcltussd.h"
 
-#include "RPhCltServer.h"
-#include "CPhCltUssdInt.h"
+#include "rphcltserver.h" 
+#include "cphcltussdint.h" 
 
 
 // FORWARD DECLARATIONS
@@ -171,8 +171,8 @@ class CPhCltUssdImp:
         // Called when send completes.
         void HandleSendEventL( const TInt aError );
 
-        // Called when the user cancel the wait dialog.
-        void GlobalWaitNoteDismissedL( TInt aButtonId );
+        // Hidden when the user cancel the wait dialog.
+        void GlobalWaitNoteHidden();
         
         
 
@@ -188,7 +188,7 @@ class CPhCltUssdImp:
         void EncodeL( const TDesC& aSrc, TDes8& aDes );
         
         // Finds CR character        
-        void CPhCltUssdImp::FindFirstCarriageReturnL( 
+        void FindFirstCarriageReturnL( 
         const TDesC& aBuffer ,
         TUint& aSkipChars , 
         TUint& aStartBit );
@@ -201,8 +201,8 @@ class CPhCltUssdImp:
         // Wait scheduler used in this class. 
         CActiveSchedulerWait* iWait;
 
-        // Pointer to sending error store place.
-        TInt* iSendError;
+        // TInt to sending error store place.
+        TInt iSendError;
         
         // Data coding scheme value
         TUint8 iDCS;

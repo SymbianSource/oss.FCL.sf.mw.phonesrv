@@ -19,12 +19,12 @@
 // INCLUDE FILES
 #include    <rmmcustomapi.h>
 #include    <centralrepository.h>
-#include    <SSSettingsPrivateCRKeys.h>
+#include    <sssettingsprivatecrkeys.h> 
 
-#include    "CSSSettingsNotifier.h"
-#include    "MSSSettingsObserver.h"
-#include    "CSSSettingsAlsNotifier.h"
-#include    "SSSettingsLogger.h"
+#include    "csssettingsnotifier.h" 
+#include    "msssettingsobserver.h" 
+#include    "csssettingsalsnotifier.h" 
+#include    "sssettingslogger.h" 
 
 
 // DATA TYPES
@@ -111,10 +111,10 @@ void CSSSettingsNotifier::ConstructL()
 CSSSettingsNotifier::~CSSSettingsNotifier()
     {
     Cancel();
-	if( iCenRepAlsNotifyHandler )
-    	{
+    if( iCenRepAlsNotifyHandler )
+        {
         iCenRepAlsNotifyHandler->StopListening();
-    	}
+        }
 
     if( iCenRepClirNotifyHandler )
         {

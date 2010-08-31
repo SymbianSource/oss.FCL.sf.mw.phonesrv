@@ -23,8 +23,8 @@
 
 // INCLUDES
 #include <e32base.h>  
-#include <RPhCltServer.h>
-#include <rphcltemergencycall.h>
+#include <rphcltserver.h> 
+#include <rphcltemergencycall.h> 
 
 // CONSTANTS
 const TUid KEnPolicyUid={ 0x101F86D1 };

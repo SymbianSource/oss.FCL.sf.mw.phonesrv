@@ -17,8 +17,8 @@
 
 
 // INCLUDE FILES
-#include    "CPhoneGsmDummyParser.h"
-#include    "CPhoneGsmParserResult.h"
+#include    "cphonegsmdummyparser.h" 
+#include    "cphonegsmparserresult.h" 
 
 // ============================ MEMBER FUNCTIONS ===============================
 

@@ -22,7 +22,7 @@
 //  EXTERNAL INCLUDES
 #include <EUnitMacros.h>
 #include <EUnitDecorators.h>
-#include <PsuiContainer.h>
+#include <psuicontainer.h>
 
 //  INTERNAL INCLUDES
 

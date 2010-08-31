@@ -30,7 +30,7 @@
 *  @since S60 3.2
 */
 class MCCEForwardInterface
-	{
+    {
  protected: // Constructors and destructor
 
     /** 
@@ -38,35 +38,35 @@ class MCCEForwardInterface
     * @since S60 3.2
     */
     virtual ~MCCEForwardInterface() {};
-	
+    
  public:
-	/**
-	* Returns reference to array containing addresses of forward address choices.
-	* Index starts from zero.
-	* @since Series 60 3.2
-	* @param none
-	* @return array containing forward address choices
+    /**
+    * Returns reference to array containing addresses of forward address choices.
+    * Index starts from zero.
+    * @since Series 60 3.2
+    * @param none
+    * @return array containing forward address choices
     * @leave KErrNotReady Call is not in forwarding state
     * @leave KErrNotSupported If call is not mobile originated
     * @leave system error code 
     * @pre Call state is MCCECallObserver::ECCEStateForwarding and call type is MO
     * @pre Call MCCECallObserver::EVoIPEventMultipleChoices event is received
-	*/
-	virtual const CDesC8Array& GetForwardAddressChoicesL() = 0;
+    */
+    virtual const CDesC8Array& GetForwardAddressChoicesL() = 0;
 
-	/**
-	* Forward call to selected address at given index in array received from GetForwardAddressChoicesL
-	* @since Series 60 3.2
-	* @param aIndex index in the address where the call is to be forwarded. 
-	* Index starts from zero.
-	* @return none 
-	* @leave KErrArgument Index is not in array
+    /**
+    * Forward call to selected address at given index in array received from GetForwardAddressChoicesL
+    * @since Series 60 3.2
+    * @param aIndex index in the address where the call is to be forwarded. 
+    * Index starts from zero.
+    * @return none 
+    * @leave KErrArgument Index is not in array
     * @leave KErrNotReady Call is not in forwarding state
     * @leave KErrNotSupported If call is not mobile originated
     * @pre Call state is MCCECallObserver::ECCEStateForwarding and call type is MO
-	*/
-	virtual void ForwardToAddressL( const TInt aIndex ) = 0;
-	};
+    */
+    virtual void ForwardToAddressL( const TInt aIndex ) = 0;
+    };
 
 
 #endif // MCCEFORWARDINTERFACE_H

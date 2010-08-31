@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:  File that exports the files belonging to 
-*               SAT Configuration API
+:                SAT Configuration API
 *
 */
 
@@ -24,4 +24,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/SATDomainPSKeys.h     MW_LAYER_PLATFORM_EXPORT_PATH(satdomainpskeys.h)
+../inc/satdomainpskeys.h     MW_LAYER_PLATFORM_EXPORT_PATH(satdomainpskeys.h)

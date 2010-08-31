@@ -103,7 +103,7 @@ public: // API functions
     */
     virtual void InitializeL( const TUint32 aServiceId,
                               const MCCPObserver& aObserver, 
-    						  const MCCPSsObserver& aSsObserver );
+                              const MCCPSsObserver& aSsObserver );
 
     /**
     * Initialize CConvergedCallProvider after it is created with NewL.
@@ -113,7 +113,7 @@ public: // API functions
     * @leave KErrAlreadyExists If this method has already been called.
     */
     virtual void InitializeL( const MCCPObserver& aObserver, 
-    						  const MCCPSsObserver& aSsObserver ) = 0;
+                              const MCCPSsObserver& aSsObserver ) = 0;
 
     /**
     * Creates a new call.
@@ -133,8 +133,8 @@ public: // API functions
     * @pre Initialize has been called.
     */ 
     virtual MCCPCall* NewCallL( const CCCPCallParameters& aParameters,
-								const TDesC& aRecipient,
-								const MCCPCallObserver& aObserver ) = 0;
+                                const TDesC& aRecipient,
+                                const MCCPCallObserver& aObserver ) = 0;
     /**
     * Releases all bindings to call and deletes it. 
     * This will be called by CCE to free all the resources reserved for the call.
@@ -161,8 +161,8 @@ public: // API functions
     * Can be KNullDesC. Plug-in will use the given address and/or use its own information.
     * @param aObserver Observer for the emergency call.
     * @return MCCPEmergencyCall Created emergency call.
-	* @leave plug-in does not support emergency calls.
-	* @leave In case of failure system error code.
+    * @leave plug-in does not support emergency calls.
+    * @leave In case of failure system error code.
     * @pre Emergency call object is created.
     */
     virtual MCCPEmergencyCall* NewEmergencyCallL( const TUint32 aServiceId, 
@@ -196,11 +196,11 @@ public: // API functions
     * @leave KErrNotReady Temporarily not able to create the requested conference.
     * @leave KErrNoMemory Memory error.
     * @leave KErrArgument Invalid service id.
-	* @leave plug-in does not support conference calls.
+    * @leave plug-in does not support conference calls.
     * @pre Initialize has been called.
     */
     virtual MCCPConferenceCall* NewConferenceL( const TUint32 aServiceId,
-								                const MCCPConferenceCallObserver& aObserver ) = 0;
+                                                const MCCPConferenceCallObserver& aObserver ) = 0;
 
     /**
     * Releases all bindings to conference call. CCE will call this after receiving 
@@ -233,50 +233,50 @@ public: // API functions
     virtual TUint32 Caps() const = 0;
 
     /**
-	* Request DTMF provider for dtmf functionality extension. Only one instance exist. Must return the 
-	* already created object if called again after initial creation.
+    * Request DTMF provider for dtmf functionality extension. Only one instance exist. Must return the 
+    * already created object if called again after initial creation.
     * @since Series 60 3.2
     * @param aObserver Observer for DTMF events.
-	* @return Pointer to MCCPDTMFProvider if plug-in support dtmf, returns NULL if not supported.
-	* In not supported return NULL but do not leave.
+    * @return Pointer to MCCPDTMFProvider if plug-in support dtmf, returns NULL if not supported.
+    * In not supported return NULL but do not leave.
     * @pre Initialize has been called.
     * @leave KErrNoMemory Memory allocation error.
     * @leave Other general system error.
-	*/
-	virtual MCCPDTMFProvider* DTMFProviderL( const MCCPDTMFObserver& aObserver ) = 0;
+    */
+    virtual MCCPDTMFProvider* DTMFProviderL( const MCCPDTMFObserver& aObserver ) = 0;
 
-	/**
-	* Request extension provider for custom command handling features. Must return the 
-	* already created object if called again after initial creation.
-	* @since Series 60 3.2
+    /**
+    * Request extension provider for custom command handling features. Must return the 
+    * already created object if called again after initial creation.
+    * @since Series 60 3.2
     * @param aObserver observer for extension(custom) events.
-	* @return Pointer to MCCPExtensionProvider if plug-in support extensions, returns NULL if not supported.
-	* In not supported return NULL but do not leave.
+    * @return Pointer to MCCPExtensionProvider if plug-in support extensions, returns NULL if not supported.
+    * In not supported return NULL but do not leave.
     * @pre Initialize has been called.
     * @leave KErrNoMemory Memory allocation error.
     * @leave Other general system error.
-	*/
-	virtual MCCPExtensionProvider* ExtensionProviderL( const MCCPExtensionObserver& aObserver ) = 0;
+    */
+    virtual MCCPExtensionProvider* ExtensionProviderL( const MCCPExtensionObserver& aObserver ) = 0;
 
-	/**
-	* This method gets the lifetime of the MS. The lifetime information 
-	* includes the manufacturing date of the MS and the total amount of airtime use, 
-	* from the manufacturing date until the call to this method. Calling this method 
-	* does not reset any data. This is used only CS, other plug-ins may ignore this method.
-	* @since S60 3.2
-	* @param aLifeTimeInfo Life time information
-	* @return Get succeeded or not.  Default if not implemeted return false. 
-	*/
-	virtual TBool GetLifeTime( TDes8& /*aLifeTimeInfo*/ ) { return EFalse; };
+    /**
+    * This method gets the lifetime of the MS. The lifetime information 
+    * includes the manufacturing date of the MS and the total amount of airtime use, 
+    * from the manufacturing date until the call to this method. Calling this method 
+    * does not reset any data. This is used only CS, other plug-ins may ignore this method.
+    * @since S60 3.2
+    * @param aLifeTimeInfo Life time information
+    * @return Get succeeded or not.  Default if not implemeted return false. 
+    */
+    virtual TBool GetLifeTime( TDes8& /*aLifeTimeInfo*/ ) { return EFalse; };
 
-	/**
-	* This method gets cs specific information from cs-plugin. This is used only CS, 
-	* other plug-ins may ignore this method.
-	* @since S60 3.2
-	* @param aCSInfo CS specific information from cs-plugin.
-	* @return Get succeeded or not. Default if not implemeted return false.
-	*/
-	virtual TBool GetCSInfo( CSInfo& /*aCSInfo*/ )  {  return EFalse; };
+    /**
+    * This method gets cs specific information from cs-plugin. This is used only CS, 
+    * other plug-ins may ignore this method.
+    * @since S60 3.2
+    * @param aCSInfo CS specific information from cs-plugin.
+    * @return Get succeeded or not. Default if not implemeted return false.
+    */
+    virtual TBool GetCSInfo( CSInfo& /*aCSInfo*/ )  {  return EFalse; };
 
 private: // Data
 

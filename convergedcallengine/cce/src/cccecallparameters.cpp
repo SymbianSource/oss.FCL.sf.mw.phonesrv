@@ -65,6 +65,7 @@ CCCPCallParameters* CCCECallParameters::CloneL() const
     cloned->SetLineType(iLineType);
     cloned->SetUUSId(iUUSId);
     cloned->SetOrigin(iOrigin);
+    cloned->SetAlphaId(iAlphaId);
     return cloned;
     }
 
@@ -90,18 +91,18 @@ void CCCECallParameters::ConstructL()
 // -----------------------------------------------------------------------------
 //
 void CCCECallParameters::SetLineType(CCCECallParameters::TCCELineType aLineType) 
-	{ 
-	iLineType = aLineType; 
-	}
+    { 
+    iLineType = aLineType; 
+    }
 
 // -----------------------------------------------------------------------------
 // Gets the line type of the call.
 // -----------------------------------------------------------------------------
 //
 CCCECallParameters::TCCELineType CCCECallParameters::LineType() const 
-	{
-	return iLineType;
-	}
+    {
+    return iLineType;
+    }
 
 // -----------------------------------------------------------------------------
 // Sets the service id identifying the service provider of the call.
@@ -109,72 +110,81 @@ CCCECallParameters::TCCELineType CCCECallParameters::LineType() const
 //
 void CCCECallParameters::SetUUSId(TBuf<KCCPUUSIdSize> aUUSId)
     {
-	iUUSId = aUUSId;
-	}
+    iUUSId = aUUSId;
+    }
 
 // -----------------------------------------------------------------------------
 // Gets the UUS id of the call.
 // -----------------------------------------------------------------------------
 //
 TBuf<KCCPUUSIdSize> CCCECallParameters::UUSId() const 
-	{
-	return iUUSId;
-	}
+    {
+    return iUUSId;
+    }
 
 // -----------------------------------------------------------------------------
 // Sets the bearer of the call.
 // -----------------------------------------------------------------------------
 //
 void CCCECallParameters::SetBearer(TBuf8<KCCEBearerMaxSize> aBearer) 
-	{
-	iBearer = aBearer;
-	}
+    {
+    iBearer = aBearer;
+    }
 
 // -----------------------------------------------------------------------------
 // Gets the bearer of the call.
 // -----------------------------------------------------------------------------
 //
 TBuf8<KCCEBearerMaxSize> CCCECallParameters::Bearer() const 
-	{
-	return iBearer;
-	}
+    {
+    return iBearer;
+    }
 
 // -----------------------------------------------------------------------------
 // Sets the sub address of the dialled phone number.
 // -----------------------------------------------------------------------------
 //
 void CCCECallParameters::SetSubAddress(TBuf<KCCESubAddressMaxSize> aSubAddress) 
-	{
-	iSubAddress = aSubAddress;
-	}
+    {
+    iSubAddress = aSubAddress;
+    }
 
 // -----------------------------------------------------------------------------
 // Gets the sub address of the dialled phone number.
 // -----------------------------------------------------------------------------
 //
 TBuf<KCCESubAddressMaxSize> CCCECallParameters::SubAddress() const 
-	{
-	return iSubAddress;
-	}
+    {
+    return iSubAddress;
+    }
 
 // -----------------------------------------------------------------------------
 // Sets the origin of the call.
 // -----------------------------------------------------------------------------
 //
 void CCCECallParameters::SetOrigin(CCCECallParameters::TCCECallOrigin aCallOrigin) 
-	{
-	iOrigin = aCallOrigin;
-	}
+    {
+    iOrigin = aCallOrigin;
+    }
 
 // -----------------------------------------------------------------------------
 // Gets the origin of the call.
 // -----------------------------------------------------------------------------
 //
 CCCECallParameters::TCCECallOrigin CCCECallParameters::Origin() const 
-	{
-	return iOrigin;
-	}
+    {
+    return iOrigin;
+    }
+
+void CCCECallParameters::SetAlphaId(TBuf<KCCPAlphaIdMaxSize> aAlphaId)
+    {
+    iAlphaId = aAlphaId;
+    }
 
 
+TBuf<KCCPAlphaIdMaxSize> CCCECallParameters::AlphaId() const
+    {
+    return iAlphaId;
+    }
 
 // End of file

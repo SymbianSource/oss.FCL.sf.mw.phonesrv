@@ -21,7 +21,7 @@
 
 
 //  INCLUDES
-#include "CMcn.h"
+#include <cmcn.h>
 #include "MCbsEtelMessaging.h"
 
 		/*****************************************************

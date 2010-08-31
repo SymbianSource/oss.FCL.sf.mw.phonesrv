@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <PhCltTypes.h>
-#include <cphcltextphonedialdata.h>
+#include <phclttypes.h> 
+#include <cphcltextphonedialdata.h> 
 
 // FORWARD DECLARATIONS
 class MPhSrvInitiatorCall;

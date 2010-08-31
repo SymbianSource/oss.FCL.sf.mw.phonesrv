@@ -20,7 +20,7 @@
 #ifndef CSATSENDSSCLINOUIOBS_H
 #define CSATSENDSSCLINOUIOBS_H
 
-#include <MPsetCliObserver.h>
+#include <mpsetcliobserver.h>
 
 /**
 *  Implements MPsetCliObserver and is responsible for handling notes related 

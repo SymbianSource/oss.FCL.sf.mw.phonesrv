@@ -18,9 +18,9 @@
 
 
 // INCLUDES
-#include "CPhSrvEmergencyRequestManager.h"
-#include "CPhSrvSubSessionBase.h"
-#include "PhSrvUtils.h"
+#include "cphsrvemergencyrequestmanager.h" 
+#include "cphsrvsubsessionbase.h" 
+#include "phsrvutils.h" 
 
 
 // CONSTANTS
@@ -127,10 +127,11 @@ void CPhSrvEmergencyRequestManager::DoMakeEmergencyDial( const RMessage2& aMessa
 //
 void CPhSrvEmergencyRequestManager::EmergencyDialCancel()
     {
+    // Clear pending request status 
+    iIsRequestPending = EFalse;
+    
     if ( !iPendingRequestPointer.IsNull() )
         {
-        // Clear pending request status 
-        iIsRequestPending = EFalse;
         iPendingRequestPointer.Complete( KErrCancel );
         }
     }

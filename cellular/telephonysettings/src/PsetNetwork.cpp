@@ -18,20 +18,18 @@
 
 
 //  INCLUDE FILES
-#include "CNetworkResetHandler.h"
-#include "MPsetNetworkInfoObs.h"
-#include "MPsetNetworkSelect.h"
-#include "PsetNetwork.h"
-#include "PsetSAObserver.h"     
-#include "PSetPanic.h"          
-#include "PsetConstants.h"
-#include "PhoneSettingsLogger.h"
-
+#include "mpsetnetworkinfoobs.h" 
+#include "psetnetwork.h" 
+#include "psetsaobserver.h" 
+#include "psetpanic.h" 
+#include "psetconstants.h" 
+#include "mpsetnetworkselect.h" 
 #include <etelmm.h>
 #include <mmretrieve.h>
 #include <rmmcustomapi.h>
 
 #include <e32svr.h>
+#include "phonesettingslogger.h" 
 
 //  LOCAL CONSTANTS AND MACROS  
 _LIT( KPSNameOfClass, "CPsetNetwork" );
@@ -91,9 +89,7 @@ EXPORT_C CPsetNetwork::~CPsetNetwork()
     delete iNetworkRetrieve;
     iNetworkRetrieve = NULL;
     delete iSAObserver;
-    iSAObserver = NULL;
-    delete iResetNetworkSearch;
-    iResetNetworkSearch = NULL;    
+    iSAObserver = NULL;    
     } 
 
 // ---------------------------------------------------------------------------
@@ -149,6 +145,10 @@ EXPORT_C TInt CPsetNetwork::GetCurrentNetworkInfo
 //
 EXPORT_C TInt CPsetNetwork::GetNetworkSelectMode( TSelectMode& aMode )
     {
+    /*****************************************************
+    *    Series 60 Customer / ETel
+    *    Series 60  ETel API
+    *****************************************************/
     RMobilePhone::TMobilePhoneNetworkSelectionV1 setMode;
     RMobilePhone::TMobilePhoneNetworkSelectionV1Pckg setModePckg( setMode );
     
@@ -194,6 +194,10 @@ EXPORT_C void CPsetNetwork::SelectNetworkL( const TNetworkInfo& aInfo )
         }
     iTempNetInfo = aInfo;
 
+    /*****************************************************
+    *    Series 60 Customer / ETel
+    *    Series 60  ETel API
+    *****************************************************/
     if ( aInfo.iMode == ENetSelectModeManual )
         {        
         //Copy data to member variables and make a request.
@@ -269,12 +273,12 @@ void CPsetNetwork::RunL()
     // resulting in a possible dead lock when CActive::Cancel()'s User::WaitForRequest( iStatus ) never gets signaled.
     ClearParams();
     
-    if ( iActiveObserver == ENetSelectObserver )
+    if ( iActiveObserver == ENetSelectObserver && iObserver )
         {
         __ASSERT_ALWAYS( iObserver, Panic( KPSNameOfClass, ENetNoObserver ) );
         HideRequestNoteL();
         }
-    else if ( iActiveObserver == ENetModeObserver )
+    else if ( iActiveObserver == ENetModeObserver && iNetworkModeObserver )
         {        
         __ASSERT_ALWAYS( iNetworkModeObserver, 
                      Panic( KPSNameOfClass, ENetNoNetworkObserver  ) );
@@ -315,7 +319,10 @@ void CPsetNetwork::RunL()
                 TInt amount = results->Enumerate();
                 __PHSLOGSTRING1("[PHS]   CPsetNetwork::RunL: amount: %d", amount);
                 TInt i = 0;
- 
+                /*****************************************************
+                *    Series 60 Customer / ETel
+                *    Series 60  ETel API
+                *****************************************************/
                 RMobilePhone::TMobilePhoneNetworkInfoV2 nwNames;
                 while ( amount > i ) 
                     {
@@ -325,6 +332,9 @@ void CPsetNetwork::RunL()
 
                     iTempNetInfo.iId.iNetworkCode.Copy( nwNames.iNetworkId );
                     __PHSLOGSTRING1("[PHS]   CPsetNetwork::RunL: NetworkCode: %S", &iTempNetInfo.iId.iNetworkCode);
+                    
+                    iTempNetInfo.iStatus = (MPsetNetworkSelect::TNetworkStatus)nwNames.iStatus;
+                    __PHSLOGSTRING1("[PHS]   CPsetNetwork::RunL: Status: %d", &iTempNetInfo.iStatus);
 
                     iTempNetInfo.iLongName.Copy( nwNames.iLongName );
                     __PHSLOGSTRING1("[PHS]   CPsetNetwork::RunL: LongName: %S", &iTempNetInfo.iLongName);
@@ -336,16 +346,14 @@ void CPsetNetwork::RunL()
                         {
                         iTempNetInfo.iAccess = ENetNetworkWCDMA;
                         }
+                    else if ( nwNames.iAccess == RMobilePhone::ENetworkAccessGsmAndUtran )
+                        {
+                        iTempNetInfo.iAccess = ENetNetworkGSMandWCDMA;
+                        }
                     else
                         {
                         iTempNetInfo.iAccess = ENetNetworkGSM;
                         }
-
-                    /** Implementation of forbidden operator icon begins */
-                    // Set network status for displaying forbidden operator icon
-                    iTempNetInfo.iStatus = static_cast<MPsetNetworkSelect::TNetworkStatus>( nwNames.iStatus );
-                    /** Implementation of forbidden operator icon ends */
-                        
                     array->AppendL( iTempNetInfo );
                     i++;       
                     }
@@ -473,13 +481,15 @@ void CPsetNetwork::ConstructL( MPsetNetworkInfoObserver& aObserver )
     {
     iObserver = &aObserver;
     iActiveObserver = ENetSelectObserver;
-
+    /*****************************************************
+    *    Series 60 Customer / ETel
+    *    Series 60  ETel API
+    *****************************************************/
     iRegStatus = RMobilePhone::ERegistrationUnknown;
     User::LeaveIfError( iCustomPhone.Open( iPhone ) );
     
     iSAObserver = CPsetSAObserver::NewL();
     CActiveScheduler::Add( this );
-    iResetNetworkSearch = CNetworkResetHandler::NewL( iPhone );
     }
 
 // ---------------------------------------------------------------------------
@@ -492,11 +502,13 @@ void CPsetNetwork::ConstructL( MPsetNetworkModeObserver& aModeObserver )
     {
     iNetworkModeObserver = &aModeObserver;
     iActiveObserver = ENetModeObserver;
-
+    /*****************************************************
+    *    Series 60 Customer / ETel
+    *    Series 60  ETel API
+    *****************************************************/
     User::LeaveIfError( iCustomPhone.Open( iPhone ) );
     
     CActiveScheduler::Add( this );
-    iResetNetworkSearch = CNetworkResetHandler::NewL( iPhone );
     }
 
 // ---------------------------------------------------------------------------
@@ -557,11 +569,15 @@ EXPORT_C TInt CPsetNetwork::IsGPRSConnected()
 EXPORT_C TInt CPsetNetwork::ResetNetworkSearch()
     {
     __PHSLOGSTRING("[PHS]--> CPsetNetwork::ResetNetworkSearch");
-	
-    TInt error = iResetNetworkSearch->ResetNetworkSearch();
-	
-    __PHSLOGSTRING1("[PHS] <--CPsetNetwork::ResetNetworkSearch: error: %d", error);
-	
+    RMmCustomAPI customApi;
+    TInt error = customApi.Open( iPhone );
+    if  (error == KErrNone)
+        {
+        customApi.ResetNetServer();
+        }
+    customApi.Close();
+
+    __PHSLOGSTRING("[PHS] <--CPsetNetwork::ResetNetworkSearch");
     //for compatibility reasons returns a value
     return error;
     }

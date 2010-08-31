@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <PhCltTypes.h>
-#include <CPhCltCommandHandler.h>
+#include <phclttypes.h> 
+#include <cphcltcommandhandler.h> 
 
 // CONSTANTS
 

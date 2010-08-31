@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:  File that exports the files belonging to 
-:                Phone Settings API
+:                phone settings api
 *
 */
 
@@ -24,20 +24,27 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/PSetConstants.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetConstants.h)
-../inc/PsetCallWaiting.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCallWaiting.h)
-../inc/MPsetNetworkMode.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetNetworkMode.h)
-../inc/MPsetCallWaiting.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetCallWaiting.h)
-../inc/MPsetCli.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetCli.h)
-../inc/PsetCSP.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCSP.h)
-../inc/PsetNetwork.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetNetwork.h)
-../inc/MPsetCallDiverting.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetCallDiverting.h)
-../inc/PSetRefreshHandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(PSetRefreshHandler.h)
+../inc/psetconstants.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetconstants.h)
+../inc/psetcallwaiting.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcallwaiting.h)
+../inc/mpsetnetworkmode.h     MW_LAYER_PLATFORM_EXPORT_PATH(mpsetnetworkmode.h)
+../inc/mpsetcallwaiting.h     MW_LAYER_PLATFORM_EXPORT_PATH(mpsetcallwaiting.h)
+../inc/mpsetcli.h     MW_LAYER_PLATFORM_EXPORT_PATH(mpsetcli.h)
+../inc/psetcsp.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcsp.h)
+../inc/psetnetwork.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetnetwork.h)
+../inc/mpsetcalldiverting.h     MW_LAYER_PLATFORM_EXPORT_PATH(mpsetcalldiverting.h)
+../inc/psetrefreshhandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetrefreshhandler.h)
 ../inc/nwdefs.h     MW_LAYER_PLATFORM_EXPORT_PATH(nwdefs.h)
-../inc/PsetContainer.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetContainer.h)
-../inc/PsetCallDiverting.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCallDiverting.h)
-../inc/MPsetNetworkSelect.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetNetworkSelect.h)
-../inc/PsetCallBarring.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCallBarring.h)
-../inc/PsetSAObserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetSAObserver.h)
-../inc/MPsetCallBarring.h     MW_LAYER_PLATFORM_EXPORT_PATH(MPsetCallBarring.h)
-../inc/PsetCli.h     MW_LAYER_PLATFORM_EXPORT_PATH(PsetCli.h)
+../inc/psetcontainer.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcontainer.h)
+../inc/psetcalldiverting.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcalldiverting.h)
+../inc/mpsetnetworkselect.h     MW_LAYER_PLATFORM_EXPORT_PATH(mpsetnetworkselect.h)
+../inc/psetcallbarring.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcallbarring.h)
+../inc/psetsaobserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetsaobserver.h)
+../inc/mpsetcallbarring.h     MW_LAYER_PLATFORM_EXPORT_PATH(mpsetcallbarring.h)
+../inc/psetcli.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcli.h)
+../inc/psetcallbarringwrapper.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcallbarringwrapper.h)
+../inc/psetcalldivertingwrapper.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcalldivertingwrapper.h)
+../inc/psetcallwaitingwrapper.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetcallwaitingwrapper.h)
+../inc/psetcliwrapper.h   MW_LAYER_PLATFORM_EXPORT_PATH(psetcliwrapper.h)
+../inc/psetnetworkwrapper.h     MW_LAYER_PLATFORM_EXPORT_PATH(psetnetworkwrapper.h)
+../inc/psetwrapper.h    MW_LAYER_PLATFORM_EXPORT_PATH(psetwrapper.h)
+../inc/psetwrappertypes.h   MW_LAYER_PLATFORM_EXPORT_PATH(psetwrappertypes.h)

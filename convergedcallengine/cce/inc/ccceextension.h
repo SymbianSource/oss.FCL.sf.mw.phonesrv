@@ -70,42 +70,42 @@ public:
 
     /** @see MCCEExtensionInterface::RequestCommand */
     TInt RequestCommand( TUint32 aServiceID, 
-    					TInt aRequestId,
+                        TInt aRequestId,
                         TDesC8& aData );
 
     /** @see MCCEExtensionInterface::CancelRequest */
     TInt CancelRequest( TUint32 aServiceID, 
-    					TInt aRequestId );
+                        TInt aRequestId );
   
-	//from MCCPExtensionObserver
+    //from MCCPExtensionObserver
 
     /** @see MCCEExtensionObserver::HandleExtensionEvents */
     void HandleExtensionEvents( TUint32 aServiceId,
-    							TInt aEvent,
-								TInt aStatus );
+                                TInt aEvent,
+                                TInt aStatus );
 
 private:
 
     void ConstructL();
 
-	/**
-	*
-	*/
+    /**
+    *
+    */
     CCCEExtension( CCCEPluginManager& aPluginManager );
     
-	/**
-	* Get plug-in pointer that relates to service-id.
-	*/
-	CConvergedCallProvider* GetExtIfPlugin( TUint32 aServiceid );
+    /**
+    * Get plug-in pointer that relates to service-id.
+    */
+    CConvergedCallProvider* GetExtIfPlugin( TUint32 aServiceid );
     
-	/**
-	* Plug-in manager.
-	*/
+    /**
+    * Plug-in manager.
+    */
     CCCEPluginManager& iPluginManager;
 
-	/**
-	* Extension observer 
-	*/
+    /**
+    * Extension observer 
+    */
     MCCEExtensionObserver* iMCCEExtensionObserver;
     };
 

@@ -23,7 +23,7 @@
 //  INCLUDES
 #include <e32base.h>
 #include <spdefinitions.h>  //RIdArray
-#include "CaUI.hrh"
+#include "caui.hrh" 
 
 
 // FORWARD DECLARATIONS

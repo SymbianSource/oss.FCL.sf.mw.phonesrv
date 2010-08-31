@@ -21,7 +21,7 @@
 #define PHONESETTINGSTESTCALLDIVERTINGGOBSERVER_H
 
 #include <e32base.h>
-#include <MPsetDivertObs.h>
+#include <mpsetdivertobs.h>
 
 // CLASS DECLARATION
 

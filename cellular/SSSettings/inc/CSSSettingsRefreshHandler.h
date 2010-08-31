@@ -22,15 +22,15 @@
 
 
 //  INCLUDES
-#include <MSSSettingsRefreshHandler.h>
+#include <msssettingsrefreshhandler.h> 
 #include <msatrefreshobserver.h>
-#include <MSSSettingsRefreshObserver.h>
-#include <RSSSettings.h>
-#include <RCustomerServiceProfileCache.h>
+#include <msssettingsrefreshobserver.h> 
+#include <rsssettings.h> 
+#include <rcustomerserviceprofilecache.h> 
 #include <rsatrefresh.h>
-#include <rsatsession.h>
+#include <rsatsession.h> 
 #include <cenrepnotifyhandler.h>
-#include "CSSSettingsActiveObject.h"
+#include "csssettingsactiveobject.h" 
 
 // DATA TYPES
 
@@ -78,16 +78,16 @@ class CSSSettingsRefreshHandler :
 
         /**
         * @see MSSSettingsRefreshHandler::NotifyFileChangeL.
-		*/
-		void NotifyFileChangeL(
+        */
+        void NotifyFileChangeL(
             MSSSettingsRefreshObserver& aObserver,
             TSatElementaryFiles aObservedFiles,
             TSatRefreshType aObservedRefreshType );
 
-		/**
+        /**
         * @see MSSSettingsRefreshHandler::CancelNotify.
-		*/
-		void CancelNotify();
+        */
+        void CancelNotify();
 
         /**
         * @see MSSSettingsRefreshHandler::ChangedCspTable.
@@ -99,17 +99,17 @@ class CSSSettingsRefreshHandler :
 
     public: // Functions from base classes
 
-		/**
+        /**
         * @see MSatRefreshObserver::AllowRefresh
         */
         TBool AllowRefresh(
             TSatRefreshType aType,
             const TSatRefreshFiles& aFiles );
 
-		/**
+        /**
         * @see MSatRefreshObserver::Refresh
         */
-		void Refresh(
+        void Refresh(
             TSatRefreshType aType,
             const TSatRefreshFiles& aFiles );
             

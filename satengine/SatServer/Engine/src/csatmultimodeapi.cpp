@@ -218,6 +218,17 @@ void CSatMultiModeApi::SendDTMFTones( TRequestStatus& aReqStatus,
     }
 
 // -----------------------------------------------------------------------------
+// CSatMultiModeApi::ContinueDTMFStringSending
+// (other items were commented in a header).
+// -----------------------------------------------------------------------------
+//
+TInt CSatMultiModeApi::ContinueDTMFStringSending( TBool aContinue )
+    {
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::ContinueDTMFStringSending" )
+    return iPhone.ContinueDTMFStringSending( aContinue );
+    }
+
+// -----------------------------------------------------------------------------
 // CSatMultiModeApi::DialNoFdnCheck
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
@@ -226,6 +237,9 @@ void CSatMultiModeApi::DialNoFdnCheck( TRequestStatus& aStatus,
         const TDesC8& aCallParams, const TDesC& aTelNumber)
     {
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialNoFdnCheck calling" )
+    TInt err = LoadMobileCall();
+    LOG2( SIMPLE, "SATENGINE: CSatMultiModeApi::DialNoFdnCheck err %d", err )
+    
     iCall.DialNoFdnCheck( aStatus, aCallParams, aTelNumber );
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialNoFdnCheck exiting" )
     }
@@ -294,7 +308,7 @@ void CSatMultiModeApi::DialCancel()
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-TBool CSatMultiModeApi::IsCallIncoming( )
+TBool CSatMultiModeApi::IsCallIncoming()
     {
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::IsCallIncoming entering" )
     TInt lines( 0 );
@@ -341,8 +355,75 @@ TBool CSatMultiModeApi::IsCallIncoming( )
           callIncoming )
     return callIncoming;
     }
+
 // -----------------------------------------------------------------------------
-// CSatMultiModeApi::SetActiveAndWait
+// CSatMultiModeApi::NotifyMobileCallStatusChange
+// -----------------------------------------------------------------------------
+//
+void CSatMultiModeApi::NotifyMobileCallStatusChange ( 
+        TRequestStatus& aReqStatus, RMobileCall::TMobileCallStatus& aStatus )
+    {
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::NotifyMobileCallStatusChange \
+             calling" )
+    iCall.NotifyMobileCallStatusChange( aReqStatus, aStatus );
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::NotifyMobileCallStatusChange \
+             exiting" )
+    }
+
+// -----------------------------------------------------------------------------
+// CSatMultiModeApi::NotifyCallStatusChangeCancel
+// (other items were commented in a header).
+// -----------------------------------------------------------------------------
+//
+void CSatMultiModeApi::NotifyCallStatusChangeCancel()
+    {
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialCancel calling" )
+    iCall.NotifyStatusChangeCancel();
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialCancel exiting" )
+    }
+
+// -----------------------------------------------------------------------------
+// CSatMultiModeApi::NotifyMobileCallStatusChange
+// -----------------------------------------------------------------------------
+//
+void CSatMultiModeApi::TerminateActiveCalls(TRequestStatus& aReqStatus)
+    {
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::TerminateAllCalls calling" )
+
+    iPhone.TerminateActiveCalls( aReqStatus );
+    
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::TerminateAllCalls exiting" )
+    } 
+
+// -----------------------------------------------------------------------------
+// CSatMultiModeApi::GetMobileCallInfo
+// -----------------------------------------------------------------------------
+//
+TInt CSatMultiModeApi::GetMobileCallInfo(TDes8& aCallInfo)
+    {
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::GetMobileCallInfo calling" )
+    TInt ret = iCall.GetMobileCallInfo( aCallInfo );
+    LOG2( SIMPLE, "SATENGINE: CSatMultiModeApi::GetMobileCallInfo exiting %d",
+            ret )
+    return ret;
+    }
+       
+// -----------------------------------------------------------------------------
+// CSatMultiModeApi::GetMobileCallInfo
+// -----------------------------------------------------------------------------
+//
+void CSatMultiModeApi::DialEmergencyCall(TRequestStatus& aReqStatus, 
+        const TDesC& aNumber)
+    {
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialEmergencyCall calling" )
+    TInt err = LoadMobileCall();
+    LOG2( SIMPLE, "SATENGINE: CSatMultiModeApi::DialEmergencyCall err %d", err )
+    iCall.DialEmergencyCall( aReqStatus, aNumber );
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialEmergencyCall exiting" )
+    }
+
+// -----------------------------------------------------------------------------
+// CSatMultiModeApi::ConstructL
 // -----------------------------------------------------------------------------
 //
 void CSatMultiModeApi::ConstructL()
@@ -354,7 +435,6 @@ void CSatMultiModeApi::ConstructL()
 #if !defined ( __WINSCW__ )
     //On the emulator the load will leave. We can not use the functionaly
     //on enmulator
-    LoadMobileCallL();
     LoadUssdMessagingL();
 #endif
 
@@ -535,14 +615,24 @@ void CSatMultiModeApi::LoadPhoneModuleL( RMobilePhone& aPhone,
     }
 
 // -----------------------------------------------------------------------------
-// CSatMultiModeApi::LoadMobileCallL
+// CSatMultiModeApi::LoadMobileCall
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-void CSatMultiModeApi::LoadMobileCallL()
+TInt CSatMultiModeApi::LoadMobileCall()
     {
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::LoadMobileCallL calling" )
 
+    if ( iCallOpened )
+        {
+        iCall.Close();
+        }
+    
+    if ( iLineOpened )
+        {
+        iLine.Close();
+        }
+    
     TInt numberOfTries( 1 );        // Indicates loop tryouts
     TBool loopSuccess( EFalse );    // Loop stopper, if this is ETrue
     TInt error = KErrNone;          // Error that is Leave'd
@@ -567,13 +657,11 @@ void CSatMultiModeApi::LoadMobileCallL()
 
     LOG2( NORMAL, "SATENGINE: CSatMultiModeApi::LoadMobileCallL \
           iLine error: %i", error )
-    User::LeaveIfError( error );
     
     numberOfTries = 1;
     loopSuccess =  EFalse;
-    error = KErrNone;
 
-    while ( !loopSuccess && numberOfTries <= KLoopMaxTryouts )
+    while ( iLineOpened &&!loopSuccess && numberOfTries <= KLoopMaxTryouts )
         {
         error = iCall.OpenNewCall( iLine );
         if ( KErrNone == error )
@@ -594,9 +682,8 @@ void CSatMultiModeApi::LoadMobileCallL()
     LOG2( NORMAL, "SATENGINE: CSatMultiModeApi::LoadMobileCallL \
           iCall error: %i", error )
 
-    User::LeaveIfError( error );
-
-    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::LoadMobileCallL exiting" )   
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::LoadMobileCallL exiting" )
+    return error;
     }
     
 // -----------------------------------------------------------------------------
@@ -636,7 +723,7 @@ void CSatMultiModeApi::LoadUssdMessagingL()
           
     User::LeaveIfError( error );
 
-    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::LoadUssdMessagingL exiting" )   
+    LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::LoadUssdMessagingL exiting" )
     }
 
 

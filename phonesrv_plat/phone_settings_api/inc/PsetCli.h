@@ -23,8 +23,8 @@
 
 // INCLUDES
 #include <etelmm.h>
-#include "MPsetCliObserver.h"
-#include "MPsetCli.h"        
+#include "mpsetcliobserver.h" 
+#include "mpsetcli.h" 
 
 
 // FORWARD DECLARATIONS

@@ -17,9 +17,9 @@
 */
 
 
-#include "PsetVariationProxy.h"
+#include "psetvariationproxy.h" 
 #include <centralrepository.h>
-#include <settingsinternalcrkeys.h>
+#include <settingsinternalcrkeys.h> 
 #include <telservicesinternalcrkeys.h>
 
 // ---------------------------------------------------------------------------
@@ -27,16 +27,16 @@
 // ---------------------------------------------------------------------------
 //
 CPSetVariationProxy::CPSetVariationProxy()
-	{	
-	}
+    {   
+    }
 
 // ---------------------------------------------------------------------------
 // Destructor
 // ---------------------------------------------------------------------------
 //
 CPSetVariationProxy::~CPSetVariationProxy()
-	{		
-	}
+    {       
+    }
 
 // ---------------------------------------------------------------------------
 // NewL
@@ -45,13 +45,13 @@ CPSetVariationProxy::~CPSetVariationProxy()
 CPSetVariationProxy* CPSetVariationProxy::NewL( 
         const TUid& aUid, 
         const TUint aId )
-	{
-	CPSetVariationProxy* self = new ( ELeave ) CPSetVariationProxy();  
+    {
+    CPSetVariationProxy* self = new ( ELeave ) CPSetVariationProxy();  
     CleanupStack::PushL( self );
     self->ConstructL( aUid, aId );
     CleanupStack::Pop( self );         
     return self;
-	}
+    }
 
 // ---------------------------------------------------------------------------
 // ConstructL
@@ -60,29 +60,29 @@ CPSetVariationProxy* CPSetVariationProxy::NewL(
 void CPSetVariationProxy::ConstructL( 
         const TUid& aUid, 
         const TUint aId  )
-	{
-	TInt keySetting = 0;
-	CRepository* centralRepository = CRepository::NewLC( aUid );
-	User::LeaveIfError( centralRepository->Get( aId, keySetting ) );
-	
-	if( ( aUid == KCRUidPhoneSettings ) && 
+    {
+    TInt keySetting = 0;
+    CRepository* centralRepository = CRepository::NewLC( aUid );
+    User::LeaveIfError( centralRepository->Get( aId, keySetting ) );
+    
+    if( ( aUid == KCRUidPhoneSettings ) && 
         ( keySetting ) )
-		{
-		iFeature |= KCallWaitingDistiquishNotProvisioned;	
-		}
-	else if ( aUid == KCRUidTelSrvVariation )
-	    {
-	    iFeature |= keySetting;
-	    }
-	
-	CleanupStack::PopAndDestroy( centralRepository );
-	}
+        {
+        iFeature |= KCallWaitingDistiquishNotProvisioned;   
+        }
+    else if ( aUid == KCRUidTelSrvVariation )
+        {
+        iFeature |= keySetting;
+        }
+    
+    CleanupStack::PopAndDestroy( centralRepository );
+    }
 
 // ---------------------------------------------------------------------------
 // IsFeatureEnabled
 // ---------------------------------------------------------------------------
 //
 TBool CPSetVariationProxy::IsFeatureEnabled( TUint aFeature ) const
-	{
-	return aFeature&iFeature;
-	}
+    {
+    return aFeature&iFeature;
+    }

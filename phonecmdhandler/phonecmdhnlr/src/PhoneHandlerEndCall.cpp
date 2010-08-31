@@ -17,12 +17,12 @@
 
 
 // INCLUDE FILES
-#include    "PhoneHandlerEndCall.h"
-#include	"PhoneHandlerControl.h"
-#include 	"PhoneHandlerDebug.h"
-#include 	<RemConCallHandlingTarget.h>
+#include    "phonehandlerendcall.h" 
+#include    "phonehandlercontrol.h" 
+#include    "phonehandlerdebug.h" 
+#include    <RemConCallHandlingTarget.h> 
 
-#include	<CPhCltCommandHandler.h>
+#include    <cphcltcommandhandler.h> 
 
 // EXTERNAL DATA STRUCTURES
 
@@ -51,8 +51,8 @@
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerEndCall::CPhoneHandlerEndCall(  
-							CPhoneHandlerControl& aControl, 
-        					TRemConExtCallHandlingApiOperationId aOperation )
+                            CPhoneHandlerControl& aControl, 
+                            TRemConExtCallHandlingApiOperationId aOperation )
 : iControl( aControl ),
   iOperation( aOperation )
     {
@@ -66,11 +66,11 @@ CPhoneHandlerEndCall::CPhoneHandlerEndCall(
 void CPhoneHandlerEndCall::ConstructL()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::ConstructL() start" );
-	    
+        
     LoadServiceL();
     
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::ConstructL() end" );
-	}
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerEndCall::NewL
@@ -78,14 +78,14 @@ void CPhoneHandlerEndCall::ConstructL()
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerEndCall* CPhoneHandlerEndCall::NewL( 
-						CPhoneHandlerControl& aControl,
-						TRemConExtCallHandlingApiOperationId aOperation )
+                        CPhoneHandlerControl& aControl,
+                        TRemConExtCallHandlingApiOperationId aOperation )
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::NewL()" );
-	    
+        
     CPhoneHandlerEndCall* self = new( ELeave ) CPhoneHandlerEndCall( 
-    												aControl,
-    												aOperation );
+                                                    aControl,
+                                                    aOperation );
     
     CleanupStack::PushL( self );
     self->ConstructL();
@@ -99,7 +99,7 @@ CPhoneHandlerEndCall* CPhoneHandlerEndCall::NewL(
 CPhoneHandlerEndCall::~CPhoneHandlerEndCall()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::~CPhoneHandlerEndCall()" );
-	
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -109,12 +109,12 @@ CPhoneHandlerEndCall::~CPhoneHandlerEndCall()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerEndCall::Process()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::Process()" );
-	
-	iCommandHandler->Chup( GetStatus() ); 	 
-	Activate();					     	
-	}
+    {
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::Process()" );
+    
+    iCommandHandler->Chup( GetStatus() );    
+    Activate();                         
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerEndCall::Delete
@@ -122,11 +122,11 @@ void CPhoneHandlerEndCall::Process()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerEndCall::Delete()
-	{
-	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::Delete()" );
-		
-	delete this;
-	}
+    {
+    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::Delete()" );
+        
+    delete this;
+    }
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerEndCall::RequestCompleted
@@ -137,33 +137,33 @@ void CPhoneHandlerEndCall::Delete()
 void CPhoneHandlerEndCall::RequestCompleted( const TInt aError )
     {
     COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerEndCall::RequestCompleted() aError=%d, iState=%d", aError, iState );
-	    
-	switch( iState )
-		{
-		case EPhoneHandlerState1:
-			{
-			NextState();
-			iControl.CommandInitiator().SendResponse( GetStatus(), 
-													  iOperation,
-													  aError );
-			Activate();
-			break;
-			}
-			
-		case EPhoneHandlerState2:
-			{
-			IdleState();
-			delete this;  
-			break;
-			}
-			
-		default:
-			{
-			COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::RequestCompleted() Unspecified state" );
-			break;
-			}
-		};
-	}
+        
+    switch( iState )
+        {
+        case EPhoneHandlerState1:
+            {
+            NextState();
+            iControl.CommandInitiator().SendResponse( GetStatus(), 
+                                                      iOperation,
+                                                      aError );
+            Activate();
+            break;
+            }
+            
+        case EPhoneHandlerState2:
+            {
+            IdleState();
+            delete this;  
+            break;
+            }
+            
+        default:
+            {
+            COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerEndCall::RequestCompleted() Unspecified state" );
+            break;
+            }
+        };
+    }
     
 // ========================== OTHER EXPORTED FUNCTIONS =========================
 

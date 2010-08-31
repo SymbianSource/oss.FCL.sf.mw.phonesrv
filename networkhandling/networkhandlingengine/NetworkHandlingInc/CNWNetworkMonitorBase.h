@@ -20,7 +20,7 @@
 #define CNWNETWORKMONITORBASE_H
 
 //  INCLUDES
-#include "NWHandlingEngine.h"
+#include <nwhandlingengine.h>
 
 
 // FORWARD DECLARATIONS

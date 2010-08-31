@@ -19,14 +19,14 @@
 #define CPHSRVSUBSESSIONIMAGEHANDLER_H
 
 // INCLUDES
-#include    "CPhSrvSubSessionBase.h"
+#include    "cphsrvsubsessionbase.h" 
 #include    "cphsrvimagesaver.h"
 #include    "mphsrvimagesaverobserver.h"
-#include   <CPhCltBaseImageParams.h>
+#include   <cphcltbaseimageparams.h> 
 #include    <bautils.h>
 #include    <fbs.h>
-#include 	<PhoneClientServerDomainPStypes.h>
-#include    <PhoneClientServerDomainPSkeys.h>
+#include    <phoneclientserverdomainpstypes.h> 
+#include    <phoneclientserverdomainpskeys.h> 
 
 // CLASS DECLARATION
 

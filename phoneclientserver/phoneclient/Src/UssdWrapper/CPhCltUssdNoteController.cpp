@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -17,15 +17,27 @@
 
 
 // INCLUDE FILES
-#include <AknGlobalNote.h> //CAknGlobalNote
-#include <aknnotewrappers.h>
-#include <ConeResLoader.h>
-#include <StringLoader.h>
+#include <hbdevicemessageboxsymbian.h>
+#include <hbdeviceprogressdialogsymbian.h>
+#include <hbtextresolversymbian.h>
 
-#include "PhCltClientServer.h"
-#include "CPhCltUssdNoteController.h"
+#include "phcltclientserver.h" 
+#include "cphcltussdnotecontroller.h" 
+#include "tflogger.h"
 
+_LIT(KUssdLocFilename, "ussd_");
+_LIT(KCommonLocFilename, "common_");
+_LIT(KPath, "z:\\resource\\qt\\translations");
+_LIT(KUssdRequesting, "txt_common_info_requesting"); // Requesting
+_LIT(KUssdDone, "txt_ussd_dpopinfo_done"); // Done
+_LIT(KUssdNotDone, "txt_ussd_dpopinfo_not_done"); // NotDone
+_LIT(KUssdNotAllowed, "txt_ussd_dpopinfo_not_allowed"); //NotAllowed
+_LIT(KUssdUnconfirmed, "txt_ussd_dpopinfo_request_not_confirmed"); // Unconfirmed
+_LIT(KUssdNoService, "txt_ussd_dpopinfo_no_service"); // NoService
+_LIT(KUssdOffline, "txt_ussd_dpopinfo_unable_to_use_network_phone_is"); // Offline
+_LIT(KUssdHide, "txt_common_button_hide"); // Hide
 
+const int KPhCltUssdProgressBarMaxLength = 10;
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -34,18 +46,18 @@
 // -----------------------------------------------------------------------------
 //
 CPhCltUssdNoteController* CPhCltUssdNoteController::NewL(
-        MPhCltUssdNoteControllerCallBack& aCallBack,
-        TInt aPriority )
+        MPhCltUssdNoteControllerCallBack& aCallBack )
     {
+    TFLOGSTRING("CPhCltUssdNoteController: NewL call")
     CPhCltUssdNoteController* self = new( ELeave ) 
-        CPhCltUssdNoteController( aCallBack, aPriority );
-    
+        CPhCltUssdNoteController( aCallBack );
+
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
+    TFLOGSTRING("CPhCltUssdNoteController: NewL exit")
     return self;
     }
-
 
 // -----------------------------------------------------------------------------
 // CPhCltUssdNoteController::ConstructL
@@ -54,9 +66,8 @@ CPhCltUssdNoteController* CPhCltUssdNoteController::NewL(
 //
 void CPhCltUssdNoteController::ConstructL()
     {
-    LoadResourceFileL();
+    TFLOGSTRING( "CPhCltUssdNoteController: ConstructL call_exit" ) 
     }
-
 
 // -----------------------------------------------------------------------------
 // CPhCltUssdNoteController::CPhCltUssdNoteController
@@ -64,16 +75,14 @@ void CPhCltUssdNoteController::ConstructL()
 // might leave.
 // -----------------------------------------------------------------------------
 CPhCltUssdNoteController::CPhCltUssdNoteController(
-    MPhCltUssdNoteControllerCallBack& aCallBack,
-    TInt aPriority )
-    : CActive( aPriority ), 
-    iCallBack( aCallBack ),
-    iWaitNoteId( KErrNotFound )
+    MPhCltUssdNoteControllerCallBack& aCallBack )
+    : iGlobalWaitNote( NULL ),
+      iCallBack( aCallBack )
     {
-    CActiveScheduler::Add( this );
+    TFLOGSTRING("CPhCltUssdNoteController: CPhCltUssdNoteController call")
+    TFLOGSTRING("CPhCltUssdNoteController: CPhCltUssdNoteController exit")
     }
-    
-    
+
 // -----------------------------------------------------------------------------
 // CPhCltUssdNoteController:~CPhCltUssdNoteController
 // C++ default constructor can NOT contain any code, that
@@ -82,182 +91,146 @@ CPhCltUssdNoteController::CPhCltUssdNoteController(
 //
 CPhCltUssdNoteController::~CPhCltUssdNoteController()
     {
-    Cancel();
-
+    TFLOGSTRING("CPhCltUssdNoteController: ~CPhCltUssdNoteController call")
     DestroyGlobalWaitNote();
-    
-    delete iMessageBuffer;
-    iMessageBuffer = NULL;
-    
-    if ( iResourceLoader )
-        {
-        iResourceLoader->Close();
-        delete iResourceLoader;
-        iResourceLoader = NULL;
-        }
+    TFLOGSTRING("CPhCltUssdNoteController: ~CPhCltUssdNoteController exit")
     }
-
-
-// -----------------------------------------------------------------------------
-// CPhCltUssdNoteController::RunL
-//
-// Called when dialog is dismissed by pressing a softkey.
-// -----------------------------------------------------------------------------
-void CPhCltUssdNoteController::RunL()
-    {
-    iCallBack.GlobalWaitNoteDismissedL( iStatus.Int() );
-    }
-
-
-// -----------------------------------------------------------------------------
-// CPhCltUssdNoteController::DoCancel
-// -----------------------------------------------------------------------------
-void CPhCltUssdNoteController::DoCancel()
-    {
-    DestroyGlobalWaitNote();
-    }
-
-
-// -----------------------------------------------------------------------------
-// CPhCltUssdNoteController::ShowInformationNoteL
-// -----------------------------------------------------------------------------
-void CPhCltUssdNoteController::ShowInformationNoteL( TInt aResourceId )
-    {
-    ShowNoteL( EPhCltUssdInformationNote, aResourceId );
-    }
-
 
 // -----------------------------------------------------------------------------
 // CPhCltUssdNoteController::ShowGlobalInformationNoteL
 // -----------------------------------------------------------------------------
-void CPhCltUssdNoteController::ShowGlobalInformationNoteL( TInt aResourceId )
+void CPhCltUssdNoteController::ShowGlobalInformationNoteL( 
+        const TPhCltUssdInformationType aInfoType )
     {
-    ShowNoteL( EPhCltUssdGlobalInformationNote, aResourceId );
+    TFLOGSTRING2("CPhCltUssdNoteController: ShowGlobalInformationNoteL\
+            aInfoType = %d call", aInfoType)
+    const TBool textResolver = HbTextResolverSymbian::Init( 
+        KUssdLocFilename, KPath );
+    TFLOGSTRING2("CPhCltUssdNoteController: ShowGlobalInformationNoteL\
+        ussd textResolver = %d", textResolver ) 
+    HBufC* temp(NULL);
+    switch ( aInfoType )
+        {
+        case EPhCltUssdUnconfirme:
+            {
+            temp = HbTextResolverSymbian::LoadLC( KUssdUnconfirmed );
+            break;
+            }
+        case EPhCltUssdNotallowed:
+            {
+            temp = HbTextResolverSymbian::LoadLC( KUssdNotAllowed );
+            break;
+            }
+        case EPhCltUssdNoservice:
+            {
+            temp = HbTextResolverSymbian::LoadLC( KUssdNoService );
+            break;
+            }
+        case EPhCltUssdOffline:
+            {
+            temp = HbTextResolverSymbian::LoadLC( KUssdOffline );
+            break;
+            }
+        case EPhCltUssdDone:
+            {
+            temp = HbTextResolverSymbian::LoadLC( KUssdDone );
+            break;
+            }
+        case EPhCltUssdNotDone:
+            {
+            temp = HbTextResolverSymbian::LoadLC( KUssdNotDone );
+            break;
+            }
+        default:
+            {
+            User::Leave( KErrArgument );
+            break;
+            }
+        }
+    CHbDeviceMessageBoxSymbian* dlg = CHbDeviceMessageBoxSymbian::NewL(
+            CHbDeviceMessageBoxSymbian::EInformation);
+    CleanupStack::PushL( dlg );
+    dlg->SetTextL( temp->Des() );
+    dlg->SetButton( CHbDeviceMessageBoxSymbian::EAcceptButton, ETrue );
+    dlg->ExecL();
+    CleanupStack::PopAndDestroy( dlg );
+    CleanupStack::PopAndDestroy( temp );
+    TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalInformationNoteL exit")
     }
-
-
-// -----------------------------------------------------------------------------
-// CPhCltUssdNoteController::ShowGlobalConfirmationNoteL
-// -----------------------------------------------------------------------------
-void CPhCltUssdNoteController::ShowGlobalConfirmationNoteL( TInt aResourceId )
-    {
-    ShowNoteL( EPhCltUssdGlobalConfirmationNote, aResourceId );
-    }
-
 
 // -----------------------------------------------------------------------------
 // CPhCltUssdNoteController::ShowGlobalWaitNoteL
 // -----------------------------------------------------------------------------
-void CPhCltUssdNoteController::ShowGlobalWaitNoteL( 
-    TInt aResourceId, 
-    TInt aSoftkeyResourceId )
+void CPhCltUssdNoteController::ShowGlobalWaitNoteL( )
     {
-    delete iMessageBuffer;
-    iMessageBuffer = NULL;
-    iMessageBuffer = StringLoader::LoadL( aResourceId );
-
+    TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL call")
     DestroyGlobalWaitNote();
-    
-    iGlobalWaitNote = CAknGlobalNote::NewL();    
-   
-    if ( aSoftkeyResourceId )
-        {
-        iGlobalWaitNote->SetSoftkeys( aSoftkeyResourceId );
-        }
-    
-    SetActive();
-    
-    iWaitNoteId = iGlobalWaitNote->ShowNoteL( iStatus,
-                                EAknGlobalWaitNote, 
-                                *iMessageBuffer );
+    TBool textResolver = HbTextResolverSymbian::Init( 
+        KCommonLocFilename, KPath );
+    TFLOGSTRING2("CPhCltUssdNoteController: ConstructL\
+        init common textResolver = %d", textResolver ) 
+    //CHbDeviceProgressDialogSymbian
+    iGlobalWaitNote = CHbDeviceProgressDialogSymbian::NewL(
+            CHbDeviceProgressDialogSymbian::EProgressDialog );
+    CleanupStack::PushL( iGlobalWaitNote );
+    HBufC* context = HbTextResolverSymbian::LoadLC( KUssdRequesting );
+    iGlobalWaitNote->SetTextL( context->Des() );
+    HBufC* bottonText = HbTextResolverSymbian::LoadLC( KUssdHide );
+    iGlobalWaitNote->SetButtonTextL( bottonText->Des() );
+    iGlobalWaitNote->SetObserver( this );
+    TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL before setactive")
+    iGlobalWaitNote->SetRange(0,KPhCltUssdProgressBarMaxLength);
+    iGlobalWaitNote->SetProgressValue( KPhCltUssdProgressBarMaxLength );
+    iGlobalWaitNote->SetAutoClose( EFalse );
+    iGlobalWaitNote->ShowL();
+    TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL after ShowL")
+    CleanupStack::PopAndDestroy( bottonText );
+    CleanupStack::PopAndDestroy( context );
+    CleanupStack::Pop( iGlobalWaitNote );
+    TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL after setactive")
+    TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL exit")
     }
-
 
 // -----------------------------------------------------------------------------
 // CPhCltUssdNoteController::DestroyGlobalWaitNote
 // -----------------------------------------------------------------------------
 void CPhCltUssdNoteController::DestroyGlobalWaitNote()
     {
+    TFLOGSTRING("CPhCltUssdNoteController: DestroyGlobalWaitNote call")
     if ( iGlobalWaitNote )
         {
-        if ( iWaitNoteId != KErrNotFound ) 
-            {
-            TRAP_IGNORE( iGlobalWaitNote->CancelNoteL( iWaitNoteId ) );
-            iWaitNoteId = KErrNotFound;
-            }
+        iGlobalWaitNote->Close();
         delete iGlobalWaitNote;
         iGlobalWaitNote = NULL;
         }
-    }
-
-
-// -----------------------------------------------------------------------------
-// CPhCltUssdNoteController::ShowNoteL
-//
-// Launches a corresponding dialog with the given string.
-// -----------------------------------------------------------------------------
-//
-void CPhCltUssdNoteController::ShowNoteL( TPhCltUssdNoteType aType, TInt aResourceId )
-    {
-    switch ( aType )
-        {
-        case EPhCltUssdInformationNote:
-            {       
-            delete iMessageBuffer;
-            iMessageBuffer = NULL;
-            iMessageBuffer = StringLoader::LoadL( aResourceId );
-            
-            if ( iMessageBuffer->Length() == 0 )
-                {
-                break;
-                }
-            CAknInformationNote* dlg = new ( ELeave ) 
-                CAknInformationNote( ETrue );
-
-            dlg->ExecuteLD( *iMessageBuffer );
-            break;
-            }
-        case EPhCltUssdGlobalInformationNote:
-        case EPhCltUssdGlobalConfirmationNote:
-            {
-            CAknGlobalNote* dlg = CAknGlobalNote::NewLC();
-            
-            delete iMessageBuffer;
-            iMessageBuffer = NULL;
-            iMessageBuffer = StringLoader::LoadL( aResourceId );
-            
-            if ( aType == EPhCltUssdGlobalInformationNote )
-                {
-                dlg->ShowNoteL( EAknGlobalInformationNote , *iMessageBuffer );
-                }
-            else if ( aType == EPhCltUssdGlobalConfirmationNote )
-                {
-                dlg->ShowNoteL( EAknGlobalConfirmationNote , *iMessageBuffer );
-                }
-            CleanupStack::PopAndDestroy(); // dlg
-            break;
-            }
-
-        default:
-            break;
-        }
+    TFLOGSTRING("CPhCltUssdNoteController: DestroyGlobalWaitNote exit")
     }
 
 // -----------------------------------------------------------------------------
-// CPhCltUssdNoteController::LoadResourceFileL
+// CPhCltUssdNoteController::ProgressDialogCancelled
 //
-// Loads resource file via RConeResourceLoader.
+// 
 // -----------------------------------------------------------------------------
 //
-void CPhCltUssdNoteController::LoadResourceFileL()
+void CPhCltUssdNoteController::ProgressDialogCancelled(
+        const CHbDeviceProgressDialogSymbian* /*aProgressDialog*/)
     {
-    // load resource file for notes
-    iResourceLoader = new( ELeave ) RConeResourceLoader( *CCoeEnv::Static() );
-    TFileName fileName ( KPhCltServerZDrive );
-    fileName.Append( KDC_RESOURCE_FILES_DIR );
-    fileName.Append( KPhCltResourceFileNameAndPath );
-    fileName.ZeroTerminate();
-    iResourceLoader->OpenL( fileName );
+    TFLOGSTRING("CPhCltUssdNoteController: ProgressDialogCancelled call")
+    iCallBack.GlobalWaitNoteHidden();
+    TFLOGSTRING("CPhCltUssdNoteController: ProgressDialogCancelled exit")
+    }
+
+// -----------------------------------------------------------------------------
+// CPhCltUssdNoteController::ProgressDialogClosed
+//
+// 
+// -----------------------------------------------------------------------------
+//
+void CPhCltUssdNoteController::ProgressDialogClosed(
+        const CHbDeviceProgressDialogSymbian* /*aProgressDialog*/)
+    {
+    TFLOGSTRING("CPhCltUssdNoteController: ProgressDialogClosed call")
+    TFLOGSTRING("CPhCltUssdNoteController: ProgressDialogClosed exit")
     }
 
 // End of file

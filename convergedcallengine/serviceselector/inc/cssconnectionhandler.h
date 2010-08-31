@@ -22,7 +22,6 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <cch.h>
 
 // FORWARD DECLARATIONS
 // None
@@ -73,8 +72,6 @@ NONSHARABLE_CLASS( CSsConnectionHandler )
 
     private:    // Data
     
-        // Converged Connection Handler client interface
-        CCch* iCch;
 
     };
 

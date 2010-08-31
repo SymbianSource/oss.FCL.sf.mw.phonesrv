@@ -25,7 +25,7 @@
 #include "cservicehandler.h"
 #include <e32base.h>
 #include <badesca.h>
-#include <AknIconArray.h>
+#include <AknIconArray.h> 
 #include <gulicon.h>
 
 // CONSTANTS

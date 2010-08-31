@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include "CDOSEmergencyNumberPolicy.h"
+#include "cdosemergencynumberpolicy.h" 
 #include <mmtsy_names.h>
 #include <telservicesvariant.hrh>
 
@@ -319,21 +319,21 @@ TBool CDosEmergencyNumberPolicy::IsInListByNormalMode( const TDesC& aNumber )
             }
         }
         
-	//match is wrong, only part of ememergency number is matched
-	int newmatchlen = 0;
-	for (int i = place; i < iProductSpecificList.Length(); i++)
-		{
-		if(iProductSpecificList [i] != KEnPolicySDNumberSeparator )
-			newmatchlen++;
-		else
-			break;	
-		}
-		
-		if (length != newmatchlen)
-			{
-			return EFalse;
-			}
-		
+    //match is wrong, only part of ememergency number is matched
+    int newmatchlen = 0;
+    for (int i = place; i < iProductSpecificList.Length(); i++)
+        {
+        if(iProductSpecificList [i] != KEnPolicySDNumberSeparator )
+            newmatchlen++;
+        else
+            break;  
+        }
+        
+        if (length != newmatchlen)
+            {
+            return EFalse;
+            }
+        
 
     // if we get so far, its ok.
     return ETrue;
@@ -349,22 +349,22 @@ TBool CDosEmergencyNumberPolicy::IsInListByNormalMode( const TDesC& aNumber )
 //
 void CDosEmergencyNumberPolicy::ParseNumber( TPhCltTelephoneNumber& aTelNumber )
     {
-	// Does number contains prefix. If yes then remove it
-	
+    // Does number contains prefix. If yes then remove it
+    
     if ( 0 == aTelNumber.FindC( KSipPrefix ) ||
          0 == aTelNumber.FindC( KTelPrefix ) ||
-	       0 == aTelNumber.FindC( KSosPrefix ) )
+           0 == aTelNumber.FindC( KSosPrefix ) )
         {
         aTelNumber.Delete( 0, KPrefixLength );
-	      }
-	    // Does Number contains domain part. If yes remove it at beging of @ character.
+          }
+        // Does Number contains domain part. If yes remove it at beging of @ character.
       TInt atIndex = aTelNumber.Find( KAt );
       TInt telNumberLength = aTelNumber.Length();
-	    if ( 0 < atIndex && 
-	         atIndex < telNumberLength )
+        if ( 0 < atIndex && 
+             atIndex < telNumberLength )
         {
-		    aTelNumber.Delete( atIndex, telNumberLength - atIndex );
-		    }
+            aTelNumber.Delete( atIndex, telNumberLength - atIndex );
+            }
     }
 
 // -----------------------------------------------------------------------------

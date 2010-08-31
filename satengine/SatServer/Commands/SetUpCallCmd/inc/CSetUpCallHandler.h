@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -21,12 +21,10 @@
 
 #include <etelsat.h>
 
-#include <AiwServiceHandler.h>
-#include <CPhCltEmergencyCall.h>
-#include <MPhCltEmergencyCallObserver.h>
-
 #include "CSatCommandHandler.h"
 #include "SatSTypes.h"
+
+class CSetupCallRequestHandler;
 
 /**
 *  Command handler for SetUpCall command.
@@ -34,9 +32,7 @@
 *  @lib SetUpCallCmd.lib
 *  @since S60 v3.0
 */
-class CSetUpCallHandler : public CSatCommandHandler,
-                          public MAiwNotifyCallback,
-                          public MPhCltEmergencyCallObserver
+class CSetUpCallHandler : public CSatCommandHandler
     {
 
 public:
@@ -63,6 +59,13 @@ public:
      *
      */
     void ClientResponse();
+
+    /**
+    * Handle the setup call Request Complete.
+    *
+    * @param aErrCode Result of ETelMM Api calling.
+    */
+    void SetupCallRequestComplete( const TInt aErrCode );
 
 protected:
 
@@ -115,33 +118,6 @@ protected:
      */
     void UiLaunchFailed();
 
-// from base class MAiwNotifyCallback
-
-    /**
-     * From MAiwNotifyCallback
-     * Called when dial request is completed.
-     *
-     * @param aCmdId Identifier of requested Aiw operation.
-     * @param aEventId Identifier of status event.
-     * @param aEventParamList Parameters of status event.
-     * @param aInParamList Parameters of Aiw operation.
-     */
-    TInt HandleNotifyL(
-        const TInt aCmdId,
-        const TInt aEventId,
-        CAiwGenericParamList& aEventParamList,
-        const CAiwGenericParamList& aInParamList );
-
-// from base class MPhCltEmergencyCallObserver
-
-    /**
-     * From MPhCltEmergencyCallObserver
-     * Called when emergency dial request is completed.
-     *
-     * @param aStatus Non zero value means failure.
-     */
-    void HandleEmergencyDialL( const TInt aStatus );
-
 private:
 
     CSetUpCallHandler();
@@ -153,7 +129,7 @@ private:
      *
      * @since S60 3.2
      */
-    void DoSetupCallL();
+    void DoSetupCall( CSetupCallRequestHandler& aHandler );
 
     /**
      * Return terminal response filled according to dial result.
@@ -192,21 +168,16 @@ private:
      * @param aNumber dialling number string
      */
     void CheckNumber( TDes& aNumber ) const;
-    
-    /**
-     * Converts a TCCP error to the corresponding symbian error.
-     *
-     * @param aTccpError A TCCP error number to be converted into
-     * a symbian one.
-     *
-     * @return The corresponding symbian error from TCCP error.
-     */
-    TInt TccpErrorToSymbianError( const TInt aTccpError ) const;
-    
+        
     /**
      * Create emergency call
      */
-    void CreateEmergencyCallL();
+    void CreateEmergencyCall( CSetupCallRequestHandler& aHandler );
+    
+    /**
+     * Check the Param of the setup call 
+     */
+    TBool CheckSetupCallParam();
     
 private: // data
 
@@ -251,15 +222,10 @@ private: // data
     TSatQueryRspV1Pckg iQueryRspPckg;
 
     /**
-     * Service handler to make normal call.
+     * Handing the asynchronous request
      */
-    CAiwServiceHandler* iServiceHandler;
-
-    /**
-     * Utility to handle emergency calls.
-     */
-    CPhCltEmergencyCall* iEmergencyCallApi;
-
+    CSetupCallRequestHandler* iRequestHandler;
+      
     /**
      * Current call is an emergency call.
      */
@@ -269,11 +235,6 @@ private: // data
      * Indicates if call control is active
      */
     TBool iCallControlActive;
-
-    /**
-     * Dial completion status
-     */
-    TInt iSetUpCallStatus;
 
     /**
      * wait scheduler

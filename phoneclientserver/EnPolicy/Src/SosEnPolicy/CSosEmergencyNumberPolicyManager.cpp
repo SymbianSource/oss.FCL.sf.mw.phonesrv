@@ -19,8 +19,8 @@
 
 
 // INCLUDE FILES
-#include "CSOSEmergencyNumberPolicyManager.h"
-#include "CSOSEmergencyNumberPolicyHandler.h"
+#include "csosemergencynumberpolicymanager.h" 
+#include "csosemergencynumberpolicyhandler.h" 
 
 
 // ============================ MEMBER FUNCTIONS ===============================

@@ -19,7 +19,7 @@
 // INCLUDE FILES
 
 #include <e32svr.h>
-#include "CbsMcnPanic.h"        // common header
+#include <cbsmcnpanic.h>        // common header
 
 // CONSTANTS
 

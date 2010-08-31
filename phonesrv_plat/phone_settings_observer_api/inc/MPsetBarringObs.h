@@ -24,7 +24,7 @@
 
 //  INCLUDES
 #include "nwdefs.h"
-#include "MPsetCallBarring.h"
+#include "mpsetcallbarring.h" 
 
 //  CLASS DEFINITIONS 
 /**

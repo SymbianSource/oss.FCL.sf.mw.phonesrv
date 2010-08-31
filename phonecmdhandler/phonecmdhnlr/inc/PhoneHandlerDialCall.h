@@ -21,8 +21,8 @@
 #define CPHONEHANDLERDIALCALL_H
 
 //  INCLUDES
-#include "PhoneHandlerCallBase.h"
-#include <RemConExtensionApi.h>
+#include "phonehandlercallbase.h" 
+#include <RemConExtensionApi.h> 
 
 // CONSTANTS
 
@@ -44,7 +44,7 @@ class CPhoneHandlerControl;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerDialCall ) : public CPhoneHandlerCallBase
-											 
+                                             
     {
     public:  // Constructors and destructor
         
@@ -52,9 +52,9 @@ NONSHARABLE_CLASS( CPhoneHandlerDialCall ) : public CPhoneHandlerCallBase
         * Two-phased constructor.
         */
         static CPhoneHandlerDialCall* NewL(
-        		CPhoneHandlerControl& aControl, 
-           		TRemConExtCallHandlingApiOperationId aOperation
-        			= ERemConExtDialCall );
+                CPhoneHandlerControl& aControl, 
+                TRemConExtCallHandlingApiOperationId aOperation
+                    = ERemConExtDialCall );
         
         /**
         * Destructor.
@@ -62,7 +62,7 @@ NONSHARABLE_CLASS( CPhoneHandlerDialCall ) : public CPhoneHandlerCallBase
         virtual ~CPhoneHandlerDialCall();
 
     public: // New functions
-   	
+    
     public: // Functions from base classes
 
          /**
@@ -97,15 +97,15 @@ NONSHARABLE_CLASS( CPhoneHandlerDialCall ) : public CPhoneHandlerCallBase
         /**
         * C++ default constructor.
         */
-        CPhoneHandlerDialCall(     	
-        	CPhoneHandlerControl& aControl, 
-        	TRemConExtCallHandlingApiOperationId aOperation );
+        CPhoneHandlerDialCall(      
+            CPhoneHandlerControl& aControl, 
+            TRemConExtCallHandlingApiOperationId aOperation );
        
         /**
         * By default Symbian 2nd phase constructor is private.
         */
         void ConstructL();
-	
+    
     public:     // Data
     
     protected:  // Data

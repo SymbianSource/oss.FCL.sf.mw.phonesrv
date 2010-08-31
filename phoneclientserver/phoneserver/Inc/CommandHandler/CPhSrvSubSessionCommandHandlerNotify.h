@@ -20,8 +20,8 @@
 
 
 // INCLUDES
-#include "CPhSrvSubSessionBase.h"
-#include "MPhSrvComHandInitiators.h"
+#include "cphsrvsubsessionbase.h" 
+#include "mphsrvcomhandinitiators.h" 
 
 // CLASS DECLARATION
 

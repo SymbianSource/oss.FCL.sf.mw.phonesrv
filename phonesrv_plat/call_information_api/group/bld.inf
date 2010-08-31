@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:  File that exports the files belonging to
-								 Call Information API	
+                                 Call Information API   
 *
 */
 
@@ -23,7 +23,8 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-../inc/mcall.h                   				MW_LAYER_PLATFORM_EXPORT_PATH(mcall.h)
+../inc/mcall.h                          MW_LAYER_PLATFORM_EXPORT_PATH(mcall.h)
 ../inc/mcallinformationobserver.h       MW_LAYER_PLATFORM_EXPORT_PATH(mcallinformationobserver.h)
 ../inc/ccallinformation.h               MW_LAYER_PLATFORM_EXPORT_PATH(ccallinformation.h)
 ../inc/ccallinfoiter.h                  MW_LAYER_PLATFORM_EXPORT_PATH(ccallinfoiter.h)
+../inc/xqcallinfo.h                     MW_LAYER_PLATFORM_EXPORT_PATH(xqcallinfo.h)

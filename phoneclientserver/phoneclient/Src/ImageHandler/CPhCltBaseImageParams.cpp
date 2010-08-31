@@ -16,8 +16,8 @@
 */
 
 
-#include    "CPhCltBaseImageParams.h"
-#include    "PhCltClientServer.h"
+#include    "cphcltbaseimageparams.h" 
+#include    "phcltclientserver.h" 
 // -----------------------------------------------------------------------------
 // CPhCltBaseImageParams::CPhCltBaseImageParams
 // 

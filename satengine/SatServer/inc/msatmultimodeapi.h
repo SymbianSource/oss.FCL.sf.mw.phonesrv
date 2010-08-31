@@ -95,6 +95,12 @@ public:
      */ 
     virtual void SendDTMFTones(TRequestStatus& aReqStatus, 
                     const TDesC& aTones) = 0;    
+    
+    /**
+     * Access RMobilePhone::ContinueDTMFStringSending
+     * for the paramter information please see the etelmm.h
+     */ 
+    virtual TInt ContinueDTMFStringSending( TBool aContinue ) = 0;
     /**
      * Access RMobilePhone::CancelAsyncRequest
      * for the paramter information please see the etelmm.h
@@ -132,6 +138,34 @@ public:
      * @return ETrue if there is an incoming call
      */
     virtual TBool IsCallIncoming() = 0;
+
+    /**
+     * Access RMobileCall::NotifyMobileCallStatusChange
+     */
+    virtual void NotifyMobileCallStatusChange( TRequestStatus& aReqStatus,
+                    RMobileCall::TMobileCallStatus& aStatus) = 0; 
+
+    /**
+     * Access RMobileCall::NotifyStatusChangeCancel
+     */
+    virtual void NotifyCallStatusChangeCancel() = 0;
+
+    /**
+     * Access RMobilePhone::TerminateActiveCalls
+     */
+    virtual void TerminateActiveCalls(TRequestStatus& aReqStatus) = 0;
+    
+    /**
+     * Access RMboileCall::GetMobileCallInfo
+     */
+    virtual TInt GetMobileCallInfo(TDes8& aCallInfo) = 0;
+
+    /**
+     * Access RMboileCall::DialEmergencyCall
+     */
+    virtual void DialEmergencyCall(TRequestStatus& aReqStatus, 
+                const TDesC& aNumber) = 0;
+    
     };
 
 #endif // MSATMULTIMODEAPI_H

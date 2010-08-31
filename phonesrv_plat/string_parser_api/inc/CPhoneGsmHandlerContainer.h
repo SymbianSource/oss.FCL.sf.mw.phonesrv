@@ -21,7 +21,7 @@
 
 // INCLUDES
 #include    <e32base.h>
-#include    "CPhoneGsmHandlerBase.h"
+#include    "cphonegsmhandlerbase.h" 
 
 // CLASS DECLARATION
 

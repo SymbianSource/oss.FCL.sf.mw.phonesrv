@@ -52,7 +52,7 @@ void CCallInformation::ConstructL()
 //
 EXPORT_C CCallInformation* CCallInformation::NewL()
     {
-    	
+        
     CCallInformation* self = new (ELeave) CCallInformation( );    
         
     CleanupStack::PushL( self );

@@ -20,8 +20,8 @@
 #define CPSUIDIVERTOBS_H
 
 // INCLUDES
-#include <MPsetDivertObs.h> 
-#include "PsuiConstants.h"
+#include <mpsetdivertobs.h> 
+#include "psuiconstants.h" 
 
 // FORWARD DECLARATION
 class MPsetCallDiverting;

@@ -25,22 +25,22 @@ TARGET    psui.dll
 TARGETTYPE dll
 UID 0x1000008d 0x100059C6
 
-SOURCEPATH ../Src
-SOURCE PsuiBarringObs.cpp 
-SOURCE PsuiWaitingObs.cpp
-SOURCE PsuiDivertObs.cpp
-SOURCE PsuiNoteMaster.cpp
-SOURCE PsuiResourceLoader.cpp
-SOURCE PsuiContainer.cpp
-SOURCE PsuiCliObserver.cpp
-SOURCE PsuiVariationProxy.cpp
+SOURCEPATH ../src 
+SOURCE psuibarringobs.cpp 
+SOURCE psuiwaitingobs.cpp 
+SOURCE psuidivertobs.cpp 
+SOURCE psuinotemaster.cpp 
+SOURCE psuiresourceloader.cpp 
+SOURCE psuicontainer.cpp 
+SOURCE psuicliobserver.cpp 
+SOURCE psuivariationproxy.cpp 
 #ifdef RD_PHONE_NG
-SOURCE PsuiQueryDialog.cpp
+SOURCE psuiquerydialog.cpp 
 #endif // RD_PHONE_NG
-SOURCE PsuiReqObserver.cpp
-SOURCE PsuiNoteController.cpp
+SOURCE psuireqobserver.cpp 
+SOURCE psuinotecontroller.cpp 
 
-START RESOURCE ../Data/Psui.rss
+START RESOURCE ../data/psui.rss 
 HEADER
 TARGETPATH RESOURCE_FILES_DIR
 // Language definition
@@ -50,7 +50,7 @@ END  // RESOURCE
 
 SYSTEMINCLUDE     ../../../inc
 
-USERINCLUDE    . ../Inc
+USERINCLUDE    . ../inc 
 MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY bafl.lib 
@@ -61,10 +61,10 @@ LIBRARY eikcoctl.lib
 LIBRARY avkon.lib 
 LIBRARY commonengine.lib 
 LIBRARY etelmm.lib
-LIBRARY featmgr.lib	
+LIBRARY featmgr.lib 
 LIBRARY numbergrouping.lib
 LIBRARY servicerequest.lib
-LIBRARY	centralrepository.lib
+LIBRARY centralrepository.lib
 #ifdef RD_PHONE_NG
 LIBRARY eikdlg.lib
 LIBRARY eikcore.lib

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <rmmcustomapi.h>
+#include <rmmcustomapi.h> 
 #include <etelpckt.h> // for RPacketService::TDynamicCapsFlags
 
 
@@ -271,7 +271,7 @@ class MNWMessageObserver
             // Fetching Programmable Operator Name
             ENWGetProgrammableOperatorName,
             // Notifying network registration status change
-            ENWNotifyNetworkRegistrationStatusChange,
+            ENWNotifyNetworkRegistrationStatusChange
             };
 
         /**

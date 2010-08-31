@@ -20,9 +20,9 @@
 
 // INCLUDES
 
-#include    "RPhCltMessenger.h"
-#include    <RPhCltServer.h>
-#include    "PhCltClientServer.h"
+#include    "rphcltmessenger.h" 
+#include    <rphcltserver.h> 
+#include    "phcltclientserver.h" 
 
 
 

@@ -65,6 +65,8 @@ COpenChannelHandler::~COpenChannelHandler()
     Cancel();
     iDataChannel = NULL;
 
+    delete iConnectionInfo.iOverrideSet;
+
     LOG( SIMPLE,
         "OPENCHANNEL: COpenChannelHandler::~CCloseChannelHandler exiting" )
     }
@@ -729,6 +731,9 @@ void COpenChannelHandler::SetOverrideSettingsL( const TUint32 aIapId )
     LOG2( SIMPLE,
     "OPENCHANNEL: COpenChannelHandler::SetOverrideSettingsL aIapId: %i", 
     aIapId )
+
+    delete iConnectionInfo.iOverrideSet;
+    iConnectionInfo.iOverrideSet = NULL;
 
     // Override connection preferences
     TExtendedConnPref* overrideSettings = new( ELeave ) TExtendedConnPref;

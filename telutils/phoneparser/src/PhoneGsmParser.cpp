@@ -17,32 +17,29 @@
 
 
 // INCLUDE FILES
-#include    "PhoneGsmParser.h"
-#include    "CPhoneGsmParser.h"
-#include    "CPhoneGsmParserBase.h"
-#include    "CPhoneGsmParserResult.h"
-#include    "CPhoneGsmOptionContainer.h"
+#include    "phonegsmparser.h" 
+#include    "cphonegsmparser.h" 
+#include    "cphonegsmparserbase.h" 
+#include    "cphonegsmparserresult.h" 
+#include    "cphonegsmoptioncontainer.h" 
 
-#include    "CPhoneGsmParserContainer.h"
-#include    "CPhoneGsmSsParser.h"
-#include    "CPhoneGsmSimControlParser.h"
-#include    "CPhoneGsmPhoneNumberParser.h"
-#include    "CPhoneGsmSsCallParser.h"
-#include    "CPhoneGsmManufacturerParser.h"
-#include    "CPhoneGsmPcnProcedureParser.h"
-#include    "CPhoneGsmManufacturerHandler.h"
-#include    "CPhoneGsmEmergencyNumberParser.h"
-#include    "CPhoneParserFeatures.h"
-#include    "CPhoneVoipNumberParser.h"
-#include    "CPhoneGsmImeiParser.h"
-
+#include    "cphonegsmparsercontainer.h" 
+#include    "cphonegsmssparser.h" 
+#include    "cphonegsmsimcontrolparser.h" 
+#include    "cphonegsmphonenumberparser.h" 
+#include    "cphonegsmsscallparser.h" 
+#include    "cphonegsmmanufacturerparser.h" 
+#include    "cphonegsmpcnprocedureparser.h" 
+#include    "cphonegsmmanufacturerhandler.h" 
+#include    "cphonegsmemergencynumberparser.h" 
+#include    "cphoneparserfeatures.h" 
+#include    "cphonevoipnumberparser.h" 
 
 // CONSTANTS
 const TInt KPhoneParserResultParameterReserver = 10;
 _LIT( KPhoneParserPanic, "PhoneParser" );
 
 // Software version display code
-_LIT( KPhoneCodeSwVersion, "*#0000#" );
 _LIT( KPhoneCodeBadPinChange, "**04*" );
 _LIT( KPhoneCodeBadPin2Change, "**042*" );
 _LIT( KPhoneCodeBadPinUnblock, "**05*" );
@@ -50,7 +47,6 @@ _LIT( KPhoneCodeBadPin2Unblock, "**052*" );
 _LIT( KPhoneCodeActivateRfsNormal, "*#7780#" );
 _LIT( KPhoneCodeActivateRfsDeep, "*#7370#" );
 _LIT( KPhoneCodeBtAddress, "*#2820#" );
-_LIT( KPhoneCodeLifeTimer, "*#92702689#" );
 _LIT( KPhoneCodeRFLoopback, "*#9990#" );
 _LIT( KPhoneCodeWLANMAC, "*#62209526#" );
 _LIT( KPhoneCodeBtDebugMode, "*#2873#" );
@@ -99,10 +95,6 @@ EXPORT_C CPhoneGsmParserBase* PhoneGsmParser::CreateParserL()
     CPhoneGsmParserBase* voipNumberParser =
         CPhoneVoipNumberParser::NewLC();
     
-    // 7. IMEI PARSER TO STACK
-    CPhoneGsmParserBase* imeiParser =
-        CPhoneGsmImeiParser::NewLC();
-    
     CPhoneGsmParser* parser = 
         CPhoneGsmParser::NewL(
             ssContainer, 
@@ -110,10 +102,9 @@ EXPORT_C CPhoneGsmParserBase* PhoneGsmParser::CreateParserL()
             phoneNumber,
             manufacturerSpecific,
             emergencyNumberParser,
-            voipNumberParser,
-            imeiParser );
+            voipNumberParser);
 
-    CleanupStack::Pop( 7, ssContainer );
+    CleanupStack::Pop( 6, ssContainer );
 
     return parser;
     }
@@ -233,13 +224,11 @@ EXPORT_C TBool PhoneGsmParser::IsAllowedForArriving(
     
     // Allowed:
     //      0 SEND
-    //      IMEI
-    //      All manufacturer codes (incl. SW version)
+    //      All manufacturer codes
     //      All sim control procedures
     //      All pcn procedures
     
     return ( uid == KPhoneUidCommand0 ||
-             uid == KPhoneUidIMEI ||
              uid == KPhoneUidManufacturerDebugCode ||
              uid == KPhoneUidManufacturerCode || 
              PHONE_EXTRACT_MAIN( uid ) == KPhoneGsmUidSimControlProcedure ||
@@ -258,18 +247,14 @@ EXPORT_C TBool PhoneGsmParser::IsAllowedForBadSim(
 
     // Allowed:
     //      DialEmergency
-    //      IMEI
-    //      Some manufacturer codes (incl. SW version)
+    //      Some manufacturer codes
     //      All sim control procedures
     //      All pcn procedures
     
     return ( uid == KPhoneUidEmergencyNumber ||
-             uid == KPhoneUidIMEI ||
              uid == KPhoneUidManufacturerDebugCode ||
              ( uid == KPhoneUidManufacturerCode && 
-               ( aux == CPhoneGsmManufacturerHandler::EShowVersion ||
-                 aux == CPhoneGsmManufacturerHandler::ELifeTimer ||
-                 aux == CPhoneGsmManufacturerHandler::EBadPinChange ||
+               ( aux == CPhoneGsmManufacturerHandler::EBadPinChange ||
                  aux == CPhoneGsmManufacturerHandler::EBadPin2Change ||
                  aux == CPhoneGsmManufacturerHandler::EBadPinUnblock ||
                  aux == CPhoneGsmManufacturerHandler::EBadPin2Unblock ) ) ||
@@ -326,11 +311,6 @@ CPhoneGsmParserBase*
     manufacturer->AddL( *manuCodes );
     CleanupStack::Pop( manuCodes );
 
-    manuCodes->AddStringL(
-        KPhoneCodeSwVersion, 
-        CPhoneGsmManufacturerParser::EFlagCode,
-        CPhoneGsmManufacturerHandler::EShowVersion );
-
     manuCodes->AddStringL( 
         KPhoneCodeBadPinChange,
         CPhoneGsmManufacturerParser::EFlagCode + 
@@ -375,15 +355,7 @@ CPhoneGsmParserBase*
         KPhoneCodeWLANMAC, 
         CPhoneGsmManufacturerParser::EFlagCode,
         CPhoneGsmManufacturerHandler::EShowWlanMac,
-        KFeatureIdProtocolWlan );		
-
-    if ( CPhoneParserFeatures::LifeTimerEnabled())
-        {
-        manuCodes->AddStringL( 
-            KPhoneCodeLifeTimer,
-            CPhoneGsmManufacturerParser::EFlagCode,
-            CPhoneGsmManufacturerHandler::ELifeTimer );
-        }
+        KFeatureIdProtocolWlan );       
 
     manuCodes->AddStringL( 
         KPhoneCodeRFLoopback,

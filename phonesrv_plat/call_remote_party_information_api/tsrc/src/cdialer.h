@@ -19,7 +19,7 @@
 #define CDIALER_H_
 
 #include <etelmm.h>
-#include <MPhCltEmergencyCallObserver.h>
+#include <mphcltemergencycallobserver.h>
 
 class CPhCltEmergencyCall;
 class CPhCltCommandHandler;

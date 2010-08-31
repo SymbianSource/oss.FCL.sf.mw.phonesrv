@@ -102,18 +102,18 @@ class CSosEnPolicySatRefresh : public CActive, public MSatRefreshObserver
         */
         void RunL();
         
-		private:    // Data
-		
-		    // Reference to cbsserver
-			  CSosEmergencyNumberPolicyHandler& iCSosEmergencyNumberPolicyHandler;
-			  // Sat session connection.
-			  RSatSession* iSatSession;
-			  // Sat refresh connection
-		    RSatRefresh* iSatRefresh;
-		   	// Is refresh allowed to do.
-		    TBool iAllowRefresh;    
-		    // The RProperty to listen system global state..
-		    RProperty iProperty;
+        private:    // Data
+        
+            // Reference to cbsserver
+              CSosEmergencyNumberPolicyHandler& iCSosEmergencyNumberPolicyHandler;
+              // Sat session connection.
+              RSatSession* iSatSession;
+              // Sat refresh connection
+            RSatRefresh* iSatRefresh;
+            // Is refresh allowed to do.
+            TBool iAllowRefresh;    
+            // The RProperty to listen system global state..
+            RProperty iProperty;
     };
 
 #endif      // CSOSENPOLICYSATREFRESH_H   

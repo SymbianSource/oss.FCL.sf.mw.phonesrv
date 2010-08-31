@@ -20,8 +20,8 @@
 #define CPHONEHANDLERENDCALL_H
 
 //  INCLUDES
-#include "PhoneHandlerCallBase.h"
-#include <RemConExtensionApi.h>
+#include "phonehandlercallbase.h" 
+#include <RemConExtensionApi.h> 
 
 // CONSTANTS
 
@@ -43,7 +43,7 @@ class CPhoneHandlerControl;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerEndCall ) : public CPhoneHandlerCallBase
-							 				
+                                            
     {
     public:  // Constructors and destructor
         
@@ -51,9 +51,9 @@ NONSHARABLE_CLASS( CPhoneHandlerEndCall ) : public CPhoneHandlerCallBase
         * Two-phased constructor.
         */
         static CPhoneHandlerEndCall* NewL( 
-        				CPhoneHandlerControl& aControl,
-        				TRemConExtCallHandlingApiOperationId aOperation
-        					= ERemConExtEndCall );
+                        CPhoneHandlerControl& aControl,
+                        TRemConExtCallHandlingApiOperationId aOperation
+                            = ERemConExtEndCall );
         
         /**
         * Destructor.
@@ -97,14 +97,14 @@ NONSHARABLE_CLASS( CPhoneHandlerEndCall ) : public CPhoneHandlerCallBase
         * C++ default constructor.
         */
         CPhoneHandlerEndCall( 
-        		CPhoneHandlerControl& aControl, 
-        		TRemConExtCallHandlingApiOperationId aOperation );
+                CPhoneHandlerControl& aControl, 
+                TRemConExtCallHandlingApiOperationId aOperation );
         
         /**
         * By default Symbian 2nd phase constructor is private.
         */
         void ConstructL();
-		
+        
     public:     // Data
           
     protected:  // Data

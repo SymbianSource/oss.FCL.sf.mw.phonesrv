@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include "RPhCltServer.h"
-#include "CPhCltEmergencyCallImpl.h"
-#include "MPhCltEmergencyCallObserver.h"
+#include "rphcltserver.h" 
+#include "cphcltemergencycallimpl.h" 
+#include "mphcltemergencycallobserver.h" 
 
 _LIT( KEmNumber, "112" );
 
@@ -82,7 +82,10 @@ void CPhCltEmergencyCallImpl::ConstructL()
 void CPhCltEmergencyCallImpl::RunL()
     {
     // inform observer
-    iObserver->HandleEmergencyDialL( iStatus.Int() );
+    if(iObserver)
+        {
+        iObserver->HandleEmergencyDialL( iStatus.Int() );
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -105,8 +108,8 @@ TInt CPhCltEmergencyCallImpl::IsEmergencyPhoneNumber(
     TBool& aIsEmergencyNumber )
     {
     return iEmergencyCall.IsEmergencyPhoneNumber( 
-    	aNumber, 
-    	aIsEmergencyNumber );
+        aNumber, 
+        aIsEmergencyNumber );
     }
 
 // -----------------------------------------------------------------------------
@@ -121,9 +124,9 @@ TInt CPhCltEmergencyCallImpl::IsEmergencyPhoneNumber(
     {
    
     return iEmergencyCall.IsEmergencyPhoneNumber( 
-    	aNumber,
+        aNumber,
         aMatchedEmergencyNumber, 
-    	aIsEmergencyNumber );
+        aIsEmergencyNumber );
     }
 
 // -----------------------------------------------------------------------------
@@ -136,8 +139,8 @@ TInt CPhCltEmergencyCallImpl::FindEmergencyPhoneNumber(
     TBool& aIsEmergencyNumber )
     {
     return iEmergencyCall.FindEmergencyPhoneNumber( 
-    	aNumber, 
-    	aIsEmergencyNumber );
+        aNumber, 
+        aIsEmergencyNumber );
     }
 
 // -----------------------------------------------------------------------------

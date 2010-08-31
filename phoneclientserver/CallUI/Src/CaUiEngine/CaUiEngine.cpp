@@ -17,43 +17,43 @@
 
 
 // INCLUDE FILES
-#include    "CaUiEngine.h"
-#include    "CaUiQuery.h"               // CCaUiQuery.
+#include    "cauiengine.h" 
+#include    "cauiquery.h" // CCaUiQuery. 
 #include    <mcauireconnectqueryobserver.h>  // MCaUiReconnectQueryObserver.
-#include    <CallUI.rsg>                // Resources.
-#include    <cphcltdialer.h>            // CPhCltDialer.
+#include    <callui.rsg> // Resources. 
+#include    <cphcltdialer.h> // CPhcltDialer. 
 #include    <cphonecntfactory.h>
 #include    <cphcntsingleitemfetch.h>
 #include    <aiwinternaldialdata.h>
-#include    <AiwServiceHandler.h>
-#include    <cphcltextphonedialdata.h>  // CPhCltExtPhoneDialData
+#include    <aiwservicehandler.h> 
+#include    <cphcltextphonedialdata.h> // CPhCltExtPhoneDialData 
 
 #include    "callui.loc"                // Localized strings.
 
-#include    <StringLoader.h>            // String Loader.
+#include    <stringloader.h> // String Loader. 
 #include    <aknnotewrappers.h>         // CAknInformationNote.
-#include    <AknGlobalListQuery.h>      // CAknGlobalListQuery.
+#include    <akngloballistquery.h> // CAknGloballistQuery. 
 #include    <featmgr.h>                 // FeatureManager.
 
-#include    <AknGlobalConfirmationQuery.h> // Confirmation query.
+#include    <aknglobalconfirmationquery.h> // Confirmation query.
 
-#include    <PhCltUtils.h>              // Character removal.
-#include    <AiwCommon.h>               // AIW dialdata.
+#include    <phcltutils.h> // Character removal. 
+#include    <aiwcommon.h> // AIW dialdata. 
 
-#include    <NetworkHandlingDomainPSKeys.h>
+#include    <networkhandlingdomainpskeys.h> 
 #include    <e32property.h>             // Pub&Sub functionality.
 
-#include    "CaUiVoIPExtension.h"        // VoIP/SCCP profile store
+#include    "cauivoipextension.h" // VoIP/SCCP profile store 
 
 #include    <centralrepository.h>
-#include    <settingsinternalcrkeys.h>
-#include     "cauilogger.h"        // Call Ui Logger
+#include    <settingsinternalcrkeys.h> 
+#include     "cauilogger.h" // Call Ui Logger 
 #include    <aknmessagequerydialog.h> 
-#include    <AknGlobalNote.h>
+#include    <aknglobalnote.h>
 #include    <mphcntstoreloader.h>
-#include    <MVPbkContactStore.h>
+#include    <mvpbkcontactstore.h> 
 
-#include "CaUiDialogs.h"
+#include "cauidialogs.h" 
 
 // CONSTANTS
 

@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include    <e32base.h>
-#include    "CPhoneGsmParserBase.h"
+#include    "cphonegsmparserbase.h" 
 
 // CLASS DECLARATION
 

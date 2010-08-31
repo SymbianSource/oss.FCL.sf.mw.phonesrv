@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -16,26 +16,20 @@
 */
 
 // INCLUDE FILES
-#include "CPhSrvUssdManager.h"
-#include "PhSrvUtils.h"
-#include "CPhSrvUssdSendHandler.h"
-#include "CPhSrvUssdReceiveHandler.h"
-#include "CPhSrvUssdNotifyNWRelease.h"
-#include "CPhSrvResourceManager.h"
-#include "CPhSrvUssdReplyTimer.h"
-#include "MPhSrvUssdMessageSentObserver.h"
-#include "MPhSrvPhoneInterface.h"
-#include "CPhSrvUssdSessionCancelWaiter.h"
+#include "cphsrvussdmanager.h" 
+#include "phsrvutils.h" 
+#include "cphsrvussdsendhandler.h" 
+#include "cphsrvussdreceivehandler.h" 
+#include "cphsrvussdnotifynwrelease.h" 
+#include "cphsrvresourcemanager.h" 
+#include "cphsrvussdreplytimer.h" 
+#include "mphsrvussdmessagesentobserver.h" 
+#include "mphsrvphoneinterface.h" 
+#include "cphsrvussdsessioncancelwaiter.h" 
 
-#include <AknGlobalNote.h>
-#include <aknnotedialog.h>
-#include <aknstaticnotedialog.h>
-#include <AknProgressDialog.h>
 #include <apacmdln.h>
 #include <apgtask.h>
 #include <bautils.h>
-#include <StringLoader.h>
-#include <AknGlobalMsgQuery.h>
 #include <textresolver.h>
 #include <charconv.h>
 #include <gsmuelem.h>
@@ -44,32 +38,26 @@
 
 #include <w32std.h>
 #include <apgcli.h>
-#include <CPhCltUssd.h>
-#include <avkon.rsg>
-#include <PhoneServer.rsg>
-#include <telservicesvariant.hrh>
-#include "PhSrvDebugInfo.h"
+#include <cphcltussd.h> 
+#include <hbtextresolversymbian.h>
+#include <phoneserver.rsg> 
+#include "phsrvdebuginfo.h" 
 #include <e32property.h>
-
-#include <NcnListInternalPSKeys.h>
 #include <centralrepository.h>
-#include <telservicesinternalcrkeys.h>
 #include <coreapplicationuisdomainpskeys.h>
 
-//RM-RIM 417-66528
-#include <CUssdExtensionInterface.h>
 
 // CONSTANTS
 const TInt KPhSrvDefaultValue = 0x00000000;
-// const TInt KPhSrvUssdNoTone = 0; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
-const TInt KPhSrvUssdTone   = 2; // See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
-
+// See SharedDataKeysVariant.h or NcnListInternalPSKeys.h
+// const TInt KPhSrvUssdNoTone = 0; 
 // const TInt KPhSrvUssdTimeOutObserverGranularity = 2;
 // const TInt KPhSrvUssdSentMessageObserverGranularity = 2;
-const TInt KPhSrvUssdAppUID = 0x10005955;
+// See KUssdSecureId in phcltclientserver.h
+//const TInt KPhSrvUssdAppUID = 0x10005955; 
 
 const TInt KPhSrvUssdMessageQueryInterval = 500000; // 0.5 sec
-const TInt KPhSrvUssdNoteExitPeriod = 500000; // 0.5 sec
+//const TInt KPhSrvUssdNoteExitPeriod = 500000; // 0.5 sec
 //
 const TUint KPhSrvUssdDefaultDCS = 0x0f;                        // 00001111
 
@@ -93,6 +81,24 @@ const TUint KPhSrvUssdDcsGeneralInformationAlphabetUCS2 = 0x08; // xxxx10xx
 const TUint KPhSrvUssdDcsMessageHandlingAlphabetMask = 0xf4;    // 11110100
 const TUint KPhSrvUssdDcsMessageHandlingAlphabet8Bit = 0xf4;    // 1111x1xx
 const TInt KPhrUssdNotifyArraySize = 1;
+
+// Refers to HbPopup::NoDismiss = 0
+const TInt KPhSrvUssdPopupDismissPolicy = 0; 
+// The time out only for testing, from CPhSrvUssdReplyTimer.cpp
+const TUint KPhSrvUssdTimeout = 300000000;
+
+// Use QT style localization
+_LIT(KUssdLocFilename, "ussd_");
+_LIT(KCommonLocFilename, "common_");
+_LIT(KLocPath, "z:\\resource\\qt\\translations");
+_LIT(KUssdReply, "txt_ussd_button_reply"); // Reply
+_LIT(KUssdExit, "txt_ussd_button_exit"); // Exit
+_LIT(KUssdNext, "txt_ussd_button_next"); //Next
+_LIT(KUssdYes, "txt_common_button_yes"); // Yes
+_LIT(KUssdNo, "txt_common_button_no"); // No
+_LIT(KUssdTitle, "txt_ussd_title_message"); // Message
+_LIT(KUssdDone, "txt_ussd_dpopinfo_done"); // Done
+_LIT(KUssdConfirm, "txt_ussd_info_there_are_still_unread_notifications");
 
 // MACROS
 
@@ -381,9 +387,10 @@ CPhSrvUssdManager::CPhSrvUssdManager(
     :CActive( EPriorityLow ),
      iFsSession( aFsSession ),
      iResourceManager( aResourceManager ),
+     iDeviceDialog( NULL ),
      iDCS ( KPhCltDcsUnknown ),
-     iReturnResultPckg ( iReturnResult )
-
+     iReturnResultPckg ( iReturnResult ),
+     iTextBuffer ( NULL )
     {
     CActiveScheduler::Add( this );
     }
@@ -398,7 +405,7 @@ CPhSrvUssdManager::CPhSrvUssdManager(
 //
 CPhSrvUssdManager::~CPhSrvUssdManager()
     {
-    _DPRINT( 4, "PhSrv.~CPhSrvUssdManager.start" );       // debug print
+    _DPRINT( 4, "PhSrv.~CPhSrvUssdManager.start" );
 
 
     delete iUssdSendHandler;
@@ -413,9 +420,12 @@ CPhSrvUssdManager::~CPhSrvUssdManager()
     Cancel();
 
     iTimer.Close();
-
-    delete iGlobalMsgQuery;
-    iGlobalMsgQuery = NULL;
+    
+    delete iTextBuffer;
+    iTextBuffer = NULL;
+    
+    delete iDeviceDialog;
+    iDeviceDialog = NULL;
 
     if ( iNotifyArray )
         {
@@ -432,17 +442,10 @@ CPhSrvUssdManager::~CPhSrvUssdManager()
     iFsSession.Close();
 
     iMobileUssdMessaging.Close();
-
-    delete iMeQuHeaderText;
-    iMeQuHeaderText = NULL;
     
     delete iMoAckCallback;
 
-    // RM-RIM 417-66528
-    delete iUssdExtnInterface;
-    iUssdExtnInterface = NULL;
-        
-    _DPRINT( 4, "PhSrv.~CPhSrvUssdManager.end" );       // debug print
+    _DPRINT( 4, "PhSrv.~CPhSrvUssdManager.end" );
     }
 
 
@@ -455,7 +458,10 @@ CPhSrvUssdManager::~CPhSrvUssdManager()
 //
 void CPhSrvUssdManager::ConstructL( MPhSrvPhoneInterface& aPhoneInterface )
     {
-    _DPRINT( 4, "PhSrv.ConstructL.Start" );       // debug print
+    _DPRINT( 4, "PhSrv.ConstructL.Start" );
+    const TBool textResolver = HbTextResolverSymbian::Init( 
+        KUssdLocFilename, KLocPath );
+    _DDPRINT( 4, "PhSrv.ConstructL.ussd loc:", textResolver );
     User::LeaveIfError( iTimer.CreateLocal() );
 
     User::LeaveIfError( iMobileUssdMessaging.Open( aPhoneInterface.PhSrvMobilePhone() ) );
@@ -491,18 +497,10 @@ void CPhSrvUssdManager::ConstructL( MPhSrvPhoneInterface& aPhoneInterface )
 
     User::LeaveIfError( GetTelephonyVariantData() );
 
-    iMeQuHeaderText = iResourceManager.ReadResourceLC(
-        R_PHSRV_USSD_MESQUERY_MESSAGE);
-    CleanupStack::Pop( iMeQuHeaderText );
-
-	_DDPRINT( 4, "PhSrv.ConstructL.iSatCanceled ", iSatCanceled );
+    _DDPRINT( 4, "PhSrv.ConstructL.iSatCanceled ", iSatCanceled );
     _DDPRINT( 4, "PhSrv.ConstructL.iShowDone ", iShowDone );
     iNotifyArray = new( ELeave ) CDesCArrayFlat( KPhrUssdNotifyArraySize );
-    
-    // RM-RIM 417-66528
-    TRAP_IGNORE(iUssdExtnInterface = CUssdExtensionInterface::NewL());
-    _DPRINT( 4, "PhSrv.ConstructL.iUssdExtnInterface Created");
-    _DPRINT( 4, "PhSrv.ConstructL.End" );       // debug print
+    _DPRINT( 4, "PhSrv.ConstructL.End" );
     }
 
 
@@ -517,20 +515,20 @@ CPhSrvUssdSendHandler& CPhSrvUssdManager::SendHandlerL()
     {
     // If SendHandler is not created, first check that MO Ussd
     // is supported by the TSY.
-    _DPRINT( 4, "PhSrv.SendHandlerL.Start" );       // debug print
+    _DPRINT( 4, "PhSrv.SendHandlerL.Start" );
     if ( iUssdSendHandler == NULL )
         {
-        _DPRINT( 4, "PhSrv.SendHandlerL.iUssdSendHandler.NULL" );       // debug print
+        _DPRINT( 4, "PhSrv.SendHandlerL.iUssdSendHandler.NULL" );
         RMobileUssdMessaging::TMobileUssdCapsV1 caps;
         RMobileUssdMessaging::TMobileUssdCapsV1Pckg pckgCaps( caps );
         User::LeaveIfError( iMobileUssdMessaging.GetCaps( pckgCaps ) );
-        _DPRINT( 4, "PhSrv.SendHandlerL.iMobileUssdMessaging.GetCaps" );       // debug print
+        _DPRINT( 4, "PhSrv.SendHandlerL.iMobileUssdMessaging.GetCaps" );
 
         if ( ( caps.iUssdTypes & RMobileUssdMessaging::KCapsMOUssd ) == 0 ||
             ( caps.iUssdFormat & RMobileUssdMessaging::KCapsPackedString )
             == 0 )
             {
-            _DPRINT( 4, "PhSrv.SendHandlerL.KErrNotSupported" );       // debug print
+            _DPRINT( 4, "PhSrv.SendHandlerL.KErrNotSupported" );
             User::Leave( KErrNotSupported );
             }
 
@@ -540,7 +538,7 @@ CPhSrvUssdSendHandler& CPhSrvUssdManager::SendHandlerL()
                 iMobileUssdMessaging,
                 *iPhoneInterface );
         }
-    _DPRINT( 4, "PhSrv.SendHandlerL.End" );       // debug print
+    _DPRINT( 4, "PhSrv.SendHandlerL.End" );
     return *iUssdSendHandler;
     }
 
@@ -557,25 +555,15 @@ void CPhSrvUssdManager::SendUssdL(
     RMobileUssdMessaging::TMobileUssdAttributesV1& aMsgAttribute,
     MPhSrvUssdMessageSentObserver& aObserver )
     {
-    _DPRINT( 4, "PhSrv.SendUssdL.Start ######" );           // debug print
+    _DPRINT( 4, "PhSrv.SendUssdL.Start ######" );
     _DPRINT_FLAGS();
-    
-    //417-66528
-    if (iUssdExtnInterface)
-        {
-        if(!iUssdExtnInterface->ValidateUssdMsgSending(aMsgData,aMsgAttribute))
-            {
-            // invalid attempt to send USSD message. Show the note 
-            User::Leave( KErrAccessDenied );
-            }
-        }
     
     if ( iObserver && iNetworkReleased ) 
         {
         // Network has been released but the previous send request is still alive.
         // Cancel the pervious send operation, complete the old request with error
         // and clean up the pointer.
-        _DPRINT( 4, "PhSrv.SendUssdL.Error.Complete.Existing" );           // debug print
+        _DPRINT( 4, "PhSrv.SendUssdL.Error.Complete.Existing" );
         if ( iUssdSendHandler ) 
             {
             iUssdSendHandler->Cancel();
@@ -586,7 +574,7 @@ void CPhSrvUssdManager::SendUssdL(
     
     if ( iObserver || iSendingAck )
         {
-        _DPRINT( 4, "PhSrv.SendUssdL.KErrInUse" );           // debug print
+        _DPRINT( 4, "PhSrv.SendUssdL.KErrInUse" );
         // Other client is using the service.
         User::Leave( KErrInUse );
         }
@@ -594,14 +582,14 @@ void CPhSrvUssdManager::SendUssdL(
     // Check that message type is set
     if( ( aMsgAttribute.iFlags & RMobileUssdMessaging::KUssdMessageType )
         == 0 )
-        _DPRINT( 4, "PhSrv.SendUssdL.KUssdMessageType.0" );       // debug print
+        _DPRINT( 4, "PhSrv.SendUssdL.KUssdMessageType.0" );
         {
         // Mesasge type not set -> Set it.
         aMsgAttribute.iFlags |= RMobileUssdMessaging::KUssdMessageType;
         if ( NetworkWaitingForAnAnswer() )
             {
             // Network is waiting for an answer
-            _DPRINT( 4, "PhSrv.SendUssdL.EUssdMOReply" );	// debug print
+            _DPRINT( 4, "PhSrv.SendUssdL.EUssdMOReply" );   // debug print
             aMsgAttribute.iType = RMobileUssdMessaging::EUssdMOReply;
             }
         else
@@ -614,7 +602,7 @@ void CPhSrvUssdManager::SendUssdL(
     RMobileUssdMessaging::TMobileUssdAttributesV1Pckg attribs( aMsgAttribute );
     iShowDone = ETrue;
     _DPRINT( 4, "PhSrv.SendUssdL.iShowDone.ETrue" );
-    _DPRINT( 4, "PhSrv.SendUssdL.Send" );           // debug print
+    _DPRINT( 4, "PhSrv.SendUssdL.Send" );
     SendHandlerL().SendUssdL( aMsgData , attribs );
     iObserver = &aObserver;
     // Not closing nor closed anymore
@@ -629,7 +617,7 @@ void CPhSrvUssdManager::SendUssdL(
         _DPRINT( 4, "PhSrv.SendUssdCancel.TimerStop" );   // debug print
         iUssdReplyTimer->Stop();
         }
-    _DPRINT( 4, "PhSrv.SendUssdL.End" );           // debug print
+    _DPRINT( 4, "PhSrv.SendUssdL.End" );
     }
 
 // -----------------------------------------------------------------------------
@@ -649,7 +637,7 @@ TBool CPhSrvUssdManager::NetworkWaitingForAnAnswer()
 //
 void CPhSrvUssdManager::SendUssdCancel()
     {
-    _DPRINT( 4, "PhSrv.SendUssdCancel.Start #######" );           // debug print
+    _DPRINT( 4, "PhSrv.SendUssdCancel.Start #######" );
 
     // Ack sending should not be canceled unless it's about terminating
     // the whole session
@@ -668,7 +656,7 @@ void CPhSrvUssdManager::SendUssdCancel()
     iObserver = NULL;
     
     SetActiveIfPendingNotificationsExist();
-    _DPRINT( 4, "PhSrv.SendUssdCancel.End" );           // debug print
+    _DPRINT( 4, "PhSrv.SendUssdCancel.End" );
     }
 
 // -----------------------------------------------------------------------------
@@ -707,14 +695,14 @@ void CPhSrvUssdManager::UssdNetworkObserverHandleSendEventL( TInt aError )
     // complete SAT if needed
     if ( aError < KErrNone )
         {
-        // debug print
+ 
         _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleSendEventL.CompleteSat" );
         CompleteSatL( NULL, aError );
         }
 
     if ( iObserver )
         {
-        // debug print
+ 
         _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleSendEventL.Observer" );
 
         iObserver->UssdMessageSentObserverHandleResult( aError );
@@ -728,6 +716,7 @@ void CPhSrvUssdManager::UssdNetworkObserverHandleSendEventL( TInt aError )
     // debug print
     _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleSendEventL.End" );
     }
+
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::UssdAppTaskExists
@@ -744,7 +733,7 @@ TBool CPhSrvUssdManager::UssdAppTaskExistsL()
     _DPRINT( 4, "PhSrv.UssdAppTaskExists.wsSession.Connect" );
     CleanupClosePushL(wsSession);
     TApaTaskList tasklist(wsSession);
-    TApaTask task = tasklist.FindApp(TUid::Uid(KPhSrvUssdAppUID));
+    TApaTask task = tasklist.FindApp( KUssdSecureId );
     ret = task.Exists();
 
     CleanupStack::PopAndDestroy();
@@ -771,7 +760,7 @@ void CPhSrvUssdManager::UssdNetworkObserverHandleReceivedEventL(
     if ( aError != KErrNone )
         {
         TurnLightsOn(); //Ensure lights on
-        // debug print
+ 
         _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleReceivedEventL.ShErNote" );
         ShowErrorNoteL( aError );
         }
@@ -788,9 +777,6 @@ void CPhSrvUssdManager::UssdNetworkObserverHandleReceivedEventL(
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::UssdHandleReceivedEventL
-//
-//
-//
 // -----------------------------------------------------------------------------
 //
 void CPhSrvUssdManager::UssdHandleReceivedEventL(
@@ -800,15 +786,15 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
     // This always is either ongoing transaction or starting a new based
     // on incoming message, mark transaction to be open.
     iNetworkReleased = EFalse;
-		
+        
     // 2. Complete Send with some positive value.
-	if ( iObserver )
+    if ( iObserver )
         {
-        // debug print
+ 
         _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Observer" );
         UssdNetworkObserverHandleSendEventL( 1 ); // some positive value
         }
-	
+    
     if ( aMsgAttributes.iFlags&RMobileUssdMessaging::KUssdMessageType &&
          aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTRequest )
         {
@@ -830,14 +816,6 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
         {
         iReceivedMessage = iDecodedMessage;
         }
-    // 4. Invoke UssdExtensionPlugin
-    // 417-66528
-    TBool isResponseValidated = EFalse;
-    if (iUssdExtnInterface)
-        {
-        _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.InvokeExtension" );
-        isResponseValidated = iUssdExtnInterface->ValidateUssdResponse(aMsgData);
-        }
     // 5. Show note.
     // debug print
     _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Note" );
@@ -846,81 +824,77 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
         {
         if ( !ShowNotesL() )
             {
-            // debug print
+     
             _DPRINT( 4,
                 "PhSrv.UssdHandleReceivedEventL.SAtReturn" );
             return;
             }
         }
-    //6. Check if the response is valid for the extension
-    //RM-RIM 417-66528
-    if (iUssdExtnInterface && isResponseValidated)
-        PorcessReceivedMessageInExtesnionL(aMsgData, aMsgAttributes);
-    else
-        ProcessReceivedMessageL(aMsgData, aMsgAttributes);
-        
-    _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Editor" );
-    if (aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTRequest
-            && UssdAppTaskExistsL())
-        {
-        iEmptyEditor = ETrue;
-        } _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.End" );
-    }
-// -----------------------------------------------------------------------------
-// CPhSrvUssdManager::ProcessReceivedMessageL
-//
-//
-//
-// -----------------------------------------------------------------------------
-//
-void CPhSrvUssdManager::ProcessReceivedMessageL(const TDes8& /*aMsgData*/,
-        const RMobileUssdMessaging::TMobileUssdAttributesV1& aMsgAttributes)
-    {
+
     // empty string is handled as ok message
-    if (!iDecodedMessage.Length())
+    if ( !iDecodedMessage.Length() )
         {
         TurnLightsOn(); //Ensure lights on
-
-        // debug print
+ 
         _DPRINT( 4,
-                "PhSrv.UssdHandleReceivedEventL.EmptyString" );
+            "PhSrv.UssdHandleReceivedEventL.EmptyString" );
+        
         ShowDoneNoteL();
-        // debug print
+
+ 
         _DPRINT( 4,
-                "PhSrv.UssdHandleReceivedEventL.EmptyString.OK" );
+            "PhSrv.UssdHandleReceivedEventL.EmptyString.OK" );
         }
     else
         {
         _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.String" );
-        iNotifyMessage = (aMsgAttributes.iType
-                == RMobileUssdMessaging::EUssdMTNotify);
-        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage ); 
+        iNotifyMessage = ( aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTNotify );
+        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
         _DDPRINT( 4, "PhSrv.UssdNOHREventL.iNotifyMessage: ", iNotifyMessage );
-        iMsgTypeReply = (aMsgAttributes.iType
-                == RMobileUssdMessaging::EUssdMTReply);
+        iMsgTypeReply = ( aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTReply );
         _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iMsgTypeReply: ", iMsgTypeReply );
-
-        if (iNotifyMessage)
+        
+        if ( iNotifyMessage ) 
             {
             // need to send an MO ack
-            iAcksToBeSent++;
+            iAcksToBeSent ++;
             }
-
-        if (iNotifyMessage || iMsgTypeReply)
+        
+        if ( !iDeviceDialog  ){
+            iDeviceDialog = CHbDeviceMessageBoxSymbian::NewL(
+                CHbDeviceMessageBoxSymbian::EInformation );
+            iDeviceDialog->SetObserver( this );
+            iDeviceDialog->SetTimeout( KPhSrvUssdTimeout );
+            iDeviceDialog->SetDismissPolicy ( KPhSrvUssdPopupDismissPolicy );
+            iDeviceDialog->SetIconVisible(EFalse);
+            
+            // Show left key with empty string accoring to ui concept
+            iDeviceDialog->SetButton( 
+                CHbDeviceMessageBoxSymbian::EAcceptButton, EFalse );
+            // Show Exit Key always
+            iDeviceDialog->SetButton( 
+                CHbDeviceMessageBoxSymbian::ERejectButton, ETrue );
+            iDeviceDialog->SetButtonTextL(
+                CHbDeviceMessageBoxSymbian::ERejectButton, 
+                LoadDefaultString( KUssdExit ) );
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Exit" );             
+        }
+      
+        if ( iNotifyMessage || iMsgTypeReply )
             {
             //This is for reply message in notifyarray
             iNotifyMessage = ETrue;
             _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
 
             //Notify added to array
-            iNotifyArray->AppendL(iReceivedMessage);
+            iNotifyArray->AppendL( iReceivedMessage );
 
-            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.AppendL" ); // debug print
-            UpdateNotifyMessage();
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.AppendL" );
+            UpdateNotifyMessageL();
 
-            if (!iSendRelease && NotifyCount() <= 1)
+            if ( !iSendRelease && NotifyCount() <= 1 )
                 {
-                _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.!SendRelease.Cancel" ); // debug print
+                _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.!SendRelease.Cancel" );
                 Cancel();
                 }
             }
@@ -928,79 +902,61 @@ void CPhSrvUssdManager::ProcessReceivedMessageL(const TDes8& /*aMsgData*/,
             {
             // New message deletes old message, i.e. Cancel existing query.
             Cancel();
-            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NewAnswerable" ); // debug print
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NewAnswerable" );
             }
-        CreateGlobalMessageQueryL(aMsgAttributes);
+
+        // Remove Reply key
+        if( !( aMsgAttributes.iFlags & RMobileUssdMessaging::KUssdMessageType )
+             || aMsgAttributes.iType != RMobileUssdMessaging::EUssdMTRequest )
+            {
+            // Remove Answer key
+            iDeviceDialog->SetButton( 
+                CHbDeviceMessageBoxSymbian::EAcceptButton, EFalse );
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NoAnswer" ); 
+            }
+        // Show Reply key
+        else
+            {
+            iDeviceDialog->SetButton( 
+                CHbDeviceMessageBoxSymbian::EAcceptButton, ETrue );              
+            iDeviceDialog->SetButtonTextL(
+                CHbDeviceMessageBoxSymbian::EAcceptButton, 
+                LoadDefaultString( KUssdReply ) ); 
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.WithAnswer" ); 
+            }
+
+ 
+        _DPRINT( 4,
+            "PhSrv.UssdHandleReceivedEventL.String.Middle" );
+
+        // Play the USSD tone if needed. Logically should be in RunL, but here
+        // to give better balancing with voice and visible message.
+        // <-- QT PHONE START-->
+        /*
+        if ( IsTelephonyFeatureSupported( KTelephonyLVFlagUssdTone ) )
+            {
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.PlayTone" );
+            PlayUssdTone();
+            }
+        */
+            // <-- QT PHONE END-->
+        // Launch the new message query
+        if ( !IsActive() )
+            {
+            iLaunchGMQ = ETrue;
+            iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
+            SetActive();
+            }
         AsyncProcessMoAcks();
-        } 
-    _DPRINT( 4, "PhSrv.ProcesdReceivedMessageL.End" );
+        }
+    _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Editor" );
+    if( aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTRequest && UssdAppTaskExistsL() )
+        {
+        iEmptyEditor = ETrue;
+        }
+    _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.End" );
     }
 
-// -----------------------------------------------------------------------------
-// CPhSrvUssdManager::PorcessReceivedMessageInExtesnionL
-//
-//
-//
-// -----------------------------------------------------------------------------
-//
-void CPhSrvUssdManager::PorcessReceivedMessageInExtesnionL(
-        const TDes8& /*aMsgData*/,
-        const RMobileUssdMessaging::TMobileUssdAttributesV1& aMsgAttributes)
-    {
-    TInt errfromextension = KErrNone;
-    // empty string is handled as ok message
-    if (!iDecodedMessage.Length())
-        {
-        // debug print
-        _DPRINT( 4,
-                "PhSrv.UssdHandleReceivedEventL.EmptyString" );
-        //RM-RIM 417-66528
-        TRAP_IGNORE(iUssdExtnInterface->ProcessReceivedUssdL(iDecodedMessage, errfromextension));
-        // debug print
-        _DPRINT( 4,
-                "PhSrv.UssdHandleReceivedEventL.EmptyString.OK" );
-        }
-    else
-        {
-        _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.String" );
-        iNotifyMessage = (aMsgAttributes.iType
-                == RMobileUssdMessaging::EUssdMTNotify);
-        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage ); 
-        _DDPRINT( 4, "PhSrv.UssdNOHREventL.iNotifyMessage: ", iNotifyMessage );
-        iMsgTypeReply = (aMsgAttributes.iType
-                == RMobileUssdMessaging::EUssdMTReply);
-        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iMsgTypeReply: ", iMsgTypeReply );
-
-        if (iNotifyMessage)
-            {
-            // need to send an MO ack
-            iAcksToBeSent++;
-            }
-
-        if (iNotifyMessage || iMsgTypeReply)
-            {
-            //This is for reply message in notifyarray
-            iNotifyMessage = ETrue;
-            _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
-            if (!iSendRelease && NotifyCount() <= 1)
-                {
-                _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.!SendRelease.Cancel" ); // debug print
-                Cancel();
-                }
-            }
-        else
-            {
-            // New message deletes old message, i.e. Cancel existing query.
-            Cancel();
-            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NewAnswerable" ); // debug print
-            }
-        TInt errfromextension = KErrNone;
-        ProcessMoAcksL();
-        iLaunchGMQ = EFalse;
-        TRAP_IGNORE(iUssdExtnInterface->ProcessReceivedUssdL(iDecodedMessage, errfromextension)); 
-        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Extn.ProcessReceivedUssdL.ErrCode", errfromextension);
-        }
-    }
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::RestartReplyTimerL
 //
@@ -1036,31 +992,31 @@ void CPhSrvUssdManager::RestartReplyTimerL()
 void CPhSrvUssdManager::UssdNetworkObserverHandleNotifyNWReleaseL(
 const RMobilePhone::TMobilePhoneSendSSRequestV3 & aReturnResult,
 TInt aError )
-	{
- 	_DDPRINT( 4, "PhSrv.UssdNotifyNWRelease ##### ", aError ); // debug print
+    {
+    _DDPRINT( 4, "PhSrv.UssdNotifyNWRelease ##### ", aError ); // debug print
     _DPRINT_FLAGS();
- 	TBool showNotes = ShowNotesL();
- 	iNetworkReleased = ETrue;
- 	iSendingAck = EFalse;
+    TBool showNotes = ShowNotesL();
+    iNetworkReleased = ETrue;
+    iSendingAck = EFalse;
     iSendRelease = EFalse;
- 	iAcksToBeSent = 0;
- 	
- 	if ( iHavePendingSatMessagePointer )
- 		{
- 		iReturnResult = aReturnResult;
- 		if ( !iSatCanceled )
- 			{
- 			CompleteSatL(&iReceivedMessage, aError );
-			_DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.CompleteSat" );       // debug print
- 			}
- 		}
- 	if ( iUssdReplyTimer && iUssdReplyTimer->IsTimerActive() )
-    	{
-    	_DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.Timer.Stop" );
-    	iUssdReplyTimer->Stop();
-    	Cancel();
-    	CheckArray();
-    	}
+    iAcksToBeSent = 0;
+    
+    if ( iHavePendingSatMessagePointer )
+        {
+        iReturnResult = aReturnResult;
+        if ( !iSatCanceled )
+            {
+            CompleteSatL(&iReceivedMessage, aError );
+            _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.CompleteSat" );
+            }
+        }
+    if ( iUssdReplyTimer && iUssdReplyTimer->IsTimerActive() )
+        {
+        _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.Timer.Stop" );
+        iUssdReplyTimer->Stop();
+        Cancel();
+        CheckArray();
+        }
     if ( showNotes && iShowDone )
         {
         ShowDoneNoteL();
@@ -1070,19 +1026,14 @@ TInt aError )
         // if we are sending ack, it can be canceled.
         iUssdSendHandler->Cancel();
         }
-    //417-66528
-    //Notify Extension on NWRelease
-    if(iUssdExtnInterface)
-        {
-        iUssdExtnInterface->NotifyNWError(aError);
-        }
+    
     iSatCanceled = EFalse;
     _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.iSatCanceled.EFalse" );
     iShowDone = EFalse;
     _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.Ending" );
     _DPRINT_FLAGS();
     _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.End" );
-	}
+    }
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::ShowDoneNoteL
@@ -1093,11 +1044,8 @@ void CPhSrvUssdManager::ShowDoneNoteL()
     {
     _DDPRINT( 4, "PhSrv.ShowDoneNoteL.iShowDone", iShowDone );
     // Show global confirmation note "Done"
-    HBufC* noteText = iResourceManager.ReadResourceLC( R_PHSRV_TEXT_DONE );
-    CAknGlobalNote* note = CAknGlobalNote::NewLC();
-    note->ShowNoteL( EAknGlobalConfirmationNote, *noteText );
-    CleanupStack::PopAndDestroy( note );
-    CleanupStack::PopAndDestroy( noteText );
+    CHbDeviceMessageBoxSymbian::InformationL(
+        LoadDefaultString( KUssdDone ) );
     iShowDone = EFalse;
     }
 
@@ -1115,14 +1063,16 @@ void CPhSrvUssdManager::ShowErrorNoteL( TInt aError )
         return;
         }
 
+    // Show specific error message
     CTextResolver* textResolver = CTextResolver::NewLC();
-
     HBufC* buffer = textResolver->ResolveErrorString( aError ).AllocLC();
 
-    CAknGlobalNote* note = CAknGlobalNote::NewLC();
-    note->ShowNoteL( EAknGlobalErrorNote, *buffer );
+    CHbDeviceMessageBoxSymbian::InformationL( buffer ->Des() );
 
-    CleanupStack::PopAndDestroy( 3 ); // note, buffer, textResolver
+    CleanupStack::PopAndDestroy( buffer ); 
+    CleanupStack::PopAndDestroy( textResolver ); 
+    
+    
     _DPRINT( 4, "PhSrv.ShowErrorNoteL.End" );
     return;
     }
@@ -1315,7 +1265,7 @@ void CPhSrvUssdManager::UssdReplyTimerObserverHandleExpiredL( TInt aError )
 
     if ( aError == KErrNone &&
          IsActive() &&
-         iGlobalMsgQuery )
+         iDeviceDialog ) 
         {
         Cancel();
         // Terminates USSD session.
@@ -1331,12 +1281,88 @@ void CPhSrvUssdManager::UssdReplyTimerObserverHandleExpiredL( TInt aError )
 
 
 // -----------------------------------------------------------------------------
+// CPhSrvUssdManager::MessageBoxClosed
+// -----------------------------------------------------------------------------
+//       
+void CPhSrvUssdManager::MessageBoxClosed(
+    const CHbDeviceMessageBoxSymbian* aMessageBox,
+    CHbDeviceMessageBoxSymbian::TButtonId aButton)
+    {
+    _DPRINT( 4, "PhSrv.MsgClose.Start" );
+    // ussd device dialog observer callback function
+    TPtrC leftBtn = aMessageBox->ButtonText( 
+        CHbDeviceMessageBoxSymbian::EAcceptButton );
+    TPtrC rightBtn = aMessageBox->ButtonText( 
+        CHbDeviceMessageBoxSymbian::ERejectButton );    
+
+    TInt err = KErrNone;
+    // Click Yes on Confirmation note (Yes, No) 
+    if ( !leftBtn.Compare( 
+          LoadDefaultString( KUssdYes ) ) && 
+          ( CHbDeviceMessageBoxSymbian::EAcceptButton == aButton ) )
+        {
+        _DPRINT( 4, "PhSrv.MsgClose.SK.Yes" );
+        iClearArray = EFalse;
+        iNotifyArray->Reset();
+        TryCloseSession();
+        }
+    // Click "No" on Confirmation note (Yes, No) 
+    else if ( !rightBtn.Compare( 
+               LoadDefaultString( KUssdNo ) ) && 
+              ( CHbDeviceMessageBoxSymbian::ERejectButton == aButton ) )
+        {
+        _DPRINT( 4, "PhSrv.MsgClose.SK.No" );
+        iClearArray = EFalse;
+        iNotifyMessage = ETrue; // for removing the yes/no query
+        CheckArray();
+        TryCloseSession();
+        }
+    // Click "Next" on Notification note (Next, Exit) 
+    else if ( !leftBtn.Compare( 
+               LoadDefaultString( KUssdNext ) ) && 
+               ( CHbDeviceMessageBoxSymbian::EAcceptButton == aButton ) )
+        {
+        _DPRINT( 4, "PhSrv.MsgClose.SK.Next" ); 
+        CheckArray();
+        TryCloseSession();
+        }
+    // Click "Exit" on Notification note (Next, Exit or only Exit) 
+    else if ( !rightBtn.Compare( 
+               LoadDefaultString( KUssdExit ) ) && 
+               ( CHbDeviceMessageBoxSymbian::ERejectButton == aButton ) )
+        {
+        TRAP( err, ClearArrayL() );
+        _DDPRINT( 4, "PhSrv.MsgClose.SK.Clear.%d", err );
+        TryCloseSession();
+        _DPRINT( 4, "PhSrv.MsgClose.SK.Exit" ); 
+        }
+    // Click "Reply" on Message note (Reply, Exit) 
+    else if ( !leftBtn.Compare( 
+               LoadDefaultString( KUssdReply ) ) && 
+               ( CHbDeviceMessageBoxSymbian::EAcceptButton == aButton ) )
+        {
+        // Answer
+        iStartEditor = ETrue;
+        iShowDone = EFalse;
+        // Start the USSD editor now.
+        TRAP( err, RequestStartEditingL() );
+        _DDPRINT( 4, "PhSrv.MsgClose.RequestStartEditingL.%d", err );
+        }    
+    else 
+        {
+        _DPRINT( 4, "PhSrv.MsgClose.SK.Default" ); 
+        }
+  
+    _DPRINT( 4, "PhSrv.MsgClose.End" ); 
+    }
+
+// -----------------------------------------------------------------------------
 // CPhSrvUssdManager::RunL
 // -----------------------------------------------------------------------------
 //
 void CPhSrvUssdManager::RunL()
     {
-    _DPRINT( 4, "PhSrv.RunL.Start" );           // debug print
+    _DPRINT( 4, "PhSrv.RunL.Start" );    
 
     ProcessMoAcksL();
     
@@ -1350,122 +1376,11 @@ void CPhSrvUssdManager::RunL()
     else
         {
         iStartEditor = EFalse;
-        
-        TInt key = iStatus.Int();
-        if ( key == EEikBidOk ) // OK key
-            {
-            if ( NetworkWaitingForAnAnswer() )
-                {
-                key = EAknSoftkeyShow;
-                }
-            else
-                {
-                key = EAknSoftkeyExit;
-                }
-            }
-
-        switch( key )
-            {
-            case EAknSoftkeyShow:
-                {
-                // Answer
-                iStartEditor = ETrue;
-                iShowDone = EFalse;
-                // Start the USSD editor now.
-                _DPRINT( 4, "PhSrv.RunL.RequestStartEditingL" ); // debug print
-                RequestStartEditingL();
-                break;
-                }
-            case EAknSoftkeyYes:
-                {
-                _DPRINT( 4, "PhSrv.RunL.SK.Yes" );
-                iClearArray = EFalse;
-                iNotifyArray->Reset();
-                TryCloseSession();
-                break;
-                }
-            case EAknSoftkeyCancel:
-                _DPRINT( 4, "PhSrv.RunL.SK.Cancel" ); 
-                if ( iHavePendingSatMessagePointer )
-                    {
-                    iSatCanceled = ETrue;
-                    CompleteSatL( &iReceivedMessage, KErrCancel );
-                    _DPRINT( 4, "PhSrv.RunL.CompleteSatL" );
-                    }
-                // fall through.
-            case EAknSoftkeyExit:
-                _DPRINT( 4, "PhSrv.RunL.SK.Exit" ); 
-                ClearArrayL();
-                TryCloseSession();
-                break;
-            case EAknSoftkeyBack:
-                _DPRINT( 4, "PhSrv.RunL.SK.Back" ); 
-                ClearArrayL();
-                TryCloseSession();
-                break;
-            case EAknSoftkeyNo:
-                _DPRINT( 4, "PhSrv.RunL.SK.No" );
-                iClearArray = EFalse;
-                iNotifyMessage = ETrue; // for removing the yes/no query
-                // fall through.
-            case EAknSoftkeyNext:
-                _DPRINT( 4, "PhSrv.RunL.SK.Next" ); 
-                CheckArray();
-                TryCloseSession();
-                break;
-            default:
-                _DPRINT( 4, "PhSrv.RunL.SK.Default" ); 
-                break;
-            }
+        // update device dialog
         _DPRINT( 4, "PhSrv.RunL.End" );     // debug print
         }
     }
-// RM-RIM 417-66528
-// -----------------------------------------------------------------------------
-// CPhSrvUssdManager::CreateGlobalMessageQueryL
-// -----------------------------------------------------------------------------
-//
-void CPhSrvUssdManager::CreateGlobalMessageQueryL(
-        const RMobileUssdMessaging::TMobileUssdAttributesV1& aMsgAttributes)
-    {
-    if (!iGlobalMsgQuery)
-        {
-        iGlobalMsgQuery = CAknGlobalMsgQuery::NewL();
-        }
 
-    // Delay after message query so that application execution order will
-    // be correct.
-    iGlobalMsgQuery->SetExitDelay(KPhSrvUssdNoteExitPeriod);
-
-    TInt softkeys = R_AVKON_SOFTKEYS_USSD_ANSWER_EXIT__ANSWER;
-    if (!(aMsgAttributes.iFlags & RMobileUssdMessaging::KUssdMessageType)
-            || aMsgAttributes.iType != RMobileUssdMessaging::EUssdMTRequest)
-        {
-        softkeys = R_AVKON_SOFTKEYS_EXIT;
-        }
-
-    // Set timer that lauches Global MessageQuery after time interval.
-    iSoftkeys = softkeys;
-
-    // debug print
-    _DPRINT( 4,
-            "PhSrv.UssdHandleReceivedEventL.String.Middle" );
-
-    // Play the USSD tone if needed. Logically should be in RunL, but here
-    // to give better balancing with voice and visible message.
-    if (IsTelephonyFeatureSupported(KTelSrvLVFlagUssdTone))
-        {
-        _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.PlayTone" );
-        PlayUssdTone();
-        }
-    // Launch the new message query
-    if (!IsActive())
-        {
-        iLaunchGMQ = ETrue;
-        iTimer.After(iStatus, KPhSrvUssdMessageQueryInterval);
-        SetActive();
-        }
-    }
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::LaunchGlobalMessageQueryL
 // -----------------------------------------------------------------------------
@@ -1474,22 +1389,58 @@ void CPhSrvUssdManager::LaunchGlobalMessageQueryL()
     {
     _DPRINT( 4, "PhSrv.LGMQ.start" );
     _DPRINT_FLAGS();
+
     if ( iNotifyMessage )
         {
         _DDPRINT( 4, "PhSrv.LGMQ.NotifyMessage", iNotifyMessage );
         iNotifyMessage = ETrue;
         TInt count = NotifyCount();
+        //check softkey in avkon.rss 
         if ( count > 1 )
             {
-            iSoftkeys = R_AVKON_SOFTKEYS_NEXT_EXIT__NEXT;
+            // Next, Exit
+            iDeviceDialog->SetButton(
+                CHbDeviceMessageBoxSymbian::EAcceptButton, ETrue );            
+            iDeviceDialog->SetButtonTextL(
+                CHbDeviceMessageBoxSymbian::EAcceptButton, 
+                LoadDefaultString( KUssdNext ) );
+            iDeviceDialog->SetButton(
+                CHbDeviceMessageBoxSymbian::ERejectButton, ETrue );    
+            iDeviceDialog->SetButtonTextL(
+                CHbDeviceMessageBoxSymbian::ERejectButton, 
+                LoadDefaultString( KUssdExit ) );  
+            _DPRINT( 4, "PhSrv.LGMQ.Next&Exit" );
             }
         else
             {
-            iSoftkeys = R_AVKON_SOFTKEYS_EXIT;
+            // Only Exit
+            iDeviceDialog->SetButton(
+                CHbDeviceMessageBoxSymbian::EAcceptButton, EFalse ); 
+            iDeviceDialog->SetButton(
+                CHbDeviceMessageBoxSymbian::ERejectButton, ETrue );               
+            iDeviceDialog->SetButtonTextL(
+                CHbDeviceMessageBoxSymbian::ERejectButton, 
+                LoadDefaultString( KUssdExit ) );   
+            _DPRINT( 4, "PhSrv.LGMQ.onlyExit" );
             }
         if ( iClearArray )
             {
-            iSoftkeys = R_AVKON_SOFTKEYS_YES_NO;
+            HbTextResolverSymbian::Init( KCommonLocFilename, KLocPath );
+            _DPRINT( 4, "PhSrv.LGMQ.use common loc file" );
+            // Yes, No
+            iDeviceDialog->SetButton(
+                CHbDeviceMessageBoxSymbian::EAcceptButton, ETrue );               
+            iDeviceDialog->SetButtonTextL(
+                CHbDeviceMessageBoxSymbian::EAcceptButton, 
+                LoadDefaultString( KUssdYes ) );
+            iDeviceDialog->SetButton(
+                CHbDeviceMessageBoxSymbian::ERejectButton, ETrue );              
+            iDeviceDialog->SetButtonTextL(
+                CHbDeviceMessageBoxSymbian::ERejectButton, 
+                LoadDefaultString( KUssdNo ) );  
+            _DPRINT( 4, "PhSrv.LGMQ.Yes&No" );
+            HbTextResolverSymbian::Init( KUssdLocFilename, KLocPath );
+            _DPRINT( 4, "PhSrv.LGMQ.back up to use ussd loc file" );
             }
         iReceivedMessage.Zero();
         iReceivedMessage = (*iNotifyArray)[0];
@@ -1498,11 +1449,27 @@ void CPhSrvUssdManager::LaunchGlobalMessageQueryL()
 
     _DPRINT( 4, "PhSrv.LGMQ.ShMsgQuery" ); // debug print
     // Launch Global MessageQuery as requested.
-    iGlobalMsgQuery->ShowMsgQueryL(iStatus, iReceivedMessage, iSoftkeys,
-            *iMeQuHeaderText, KNullDesC);
-    _DPRINT( 4, "PhSrv.LGMQ.SetActive" );
-    SetActive();
+    // Dialog not support header text, this code is only 
+    // for testing, not final solution.
+    TInt receiveLength = iReceivedMessage.Length();
+    _DDPRINT( 4, "PhSrv.LGMQ.ShMsgQuery.MsgLength", receiveLength ); 
+    
+    TInt titleLength = LoadDefaultString( KUssdTitle ).Length();
+    _DDPRINT( 4, "PhSrv.LGMQ.ShMsgQuery.TilteLength", titleLength );
+    
+    TInt length = receiveLength + titleLength;
+    _DDPRINT( 4, "PhSrv.LGMQ.ShMsgQuery.TotalLength", length );    
+        
+    HBufC* titleAndText = HBufC::NewLC( length );
+    titleAndText->Des().Append( LoadDefaultString( KUssdTitle ) );
+    titleAndText->Des().Append( iReceivedMessage );
+    iDeviceDialog->SetTextL( titleAndText->Des() );
+    CleanupStack::Pop( titleAndText );
+    
+    iDeviceDialog->Close();
+    iDeviceDialog->ShowL();
     iShowDone = EFalse;
+   
     // Do nothing else in RunL this time.
     _DPRINT( 4, "PhSrv.LGMQ.ShMsgQuery.ret" ); // debug print
     }
@@ -1606,105 +1573,112 @@ void CPhSrvUssdManager::CloseSession()
 // -----------------------------------------------------------------------------
 //
 void CPhSrvUssdManager::CheckArray()
-	{
-	_DPRINT( 4, "PhSrv.CheckArray.Start" );     // debug print
- 	if (iNotifyArray  && NotifyCount() > 0)
-		{
-		if 	( !iNotifyMessage && !iClearArray )
-			{
-			iLaunchGMQ = ETrue;
-			iNotifyMessage = ETrue;
-			_DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.ETrue" );
-			iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
-			_DDPRINT( 4, "PhSrv.CheckArray.SetActive.NoNotifyMessage ", iStatus.Int() );
-			SetActive();
-			}
-		else if( NotifyCount() > 1 )
-			{
-			( iNotifyArray )->Delete( 0 );
-			( iNotifyArray )->Compress();
-			iLaunchGMQ = ETrue;
-			iNotifyMessage = ETrue;
-			_DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.ETrue" );
-			iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
-			_DDPRINT( 4, "PhSrv.CheckArray.SetActive.NotifyCount>1 ", iStatus.Int() );
-			SetActive();
-			}
- 		else
-     		{
-			iNotifyArray->Reset();
-     		iNotifyMessage = EFalse;
-     		_DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.EFalse" );
-     		}
-  		}
+    {
+    _DPRINT( 4, "PhSrv.CheckArray.Start" );     // debug print
+    if (iNotifyArray  && NotifyCount() > 0)
+        {
+        if  ( !iNotifyMessage && !iClearArray )
+            {
+            iLaunchGMQ = ETrue;
+            iNotifyMessage = ETrue;
+            _DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.ETrue" );
+            iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
+            _DDPRINT( 4, "PhSrv.CheckArray.SetActive.NoNotifyMessage ", iStatus.Int() );
+            SetActive();
+            }
+        else if( NotifyCount() > 1 )
+            {
+            ( iNotifyArray )->Delete( 0 );
+            ( iNotifyArray )->Compress();
+            iLaunchGMQ = ETrue;
+            iNotifyMessage = ETrue;
+            _DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.ETrue" );
+            iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
+            _DDPRINT( 4, "PhSrv.CheckArray.SetActive.NotifyCount>1 ", iStatus.Int() );
+            SetActive();
+            }
+        else
+            {
+            iNotifyArray->Reset();
+            iNotifyMessage = EFalse;
+            _DPRINT( 4, "PhSrv.CheckArray.iNotifyMessage.EFalse" );
+            }
+        }
     _DPRINT_FLAGS();
-  	_DPRINT( 4, "PhSrv.CheckArray.End" );     // debug print
- 	}
+    _DPRINT( 4, "PhSrv.CheckArray.End" );     // debug print
+    }
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::ClearArray()
 // -----------------------------------------------------------------------------
 //
   void CPhSrvUssdManager::ClearArrayL()
-  	{
-  	_DPRINT( 4, "PhSrv.ClearArrayL.Start" );     // debug print
-  	if (iNotifyArray && NotifyCount() > 0)
-	  	{
-	  	if (iNotifyMessage && NotifyCount()== 1 )
-	  		{
-	  		iNotifyArray->Reset();
-	  		}
-	  	else
-	  		{
-	  		iReceivedMessage.Zero();
-	  		HBufC* unreadText = iResourceManager.ReadResourceLC( R_PHSRV_TEXT_UNREAD );
-	  		TPtr pMessage( unreadText->Des() );
-	  		iReceivedMessage.Append( pMessage );
-	  		iNotifyArray->InsertL( 0, iReceivedMessage );
-	        CleanupStack::PopAndDestroy( unreadText );
-	  		iLaunchGMQ = ETrue;
-	  		iNotifyMessage = ETrue;
-	  		_DPRINT( 4, "PhSrv.ClearArrayL.iNotifyMessage.ETrue" );
-	  		iClearArray = ETrue;
-	  		iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
-	  		_DDPRINT( 4, "PhSrv.ClearArrayL.iTimer ", iStatus.Int() );
-			SetActive();
-	  		}
-	  	}
+    {
+    _DPRINT( 4, "PhSrv.ClearArrayL.Start" );     // debug print
+    if (iNotifyArray && NotifyCount() > 0)
+        {
+        if (iNotifyMessage && NotifyCount()== 1 )
+            {
+            iNotifyArray->Reset();
+            }
+        else
+            {
+            iReceivedMessage.Zero();
+            iReceivedMessage.Append( 
+                LoadDefaultString( KUssdConfirm ) );
+            iNotifyArray->InsertL( 0, iReceivedMessage );
+            iLaunchGMQ = ETrue;
+            iNotifyMessage = ETrue;
+            _DPRINT( 4, "PhSrv.ClearArrayL.iNotifyMessage.ETrue" );
+            iClearArray = ETrue;
+            iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
+            _DDPRINT( 4, "PhSrv.ClearArrayL.iTimer ", iStatus.Int() );
+            SetActive();
+            }
+        }
     _DPRINT_FLAGS();
-	_DPRINT( 4, "PhSrv.ClearArrayL.End" );     // debug print
-  	}
+    _DPRINT( 4, "PhSrv.ClearArrayL.End" );     // debug print
+    }
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::NotifyCount()
 // -----------------------------------------------------------------------------
 //
-  TInt CPhSrvUssdManager::NotifyCount()
-  {
-  if( iNotifyArray )
-      {
-      return iNotifyArray->Count();
-      }
-  else
-      {
-      return 0;
-      }
-  }
+TInt CPhSrvUssdManager:: NotifyCount()
+{
+    TInt count = iNotifyArray->Count();
+    _DDPRINT( 4, "PhSrv.NotifyCount:", count );     // debug print
+    return count;
+}
 
-  // -----------------------------------------------------------------------------
-// CPhSrvUssdManager::UpdateNotifyMessage()
+// -----------------------------------------------------------------------------
+// CPhSrvUssdManager::UpdateNotifyMessageL()
 // -----------------------------------------------------------------------------
 //
-  void CPhSrvUssdManager::UpdateNotifyMessage()
-  	{
-  	_DDPRINT( 4, "PhSrv.UpdateNotifyMessage.Start, clear: ", iClearArray );     // debug print
-  	if (NotifyCount() > 1 && !iClearArray )
-  		{
-  		_DPRINT( 4, "PhSrv.UpdateNotifyMessage" );     // debug print
-  		iGlobalMsgQuery->UpdateMsgQuery( R_AVKON_SOFTKEYS_NEXT_EXIT__NEXT );
-  		}
-  	_DPRINT( 4, "PhSrv.UpdateNotifyMessage.End" );     // debug print
-  	}
+  void CPhSrvUssdManager:: UpdateNotifyMessageL()
+    {
+    _DDPRINT( 4, "PhSrv.UpdateNotifyMessageL.Start, clear: ", iClearArray );     // debug print
+
+    // Show left softkey - "Next"
+    if (NotifyCount() > 1 && !iClearArray )
+        {
+        _DPRINT( 4, "PhSrv.UpdateNotifyMessageL" );     // debug print
+        iDeviceDialog->SetButton( 
+            CHbDeviceMessageBoxSymbian::EAcceptButton, ETrue ); 
+        iDeviceDialog->SetButtonTextL(
+            CHbDeviceMessageBoxSymbian::EAcceptButton, 
+            LoadDefaultString( KUssdNext ) );
+        }
+    // Remove left softkey
+    else
+        {
+        iDeviceDialog->SetButton( 
+                    CHbDeviceMessageBoxSymbian::EAcceptButton, EFalse );         
+        }
+    iDeviceDialog->UpdateL();        
+    
+    _DPRINT( 4, "PhSrv.UpdateNotifyMessageL.End" );     // debug print
+    }
 
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::DoCancel
@@ -1715,11 +1689,12 @@ void CPhSrvUssdManager::DoCancel()
     _DPRINT( 4, "PhSrv.DoCancel.Start" ); // debug print
     iTimer.Cancel();
     iLaunchGMQ = EFalse;
-
-    if ( iGlobalMsgQuery )
+    if ( iDeviceDialog )
         {
         _DPRINT( 4, "PhSrv.DoCancel" ); // debug print
-        iGlobalMsgQuery->CancelMsgQuery();
+        iDeviceDialog->Close();
+        delete iDeviceDialog;
+        iDeviceDialog = NULL;
         }
     _DPRINT( 4, "PhSrv.DoCancel.End" ); // debug print
     }
@@ -1752,7 +1727,7 @@ void CPhSrvUssdManager::RequestStartEditingL()
 
     // Find the task with name
     TApaTaskList tasklist( wsSession );
-    TApaTask task = tasklist.FindApp( TUid::Uid( KPhSrvUssdAppUID ) );
+    TApaTask task = tasklist.FindApp( KUssdSecureId );
 
     // If task exists, bring it to foreground
     if ( task.Exists() )
@@ -1769,13 +1744,12 @@ void CPhSrvUssdManager::RequestStartEditingL()
         CleanupClosePushL( apaLsSession );
 
         TApaAppInfo appInfo;
-        TInt err = apaLsSession.GetAppInfo(
-            appInfo,
-            TUid::Uid( KPhSrvUssdAppUID )  );
+        
+        TInt err = apaLsSession.GetAppInfo( appInfo, KUssdSecureId );
+        _DDPRINT( 4, "PhSrv.RequestStartEditingL.GetAppInfo ", err );     // debug print
+        
         if ( err == KErrNone )
             {
-            _DDPRINT( 4, "PhSrv.RequestStartEditingL.GetAppInfo ", err );     // debug print
-
         #ifndef SYMBIAN_SUPPORT_UI_FRAMEWORKS_V1
             CApaCommandLine* apaCommandLine = CApaCommandLine::NewLC();
             apaCommandLine->SetExecutableNameL( appInfo.iFullName );
@@ -1784,10 +1758,22 @@ void CPhSrvUssdManager::RequestStartEditingL()
                 CApaCommandLine::NewLC( appInfo.iFullName );
         #endif // SYMBIAN_SUPPORT_UI_FRAMEWORKS_V1
 
-            err = apaLsSession.StartApp( *apaCommandLine );
+            TThreadId id( static_cast<TInt64>( 0 ) );
+            err = apaLsSession.StartApp( *apaCommandLine, id );
+            _DDPRINT( 4, "PhSrv.RequestStartEditingL.ThreadId ", id ); 
             CleanupStack::PopAndDestroy( apaCommandLine );
             }
-        CleanupStack::PopAndDestroy(); // apaLsSession
+        CleanupStack::PopAndDestroy( &apaLsSession ); // apaLsSession
+        
+        // bring the ussd editor to foreground, only for testing
+        TApaTaskList tasklist( wsSession );
+        TApaTask task = tasklist.FindApp( KUssdSecureId );
+        if ( task.Exists() )
+            {
+            _DPRINT( 4, "PhSrv.UssdM.RequestStartEditingL.task.BringToForeground" );
+            task.BringToForeground();
+            }
+        // bring the ussd editor to foreground, only for testing
         }
     CleanupStack::PopAndDestroy(); // wsSession
 
@@ -1826,7 +1812,7 @@ void CPhSrvUssdManager::InformUssdApplicationTerminatingL(
         {
         if ( iUssdReplyTimer->IsTimerActive() )
             {
-            // debug print
+     
             _DPRINT( 4, "PhSrv.UssdM.InfUssdAppTerminatingL.timer" );
 
             // Read the information what is the reason
@@ -1837,14 +1823,14 @@ void CPhSrvUssdManager::InformUssdApplicationTerminatingL(
                 0,
                 exitReasonPckg );
 
-            // debug print
+     
             _DPRINT( 4, "PhSrv.UssdM.InfUssdAppTerminatingL.timer2" );
 
             // If reason was the completion of send operation, the USSD
             // session is not canceled, otherwise it is canceled.
             if ( exitReason != EPhCltSendCompleted )
                 {
-                // debug print
+         
                 _DPRINT( 4, "PhSrv.UssdM.InfUssdAppTerminatingL.SendRelease" );
                 CloseSession();
                 }
@@ -1912,7 +1898,7 @@ void CPhSrvUssdManager::InformStartSAT( const RMessage2& aSatMessage )
         }
     else
         {
-        _DPRINT( 4, "PhSrv.InformStartSAT.Set" );           // debug print
+        _DPRINT( 4, "PhSrv.InformStartSAT.Set" );    
 
         // There was not pending SAT message
         iHavePendingSatMessagePointer = ETrue;
@@ -1930,7 +1916,7 @@ void CPhSrvUssdManager::InformStartSAT( const RMessage2& aSatMessage )
 //
 void CPhSrvUssdManager::InformStopSAT()
     {
-    _DPRINT( 4, "PhSrv.InformStopSAT.Start" );               // debug print
+    _DPRINT( 4, "PhSrv.InformStopSAT.Start" );        
 
     // Do the actions only if there is pending SAT message.
     if ( iHavePendingSatMessagePointer )
@@ -1943,7 +1929,7 @@ void CPhSrvUssdManager::InformStopSAT()
             }
         iHavePendingSatMessagePointer = EFalse;
         }
-    _DPRINT( 4, "PhSrv.InformStopSAT.End" );                 // debug print
+    _DPRINT( 4, "PhSrv.InformStopSAT.End" );          
     }
 
 // -----------------------------------------------------------------------------
@@ -1995,7 +1981,7 @@ void CPhSrvUssdManager::CompleteSatL(
     TDesC* aReceiveString,
     TInt aError )
     {
-    _DPRINT( 4, "PhSrv.CompleteSatL.Start" );                // debug print
+    _DPRINT( 4, "PhSrv.CompleteSatL.Start" );         
     if ( aReceiveString )
         {
         if ( aReceiveString->Length() )
@@ -2004,7 +1990,7 @@ void CPhSrvUssdManager::CompleteSatL(
             // copy the received string to client side.
             if ( iPendingSatMessagePointer.Int1() < aReceiveString->Length() )
                 {
-                // debug print
+         
                 _DPRINT( 4, "PhSrv.CompleteSatL.recString.LengthError" );
                 if ( !iPendingSatMessagePointer.IsNull() )
                     {
@@ -2013,8 +1999,8 @@ void CPhSrvUssdManager::CompleteSatL(
                     }
                 iHavePendingSatMessagePointer = EFalse;
                 }
-			else
-				{
+            else
+                {
             _DPRINT( 4, "PhSrv.CompleteSatL.recString.Write" );  // debug print
             iPendingSatMessagePointer.WriteL(
                 2,
@@ -2028,7 +2014,7 @@ void CPhSrvUssdManager::CompleteSatL(
             }
         }
         }
-    _DPRINT( 4, "PhSrv.CompleteSatL.Middle" );           // debug print
+    _DPRINT( 4, "PhSrv.CompleteSatL.Middle" );    
     if ( !iPendingSatMessagePointer.IsNull() )
         {
         if ( aReceiveString && !iSatCanceled )
@@ -2045,7 +2031,7 @@ void CPhSrvUssdManager::CompleteSatL(
 
     iHavePendingSatMessagePointer = EFalse;
 
-    _DPRINT( 4, "PhSrv.CompleteSatL.End" );           // debug print
+    _DPRINT( 4, "PhSrv.CompleteSatL.End" );    
     }
 
 
@@ -2057,7 +2043,7 @@ void CPhSrvUssdManager::CompleteSatL(
 TBool CPhSrvUssdManager::IsTelephonyFeatureSupported(
     const TInt aFeatureId )
     {
-	return ( aFeatureId & iVariantReadOnlyValues );
+    return ( aFeatureId & iVariantReadOnlyValues );
     }
 
 
@@ -2068,12 +2054,13 @@ TBool CPhSrvUssdManager::IsTelephonyFeatureSupported(
 //
 TInt CPhSrvUssdManager::PlayUssdTone()
     {
-    _DPRINT( 4, "PhSrv.UssdM.PlayTone.start" );           // debug print
+    _DPRINT( 4, "PhSrv.UssdM.PlayTone.start" );    
 
     TInt err = KErrNone;
-
-    RProperty::Define( KPSUidNcnList, KNcnPlayAlertTone, RProperty::EInt, ECapability_None , ECapabilityWriteDeviceData );
-    RProperty::Set( KPSUidNcnList, KNcnPlayAlertTone, KPhSrvUssdTone );
+// <-- QT PHONE  START-->
+//    RProperty::Define( KPSUidNcnList, KNcnPlayAlertTone, RProperty::EInt, ECapability_None , ECapabilityWriteDeviceData );
+//    RProperty::Set( KPSUidNcnList, KNcnPlayAlertTone, KPhSrvUssdTone );
+// <-- QT PHONE END-->
 
     // debug print
     _DDPRINT(
@@ -2092,7 +2079,8 @@ TInt CPhSrvUssdManager::GetTelephonyVariantData()
     {
     _DPRINT( 4, "PhSrv.UssdM.GetTelephonyVariantData.Start" );
     TInt err = KErrNone;
-
+// <-- QT PHONE START-->
+/*
     // Variation data should be unchangable during run-time,
     // therefore, if once succesfully read, later reads are
     // not allowed.
@@ -2100,10 +2088,10 @@ TInt CPhSrvUssdManager::GetTelephonyVariantData()
         {
         CRepository* cenRepSession = NULL;
         TRAP ( err ,
-               cenRepSession = CRepository::NewL( KCRUidTelSrvVariation ) );
+               cenRepSession = CRepository::NewL( KCRUidTelVariation ) );
         if ( err == KErrNone )
             {
-            err = cenRepSession->Get( KTelSrvVariationFlags,
+            err = cenRepSession->Get( KTelVariationFlags,
                                    iVariantReadOnlyValues );
             }
         delete cenRepSession;
@@ -2111,6 +2099,8 @@ TInt CPhSrvUssdManager::GetTelephonyVariantData()
 
     _DDPRINT( 4, "PhSrv.UssdM.variant", iVariantReadOnlyValues ); // debug print
     _DPRINT( 4, "PhSrv.UssdM.GetTelephonyVariantData.End" );
+    */
+// <-- QT PHONE END-->
     return err;
     }
 
@@ -2122,7 +2112,7 @@ TInt CPhSrvUssdManager::GetTelephonyVariantData()
 //
 void CPhSrvUssdManager::SendMoAcknowledgementL()
     {
-    _DPRINT( 4, "PhSrv.SendMoAckL.Start" );           // debug print
+    _DPRINT( 4, "PhSrv.SendMoAckL.Start" );    
 
     // Acknowledge MT USSD message.
     RMobileUssdMessaging::TMobileUssdAttributesV1 msgAttribs;
@@ -2140,7 +2130,7 @@ void CPhSrvUssdManager::SendMoAcknowledgementL()
     RMobileUssdMessaging::TMobileUssdAttributesV1Pckg attribs = msgAttribs;
     SendHandlerL().SendUssdL( KNullDesC8() , attribs );
 
-    _DPRINT( 4, "PhSrv.SendMoAckL.End" );           // debug print
+    _DPRINT( 4, "PhSrv.SendMoAckL.End" );    
     }
 
 // -----------------------------------------------------------------------------
@@ -2150,20 +2140,51 @@ void CPhSrvUssdManager::SendMoAcknowledgementL()
 //
 void CPhSrvUssdManager::TurnLightsOn()
     {
-     _DPRINT( 4, "PhSrv.TurnLightsOn Start" );           // debug print
+    _DPRINT( 4, "PhSrv.TurnLightsOn.Start" );    
 
 
-         // Change the bit on and off. SysAp will detect that
+     // Change the bit on and off. SysAp will detect that
      // the lights should be switched on for the specified time.
      //
-         RProperty::Set(KPSUidCoreApplicationUIs, KLightsControl, ELightsOn);
-         TInt err = RProperty::Set(KPSUidCoreApplicationUIs, KLightsControl, ELightsOff);
+     RProperty::Set(KPSUidCoreApplicationUIs, KLightsControl, ELightsOn);
+     TInt err = RProperty::Set(KPSUidCoreApplicationUIs, KLightsControl, ELightsOff);
 
-         if ( err != KErrNone )
-                 {
-                 _DDPRINT( 4,"PhSrv.TurnLightsOn.Error: ",err );// debug print
-                 }
+     if ( err != KErrNone )
+         {
+         _DDPRINT( 4,"PhSrv.TurnLightsOn.Error: ",err );// debug print
+         }
 
-     _DPRINT( 4, "PhSrv.TurnLightsOn.End" );           // debug print
+    _DPRINT( 4, "PhSrv.TurnLightsOn.End" );    
     }
+
+// -----------------------------------------------------------------------------
+// CPhSrvUssdManager::LoadDefaultString
+// -----------------------------------------------------------------------------
+//
+const TPtrC CPhSrvUssdManager::LoadDefaultString( const TDesC& aText )
+    {
+    _DPRINT( 4, "PhSrv.LoadDefaultString.Start" );
+    
+    if ( iTextBuffer )
+        {
+        delete iTextBuffer;
+        iTextBuffer = NULL;
+        _DPRINT( 4, "PhSrv.LoadDefaultString.Clear" );
+        }
+    TInt err = KErrNone;
+    TPtrC ptr( aText );
+    if ( ptr.Length() )
+        {
+        TRAP( err, iTextBuffer = HbTextResolverSymbian::LoadL( ptr ) );
+        _DDPRINT( 4, "PhSrv.LoadDefaultString.LoadL.%d", err );
+        if ( iTextBuffer )
+            {
+            ptr.Set( iTextBuffer->Des() );   
+            _DPRINT( 4, "PhSrv.LoadDefaultString.Set" );
+            }
+        }    
+    _DPRINT( 4, "PhSrv.LoadDefaultString.End" );
+    return ptr;
+    }
+
 // End of File

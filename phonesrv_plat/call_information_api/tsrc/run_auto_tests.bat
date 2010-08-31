@@ -54,7 +54,7 @@ set REMOVETESTS=TRUE
 set INSTRUMENT=TRUE
 set REMOVEINSTRUMENT=TRUE
 set DOMODULESTESTS=TRUE
-set SBS_CALL=sbs --config winscw_udeb.test --keepgoing build
+set SBS_CALL=sbs --config winscw_udeb.test --keepgoing BUILD
 set PATH_TO_DLL=\epoc32\release\winscw\udeb
 set PATH_TO_MOVE_DLL=\epoc32\release\winscw\udeb\z\sys\bin
 set PATH_TO_COVERAGE_DATA=\coverage_data
@@ -145,10 +145,9 @@ goto end
 
 pushd .
 call cd %1\group
-call sbs --config winscw_udeb.test --keepgoing clean
-call sbs --config winscw_udeb.test --keepgoing reallyclean
+call sbs --config winscw_udeb.test --keepgoing CLEAN
 if [%INSTRUMENT%] EQU [TRUE] (
-call ctcwrap -n %PATH_TO_COVERAGE_DATA%\%1 -i d -C "EXCLUDE=*" -C "NO_EXCLUDE=%TESTED_SRC%" "%SBS_CALL%"
+call ctcwrap -2comp -n %PATH_TO_COVERAGE_DATA%\%1 -i d -C "EXCLUDE=*" -C "NO_EXCLUDE=%TESTED_SRC%" "%SBS_CALL%"
 ) else (
 call %SBS_CALL%
 )
@@ -188,7 +187,7 @@ goto end
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :CALCULATECOVERAGE
 echo Calculating coverage
-ctcpost -p - %PATH_TO_COVERAGE_DATA%\*.sym | ctcmerge -i - -o profile.txt
+ctcpost %PATH_TO_COVERAGE_DATA%\*.sym | ctcmerge -i - -o profile.txt
 call ctc2html -t 70 -i profile.txt -o \coverage_result -nsb
 goto end
 

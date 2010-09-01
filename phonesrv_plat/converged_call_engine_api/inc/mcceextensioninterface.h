@@ -34,14 +34,14 @@
 *  @since S60 3.2
 */
 class MCCEExtensionInterface
-    {
+	{
 protected:
     /** 
     * Protected destructor. Object cannot be deleted from client.
     * @since S60 3.2
     */
     virtual ~MCCEExtensionInterface() {};
-    
+	
 public:
 
     /**
@@ -62,7 +62,7 @@ public:
     * @return Other system wide error code.
     */
     virtual TInt RequestCommand( TUint32 iServiceId,
-                                 TInt aRequestId, 
+								 TInt aRequestId, 
                                  TDesC8& aData ) = 0;
     /**
     * Cancels request. See MCCEExtensionInterface::RequestCommand for explanation of service-id 
@@ -76,8 +76,8 @@ public:
     * @return Other system wide error code.
     */
     virtual TInt CancelRequest( TUint32 iServiceId,
-                                TInt aRequestId ) = 0;
-    };
+    							TInt aRequestId ) = 0;
+	};
 
 
 #endif // MCCEEXTENSIONINTERFACE_H

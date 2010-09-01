@@ -21,8 +21,8 @@
 #define CAUIDIALDATACONTAINER_H
 
 //  INCLUDES
-#include <e32base.h> 
-#include <tphcltextphonedialdata.h> 
+#include <E32Base.h>
+#include <TPhCltExtPhoneDialData.h>
 
 
 /**

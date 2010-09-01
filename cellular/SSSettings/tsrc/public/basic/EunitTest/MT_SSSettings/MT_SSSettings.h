@@ -23,7 +23,7 @@
 #include <CEUnitTestSuiteClass.h>
 #include <etelmm.h>
 #include <MSSSettingsObserver.h>
-#include <msssettingsrefreshobserver.h>
+#include <MSSSettingsRefreshObserver.h>
 #include <MSSSettingsRefreshHandler.h>
 #include <MSatRefreshObserver.h>
 #include <etelsat.h>

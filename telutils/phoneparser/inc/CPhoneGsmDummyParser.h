@@ -20,7 +20,7 @@
 #define CPHONEGSMDUMMYPARSER_H
 
 // INCLUDES
-#include    "cphonegsmparserbase.h" 
+#include    "CPhoneGsmParserBase.h"
 
 // CLASS DECLARATION
 

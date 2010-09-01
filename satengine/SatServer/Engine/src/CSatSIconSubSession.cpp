@@ -219,44 +219,27 @@ void CSatSIconSubSession::NotifyGetIconInstanceL()
     LOG( SIMPLE,
         "SATENGINE: CSatSIconSubSession::NotifyGetIconInstanceL calling" )
 
-    LOG2( NORMAL, "SATENGINE: CSatSIconSubSession::NotifyGetIconInstanceL \
-          infoLength: %x", iInfo.iLength )
-
-    LOG2( NORMAL, "SATENGINE: CSatSIconSubSession::NotifyGetIconInstanceL \
-          dataLength: %x", iIconData->Length() )
-
-    // Get the CLUT and convert the icon data to bitmap.
-
-    // basic icon has empty CLUT
-    if ( RSat::KBasic == iInfo.iCoding )
+    if ( iInfo.iLength == iIconData->Length() )
         {
-        // For the basi icon the length from the icon info and icon data
-        // body should have the same length but for the clore icon the
-        // length not always same.
-        if ( iInfo.iLength == iIconData->Length() )
+        LOG( SIMPLE, "SATENGINE: CSatSIconSubSession::NotifyGetIconInstanceL \
+             length equal" )
+        // Get the clut and convert the icon data to bitmap.
+        if ( RSat::KBasic == iInfo.iCoding )
             {
             LOG( SIMPLE, "CSatSIconSubSession::NotifyGetIconInstanceL \
-             get the basic clut" )
+                 get the clut" )
             // Basic icon does not have CLUT.
             iClut = KNullDesC8().AllocL();
+
             // Complete icon.
             NotifyGetClutL();
             }
         else
             {
             LOG( SIMPLE, "CSatSIconSubSession::NotifyGetIconInstanceL \
-                notify failure basic" )
-            NotifyFailure( KErrCorrupt );
-            }
-        }
-    else // color icon
-        {
-        LOG( SIMPLE, "CSatSIconSubSession::NotifyGetIconInstanceL \
-             others" )
-        TPtr8 iconDataPtr( iIconData->Des() );
+                 others" )
+            TPtr8 iconDataPtr( iIconData->Des() );
 
-        if ( iconDataPtr.Length() >= KNumberOfCLUTByte + 1 )
-            {
             // Create buffer for clut. Each clut entry contains
             // intensity of red, green and blue. The value of 0 is
             // interpreted as 256 clut entries. (ETSI TS 131 102 V4.10.0).
@@ -267,17 +250,12 @@ void CSatSIconSubSession::NotifyGetIconInstanceL()
                 {
                 numberOfClutEntries = KDefaultNumberOfClutEntries;
                 }
-    
+
             // Start getting the icon color lookup table from SIM.
-            TInt length = numberOfClutEntries * KClutEntrySize;
-            // In some situation the length we get from the icon information
-            // includes the length of the CLUT and some time it doesn't
-            // Both situation a valid.
-            if ( ( iInfo.iLength == iIconData->Length() )
-                 || ( iInfo.iLength == iIconData->Length() + length ) )  
+            iClut = HBufC8::NewL( numberOfClutEntries * KClutEntrySize );
+
+            if ( iconDataPtr.Length() >= KNumberOfCLUTByte + 1 )
                 {
-                iClut = HBufC8::NewL( length );
-    
                 LOG( SIMPLE, "CSatSIconSubSession::NotifyGetIconInstanceL \
                      get clut" )
                 const TUint offset( iconDataPtr[KColourDepthByte] << 8 |
@@ -293,12 +271,12 @@ void CSatSIconSubSession::NotifyGetIconInstanceL()
                 NotifyFailure( KErrCorrupt );
                 }
             }
-        else
-            {
-            LOG( SIMPLE, "CSatSIconSubSession::NotifyGetIconInstanceL \
-                 others notify failure" )
-            NotifyFailure( KErrCorrupt );
-            }
+        }
+    else
+        {
+        LOG( SIMPLE, "CSatSIconSubSession::NotifyGetIconInstanceL \
+             notify failure" )
+        NotifyFailure( KErrCorrupt );
         }
 
     LOG( SIMPLE,

@@ -166,21 +166,21 @@ EXPORT_C TInt CSPProperty::GetValue( TOnOff& aValue ) const
     TInt value;
     TInt err = convert.Val( value );
     if( err == KErrNone )
-        {
-        if( value != EOONotSet && value != EOff && value != EOn )
-            {
-            return KErrOverflow;
-            }
-        else
-            {
-            aValue = static_cast<TOnOff>( value );
-            return KErrNone;
-            }
-        }
+    	{
+    	if( value != EOONotSet && value != EOff && value != EOn )
+    		{
+    		return KErrOverflow;
+    		}
+    	else
+    		{
+    		aValue = static_cast<TOnOff>( value );
+    		return KErrNone;
+    		}
+    	}
     else 
-        {
-        return err;
-        }
+    	{
+    	return err;
+    	}
     }
 
 
@@ -253,15 +253,15 @@ EXPORT_C TInt CSPProperty::SetValue( const TDesC& aValue )
 EXPORT_C void CSPProperty::CopyL( const CSPProperty& aSource )
     {
     if( this != &aSource )
-        {
-        User::LeaveIfError( SetName( aSource.GetName() ) );
-        SetDataType( aSource.GetDataType() );
-        SetPropertyType( aSource.GetPropertyType() );
+    	{
+    	User::LeaveIfError( SetName( aSource.GetName() ) );
+	    SetDataType( aSource.GetDataType() );
+	    SetPropertyType( aSource.GetPropertyType() );
 
-        iPropertyValue.Close();
-        User::LeaveIfError( iPropertyValue.Create( KSPMaxDesLength ) );
-        User::LeaveIfError( aSource.GetValue( iPropertyValue ) );
-        }
+	    iPropertyValue.Close();
+	    User::LeaveIfError( iPropertyValue.Create( KSPMaxDesLength ) );
+	    User::LeaveIfError( aSource.GetValue( iPropertyValue ) );
+    	}
     }
 
 
@@ -317,38 +317,38 @@ EXPORT_C TPropertyDataType CSPProperty::DataType( TServicePropertyName aProperty
 EXPORT_C TSPItemType CSPProperty::PropertyType( TServicePropertyName aProperty )
     {
     if ( ( aProperty >= ESubPropertyVoIPSettingsId && aProperty <= ESubPropertyVoIPTemporaryIAPId ) ||
-            ( aProperty >= ESubPropertyVoIPRelNumber && aProperty <= ESubPropertyVoIPAddrScheme  ) ||
-            ( aProperty >= ESubPropertyVoIPEnabled && aProperty <= ESubPropertyVoIPEnabled  ) )
+    		( aProperty >= ESubPropertyVoIPRelNumber && aProperty <= ESubPropertyVoIPAddrScheme  ) ||
+    		( aProperty >= ESubPropertyVoIPEnabled && aProperty <= ESubPropertyVoIPEnabled  ) )
         {
         return EItemTypeVoIPSubProperty;
         }
     else if ( ( aProperty >= ESubPropertyPresenceSettingsId && aProperty <= ESubPropertyPresenceLaunchUid ) ||
-            ( aProperty >= ESubPropertyPresenceAddrScheme && aProperty <= ESubPropertyPresenceAddrScheme ) ||
-            ( aProperty >= ESubPropertyPresenceEnabled && aProperty <= ESubPropertyPresenceRequestPreference ) )
+    		( aProperty >= ESubPropertyPresenceAddrScheme && aProperty <= ESubPropertyPresenceAddrScheme ) ||
+    		( aProperty >= ESubPropertyPresenceEnabled && aProperty <= ESubPropertyPresenceRequestPreference ) )
         {
         return EItemTypePresenceSubProperty;
         }
     else if ( ( aProperty >= ESubPropertyIMSettingsId && aProperty <= ESubPropertyIMLaunchUid ) ||
-            ( aProperty >= ESubPropertyIMAddrScheme && aProperty <= ESubPropertyIMAddrScheme ) ||
-            ( aProperty >= ESubPropertyIMEnabled && aProperty <= ESubPropertyIMEnabled ) )
+    		( aProperty >= ESubPropertyIMAddrScheme && aProperty <= ESubPropertyIMAddrScheme ) ||
+    		( aProperty >= ESubPropertyIMEnabled && aProperty <= ESubPropertyIMEnabled ) )
         {
         return EItemTypeIMSubProperty;
         }
     else if ( ( aProperty >= ESubPropertyVMBXSettingsId && aProperty <= ESubPropertyVMBXLaunchUid ) ||
-            ( aProperty >= ESubPropertyVMBXListenAddress && aProperty <= ESubPropertyVMBXAddrScheme ) ||
-            ( aProperty >= ESubPropertyVMBXListenRegister && aProperty <= ESubPropertyVMBXEnabled ) )
+    		( aProperty >= ESubPropertyVMBXListenAddress && aProperty <= ESubPropertyVMBXAddrScheme ) ||
+    		( aProperty >= ESubPropertyVMBXListenRegister && aProperty <= ESubPropertyVMBXEnabled ) )
         {
         return EItemTypeVMBXSubProperty;
         }
     else if( ( aProperty >= EPropertyServiceAttributeMask && aProperty <= EPropertyRingtoneTimeout ) ||
-             ( aProperty >= EPropertyBrandId && aProperty <= EPropertyIncomingEmailserver ) )
+    		 ( aProperty >= EPropertyBrandId && aProperty <= EPropertyIncomingEmailserver ) )
         {
         return EItemTypeProperty;
         }
     else
-        {
-        return EItemTypeNotDefined;
-        }
+    	{
+    	return EItemTypeNotDefined;
+    	}
     }
 
 
@@ -363,17 +363,17 @@ EXPORT_C TBool CSPProperty::operator==( const CSPProperty& aProperty ) const
     RBuf tmp;
     TInt err = tmp.Create( KSPMaxDesLength );
     if( err != KErrNone )
-        {
-        return EFalse;
-        }
+    	{
+    	return EFalse;
+    	}
     err = aProperty.GetValue( tmp );
     if( err != KErrNone )
-        {
-        return EFalse;
-        }
+    	{
+    	return EFalse;
+    	}
     
     result = ( iPropertyType == aProperty.GetPropertyType() &&
-               iPropertyName == aProperty.GetName() &&
+    		   iPropertyName == aProperty.GetName() &&
                iDataType == aProperty.GetDataType() &&
                0 == iPropertyValue.Compare( tmp ) );
     tmp.Close();
@@ -387,19 +387,19 @@ EXPORT_C TBool CSPProperty::operator==( const CSPProperty& aProperty ) const
 // ---------------------------------------------------------------------------
 //
 EXPORT_C TSPItemType CSPProperty::GetPropertyType() const
-    {
-    return iPropertyType;
-    }
+	{
+	return iPropertyType;
+	}
 
 // ---------------------------------------------------------------------------
 // Set default value for property
 // ---------------------------------------------------------------------------
 //
 TInt CSPProperty::SetPropertyType( TSPItemType aPropertyType )
-    {
-    iPropertyType = aPropertyType;
-    
-    return KErrNone;
-    }
-    
+	{
+	iPropertyType = aPropertyType;
+	
+	return KErrNone;
+	}
+	
 

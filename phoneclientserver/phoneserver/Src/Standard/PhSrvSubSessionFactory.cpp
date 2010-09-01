@@ -19,16 +19,16 @@
 
 
 // INCLUDES
-#include "phcltclientserver.h" 
+#include "PhCltClientServer.h"
 
-#include "phsrvsubsessionfactory.h" 
-#include "cphsrvsubsessionnotifier.h" 
-#include "cphsrvsubsessionextcall.h" 
-#include "cphsrvsubsessionussd.h" 
-#include "cphsrvsubsessionemergencynum.h" 
-#include "cphsrvsubsessioncommandhandler.h" 
-#include "cphsrvsubsessionmessenger.h" 
-#include "cphsrvsubsessionimagehandler.h" 
+#include "PhSrvSubSessionFactory.h"
+#include "CPhSrvSubSessionNotifier.h"
+#include "CPhSrvSubSessionExtCall.h"
+#include "CPhSrvSubSessionUssd.h"
+#include "CPhSrvSubSessionEmergencyNum.h"
+#include "CPhSrvSubSessionCommandHandler.h"
+#include "CPhSrvSubSessionMessenger.h"
+#include "CPhSrvSubSessionImageHandler.h"
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -97,11 +97,11 @@ CPhSrvSubSessionBase* PhSrvSubSessionFactory::PhSrvSubSessionFactoryCreateLC(
             subSession = 
                 CPhSrvSubSessionMessenger::NewL( aSession );
             break;
-
         case EPhoneServerImageHandlerSubSessionOpen:
             subSession = CPhSrvSubSessionImageHandler::NewL( aSession );
             break;
         default:
+            User::Leave( KErrArgument );
             break;
         }
 
@@ -132,10 +132,10 @@ TBool PhSrvSubSessionFactory::PhSrvSubSessionFactoryIsCreationAllowed(
         case EPhoneServerComHandNotifySubSessionOpen:
             if ( aSID == KPhoneSecureId.iUid 
 #if defined(__WINSCW__)
-                            // To enable module testing using EUnit
-                                || aSID == KEunitExeRunnerId.iUid 
+							// To enable module testing using EUnit
+								|| aSID == KEunitExeRunnerId.iUid 
 #endif // __WINSCW__
-                                )
+								)
                 {       
                 return ETrue;   
                 }

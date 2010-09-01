@@ -86,7 +86,7 @@ CCCECall::~CCCECall()
     delete iCCEDurationTimer;
     delete iObserver;
     delete iCallParameters;
-    FeatureManager::UnInitializeLib();
+	FeatureManager::UnInitializeLib();
     }
 
 // ---------------------------------------------------------------------------
@@ -2117,7 +2117,7 @@ void CCCECall::CallEventOccurred( TCCPCallEvent aEvent, MCCPCall* /*aCall*/ )
             break;
         /** Remote party info target meaning has changed */
         case ECCPNotifyRemotePartyInfoChange:
-            {
+        	{
             //Ho occurred, call type has changed
             if ( FeatureManager::FeatureSupported( KFeatureIdFfVoiceCallContinuity ) )
                 {
@@ -2130,8 +2130,8 @@ void CCCECall::CallEventOccurred( TCCPCallEvent aEvent, MCCPCall* /*aCall*/ )
             iCallContainer.AirTimeDurationSwap(
                                      iCall->Parameters().CallType() );
             iObserver->CallEventOccurred( MCCECallObserver::ECCENotifyRemotePartyInfoChange );
-            }
-            break;
+        	}
+			break;
         /** Call secure status cannot be determined */
         case ECCPSecureNotSpecified:
             iObserver->CallEventOccurred( MCCECallObserver::ECCESecureNotSpecified );

@@ -20,9 +20,9 @@
 
 
 // INCLUDES
-#include    "psetcontainer.h" 
-#include    "psetconstants.h" 
-#include    "psetrefreshhandlerimpl.h" 
+#include    "PsetContainer.h"
+#include    "PsetConstants.h"
+#include    "PSetRefreshHandlerImpl.h"
 #include    <mmtsy_names.h>
 
 // ---------------------------------------------------------------------------

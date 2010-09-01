@@ -22,7 +22,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <phclttypes.h> 
+#include <PhCltTypes.h>
 
 
 // FORWARD DECLARATIONS
@@ -131,8 +131,8 @@ class TPhCltComHandCommandParameters
         TPhCltComHandCommand                iCommandHandlerCommand;
 
         // Dial command parameter.
-        TPhCltTelephoneNumber               iTelNumber;
-        
+        TPhCltTelephoneNumber 				iTelNumber;
+		
         // Chld command parameter.
         TPhCltChldCommand                   iChldCommand;
         // Chld command parameter.
@@ -182,7 +182,7 @@ class CPhCltCommandHandler : public CBase
         *                KErrNone if successful, Symbian error code otherwise.
         * @param aTelephoneNumber The dial information.
         */
-        IMPORT_C virtual void Atd(
+		IMPORT_C virtual void Atd(
             TRequestStatus& aStatus, 
             const TPhCltTelephoneNumber& aTelephoneNumber ) = 0;
 

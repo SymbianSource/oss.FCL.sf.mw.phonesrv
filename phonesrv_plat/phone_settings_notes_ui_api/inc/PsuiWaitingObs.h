@@ -23,8 +23,8 @@
 #define CPSUIWAITINGOBS_H
 
 // INCLUDES
-#include <mpsetcallwaitingobs.h> 
-#include "psuiconstants.h" 
+#include <MPsetCallWaitingObs.h>        
+#include "PsuiConstants.h"              
 
 // FORWARD DECLARATION
 class CPsuiResourceLoader;

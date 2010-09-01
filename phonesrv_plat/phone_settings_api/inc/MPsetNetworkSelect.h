@@ -80,8 +80,7 @@ class   MPsetNetworkSelect
         enum TNetworkAccess
             {
             ENetNetworkGSM,
-            ENetNetworkWCDMA,
-            ENetNetworkGSMandWCDMA
+            ENetNetworkWCDMA
             };
 
         //Information about network

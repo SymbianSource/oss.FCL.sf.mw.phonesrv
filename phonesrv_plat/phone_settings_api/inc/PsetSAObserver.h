@@ -22,8 +22,8 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <e32property.h> 
-#include <psetcalldiverting.h>
+#include <e32property.h>
+#include <PsetCallDiverting.h>
 #include <PSVariables.h>
 #include <ctsydomaincrkeys.h>
 

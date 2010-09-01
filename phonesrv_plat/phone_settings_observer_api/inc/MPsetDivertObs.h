@@ -24,7 +24,7 @@
 //  INCLUDES
 #include <etelmm.h>
 #include "nwdefs.h"
-#include "mpsetcalldiverting.h" 
+#include "MPsetCallDiverting.h"
 
 //  FORWARD DECLARATIONS
 class CMobilePhoneCFList;

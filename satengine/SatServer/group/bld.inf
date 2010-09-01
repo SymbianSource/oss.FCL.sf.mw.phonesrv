@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2003-2008 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -22,8 +22,9 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-satserver_stub.sis               /epoc32/data/z/system/install/SatServer_stub.sis
+SatServer_Stub.SIS               /epoc32/data/z/system/install/SatServer_stub.sis
 ../rom/satserver.iby             CORE_MW_LAYER_IBY_EXPORT_PATH( satserver.iby )
+../rom/SatServerResources.iby    LANGUAGE_MW_LAYER_IBY_EXPORT_PATH( SatServerResources.iby )
 
 // Generic configuration interface for component cenrep settings  
 ../conf/sat.confml                      MW_LAYER_CONFML(sat.confml)

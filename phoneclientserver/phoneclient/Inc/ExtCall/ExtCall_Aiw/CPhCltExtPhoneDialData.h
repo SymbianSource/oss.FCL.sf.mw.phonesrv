@@ -24,7 +24,7 @@
 #include <e32base.h>
 #include <s32mem.h>
 #include <bldvariant.hrh>
-#include "phclttypes.h" 
+#include "PhCltTypes.h"
 #include <cphcltdialdata.h> // Phone Client Notify API
 
 
@@ -145,12 +145,12 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         IMPORT_C static CPhCltExtPhoneDialData* NewLC();
         
         
-        /**
+       	/**
         * Two-phased constructor.
         */
         IMPORT_C static CPhCltExtPhoneDialData* NewL( const TDesC8& aPackage );
         
-        /**
+       	/**
         * Two-phased constructor.
         */
         IMPORT_C static CPhCltExtPhoneDialData* NewLC( const TDesC8& aPackage );
@@ -160,7 +160,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         */
         IMPORT_C virtual ~CPhCltExtPhoneDialData();
 
-    public: // New functions
+  	public: // New functions
     
         /**
         * Fills the parameter list.
@@ -213,7 +213,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * End other calls param.
         * @since Series 60 3.2
         * @return Returns ETrue if other calls will be terminated.
-        *                 EFalse if calls are not terminated.
+        *				  EFalse if calls are not terminated.
         */
         IMPORT_C TBool EndOtherCalls() const;
         
@@ -303,9 +303,9 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
          */
         IMPORT_C const TDesC& UUI() const;
         
-    public: // Access - Setters
-    
-        /**
+	public: // Access - Setters
+	
+		/**
         * Set whether the name entered in SetName should be matched
         * against the personal directory.
         * @since Series 60 3.2
@@ -315,8 +315,8 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @param aAllowMatch Whether to allow matches.
         */
         IMPORT_C  void SetAllowMatch( TBool aAllowMatch );
-    
-        /**
+	
+		/**
         * Set the bearer capability.
         * @since Series 60 3.2
         * @param aBearer The bearer capabilities as defined in GSM 04.08.
@@ -469,9 +469,9 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
                       
     // Constructors
     
-     private: 
-     
-        /**
+	 private: 
+	 
+  		/**
         * C++ default constructor.
         * @since Series 60 3.2
         */

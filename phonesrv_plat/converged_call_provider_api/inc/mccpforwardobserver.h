@@ -32,35 +32,35 @@
 class MCCPForwardObserver
     {
 public: 
-    enum TCCPForwardEvent
-        {
-        /** Call is being forwarded by the remote party. */
-        ECCPRemoteForwarding,
-        /** Call is forwarded */
-        ECCPForwarded,
-        /** Multiple call forward choices are available */
-        ECCPMultipleChoices,
-        /** Call moved temporarily */
-        ECCPMovedTemporarily,
-        /** Call moved permanently */
-        ECCPMovedPermanentlyEvent
-        };
+	enum TCCPForwardEvent
+		{
+		/** Call is being forwarded by the remote party. */
+		ECCPRemoteForwarding,
+		/** Call is forwarded */
+		ECCPForwarded,
+		/** Multiple call forward choices are available */
+		ECCPMultipleChoices,
+		/** Call moved temporarily */
+		ECCPMovedTemporarily,
+		/** Call moved permanently */
+		ECCPMovedPermanentlyEvent
+		};
 
 protected:
-    /** 
-    * Protects the observer being deleted through the observer interface 
-    * @since S60 3.2
-    */
-    virtual inline ~MCCPForwardObserver() {};
+	/** 
+	* Protects the observer being deleted through the observer interface 
+	* @since S60 3.2
+	*/
+	virtual inline ~MCCPForwardObserver() {};
     
 public:
-    /**
-    * A Forward event has occurred concerning a specific call.
-    * @since S60 3.2
-    * @param aEvent Occurred event.
-    * @return none
-    */
-    virtual void ForwardEventOccurred( 
+	/**
+	* A Forward event has occurred concerning a specific call.
+	* @since S60 3.2
+	* @param aEvent Occurred event.
+	* @return none
+	*/
+	virtual void ForwardEventOccurred( 
                  const MCCPForwardObserver::TCCPForwardEvent aEvent ) = 0;
     };
 

@@ -25,10 +25,10 @@
 #define CPSUICONTAINER_H
 
 // INCLUDES
-#include <psuiwaitingobs.h> 
-#include <psuidivertobs.h> 
-#include <psuibarringobs.h> 
-#include <psuicliobserver.h> 
+#include <PsuiWaitingObs.h>
+#include <PsuiDivertObs.h>
+#include <PsuiBarringObs.h>
+#include <PsuiCliObserver.h>
 
 // FORWARD DECLARATIONS
 class CPsuiResourceLoader;

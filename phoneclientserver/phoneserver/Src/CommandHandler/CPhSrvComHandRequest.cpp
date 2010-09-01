@@ -18,8 +18,8 @@
 
 // INCLUDE FILES
 
-#include "cphsrvcomhandrequest.h" 
-#include "phsrvutils.h" 
+#include "CPhSrvComHandRequest.h"
+#include "PhSrvUtils.h"
 
 
 

@@ -22,7 +22,7 @@
 #include <nwdefs.h>             
 #include <etelmm.h> 
 #include <PsetConstants.h>
-#include <psetcsp.h>
+#include <PsetCSP.h>
 #include "PhoneSettingsTest.hrh"
 #include "PhoneSettingsTest.h"
 #include "MPhoneSettingsTestMessageHandler.h"

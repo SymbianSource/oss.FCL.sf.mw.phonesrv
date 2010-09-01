@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include "phonehandleractive.h" 
-#include "phonehandlerobserver.h" 
-#include "phonehandlerdebug.h" 
+#include "PhoneHandlerActive.h"
+#include "PhoneHandlerObserver.h"
+#include "PhoneHandlerDebug.h"
 
 // EXTERNAL DATA STRUCTURES
 
@@ -43,28 +43,28 @@
 // ============================ MEMBER FUNCTIONS ===============================
  
 CPhoneHandlerActive* CPhoneHandlerActive::NewL( MPhoneHandlerObserver& aObserver )
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::NewL() start" );
-    CPhoneHandlerActive* self = new(ELeave) CPhoneHandlerActive( aObserver );
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::NewL() end" );
-    return self;
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::NewL() start" );
+	CPhoneHandlerActive* self = new(ELeave) CPhoneHandlerActive( aObserver );
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::NewL() end" );
+	return self;
+	}
 
 CPhoneHandlerActive::~CPhoneHandlerActive()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::~CPhoneHandlerActive() start" );
-    
-    Cancel();
-    
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::~CPhoneHandlerActive() end" );
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::~CPhoneHandlerActive() start" );
+	
+	Cancel();
+	
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::~CPhoneHandlerActive() end" );
+	}
 
 CPhoneHandlerActive::CPhoneHandlerActive( MPhoneHandlerObserver& aObserver )
-:   CActive(CActive::EPriorityStandard),
-    iObserver(aObserver)
-    {
-    CActiveScheduler::Add(this);
-    }
+:	CActive(CActive::EPriorityStandard),
+	iObserver(aObserver)
+	{
+	CActiveScheduler::Add(this);
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerActive::SetActive()
@@ -72,9 +72,9 @@ CPhoneHandlerActive::CPhoneHandlerActive( MPhoneHandlerObserver& aObserver )
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerActive::SetActive()
-    {
-    CActive::SetActive();
-    }
+	{
+	CActive::SetActive();
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerActive::RunL()
@@ -83,13 +83,13 @@ void CPhoneHandlerActive::SetActive()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerActive::RunL()
-    {
-    COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerActive::RunL() iStatus.Int()=%d", iStatus.Int() );
-    
-    TInt error( iStatus.Int() );
-    iStatus =  KErrNone;
-    iObserver.RequestCompleted( error );
-    }
+	{
+	COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerActive::RunL() iStatus.Int()=%d", iStatus.Int() );
+	
+	TInt error( iStatus.Int() );
+	iStatus =  KErrNone;
+	iObserver.RequestCompleted( error );
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerActive::RunError
@@ -104,7 +104,7 @@ TInt CPhoneHandlerActive::RunError( TInt aError )
     aError = KErrNone;
 
     COM_TRACE_( "[AccFW:PHONECMDHANDLER] CPhoneHandlerActive::RunError() - return KErrNone" );
-            
+		    
     return aError; 
     }
 
@@ -115,11 +115,11 @@ TInt CPhoneHandlerActive::RunError( TInt aError )
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerActive::DoCancel()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::DoCancel() start" );
-        
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::DoCancel() end" );
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::DoCancel() start" );
+		
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerActive::DoCancel() end" );
+	}
 
 //
 // End of file

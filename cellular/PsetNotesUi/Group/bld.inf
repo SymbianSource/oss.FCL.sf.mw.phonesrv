@@ -22,15 +22,15 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_MMPFILES
-../group/psui.mmp
+../Group/Psui.mmp
 
 PRJ_EXPORTS
-../inc/psuiresourceloader.h |../../../inc/psuiresourceloader.h
-../data/psui_stub.sis       /epoc32/data/z/system/install/psui_stub.sis
+../Inc/PsuiResourceLoader.h |../../../inc/psuiresourceloader.h
+../Data/psui_stub.SIS       /epoc32/data/z/system/install/psui_stub.sis
 
 // IBY Files
-../rom/psui.iby             CORE_APP_LAYER_IBY_EXPORT_PATH(psui.iby)
-../rom/psuiresources.iby    LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(psuiresources.iby)
+../Rom/Psui.iby             CORE_APP_LAYER_IBY_EXPORT_PATH(Psui.iby)
+../Rom/PsuiResources.iby    LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(PsuiResources.iby)
 
 // LOC files
 ../loc/psui.loc             MW_LAYER_LOC_EXPORT_PATH(psui.loc)

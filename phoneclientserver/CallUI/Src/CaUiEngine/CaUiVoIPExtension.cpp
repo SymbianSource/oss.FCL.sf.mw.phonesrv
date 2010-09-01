@@ -18,12 +18,12 @@
 
 
 // INCLUDE FILES
-#include    "cauivoipextension.h" 
-#include    <callui.rsg> 
+#include    "CaUiVoIPExtension.h"
+#include    <CallUI.rsg>
 #include    <featmgr.h> 
 #include    <spsettings.h>
 #include    <spproperty.h>
-#include    <stringloader.h> // String Loader. 
+#include    <StringLoader.h>            // String Loader.
 
 
 
@@ -90,7 +90,7 @@ TBool CCaUiVoIPExtension::IsVoIPProfilesL()
         }
     CleanupStack::PopAndDestroy( &voipServiceIds );
           
-    return isProfiles; 
+	return isProfiles; 
     }
 
 // -----------------------------------------------------------------------------
@@ -117,22 +117,25 @@ void CCaUiVoIPExtension::GetVoIPServiceIdsL( RIdArray& aVoipServiceIds ) const
         // of them supports internet call        
         for ( TInt i = 0; idArray.Count() > i; i++)
             {                        
-            // check if the service supports internet call                                                              
+            // check if the service supports internet call                     	                                        
             CSPProperty* property = CSPProperty::NewLC();
             // get attribute mask of the service
-            User::LeaveIfError( settingsApi->FindPropertyL( idArray[i], 
-                EPropertyServiceAttributeMask, *property ) );
-            
+
+            TInt error = settingsApi->FindPropertyL( idArray[i], 
+                EPropertyServiceAttributeMask, *property );
             // read the value of mask property
-            TInt mask = 0;                    
-            if ( KErrNone == property->GetValue( mask ) )
+            if ( KErrNone == error )
                 {
-                if ( ( mask & ESupportsInternetCall )
-                    && ( mask & EIsVisibleInCallMenu ) ) 
+                TInt mask = 0;                    
+                if ( KErrNone == property->GetValue( mask ) )
                     {
-                    aVoipServiceIds.Append( idArray[i] );
+                    if ( ( mask & ESupportsInternetCall )
+                        && ( mask & EIsVisibleInCallMenu ) ) 
+                        {
+                        aVoipServiceIds.Append( idArray[i] );
+                        }
                     }
-                }
+                }   
             CleanupStack::PopAndDestroy( property );     
             }                                   
         }

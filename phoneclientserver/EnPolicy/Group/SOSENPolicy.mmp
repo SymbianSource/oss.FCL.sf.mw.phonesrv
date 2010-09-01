@@ -27,26 +27,26 @@ TARGET          sosenpolicy.dll
 TARGETTYPE      DLL
 UID             0x101F86D1 0x101F86D3
 
-SOURCEPATH      ../src/sosenpolicy 
-SOURCE          csosemergencynumberpolicymanager.cpp 
-SOURCE          csosemergencynumberpolicyhandler.cpp 
-SOURCE          csosenpolicyenlisthandler.cpp 
-SOURCE          csosenpolicysimstatusmonitor.cpp 
-SOURCE          csosenpolicysatrefresh.cpp 
+SOURCEPATH      ../Src/SosEnPolicy
+SOURCE          CSosEmergencyNumberPolicyManager.cpp
+SOURCE          CSosEmergencyNumberPolicyHandler.cpp
+SOURCE          CSosEnPolicyENListHandler.cpp
+SOURCE          CSosEnPolicySimStatusMonitor.cpp
+SOURCE          CSosEnPolicySatRefresh.cpp
 
-USERINCLUDE     . ../inc 
-USERINCLUDE     ../inc/sosenpolicy 
+USERINCLUDE     . ../Inc 
+USERINCLUDE     ../Inc/SosEnPolicy
 
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE   ../../../inc
-SYSTEMINCLUDE   ../../inc // for rphcltemergencycall.h 
+SYSTEMINCLUDE   ../../inc // for RPhCltEmergencyCall.h
 
 LIBRARY         euser.lib
 LIBRARY         etel.lib
 LIBRARY         etelmm.lib 
 LIBRARY         commonengine.lib
 LIBRARY         featmgr.lib
-LIBRARY         satclient.lib   // for sat refresh
+LIBRARY	    	satclient.lib	// for sat refresh
 LIBRARY         centralrepository.lib
 LIBRARY         cenrepnotifhandler.lib
 

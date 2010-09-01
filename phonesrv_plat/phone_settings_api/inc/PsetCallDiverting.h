@@ -23,8 +23,8 @@
 //  INCLUDES           
 #include <mmretrieve.h>
 #include "nwdefs.h"             
-#include "psetconstants.h" 
-#include "mpsetcalldiverting.h" 
+#include "PsetConstants.h"
+#include "MPsetCallDiverting.h"
 
 //  FORWARD DECLARATIONS
 class CDesC16ArrayFlat;
@@ -39,10 +39,10 @@ class MCallDiverting;
 
 enum TSelectedLine
     {
-    EPrimaryLine,       // ALS is supported by ME & SIM and Line 1 (Primary Line) is the current line
-    EAuxiliaryLine,     // ALS is supported by ME & SIM and Line 2 (Auxiliary Line) is the current line
-    EUnknownLine,       // ALS is supported by ME & SIM but TSY can not determine line selection
-    ENotSupportedLine   // ALS is not supported either by ME or SIM or both.
+    EPrimaryLine,		// ALS is supported by ME & SIM and Line 1 (Primary Line) is the current line
+    EAuxiliaryLine,		// ALS is supported by ME & SIM and Line 2 (Auxiliary Line) is the current line
+    EUnknownLine,		// ALS is supported by ME & SIM but TSY can not determine line selection
+    ENotSupportedLine	// ALS is not supported either by ME or SIM or both.
     };
 
 //  CLASS DECLARATION  

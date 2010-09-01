@@ -26,7 +26,7 @@
 #define     CCBSMESSAGECLIENT_H
 
 // INCLUDES
-#include "cbscommontypes.h"
+#include "CbsCommonTypes.h"
 
 //  CLASS DECLARATION
 

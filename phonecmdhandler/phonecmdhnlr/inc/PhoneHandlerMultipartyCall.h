@@ -20,8 +20,8 @@
 #define CPHONEHANDLERMULTIPARTYCALL_H
 
 //  INCLUDES
-#include "phonehandlercallbase.h" 
-#include <RemConExtensionApi.h> 
+#include "PhoneHandlerCallBase.h"
+#include <RemConExtensionApi.h>
 
 // CONSTANTS
 
@@ -43,7 +43,7 @@ class CPhoneHandlerControl;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerMultipartyCall ) : public CPhoneHandlerCallBase
-                                                   
+												   
     {
     public:  // Constructors and destructor
         
@@ -51,10 +51,10 @@ NONSHARABLE_CLASS( CPhoneHandlerMultipartyCall ) : public CPhoneHandlerCallBase
         * Two-phased constructor.
         */
         static CPhoneHandlerMultipartyCall* NewL( 
-            CPhoneHandlerControl& aControl,
-            TRemConExtCallHandlingApiOperationId aOperation 
-                = ERemConExt3WaysCalling
-            );
+        	CPhoneHandlerControl& aControl,
+        	TRemConExtCallHandlingApiOperationId aOperation 
+            	= ERemConExt3WaysCalling
+        	);
         
         /**
         * Destructor.
@@ -98,8 +98,8 @@ NONSHARABLE_CLASS( CPhoneHandlerMultipartyCall ) : public CPhoneHandlerCallBase
         * C++ default constructor.
         */
         CPhoneHandlerMultipartyCall( 
-                CPhoneHandlerControl& aControl,
-                TRemConExtCallHandlingApiOperationId aOperation );
+        		CPhoneHandlerControl& aControl,
+        		TRemConExtCallHandlingApiOperationId aOperation );
 
         /**
         * By default Symbian 2nd phase constructor is private.

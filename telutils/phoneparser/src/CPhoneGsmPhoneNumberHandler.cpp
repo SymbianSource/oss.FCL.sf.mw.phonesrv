@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include    "cphonegsmphonenumberhandler.h" 
-#include    "cphonegsmphonenumberparser.h" 
-#include    "cphonegsmparserresult.h" 
+#include    "CPhoneGsmPhoneNumberHandler.h"
+#include    "CPhoneGsmPhoneNumberParser.h"
+#include    "CPhoneGsmParserResult.h"
 
 // CONSTANTS
 const TInt KPhonePhoneNumberDialParam = 0;

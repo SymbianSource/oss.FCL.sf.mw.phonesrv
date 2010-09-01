@@ -16,11 +16,11 @@
 */
 
 #include "csatsendsshandler.h"
-#include <psetcallwaiting.h>
-#include <psetcontainer.h>
-#include <psetcallbarring.h>
-#include <psetcalldiverting.h>
-#include <psetcli.h>
+#include <PsetCallWaiting.h>
+#include <PsetContainer.h>
+#include <PsetCallBarring.h>
+#include <PsetCallDiverting.h>
+#include <PsetCli.h>
 
 #include "csatsendssbarringnouiobs.h"
 #include "csatsendssdivertnouiobs.h"

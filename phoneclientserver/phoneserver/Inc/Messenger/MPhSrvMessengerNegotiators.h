@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "phsrvmessengertypes.h" 
-#include <cphcltmessenger.h> 
+#include "PhSrvMessengerTypes.h"
+#include <CPhCltMessenger.h>
 
 // FORWARD DECLARATIONS
 class CPhSrvSubSessionBase;

@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include "psetutility.h" 
-#include <rsssettings.h> 
-#include "phonesettingslogger.h" 
+#include "PSetUtility.h"
+#include <RSSSettings.h>
+#include "PhoneSettingsLogger.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -308,37 +308,6 @@ RMobilePhone::TMobilePhoneCFCondition PSetUtility::GetDivertReason(
            return RMobilePhone::ECallForwardingNotReachable;
         default:
             return RMobilePhone::ECallForwardingUnspecified;
-        }
-    }
-
-// ---------------------------------------------------------------------------
-// 
-// Returns divert reason
-// 
-// ---------------------------------------------------------------------------
-//
-TCallDivertingCondition PSetUtility::GetDivertReason(
-    RMobilePhone::TMobilePhoneCFCondition aCondition )
-    {
-    switch ( aCondition )
-        {
-        /*****************************************************
-        *    Series 60 Customer / ETel
-        *    Series 60  ETel API
-        *****************************************************/
-        case RMobilePhone::ECallForwardingAllConditionalCases:
-            return EDivertConditionAllConditionalCases;
-        case RMobilePhone::ECallForwardingAllCases:
-            return EDivertConditionAllCalls;
-        case RMobilePhone::ECallForwardingUnconditional:
-            return EDivertConditionUnconditional;
-        case RMobilePhone::ECallForwardingBusy:
-           return EDivertConditionBusy;
-        case RMobilePhone::ECallForwardingNoReply:
-            return EDivertConditionNoReply;
-        case RMobilePhone::ECallForwardingNotReachable:
-        default:
-           return EDivertConditionNotReachable;
         }
     }
 

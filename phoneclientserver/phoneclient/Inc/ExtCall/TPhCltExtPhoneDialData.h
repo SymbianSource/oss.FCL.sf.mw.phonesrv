@@ -21,7 +21,7 @@
 
 
 //  INCLUDES
-#include "phclttypes.h" 
+#include "PhCltTypes.h"
 
 // Constant used as window group id to indicate that we wish to go to idle.
 const TInt KPhCltGoToIdle = 0;
@@ -30,7 +30,7 @@ const TInt KPhCltGoToIdle = 0;
 const TInt KPhCltRedialDefault = -1;          // Default redial.
 const TInt KPhCltRedialOff = -2;              // Redial is off.
 const TInt KPhCltRedialWithDefaultTime = -3;  // Redial on, with default time.
-const TInt KPhCltRedial = 0;    // Forced redial.
+const TInt KPhCltRedial = 0;	// Forced redial.
 
 // Other constants used in TPhCltExtPhoneDialData ( default values )
 const TBool KPhCltDefaultAllowMatch = ETrue;   // Match is allowed

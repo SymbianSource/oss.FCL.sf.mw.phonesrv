@@ -17,7 +17,7 @@
 
 
 // INCLUDES
-#include "csosenpolicyenlisthandler.h" 
+#include "CSosEnPolicyENListHandler.h"
 #include <e32property.h>
 #include <centralrepository.h>
 #include <telservicesinternalcrkeys.h>

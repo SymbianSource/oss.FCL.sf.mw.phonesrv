@@ -75,9 +75,9 @@ inline CConvergedCallProvider* CConvergedCallProvider::NewL( const TUid& aImplem
 // -----------------------------------------------------------------------------
 //
 inline void CConvergedCallProvider::ListImplementationsL( RImplInfoPtrArray& aImplArray )
-    {
+	{
     REComSession::ListImplementationsL( KConvergedCallProviderUid, aImplArray );
-    }
+	}
 
 // -----------------------------------------------------------------------------
 // CCCPInterface::InitializeL
@@ -86,7 +86,7 @@ inline void CConvergedCallProvider::ListImplementationsL( RImplInfoPtrArray& aIm
 //
 inline void CConvergedCallProvider::InitializeL( const TUint32 /*aServiceId*/,
                               const MCCPObserver& aObserver, 
-                              const MCCPSsObserver& aSsObserver )
+    						  const MCCPSsObserver& aSsObserver )
     {
     InitializeL( aObserver, aSsObserver );
     }

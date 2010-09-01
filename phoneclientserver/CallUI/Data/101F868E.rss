@@ -19,8 +19,8 @@
 
 //  INCLUDES
 #include    <registryinfov2.rh>
-#include    <aiwcommon.hrh>
-#include    "caui.hrh" 
+#include    <AiwCommon.hrh>
+#include    "CaUI.hrh"
 
 
 //  RESOURCE DEFINITIONS 

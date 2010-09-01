@@ -24,7 +24,7 @@ DEFAULT
 PRJ_EXPORTS
 // Domain
 
-../group/dialutils_stub.sis                /epoc32/data/z/system/install/dialutils_stub.sis
+../group/dialutils_stub.sis         	   /epoc32/data/z/system/install/dialutils_stub.sis
 
 PRJ_MMPFILES
 ../group/dialutils.mmp

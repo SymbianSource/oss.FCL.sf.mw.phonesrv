@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -21,10 +21,11 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <hbdeviceprogressdialogsymbian.h>
-#include "mphcltussdnotecontrollercallback.h" 
-#include "cphcltussdcommonconstant.h"
+#include "MPhCltUssdNoteControllerCallBack.h"
 
+// FORWARD DECLARATIONS
+class CAknGlobalNote;
+class RConeResourceLoader;
 
 // CLASS DECLARATION
 
@@ -32,12 +33,12 @@
 *   Encapsulates an active object used in controlling notes.
 *
 *  @lib phoneclient.lib
+*  @since 9.1
 */
-NONSHARABLE_CLASS( CPhCltUssdNoteController ) : public CBase,
-                                                public MHbDeviceProgressDialogObserver
+NONSHARABLE_CLASS( CPhCltUssdNoteController ) : public CActive
     {
     public:  // Constructor and destructor
-
+        
         /**
         * Two-phased constructor.
         * 
@@ -46,67 +47,87 @@ NONSHARABLE_CLASS( CPhCltUssdNoteController ) : public CBase,
         * @return Pointer to created CPhCltUssdImp instance.
         */
         static CPhCltUssdNoteController* NewL( 
-                MPhCltUssdNoteControllerCallBack& aCallBack );
-
+                MPhCltUssdNoteControllerCallBack& aCallBack,
+                TInt aPriority );
+        
         /**
         * Destructor.
         */
         ~CPhCltUssdNoteController();
 
+        
     public:
-
-        /**
-        * Shows global Information note.
-        */
-        void ShowGlobalInformationNoteL( const TPhCltUssdInformationType aInfoType );
-
-        /**
-        * Shows global wait note.
-        */
-        void ShowGlobalWaitNoteL();
-
-        /**
-        * Destroys global wait note.
-        */
+        
+        // Shows information note.
+        void ShowInformationNoteL( TInt aResourceId );
+        
+        // Shows global information note.
+        void ShowGlobalInformationNoteL( TInt aResourceId );
+        
+        // Shows global confirmation note.
+        void ShowGlobalConfirmationNoteL( TInt aResourceId );
+        
+        // Shows global wait note.
+        void ShowGlobalWaitNoteL( TInt aResourceId, TInt aSoftkeyResourceId = 0 );
+        
+        // Destroys global wait note.
         void DestroyGlobalWaitNote();
-
-        /**
-        * From base class MHbDeviceProgressDialogObserver
-        */
-        void ProgressDialogCancelled(
-            const CHbDeviceProgressDialogSymbian* aProgressDialog);
-
-        /**
-        * From base class MHbDeviceProgressDialogObserver
-        */
-        void ProgressDialogClosed(
-            const CHbDeviceProgressDialogSymbian* aProgressDialog);
-
-    private:
-
+        
+    private: 
+        
         /**
         * C++ constructor.
         */
         CPhCltUssdNoteController( 
-            MPhCltUssdNoteControllerCallBack& aCallBack );
+            MPhCltUssdNoteControllerCallBack& aCallBack,
+            TInt aPriority );
+        
+        // Symbian 2nd phase constructor.
+        void ConstructL();
+        
+        // The note type enumeration, used inside the class.
+        enum TPhCltUssdNoteType
+            {
+            EPhCltUssdInformationNote,
+            EPhCltUssdGlobalInformationNote,
+            EPhCltUssdGlobalConfirmationNote
+            };
+
+        // Shows the note of given type. 
+        void ShowNoteL( TPhCltUssdNoteType aType, TInt aResourceId );
+        
+        // Loads the resource file.
+        void LoadResourceFileL();
+        
+        // From base classes
+       
+        /*
+        * From CActive. Called when dialog is dismissed by soft key.
+        */
+        void RunL();
 
         /**
-        * Symbian 2nd phase constructor.
+        * From CActive. 
         */
-        void ConstructL();
+        void DoCancel();
+
 
     private:    // Data
-
-        /**
-        * Own,Global wait note.
-        */
-        CHbDeviceProgressDialogSymbian* iGlobalWaitNote;
-
-        /**
-        * Not own,callback to be notified when wait note is dismissed.
-        */
+        
+        // Buffer for messages.
+        HBufC* iMessageBuffer;
+        
+        // Global wait note.
+        CAknGlobalNote* iGlobalWaitNote;
+        
+        // Id of an active wait note.
+        TInt iWaitNoteId;
+        
+        // The callback to be notified when wait note is dismissed.  
         MPhCltUssdNoteControllerCallBack& iCallBack;
 
+        // Resource loader.
+        RConeResourceLoader* iResourceLoader;
     };
 
 #endif // CPHCLTUSSDNOTECONTROLLER_H

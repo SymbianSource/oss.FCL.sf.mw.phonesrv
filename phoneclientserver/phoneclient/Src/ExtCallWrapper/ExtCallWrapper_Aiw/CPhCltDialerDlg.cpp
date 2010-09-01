@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include    "cphcltdialerdlg.h" 
+#include    "CPhCltDialerDlg.h"
 #include    <phoneclient.rsg>
-#include    <cphcltextphonebase.h> 
+#include    <CPhCltExtPhoneBase.h>
 
 #include    <avkon.hrh>
 
@@ -54,15 +54,15 @@ void CPhCltDialerDlg::ExecuteDialLD()
     {
     TInt error = KErrNone;
     iError = &error;
-    if (!iData->Emergency())
-        {
-        ExecuteLD( R_PHCLT_BLANK_DLG );
-        }
+ 	if (!iData->Emergency())
+ 		{
+ 		ExecuteLD( R_PHCLT_BLANK_DLG );
+ 		}
     else
-        {
-        iPhoneClient = CPhCltExtPhoneBase::NewL( this );
-        iPhoneClient->DialL( *iData );
-        }
+		{
+		iPhoneClient = CPhCltExtPhoneBase::NewL( this );
+		iPhoneClient->DialL( *iData );
+		}
     User::LeaveIfError( error );
     }
 

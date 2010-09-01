@@ -32,7 +32,7 @@
 #include    "CNWNetworkSystemEventMonitor.h"
 #include    "CNWGsmMessageHandler.h"
 #include    "NWPanic.pan"
-#include    <networkhandlingdomainpskeys.h>
+#include    "NetworkHandlingDomainPSKeys.h"
 #include    "CNWNetworkViagTimer.h"
 
 // CONSTANTS

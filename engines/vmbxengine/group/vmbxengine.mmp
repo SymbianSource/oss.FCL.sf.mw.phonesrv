@@ -1,0 +1,83 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is a project specification file for the
+*                voice mailbox number interface.
+*
+*/
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+TARGET          vmbx.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x1000590F
+
+//We use default capabilities (from defaultcaps.hrh)
+CAPABILITY      CAP_GENERAL_DLL
+
+EPOCSTACKSIZE   0x5000
+
+LANG            SC
+
+SOURCEPATH      ../src
+
+SOURCE          vmnumber.cpp
+SOURCE          vmdialog.cpp
+SOURCE          vmspshandler.cpp
+SOURCE          vmlist.cpp
+SOURCE          vmbshandler.cpp
+SOURCE          vmsettingsuiiconfileprovider.cpp
+
+START RESOURCE vmbx.rss
+TARGETPATH RESOURCE_FILES_DIR
+HEADER
+LANGUAGE_IDS
+END //RESOURCE
+
+USERINCLUDE     ../inc
+SYSTEMINCLUDE 	../../../inc
+
+// TEMPORARY DEFINITION FOR CONTACT FINDER HEADERS
+SYSTEMINCLUDE   ../../../../../app/phone/inc
+
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         cone.lib
+LIBRARY         CommonEngine.lib
+LIBRARY         etel.lib
+LIBRARY         etelmm.lib
+LIBRARY         avkon.lib
+LIBRARY         aknicon.lib
+LIBRARY         egul.lib
+LIBRARY         bsclient.lib
+LIBRARY         aknskins.lib
+LIBRARY         bafl.lib
+LIBRARY         eikdlg.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikcore.lib
+LIBRARY         sssettings.lib
+LIBRARY         phonecntfinder.lib // Phonebook Single Fetch View
+LIBRARY         phoneclient.lib // emergency call
+LIBRARY         charconv.lib // CnvUtfConverter
+LIBRARY         featmgr.lib
+LIBRARY         efsrv.lib    
+
+LIBRARY         satclient.lib
+LIBRARY         centralrepository.lib
+LIBRARY         cenrepnotifhandler.lib
+LIBRARY         flogger.lib
+LIBRARY         serviceprovidersettings.lib
+
+// End of File

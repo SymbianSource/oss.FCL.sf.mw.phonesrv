@@ -20,6 +20,7 @@
 #include "../cbs/group/bld.inf"
 #include "../cellular/group/bld.inf"
 #include "../convergedcallengine/group/bld.inf"
+#include "../engines/group/bld.inf"
 #include "../networkhandling/group/bld.inf"
 #include "../phoneclientserver/group/bld.inf"
 #include "../satengine/group/bld.inf"
@@ -27,5 +28,6 @@
 #include "../phonesrv_plat/group/bld.inf"
 #include "../phonesrv_pub/group/bld.inf"
 #include "../phonecmdhandler/group/bld.inf"
+#include "../nwnotifier/group/bld.inf"
 
 // End of File

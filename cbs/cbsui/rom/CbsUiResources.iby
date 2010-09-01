@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -11,18 +11,19 @@
 *
 * Contributors:
 *
-* Description: CBS resources rom build file
+* Description:  IBY file for cbsui application
 *
 */
 
+#ifndef __CBS_RESOURCES_IBY__
+#define __CBS_RESOURCES_IBY__
 
-#ifndef __CBSUI_RESOURCES_IBY__
-#define __CBSUI_RESOURCES_IBY__
+//Resource file(s) for CBSUI application (Cbsui.iby)
 
 #ifdef __CELL_BROADCAST
 
-data=DATAZ_\resource\apps\cbsui.rsc          S60_APP_RESOURCE(cbsui.rsc)
+S60_APP_RESOURCE(CbsUiApp)
 
-#endif // __CELL_BROADCAST
+#endif //__CELL_BROADCAST
 
-#endif // __CBSUI_RESOURCES_IBY__
+#endif //__CBS_RESOURCES_IBY__

@@ -18,11 +18,11 @@
 
 
 //  Include Files
-#include    <cphcltemergencycall.h> // for TPhCltEmergencyNumber 
+#include    <CPhCltEmergencyCall.h> // for TPhCltEmergencyNumber
 #include    "cphcltdialemergencyrequestmonitor.h"
 #include    <mphcltdialemergencyrequestobserver.h>
-#include    "rphcltserver.h" 
-#include    "rphcltcallnotify.h" 
+#include    "RPhCltServer.h"
+#include    "RPhCltCallNotify.h"
 
 // ============================= LOCAL FUNCTIONS ===============================
 
@@ -102,27 +102,27 @@ void CPhCltDialEmergencyRequestMonitor::DoCancel()
 // -----------------------------------------------------------------------------
 //  
 void CPhCltDialEmergencyRequestMonitor::NotifyEmergencyCall( 
-    MPhCltDialEmergencyRequestObserver* aObserver, 
+	MPhCltDialEmergencyRequestObserver* aObserver, 
     TDesC& aEmergencyNumber )
-    {
-    
+	{
+	
     if ( !IsActive() )
         {
-    
-        iEmergencyCallNumberPtr.Set( reinterpret_cast<TText8*>( &aEmergencyNumber ), 
+	
+    	iEmergencyCallNumberPtr.Set( reinterpret_cast<TText8*>( &aEmergencyNumber ), 
                              sizeof( TPhCltEmergencyNumber ),
                              sizeof( TPhCltEmergencyNumber ) );
-        
-        iObserver = aObserver;
-        
+    	
+    	iObserver = aObserver;
+    	
         iCallNotify.NotifyEmergencyCall( 
-            iStatus, 
-            iEmergencyCallNumberPtr
-             );
+        	iStatus, 
+        	iEmergencyCallNumberPtr
+        	 );
         SetActive();
         }
-         
-    }
+    	 
+	}
 
 
 // -----------------------------------------------------------------------------
@@ -131,10 +131,10 @@ void CPhCltDialEmergencyRequestMonitor::NotifyEmergencyCall(
 // -----------------------------------------------------------------------------
 //
 TInt CPhCltDialEmergencyRequestMonitor::RespondEmergencyToClient( 
-    const TInt aResultCode )
-    {
-    return iCallNotify.RespondEmergencyToClient( aResultCode  );
-    }
+	const TInt aResultCode )
+	{
+	return iCallNotify.RespondEmergencyToClient( aResultCode  );
+	}
 
 
 // End of File

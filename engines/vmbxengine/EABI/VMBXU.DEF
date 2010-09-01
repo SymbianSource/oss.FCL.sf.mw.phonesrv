@@ -1,0 +1,48 @@
+EXPORTS
+	_ZN11RVmbxNumber11IsSimMemoryEv @ 1 NONAME
+	_ZN11RVmbxNumber11SelectTypeLEi @ 2 NONAME
+	_ZN11RVmbxNumber12QueryNumberLE14TVmbxQueryTypeR6TDes16i @ 3 NONAME
+	_ZN11RVmbxNumber13GetVmbxNumberER6TDes1616TVmbxNumberEntry @ 4 NONAME
+	_ZN11RVmbxNumber13QueryAddressLE14TVmbxQueryTypeR6TDes16 @ 5 NONAME
+	_ZN11RVmbxNumber14SaveVmbxNumberERK7TDesC1616TVmbxNumberEntry @ 6 NONAME
+	_ZN11RVmbxNumber15GetVmbxAddressLER6TDes16 @ 7 NONAME
+	_ZN11RVmbxNumber16SaveVmbxAddressLER6TDes16 @ 8 NONAME
+	_ZN11RVmbxNumber17GetVideoMbxNumberER6TDes1616TVmbxNumberEntry @ 9 NONAME
+	_ZN11RVmbxNumber18SaveVideoMbxNumberERK7TDesC1616TVmbxNumberEntry @ 10 NONAME
+	_ZN11RVmbxNumber19IsVoIPProfilesFoundEv @ 11 NONAME
+	_ZN11RVmbxNumber20NotifyAlsLineChangeLEP16MVmbxAlsObserver @ 12 NONAME
+	_ZN11RVmbxNumber20QueryVideoMbxNumberLE14TVmbxQueryTypeR6TDes16 @ 13 NONAME
+	_ZN11RVmbxNumber23NotifyVmbxNumberChangeLEP18MVmbxNotifyHandleri @ 14 NONAME
+	_ZN11RVmbxNumber24AllowedToChangeTheNumberEv @ 15 NONAME
+	_ZN11RVmbxNumber25NotifyAlsLineChangeCancelEv @ 16 NONAME
+	_ZN11RVmbxNumber28NotifyVmbxNumberChangeCancelEv @ 17 NONAME
+	_ZN11RVmbxNumber4OpenER12RMobilePhone @ 18 NONAME
+	_ZN11RVmbxNumber4OpenEv @ 19 NONAME
+	_ZN11RVmbxNumber5CloseEv @ 20 NONAME
+	_ZN11RVmbxNumberC1Ev @ 21 NONAME
+	_ZN11RVmbxNumberC2Ev @ 22 NONAME
+	_ZN11RVmbxNumberD0Ev @ 23 NONAME
+	_ZN11RVmbxNumberD1Ev @ 24 NONAME
+	_ZN11RVmbxNumberD2Ev @ 25 NONAME
+	_ZNK11RVmbxNumber10GetAlsLineERi @ 26 NONAME
+	_ZTI11RVmbxNumber @ 27 NONAME ; #<TI>#
+	_ZTI17CVMSimQueryDilaog @ 28 NONAME ; #<TI>#
+	_ZTI18CVmTextQueryDialog @ 29 NONAME ; #<TI>#
+	_ZTV11RVmbxNumber @ 30 NONAME ; #<VT>#
+	_ZTV17CVMSimQueryDilaog @ 31 NONAME ; #<VT>#
+	_ZTV18CVmTextQueryDialog @ 32 NONAME ; #<VT>#
+	_ZThn8_N11RVmbxNumberD0Ev @ 33 NONAME ; #<thunk>#
+	_ZThn8_N11RVmbxNumberD1Ev @ 34 NONAME ; #<thunk>#
+	_ZN11RVmbxNumber13GetServiceIdsER6RArrayIjE @ 35 NONAME
+	_ZN11RVmbxNumber14GetServiceInfoER16TVmbxServiceInfo @ 36 NONAME
+	_ZN11RVmbxNumber11SelectTypeLEiRj @ 37 NONAME
+	_ZN11RVmbxNumber14GetVmbxAddressER6TDes16j @ 38 NONAME
+	_ZN11RVmbxNumber15GetBrandedIconLERK6TDesC8RP10CFbsBitmapS5_ @ 39 NONAME
+	_ZN11RVmbxNumber19NotifyServiceChangeEP21MServiceNotifyHandler @ 40 NONAME
+	_ZN11RVmbxNumber22ConstructDefaultIconsLEP9CArrayPtrI8CGulIconE @ 41 NONAME
+	_ZN11RVmbxNumber24IsIpVoiceMailboxServicesEv @ 42 NONAME
+	_ZN11RVmbxNumber25NotifyServiceChangeCancelEv @ 43 NONAME
+	_ZN11RVmbxNumber8BrandIdLEiR5TDes8 @ 44 NONAME
+	_ZTI18CVmListQueryDialog @ 45 NONAME ; #<TI>#
+	_ZTV18CVmListQueryDialog @ 46 NONAME ; #<VT>#
+

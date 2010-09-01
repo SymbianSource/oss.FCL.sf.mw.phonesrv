@@ -24,7 +24,7 @@
 //  INCLUDES
 #include <e32std.h>
 #include <etelsat.h>
-#include <msatrefreshobserver.h> 
+#include <msatrefreshobserver.h>
 
 
 // DATA TYPES

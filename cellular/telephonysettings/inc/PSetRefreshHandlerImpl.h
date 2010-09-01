@@ -22,7 +22,7 @@
 
 
 //  INCLUDES
-#include <psetrefreshhandler.h> 
+#include <PSetRefreshHandler.h>
 #include <msatrefreshobserver.h>
 
 
@@ -61,16 +61,16 @@ class CPSetRefreshHandlerImpl :
 
         /**
         * @see CPSetRefreshHandler::NotifyFileChangeL.
-        */
-        void NotifyFileChangeL(
+		*/
+		void NotifyFileChangeL(
             MSSSettingsRefreshObserver& aObserver,
             TSatElementaryFiles aObservedFiles,
             TSatRefreshType aObservedRefreshType );
 
-        /**
+		/**
         * @see CPSetRefreshHandler::CancelNotify.
-        */
-        void CancelNotify();
+		*/
+		void CancelNotify();
 
         /**
         * @see CPSetRefreshHandler::ChangedCspSettings.
@@ -82,17 +82,17 @@ class CPSetRefreshHandlerImpl :
 
     public: // Functions from base classes
 
-        /**
+		/**
         * @see MSSSettingsRefreshObserver::AllowRefresh
         */
         TBool AllowRefresh(
             const TSatRefreshType aType,
             const TSatElementaryFiles aFiles );
 
-        /**
+		/**
         * @see MSSSettingsRefreshObserver::Refresh
         */
-        void Refresh(
+		void Refresh(
             const TSatRefreshType aType,
             const TSatElementaryFiles aFiles );
 

@@ -109,13 +109,7 @@ public:
      * Access RMobilePhone::SendDTMFTones
      * for the paramter information please see the etelmm.h
      */ 
-    void SendDTMFTones( TRequestStatus& aReqStatus, const TDesC& aTones);   
-    
-    /**
-     * Access RMobilePhone::ContinueDTMFStringSending
-     * for the paramter information please see the etelmm.h
-     */ 
-    TInt ContinueDTMFStringSending( TBool aContinue );
+    void SendDTMFTones( TRequestStatus& aReqStatus, const TDesC& aTones);    
     
     /**
      * Access RMobilePhone::CancelAsyncRequest
@@ -153,34 +147,6 @@ public:
      * @return ETrue if there is an incoming call
      */
     TBool IsCallIncoming();
-    
-    /**
-     * Access RMobileCall::NotifyMobileCallStatusChange
-     */
-    void NotifyMobileCallStatusChange( TRequestStatus& aReqStatus,
-                    RMobileCall::TMobileCallStatus& aStatus) ; 
-
-    /**
-     * Access RMobileCall::NotifyStatusChangeCancel
-     */
-    void NotifyCallStatusChangeCancel();
-    /**
-     * Access RMobilePhone::TerminateActiveCalls NotifyMobileCallStatusChange
-     */
-    void TerminateActiveCalls(TRequestStatus& aReqStatus);
-
-    
-    /**
-     * Access RMboileCall::GetMobileCallInfo
-     */
-    TInt GetMobileCallInfo(TDes8& aCallInfo);
-    
-    /**
-     * Access RMboileCall::DialEmergencyCall
-     */
-    virtual void DialEmergencyCall(TRequestStatus& aReqStatus, 
-                const TDesC& aNumber);
-            
 private:
 
     /**
@@ -208,16 +174,16 @@ private:
      */
     void LoadPhoneModuleL( RMobilePhone& aPhone, const TDesC& aModuleName,
             const TDesC& aPhoneName );
-
+                           
+    /**
+     * Open the RMobileCall
+     */
+    void LoadMobileCallL();
+    
     /**
      * Open the RMobileUssdMessaging
      */ 
     void LoadUssdMessagingL();
-    
-    /**
-     * Open the RMobileCall
-     */
-    TInt LoadMobileCall();
     
 
 private: // data

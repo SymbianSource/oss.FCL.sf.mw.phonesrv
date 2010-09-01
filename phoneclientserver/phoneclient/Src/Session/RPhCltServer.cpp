@@ -20,9 +20,9 @@
 // INCLUDE FILES
 #include    <e32math.h>
 #include    <e32uid.h>
-#include    "phclttypes.h" 
-#include    "rphcltserver.h" 
-#include    "phcltclientserver.h" 
+#include    "PhCltTypes.h"
+#include    "RPhCltServer.h"
+#include    "PhCltClientServer.h"
 
 // CONSTANTS
 
@@ -163,25 +163,25 @@ TInt RPhCltServer::StartServer()
     // thread dies for any reason.
 
 
-    TRequestStatus stat;
-    serverUnitOfExecution.Rendezvous( stat );
-    if ( stat != KRequestPending )
+	TRequestStatus stat;
+	serverUnitOfExecution.Rendezvous( stat );
+ 	if ( stat != KRequestPending )
         {
         User::Panic( PH_SRV_SU_FAILURE, EPhSrvStartupFailurePhase1 );
 
-        serverUnitOfExecution.Kill( KErrAbort );    // abort startup
+ 		serverUnitOfExecution.Kill( KErrAbort );	// abort startup
         }
-    else
+ 	else
         {
-        serverUnitOfExecution.Resume(); // logon ok
+ 		serverUnitOfExecution.Resume();	// logon ok
         }
 
     // wait for start or death
-    User::WaitForRequest( stat ); 
-    // we can't use the 'exit reason' if the server panicked as this
-    // is the panic 'reason' and may be '0' which cannot be distinguished
-    // from KErrNone
-    err = ( serverUnitOfExecution.ExitType() == EExitPanic ) 
+ 	User::WaitForRequest( stat ); 
+ 	// we can't use the 'exit reason' if the server panicked as this
+ 	// is the panic 'reason' and may be '0' which cannot be distinguished
+ 	// from KErrNone
+ 	err = ( serverUnitOfExecution.ExitType() == EExitPanic ) 
         ? KErrGeneral : stat.Int();
 
     serverUnitOfExecution.Close();

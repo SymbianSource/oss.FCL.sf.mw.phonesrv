@@ -19,9 +19,9 @@
 // INCLUDE FILES
 #include    <bldvariant.hrh>
 
-#include    "cphonegsmsshandler.h" 
-#include    "cphonegsmssparser.h" 
-#include    "cphonegsmparserresult.h" 
+#include    "CPhoneGsmSsHandler.h"
+#include    "CPhoneGsmSsParser.h"
+#include    "CPhoneGsmParserResult.h"
 
 // LOCAL FUNCTION PROTOTYPES
 

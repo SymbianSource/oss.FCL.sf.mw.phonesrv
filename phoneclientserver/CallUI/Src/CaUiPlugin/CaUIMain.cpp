@@ -20,8 +20,8 @@
 // INCLUDE FILES
 #include    <ecom.h>
 #include    <implementationproxy.h>
-#include    "caui.hrh" 
-#include    "cauiplugin.h" 
+#include    "CaUI.hrh"
+#include    "CaUiPlugin.h"
 
 
 // CONSTANTS

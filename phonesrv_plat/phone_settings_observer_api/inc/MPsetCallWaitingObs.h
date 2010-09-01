@@ -22,7 +22,7 @@
 #define     MPSETCALLWAITINGOBS_H
 
 // INCLUDES
-#include <mpsetcallwaiting.h> 
+#include <MPsetCallWaiting.h>
 
 //  CLASS DEFINITIONS 
 class   MPsetCallWaitingObserver

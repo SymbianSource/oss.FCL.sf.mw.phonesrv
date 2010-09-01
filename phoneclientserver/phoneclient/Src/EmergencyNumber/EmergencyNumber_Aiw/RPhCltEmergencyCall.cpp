@@ -18,10 +18,10 @@
 
 
 // INCLUDE FILES
-#include    <cphcltemergencycall.h> // for TPhCltEmergencyNumber
-#include    "rphcltemergencycall.h" 
-#include    "phcltclientserver.h" 
-#include    "phcltutils.h" 
+#include    <CPhCltEmergencyCall.h> // for TPhCltEmergencyNumber
+#include    "RPhCltEmergencyCall.h"
+#include    "PhCltClientServer.h"
+#include    "PhCltUtils.h"
 
 // CONSTANTS
 _LIT( KPhCltDtmfCharp, "p" );
@@ -176,8 +176,8 @@ TInt RPhCltEmergencyCall::FindEmergencyPhoneNumber(
 // -----------------------------------------------------------------------------
 //
 void RPhCltEmergencyCall::DialEmergencyCall( 
-    TRequestStatus& aReqStatus, 
-    TDesC8& aNumber )
+	TRequestStatus& aReqStatus, 
+	TDesC8& aNumber )
     {
     return SendReceive( 
         EPhoneServerEmergencyNumberSubsessionEmergencyDial,
@@ -192,11 +192,11 @@ void RPhCltEmergencyCall::DialEmergencyCall(
 // -----------------------------------------------------------------------------
 //
 void RPhCltEmergencyCall::CancelDialEmergencyCall()
-    {
-    SendReceive( 
-        EPhoneServerEmergencyNumberSubsessionEmergencyDialCancel,
-        TIpcArgs() );
-    }
+	{
+	SendReceive( 
+		EPhoneServerEmergencyNumberSubsessionEmergencyDialCancel,
+		TIpcArgs() );
+	}
 
 // -----------------------------------------------------------------------------
 // Extracts telephone number out of string. Valid emergency number can
@@ -322,8 +322,8 @@ void RPhCltEmergencyCall::RemoveDTMF( TDes& aString )
 // -----------------------------------------------------------------------------
 //    
 TInt RPhCltEmergencyCall::ValidateNumber( TDes& aString,
-                                        TBool& aIsEmergencyNumber,
-                                        const TBool aWriteEmergencyNumBack )
+										TBool& aIsEmergencyNumber,
+										const TBool aWriteEmergencyNumBack )
     {
     TPckg<TBool> pIsEmergencyNumber( aIsEmergencyNumber );
     

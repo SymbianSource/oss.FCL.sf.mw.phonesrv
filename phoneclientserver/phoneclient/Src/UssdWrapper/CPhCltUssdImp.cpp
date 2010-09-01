@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -18,26 +18,29 @@
 
 
 // INCLUDE FILES
-#include "cphcltussdimp.h" 
-#include "cphcltussdrequesthandler.h" 
-#include "phcltclientserver.h" 
-#include <phclttypes.h> 
+#include "CPhCltUssdImp.h"
+#include "CPhCltUssdRequestHandler.h"
+#include "PhCltClientServer.h"
+#include <PhCltTypes.h>
 
 #include <etelmm.h>
 #include <f32file.h>
 #include <charconv.h>
 #include <gsmuelem.h>
-#include <coemain.h>  
-//#include <phoneclient.rsg> 
+//
+#include <coemain.h>
+#include <avkon.hrh>
+#include <avkon.rsg> 
+
+#include <PhoneClient.rsg>
 #include <exterror.h>
 
 #include <gsmerror.h>
 #include <etelsat.h>
 
-#include "mphcltussdnotecontrollercallback.h" 
-#include "cphcltussdnotecontroller.h" 
-#include "cphcltussdcommonconstant.h"
-#include "tflogger.h"
+#include "MPhCltUssdNoteControllerCallBack.h"
+#include "CPhCltUssdNoteController.h"
+
 // CONSTANTS
 
 const TUint8 KPhCltUssdDcsDefaultAlphabet = 0x0f; // 00001111
@@ -330,12 +333,10 @@ TInt TPhCltUssdAlphabetPacker::ElementSizeInBitsL() const
 //
 CPhCltUssdImp* CPhCltUssdImp::NewL( TBool aShowNotes )
     {
-    TFLOGSTRING("CPhCltUssdImp: NewL call")
     CPhCltUssdImp* self = new( ELeave ) CPhCltUssdImp;
     CleanupStack::PushL( self );
     self->ConstructL( aShowNotes );
     CleanupStack::Pop(); // self
-    TFLOGSTRING("CPhCltUssdImp: NewL exit")
     return self;
     }
 
@@ -347,14 +348,14 @@ CPhCltUssdImp* CPhCltUssdImp::NewL( TBool aShowNotes )
 //
 void CPhCltUssdImp::ConstructL( TBool aShowNotes )
     {
-    TFLOGSTRING("CPhCltUssdImp: ConstructL call")
     // The note controller is needed only if the notes are shown.
     iNoteController = NULL;
     
     if ( aShowNotes )
         {
         iNoteController = CPhCltUssdNoteController::NewL( 
-            *this );
+            *this, 
+            CActive::EPriorityStandard );
         }
 
     iDCS = KPhCltUssdDcsDefaultAlphabet;
@@ -364,7 +365,6 @@ void CPhCltUssdImp::ConstructL( TBool aShowNotes )
     iRequestHandler = CPhCltUssdRequestHandler::NewL( 
         *this, 
         CActive::EPriorityStandard );
-    TFLOGSTRING("CPhCltUssdImp: ConstructL exit")
     }
 
 
@@ -376,7 +376,6 @@ void CPhCltUssdImp::ConstructL( TBool aShowNotes )
 //
 CPhCltUssdImp::CPhCltUssdImp()
     {
-    TFLOGSTRING("CPhCltUssdImp: CPhCltUssdImp call_exit")
     } 
 
 
@@ -387,7 +386,6 @@ CPhCltUssdImp::CPhCltUssdImp()
 //
 CPhCltUssdImp::~CPhCltUssdImp()
     {
-    TFLOGSTRING("CPhCltUssdImp: ~CPhCltUssdImp call") 
     if ( iWait )
         {
         if ( iWait->IsStarted() )
@@ -402,8 +400,7 @@ CPhCltUssdImp::~CPhCltUssdImp()
     iRequestHandler = NULL;
     
     delete iNoteController;
-    iNoteController = NULL;
-    TFLOGSTRING("CPhCltUssdImp: ~CPhCltUssdImp exit") 
+    iNoteController = NULL;      
     }
 
 
@@ -416,9 +413,8 @@ CPhCltUssdImp::~CPhCltUssdImp()
 //
 void CPhCltUssdImp::HandleSendEventL( const TInt aError )
     {
-    iSendError = Min( aError , KErrNone );
-    TFLOGSTRING2("CPhCltUssdImp: HandleSendEventL\
-            aError = %d call", aError)
+    *iSendError = Min( aError , KErrNone );
+
     // iNoteController is allocated only if notes are shown.
     if ( iNoteController )
         {
@@ -432,12 +428,12 @@ void CPhCltUssdImp::HandleSendEventL( const TInt aError )
                 {
                 // All Ok.
                 case KErrNone:
-                    iNoteController->ShowGlobalInformationNoteL( EPhCltUssdDone );
+                    iNoteController->ShowGlobalConfirmationNoteL( R_TEXT_DONE );
                     break;
 
                 // Operation cancelled.
                 case KErrCancel:
-                    iNoteController->ShowGlobalInformationNoteL( EPhCltUssdUnconfirme );
+                    iNoteController->ShowGlobalInformationNoteL( R_TEXT_UNCONFIRMED );
                     break;
 
                 // Ongoing Ussd session or the string is barred due SS request
@@ -445,17 +441,17 @@ void CPhCltUssdImp::HandleSendEventL( const TInt aError )
                 case KErrInUse:
                 case KErrAccessDenied:
                 case KErrGsmSSCallBarred:
-                    iNoteController->ShowGlobalInformationNoteL( EPhCltUssdNotallowed );
+                    iNoteController->ShowGlobalInformationNoteL( R_TEXT_NOT_ALLOWED );
                     break;
 
                 // No network coverage.
                 case KErrGsmSMSNoNetworkService:
-                    iNoteController->ShowGlobalInformationNoteL(EPhCltUssdNoservice );
+                    iNoteController->ShowGlobalInformationNoteL( R_TEXT_NO_SERVICE );
                     break;
 
                 // Offline mode.
                 case KErrGsmOfflineOpNotAllowed:
-                    iNoteController->ShowGlobalInformationNoteL( EPhCltUssdOffline );
+                    iNoteController->ShowGlobalInformationNoteL( R_TEXT_OFFLINE );
                     break;
                     
                 case KErrSatControl:
@@ -463,7 +459,7 @@ void CPhCltUssdImp::HandleSendEventL( const TInt aError )
 
                 // Unknown error.
                 default:
-                    iNoteController->ShowGlobalInformationNoteL( EPhCltUssdNotDone );
+                    iNoteController->ShowGlobalInformationNoteL( R_TEXT_NOT_DONE );
                     break;
                 }
             }
@@ -474,7 +470,6 @@ void CPhCltUssdImp::HandleSendEventL( const TInt aError )
         {
         iWait->AsyncStop();
         }
-    TFLOGSTRING("CPhCltUssdImp: HandleSendEventL exit")
     }
 
 
@@ -536,11 +531,10 @@ TInt CPhCltUssdImp::SendUssd(
     const TDesC8& aMsgData, 
     const TUint8 iSendDcs )
     {
-    TFLOGSTRING("CPhCltUssdImp: SendUssd call")
     __ASSERT_ALWAYS( aMsgData.Length() <= KPhCltUssdMax7BitCharacterOctets,
         User::Invariant() );
 
-    RMobileUssdMessaging::TMobileUssdAttributesV1 attribute;
+	RMobileUssdMessaging::TMobileUssdAttributesV1 attribute;
 
     attribute.iFlags = 
         RMobileUssdMessaging::KUssdDataFormat + 
@@ -555,13 +549,13 @@ TInt CPhCltUssdImp::SendUssd(
         }
         
     if ( iSendDcs == KPhCltUssdDcsNotSet  ) // 0x00
-        {
-        attribute.iDcs = KPhCltUssdDcsDefaultAlphabet;
-        }
-    else
-        {
-        attribute.iDcs = iSendDcs;
-        } 
+		{
+		attribute.iDcs = KPhCltUssdDcsDefaultAlphabet;
+ 		}
+ 	else
+ 		{
+ 		attribute.iDcs = iSendDcs;
+ 		} 
     
     RMobileUssdMessaging::TMobileUssdAttributesV1Pckg 
         attributePckg( attribute );
@@ -572,23 +566,30 @@ TInt CPhCltUssdImp::SendUssd(
         return KErrInUse;
         }
 
-    iSendError = KErrNone;
-    TFLOGSTRING("CPhCltUssdImp: SendUssd iRequestHandler")
-    iRequestHandler->SendUssd( aMsgData , attributePckg );
+    TInt error = KErrNone;
+    iSendError = &error;
+  
+  	iRequestHandler->SendUssd( aMsgData , attributePckg );
     // iNoteController is allocated only if notes are shown.
-    TFLOGSTRING("CPhCltUssdImp: SendUssd ShowGlobalWaitNoteL")
     if ( iNoteController )
         {
-        TRAP_IGNORE( iNoteController->ShowGlobalWaitNoteL(); 
-                    );
+        TRAP_IGNORE( iNoteController->ShowGlobalWaitNoteL( 
+        	R_TEXT_SENDING, 
+            R_AVKON_SOFTKEYS_QUIT ) );
         }
-    TFLOGSTRING("CPhCltUssdImp: SendUssd iWait") 
 
     // Set this active object to wait the completion of the send request.
     iWait->Start();
-
-    TFLOGSTRING("CPhCltUssdImp: SendUssd exit") 
-    return iSendError;
+    
+    // Need to check iWait handle here because the destructor may be called
+    // while pending for completion of the send request.
+    // coverity[check_after_deref]
+    if( iWait )
+        {
+        iSendError = NULL;
+        }
+    
+    return error;
     }
 
 
@@ -600,9 +601,7 @@ TInt CPhCltUssdImp::SendUssd(
 //
 void CPhCltUssdImp::SendUssdCancel()
     {
-    TFLOGSTRING("CPhCltUssdImp: SendUssdCancel call")
     iRequestHandler->SendUssdCancel();
-    TFLOGSTRING("CPhCltUssdImp: SendUssdCancel exit")
     }
 
 
@@ -625,10 +624,7 @@ TInt CPhCltUssdImp::StartUssdEditor() const
 //
 TInt CPhCltUssdImp::AppStarting()
     {
-    TFLOGSTRING("CPhCltUssdImp: AppStarting call")
-    TInt res = iRequestHandler->UssdClient().AppStarting();
-    TFLOGSTRING2("CPhCltUssdImp: AppStarting exit res = %d",res)
-    return res;
+    return iRequestHandler->UssdClient().AppStarting();
     }
     
 // -----------------------------------------------------------------------------
@@ -640,10 +636,7 @@ TInt CPhCltUssdImp::AppStarting()
 TInt CPhCltUssdImp::AppTerminating( 
       TPhCltUssdAppExitReason aExitReason )
     {
-    TFLOGSTRING("CPhCltUssdImp: AppTerminating call")
-    TInt res = iRequestHandler->UssdClient().AppTerminating( aExitReason );
-    TFLOGSTRING2("CPhCltUssdImp: AppTerminating exit res = %d",res)
-    return res;
+    return iRequestHandler->UssdClient().AppTerminating( aExitReason );
     }
     
 // -----------------------------------------------------------------------------
@@ -654,10 +647,7 @@ TInt CPhCltUssdImp::AppTerminating(
 //    
 TBool CPhCltUssdImp::AppToForeground()
     {
-    TFLOGSTRING("CPhCltUssdImp: AppToForeground call")
-    TBool res =  iRequestHandler->UssdClient().AppToForeground();
-    TFLOGSTRING2("CPhCltUssdImp: AppToForeground exit res = %d",res)
-    return res;
+    return iRequestHandler->UssdClient().AppToForeground();
     }
     
 // -----------------------------------------------------------------------------
@@ -668,10 +658,7 @@ TBool CPhCltUssdImp::AppToForeground()
 //    
 TInt CPhCltUssdImp::AppToBackground()
     {
-    TFLOGSTRING("CPhCltUssdImp: AppToBackground call")
-    TInt res = iRequestHandler->UssdClient().AppToBackground();
-    TFLOGSTRING2("CPhCltUssdImp: AppToBackground exit res = %d",res)
-    return res;
+    return iRequestHandler->UssdClient().AppToBackground();
     }
 
 // -----------------------------------------------------------------------------
@@ -685,9 +672,7 @@ void  CPhCltUssdImp::StartSAT(
             TDes& aReceiveMessage, 
             TPckg< TUint >& aShowNotesAndDcs )
     {
-    TFLOGSTRING("CPhCltUssdImp: StartSAT call")
     iRequestHandler->UssdClient().StartSAT( aStatus, aReceiveMessage, aShowNotesAndDcs );
-    TFLOGSTRING("CPhCltUssdImp: StartSAT exit")
     }
  
 // -----------------------------------------------------------------------------
@@ -698,22 +683,24 @@ void  CPhCltUssdImp::StartSAT(
 //   
  void CPhCltUssdImp::StopSAT()
     {
-    TFLOGSTRING("CPhCltUssdImp: StopSAT call")
     iRequestHandler->UssdClient().StopSAT();
-    TFLOGSTRING("CPhCltUssdImp: StopSAT exit")
     }
 
 
 // -----------------------------------------------------------------------------
-// CPhCltUssdImp::GlobalWaitNoteHidden
+// CPhCltUssdImp::GlobalNoteDismissedL
 //
-// Dialog is hidden by the cancel key.
+// Dialog is cancelled by the right softkey.
 // -----------------------------------------------------------------------------
 //
-void CPhCltUssdImp::GlobalWaitNoteHidden()
+void CPhCltUssdImp::GlobalWaitNoteDismissedL( TInt aButtonId )
     {
-    TFLOGSTRING("CPhCltUssdImp: GlobalWaitNoteHidden call")
-    TFLOGSTRING("CPhCltUssdImp: GlobalWaitNoteHidden exit")
+    if ( aButtonId == EAknSoftkeyClose || 
+         aButtonId == EAknSoftkeyCancel ||
+         aButtonId == EAknSoftkeyQuit )
+        {   
+        SendUssdCancel();
+        }
     }
 
 
@@ -725,8 +712,8 @@ void CPhCltUssdImp::GlobalWaitNoteHidden()
 //
 void CPhCltUssdImp::EncodeL( const TDesC& aSrc, TDes8& aDes )
     {
-    TFLOGSTRING("CPhCltUssdImp: EncodeL call")
-    aDes.Zero();
+    //
+     aDes.Zero();
     TSmsDataCodingScheme::TSmsAlphabet alphabet = 
         TSmsDataCodingScheme::ESmsAlphabet7Bit; // default
         
@@ -829,7 +816,6 @@ void CPhCltUssdImp::EncodeL( const TDesC& aSrc, TDes8& aDes )
         }
     
     CleanupStack::PopAndDestroy(3); // fs, packer, charConv
-    TFLOGSTRING("CPhCltUssdImp: EncodeL exit")
     }
 
 // -----------------------------------------------------------------------------

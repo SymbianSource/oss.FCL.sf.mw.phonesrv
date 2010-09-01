@@ -19,7 +19,7 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-../data/backup_registration.xml     z:/private/200286d2/backup_registration.xml
+../data/backup_registration.xml		z:/private/200286d2/backup_registration.xml
 
 // Stub files
 ../data/spsbackuphelper_stub.sis   /epoc32/data/z/system/install/spsbackuphelper_stub.sis

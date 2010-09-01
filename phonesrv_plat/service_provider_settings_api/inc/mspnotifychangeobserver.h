@@ -27,7 +27,7 @@
 /**
  *  Call back interface for notify change events
  *
- *  Client has to implement this interface if client 
+ *	Client has to implement this interface if client 
  *  need to receive settings notification change.
  *
  *  @lib serviceprovidersettings.lib
@@ -35,23 +35,23 @@
  */
 class MSPNotifyChangeObserver
     {
-    public:
+	public:
 
-        /**
-         * Handle notify change event
-         * 
-         * @param aServiceId the service ID of added/changed/deleted service
-         * @since S60 3.2
-         */
-        virtual void HandleNotifyChange( TServiceId aServiceId ) = 0;
-        
-        /**
-         * Handle error
-         * 
-         * @param aError error code
-         * @since S60 3.2
-         */
-        virtual void HandleError( TInt aError ) = 0;
+	    /**
+	     * Handle notify change event
+	     * 
+	     * @param aServiceId the service ID of added/changed/deleted service
+	     * @since S60 3.2
+	     */
+	    virtual void HandleNotifyChange( TServiceId aServiceId ) = 0;
+	    
+	    /**
+	     * Handle error
+	     * 
+	     * @param aError error code
+	     * @since S60 3.2
+	     */
+	    virtual void HandleError( TInt aError ) = 0;
     };
 
 #endif // MSPNOTIFYCHANGEOBSERVER_H

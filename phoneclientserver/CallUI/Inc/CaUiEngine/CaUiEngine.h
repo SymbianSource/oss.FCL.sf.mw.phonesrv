@@ -21,15 +21,15 @@
 
 //  INCLUDES
 #include    <e32std.h>
-#include    <coneresloader.h> // RconeResourceLoader. 
-#include    <mphcltextphoneobserver.h> // MPhCltExtPhoneObserver. 
-#include    "cauieng.h" 
-#include    "cauidialresultobserver.h" 
-#include    "cauiqueryobserver.h" 
-#include    <phclttypes.h> 
-#include    <mphcltemergencycallobserver.h> 
+#include    <ConeResLoader.h>           // RConeResourceLoader.
+#include    <mphcltextphoneobserver.h>  // MPhCltExtPhoneObserver.
+#include    "cauieng.h"
+#include    "cauidialresultobserver.h"
+#include    "CaUiQueryObserver.h"
+#include    <PhCltTypes.h>
+#include    <MPhCltEmergencyCallObserver.h>
 #include    <cphcntcontactdataselection.h>  // MPhCntSelectionObserver
-#include    <cphcltemergencycall.h> // CPhCltEmergencyCall 
+#include    <CPhCltEmergencyCall.h>     // CPhCltEmergencyCall
 #include    <mcauireconnectqueryobserver.h>
 #include    <cconvergedserviceselector.h>
 #include    <mphcntstoreloaderobserver.h>

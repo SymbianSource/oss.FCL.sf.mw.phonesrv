@@ -1,0 +1,299 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is a localisation file for SatUi
+*     		 A .loc file is the one and only place where the logical strings
+*     		 to be localised are defined. 
+*
+*/
+
+
+/**
+ *  Default (implementation English) Resource localisation file for
+ *  SatUi application information resource SatUi.rss. 
+ */
+
+// LOCALISATION STRINGS
+
+//d:SatUi application name in Application Shell
+//l:list_single_large_graphic_pane_t1
+//w:
+//r:2.8
+//
+#define qtn_apps_simapps_list "SIM services"
+
+//d:SatUi application name in Application Shell
+//l:cell_app_pane_t1
+//w:
+//r:2.8
+//
+#define qtn_apps_simapps_grid "SIM services"
+
+//d:SatUi application title
+//l:title_pane_t2/opt9
+//w:
+//r:2.8
+//
+#define qtn_sat_title "SIM services"
+
+//d:SIM message header in the popup window
+//l:heading_pane_t1
+//w:
+//r:2.8
+//
+#define qtn_sat_message_header "SIM note:"
+
+//d:SIM help header in the popup window
+//l:heading_pane_t1
+//w:
+//r:2.8
+//
+#define qtn_sat_help_header "SIM help:"
+
+//d:Prompt text for Get Inkey data query if alpha entry is expected
+//l:popup_query_data_window
+//w:
+//r:2.8
+//
+#define text_simatk_enter_char "Enter:\n(1 character)"
+
+//d:Prompt text for Get Inkey data query if numeric entry is expected
+//l:popup_query_data_window
+//w:
+//r:2.8
+//
+#define text_simatk_enter_nbr "Enter:\n(1 digit 0-9)"
+
+//d:Prompt text for Get Input data query if alpha entry is expected
+//l:popup_query_data_window
+//w:
+//r:2.8
+//
+#define text_simatk_enter_char_string "Enter:"
+
+//d:Prompt text for Get Input data query if numeric entry is expected
+//l:popup_query_data_window
+//w:
+//r:2.8
+//
+#define text_simatk_enter_nbr_string "Enter:\n(number)"
+
+//d:SMS sending procedure is confirmed with a confirmation query
+//d:with this text
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define text_simatk_send_sms "Allow SIM card to send a message?"
+
+//d:SMS sending procedure is indicated with an information note
+//d:with this text
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define qtn_sat_note_sms_send "SMS sending by SIM"
+
+//d:SMS sending procedure is notified to the user with a wait note
+//d:with this text
+//l:popup_note_wait_window
+//w:
+//r:2.8
+//
+#define qtn_sat_sending_sms "Sending..."
+
+//d:SS sending procedure is confirmed with a confirmation note with this text
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define text_simatk_send_ss "Allow SIM card to send a request to the network?"
+
+//d:Setting up call procedure is confirmed with a confirmation note
+//d:with this text
+//d:%0U is the name of SIM application or qtn_sat_query_title
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define text_call_setup_by_simatk "%U about to call"
+
+//d:Part of the text text_call_setup_by_simatk (see above)
+//l:popup_note_window 
+//w:
+//r:2.8 
+//
+#define qtn_sat_query_title "SIM services"
+
+//d:Refresh is confirmed with a confirmation note with this text
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define qtn_sat_query_allow_reset "Allow SIM update?"
+
+//d:The refresh is notified to the user with a wait note with this text
+//l:popup_note_wait_window
+//w:
+//r:2.8
+//
+#define qtn_sat_wait_refresh_update "SIM card updating"
+
+//d:Command text associated to an item in the Options Menu
+//d:Selects the item in focus in the main pain
+//l:list_single_pane_t1_cp2
+//w:
+//r:2.8
+//
+#define qtn_sat_option_send "Send"
+
+//d:Command text associated to an item in the Options Menu
+//d:Selects the item in focus in the main pain
+//l:list_single_pane_t1_cp2
+//w:
+//r:2.8
+//
+#define qtn_sat_option_play_tone "Play"
+
+//d:Command text associated to an item in the Options Menu
+//d:Selects the item in focus in the main pain
+//l:list_single_pane_t1_cp2
+//w:
+//r:2.8
+//
+#define qtn_sat_option_read "Read"
+
+//d:Command text associated to an item in the Options Menu
+//d:Selects the item in focus in the main pain
+//l:list_single_pane_t1_cp2
+//w:
+//r:2.8
+//
+#define qtn_sat_option_goto "Go to"
+
+/**
+ *  Default (implementation English) Resource localisation file for
+ *  SatUi application information resource SatUi.rss. 
+ *  Additional texts introduced during SAT joint development
+ *  Moved from satuiadd.loc
+ */
+
+//d:It is wait note during DTMF sending procedure.
+//d:%U is replaced with the DTMF string to be sent.
+//l:popup_note_wait_window
+//w:
+//r:2.8
+//
+#define qtn_sat_note_sending_dtmf_template "Sending\n%U"
+
+//d:It is information note after SIM Toolkit's
+//d:Mobile Outgoing Short Message Control
+//d:has modified a short message request.
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define qtn_sat_request_modified "Request modified"
+
+//d:Information note about Call Control
+//d:shows a message to user that call
+//d:control has not allowed the action
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define qtn_sat_cc_not_allowed "Request not allowed"
+
+//d:Information note about Call Control
+//d:shows a message to user that call
+//d:control has changed the call
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define qtn_sat_cc_modified "Request Modified"
+
+//d:Information note about No response timeout
+//d:shows a message to user that timeout
+//d:has expired for input
+//l:popup_note_window
+//w:
+//r:2.8
+//
+#define qtn_sat_timeout "Timeout!"
+
+//d:Open Channel is confirmed with a confirmation note with this text
+//l:popup_note_window
+//w:
+//r:3.0
+//
+#define qtn_sat_conf_open_channel_bip "Open connection?"
+
+//d:Receive data procedure is notified to the user with a wait note
+//l:popup_note_wait_window
+//w:
+//r:3.0
+//
+#define qtn_sat_conf_receive_data_bip "Receiving data"
+
+//d:Send data procedure is notified to the user with a wait note
+//l:list_single_popup_menu_pane_1
+//l:popup_note_wait_window
+//w:
+//r:3.0
+//
+#define qtn_sat_conf_send_data_bip "Sending data"
+
+//d:Close Channel information note
+//l:list_single_popup_menu_pane_1
+//l:popup_note_window
+//w:
+//r:3.0
+//
+#define qtn_sat_conf_close_channel_bip "Connection closed"
+
+//d:Launch Browser is confirmed with this text
+//l:popup_note_window
+//w:
+//r:3.0
+//
+#define qtn_sat_conf_launch_brow "Open browser?"
+
+//d:Indicate SAT is not available
+//l:popup_note_window
+//w:
+//r:3.0
+//
+#define qtn_sat_services_not_available "SIM services not available"
+
+//d:Command text associated to the middle softkey
+//l:control_pane_t3/opt7
+//w:
+//r:3.2
+//
+#define qtn_msk_call_sat "Call"
+
+
+//d:Command text associated to the middle softkey
+//l:control_pane_t3/opt7
+//w:
+//r:3.2
+//
+#define qtn_msk_read_sat "Read"
+
+//d:Command text associated to the middle softkey
+//l:control_pane_t3/opt7
+//w:
+//r:3.2
+//
+#define qtn_msk_goto_sat "Go to"

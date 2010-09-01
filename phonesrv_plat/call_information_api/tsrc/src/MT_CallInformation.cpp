@@ -22,17 +22,17 @@
 #include "CPEMessageWaiter.h"
 #endif
 
-#include <eunitmacros.h>
-#include <eunitdecorators.h>
+#include <EUnitMacros.h>
+#include <EUnitDecorators.h>
 
 #include <etelmm.h>
 
 #include <mmtsy_names.h>
-#include <mcall.h>
+#include <MCall.h>
 #include <ccallinfoiter.h>
-#include <cphcltemergencycall.h>
-#include <mphcltemergencycallobserver.h>
-#include <cphcltcommandhandler.h>
+#include <CPhCltEmergencyCall.h>
+#include <MPhCltEmergencyCallObserver.h>
+#include <CPhCltCommandHandler.h>
 
 //Speaking clock number when calling from NTN network.
 _LIT (KNumber, "99901");     

@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "cphsrvresourcemanager.h" 
-#include "phcltclientserver.h" 
+#include "CPhSrvResourceManager.h"
+#include "PhCltClientServer.h"
 #include <bautils.h>
 
 

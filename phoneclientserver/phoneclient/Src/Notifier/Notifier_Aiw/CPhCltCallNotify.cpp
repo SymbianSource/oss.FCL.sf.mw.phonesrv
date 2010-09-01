@@ -18,14 +18,14 @@
 
 
 //  Include Files
-#include    <cphcltemergencycall.h> // for TPhCltEmergencyNumber
-#include    <cphcltcallnotify.h> 
+#include    <CPhCltEmergencyCall.h> // for TPhCltEmergencyNumber
+#include    <CPhCltCallNotify.h>
 #include    <cphcltdialdata.h>
 #include    <mphcltdialrequestobserver.h>
 
-#include    "rphcltserver.h" 
-#include    "cphcltextphonedialdata.h" 
-#include    "rphcltcallnotify.h" 
+#include    "RPhCltServer.h"
+#include    "CPhCltExtPhoneDialData.h"
+#include    "RPhCltCallNotify.h"
 #include    "cphcltdialrequestmonitor.h"
 #include    "cphcltdialemergencyrequestmonitor.h"
 #include    "cphcltcomhandrequestmonitor.h"
@@ -76,7 +76,7 @@ EXPORT_C CPhCltCallNotify::~CPhCltCallNotify()
 EXPORT_C TInt CPhCltCallNotify::Open( RPhCltServer& aServer )
     {
     TInt retVal = iCallNotify->Open( aServer );
-    return retVal;
+	return retVal;
     }
 
 // -----------------------------------------------------------------------------
@@ -129,19 +129,19 @@ EXPORT_C TInt CPhCltCallNotify::RespondClient( const TInt aResultCode )
 EXPORT_C void CPhCltCallNotify::NotifyEmergencyCall( 
     MPhCltDialEmergencyRequestObserver* aObserver, 
     TDesC& aEmergencyNumber )
-    {   
+	{	
     iDialEmergencyMonitor->NotifyEmergencyCall( aObserver, aEmergencyNumber );
-    }
+	}
 
 // -----------------------------------------------------------------------------
 // CPhCltCallNotify::CancelNotifyEmergencyCall()
 // 
 // -----------------------------------------------------------------------------
-//  
+//	
 EXPORT_C void CPhCltCallNotify::CancelNotifyEmergencyCall() const
-    {
-    iDialEmergencyMonitor->Cancel();
-    }
+	{
+	iDialEmergencyMonitor->Cancel();
+	}
 
 // -----------------------------------------------------------------------------
 // CPhCltCallNotify::RespondEmergencyToClient()
@@ -149,10 +149,10 @@ EXPORT_C void CPhCltCallNotify::CancelNotifyEmergencyCall() const
 // -----------------------------------------------------------------------------
 //
 EXPORT_C TInt CPhCltCallNotify::RespondEmergencyToClient( 
-    const TInt aResultCode )
-    {
-    return iDialEmergencyMonitor->RespondEmergencyToClient( aResultCode  );
-    }
+	const TInt aResultCode )
+	{
+	return iDialEmergencyMonitor->RespondEmergencyToClient( aResultCode  );
+	}
 
 // -----------------------------------------------------------------------------
 // CPhCltCallNotify::NotifyComHandCommand

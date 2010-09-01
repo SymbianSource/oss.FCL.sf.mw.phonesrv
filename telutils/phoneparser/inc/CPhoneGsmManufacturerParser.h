@@ -20,7 +20,7 @@
 #define CPHONEGSMMANUFACTURERPARSER_H
 
 // INCLUDES
-#include    "cphonegsmparserbase.h" 
+#include    "CPhoneGsmParserBase.h"
 
 // FORWARD DECLARATIONS
 class CPhoneGsmOptionContainer;

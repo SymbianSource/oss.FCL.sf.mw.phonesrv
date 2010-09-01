@@ -17,9 +17,9 @@
 
 
 //INCLUDES
-#include <psuicontainer.h> 
+#include <PsuiContainer.h>      
 
-#include "psuiresourceloader.h" 
+#include "PsuiResourceLoader.h" 
 
 // ---------------------------------------------------------------------------
 // Symbian OS two-phased constructor.

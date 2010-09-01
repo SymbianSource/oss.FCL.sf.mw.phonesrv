@@ -69,14 +69,16 @@ void CPlayToneHandler::ClientResponse()
     LOG( SIMPLE, "PLAYTONE: CPlayToneHandler::ClientResponse calling" )
 
     iPlayToneRsp.SetPCmdNumber( iPlayToneData.PCmdNumber() );
-    if ( RSat::KPSessionTerminatedByUser == iPlayToneRsp.iGeneralResult )
-        {
-        LOG( SIMPLE, "PLAYTONE: CPlayToneHandler::ClientResponse \
-             KPSessionTerminatedByUser" )
-        // Next SimSession end will close the ui session.
-        iUtils->NotifyEvent( MSatUtils::ESessionTerminatedByUser );
-        }
-        
+    
+    // A short-ish Play tone is aborted in GCf testing, that will be supported
+    // by using the Sat app Menu key to abort the play tone and to respond
+    // with KPSessionTerminatedByUser to Sat Server. That's why 
+    // MSatUtils::ESessionTerminatedByUser notify is NOT sent here because
+    // otherwise CSimSessionEndHandler::HandleCommand() closes Sat App always.
+    // (That should be done only if UI was not launched by user.)
+    LOG2( SIMPLE, "PLAYTONE: CPlayToneHandler::ClientResponse result=%d",
+        iPlayToneRsp.iGeneralResult )
+    
     // If command had icon data and was done succesfully, report that icon
     // was not shown
     // To be removed when icons are allowed in this command

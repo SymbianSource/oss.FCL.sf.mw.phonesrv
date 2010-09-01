@@ -16,7 +16,7 @@
 */
 
 #include "MT_CallInformation.h"
-#include <ceunittestsuite.h>
+#include <CEUnitTestSuite.h>
 
 EXPORT_C MEUnitTest* CreateTestSuiteL()
     {

@@ -21,7 +21,7 @@
 #include <e32math.h>
 #include "DialUtilsTests.h"
 
-#include <dialutils.h>
+#include <DialUtils.h>
 
 // EXTERNAL DATA STRUCTURES
 //extern  ?external_data;

@@ -21,7 +21,7 @@
 
 //  INCLUDES
 #include    <e32std.h>
-#include    <dialutils.h> 
+#include    <DialUtils.h>
 
 
 // FORWARD DECLARATIONS

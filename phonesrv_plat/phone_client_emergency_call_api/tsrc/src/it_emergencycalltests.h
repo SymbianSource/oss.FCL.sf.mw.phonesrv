@@ -22,7 +22,7 @@
 #include <CEUnitTestSuiteClass.h>
 #include <EUnitDecorators.h>
 
-#include <mphcltemergencycallobserver.h>
+#include <MPhCltEmergencyCallObserver.h>
 
 // FORWARD DECLARATIONS
 class CPhCltEmergencyCall;

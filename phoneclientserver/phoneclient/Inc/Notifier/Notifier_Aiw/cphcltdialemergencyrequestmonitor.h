@@ -21,7 +21,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <phclttypes.h> 
+#include <PhCltTypes.h>
 
 
 //  FORWARD DECLARATIONS
@@ -69,7 +69,7 @@ NONSHARABLE_CLASS( CPhCltDialEmergencyRequestMonitor ): public CActive
         *
         * @param aResultCode Result of the response.
         */
-        TInt RespondEmergencyToClient( const TInt aResultCode );
+		TInt RespondEmergencyToClient( const TInt aResultCode );
         
     
     private:

@@ -171,7 +171,7 @@ void CCCEObserverAsynchroniser::RunL()
                 CCELOGSTRING( "CCCEObserverAsynchroniser::RunL() Event: EDataPortName");
                 if (iCCEObserver)
                     {
-                    iCCEObserver->DataPortName( iEvents[0].iTName );
+                  	iCCEObserver->DataPortName( iEvents[0].iTName );
                     }
                 break;    
                 }
@@ -213,14 +213,14 @@ void CCCEObserverAsynchroniser::RunL()
                 if (iCCESsObserver)
                     {
                     if( iEvents[0].iDescriptor )
-                        {
-                        iCCESsObserver->CallForwardEventOccurred(
-                            (MCCESsObserver::TCCESsCallForwardEvent)iEvents[0].iInt1, *iEvents[0].iDescriptor );
+                    	{
+                    	iCCESsObserver->CallForwardEventOccurred(
+                        	(MCCESsObserver::TCCESsCallForwardEvent)iEvents[0].iInt1, *iEvents[0].iDescriptor );
                         }
                     else
-                        {
-                        CCELOGSTRING( "CCCEObserverAsynchroniser::RunL() Event: ECallForwardEventOccurred, descr is NULL!");
-                        }
+                    	{
+                		CCELOGSTRING( "CCCEObserverAsynchroniser::RunL() Event: ECallForwardEventOccurred, descr is NULL!");
+                    	}
                     }
                 break;    
                 }
@@ -373,13 +373,13 @@ void CCCEObserverAsynchroniser::MOCallCreated( MCCECall& aCall )
 // MCCEObserver DataPortName
 // -----------------------------------------------------------------------------
 void CCCEObserverAsynchroniser::DataPortName( TName& aPortName )
-    {
+	{
     CCELOGSTRING( "CCCEObserverAsynchroniser::DataPortName");
     TEventStorage event;
     event.iEventType = EDataPortName;
     event.iTName = aPortName;
     AddEvent(event);   
-    }
+	}
 
 // -----------------------------------------------------------------------------
 // MCCEObserver ConferenceCallCreated
@@ -404,7 +404,7 @@ void CCCEObserverAsynchroniser::BarringEventOccurred( const MCCESsObserver::TCCE
     event.iInt1 = aBarringEvent;
     AddEvent(event);   
     }
-                              
+							  
 // -----------------------------------------------------------------------------
 // MCCESsObserver CLIEventOccurred
 // -----------------------------------------------------------------------------
@@ -417,13 +417,13 @@ void CCCEObserverAsynchroniser::CLIEventOccurred( const MCCESsObserver::TCCESsCL
     AddEvent(event); 
         
     }
-                              
+							  
 // -----------------------------------------------------------------------------
 // MCCESsObserver CallForwardEventOccurred
 // -----------------------------------------------------------------------------
 void CCCEObserverAsynchroniser::CallForwardEventOccurred( 
-                    const MCCESsObserver::TCCESsCallForwardEvent aCallForwardEvent,
-                    const TDesC& aRemoteAddress )
+					const MCCESsObserver::TCCESsCallForwardEvent aCallForwardEvent,
+					const TDesC& aRemoteAddress )
     {
     CCELOGSTRING( "CCCEObserverAsynchroniser::CallForwardEventOccurred");
     TEventStorage event;
@@ -528,7 +528,7 @@ void CCCEObserverAsynchroniser::CallDurationChanged( const TTimeIntervalSeconds 
 
 // -----------------------------------------------------------------------------
 // MCCEDtmfObserver HandleDTMFEvent
-// -----------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------	
 void CCCEObserverAsynchroniser::HandleDTMFEvent( const MCCEDtmfObserver::TCCEDtmfEvent aEvent, 
                               const TInt aError, 
                               const TChar aTone )
@@ -546,7 +546,7 @@ void CCCEObserverAsynchroniser::HandleDTMFEvent( const MCCEDtmfObserver::TCCEDtm
 // MCCEExtensionObserver HandleExtensionEvents
 // -----------------------------------------------------------------------------                                
 void CCCEObserverAsynchroniser::HandleExtensionEvents( TUint32 aServiceId,
-    TInt aEvent,
+	TInt aEvent,
     TInt aStatus )
     {
     CCELOGSTRING( "CCCEObserverAsynchroniser::HandleExtensionEvents");

@@ -302,7 +302,7 @@ public:
      * @param aLifeTimeInfo Life time info.
      * @return Get succeeded ot not.
      */
-    TBool GetLifeTime( TDes8& aLifeTimeInfo );
+	TBool GetLifeTime( TDes8& aLifeTimeInfo );
 
     /**
      * Get CS specific misc info from CS plugin.
@@ -310,17 +310,17 @@ public:
      * @param aCSInfo CS info.
      * @return Get succeeded ot not.
      */
-    TBool GetCSInfo( CSInfo& aCSInfo );
-    
-    /**
+	TBool GetCSInfo( CSInfo& aCSInfo );
+	
+	/**
      * Stop airtime duration timer
      *
      * @since S60 v3.2
      * @param aCall CCCECall is used for checking call type
      */
     void AirTimeDurationStop( CCCECall* aCall ) const;
-    
-    /**
+	
+	/**
      * Switch Air Duration timer, is needed for handover
      * 
      * Stop current timer and starts another one. New timer is initialized 
@@ -331,7 +331,7 @@ public:
      * timer switching
      */
     void AirTimeDurationSwap(const CCPCall::TCallType aNewCallType);
-    
+	
     /**
      * Start airtime duration timer
      *

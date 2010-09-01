@@ -21,7 +21,7 @@
 #define PHONESETTINGSTESTCALLWAITINGGOBSERVER_H
 
 #include <e32base.h>
-#include <mpsetcallwaitingobs.h>
+#include <MPsetCallWaitingObs.h>
 
 // CLASS DECLARATION
 

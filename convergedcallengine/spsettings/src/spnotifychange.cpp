@@ -81,7 +81,7 @@ EXPORT_C CSPNotifyChange::~CSPNotifyChange()
     XSPSLOGSTRING( "CSPNotifyChange::~CSPNotifyChange() - IN" );
     delete iData;
     Cancel();
-    iIdArray.Reset();   
+	iIdArray.Reset();   
     iIdArray.Close();
     iProperty.Close();
     
@@ -138,7 +138,7 @@ void CSPNotifyChange::RunL()
 
     array.Close();
 
-    XSPSLOGSTRING( "CSPNotifyChange::RunL() - OUT" );
+	XSPSLOGSTRING( "CSPNotifyChange::RunL() - OUT" );
     }
 
 // ---------------------------------------------------------------------------
@@ -146,52 +146,52 @@ void CSPNotifyChange::RunL()
 // ---------------------------------------------------------------------------
 //
 TInt CSPNotifyChange::RunError( TInt aError )
-    {
-    XSPSLOGSTRING( "CSPNotifyChange::RunError() - IN" );
+	{
+	XSPSLOGSTRING( "CSPNotifyChange::RunError() - IN" );
+	
+	iObserver.HandleError( aError );
     
-    iObserver.HandleError( aError );
+	Subscribe();
     
-    Subscribe();
-    
-    XSPSLOGSTRING( "CSPNotifyChange::RunError() - OUT" );
-    
-    return KErrNone;
-    }
-    
+	XSPSLOGSTRING( "CSPNotifyChange::RunError() - OUT" );
+	
+	return KErrNone;
+	}
+	
 // ---------------------------------------------------------------------------
 // 
 // ---------------------------------------------------------------------------
 //
 EXPORT_C void CSPNotifyChange::NotifyChangeL( const RIdArray& aIdArray )
-    {
-    XSPSLOGSTRING( "CSPNotifyChange::NotifyChangeL() - IN" );
-    
-    iIdArray.Reset();
-    
-    TInt count = aIdArray.Count();
-    
-    for( TInt i = 0; i < count; i++)
-        {
-        User::LeaveIfError( iIdArray.Append( aIdArray[i] ) );
-        }
-        
-    Subscribe();
-        
-    XSPSLOGSTRING( "CSPNotifyChange::NotifyChangeL() - OUT" );
-    }
+	{
+	XSPSLOGSTRING( "CSPNotifyChange::NotifyChangeL() - IN" );
+	
+	iIdArray.Reset();
+	
+	TInt count = aIdArray.Count();
+	
+	for( TInt i = 0; i < count; i++)
+		{
+		User::LeaveIfError( iIdArray.Append( aIdArray[i] ) );
+		}
+		
+	Subscribe();
+		
+	XSPSLOGSTRING( "CSPNotifyChange::NotifyChangeL() - OUT" );
+	}
 
 // ---------------------------------------------------------------------------
 // 
 // ---------------------------------------------------------------------------
 //
 EXPORT_C void CSPNotifyChange::NotifyChangeCancel()
-    {
-    XSPSLOGSTRING( "CSPNotifyChange::NotifyChangeCancel() - IN" );
-    
-    Cancel();
-    
-    XSPSLOGSTRING( "CSPNotifyChange::NotifyChangeCancel() - OUT" );
-    }
+	{
+	XSPSLOGSTRING( "CSPNotifyChange::NotifyChangeCancel() - IN" );
+	
+	Cancel();
+	
+	XSPSLOGSTRING( "CSPNotifyChange::NotifyChangeCancel() - OUT" );
+	}
 
 // ---------------------------------------------------------------------------
 // 

@@ -19,17 +19,17 @@
 
 
 //  INCLUDES
-#include    "cauimessagesender.h" 
+#include 	"CaUiMessageSender.h" 
 
-#include    <coemain.h>         // CCoeEnv
-#include    <callui.rsg> // Resources. 
+#include    <coemain.h>     	// CCoeEnv
+#include    <CallUI.rsg>  		// Resources.
 
-#include    <msvids.h>          // KUidMsvLocalServiceMtmValue
+#include    <msvids.h>    		// KUidMsvLocalServiceMtmValue
 
-#include    <sendui.h>          // CSendAppUi, CSendUi
-#include    <cmessagedata.h> // Message data for CSendUi 
-#include    <featmgr.h>         // Feature manager
-#include    "cauilogger.h" // Call Ui Logger 
+#include    <sendui.h>     		// CSendAppUi, CSendUi
+#include    <CMessageData.h>    // Message data for CSendUi
+#include    <featmgr.h>   		// Feature manager
+#include 	"cauilogger.h"		// Call Ui Logger
 
 // CONSTANTS
 // The reconnect query options granularity.
@@ -81,7 +81,7 @@ CCaUiMessageSender::~CCaUiMessageSender()
         
     if( iSendUi ) 
         {    
-        delete iSendUi;   
+    	delete iSendUi;   
         }
         
     CAUILOGSTRING("CALLUI: <<< CCaUiMessageSender::~CCaUiMessageSender()");    
@@ -100,9 +100,9 @@ CCaUiMessageSender* CCaUiMessageSender::NewL()
     CAUILOGSTRING("CALLUI: >>> CCaUiMessageSender::NewL()");
     
     CCaUiMessageSender* self = new( ELeave ) CCaUiMessageSender ();
-    
-    CAUILOGSTRING("CALLUI: <<< CCaUiMessageSender::NewL()");
-    
+	
+	CAUILOGSTRING("CALLUI: <<< CCaUiMessageSender::NewL()");
+	
     return self;
     }
 
@@ -122,7 +122,7 @@ void CCaUiMessageSender::CreateNewMessageL(
        
     TRAPD( err, CreateSendUiL());
     if ( err != KErrNone )
-        User::Leave( KErrGeneral );     
+	    User::Leave( KErrGeneral );		
     
     //Launch message editor standalone
     TUid mtmUid = { aMessageType };
@@ -201,7 +201,7 @@ const CUidNameArray& CCaUiMessageSender::
     CleanupStack::Pop();
     iMsgTypes = msgTypes;
 
-    CAUILOGSTRING("CALLUI: <<< CCaUiMessageSender::MessageTypesArrayL()");
+	CAUILOGSTRING("CALLUI: <<< CCaUiMessageSender::MessageTypesArrayL()");
 
     return *iMsgTypes;
     }
@@ -332,7 +332,7 @@ void CCaUiMessageSender::HandleSessionEventL(TMsvSessionEvent aEvent,
             CAUILOGSTRING("CALLUI:<<< CCaUiMessageSender::HandleSessionEventL(): case: EMsvCloseSession");
             break;
         default:
-            CAUILOGSTRING("CALLUI:<<< CCaUiMessageSender::HandleSessionEventL(): case: default");
+        	CAUILOGSTRING("CALLUI:<<< CCaUiMessageSender::HandleSessionEventL(): case: default");
             break;
         }
         

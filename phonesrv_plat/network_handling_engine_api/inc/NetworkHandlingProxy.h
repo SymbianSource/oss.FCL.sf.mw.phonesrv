@@ -20,7 +20,7 @@
 #define NETWORKHANDLINGPROXY_H
 
 //  INCLUDES
-#include "nwhandlingengine.h" 
+#include "NWHandlingEngine.h"
 
 
 // FORWARD DECLARATIONS

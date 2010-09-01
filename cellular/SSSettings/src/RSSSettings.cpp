@@ -23,18 +23,18 @@
 #include    <e32base.h>
 #include    <rmmcustomapi.h>
 #include    <mmtsy_names.h>
-#include    <PSVariables.h> 
+#include    <PSVariables.h>
 #include    <startupdomainpskeys.h>
-#include    <centralrepository.h> // central repository 
-#include    <sssettingsprivatecrkeys.h> // settings central repository keys. 
+#include    <centralrepository.h>       // Central repository
+#include    <SSSettingsPrivateCRKeys.h>  // Settings Central Repository keys.
 #include    <telservicesinternalcrkeys.h>
 #include    <telservicesvariant.hrh>
 
-#include    "rsssettings.h" 
-#include    "msssettingsobserver.h" 
-#include    "csssettingsnotifier.h" 
-#include    "csssettingsalsnotifier.h" 
-#include    "sssettingslogger.h" 
+#include    "RSSSettings.h"
+#include    "MSSSettingsObserver.h"
+#include    "CSSSettingsNotifier.h"
+#include    "CSSSettingsAlsNotifier.h"
+#include    "SSSettingsLogger.h"
 
 // CONSTANTS
 _LIT( KPanicCat, "SSSettings" );
@@ -500,6 +500,10 @@ EXPORT_C TInt RSSSettings::Get( TSSSettingsSetting aSetting, TInt& aValue )
 
     TInt error(KErrNone);
     TInt value(0);
+    if ( error != KErrNone )
+        {
+        return error;
+        }
 
     // If Get fails, we try to save the default data.
     switch ( aSetting )
@@ -702,41 +706,41 @@ TInt RSSSettings::IsALSSupported( TInt aPpAlsValue, TInt aSimAlsValue,
     __SSSLOGSTRING1("[SSS]    RSSSettings::IsALSSupported alsCSPError value: %d", aAlsCspError );
     
     // When PP ALS is on and used SIM card suppports CSP ALS then alsCSPSupport returns EFALSE and alsCSPError KErrNotSupported but ALS functionality
-    // needs to be shown therefore KErrNone is returned.
+	// needs to be shown therefore KErrNone is returned.
     if ( aPpAlsValue && !aSimAlsValue && aAlsCspSupport == FALSE && aAlsCspError == KErrNotSupported  )
         {
         error = KErrNone;
-        }          
+    	}		   
     else if ( aPpAlsValue && aSimAlsValue && aAlsCspSupport == FALSE )
-        {
-        error = KErrNone;
-        }
+    	{
+    	error = KErrNone;
+    	}
     else if ( aPpAlsValue && aSimAlsValue && aAlsCspSupport == TRUE  )
         {
-        error = KErrNone;
-        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    	error = KErrNone;
+    	}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
     else if ( aPpAlsValue && !aSimAlsValue && aAlsCspSupport == FALSE  )
-        {
-        error = KErrNone;
-        }
+    	{
+    	error = KErrNone;
+    	}
     else if ( aPpAlsValue && !aSimAlsValue && aAlsCspSupport == TRUE  )
-        {
-        error = KErrNone;
-        }
+    	{
+    	error = KErrNone;
+    	}
     else if ( !aPpAlsValue && aSimAlsValue && aAlsCspSupport == TRUE  )
-        {
-        error = KErrNone;
-        }
+    	{
+    	error = KErrNone;
+    	}
     else if ( !aPpAlsValue && aSimAlsValue && aAlsCspSupport == FALSE  )
-        {
-        error = KErrNotSupported;
-        }
+   		{
+    	error = KErrNotSupported;
+   		}
     else if ( !aPpAlsValue && !aSimAlsValue && aAlsCspSupport == TRUE  )
-        {
-        error = KErrNone;
-        }
-                            
-    return error;   
+		{
+		error = KErrNone;
+		}
+							
+   	return error;   
     }
     
 // ---------------------------------------------------------
@@ -756,6 +760,10 @@ EXPORT_C TInt RSSSettings::Set( TSSSettingsSetting aSetting, TInt aValue )
                     Panic( SSSettingsPanicInvalidRequest ) );
 
     TInt error(KErrNone);
+    if ( error != KErrNone )
+        {
+        return error;
+        }
 
     switch ( aSetting )
         {

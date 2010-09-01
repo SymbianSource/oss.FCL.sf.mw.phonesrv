@@ -24,10 +24,10 @@
 #include <badesca.h>
 #include <mmretrieve.h>
 #include <ctsydomaincrkeys.h>
-#include "mcalldiverting.h" 
-#include "msssettingsobserver.h" 
+#include "MCallDiverting.h"
+#include "MSSSettingsObserver.h"
 #include "nwdefs.h"             
-#include "psetconstants.h" 
+#include "PsetConstants.h"
 
 // CLASS DECLARATION
 class MPsetDivertObserver;
@@ -66,11 +66,7 @@ NONSHARABLE_CLASS( CPSetCallDivertingBase ) : public CActive,
         ~CPSetCallDivertingBase();
    
     public: // From base class.
-        /**
-         * @see MCallDiverting.
-         */
-        void SetRequestObserver( MPsetRequestObserver* aObs );
-
+            
         /**
         * @see MCallDiverting.
         */ 
@@ -112,6 +108,11 @@ NONSHARABLE_CLASS( CPSetCallDivertingBase ) : public CActive,
         * @see MCallDiverting.
         */ 
         TInt SaveKey( TUint32 aKeyId, const TDesC& aKeyValue );
+        
+        /**
+        * @see MCallDiverting.
+        */ 
+        TInt OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx );
         
         /**
         * @see MCallDiverting.
@@ -243,12 +244,12 @@ NONSHARABLE_CLASS( CPSetCallDivertingBase ) : public CActive,
         /**
         * @see CActive::RunL().
         */
-        virtual void RunL();
+        void RunL();
            
         /**
         * @see CActive::DoCancel().
         */
-        virtual void DoCancel();
+        void DoCancel();
            
         /**
         * @see MSSSettingsObserver::PhoneSettingChanged().

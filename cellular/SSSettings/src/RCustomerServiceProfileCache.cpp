@@ -19,13 +19,13 @@
 // INCLUDE FILES
 #include    <bldvariant.hrh> // for feature definitions
 #include    <etel.h>  
-#include    <sssettingsprivatepskeys.h> 
+#include    <SSSettingsPrivatePSKeys.h>
 #include    <centralrepository.h>
 #include    <mmtsy_names.h>
 #include    <featmgr.h>
       
-#include    "rcustomerserviceprofilecache.h" 
-#include    "sssettingslogger.h" 
+#include    "RCustomerServiceProfileCache.h"
+#include    "SSSettingsLogger.h"
 
 // CONSTANTS
 #define KSSSettingsTSYName KMmTsyModuleName
@@ -80,8 +80,8 @@ RCustomerServiceProfileCache::TCspCacheData::TCspCacheData():iCspFilePckg(
 // Constructor
 // -----------------------------------------------------------------------------
 EXPORT_C RCustomerServiceProfileCache::RCustomerServiceProfileCache()
+	:iData( NULL ),iOldCspFile(NULL)
     {
-    iData = NULL;
     }
 
 // -----------------------------------------------------------------------------
@@ -119,6 +119,8 @@ EXPORT_C void RCustomerServiceProfileCache::Close()
     __SSSLOGSTRING("[SSS]--> RCustomerServiceProfileCache::Close");
     if ( iData == NULL )
         {
+        delete iOldCspFile;
+        iOldCspFile = NULL;
         return;
         }
 
@@ -460,7 +462,12 @@ void RCustomerServiceProfileCache::DoOpenL()
         }
     User::LeaveIfError( 
         CspCacheDoOpenEtelConnection( iData->iEtel, iData->iPhone ) );
-
+    
+    if( iOldCspFile )
+    	{    	
+    	delete iOldCspFile;
+    	iOldCspFile = NULL;
+    	}
     // Create and reset old CSP file variable.
     iOldCspFile = new ( ELeave ) RMobilePhone::TMobilePhoneCspFileV1;
     DoResetOldCspFile();
@@ -495,34 +502,34 @@ TInt RCustomerServiceProfileCache::DoGetValues( TInt& aValue, TSsGroups aGroup )
         error = DefineAndSetValue( KPSUidSSConfig, KSettingsCspCache1, value );
         }
     else if ( error == KErrNotFound && aGroup == ESsCspGroup2 )
-        {
-        error = DefineAndSetValue( KPSUidSSConfig, KSettingsCspCache2, value ); 
-        }
+    	{
+    	error = DefineAndSetValue( KPSUidSSConfig, KSettingsCspCache2, value );	
+    	}
 
     if ( error == KErrNone )
         {
         if ( value != KCspCacheNoFile ) 
-            {   
-            __SSSLOGSTRING("[SSS] ---> GetCustomerServiceProfile");             
-            TRequestStatus status;
-            // GetCustomerServiceProfile status returns KErrNotFound if CSP product profile is OFF.
-            iData->iPhone.GetCustomerServiceProfile(
-               status ,
-               iData->iCspFilePckg );
-            User::WaitForRequest( status );
-            error = status.Int();
-            __SSSLOGSTRING1("[SSS] <--- GetCustomerServiceProfile: error: %d", error); 
-             
-            if (( error == KErrNotReady ) || ( error == KErrServerBusy ))
-                {
-                return error;
-                }  
-            }
+         	{	
+         	__SSSLOGSTRING("[SSS] ---> GetCustomerServiceProfile");         	
+	        TRequestStatus status;
+	        // GetCustomerServiceProfile status returns KErrNotFound if CSP product profile is OFF.
+	        iData->iPhone.GetCustomerServiceProfile(
+	           status ,
+	           iData->iCspFilePckg );
+	        User::WaitForRequest( status );
+	        error = status.Int();
+	        __SSSLOGSTRING1("[SSS] <--- GetCustomerServiceProfile: error: %d", error); 
+	         
+	        if (( error == KErrNotReady ) || ( error == KErrServerBusy ))
+		        {
+		        return error;
+		        }  
+         	}
         else // CSP has been read return value, if value is KCspCacheNoFile then return KErrNotSupported.
-            {
-            __SSSLOGSTRING("[SSS] CSP file cannot be found from SIM"); 
-            return KErrNotSupported;    
-            }
+        	{
+        	__SSSLOGSTRING("[SSS] CSP file cannot be found from SIM"); 
+			return KErrNotSupported;	
+        	}
 
         if ( error == KErrNone )
             {
@@ -558,7 +565,7 @@ TInt RCustomerServiceProfileCache::DoGetValues( TInt& aValue, TSsGroups aGroup )
             }
         else
             {
-            value = KCspCacheNoFile;
+           	value = KCspCacheNoFile;
             error = KErrNotSupported;
             }                        
         }
@@ -578,10 +585,10 @@ TInt RCustomerServiceProfileCache::DoGetValues( TInt& aValue, TSsGroups aGroup )
                 }
                 
             // Do not set error if defError is KErrNone. If Define/Set failed then error value is set.
-            if  ( defError != KErrNone )
-                {
-                error = defError;
-                }
+            if	( defError != KErrNone )
+            	{
+            	error = defError;
+            	}
             }
         
     __SSSLOGSTRING1("[SSS]    RCustomerServiceProfileCache::DoGetValues: error: %d", error);

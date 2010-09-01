@@ -21,7 +21,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <cphcltussd.h> 
+#include <CPhCltUssd.h>
 
 // FORWARD DECLARATIONS
 // CLASS DECLARATION

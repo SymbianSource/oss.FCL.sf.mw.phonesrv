@@ -23,11 +23,11 @@
 // INCLUDES
 #include <etelmm.h>
 #include <mmretrieve.h>
-#include "msssettingsobserver.h" 
+#include "MSSSettingsObserver.h"
 #include "nwdefs.h"
-#include "mpsetcallwaiting.h" 
-#include "mpsetcallwaitingobs.h" 
-#include "psetconstants.h" 
+#include "MPsetCallWaiting.h"    
+#include "MPsetCallWaitingObs.h" 
+#include "PsetConstants.h" 
  
 
 // FORWARD DECLARATIONS
@@ -133,7 +133,7 @@ class CPsetCallWaiting :    public CActive,
 
     private:    // constructors
     
-        void ConstructL( MPsetCallWaitingObserver& aObserver );
+    	void ConstructL( MPsetCallWaitingObserver& aObserver );
         
         /*****************************************************
         *    Series 60 Customer / ETel

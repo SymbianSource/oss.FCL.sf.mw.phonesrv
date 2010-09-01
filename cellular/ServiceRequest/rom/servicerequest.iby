@@ -19,8 +19,8 @@
 #ifndef __SERVICEREQUEST_IBY__
 #define __SERVICEREQUEST_IBY__
 
-file=ABI_DIR\BUILD_DIR\servicerequest.dll  SHARED_LIB_DIR\servicerequest.dll
+file=ABI_DIR\BUILD_DIR\SERVICEREQUEST.DLL  SHARED_LIB_DIR\SERVICEREQUEST.DLL
 
-data=ZSYSTEM\install\servicerequest_stub.sis    System\Install\servicerequest_stub.sis
+data=ZSYSTEM\install\Servicerequest_stub.sis    System\Install\Servicerequest_stub.sis
 
 #endif

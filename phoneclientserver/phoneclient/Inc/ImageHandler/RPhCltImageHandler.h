@@ -20,9 +20,9 @@
 
 //  INCLUDES
 #include    <e32base.h>
-#include    <phclttypes.h> 
-#include    "cphcltoperatorlogocontainer.h" 
-#include    "cphcltbaseimageparams.h" 
+#include    <PhCltTypes.h>
+#include    "CPhCltOperatorLogoContainer.h"
+#include    "CPhCltBaseImageParams.h"
 
 
 //  FORWARD DECLARATIONS

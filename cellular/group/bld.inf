@@ -17,8 +17,8 @@
 
 
 #include "../telephonysettings/group/bld.inf"
-#include "../sssettings/group/bld.inf"
-#include "../psetnotesui/group/bld.inf"
-#include "../servicerequest/group/bld.inf"
+#include "../SSSettings/group/bld.inf"
+#include "../PsetNotesUi/Group/bld.inf"
+#include "../ServiceRequest/group/bld.inf"
 
 // End of File

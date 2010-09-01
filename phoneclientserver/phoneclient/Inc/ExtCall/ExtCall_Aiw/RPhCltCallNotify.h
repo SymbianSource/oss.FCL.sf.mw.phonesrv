@@ -69,7 +69,7 @@ class RPhCltCallNotify : public RSubSessionBase
         */
         void NotifyCallAttempt( 
             TRequestStatus& aStatus, 
-           TPckg< TInt >& aDataLength );
+		   TPckg< TInt >& aDataLength );
         /**
         * Cancel pending call attempt notification.
         */
@@ -94,7 +94,7 @@ class RPhCltCallNotify : public RSubSessionBase
         void NotifyEmergencyCall( 
             TRequestStatus& aStatus,
             TDes8& aEmergencyNumber
-             );
+			 );
         /**
         * Cancel pending call attempt notification.
         */

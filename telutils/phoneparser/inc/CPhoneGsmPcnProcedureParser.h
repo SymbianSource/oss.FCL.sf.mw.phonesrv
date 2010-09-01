@@ -20,7 +20,7 @@
 #define CPHONEGSMPCNPROCEDUREPARSER_H
 
 // INCLUDES
-#include    "cphonegsmparserbase.h" 
+#include    "CPhoneGsmParserBase.h"
 
 // CONSTANTS
 

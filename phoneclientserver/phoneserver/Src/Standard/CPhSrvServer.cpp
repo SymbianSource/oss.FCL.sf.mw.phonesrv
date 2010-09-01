@@ -17,24 +17,24 @@
 
 
 // INCLUDE FILES
-#include "cphsrvserver.h" 
-#include "cphsrvsession.h" 
-#include "cphsrvscheduler.h" 
-#include "cphsrvussdmanager.h" 
-#include "cphsrvresourcemanager.h" 
-#include "cphsrvphonecontroller.h" 
-#include "cphsrvcallrequestmanager.h" 
-#include "cphsrvemergencyrequestmanager.h" 
-#include "cphsrvemergencynumbermanager.h" 
+#include "CPhSrvServer.h"
+#include "CPhSrvSession.h"
+#include "CPhSrvScheduler.h"
+#include "CPhSrvUssdManager.h"
+#include "CPhSrvResourceManager.h"
+#include "CPhSrvPhoneController.h"
+#include "CPhSrvCallRequestManager.h"
+#include "CPhSrvEmergencyRequestManager.h"
+#include "CPhSrvEmergencyNumberManager.h"
 
-#include "phsrvutils.h" 
-#include "kphsrvconfigure.h" // debugprints ON/OFF 
-#include "phsrvdebuginfo.h" 
+#include "PhSrvUtils.h"
+#include "KPhSrvConfigure.h"            // debugprints ON/OFF
+#include "PhSrvDebugInfo.h"
 
-#include "mphsrvcomhandnegotiators.h" 
-#include "cphsrvcomhandrequestmanager.h" 
-#include "mphsrvmessengernegotiators.h" 
-#include "cphsrvmessengerrequestmanager.h" 
+#include "MPhSrvComHandNegotiators.h"
+#include "CPhSrvComHandRequestManager.h"
+#include "MPhSrvMessengerNegotiators.h"
+#include "CPhSrvMessengerRequestManager.h"
 #include <featmgr.h>
 
 

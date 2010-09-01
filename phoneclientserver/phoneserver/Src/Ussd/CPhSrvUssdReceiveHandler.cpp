@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "cphsrvussdreceivehandler.h" 
-#include "mphsrvussdnetworkobserver.h" 
+#include "CPhSrvUssdReceiveHandler.h"
+#include "MPhSrvUssdNetworkObserver.h"
 
 
 // CONSTANTS

@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include    "cphcltcommandhandler.h" 
-#include    "cphcltcomhandimplementation.h" 
+#include    "CPhCltCommandHandler.h"
+#include    "CPhCltComHandImplementation.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 

@@ -21,8 +21,8 @@
 #define CNWGSMSESSIONIMPLEMENTATION_H
 
 //  INCLUDES
-#include <cnwsession.h>
-#include <nwhandlingengine.h>
+#include "CNWSession.h"
+#include "NWHandlingEngine.h"
 
 
 // FORWARD DECLARATIONS

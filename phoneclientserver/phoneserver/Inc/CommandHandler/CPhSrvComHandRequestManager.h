@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "mphsrvcomhandnegotiators.h" 
-#include "mphsrvcomhandinitiators.h" 
+#include "MPhSrvComHandNegotiators.h"
+#include "MPhSrvComHandInitiators.h"
 
 
 

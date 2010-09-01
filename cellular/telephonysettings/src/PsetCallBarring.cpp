@@ -19,14 +19,14 @@
 
 //  Include Files
 #include <etelmm.h>
-#include <rsssettings.h> 
-#include "mpsetrequestobs.h" 
-#include "psetcallbarring.h" 
-#include "psettelephony.h" 
-#include "psetpanic.h" 
-#include "psetconstants.h" 
-#include "psetutility.h" 
-#include "phonesettingslogger.h" 
+#include <RSSSettings.h>
+#include "MPsetRequestObs.h"
+#include "PsetCallBarring.h"    
+#include "PsetTelephony.h"
+#include "PSetPanic.h"
+#include "PsetConstants.h"
+#include "PSetUtility.h"
+#include "PhoneSettingsLogger.h"
 
 // CONSTANTS    
 _LIT( KPSNameOfClass, "CPsetCallBarring" );
@@ -191,17 +191,17 @@ EXPORT_C void CPsetCallBarring::SetBarringL(
     __PHSLOGSTRING1("[PHS]    SetBarringL: Password: %S", &aBarring.iPassword);
     __PHSLOGSTRING1("[PHS]    SetBarringL: Settings: %d", aBarring.iSetting);
 
-    ValidateBsc( aBsc );
-    
-    if ( aBsc == EAltTele )
-        {
-        iBarringParameters.iServiceGroup = PSetUtility::VerifyAltLineUseL();
-        }
-                
-    iBarringParameters.iPassword = aBarring.iPassword;
+	ValidateBsc( aBsc );
+	
+	if ( aBsc == EAltTele )
+		{
+		iBarringParameters.iServiceGroup = PSetUtility::VerifyAltLineUseL();
+		}
+		    	
+	iBarringParameters.iPassword = aBarring.iPassword;
     iBarringParameters.iAction = SetBarringAction( aBarring.iSetting );
     iBarringParameters.iServiceGroup = PSetUtility::ChangeToEtelInternal( aBsc );
-        
+    	
     __PHSLOGSTRING1("[PHS]    SetBarringL: Program: %d", aBarring.iType);
 
     // Start to request barring change.
@@ -258,7 +258,7 @@ EXPORT_C TInt CPsetCallBarring::CancelCurrentRequest()
     iObserver->SetEngineContact( this );
     // Does not leave
     TRAPD( err, iObserver->HandleCBRequestingL( EFalse, ETrue ) );
-        
+    	
     if ( !IsActive() || err != KErrNone )
         {
         return KErrGeneral;
@@ -555,44 +555,44 @@ void CPsetCallBarring::HandleInquiryResultL()
     RMobilePhone::TMobilePhoneCBInfoEntryV1 cbInfo;
     TInt entries = cbStatusList->Enumerate();
     __PHSLOGSTRING1("[PHS]    HandleInquiryResultL: Entry count: %d", entries);
-    TInt i(0); 
-    TInt cbArray(0);
-    // If alternate line in use then only als line service information is shown.
+   	TInt i(0); 
+   	TInt cbArray(0);
+   	// If alternate line in use then only als line service information is shown.
     if ( iAls == ESSSettingsAlsAlternate )
-        {
-        while ( entries > i )
-            {
-            cbInfo = cbStatusList->GetEntryL( i );
+    	{
+	    while ( entries > i )
+	        {
+	        cbInfo = cbStatusList->GetEntryL( i );
 
-            if ( cbInfo.iStatus == RMobilePhone::ECallBarringStatusActive && cbInfo.iServiceGroup == RMobilePhone::EAuxVoiceService )
-                {
-                 __PHSLOGSTRING1("[PHS]    ALS: iServiceGroup: %d", cbInfo.iServiceGroup);
-                status = EBarringStatusActive;
-                arrayOfBsc[cbArray] = static_cast <TUint8> 
-                    ( PSetUtility::ChangeToGSM( cbInfo.iServiceGroup ) );
-                cbArray++;
-                }
-            i++;                                                                
-            }   
+	        if ( cbInfo.iStatus == RMobilePhone::ECallBarringStatusActive && cbInfo.iServiceGroup == RMobilePhone::EAuxVoiceService )
+		    	{
+		    	 __PHSLOGSTRING1("[PHS]    ALS: iServiceGroup: %d", cbInfo.iServiceGroup);
+		        status = EBarringStatusActive;
+		        arrayOfBsc[cbArray] = static_cast <TUint8> 
+		    		( PSetUtility::ChangeToGSM( cbInfo.iServiceGroup ) );
+		    	cbArray++;
+		        }
+	        i++;                                                                
+	        }	
         }
-    else    // All other services than alternate line service is allowed to show when primary line is active.
-        {
-        while ( entries > i )
-            {
-            cbInfo = cbStatusList->GetEntryL( i );
+    else	// All other services than alternate line service is allowed to show when primary line is active.
+    	{
+	    while ( entries > i )
+	        {
+	        cbInfo = cbStatusList->GetEntryL( i );
 
-            if ( cbInfo.iStatus == RMobilePhone::ECallBarringStatusActive && cbInfo.iServiceGroup != RMobilePhone::EAuxVoiceService )
-                {
-                __PHSLOGSTRING1("[PHS]  iServiceGroup: %d", cbInfo.iServiceGroup);
-                status = EBarringStatusActive;             
-                arrayOfBsc[cbArray] = static_cast <TUint8> 
-                    ( PSetUtility::ChangeToGSM( cbInfo.iServiceGroup ) );
-                cbArray++; 
-                }
-            i++;                       
-            }
-        }
-        
+	        if ( cbInfo.iStatus == RMobilePhone::ECallBarringStatusActive && cbInfo.iServiceGroup != RMobilePhone::EAuxVoiceService )
+		    	{
+		    	__PHSLOGSTRING1("[PHS]  iServiceGroup: %d", cbInfo.iServiceGroup);
+		        status = EBarringStatusActive;             
+			 	arrayOfBsc[cbArray] = static_cast <TUint8> 
+			    	( PSetUtility::ChangeToGSM( cbInfo.iServiceGroup ) );
+			   	cbArray++; 
+		    	}
+	        i++;                       
+	        }
+       	}
+       	
     arrayOfBsc[cbArray] = KPSetUnusedValue;
     CleanupStack::PopAndDestroy( cbStatusList );
     iObserver->HandleBarringModeStatusL( arrayOfBsc, status );    

@@ -21,7 +21,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "phcltclientserver.h" 
+#include "PhCltClientServer.h"
 
 // FORWARD DECLARATIONS
 class CPhSrvServer;

@@ -23,8 +23,8 @@
 #include <e32std.h>
 #include <e32base.h>
 
-#include <MediatorCommandInitiator.h> 
-#include <MediatorEventConsumer.h> 
+#include <MediatorCommandInitiator.h>
+#include <MediatorEventConsumer.h>
 
 // forward declarations 
 

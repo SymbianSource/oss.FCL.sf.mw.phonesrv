@@ -60,7 +60,7 @@ public:
     * @param aConferenceCall Created conference
     * @return none
     */
-    virtual void ConferenceCallCreated( MCCEConferenceCall& aConferenceCall ) = 0;
+	virtual void ConferenceCallCreated( MCCEConferenceCall& aConferenceCall ) = 0;
 
     /**
     * Notify data port information for video telephony. Information comes via CS only.
@@ -68,7 +68,7 @@ public:
     * @param Dataport information.
     * @return none
     */
-    virtual void DataPortName( TName& aPortName ) = 0;
+	virtual void DataPortName( TName& aPortName ) = 0;
     };
 
 #endif // MCCEOBSERVER_H

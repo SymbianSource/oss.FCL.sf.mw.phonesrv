@@ -21,9 +21,9 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include "cphcltextphonebase.h" 
-#include "rphcltserver.h" 
-#include "rphcltextcall.h" 
+#include "CPhCltExtPhoneBase.h"
+#include "RPhCltServer.h"
+#include "RPhCltExtCall.h"
 
 
 // FORWARD DECLARATIONS

@@ -26,8 +26,8 @@
 #include <coemain.h>
 #include <bautils.h>
 #include <data_caging_path_literals.hrh> // For resource dir definations
-#include <StringLoader.h> 
-#include <AknsUtils.h> 
+#include <StringLoader.h>
+#include <AknsUtils.h>
 #include <avkon.mbg>
 
 // CONSTANTS

@@ -20,12 +20,12 @@
 
 
 // INCLUDE FILES
-#include    "cphsrvsubsessionmessenger.h" 
-#include    "cphsrvsession.h" 
-#include    "cphsrvserver.h" 
-#include    <phclttypes.h> 
-#include    "mphsrvmessengernegotiators.h" 
-#include    "phsrvmessengertypes.h" 
+#include    "CPhSrvSubSessionMessenger.h"
+#include    "CPhSrvSession.h"
+#include    "CPhSrvServer.h"
+#include    <PhCltTypes.h>
+#include    "MPhSrvMessengerNegotiators.h"
+#include    "PhSrvMessengerTypes.h"
 
 
 

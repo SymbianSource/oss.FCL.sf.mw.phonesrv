@@ -21,7 +21,7 @@
 #define CNWNETWORKVIAGBASEENGINE_H
 
 //  INCLUDES
-#include <nwhandlingengine.h>
+#include "NWHandlingEngine.h"
 #include "CNWMessageHandler.h"
 
 #include "CNWNetworkMonitorBase.h"

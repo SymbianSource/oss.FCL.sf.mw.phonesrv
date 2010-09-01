@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include "cphsrvphonecontroller.h" 
+#include "CPhSrvPhoneController.h"
 #include <mmtsy_names.h>
 
 

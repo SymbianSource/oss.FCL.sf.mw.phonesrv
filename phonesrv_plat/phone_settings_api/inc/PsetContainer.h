@@ -23,12 +23,12 @@
 #define     PSETCONTAINER_H
 
 //  INCLUDES
-#include <psetcallwaiting.h> 
-#include <psetcalldiverting.h> 
-#include <psetcallbarring.h> 
-#include <psetcli.h> 
-#include <psetnetwork.h> 
-#include <psetrefreshhandler.h> 
+#include <PsetCallWaiting.h>
+#include <PsetCallDiverting.h>
+#include <PsetCallBarring.h>
+#include <PsetCli.h>
+#include <PsetNetwork.h>
+#include <PSetRefreshHandler.h>
 
 
 // FORWARD DECLARATIONS

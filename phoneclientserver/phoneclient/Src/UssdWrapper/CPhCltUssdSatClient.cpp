@@ -18,10 +18,10 @@
 
 
 // INCLUDE FILES
-#include    "cphcltussdimp.h" 
-#include    "phcltclientserver.h" 
-#include    <cphcltussdsatclient.h> 
-#include    <cphcltussd.h> 
+#include    "CPhCltUssdImp.h"
+#include    "PhCltClientServer.h"
+#include    <CPhCltUssdSatClient.h>
+#include    <CPhCltUssd.h>
 
 
 // ============================= LOCAL FUNCTIONS ===============================

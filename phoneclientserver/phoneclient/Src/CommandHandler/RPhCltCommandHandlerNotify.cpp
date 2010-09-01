@@ -20,10 +20,10 @@
 
 //  INCLUDES
 
-#include    "rphcltcommandhandlernotify.h" 
-#include    <rphcltserver.h> 
-#include    <phclttypes.h> 
-#include    "phcltclientserver.h" 
+#include    "RPhCltCommandHandlerNotify.h"
+#include    <RPhCltServer.h>
+#include    <PhCltTypes.h>
+#include    "PhCltClientServer.h"
 #include    <e32base.h>
 
 

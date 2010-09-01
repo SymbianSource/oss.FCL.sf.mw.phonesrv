@@ -17,7 +17,8 @@
 #include "CPhoneEngineCreator.h"
 
 #include <TelephonyAudioRoutingManager.h>
-#include <cpephonemodelif.h>
+#include <activeidle2domainpskeys.h>
+#include <CPEPhoneModelIf.h>
 #include "CPEMessageWaiter.h"
 
 
@@ -58,7 +59,16 @@ MPEPhoneModel* CPhoneEngineCreator::CreatePhoneEngineL(
                 MEngineMonitor::EPEMessagePEConstructionReady,
                 40 );
         }    
-
+    
+    // No error checking here because this will succeed only once when this is called. The RProperty::Set will
+    // fail, if this call is not successfull at all.
+    RProperty::Define( 
+        KPSUidAiInformation,
+        KActiveIdleState,
+        RProperty::EInt );
+                            
+    User::LeaveIfError( RProperty::Set( KPSUidAiInformation, KActiveIdleState, EPSAiForeground ) ); 
+    
     return pEif;
     }
 

@@ -18,12 +18,12 @@
 
 // INCLUDE FILES
 
-#include "phonehandlerredial.h" 
-#include "phonehandlercontrol.h" 
-#include "phonehandlerdebug.h" 
-#include <RemConCallHandlingTarget.h> 
-#include <cphcltcommandhandler.h> 
-#include <phclttypes.h> 
+#include "PhoneHandlerRedial.h"
+#include "PhoneHandlerControl.h"
+#include "PhoneHandlerDebug.h"
+#include <RemConCallHandlingTarget.h>
+#include <CPhCltCommandHandler.h>
+#include <PhCltTypes.h>
 
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 #include <logfilterandeventconstants.hrh>
@@ -36,8 +36,8 @@
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerLastNumberRedial::CPhoneHandlerLastNumberRedial(
-                            CPhoneHandlerControl& aControl,
-                            TRemConExtCallHandlingApiOperationId aOperation )
+							CPhoneHandlerControl& aControl,
+							TRemConExtCallHandlingApiOperationId aOperation )
 : iControl( aControl ), 
   iOperation( aOperation )
     {
@@ -67,11 +67,11 @@ void CPhoneHandlerLastNumberRedial::ConstructL()
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerLastNumberRedial* CPhoneHandlerLastNumberRedial::NewL( 
-    CPhoneHandlerControl& aControl,
-    TRemConExtCallHandlingApiOperationId aOperation )
+	CPhoneHandlerControl& aControl,
+	TRemConExtCallHandlingApiOperationId aOperation )
     {
     CPhoneHandlerLastNumberRedial* self = 
-        new (ELeave) CPhoneHandlerLastNumberRedial( aControl, aOperation );
+    	new (ELeave) CPhoneHandlerLastNumberRedial( aControl, aOperation );
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
@@ -87,7 +87,7 @@ CPhoneHandlerLastNumberRedial::~CPhoneHandlerLastNumberRedial()
     delete iLogClientPtr;
     iFsSession.Close();
     
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::CPhoneHandlerLastNumberRedial() end" );
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::CPhoneHandlerLastNumberRedial() end" );
     }
 
 // -----------------------------------------------------------------------------
@@ -97,13 +97,13 @@ CPhoneHandlerLastNumberRedial::~CPhoneHandlerLastNumberRedial()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerLastNumberRedial::Process()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Process() start" );
-    
-    TBool ret = EFalse;
-        
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Process() start" );
+	
+	TBool ret = EFalse;
+	    
     TRAPD( err, ret = iLogViewRecentPtr->
-        SetRecentListL( KLogRecentOutgoingCalls, GetStatus() ) ); 
+		SetRecentListL( KLogRecentOutgoingCalls, GetStatus() ) ); 
     if( KErrNone == err && ret )
         {
         COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Process() There is last redial number" );
@@ -112,15 +112,15 @@ void CPhoneHandlerLastNumberRedial::Process()
     else
         {
         if( err != KErrNone )
-            {
-            COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Process() failed err=%d", err );
-            RequestCompleted( err ); 
-            }
+        	{
+	        COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Process() failed err=%d", err );
+		    RequestCompleted( err ); 
+        	}
         else
-            {
-            COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Process() failed err=%d", KErrNotFound );
-            RequestCompleted( KErrNotFound ); 
-            }
+        	{
+        	COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Process() failed err=%d", KErrNotFound );
+        	RequestCompleted( KErrNotFound ); 
+        	}
         }
         
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Process() end" );
@@ -132,11 +132,11 @@ void CPhoneHandlerLastNumberRedial::Process()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerLastNumberRedial::Delete()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Delete()" );
-        
-    delete this;
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::Delete()" );
+		
+	delete this;
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerLastNumberRedial::RequestCompleted
@@ -146,54 +146,54 @@ void CPhoneHandlerLastNumberRedial::Delete()
 //
 void CPhoneHandlerLastNumberRedial::RequestCompleted( const TInt aError )
     {
-    COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() aError=%d, iState=%d", aError, iState );
-    
-    if( KErrNone != aError )
-        {
-        // cancel process and return an error code
-        iState = EPhoneHandlerState2;
-        }
-    
-    switch( iState )
-        {
-        case EPhoneHandlerState1:
-            {
-            NextState();
-            
-            const TDesC& number = iLogViewRecentPtr->Event().Number();
-            COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() phone number is %S", &number );
-            // make a call with last dialed phone number
-            iCommandHandler->Atd( GetStatus(), number );
+   	COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() aError=%d, iState=%d", aError, iState );
+	
+	if( KErrNone != aError )
+		{
+		// cancel process and return an error code
+		iState = EPhoneHandlerState2;
+		}
+	
+	switch( iState )
+		{
+		case EPhoneHandlerState1:
+			{
+			NextState();
+			
+			const TDesC& number = iLogViewRecentPtr->Event().Number();
+    		COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() phone number is %S", &number );
+			// make a call with last dialed phone number
+			iCommandHandler->Atd( GetStatus(), number );
 
-            Activate(); 
-            break;
-            }
-        
-        case EPhoneHandlerState2:
-            {
-            NextState();
-            iControl.CommandInitiator().SendResponse( GetStatus(), 
-                                                      iOperation,
-                                                      aError );
-            Activate();
-            break;
-            }
-            
-        case EPhoneHandlerState3:
-            {
-            IdleState();
-            delete this; 
-            break;
-            }
-                
-        default:
-            {
-            COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() Unspecified state" );
-            break;
-            }
-        };
-        
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() end" );
+			Activate(); 
+			break;
+			}
+		
+		case EPhoneHandlerState2:
+			{
+			NextState();
+			iControl.CommandInitiator().SendResponse( GetStatus(), 
+													  iOperation,
+													  aError );
+			Activate();
+			break;
+			}
+			
+		case EPhoneHandlerState3:
+			{
+			IdleState();
+			delete this; 
+			break;
+			}
+				
+		default:
+			{
+			COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() Unspecified state" );
+			break;
+			}
+		};
+		
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() end" );
     }
 
 // ========================== OTHER EXPORTED FUNCTIONS =========================

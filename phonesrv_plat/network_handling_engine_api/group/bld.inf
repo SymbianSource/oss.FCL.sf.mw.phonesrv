@@ -24,6 +24,6 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/networkhandlingproxy.h     MW_LAYER_PLATFORM_EXPORT_PATH(networkhandlingproxy.h)
-../inc/cnwsession.h     MW_LAYER_PLATFORM_EXPORT_PATH(cnwsession.h)
-../inc/nwhandlingengine.h     MW_LAYER_PLATFORM_EXPORT_PATH(nwhandlingengine.h)
+../inc/NetworkHandlingProxy.h     MW_LAYER_PLATFORM_EXPORT_PATH(NetworkHandlingProxy.h)
+../inc/CNWSession.h     MW_LAYER_PLATFORM_EXPORT_PATH(CNWSession.h)
+../inc/NWHandlingEngine.h     MW_LAYER_PLATFORM_EXPORT_PATH(NWHandlingEngine.h)

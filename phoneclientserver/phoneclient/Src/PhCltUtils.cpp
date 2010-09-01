@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include    "phcltutils.h" 
+#include    "PhCltUtils.h"
 
 
 // CONSTANTS
@@ -75,21 +75,21 @@ EXPORT_C void PhCltUtils::RemoveInvalidChars( TDes& aString )
 //
 EXPORT_C void PhCltUtils::RemoveURIPrefixdAndDomainChars( TDes& aString )
     {
-      // Does number contains prefix. If yes then remove it
+	  // Does number contains prefix. If yes then remove it
 
     if ( 0 == aString.FindC( KSipPrefix ) ||
          0 == aString.FindC( KTelPrefix ) ||
-           0 == aString.FindC( KSosPrefix ) )
+	       0 == aString.FindC( KSosPrefix ) )
         {
         aString.Delete( 0, KPrefixLength );
-          }
-      // Does Number contains domain part. If yes remove it at beging of @ character.
+	      }
+	  // Does Number contains domain part. If yes remove it at beging of @ character.
     TInt atIndex = aString.Find( KAt );
     TInt telNumberLength = aString.Length();
-      if ( 0 < atIndex && 
-           atIndex < telNumberLength )
+	  if ( 0 < atIndex && 
+	       atIndex < telNumberLength )
         {
-            aString.Delete( atIndex, telNumberLength - atIndex );
-            }
+		    aString.Delete( atIndex, telNumberLength - atIndex );
+		    }
     }
 //  End of File  

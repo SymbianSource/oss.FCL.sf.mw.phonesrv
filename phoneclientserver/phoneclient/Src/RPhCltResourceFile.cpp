@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include    "rphcltresourcefile.h" 
-#include    "ConeResLoader.h" 
-#include    "phcltclientserver.h" 
+#include    "RPhCltResourceFile.h"
+#include    "ConeResLoader.h"
+#include    "PhCltClientServer.h"
 
 
 // CONSTANTS

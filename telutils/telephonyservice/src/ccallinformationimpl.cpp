@@ -58,11 +58,10 @@ CCallInformationImpl* CCallInformationImpl::NewL()
     CCallInformationImpl* self = new (ELeave) CCallInformationImpl( );     
     CleanupStack::PushL( self );
     
-    CMediatorService* mediatorService = 
-        CMediatorService::NewL( CMediatorService::ECallInfo );    
-    self->ConstructL(mediatorService);
-    
-    CleanupStack::Pop( self );
+    CMediatorService* mediatorService = CMediatorService::NewLC( CMediatorService::ECallInfo );    
+    self->ConstructL(mediatorService);    
+        
+    CleanupStack::Pop( 2,self );    
     TSLOGSTRING("CCallInformationImpl::NewL >>");
     return self;
     }

@@ -19,7 +19,7 @@
 #ifndef CPHCLTBASEPARAMS_H
 #define CPHCLTBASEPARAMS_H
 
-#include    <cphcltimageparams.h> 
+#include    <CPhCltImageParams.h>
 #include    <e32std.h>
 #include    <e32base.h>
 

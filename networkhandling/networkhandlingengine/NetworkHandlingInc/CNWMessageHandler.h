@@ -21,8 +21,8 @@
 #define CNWMESSAGEHANDLER_H 
 
 //  INCLUDES
-#include <nwhandlingengine.h>
-#include <cnwsession.h>
+#include "NWHandlingEngine.h"
+#include "CNWSession.h"
 #include <mmtsy_names.h>
 #include <etel.h>
 #include <rmmcustomapi.h>

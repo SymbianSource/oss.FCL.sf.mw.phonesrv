@@ -27,9 +27,9 @@ NAME     CAUI
 #include <avkon.rsg>
 #include <avkon.loc>
 
-#include "caui.hrh" 
+#include "CaUI.hrh"
 #include <callui.loc>
-#include <aiwcommon.hrh>
+#include <AiwCommon.hrh>
 
 
 
@@ -428,7 +428,7 @@ RESOURCE NEW_MESSAGE_MTM_ARRAY new_message_types_array
 #endif //__MMS
 #else  // RD_UNIFIED_EDITOR
         NEW_MESSAGE_MTM_TYPE
-            {
+       	    {
             id = 0x102072D6; 
             name = qtn_tel_retry_message_call_item;
             }
@@ -443,7 +443,7 @@ RESOURCE NEW_MESSAGE_MTM_ARRAY new_message_types_array
 #endif //__EMAIL_UI
             ,
         NEW_MESSAGE_MTM_TYPE
-            {
+       	    {
             id = 0x10207245; 
             name = qtn_mce_pop_up_PostCard;
             }

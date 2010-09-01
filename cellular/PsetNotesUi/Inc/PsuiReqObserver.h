@@ -21,7 +21,7 @@
 
 // INCLUDES
 #include <mservicerequestobserver.h>          
-#include "psuinotemaster.h" 
+#include "PsuiNoteMaster.h"
 
 // FORWARD DECLARATIONS
  

@@ -22,9 +22,9 @@
 
 
 //  INCLUDES
-#include    <cphcltmessenger.h> 
-#include    "rphcltmessenger.h" 
-#include    "rphcltserver.h" 
+#include    <CPhCltMessenger.h>
+#include    "RPhCltMessenger.h"
+#include    "RPhCltServer.h"
 
 /**
 *  Implementation of the CPhCltMessenger interface.

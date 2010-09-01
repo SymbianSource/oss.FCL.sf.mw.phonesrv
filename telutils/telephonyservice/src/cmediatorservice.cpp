@@ -15,8 +15,8 @@
 *
 */
 
-#include <MediatorCommandInitiator.h> 
-#include <MediatorDomainUIDs.h> 
+#include <MediatorCommandInitiator.h>
+#include <MediatorDomainUIDs.h>
 #include <callinformation.h>            //Call Information Mediator API
 #include <callremotepartyinformation.h> //Call Remote Party Information Mediator API
 

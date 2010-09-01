@@ -19,7 +19,7 @@
 #ifndef CSATSENDSSDIVERTNOUIOBS_H
 #define CSATSENDSSDIVERTNOUIOBS_H
 
-#include <mpsetdivertobs.h>
+#include <MPsetDivertObs.h>
 
 /**
 *  Implements MPsetDivertObserver and gets notifications of

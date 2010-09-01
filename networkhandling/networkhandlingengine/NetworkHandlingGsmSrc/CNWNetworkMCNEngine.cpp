@@ -23,8 +23,8 @@
 #include "CNWNetworkMcnTimer.h"
 #include "NWPanic.pan"
 #include "NWLogger.h"
-#include <cmcn.h>
-#include <cmcntopicarray.h>
+#include <CMcn.h>
+#include <CMcnTopicArray.h>
 #include <centralrepository.h>
 #include <settingsinternalcrkeys.h>
 

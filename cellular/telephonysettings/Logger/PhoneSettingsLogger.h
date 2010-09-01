@@ -22,7 +22,7 @@
 #ifndef PHONESETTINGSLOGGER_H
 #define PHONESETTINGSLOGGER_H
 
-#include "phonesettingsloggingconf.h" 
+#include "PhoneSettingsLoggingConf.h"
 #include <e32std.h>
 #include <flogger.h>
 #include <e32svr.h>

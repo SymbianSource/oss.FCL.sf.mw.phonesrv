@@ -20,7 +20,7 @@
 #define CPHONEGSMEMERGENCYNUMBERHANDLER_H
 
 // INCLUDES
-#include    "cphonegsmhandlerbase.h" 
+#include    "CPhoneGsmHandlerBase.h"
 
 // CLASS DECLARATION
 

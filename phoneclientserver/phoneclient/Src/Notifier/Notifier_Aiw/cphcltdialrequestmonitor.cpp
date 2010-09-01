@@ -18,14 +18,14 @@
 
 
 //  Include Files
-#include    <cphcltemergencycall.h> // for TPhCltEmergencyNumber 
+#include    <CPhCltEmergencyCall.h> // for TPhCltEmergencyNumber
 #include    <mphcltdialrequestobserver.h>
 
-#include    "rphcltserver.h" 
-#include    "cphcltextphonedialdata.h" 
+#include    "RPhCltServer.h"
+#include    "CPhCltExtPhoneDialData.h"
 #include    "cphcltdialdata.h"
 #include    "cphcltdialrequestmonitor.h"
-#include    "rphcltcallnotify.h" 
+#include    "RPhCltCallNotify.h"
 
 
 

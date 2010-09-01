@@ -21,7 +21,7 @@
 #define CNWGSMMESSAGEHANDLER_H 
 
 //  INCLUDES
-#include <nwhandlingengine.h>
+#include "NWHandlingEngine.h"
 #include "CNWMessageHandler.h"
 #include "CNWGsmSessionImplementation.h"
 #include "CNWGsmNetworkCellReselectionHandler.h"

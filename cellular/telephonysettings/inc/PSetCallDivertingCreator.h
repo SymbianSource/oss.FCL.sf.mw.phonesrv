@@ -22,10 +22,11 @@
 //  INCLUDES
 #include    <e32base.h>
 #include    <badesca.h>
+#include    <vmnumber.h>
 #include    <etelmm.h>
 #include    <nwdefs.h>
-#include    "mpsetdivertobs.h" 
-#include    "mcalldiverting.h" 
+#include    "MPsetDivertObs.h"
+#include    "MCallDiverting.h"
 
 /**
 *  Factory class for creating divert related classes.

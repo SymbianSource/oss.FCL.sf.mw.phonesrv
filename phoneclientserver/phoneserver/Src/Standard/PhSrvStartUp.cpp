@@ -18,10 +18,10 @@
 
 
 // INCLUDE FILES
-#include "phsrvstartup.h" 
-#include "cphsrvscheduler.h" 
-#include "cphsrvserver.h" 
-#include "phsrvutils.h" 
+#include "PhSrvStartUp.h"
+#include "CPhSrvScheduler.h"
+#include "CPhSrvServer.h"
+#include "PhSrvUtils.h"
 
 
 // ============================ MEMBER FUNCTIONS ===============================

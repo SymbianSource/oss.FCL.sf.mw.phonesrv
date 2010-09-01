@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "mphsrvmessageprocessor.h" 
+#include "MPhSrvMessageProcessor.h"
 
 
 // FORWARD DECLARATIONS

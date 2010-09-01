@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include "phonehandlercontrol.h" 
-#include "phonehandlerdebug.h" 
-#include "PhoneHandler.h" 
+#include "PhoneHandlerControl.h"
+#include "PhoneHandlerDebug.h"
+#include "PhoneHandler.h"
 
 // EXTERNAL DATA STRUCTURES
 
@@ -60,9 +60,9 @@ CPhoneHandler::CPhoneHandler()
 void CPhoneHandler::ConstructL( CRemConInterfaceSelector* aIfSelector )
     {
     COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandler::ConstructL() *aIfSelector=%d", aIfSelector );
-        
+	    
     iControl = CPhoneHandlerControl::NewL( aIfSelector );
-    }
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandler::NewL
@@ -86,9 +86,9 @@ EXPORT_C CPhoneHandler* CPhoneHandler::NewL()
 // -----------------------------------------------------------------------------
 //    
 EXPORT_C CPhoneHandler* CPhoneHandler::NewL( 
-                            CRemConInterfaceSelector& aIfSelector )
-    {
-    CPhoneHandler* self = new ( ELeave ) CPhoneHandler();
+							CRemConInterfaceSelector& aIfSelector )
+	{
+	CPhoneHandler* self = new ( ELeave ) CPhoneHandler();
     
     CleanupStack::PushL( self );
     self->ConstructL( &aIfSelector );

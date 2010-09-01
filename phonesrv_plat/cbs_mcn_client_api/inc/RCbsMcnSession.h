@@ -34,7 +34,7 @@
 
 #include <e32std.h>
 #include <e32base.h>    // CArrayPtrFlat
-#include <rmcnsubsession.h>
+#include "RMcnSubSession.h"
 
 //  FORWARD DECLARATIONS
 

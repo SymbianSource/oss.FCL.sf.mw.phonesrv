@@ -17,13 +17,13 @@
 
 
 // INCLUDE FILES
-#include <psui.rsg> 
-#include <psuicontainer.h> 
+#include <Psui.rsg>
+#include <PsuiContainer.h>
 #include <exterror.h>
 #include <etelsat.h>
 
-#include "psuiinternalconstants.h" 
-#include "psuinotecontroller.h" 
+#include "PsuiInternalConstants.h" 
+#include "PsuiNoteController.h"
 
 //  MEMBER FUNCTIONS
 // ---------------------------------------------------------------------------

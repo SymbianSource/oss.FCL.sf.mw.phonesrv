@@ -40,15 +40,15 @@ public:
       /** A call has been removed from the conference. */
       ECCEConferenceCallRemoved, 
       /** Names of the two calls used to build the conference call returned in aCallName. */
-      ECCEConferenceBuilt,     
+      ECCEConferenceBuilt,	   
       /** No name provided */
       ECCEConferenceTerminated,  
       /** No name provided. */
-      ECCEConferenceSwapped,       
+      ECCEConferenceSwapped,	   
       /** Name of the call being seperated. */
-      ECCEConferenceSplit          
+      ECCEConferenceSplit		   
       };
-        
+		
     /** Conference call State. */
     enum TCCEConferenceCallState
       {
@@ -59,7 +59,7 @@ public:
       /** The conference call is in the held, connected state. */
       ECCEConferenceHold
       };
-        
+		
     /** Conference call capabilities. */
     enum TCCEConferenceCallCaps
       {
@@ -117,15 +117,15 @@ public:
     */
     virtual void ErrorOccurred( TCCPConferenceCallError aError  ) = 0;
 
-    /**
-    * Notifies observer the change in call duration.
-    *
-    * @since S60 v3.2
-    * @param aDuration Duration of the call in seconds
-    * return none
-    */
-    virtual void CallDurationChanged( const TTimeIntervalSeconds aDuration ) = 0;
-    };
+	/**
+	* Notifies observer the change in call duration.
+	*
+	* @since S60 v3.2
+	* @param aDuration Duration of the call in seconds
+	* return none
+	*/
+	virtual void CallDurationChanged( const TTimeIntervalSeconds aDuration ) = 0;
+	};
 
 
 

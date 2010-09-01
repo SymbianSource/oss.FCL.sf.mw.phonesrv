@@ -20,7 +20,7 @@
 #define CPHONEGSMSSHANDLER_H
 
 // INCLUDES
-#include    "cphonegsmhandlerbase.h" 
+#include    "CPhoneGsmHandlerBase.h"
 
 // FORWARD DECLARATIONS
 class CPhoneGsmParserResult;

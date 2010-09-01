@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include    "cphonegsmpcnprocedureparser.h" 
-#include    "cphonegsmparserresult.h" 
-#include    "cphonegsmoptioncontainer.h" 
+#include    "CPhoneGsmPcnProcedureParser.h"
+#include    "CPhoneGsmParserResult.h"
+#include    "CPhoneGsmOptionContainer.h"
 
 // CONSTANTS
 

@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include    "cphcltdialer.h" 
-#include    "cphcltdialerdlg.h" 
+#include    "CPhCltDialer.h"
+#include    "CPhCltDialerDlg.h"
 
 
 

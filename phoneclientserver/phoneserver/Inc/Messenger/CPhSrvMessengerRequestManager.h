@@ -22,8 +22,8 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "mphsrvmessengernegotiators.h" 
-#include <cphcltcommandhandler.h> 
+#include "MPhSrvMessengerNegotiators.h"
+#include <CPhCltCommandHandler.h>
 
 // FORWARD DECLARATIONS
 class CPhSrvMessengerObject;

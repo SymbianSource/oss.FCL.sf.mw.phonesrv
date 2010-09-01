@@ -21,7 +21,7 @@
 
 
 // INCLUDES
-#include <cphcltmessenger.h> 
+#include <CPhCltMessenger.h>
 
 // DATA TYPES
 

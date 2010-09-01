@@ -18,17 +18,17 @@
 
 
 //  Include Files
-#include "psetcallwaiting.h" 
-#include "mpsetcallwaitingobs.h" 
+#include "PsetCallWaiting.h"
+#include "MPsetCallWaitingObs.h"
 #include "nwdefs.h"             
-#include "psetpanic.h" 
-#include "psetconstants.h" 
-#include "mpsetrequestobs.h" 
-#include "psetutility.h" 
-#include "phonesettingslogger.h" 
+#include "PSetPanic.h"          
+#include "PsetConstants.h"      
+#include "MPsetRequestObs.h"
+#include "PSetUtility.h"
+#include "PhoneSettingsLogger.h"
 
-#include "psetvariationproxy.h" 
-#include <settingsinternalcrkeys.h> 
+#include "PsetVariationProxy.h"
+#include <settingsinternalcrkeys.h>
 
 // CONSTANTS    
 _LIT( KPSNameOfClass, "CPsetCallWaiting" );
@@ -107,14 +107,14 @@ EXPORT_C CPsetCallWaiting::~CPsetCallWaiting()
     Cancel();
     iReqObserver = NULL;
 
-    if ( iSsSettings )
+	if ( iSsSettings )
         {
         iSsSettings->Cancel( ESSSettingsAls, *this ); 
         iSsSettings->Close();
         }
     delete iSsSettings;
     iSsSettings = NULL;
-    
+	
     delete iCwInterrogator;
     iCwInterrogator = NULL;
     }
@@ -125,14 +125,14 @@ EXPORT_C CPsetCallWaiting::~CPsetCallWaiting()
 // 
 // ---------------------------------------------------------------------------
 void CPsetCallWaiting::PhoneSettingChanged( TSSSettingsSetting aSetting, TInt aNewValue )
-    {
-    __PHSLOGSTRING("[PHS]--> PhoneSettingChanged::ValidateBsc" );
-    if ( aSetting == ESSSettingsAls )
+	{
+	__PHSLOGSTRING("[PHS]--> PhoneSettingChanged::ValidateBsc" );
+	if ( aSetting == ESSSettingsAls )
         {
         iAls = static_cast <TSSSettingsAlsValue> (aNewValue);
         }
     __PHSLOGSTRING("[PHS] <--PhoneSettingChanged::ValidateBsc" );
-    }
+	}
 
 // ---------------------------------------------------------------------------
 // 
@@ -193,14 +193,14 @@ EXPORT_C void CPsetCallWaiting::SetCallWaitingL
     
     RMobilePhone::TMobileService cwBasicServiceGroup;
 
-    ValidateBsc( aBsc );
+	ValidateBsc( aBsc );
 
     if ( aBsc == EAltTele )
         {
         cwBasicServiceGroup = PSetUtility::VerifyAltLineUseL();
         }
 
-    cwBasicServiceGroup = PSetUtility::ChangeToEtelInternal( aBsc );
+	cwBasicServiceGroup = PSetUtility::ChangeToEtelInternal( aBsc );
 
     if ( aSetting == EActivateCallWaiting )
         {
@@ -272,8 +272,8 @@ EXPORT_C TInt CPsetCallWaiting::CancelProcess()
     // even though request is not active.
     iObserver->SetEngineContact( *this );
     // Does not leave
-    TRAPD( err, iObserver->HandleCWRequestingL( EFalse, ETrue ) );
-    
+	TRAPD( err, iObserver->HandleCWRequestingL( EFalse, ETrue ) );
+	
     if ( !IsActive() || err != KErrNone )
         {
         return KErrGeneral;
@@ -347,25 +347,25 @@ void CPsetCallWaiting::RunL()
                     // pass on the status if the current status is still 
                     // unknown and the received status is not unknown
                     switch ( cwInfo.iStatus )
-                        {
-                        case RMobilePhone::ECallWaitingStatusNotProvisioned:
-                            {
-                            status = EStatusNotProvisioned;
-                            break;
-                            }   
-                            
-                            case RMobilePhone::ECallWaitingStatusNotAvailable:
-                            {       
-                            status = EStatusNotAvailable;
-                            break;
-                            }
-                            
-                            default:
-                            {   
-                            status = TGetCallWaitingStatus( cwInfo.iStatus );
-                            break;      
-                            }
-                        }
+                    	{
+                    	case RMobilePhone::ECallWaitingStatusNotProvisioned:
+                    		{
+                    		status = EStatusNotProvisioned;
+                    		break;
+                    		}	
+                    		
+                    		case RMobilePhone::ECallWaitingStatusNotAvailable:
+                    		{		
+                    		status = EStatusNotAvailable;
+                    		break;
+                    		}
+                    		
+                    		default:
+                    		{	
+                    		status = TGetCallWaitingStatus( cwInfo.iStatus );
+                    		break;		
+                    		}
+                    	}
                     }
                     
                 arrayOfBsc[i] = static_cast <TUint8> 

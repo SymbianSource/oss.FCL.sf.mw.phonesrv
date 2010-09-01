@@ -24,6 +24,6 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/cphcltimagehandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(cphcltimagehandler.h)
-../inc/cphcltbaseimageparams.h     MW_LAYER_PLATFORM_EXPORT_PATH(cphcltbaseimageparams.h)
-../inc/cphcltimageparams.h     MW_LAYER_PLATFORM_EXPORT_PATH(cphcltimageparams.h)
+../inc/CPhCltImageHandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(CPhCltImageHandler.h)
+../inc/CPhCltBaseImageParams.h     MW_LAYER_PLATFORM_EXPORT_PATH(CPhCltBaseImageParams.h)
+../inc/CPhCltImageParams.h     MW_LAYER_PLATFORM_EXPORT_PATH(CPhCltImageParams.h)

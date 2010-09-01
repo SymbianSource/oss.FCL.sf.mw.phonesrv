@@ -19,8 +19,8 @@
 #define __MT_CALLINFORMATION_H__
 
 // INCLUDES
-#include <ceunittestsuiteclass.h>
-#include <eunitdecorators.h>
+#include <CEUnitTestSuiteClass.h>
+#include <EUnitDecorators.h>
 
 #include <etel.h>
 #include <CCallInformation.h>

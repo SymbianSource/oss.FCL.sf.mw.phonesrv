@@ -21,8 +21,8 @@
 
 //  INCLUDES
 #include <e32std.h>
-#include "phclttypes.h" 
-#include "rphcltserver.h" 
+#include "PhCltTypes.h"
+#include "RPhCltServer.h"
 
 /**
 * Emergency number query mode
@@ -169,8 +169,8 @@ class RPhCltEmergencyCall : public RSubSessionBase
             TDes& aMatchedEmergencyNumber, 
             TBool& aIsEmergencyNumber );                    
         
-       private:            
-           
+       private:    	       
+    	   
         /**
          * Extract telephone number from string. If EFalse is returned
          * then aString does not contain valid emergency number
@@ -214,9 +214,9 @@ class RPhCltEmergencyCall : public RSubSessionBase
         * Executes checks to given phone number to find out if it is a valid 
         * emergency number. 
         *
-        * @param    aString             Telephone number
-        * @param    aIsEmergencyNumber  If ETrue, then the aNumber parameter 
-        *                               was a valid emergency number.
+        * @param    aString 			Telephone number
+        * @param    aIsEmergencyNumber 	If ETrue, then the aNumber parameter 
+        *                           	was a valid emergency number.
         *
         * @return Returns error code of the success of the operation.
         *

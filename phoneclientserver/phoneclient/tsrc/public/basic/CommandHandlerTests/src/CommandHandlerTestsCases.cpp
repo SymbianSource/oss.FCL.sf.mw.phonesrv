@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include <e32math.h>
 #include "CommandHandlerTests.h"
-#include <cphcltcommandhandler.h>
+#include <CPhCltCommandHandler.h>
 // EXTERNAL DATA STRUCTURES
 //extern  ?external_data;
 

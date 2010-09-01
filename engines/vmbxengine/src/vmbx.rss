@@ -1,0 +1,491 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file contains all the resources for vmbx.dll.
+ *
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME    VMBX // 4 letter ID
+
+//  INCLUDES
+#include <bldvariant.hrh>
+
+#include <uikon.rh>
+#include <eikon.rh>
+#include "eikon.rsg"
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.mbg>
+#include <avkon.loc>
+#include <vmbx.loc>
+
+//  RESOURCE DEFINITIONS
+
+// -----------------------------------------------------------------------------
+//
+// RSS signature
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE {}
+
+// -----------------------------------------------------------------------------
+//
+// A document name buffer.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF { buf=""; }
+
+// -----------------------------------------------------------------------------
+//
+// r_define_number_prompt
+// Prompt of the query for changing voice mailbox number.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_define_number_prompt
+    {
+    buf = qtn_smsvo_number_query;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_change_number_prompt
+// Prompt of the query for changing voice mailbox number.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_change_number_prompt
+    {
+    buf = qtn_smsvo_number_query;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_vmbx_number_query
+// Dialog for inserting/changing number
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_vmbx_number_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EPhoneLayout;
+                control = EDWIN
+                    {
+                    flags = EEikEdwinNoHorizScrolling |
+                            EEikEdwinResizable |
+                            EEikEdwinAlternativeWrapping |
+                            EEikEdwinAutoSelection;
+                    width = 16;
+                    lines = 1;
+                    maxlength = 48;
+                    default_input_mode = EAknEditorNumericInputMode;
+                    allowed_input_modes = EAknEditorNumericInputMode;
+                    numeric_keymap = EAknEditorStandardNumberModeKeymap;
+                    special_character_table = 0;
+                    };
+                };
+            }
+        };
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+// r_vmbx_softkeys_search_cancel_select
+// for MSK CBA buttons
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE CBA r_vmbx_softkeys_search_cancel_select
+    {
+    buttons =
+        {
+        CBA_BUTTON { id = EAknSoftkeySearch;  txt = text_softkey_search; },
+        CBA_BUTTON { id = EAknSoftkeyCancel;  txt = text_softkey_cancel; },
+        CBA_BUTTON { id = EAknSoftkeySearch;  txt = text_softkey_select; }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_saved_note
+// Note for succesfully saved vmbx number.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_saved_note
+    {
+    buf = qtn_smsvo_saved_note;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_note_empty_number
+// Note for user entering empty value in vmbx number query.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_note_empty_number
+    {
+    buf = qtn_smsvo_note_empty_number;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_invalid_number_note
+// Note for invalid vmbx number.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_invalid_number_note
+    {
+    buf = qtn_smsvo_invalid_number;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_sim_number_note
+// Note for displaying sim number for user
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_sim_number_note
+    {
+    buf = qtn_smsvo_numb_from_sim_in_use;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_saved_note_sim_memory
+// Note for successfully saved vmbx number to Sim card.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_saved_note_sim_memory
+    {
+    buf = qtn_smsvo_saved_to_sim;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_saved_note_phone_memory
+// Note for successfully saved vmbx number to Phone memory.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_saved_note_phone_memory
+    {
+    buf = qtn_smsvo_saved_to_phone;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_saved_sim_number_into_use
+// Query asking user if he wants to take the sim number into use.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_saved_sim_number_into_use
+    {
+    buf = qtn_smsvo_use_numb_from_sim;
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+// r_vmbx_take_sim_number_into_use
+// Dialog asking user if he wants to take the sim number into use.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_vmbx_take_sim_number_into_use
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            itemflags = EEikDlgItemNonFocusing;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY
+                {
+                layout = EConfirmationLayout;
+                label = "";
+                };
+            }
+        };
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+// r_vmbx_memory_list_query
+// Query where to save number
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_LIST_QUERY r_vmbx_memory_list_query
+    {
+     //flags = EGeneralQueryFlags;
+     //softkeys = r_avkon_softkeys_ok_cancel;
+    items =
+    {
+    AVKON_LIST_QUERY_DLG_LINE
+        {
+        control = AVKON_LIST_QUERY_CONTROL
+        {
+        listtype = EAknCtSinglePopupMenuListBox;
+        listbox = AVKON_LIST_QUERY_LIST
+            {
+            array_id=r_vmbx_memory_save_number_to;
+            };
+        heading = qtn_smsvo_save_to;
+        };
+        }
+    };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_vmbx_memory_save_number_to
+// Options array for r_vmbx_memory_list_query
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_vmbx_memory_save_number_to
+    {
+    items=
+        {
+        LBUF {txt=qtn_smsvo_sim_card; } ,
+        LBUF {txt=qtn_smsvo_phone_memory; }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_video_saved_note
+// Note for succesfully saved video mailbox number.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_video_saved_note
+    {
+    buf = qtn_smsvi_mailbox_saved;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_video_note_empty_number
+// text for selections in mailbox query when any mailbox is not defined
+// (Internet call voice mailbox)
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_video_note_empty_number
+    {
+    buf = qtn_smsvi_note_empty_number;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_video_define_number_prompt
+// Prompt of the query for changing video mailbox number.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_video_define_number_prompt
+    {
+    buf = qtn_smsvi_number_query;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_video_change_number_prompt
+// Prompt of the query for changing video mailbox number.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_video_change_number_prompt
+    {
+    buf = qtn_smsvi_number_query;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_callto_lbx_prompt
+// text for selecting mailbox query
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_callto_lbx_prompt
+    {
+    buf = qtn_voip_call_to_voice_mailbox;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_callto_lbx_cs_mailbox_item
+// text for selections in mailbox query
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_callto_lbx_cs_mailbox_item
+    {
+    buf = qtn_voip_cs_mailbox;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_callto_lbx_video_mailbox_item
+// text for selections in mailbox query
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_callto_lbx_video_mailbox_item
+    {
+    buf = qtn_smsvi_video_mailbox;
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+// r_define_voice_lbx_prompt
+// text for selecting mailbox query
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_define_voice_lbx_prompt
+    {
+    buf = qtn_voip_define_voice_mailbox;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_define_video_or_voice_lbx_prompt
+// text for selecting mailbox query
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_define_video_or_voice_lbx_prompt
+    {
+    buf = qtn_smsvi_define_vi_or_vo_mailbox;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_define_lbx_cs_mailbox_item
+// text for selections in mailbox query when any mailbox is not defined
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_define_lbx_cs_mailbox_item
+    {
+    buf = qtn_voip_define_cs_mailbox;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_define_lbx_video_mailbox_item
+// text for selections in mailbox query when any mailbox is not defined
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_define_lbx_video_mailbox_item
+    {
+    buf = qtn_smsvi_define_vt_mailbox;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_mailbox_listquery
+// List query
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_LIST_QUERY r_mailbox_listquery
+    {
+    items =
+        {
+            AVKON_LIST_QUERY_DLG_LINE
+                {
+                control = AVKON_LIST_QUERY_CONTROL
+                    {
+                    listtype = EAknCtSinglePopupMenuListBox;
+                    heading = qtn_voip_call_to_voice_mailbox;
+                    listbox = AVKON_LIST_QUERY_LIST
+                        {
+                        };
+                    };
+                }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_voip_rel2_2_call_to
+// Query for voice mailbox call, contains all configured vmbx services
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_voip_rel2_2_call_to
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSingleGraphicPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    //constructed dynamically
+                    };
+                heading = qtn_voip_call_to_voice_mailbox;
+                };
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//   
+// r_voice_no_vmbx_number_note
+// Notification about missing number
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_voice_no_vmbx_number_note 
+    { 
+    buf = qtn_voice_no_vmbx_number; 
+    }
+
+// End of File

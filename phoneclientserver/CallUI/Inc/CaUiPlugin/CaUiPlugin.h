@@ -21,11 +21,11 @@
 
 
 //  INCLUDES
-#include    <aiwserviceifmenu.h>
-#include    <aiwcommon.h>               // AIW dialdata.
+#include    <AiwServiceIfMenu.h>
+#include    <AiwCommon.h>               // AIW dialdata.
 #include    <spdefinitions.h>  //TServiceId
 #include    "cauidialresultobserver.h"
-#include    "caui.hrh"
+#include    "CaUI.hrh"
 
 // FORWARD DECLARATIONS
 class CCaUiEngApi;

@@ -90,11 +90,11 @@ TInt CCCEExtension::RemoveObserver( const MCCEExtensionObserver& /*aObserver*/ )
     // given is used.
 
     if( !iMCCEExtensionObserver )
-        {
-        return KErrNotFound;
-        }
-        
-    iMCCEExtensionObserver = NULL;
+    	{
+    	return KErrNotFound;
+    	}
+    	
+	iMCCEExtensionObserver = NULL;
     return KErrNone;
     }
 
@@ -103,27 +103,27 @@ TInt CCCEExtension::RemoveObserver( const MCCEExtensionObserver& /*aObserver*/ )
 // -----------------------------------------------------------------------------
 //
 TInt CCCEExtension::RequestCommand( TUint32 aServiceId,
-                                    TInt aRequestId, 
-                                    TDesC8& aData )
+									TInt aRequestId, 
+									TDesC8& aData )
     {
     CCELOGSTRING3("CCCEExtension::RequestCommand(): Service id=%d Request id=%d", aServiceId, aRequestId );
 
-    CConvergedCallProvider* plugin = GetExtIfPlugin(aServiceId);
+	CConvergedCallProvider* plugin = GetExtIfPlugin(aServiceId);
 
-    if( !plugin )
-        {
-        CCELOGSTRING("CCCEExtension::RequestCommand(): Plug-in for service-id was not found. Returning KErrNotFound" );
-        return KErrNotFound;
-        }
+	if( !plugin )
+	    {
+    	CCELOGSTRING("CCCEExtension::RequestCommand(): Plug-in for service-id was not found. Returning KErrNotFound" );
+	    return KErrNotFound;
+	    }
 
     MCCPExtensionProvider* extif = NULL;
-    TRAPD( err, extif = plugin->ExtensionProviderL(*this) );
+	TRAPD( err, extif = plugin->ExtensionProviderL(*this) );
 
-    if( err!=KErrNone )
-        {
-        CCELOGSTRING2("CCCEExtension::RequestCommand(): Plug-in was found, but extension interface get failed with error=%d", err );
-        return err;
-        }
+	if( err!=KErrNone )
+		{
+    	CCELOGSTRING2("CCCEExtension::RequestCommand(): Plug-in was found, but extension interface get failed with error=%d", err );
+		return err;
+		}
    
     if( extif )
         {
@@ -131,7 +131,7 @@ TInt CCCEExtension::RequestCommand( TUint32 aServiceId,
         }
     else
         {
-        CCELOGSTRING("CCCEExtension::RequestCommand() Plug-in extension interface was found, but extensions are not supported. Returning KErrNotSupported" );
+    	CCELOGSTRING("CCCEExtension::RequestCommand() Plug-in extension interface was found, but extensions are not supported. Returning KErrNotSupported" );
         return KErrNotSupported;
         }
 
@@ -143,34 +143,34 @@ TInt CCCEExtension::RequestCommand( TUint32 aServiceId,
 // -----------------------------------------------------------------------------
 //
 TInt CCCEExtension::CancelRequest( TUint32 aServiceId,
-                                   TInt aRequestId )
+								   TInt aRequestId )
     {
     CCELOGSTRING3("CCCEExtension::CancelRequest(): Service id=%d Request id=%d", aServiceId, aRequestId );
 
-    CConvergedCallProvider* plugin = GetExtIfPlugin(aServiceId);
+	CConvergedCallProvider* plugin = GetExtIfPlugin(aServiceId);
 
-    if( !plugin )
-        {
-        CCELOGSTRING("CCCEExtension::CancelRequest(): Plug-in for service-id was not found. Returning KErrNotFound" );
-        return KErrNotFound;
-        }
+	if( !plugin )
+	    {
+    	CCELOGSTRING("CCCEExtension::CancelRequest(): Plug-in for service-id was not found. Returning KErrNotFound" );
+	    return KErrNotFound;
+	    }
 
     MCCPExtensionProvider* extif = NULL;
-    TRAPD( err, extif = plugin->ExtensionProviderL(*this) );
+	TRAPD( err, extif = plugin->ExtensionProviderL(*this) );
 
-    if( err!=KErrNone )
-        {
-        CCELOGSTRING2("CCCEExtension::CancelRequest(): Plug-in was found, but extension interface get failed with error=%d", err );
-        return err;
-        }
-    
+	if( err!=KErrNone )
+		{
+    	CCELOGSTRING2("CCCEExtension::CancelRequest(): Plug-in was found, but extension interface get failed with error=%d", err );
+		return err;
+		}
+	
     if( extif )
         {
         extif->CancelRequest(aRequestId);
         }
     else
         {
-        CCELOGSTRING("CCCEExtension::CancelRequest() Plug-in extension interface was found, but extensions are not supported. Returning KErrNotSupported" );
+    	CCELOGSTRING("CCCEExtension::CancelRequest() Plug-in extension interface was found, but extensions are not supported. Returning KErrNotSupported" );
         return KErrNotSupported;
         }
 
@@ -182,20 +182,20 @@ TInt CCCEExtension::CancelRequest( TUint32 aServiceId,
 // -----------------------------------------------------------------------------
 //
 void CCCEExtension::HandleExtensionEvents( TUint32 aServiceId,
-                                           TInt aEvent,
+										   TInt aEvent,
                                            TInt aStatus )
     {
     CCELOGSTRING3("CCCEExtension::HandleExtensionEvents(): Service id=%d Event=%d", aServiceId, aEvent );
     CCELOGSTRING2("CCCEExtension::HandleExtensionEvents(): Status=%d", aStatus );
 
     if( iMCCEExtensionObserver )
-        {
-        iMCCEExtensionObserver->HandleExtensionEvents(aServiceId,aEvent,aStatus);
-        }
-    else
-        {
-        CCELOGSTRING("CCCEExtension::HandleExtensionEvents(): No observer was set, ignoring no event was notified!" );
-        }
+    	{
+		iMCCEExtensionObserver->HandleExtensionEvents(aServiceId,aEvent,aStatus);
+    	}
+   	else
+   		{
+    	CCELOGSTRING("CCCEExtension::HandleExtensionEvents(): No observer was set, ignoring no event was notified!" );
+   		}
     }
 
 // -----------------------------------------------------------------------------
@@ -208,7 +208,7 @@ CConvergedCallProvider* CCCEExtension::GetExtIfPlugin( TUint32 aServiceId )
     
     TRAP_IGNORE( provider = iPluginManager.GetPluginL( aServiceId ) );
 
-    return provider;
+	return provider;
     }
 
 

@@ -88,9 +88,6 @@ class PSetUtility
         static RMobilePhone::TMobilePhoneCFCondition 
             GetDivertReason( TCallDivertingCondition aCondition );
 
-        static TCallDivertingCondition
-            GetDivertReason( RMobilePhone::TMobilePhoneCFCondition aCondition );
-
         static RMobilePhone::TMobileService VerifyAltLineUseL();
     };
     

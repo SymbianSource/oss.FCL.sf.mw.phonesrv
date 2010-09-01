@@ -19,11 +19,11 @@
 // INCLUDE FILES
 
 #include "CbsServerConstants.h"
-#include <cbsmcnpanic.h>
-#include <cmcn.h>
-#include <rcbsmcnsession.h>
-#include <ccbsmcnlistener.h>
-#include <cmcntopicarray.h>
+#include "CbsMcnPanic.h"
+#include "CMcn.h"
+#include "RCbsMcnSession.h"
+#include "CCbsMcnListener.h"
+#include "CMcnTopicArray.h"
 #include "CbsLogger.h"
 
 // ================= MEMBER FUNCTIONS =======================

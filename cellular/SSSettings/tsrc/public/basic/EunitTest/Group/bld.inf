@@ -29,6 +29,6 @@ PRJ_EXPORTS
 PRJ_MMPFILES
 
 PRJ_TESTMMPFILES
-../group/MT_SSSettings.mmp
+../Group/MT_SSSettings.mmp
 
 // End of file

@@ -18,9 +18,9 @@
 
 // INCLUDE FILES
 #include <coemain.h>
-#include <ConeResLoader.h> 
+#include <ConeResLoader.h>
 
-#include "psuiresourceloader.h" 
+#include "PsuiResourceLoader.h"
 
 // CONSTANTS
 _LIT( KPsuiResourceFileNameAndPath, "Z:\\resource\\Psui.rsc" );

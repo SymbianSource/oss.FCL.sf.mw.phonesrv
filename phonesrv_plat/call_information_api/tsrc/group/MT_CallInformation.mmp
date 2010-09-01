@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -15,7 +15,9 @@
 *
 */
 /*
-
+-----------------------------------------------------------------------------
+This file has been generated with EUnit Pro
+-----------------------------------------------------------------------------
 */
 #include <platform_paths.hrh>
 TARGET          MT_CallInformation.dll
@@ -39,15 +41,16 @@ SOURCE                  CActiveWait.cpp
 USERINCLUDE             ../src
 
 MW_LAYER_SYSTEMINCLUDE
-SYSTEMINCLUDE           /epoc32/include/platform/digia/eunit
+APP_LAYER_SYSTEMINCLUDE // cntdef.h
+SYSTEMINCLUDE           /epoc32/include/Digia/EUnit
 #if defined(WINSCW)
 SYSTEMINCLUDE           ../../../../../../app/phone/inc
 SYSTEMINCLUDE           ../../../../../../app/phone/phoneengine/inc
 SYSTEMINCLUDE           ../../../../../../app/phone/phoneengine/audiohandling/inc
 #endif
 
-LIBRARY                 eunit.lib
-LIBRARY                 eunitutil.lib
+LIBRARY                 EUnit.lib
+LIBRARY                 EUnitUtil.lib
 LIBRARY                 euser.lib
 LIBRARY                 telephonyservice.lib
 LIBRARY                 etel.lib
@@ -55,6 +58,6 @@ LIBRARY	                etelmm.lib
 LIBRARY                 phoneclient.lib
 
 #if defined(WINSCW)
-LIBRARY                 phoneengine.lib
-LIBRARY                 audiohandling.lib
+LIBRARY                 PhoneEngine.lib
+LIBRARY                 AudioHandling.lib
 #endif

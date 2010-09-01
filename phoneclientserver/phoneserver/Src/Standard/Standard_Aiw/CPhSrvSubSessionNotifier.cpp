@@ -18,13 +18,13 @@
 
 
 // INCLUDE FILES
-#include <phclttypes.h> 
-#include "cphsrvsubsessionnotifier.h" 
-#include "cphsrvsession.h" 
-#include "cphsrvserver.h" 
-#include "mphsrvemergencynegotiators.h" 
-#include "mphsrvobjectnegotiators.h" 
-#include "mphsrvcomhandnegotiators.h" 
+#include <PhCltTypes.h>
+#include "CPhSrvSubSessionNotifier.h"
+#include "CPhSrvSession.h"
+#include "CPhSrvServer.h"
+#include "MPhSrvEmergencyNegotiators.h"
+#include "MPhSrvObjectNegotiators.h"
+#include "MPhSrvComHandNegotiators.h"
 
 // CONSTANTS
 // None.
@@ -211,7 +211,7 @@ void CPhSrvSubSessionNotifier::InitiatorMakeAsynchronousCallL(
         iPendingDialRequestPointer.Complete( KErrNone );
         }
     iHavePendingDialRequestPointer = EFalse;
-    
+	
     }
 
 
@@ -331,26 +331,26 @@ void CPhSrvSubSessionNotifier::CmdSubSessionReportCallResultL(
 //
 void CPhSrvSubSessionNotifier::CmdSubSessionCloneDialDataL(
  CPhCltExtPhoneDialData& aArgs )
-    {
-    iDialData = CPhCltExtPhoneDialData::NewL();
-    iDialData->SetTelephoneNumber( aArgs.TelephoneNumber() );
-    iDialData->SetCallType( aArgs.CallType() );
-    iDialData->SetNameL( aArgs.Name() );
-    iDialData->SetWindowGroup( aArgs.WindowGroup() );
-    iDialData->SetRedial( aArgs.Redial() );
-    iDialData->SetRedialMaximumDuration( aArgs.RedialMaximumDuration() );
-    iDialData->SetContactLinkL( aArgs.ContactLink() );
-    iDialData->SetSubAddressL( aArgs.SubAddress() );
-    iDialData->SetShowNumber( aArgs.ShowNumber() );
-    iDialData->SetAllowMatch( aArgs.AllowMatch() );
-    iDialData->SetSATCall( aArgs.SATCall() );
-    iDialData->SetEndOtherCalls( aArgs.EndOtherCalls() );
-    iDialData->SetBearerL( aArgs.Bearer() );
-    iDialData->SetSendKeyPressed( aArgs.SendKeyPressed() );
-    iDialData->SetInitiateCall( aArgs.InitiateCall() );
-    iDialData->SetServiceId( aArgs.ServiceId() );
-    iDialData->SetUUIL( aArgs.UUI() );
-    }
+	{
+	iDialData = CPhCltExtPhoneDialData::NewL();
+	iDialData->SetTelephoneNumber( aArgs.TelephoneNumber() );
+	iDialData->SetCallType( aArgs.CallType() );
+	iDialData->SetNameL( aArgs.Name() );
+	iDialData->SetWindowGroup( aArgs.WindowGroup() );
+	iDialData->SetRedial( aArgs.Redial() );
+	iDialData->SetRedialMaximumDuration( aArgs.RedialMaximumDuration() );
+	iDialData->SetContactLinkL( aArgs.ContactLink() );
+	iDialData->SetSubAddressL( aArgs.SubAddress() );
+	iDialData->SetShowNumber( aArgs.ShowNumber() );
+	iDialData->SetAllowMatch( aArgs.AllowMatch() );
+	iDialData->SetSATCall( aArgs.SATCall() );
+	iDialData->SetEndOtherCalls( aArgs.EndOtherCalls() );
+	iDialData->SetBearerL( aArgs.Bearer() );
+	iDialData->SetSendKeyPressed( aArgs.SendKeyPressed() );
+	iDialData->SetInitiateCall( aArgs.InitiateCall() );
+	iDialData->SetServiceId( aArgs.ServiceId() );
+	iDialData->SetUUIL( aArgs.UUI() );
+	}
     
 // -----------------------------------------------------------------------------
 // CPhSrvSubSessionNotifier::CmdSubSessionDialDataL

@@ -23,9 +23,9 @@
 
 //  INCLUDES
 
-#include    "rphcltcommandhandler.h" 
-#include    "rphcltcommandhandlernotify.h" 
-#include    "rphcltserver.h" 
+#include    "RPhCltCommandHandler.h"
+#include    "RPhCltCommandHandlerNotify.h"
+#include    "RPhCltServer.h"
 
 
 // CLASS DECLARATION
@@ -59,7 +59,7 @@ NONSHARABLE_CLASS( CPhCltCommandHandlerImplementation )
         /**
         * @see CPhCltCommandHandler.
         */
-        void Atd(
+		void Atd(
             TRequestStatus& aStatus, 
             const TPhCltTelephoneNumber& aTelephoneNumber );
             

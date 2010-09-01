@@ -24,7 +24,7 @@
 //  INCLUDES
 #include <e32base.h>
 #include <s32std.h>
-#include <cbscommontypes.h>
+#include <CbsCommonTypes.h>
 
 // CONSTANTS
 

@@ -40,43 +40,43 @@ public:
     enum TCCESsBarringEvent
         {
         /** Incoming call is barred. (DoCoMo) */
-        ECCESsIncomingCallBarred,   
-        /** Anonymous call barring. */
-        ECCESsAnonymousCallBarred,  
-        /** Outgoing call barring */
-        ECCESsOutgoingCallBarred,
-        /** Barring active notification. */
-        ECCESsActiveBarrings    
-        };
+		ECCESsIncomingCallBarred,	
+		/** Anonymous call barring. */
+		ECCESsAnonymousCallBarred,	
+		/** Outgoing call barring */
+		ECCESsOutgoingCallBarred,
+		/** Barring active notification. */
+		ECCESsActiveBarrings 	
+		};
 
     /** CLI (Call Line Information) related event. */
     enum TCCESsCLIEvent
         {
         /** Temporary CLIR suppression was unsuccessful */
-        ECCESsTempClirSuppressUnsuccessful,     
+        ECCESsTempClirSuppressUnsuccessful,		
         /** Temporary CLIR activation was unsuccessful*/
-        ECCESsTempClirActivationUnsuccessful    
+        ECCESsTempClirActivationUnsuccessful	
         };
 
     /** Call forward related events that are not call related to an existing call. */
     enum TCCESsCallForwardEvent
         {
         /** Incoming call is forwarded */
-        ECCESsIncCallIsForw,    
-        /** Incoming call was forwarded because of user own settings. */
-        ECCESsIncCallForwToC,   
+		ECCESsIncCallIsForw, 	
+		/** Incoming call was forwarded because of user own settings. */
+        ECCESsIncCallForwToC,	
         /** Outgoing call was forwarded because of user own settings. */
-        ECCESsOutCallForwToC,   
+        ECCESsOutCallForwToC,	
         /** Forward unconditional mode active */
-        ECCESsForwardUnconditionalModeActive,   
-        /** Forward unconditional mode deactive */
-        ECCESsForwardUnconditionalModeNotActive,
-        /** Forward conditional mode active */
-        ECCESsForwardConditionallyModeActive,   
-        /** Forward conditional mode deactive */
-        ECCESsForwardConditionallyModeNotActive,
-        /** Remote call waiting. TODO rename TCCESsCallForwardEvent to TCCESsCallEvent*/
-        ESsCallWaiting
+		ECCESsForwardUnconditionalModeActive,  	
+		/** Forward unconditional mode deactive */
+		ECCESsForwardUnconditionalModeNotActive,
+		/** Forward conditional mode active */
+		ECCESsForwardConditionallyModeActive,	
+		/** Forward conditional mode deactive */
+		ECCESsForwardConditionallyModeNotActive,
+		/** Remote call waiting. TODO rename TCCESsCallForwardEvent to TCCESsCallEvent*/
+		ESsCallWaiting
         };
 
     /** Closed user group (Cug) */
@@ -94,27 +94,27 @@ public:
     * @return none
     * @since S60 v3.2
     */
-    virtual void BarringEventOccurred( const MCCESsObserver::TCCESsBarringEvent aBarringEvent ) = 0;
-                                  
+	virtual void BarringEventOccurred( const MCCESsObserver::TCCESsBarringEvent aBarringEvent ) = 0;
+								  
     /**
     * Supplementary service call line identification event occurred.
     * @param aCallLineEvent Event that occurred.
     * @return none
     * @since S60 v3.2
     */
-    virtual void CLIEventOccurred( const MCCESsObserver::TCCESsCLIEvent aCallLineEvent ) = 0;
-                                  
+	virtual void CLIEventOccurred( const MCCESsObserver::TCCESsCLIEvent aCallLineEvent ) = 0;
+								  
 
     /**
     * Supplementary service related call forward event occurred.
     * @param aForwardMode Forward mode
-    * @param aRemoteAddress Remote address.
+	* @param aRemoteAddress Remote address.
     * @return none
     * @since S60 v3.2
     */
-    virtual void CallForwardEventOccurred( 
-                        const MCCESsObserver::TCCESsCallForwardEvent aCallForwardEvent,
-                        const TDesC& aRemoteAddress ) = 0;
+	virtual void CallForwardEventOccurred( 
+						const MCCESsObserver::TCCESsCallForwardEvent aCallForwardEvent,
+						const TDesC& aRemoteAddress ) = 0;
 
     /**
     * Supplementary service related active closed user group indications.
@@ -122,16 +122,16 @@ public:
     * @return none
     * @since S60 v3.2
     */
-    virtual void CallCugEventOccurred( const MCCESsObserver::TCCESsCugEvent aCugEvent ) = 0;
+	virtual void CallCugEventOccurred( const MCCESsObserver::TCCESsCugEvent aCugEvent ) = 0;
 
     /**
     * Notifies active ALS line. CS plugin will notify this every time line changes 
-    * and at startup.
+	* and at startup.
     * @param aLine Used ALS line.
     * @return none
     * @since S60 v3.2
     */
-    virtual void NotifyCurrentActiveALSLine( TInt aLine ) = 0;
+	virtual void NotifyCurrentActiveALSLine( TInt aLine ) = 0;
 
     };
 

@@ -16,7 +16,6 @@
 */
 
 
-
 #include    <mtclreg.h>
 #include    <smsclnt.h>
 #include    <smutset.h>
@@ -26,14 +25,8 @@
 #include    <ProfileEngineSDKCRKeys.h>
 #include    <settingsinternalcrkeys.h>
 #include    <satdomainpskeys.h>
-#define Q_OS_SYMBIAN // needed to activate homescreendomainpskeys.h
-#include    <homescreendomainpskeys.h>
-
-// ******************************************************************
-// TODO: ScreensaverInternalPSKeys.h does no longer exist.
-// Must find an alternative way to check screen locked state.
-// #include    <ScreensaverInternalPSKeys.h>
-// ******************************************************************
+#include    <activeidle2domainpskeys.h>
+#include    <ScreensaverInternalPSKeys.h>
 #include    <ctsydomainpskeys.h>
 #include    <sbdefs.h>
 #include    <BTSapDomainPSKeys.h>
@@ -276,15 +269,16 @@ TBool CSatSystemState::IsSilentMode()
 TBool CSatSystemState::IsPhoneInIdleStateL()
     {
     LOG( SIMPLE, "SATSYSTEMSTATE: CSatSystemState::IsPhoneInIdleState calling" )
-    TInt idleStatus(EHomeScreenIdleState) ;
+    TInt idleStatus;
 
     // Get the idle status from P&S
     User::LeaveIfError( RProperty::Get(
-        KHsCategoryUid, 
-        KHsCategoryStateKey, 
-        idleStatus));
-    // Returns true if phone in idle state. 
-    const TBool result( EHomeScreenIdleState == idleStatus ); 
+        KPSUidAiInformation,
+        KActiveIdleState,
+        idleStatus ) );
+
+    // Returns true if phone in idle state.
+    const TBool result( EPSAiForeground == idleStatus );
 
     LOG2( SIMPLE, "SATSYSTEMSTATE: CSatSystemState::IsPhoneInIdleState exiting \
         with value: %d", result )
@@ -300,11 +294,6 @@ TBool CSatSystemState::IsScreenSaverActivedFromIdle()
     LOG( SIMPLE, 
     "SATSYSTEMSTATE: CSatSystemState::IsScreenSaverActivedFromIdle calling" )
     TBool result( EFalse );
-
-    /*
-    // TODO: This method can no longer be used for checking screen saver status.
-    // Must find an alternative method.
-
     TInt screenSaverActive( -1 );
 
     // Get the idle status from P&S
@@ -323,8 +312,7 @@ TBool CSatSystemState::IsScreenSaverActivedFromIdle()
     LOG2( SIMPLE, 
         "SATSYSTEMSTATE: CSatSystemState:: IsScreenSaverActivedFromIdle \
          err: %d", err )
-    */
-
+        
     LOG2( SIMPLE, 
         "SATSYSTEMSTATE: CSatSystemState:: \
         IsScreenSaverActivedFromIdle exiting with value: %d", result )

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -20,12 +20,12 @@
 #include    <f32file.h>
 #include    <barsc.h>
 #include    <bautils.h>
+#include    <SatServer.rsg>
 #include    <ecom.h>
 #include    <e32property.h>
 #include    <data_caging_path_literals.hrh>
 #include    <startupdomainpskeys.h>
 #include    <satdomainpskeys.h>
-#include    <hbtextresolversymbian.h>
 
 #include    "MSatSystemState.h"
 #include    "TSatSystemStateFactory.h"
@@ -52,43 +52,20 @@
 #include    "csatmultimodeapi.h"
 #include    "csatsactivewrapper.h"
 
-_LIT( KResourceDrive, "z:\\resource\\qt\\translations" );
-_LIT( KSatServerRsc, "satapp_");
-_LIT( KSatLogTitle, "txt_simatk_title_sim_services");
-_LIT( KSatCmccTitle, "txt_simatk_titlw_cmcc_sim_services");
+// Drive letter for resource file
+_LIT( KResourceDrive, "Z:" );
+// SatServer's resource file
+_LIT( KSatServerRsc, "SatServer.rsc" );
+
 
 const TUid KSatInterfaceDefinitionUid = { 0x1000f001 };
 const TInt KSizeOfBuf = 50;
 
+const TInt8 KCreateSatAppNamePop( 2 );
 
 // Important plugins UIDs. These are started on startup
 // Implementation UID is from the <plugin>.rss
 const TUid KSetUpEventListUid = { 0x10202993 };
-
-// ======== LOCAL FUNCTIONS ========
-
-// -----------------------------------------------------------------------------
-// CleanupPointerArray
-// Cleanup RPointerArray objects by using the cleanup stack. Function will be 
-// called when application leaves while a RPointerArray object still alive, 
-// or when CleanupStack::PopAndDestroy is explicitly called to release a 
-// RPointerArray. See CleanupStack::PushL( TCleanupItem ) for more details.
-// -----------------------------------------------------------------------------
-//
-static void CleanupPointerArray( TAny* aArray )
-    {
-    LOG2( NORMAL, "SATENGINE: CSatCommandContainer::CleanupPointerArray \
-        calling array = 0x%08x", aArray )
-    
-    RImplInfoPtrArray* array = reinterpret_cast<RImplInfoPtrArray*>( aArray );
-    if ( array )
-        {
-        array->ResetAndDestroy();
-        }
-    
-    LOG( NORMAL, "SATENGINE: CSatCommandContainer::CleanupPointerArray \
-        exiting" )
-    }
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -181,8 +158,6 @@ void CSatCommandContainer::StartCommandHandlersL()
              in startup phase" )
         // Create command handlers.
         RImplInfoPtrArray satCommandImplementations;
-        CleanupStack::PushL( 
-            TCleanupItem( CleanupPointerArray, &satCommandImplementations ) );
         REComSession::ListImplementationsL( KSatInterfaceDefinitionUid,
             satCommandImplementations );
 
@@ -221,7 +196,7 @@ void CSatCommandContainer::StartCommandHandlersL()
                     }
                 }
             }
-        CleanupStack::PopAndDestroy( &satCommandImplementations );
+        satCommandImplementations.ResetAndDestroy();
         
         // Notify TSY about readiness i.e. all nofies are sent
         // Done only once in startup phase
@@ -244,8 +219,6 @@ void CSatCommandContainer::StartCommandHandlersL()
 
         // Create command handlers.
         RImplInfoPtrArray satCommandImplementations;
-        CleanupStack::PushL( 
-            TCleanupItem( CleanupPointerArray, &satCommandImplementations ) );
         REComSession::ListImplementationsL( KSatInterfaceDefinitionUid,
             satCommandImplementations );
 
@@ -280,7 +253,7 @@ void CSatCommandContainer::StartCommandHandlersL()
             // No commands, remove SAT Icon from shell
             iSatUiHandler.ShellController().RemoveSatUiL();
             }
-        CleanupStack::PopAndDestroy( &satCommandImplementations );
+        satCommandImplementations.ResetAndDestroy();
         }
     else
         {
@@ -393,7 +366,7 @@ void CSatCommandContainer::Event( TInt aEvent )
         iIsCmccSim = ETrue;
 
         // Update default name read in ConstructL.
-        TRAPD( err, CreateSatAppNameL( KSatCmccTitle ) );
+        TRAPD( err, CreateSatAppNameL( R_QTN_SAT_CMCC_TITLE ) );
         LOG2( NORMAL, "SATENGINE:   Error: %i", err )
         if ( KErrNone == err )
             {
@@ -625,7 +598,7 @@ void CSatCommandContainer::RestoreSatAppNameL()
         {
         LOG( NORMAL,
             "SATENGINE: CSatCommandContainer::RestoreSatAppNameL name reset" )
-        CreateSatAppNameL( KSatLogTitle );
+        CreateSatAppNameL( R_QTN_SAT_LOG_TITLE );
         }
     LOG( NORMAL, "SATENGINE: CSatCommandContainer::RestoreSatAppNameL exiting" )
     }
@@ -900,7 +873,7 @@ void CSatCommandContainer::ConstructL()
     LOG( NORMAL, "SATENGINE: CSatCommandContainer::ConstructL calling" )
 
     iIsCmccSim = EFalse;
-    CreateSatAppNameL( KSatLogTitle );
+    CreateSatAppNameL( R_QTN_SAT_LOG_TITLE );
 
     // Register for ui events in order to keep track if user or command
     // has launched the ui.
@@ -989,22 +962,52 @@ void CSatCommandContainer::ConstructL()
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-void CSatCommandContainer::CreateSatAppNameL( const TDesC& aResourceId )
+void CSatCommandContainer::CreateSatAppNameL( const TInt aResourceId )
     {
     LOG( NORMAL, "SATENGINE: CSatCommandContainer::CreateSatAppNameL calling" )
-    delete iSatAppName;
-    iSatAppName = NULL;
-    const TBool textResolver = HbTextResolverSymbian::Init( 
-        KSatServerRsc, KResourceDrive );
-    LOG2(NORMAL,"SATENGINE: CSatCommandContainer::\
-        CreateSatAppNameL textResolver = %d", textResolver ) 
-    LOG2(NORMAL,"SATENGINE: CSatCommandContainer::\
-        CreateSatAppNameL aResourceId = %S", &aResourceId )
 
-    iSatAppName = HbTextResolverSymbian::LoadL( aResourceId );
-    LOG2(NORMAL,"SATENGINE: CSatCommandContainer::\
-        CreateSatAppNameL iSatAppName = %S", iSatAppName )
+    // Open the RFs session.
+    RFs fs;
+
+    User::LeaveIfError( fs.Connect() );
+
+    // Push close operation in tbe cleanup stack
+    CleanupClosePushL( fs );
+
+    RResourceFile resFile;
+    // Backslashes are already defined in resource file, not needed here.
+    TBuf<KSizeOfBuf> buf( KResourceDrive );
+    buf.Append( KDC_RESOURCE_FILES_DIR );
+    buf.Append( KSatServerRsc );
+
+    TFileName fileName( buf );
+
+    BaflUtils::NearestLanguageFile( fs, fileName );
+
+    // Open the resource file
+    resFile.OpenL( fs, fileName );
+
+    // Push close operation in the cleanup stack
+    CleanupClosePushL( resFile );
+
+    resFile.ConfirmSignatureL( ESatSResourceSignature );
+
+    // Reads a resource structure with memory allocation.
+    HBufC8* dataBuffer = resFile.AllocReadLC( aResourceId );
+
+    TResourceReader resReader;
+    resReader.SetBuffer( dataBuffer );
+
+    // Reads a string with memory allocation
+    iSatAppName = resReader.ReadHBufCL();
     iSatBipName.Copy( SatAppName() );
+
+    // dataBuffer
+    CleanupStack::PopAndDestroy( dataBuffer );
+    // resFile, Calls resFile.Close()
+    // fs, Calls fs.Close
+    CleanupStack::PopAndDestroy( KCreateSatAppNamePop );
+
     LOG( NORMAL, "SATENGINE: CSatCommandContainer::CreateSatAppNameL exiting" )
     }
 
@@ -1082,11 +1085,9 @@ void CSatCommandContainer::StartImportantCommandHandlersL()
 
     // Create command handlers.
     RImplInfoPtrArray satCommandImplementations;
-    CleanupStack::PushL( 
-        TCleanupItem( CleanupPointerArray, &satCommandImplementations ) );
     REComSession::ListImplementationsL( KSatInterfaceDefinitionUid,
         satCommandImplementations );
-    
+
     // Container for commands
     const TInt cmdCount( satCommandImplementations.Count() );
     LOG2( NORMAL, "SATENGINE: CSatCommandContainer::\
@@ -1117,8 +1118,8 @@ void CSatCommandContainer::StartImportantCommandHandlersL()
             CleanupStack::Pop( setUpEventListCmd );
             }
         }
-    
-    CleanupStack::PopAndDestroy( &satCommandImplementations );
+
+    satCommandImplementations.Close();
     LOG( NORMAL, "SATENGINE: CSatCommandContainer::\
         StartImportantCommandHandlersL exiting" )
     }
@@ -1141,5 +1142,3 @@ void CSatCommandContainer::CheckStartupState( const TInt aValue )
         }
     LOG( NORMAL, "SATENGINE: CSatCommandContainer::CheckStartupState exiting" )
     }
-
-// End Of File

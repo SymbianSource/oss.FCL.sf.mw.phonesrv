@@ -26,7 +26,7 @@
 #endif
 
 #ifndef     __MNETWORKSELECT_H
-#include    "mnetworkselect.h" 
+#include    "MNetworkSelect.h"
 #endif
 
 //  DATA TYPES  

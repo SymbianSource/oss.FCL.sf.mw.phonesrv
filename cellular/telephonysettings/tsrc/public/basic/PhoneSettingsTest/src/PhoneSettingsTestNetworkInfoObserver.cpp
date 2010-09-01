@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include <mpsetnetworkinfoobs.h>
+#include <MPsetNetworkInfoObs.h>
 #include "PhoneSettingsTestNetworkInfoObserver.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

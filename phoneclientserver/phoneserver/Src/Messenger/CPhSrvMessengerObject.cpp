@@ -18,10 +18,10 @@
 
 // INCLUDE FILES
 
-#include "cphsrvmessengerobject.h" 
-#include "cphsrvsubsessionbase.h" 
-#include "cphsrvsession.h" // Phone server session. 
-#include "phsrvdebuginfo.h" 
+#include "CPhSrvMessengerObject.h"
+#include "CPhSrvSubSessionBase.h"
+#include "CPhSrvSession.h" // Phone server session.
+#include "PhSrvDebugInfo.h"
 
 
 // CONSTANTS

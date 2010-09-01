@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include    <e32base.h>
-#include    "cphonegsmparserbase.h" 
+#include    "CPhoneGsmParserBase.h"
 
 // CONSTANTS
 

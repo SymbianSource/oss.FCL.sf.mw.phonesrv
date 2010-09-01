@@ -20,8 +20,8 @@
 
 
 // INCLUDES
-#include "cphsrvsubsessionbase.h" 
-#include <cphcltextphonedialdata.h> 
+#include "CPhSrvSubSessionBase.h"
+#include <cphcltextphonedialdata.h>
 
 // CLASS DECLARATION
 

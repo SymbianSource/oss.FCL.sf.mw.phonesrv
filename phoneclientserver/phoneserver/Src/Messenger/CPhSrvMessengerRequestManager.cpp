@@ -20,12 +20,12 @@
 
 
 // INCLUDES
-#include "cphsrvmessengerrequestmanager.h" 
-#include "cphsrvmessengerobject.h" 
-#include "cphsrvsubsessionbase.h" 
-#include "phsrvutils.h" 
-#include "phsrvmessengertypes.h" 
-#include "phsrvdebuginfo.h" 
+#include "CPhSrvMessengerRequestManager.h"
+#include "CPhSrvMessengerObject.h"
+#include "CPhSrvSubSessionBase.h"
+#include "PhSrvUtils.h"
+#include "PhSrvMessengerTypes.h"
+#include "PhSrvDebugInfo.h"
 
 
 // CONSTANTS
@@ -481,11 +481,7 @@ TBool CPhSrvMessengerRequestManager::HandleSendRequest(
                         // Reservation was successful, so use reserved buffer
                         // as a new default buffer. 
                         // But first delete the old buffer.
-                        if( iDefaultSizeBuffer )
-                            {
-                            delete iDefaultSizeBuffer;
-                            iDefaultSizeBuffer = NULL;
-                            }
+                        delete iDefaultSizeBuffer;
                         iDefaultSizeBuffer = variableSizeBuffer;
                         }
                     }

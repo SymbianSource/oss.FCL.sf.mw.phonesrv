@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include "psuiquerydialog.h" 
+#include "PsuiQueryDialog.h"
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -25,7 +25,7 @@
 // might leave.
 //
 CPsuiQueryDialog::CPsuiQueryDialog( CAknQueryDialog::TTone aTone ) :
-    CAknQueryDialog( aTone ) 
+	CAknQueryDialog( aTone ) 
     {
     }
 
@@ -53,14 +53,21 @@ CPsuiQueryDialog::~CPsuiQueryDialog()
 TKeyResponse CPsuiQueryDialog::OfferKeyEventL( const TKeyEvent& aKeyEvent,
     TEventCode aType )
     {
-    if ( ( aKeyEvent.iScanCode == EStdKeyNo || aKeyEvent.iCode == EKeyNo  ) &&
-         aType == EEventKeyUp )
-        {
-        // End -key was pressed, so exit this query dialog
-        TryExitL( EKeyNo );
-        }
+    const TBool noKeyReleased = 
+        ( aKeyEvent.iScanCode == EStdKeyNo || aKeyEvent.iCode == EKeyNo  ) &&
+          aType == EEventKeyUp;    
+    const TBool escPressed = aKeyEvent.iCode == EKeyEscape;
+    
+    // AknDialogShutter sends esc keys so dismiss dialog 
+	if ( noKeyReleased || escPressed )
+		{
+		// End -key was pressed, so exit this query dialog
+		TryExitL( EKeyNo ); 
+		RDebug::Printf("PSETNOTESUI: exiting dialog");
+		return EKeyWasConsumed;
+		}
 
-    return EKeyWasNotConsumed;
+	return EKeyWasNotConsumed;
     }
 
 // ---------------------------------------------------------------------------
@@ -69,7 +76,7 @@ TKeyResponse CPsuiQueryDialog::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 //
 TBool CPsuiQueryDialog::OkToExitL( TInt /*aCommand*/ )
     {
-    // Dismiss query
+	// Dismiss query
     return ETrue;
     }
 

@@ -22,7 +22,7 @@
 //  INCLUDES
 #include <e32base.h>
 #include <msvapi.h>
-#include <msgarrays.h> // CUidNameArray 
+#include <MsgArrays.h>  // CUidNameArray
 
 // CLASS DECLARATION
 class CMsvSession;
@@ -61,17 +61,17 @@ class CCaUiMessageSender :
         * @param aMessageType mtmUid indicate the message type
         *        aRealAddress address list to send message
         */      
-        void CreateNewMessageL( TInt aMessageType,
-            MDesC16Array* aRealAddress,
-            MDesC16Array* aAliases,
-            CRichText* aRichText );
+		void CreateNewMessageL( TInt aMessageType,
+		    MDesC16Array* aRealAddress,
+		    MDesC16Array* aAliases,
+		    CRichText* aRichText );
 
         /**
         * Get messgae types array
-        */          
-        const CUidNameArray& MessageTypesArrayL();    
-    
-    private:
+        */		    
+		const CUidNameArray& MessageTypesArrayL();    
+	
+	private:
 
         /**
         * C++ constructor.
@@ -84,7 +84,7 @@ class CCaUiMessageSender :
         /**
         * Create SendUi
         */
-        void CreateSendUiL();
+		void CreateSendUiL();
 
         /**
         * Get message types from mtm registry
@@ -92,17 +92,17 @@ class CCaUiMessageSender :
         * @param aMsgTypes array of UIDs (MTM types)
         *
         */
-        void UpdateMessageTypesArrayL( CUidNameArray* aMsgTypes );
+		void UpdateMessageTypesArrayL( CUidNameArray* aMsgTypes );
 
         /**
         * Check if mail box is defined
-        */      
-        TBool IsMailboxDefinedL();
+        */		
+		TBool IsMailboxDefinedL();
 
         /**
         * Create connection to message service
         */
-        void CreateMessageServiceConnectionL();
+		void CreateMessageServiceConnectionL();
 
     protected:  // Functions from base classes
 
@@ -112,16 +112,16 @@ class CCaUiMessageSender :
         virtual void HandleSessionEventL(TMsvSessionEvent aEvent, 
             TAny* aArg1, TAny* aArg2, TAny* aArg3);
 
-    private:
-    
-        // Message service session
+	private:
+	
+		// Message service session
         CMsvSession* iSession;
         
         // Send UI
         CSendUi*    iSendUi;
         
         // Array of MTM types
-        CUidNameArray* iMsgTypes;   
+        CUidNameArray* iMsgTypes;	
 
     };
 

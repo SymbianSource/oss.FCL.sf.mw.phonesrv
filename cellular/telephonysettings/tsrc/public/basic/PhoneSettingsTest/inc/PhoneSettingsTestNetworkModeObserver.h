@@ -21,7 +21,7 @@
 #define PHONESETTINGSTESTNETWORKMODEOBSERVER_H
 
 #include <e32base.h>
-#include <mpsetnetworkmodeobs.h>
+#include <MPsetNetworkModeObs.h>
 
 // CLASS DECLARATION
 

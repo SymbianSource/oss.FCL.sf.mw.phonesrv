@@ -32,7 +32,7 @@
 #include "PhoneSettingsTestPsetRequestObserver.h" 
 #include "PhoneSettingsTestNetworkInfoObserver.h" 
 #include "PhoneSettingsTestNetworkModeObserver.h" 
-#include "psetsaobserver.h" 
+#include "PsetSAObserver.h" 
 #include "PhoneSettingsTestNetwork.h"
 
 // ============================ MEMBER FUNCTIONS ===============================

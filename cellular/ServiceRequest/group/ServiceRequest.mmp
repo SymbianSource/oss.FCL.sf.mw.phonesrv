@@ -25,11 +25,11 @@ TARGET          servicerequest.dll
 TARGETTYPE      DLL
 UID             0x1000008d 0x10005A3D
 
-SOURCEPATH      ../src
-SOURCE          cservicerequest.cpp 
+SOURCEPATH	    ../src
+SOURCE          CServiceRequest.cpp
 
 // Resource files
-START RESOURCE ../data/servicerequest.rss 
+START RESOURCE ../data/ServiceRequest.rss
 TARGETPATH RESOURCE_FILES_DIR
 HEADER
 LANGUAGE_IDS
@@ -41,7 +41,7 @@ SYSTEMINCLUDE   ../../../inc
 
 MW_LAYER_SYSTEMINCLUDE
 
-LIBRARY         euser.lib cone.lib avkon.lib commonengine.lib
+LIBRARY	        euser.lib cone.lib avkon.lib commonengine.lib
 LIBRARY         aknnotify.lib
 
 // End of file

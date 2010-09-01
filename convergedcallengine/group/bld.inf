@@ -27,6 +27,7 @@ PRJ_MMPFILES
 #include "../spsettings/group/bld.inf"
 #include "../cenrepdatabase/group/bld.inf"
 #include "../serviceselector/group/bld.inf"
+#include "../csplugin/group/bld.inf"
 
 
 PRJ_TESTMMPFILES

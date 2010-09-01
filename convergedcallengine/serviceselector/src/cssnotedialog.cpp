@@ -22,7 +22,7 @@
 #include "cssuiutilities.h"
 #include "cssserviceutilities.h"
 #include "csslogger.h"
-#include <StringLoader.h> 
+#include <StringLoader.h>
 #include <avkon.rsg>
 
 // ================= MEMBER FUNCTIONS =======================================
@@ -91,7 +91,7 @@ TKeyResponse CSsNoteDialog::OfferKeyEventL(
         }
     return ret; 
     } 
-    
+	
 // ================= OTHER EXPORTED FUNCTIONS ===============================
 
 //  End of File 

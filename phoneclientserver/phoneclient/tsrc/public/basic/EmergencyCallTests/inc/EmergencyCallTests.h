@@ -23,7 +23,7 @@
 // INCLUDES
 #include "StifTestModule.h"
 #include <StifLogger.h>
-#include <mphcltemergencycallobserver.h>
+#include <MPhCltEmergencyCallObserver.h>
 
 // CONSTANTS
 //const ?type ?constant_var = ?constant;

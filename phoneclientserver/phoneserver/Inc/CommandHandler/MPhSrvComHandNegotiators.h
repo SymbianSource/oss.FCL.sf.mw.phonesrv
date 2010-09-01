@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <cphcltcommandhandler.h> 
+#include <CPhCltCommandHandler.h>
 
 // FORWARD DECLARATIONS
 class MPhSrvComHandInitiator;

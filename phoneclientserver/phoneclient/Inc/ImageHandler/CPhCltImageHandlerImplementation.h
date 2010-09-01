@@ -22,9 +22,9 @@
 
 
 //  INCLUDES
-#include    <cphcltimagehandler.h> 
-#include    "rphcltimagehandler.h" 
-#include    "rphcltserver.h" 
+#include    <CPhCltImageHandler.h>
+#include    "RPhCltImageHandler.h"
+#include    "RPhCltServer.h"
 
 /**
 *  Implementation of image handler interface.

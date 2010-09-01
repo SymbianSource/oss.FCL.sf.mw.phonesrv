@@ -18,10 +18,10 @@
 
 
 // INCLUDES
-#include "cphsrvcallrequestmanager.h" 
-#include "cphsrvcallrequest.h" 
-#include "cphsrvsubsessionbase.h" 
-#include "phsrvutils.h" 
+#include "CPhSrvCallRequestManager.h"
+#include "CPhSrvCallRequest.h"
+#include "CPhSrvSubSessionBase.h"
+#include "PhSrvUtils.h"
 
 
 // CONSTANTS

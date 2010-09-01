@@ -17,26 +17,27 @@
 
 
 // INCLUDE FILES
-#include "psetcalldivertingbasicimpl.h" 
+#include "PSetCallDivertingBasicImpl.h"
 
 #include <badesca.h>
 #include <etelmm.h>           
 #include <e32math.h>
+#include <vmnumber.h>
 #include <e32svr.h>
 #include <featmgr.h>
 #include <centralrepository.h>
-#include <settingsinternalcrkeys.h> 
+#include <settingsinternalcrkeys.h>
 
-#include "psetcalldiverting.h" 
-#include "psetcontainer.h" 
-#include "mpsetdivertobs.h" 
-#include "psettelephony.h" 
-#include "psetpanic.h" 
-#include "mpsetrequestobs.h" 
-#include "psetutility.h" 
-#include "phonesettingslogger.h" 
-#include "psetsaobserver.h" 
-#include "psetcalldivertingbase.h" 
+#include "PsetCallDiverting.h"
+#include "PsetContainer.h"
+#include "MPsetDivertObs.h"
+#include "PsetTelephony.h"
+#include "PSetPanic.h"
+#include "MPsetRequestObs.h"
+#include "PSetUtility.h"
+#include "PhoneSettingsLogger.h"
+#include "PsetSAObserver.h"
+#include "PSetCallDivertingBase.h"
 
 //  LOCAL CONSTANTS AND MACROS
 
@@ -164,15 +165,6 @@ void CPSetCallDivertingBase::RunL()
 void CPSetCallDivertingBase::DoCancel()
     {
     // Empty implementation.
-    }
-
-// ---------------------------------------------------------------------------
-// SetRequestObserver
-// ---------------------------------------------------------------------------
-//
-void CPSetCallDivertingBase::SetRequestObserver( MPsetRequestObserver* aObs )
-    {
-    iReqObserver = aObs;
     }
 
 // ---------------------------------------------------------------------------
@@ -816,14 +808,59 @@ void CPSetCallDivertingBase::RequestCompleted( const TInt& aError )
 // Verifies whether the divert-to number is to voice mail box.
 // ---------------------------------------------------------------------------
 //
-TBool CPSetCallDivertingBase::IsVMBXDivertL( TDesC& /*aTelNumber*/ )
+TBool CPSetCallDivertingBase::IsVMBXDivertL( TDesC& aTelNumber )
     {
-
     __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBase::IsVMBXDivertL" );
     
     TBool result = EFalse;
+    
+    if ( FeatureManager::FeatureSupported ( KFeatureIdVmbxCallDivertIcon ) )
+        {
+        RVmbxNumber vmbxConnection;
+        TTelNumber telNumber;
+        TInt retValue = OpenVmbxLC( telNumber, vmbxConnection );
+        __PHSLOGSTRING1("[PHS]    CPSetCallDivertingBase::IsVMBXDivertL: telNumber = %S", &telNumber );
+        __PHSLOGSTRING1("[PHS]    CPSetCallDivertingBase::IsVMBXDivertL: retValue = %d", retValue );
+
+        CleanupStack::PopAndDestroy(); //vmbxConnection is closed when popped    
+        if ( retValue == KErrNone ) //VMBX number found
+            {
+            
+            //Concatenate the existing number and add '*' to the beginning
+            TTelNumber tempStr;
+            tempStr.Zero();
+            tempStr.Append( KPSetAsterisk );
+        
+            //Match with seven characters
+            TInt matchChars = KPsetMatchingChars;
+            if ( telNumber.Length() < matchChars )
+                {                
+                matchChars = telNumber.Length();
+                }
+            tempStr.Append( telNumber.Right( matchChars ) );
+        
+            //Compare value with divert-to number
+            if ( aTelNumber.Match ( tempStr ) != KErrNotFound )
+                {
+                __PHSLOGSTRING("[PHS]    CPSetCallDivertingBase::IsVMBXDivertL: Match found" );
+                result = ETrue;
+                }
+            }
+        }
     __PHSLOGSTRING("[PHS] <--CPSetCallDivertingBase::IsVMBXDivertL" );
     return result;
+    }
+
+// ---------------------------------------------------------------------------
+// Opens Vmbx. Leaves vmbx to the stack.  
+// ---------------------------------------------------------------------------
+TInt CPSetCallDivertingBase::OpenVmbxLC( TDes& aTelNumber, RVmbxNumber& aVmbx )
+    {
+    __PHSLOGSTRING("[PHS]--> CPSetCallDivertingBase::OpenVmbxLC" );
+    User::LeaveIfError( aVmbx.Open( iPhone ) );
+    CleanupClosePushL( aVmbx );         
+    __PHSLOGSTRING("[PHS]<-- CPSetCallDivertingBase::OpenVmbxLC" );
+    return aVmbx.GetVmbxNumber( aTelNumber );
     }
 
 // ---------------------------------------------------------------------------

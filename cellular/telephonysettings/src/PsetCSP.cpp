@@ -22,9 +22,9 @@
 
 
 //INCLUDE FILES
-#include "psetcsp.h" 
+#include "PsetCSP.h"
 #include <etelmm.h>
-#include "phonesettingslogger.h" 
+#include "PhoneSettingsLogger.h"
 
 //  MEMBER FUNCTIONS
 // ---------------------------------------------------------------------------

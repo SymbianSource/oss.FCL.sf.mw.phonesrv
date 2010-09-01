@@ -1,0 +1,32 @@
+/*
+* Copyright (c) 2003-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  SatServer localisation file
+*
+*/
+
+
+// LOCALISATION STRINGS:
+
+//d: Sat application name under the Sat icon in app shell.
+//l: cell_app_pane_t1
+//w: S90DeskAppName
+//
+#define qtn_sat_log_title "SIM Services"
+
+//d: Application title and SAT application name when China
+//d: Mobile SIM cards used
+//l: cell_app_pane_t1
+#define qtn_sat_cmcc_title "SIM Card Application"
+
+// End of File

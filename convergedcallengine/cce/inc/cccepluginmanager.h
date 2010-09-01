@@ -56,9 +56,9 @@ public:
      * @param aCallContainer Reference to call container
      * @param aTransferController Reference to transfer controller
      */
-    static CCCEPluginManager* NewL( 
-        CCCECallContainer& aCallContainer,
-        CCCETransferController& aTransferController );
+	static CCCEPluginManager* NewL( 
+	    CCCECallContainer& aCallContainer,
+	    CCCETransferController& aTransferController );
 
     /**
      * Destructor.
@@ -165,9 +165,9 @@ private:
 // from base class MCCPPluginDeathObserver
 
     /** @see MCCPPluginDeathObserver::CCPPluginDiedEvent */
-    void CCPPluginDiedEvent(TUid aPluginId, TInt aDeathType, TInt aReason);
-    
-    /** @see MCCPPluginDeathObserver::CCPPluginInitialisationFailed */
+	void CCPPluginDiedEvent(TUid aPluginId, TInt aDeathType, TInt aReason);
+	
+	/** @see MCCPPluginDeathObserver::CCPPluginInitialisationFailed */
     void CCPPluginInitialisationFailed(TUid aPluginUid, TInt aError);
     
 // from base class CActive
@@ -177,14 +177,14 @@ private:
      *
      * @since S60 v3.2
      */
-    void RunL();
+	void RunL();
 
     /**
      * Cancels incoming call monitor
      *
      * @since S60 v3.2
      */
-    void DoCancel(); 
+	void DoCancel(); 
 
 private:
 
@@ -235,12 +235,12 @@ private:
 private:
 
     /** Constructor */
-    CCCEPluginManager( 
-        CCCECallContainer& aCallContainer,
-        CCCETransferController& aTransferController );
+	CCCEPluginManager( 
+	    CCCECallContainer& aCallContainer,
+	    CCCETransferController& aTransferController );
 
     /** Leaving stuff in constructor */
-    void ConstructL();
+	void ConstructL();
 
 private:
     

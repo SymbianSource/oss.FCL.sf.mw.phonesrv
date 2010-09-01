@@ -19,14 +19,14 @@
 #ifndef CSATSENDSSHANDLER_H
 #define CSATSENDSSHANDLER_H
 
-#include <cphonegsmsshandler.h>
+#include <CPhoneGsmSsHandler.h>
 #include <nwdefs.h>
-#include <psetcallwaiting.h>
-#include <psetcontainer.h>
-#include <psetcallbarring.h>
-#include <psetcalldiverting.h>
-#include <psetcli.h>
-#include <mpsetrequestobs.h>
+#include <PsetCallWaiting.h>
+#include <PsetContainer.h>
+#include <PsetCallBarring.h>
+#include <PsetCallDiverting.h>
+#include <PsetCli.h>
+#include <MPsetRequestObs.h>
 
 class CSatSendSsBarringNoUiObs;
 class CSatSendSsCliNoUiObs;

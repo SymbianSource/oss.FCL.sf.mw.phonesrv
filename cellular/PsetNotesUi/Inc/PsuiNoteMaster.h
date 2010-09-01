@@ -25,9 +25,9 @@
 // INCLUDES
 #include <aknnotewrappers.h>
 #include <bldvariant.hrh>
-#include "psuiconstants.h" 
-#include "psuiinternalconstants.h" 
-#include "psetcalldiverting.h" 
+#include "PsuiConstants.h"
+#include "PsuiInternalConstants.h"
+#include "PsetCallDiverting.h"
  
 // FORWARD DECLARATIONS
 class MPsetCallWaiting;
@@ -176,7 +176,7 @@ class CPsuiNoteMaster : public CBase
     
     private: //new
         
-        void AppendCFNumber( TDes& aString, const TDesC& aNumber);
+		void AppendCFNumber( TDes& aString, const TDesC& aNumber);
 
         void CreateListBoxL( 
             TCFType aCFType, CAknSinglePopupMenuStyleListBox* aList );

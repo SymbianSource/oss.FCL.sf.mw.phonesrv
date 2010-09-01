@@ -19,10 +19,10 @@
 // INCLUDE FILES
 #include    <featmgr.h>
 
-#include    "cphonegsmparsercontainer.h" 
-#include    "cphonegsmparserresult.h" 
-#include    "cphonegsmoptioncontainer.h" 
-#include    "phonegsmparser.h" 
+#include    "CPhoneGsmParserContainer.h"
+#include    "CPhoneGsmParserResult.h"
+#include    "CPhoneGsmOptionContainer.h"
+#include    "PhoneGsmParser.h"
 
 // CONSTANTS
 const TInt KPhoneParserArrayGranularity = 5;

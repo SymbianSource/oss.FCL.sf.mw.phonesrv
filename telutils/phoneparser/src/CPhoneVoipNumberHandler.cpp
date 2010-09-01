@@ -17,9 +17,9 @@
 
 
 // INCLUDE FILES
-#include    "cphonevoipnumberhandler.h" 
-#include    "cphonevoipnumberparser.h" 
-#include    "cphonegsmparserresult.h" 
+#include    "CPhoneVoipNumberHandler.h"
+#include    "CPhoneVoipNumberParser.h"
+#include    "CPhoneGsmParserResult.h"
 
 // CONSTANTS
 const TInt KPhoneVoipNumberDialParam = 0;

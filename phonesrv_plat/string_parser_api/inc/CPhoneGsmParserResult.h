@@ -135,7 +135,7 @@ NONSHARABLE_CLASS( CPhoneGsmParserResult )
 
     };
 
-#include    "cphonegsmparserresult.inl" 
+#include    "CPhoneGsmParserResult.inl"
 
 #endif      // CPHONEGSMPARSERRESULT_H
             

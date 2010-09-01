@@ -18,9 +18,9 @@
 
 // INCLUDES
 
-#include    "rphcltimagehandler.h" 
-#include    "phcltclientserver.h" 
-#include    <rphcltserver.h> 
+#include    "RPhCltImageHandler.h"
+#include    "PhCltClientServer.h"
+#include    <RPhCltServer.h>
 #include    <e32std.h>
 #include    <e32base.h>
 #include    <fbs.h>
@@ -184,9 +184,7 @@ void RPhCltImageHandler::CopyLogosL( TPhCltImageArray& aImages )
             ( TPhCltExtOperatorLogoType )
             aImages.iImages[ EPhCltExtLogoTypeIndex ],
             bitMap );
-        CleanupStack::PushL(logo);
-        iOperatorLogos.AppendL( logo );
-        CleanupStack::Pop(logo);
+        iOperatorLogos.Append( logo );
         }
     }
 
@@ -200,14 +198,12 @@ void RPhCltImageHandler::CopyStillsL( TPhCltImageArray& aImages )
     {
     // Remove all first.
     iVTBitMaps.ResetAndDestroy();
-    iVTBitMaps.ReserveL(aImages.iImageCount);
+
     for ( TInt i = 0 ; i < aImages.iImageCount; i ++ )
         {
         CFbsBitmap* bitMap = 
             CreateBitMapL( aImages.iImages[ i ] );
-        CleanupStack::PushL( bitMap );
-        iVTBitMaps.AppendL( bitMap );
-        CleanupStack::Pop(bitMap);
+        iVTBitMaps.Append( bitMap );
         }
     }
 

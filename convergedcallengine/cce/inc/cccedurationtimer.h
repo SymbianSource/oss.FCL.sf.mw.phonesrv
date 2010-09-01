@@ -63,7 +63,7 @@ public:
      *
      * @since S60 v3.2
      */
-    void SetConferenceObserver( MCCEConferenceCallObserver* aObserver );
+	void SetConferenceObserver( MCCEConferenceCallObserver* aObserver );
 
     /**
      * Start timer.
@@ -78,7 +78,7 @@ public:
      * @since S60 v3.2
      */
     void Start(TInt aBeatsOffset);
-    
+	
     /**
      * Restart air duration timer from the given value
      *
@@ -86,7 +86,7 @@ public:
      * @param aBeatsOffset innitial timer value
      */
     void RestartAirTimeDuration(TInt aBeatsOffset);
-    
+	
     /**
      * Start timer
      *
@@ -158,11 +158,11 @@ private: // data
      * If this is NULL, timer is used to AirTime duration.
      */
     MCCECallObserver* iObserver;
-    
+	
     /**
      * Conference call duration observer.
      */
-    MCCEConferenceCallObserver* iConferenceCallObserver;
+	MCCEConferenceCallObserver* iConferenceCallObserver;
 
     /**
      * Timer

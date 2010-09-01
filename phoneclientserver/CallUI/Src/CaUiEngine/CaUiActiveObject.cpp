@@ -19,16 +19,16 @@
 
 
 // INCLUDE FILES
-#include    "cauiactiveobject.h" 
-#include    "cauiqueryobserver.h" 
+#include    "CaUiActiveObject.h"
+#include    "CaUiQueryObserver.h"
 #include    <coemain.h>
 
 #include    <mcauireconnectqueryobserver.h>
 #include    <cphonecntfactory.h>
-#include    <cphcntmatcher.h> 
-#include    <mphcntmatch.h> 
-#include    "cauimessagesender.h" 
-#include    "cauilogger.h" 
+#include    <cphcntmatcher.h>
+#include    <mphcntmatch.h>
+#include	"CaUiMessageSender.h"
+#include	"cauilogger.h"
 // CONSTANTS
 
 
@@ -366,8 +366,8 @@ void CCaUiGlnActiveObject::LaunchEditorL( TCaUiEditorType aEditorType )
             break;
         }
 
-    CAUILOGSTRING2("CALLUI: CCaUiGlnActiveObject::LaunchEditorL(): Message type: %d", messageType);
-    CAUILOGSTRING2("CALLUI: CCaUiGlnActiveObject::LaunchEditorL(): Launch query: %d", launchQuery);
+	CAUILOGSTRING2("CALLUI: CCaUiGlnActiveObject::LaunchEditorL(): Message type: %d", messageType);
+	CAUILOGSTRING2("CALLUI: CCaUiGlnActiveObject::LaunchEditorL(): Launch query: %d", launchQuery);
 
     // If the editor type was valid, launch the editor.
     if ( launchQuery )

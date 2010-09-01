@@ -17,10 +17,10 @@
 
 
 // INCLUDE FILES
-#include "cphsrvsubsessionextcall.h" 
-#include "cphsrvsession.h" 
-#include "cphsrvserver.h" 
-#include "mphsrvobjectnegotiators.h" 
+#include "CPhSrvSubSessionExtCall.h"
+#include "CPhSrvSession.h"
+#include "CPhSrvServer.h"
+#include "MPhSrvObjectNegotiators.h"
 
 // Hash mark
 _LIT( KPhoneHash, "#" );
@@ -93,21 +93,21 @@ void CPhSrvSubSessionExtCall::PhSrvMessageProcessorHandleMessageL(
             break;
         case EPhoneServerExtCallSubSessionMakeCall:
             CreateCallArgsL( aMessage );
-            // Checks if telephone number contains dtmf string
-            dtmfNumber = IsDtmfPhoneNumber( iCallArgs->TelephoneNumber());
-            if ( !dtmfNumber )
-                {
-                // Checks if telephone number is USSD/SS string
-                isSSUssd = ( iCallArgs->TelephoneNumber().Right( KPhoneHash().Length() ) == KPhoneHash );
-                if ( isSSUssd )
-                    { 
-                    // Capabilities needed if USSD/SS string
+			// Checks if telephone number contains dtmf string
+           	dtmfNumber = IsDtmfPhoneNumber( iCallArgs->TelephoneNumber());
+           	if ( !dtmfNumber )
+           	    {
+           	    // Checks if telephone number is USSD/SS string
+           	    isSSUssd = ( iCallArgs->TelephoneNumber().Right( KPhoneHash().Length() ) == KPhoneHash );
+           	    if ( isSSUssd )
+           	        { 
+           	        // Capabilities needed if USSD/SS string
                     hasCapNetworkControlAndServices = aMessage.HasCapability( ECapabilityNetworkControl, 
                                                               ECapabilityNetworkServices );
                     hasCapWriteAndReadDeviceData = aMessage.HasCapability( ECapabilityReadDeviceData, ECapabilityWriteDeviceData );
                     hasUssdSSCaps =  hasCapNetworkControlAndServices && hasCapWriteAndReadDeviceData;
-                    }   
-                }
+           	        }   
+           	    }
            if ( ( hasCapNetworkServices && !isSSUssd ) ||  hasUssdSSCaps )
                 {
                 CmdSubSessionMakeCallL( aMessage );
@@ -160,7 +160,7 @@ void CPhSrvSubSessionExtCall::CmdSubSessionCloseL( const RMessage2& aMessage )
 //
 void CPhSrvSubSessionExtCall::CmdSubSessionMakeCallL( 
     const RMessage2& aMessage )
-    {               
+    {				
 
     // Submit a new request to the call manager
     MPhSrvNegotiatorCall& callNegotiator = PhoneSession().PhoneServer(
@@ -194,14 +194,14 @@ void CPhSrvSubSessionExtCall::CmdSubSessionMakeCallCancelL(
 void CPhSrvSubSessionExtCall::CreateCallArgsL( const RMessage2& aMessage )
     {
     HBufC8* package = HBufC8::NewLC( aMessage.Int1() ); 
-    TPtr8 calldata( package->Des() );
-    PhoneSession().Read(
+ 	TPtr8 calldata( package->Des() );
+	PhoneSession().Read(
             aMessage,
             0,
             calldata );
-                                             
-    iCallArgs = CPhCltExtPhoneDialData::NewL( *package );
-    CleanupStack::PopAndDestroy( package );
+             								 
+   	iCallArgs = CPhCltExtPhoneDialData::NewL( *package );
+   	CleanupStack::PopAndDestroy( package );
     }
     
 // -----------------------------------------------------------------------------

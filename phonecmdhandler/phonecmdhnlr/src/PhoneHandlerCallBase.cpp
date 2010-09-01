@@ -18,11 +18,11 @@
 
 
 // INCLUDE FILES
-#include "phonehandlercallbase.h" 
-#include "phonehandleractive.h" 
-#include "phonehandlerdebug.h" 
+#include "PhoneHandlerCallBase.h"
+#include "PhoneHandlerActive.h"
+#include "PhoneHandlerDebug.h"
 
-#include <cphcltcommandhandler.h> 
+#include <CPhCltCommandHandler.h>
 
 // EXTERNAL DATA STRUCTURES
 
@@ -51,7 +51,7 @@
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerCallBase::CPhoneHandlerCallBase()
-    : iState( EPhoneHandlerState1 )
+	: iState( EPhoneHandlerState1 )
     {
     }
 
@@ -59,7 +59,7 @@ CPhoneHandlerCallBase::CPhoneHandlerCallBase()
 CPhoneHandlerCallBase::~CPhoneHandlerCallBase()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::~CPhoneHandlerCallBase()" );
-            
+	    	
     iServer.Close();
     delete iCommandHandler;
     delete iActive;
@@ -85,7 +85,7 @@ void CPhoneHandlerCallBase::LoadServiceL()
     iActive = CPhoneHandlerActive::NewL( *this );
     
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::LoadServiceL() end" );
-    }
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerCallBase::NextState
@@ -94,16 +94,16 @@ void CPhoneHandlerCallBase::LoadServiceL()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerCallBase::NextState()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::NextState() start" );
-        
-    TInt temp = static_cast<TInt>( iState );
-    ++temp;
-    iState = static_cast<TPhoneHandlerServiceState>( temp );
-    
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::NextState() end" );
-    }
-    
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::NextState() start" );
+		
+	TInt temp = static_cast<TInt>( iState );
+	++temp;
+	iState = static_cast<TPhoneHandlerServiceState>( temp );
+	
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::NextState() end" );
+	}
+	
 // -----------------------------------------------------------------------------
 // CPhoneHandlerCallBase::IdleState
 // Sets a specific state when service has been completed.
@@ -111,13 +111,13 @@ void CPhoneHandlerCallBase::NextState()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerCallBase::IdleState()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::IdleState() start" );
-    
-    iState = EPhoneHandlerStateIdle;
-    
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::IdleState() end" );
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::IdleState() start" );
+	
+	iState = EPhoneHandlerStateIdle;
+	
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::IdleState() end" );
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerCallBase::GetStatus
@@ -126,26 +126,26 @@ void CPhoneHandlerCallBase::IdleState()
 // -----------------------------------------------------------------------------
 //
 TRequestStatus& CPhoneHandlerCallBase::GetStatus()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::GetStatus() start" );
-    
-    return iActive->iStatus;
-    }
-    
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::GetStatus() start" );
+	
+	return iActive->iStatus;
+	}
+	
 // -----------------------------------------------------------------------------
 // CPhoneHandlerCallBase::Activate
 // Activates an active object for asynchronous calls.
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
-//  
+//	
 void CPhoneHandlerCallBase::Activate()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::Activate() start" );
-    
-    iActive->SetActive();                       
-        
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::Activate() end" );
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::Activate() start" );
+	
+	iActive->SetActive();						
+		
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerCallBase::Activate() end" );
+	}
 
 // ========================== OTHER EXPORTED FUNCTIONS =========================
 

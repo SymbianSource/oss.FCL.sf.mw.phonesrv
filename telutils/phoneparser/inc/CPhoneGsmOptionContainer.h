@@ -21,7 +21,7 @@
 #define CPHONEGSMOPTIONCONTAINER_H
 
 // INCLUDES
-#include    "cphonegsmoptioncontainerbase.h" 
+#include    "CPhoneGsmOptionContainerBase.h"
 
 // FORWARD DECLARATIONS
 

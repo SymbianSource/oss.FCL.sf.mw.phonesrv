@@ -17,11 +17,11 @@
 
 
 // INCLUDE FILES
-#include    "phonehandlervoicedial.h" 
-#include    "phonehandlercontrol.h" 
-#include    "phonehandlerdebug.h" 
-#include    <RemConCallHandlingTarget.h> 
-#include    <cphcltcommandhandler.h> 
+#include    "PhoneHandlerVoiceDial.h"
+#include 	"PhoneHandlerControl.h"
+#include 	"PhoneHandlerDebug.h"
+#include 	<RemConCallHandlingTarget.h>
+#include	<CPhCltCommandHandler.h>
 
 // EXTERNAL DATA STRUCTURES
 
@@ -50,8 +50,8 @@
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerVoiceDial::CPhoneHandlerVoiceDial( 
-                            CPhoneHandlerControl& aControl,
-                            TRemConExtCallHandlingApiOperationId aOperation )
+							CPhoneHandlerControl& aControl,
+							TRemConExtCallHandlingApiOperationId aOperation )
 : iControl( aControl ), 
   iOperation( aOperation )
     {
@@ -65,11 +65,11 @@ CPhoneHandlerVoiceDial::CPhoneHandlerVoiceDial(
 void CPhoneHandlerVoiceDial::ConstructL()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::ConstructL() start" );
-        
+	    
     LoadServiceL();
     
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::ConstructL() end" );
-    }
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerVoiceDial::NewL
@@ -77,21 +77,21 @@ void CPhoneHandlerVoiceDial::ConstructL()
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerVoiceDial* CPhoneHandlerVoiceDial::NewL( 
-                            CPhoneHandlerControl& aControl, 
-                            TRemConExtCallHandlingApiOperationId aOperation )
+							CPhoneHandlerControl& aControl, 
+							TRemConExtCallHandlingApiOperationId aOperation )
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::NewL() start" );
-        
+	    
     CPhoneHandlerVoiceDial* self = new( ELeave ) CPhoneHandlerVoiceDial( 
-                                                    aControl, 
-                                                    aOperation );
+    												aControl, 
+    												aOperation );
     
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
 
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::NewL() end" );
-        
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::NewL() end" );
+		
     return self;
     }
 
@@ -100,7 +100,7 @@ CPhoneHandlerVoiceDial* CPhoneHandlerVoiceDial::NewL(
 CPhoneHandlerVoiceDial::~CPhoneHandlerVoiceDial()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::~CPhoneHandlerVoiceDial()" );
-    
+	
     }
 
 // -----------------------------------------------------------------------------
@@ -110,14 +110,14 @@ CPhoneHandlerVoiceDial::~CPhoneHandlerVoiceDial()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerVoiceDial::Process()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::Process()" );
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::Process()" );
 
-#if 0 // removed due to SCB CR PMEO-7JRFAX      
-    iCommandHandler->Bvra( GetStatus(), iControl.VoiceDialStatus() ); 
-#endif // #if 0     
-    Activate(); 
-    }
+#if 0 // removed due to SCB CR PMEO-7JRFAX		
+	iCommandHandler->Bvra( GetStatus(), iControl.VoiceDialStatus() ); 
+#endif // #if 0 	
+	Activate();	
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerVoiceDial::Delete
@@ -125,11 +125,11 @@ void CPhoneHandlerVoiceDial::Process()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerVoiceDial::Delete()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::Delete()" );
-        
-    delete this;
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::Delete()" );
+		
+	delete this;
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerVoiceDial::RequestCompleted
@@ -140,33 +140,33 @@ void CPhoneHandlerVoiceDial::Delete()
 void CPhoneHandlerVoiceDial::RequestCompleted( const TInt aError )
     {
     COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::RequestCompleted() aError=%d, iState=%d", aError, iState );
-        
-    switch( iState )
-        {
-        case EPhoneHandlerState1:
-            {
-            NextState();
-            iControl.CommandInitiator().SendResponse( GetStatus(), 
-                                                      iOperation,
-                                                      aError );
-            Activate();
-            break;
-            }
-            
-        case EPhoneHandlerState2:
-            {
-            IdleState();
-            delete this; 
-            break;
-            }
-            
-        default:
-            {
-            COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::RequestCompleted() Unspecified state" );
-            break;
-            }
-        };
-    }
+	    
+	switch( iState )
+		{
+		case EPhoneHandlerState1:
+			{
+			NextState();
+			iControl.CommandInitiator().SendResponse( GetStatus(), 
+													  iOperation,
+													  aError );
+			Activate();
+			break;
+			}
+			
+		case EPhoneHandlerState2:
+			{
+			IdleState();
+			delete this; 
+			break;
+			}
+			
+		default:
+			{
+			COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerVoiceDial::RequestCompleted() Unspecified state" );
+			break;
+			}
+		};
+	}
     
 // ========================== OTHER EXPORTED FUNCTIONS =========================
 

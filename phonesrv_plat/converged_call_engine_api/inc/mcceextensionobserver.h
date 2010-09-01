@@ -48,7 +48,7 @@ public:
     * @return none
     */
     virtual void HandleExtensionEvents( TUint32 aServiceId,
-                                        TInt aEvent,
+										TInt aEvent,
                                         TInt aStatus ) = 0;
     };
 

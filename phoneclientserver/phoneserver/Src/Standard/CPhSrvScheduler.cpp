@@ -17,8 +17,8 @@
 
 
 // INCLUDE FILES
-#include "cphsrvscheduler.h" 
-#include "phsrvutils.h" 
+#include "CPhSrvScheduler.h"
+#include "PhSrvUtils.h"
 
 
 

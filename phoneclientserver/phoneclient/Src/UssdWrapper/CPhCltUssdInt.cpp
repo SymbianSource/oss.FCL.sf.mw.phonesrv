@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "cphcltussdint.h" 
-#include "cphcltussdimp.h" 
+#include "CPhCltUssdInt.h"
+#include "CPhCltUssdImp.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 

@@ -34,44 +34,44 @@ class MCCPForwardObserver;
 *  @since S60 3.2
 */
 class MCCPForwardProvider
-    {
+	{
 protected:
     /** 
     * Protected destructor. Object cannot be deleted from plug-in client (CCE).
     * @since S60 3.2
     */
     virtual inline ~MCCPForwardProvider() {};
-    
+	
 public:
     /**
-    * Returns pointer to array containing addresses to forward the call to.
-    * Index zero contains the first address. If there are no addresses available
-    * returns an empty array.
-    * @since Series 60 3.2
-    * @param none
-    * @return Reference to array containing addresses
+	* Returns pointer to array containing addresses to forward the call to.
+	* Index zero contains the first address. If there are no addresses available
+	* returns an empty array.
+	* @since Series 60 3.2
+	* @param none
+	* @return Reference to array containing addresses
     * @leave KErrNotReady call is not in forwarding state
     * @leave KErrNotSupported if call is not mobile originated
     * @leave system error code 
     * @pre Call state is MCCPCallObserver::ECCPStateForwarding and call type is MO
     * @pre Call MCCPForwardObserver::ECCPMultipleChoices event is received
-    */
-    virtual const CDesC8Array& GetForwardAddressChoicesL() = 0;
+	*/
+	virtual const CDesC8Array& GetForwardAddressChoicesL() = 0;
 
-    /**
-    * Forward call to address at given index.
-    * @since Series 60 3.2
-    * @param aIndex Index of address where the call is to be forwarded. Address is 
-    * found in the array received from GetForwardAddressChoicesL. Index starts from zero.
-    * @return none
-    * @leave KErrArgument Index is not in array
+	/**
+	* Forward call to address at given index.
+	* @since Series 60 3.2
+	* @param aIndex Index of address where the call is to be forwarded. Address is 
+	* found in the array received from GetForwardAddressChoicesL. Index starts from zero.
+	* @return none
+	* @leave KErrArgument Index is not in array
     * @leave KErrNotReady Call is not in forwarding state
     * @leave KErrNotSupported If call is not mobile originated
     * @pre Call state is MCCPCallObserver::ECCPStateForwarding and call type is MO
     * @pre Call MCCPForwardObserver::ECCPMultipleChoices event is received
-    */
-    virtual void ForwardToAddressL( const TInt aIndex ) = 0;
-    
+	*/
+	virtual void ForwardToAddressL( const TInt aIndex ) = 0;
+	
     /**
     * Add an observer for forward related events.
     * Currently CCE will set only one observer.
@@ -90,7 +90,7 @@ public:
     * @return KErrNotFound if observer was not found.
     */
     virtual TInt RemoveObserver( const MCCPForwardObserver& aObserver ) = 0;
-    };
+	};
 
 
 #endif // MCCPFORWARDPROVIDER_H

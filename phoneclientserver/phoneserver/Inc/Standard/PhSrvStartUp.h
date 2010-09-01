@@ -21,7 +21,7 @@
 
 
 // INCLUDES
-#include <phclttypes.h> 
+#include <PhCltTypes.h>
 
 
 // FORWARD DECLARATIONS

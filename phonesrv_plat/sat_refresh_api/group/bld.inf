@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:  File that exports the files belonging to 
-:                SAT Refresh API
+*               SAT Refresh API
 *
 */
 
@@ -24,5 +24,5 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/rsatrefresh.h     MW_LAYER_PLATFORM_EXPORT_PATH(rsatrefresh.h)
-../inc/msatrefreshobserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(msatrefreshobserver.h)
+../inc/RSatRefresh.h     MW_LAYER_PLATFORM_EXPORT_PATH(rsatrefresh.h)
+../inc/MSatRefreshObserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(msatrefreshobserver.h)

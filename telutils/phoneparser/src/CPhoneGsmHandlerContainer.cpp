@@ -17,8 +17,8 @@
 
 
 // INCLUDE FILES
-#include    "cphonegsmhandlercontainer.h" 
-#include    "phonegsmparser.h" 
+#include    "CPhoneGsmHandlerContainer.h"
+#include    "PhoneGsmParser.h"
 
 // CONSTANTS
 const TInt KPhoneHandlerArrayGranularity = 10;

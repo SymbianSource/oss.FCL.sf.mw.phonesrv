@@ -24,7 +24,7 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/cphcltcallnotify.h     MW_LAYER_PLATFORM_EXPORT_PATH(cphcltcallnotify.h)
+../inc/CPhCltCallNotify.h     MW_LAYER_PLATFORM_EXPORT_PATH(CPhCltCallNotify.h)
 ../inc/cphcltdialdata.h       MW_LAYER_PLATFORM_EXPORT_PATH(cphcltdialdata.h)
 ../inc/mphcltdialrequestobserver.h       MW_LAYER_PLATFORM_EXPORT_PATH(mphcltdialrequestobserver.h)
 ../inc/mphcltdialemergencyrequestobserver.h       MW_LAYER_PLATFORM_EXPORT_PATH(mphcltdialemergencyrequestobserver.h)

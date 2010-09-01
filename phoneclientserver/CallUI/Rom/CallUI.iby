@@ -20,10 +20,10 @@
 #define __CALLUI_IBY__
 
 REM CallUI Plugin
-ECOM_PLUGIN(cauiplugin.dll,101f868e.rsc)
+ECOM_PLUGIN(CaUiPlugin.dll,101F868E.rsc)
 
 REM CallUI Engine
-file=ABI_DIR\BUILD_DIR\cauiengine.dll       SHARED_LIB_DIR\cauiengine.dll
+file=ABI_DIR\BUILD_DIR\CaUiEngine.dll       SHARED_LIB_DIR\CaUiEngine.dll
 
 REM Enabler for exlipsing ROM binaries
 data=ZSYSTEM\install\callui_stub.sis       system\install\callui_stub.sis

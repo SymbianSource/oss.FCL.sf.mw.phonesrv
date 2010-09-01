@@ -33,9 +33,9 @@ const TUint KNWHomeZoneStatus = 0x00000001;
 
 enum KNWZoneStatus
     {
-    ENWNone,
-    ENWCityZone, 
-    ENWHomeZone 
+	ENWNone,
+	ENWCityZone, 
+	ENWHomeZone	
     };
 
 /**

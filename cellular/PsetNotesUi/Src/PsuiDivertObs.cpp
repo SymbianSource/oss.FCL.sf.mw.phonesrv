@@ -17,13 +17,13 @@
 
 
 // INCLUDE FILES
-#include <psui.rsg> 
+#include <Psui.rsg>
 #include <mmlist.h>
 #include <featmgr.h> 
-#include <psuicontainer.h> 
+#include <PsuiContainer.h>
 #include <etelsat.h>
 
-#include "psuinotecontroller.h" 
+#include "PsuiNoteController.h"
 
 
 // ---------------------------------------------------------------------------

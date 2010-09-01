@@ -24,5 +24,5 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/cenrepdatabaseproperty.h MW_LAYER_PLATFORM_EXPORT_PATH( cenrepdatabaseproperty.h )
-../inc/cenrepdatabaseutil.h MW_LAYER_PLATFORM_EXPORT_PATH( cenrepdatabaseutil.h )
+../inc/cenrepdatabaseproperty.h	MW_LAYER_PLATFORM_EXPORT_PATH( cenrepdatabaseproperty.h )
+../inc/cenrepdatabaseutil.h	MW_LAYER_PLATFORM_EXPORT_PATH( cenrepdatabaseutil.h )

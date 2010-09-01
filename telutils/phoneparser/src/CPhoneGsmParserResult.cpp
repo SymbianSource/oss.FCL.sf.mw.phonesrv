@@ -19,9 +19,9 @@
 // INCLUDE FILES
 #include    <featmgr.h>
 
-#include    "cphonegsmparserresult.h" 
-#include    "cphonegsmparserbase.h" 
-#include    "phonegsmparser.h" 
+#include    "CPhoneGsmParserResult.h"
+#include    "CPhoneGsmParserBase.h"
+#include    "PhoneGsmParser.h"
 
 // CONSTANTS
 const TInt KPhoneParserResultParameterGranularity = 10;

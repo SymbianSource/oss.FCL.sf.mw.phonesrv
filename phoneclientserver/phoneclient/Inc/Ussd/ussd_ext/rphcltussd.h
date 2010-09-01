@@ -21,8 +21,8 @@
 
 // INCLUDES
 #include <e32std.h>
-#include <phclttypes.h> 
-#include <cphcltussd.h> 
+#include <PhCltTypes.h>
+#include <CPhCltUssd.h>
 
 
 // FORWARD DECLARATIONS

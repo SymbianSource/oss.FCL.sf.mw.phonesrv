@@ -194,7 +194,7 @@ void CCCEConferenceCall::AddCallL( MCCECall& aCall )
 
         iConferenceCall = iPluginManager.GetPluginL(
             call->ImplementationUid() )->NewConferenceL( ServiceId(), *this );
-            
+			
         if(iConferenceCall)
             {
             iConferenceCall->AddCallL( &call->GetCCPCall() );
@@ -286,11 +286,10 @@ TInt CCCEConferenceCall::SetOngoingConferenceCall(
         
         for( TInt i = 0; i < array.Count(); i++ )
             {
-            // *call ownership is not transfered.
             const CCCECall* call = iCallContainer.GetCall( array[i] );
             
             // Check if cce call matching to ccp call is available
-            iCallArray.Append( call ); // Ignore return value;
+            iCallArray.Append( call );
             iCallParameters->SetServiceId( call->ServiceId() );
                 
             CCELOGSTRING("CCCEConferenceCall:: Call added to conferencecall");
@@ -391,12 +390,14 @@ void CCCEConferenceCall::GoOneToOneL( MCCECall& aCall )
 TInt CCCEConferenceCall::GetCallArray( RPointerArray<MCCECall>& aCallArray )
     {
     TInt err( KErrNotFound );
-    TInt count = iCallArray.Count();
-    aCallArray.Reserve(count);
-    for (TInt a = 0; a < count; a++)
+    
+    for (TInt a = 0; a < iCallArray.Count(); a++)
         {
-        err= aCallArray.Append( iCallArray[a] );
+        aCallArray.Append( iCallArray[a] );
+        err = KErrNone;
         }
+
+    
     return err;
     }
 
@@ -630,8 +631,8 @@ void CCCEConferenceCall::DeActivate()
 // ---------------------------------------------------------------------------
 // 
 TTimeIntervalSeconds CCCEConferenceCall::CallDuration() const
-    {
+	{
     return iCCEDurationTimer->NumberOfBeats();
-    }
+	}
     
 // End of file

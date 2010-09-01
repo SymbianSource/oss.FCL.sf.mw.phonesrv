@@ -21,13 +21,13 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <psetcalldiverting.h> 
+#include <PsetCallDiverting.h>
 #include <mmretrieve.h>
 #include <ctsydomaincrkeys.h>
-#include "msssettingsobserver.h" 
+#include "MSSSettingsObserver.h"
 #include "nwdefs.h"             
-#include "psetconstants.h" 
-#include "psetcalldivertingbase.h" 
+#include "PsetConstants.h"
+#include "PSetCallDivertingBase.h"
 
 // CLASS DECLARATION
 class CPsetSAObserver;
@@ -101,10 +101,6 @@ NONSHARABLE_CLASS(CPSetCallDivertingBasicImpl) : public CPSetCallDivertingBase
             const TBasicServiceGroups aBsc );
         
         TSelectedLine GetSAAls();
-        
-    private:
-        // Memorize requested service group
-        TServiceGroup iRequestedServiceGroup;
     };
 
 #endif      // CPSETCALLDIVERTINGBASICIMPL_H 

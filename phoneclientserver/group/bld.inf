@@ -16,10 +16,12 @@
 */
 
 
-#include "../enpolicy/group/bld.inf"
+#include "../EnPolicy/Group/bld.inf"
 #include "../aiwdialdata/group/bld.inf"
 #include "../dialutils/group/bld.inf"
-#include "../phoneclient/group/bld.inf"
-#include "../phoneserver/group/bld.inf"
+#include "../phoneclient/Group/bld.inf"
+#include "../phoneserver/Group/bld.inf"
+#include "../CallUI/Group/bld.inf"
+
 
 // End of File

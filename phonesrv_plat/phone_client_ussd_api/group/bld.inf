@@ -24,4 +24,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/cphcltussd.h     MW_LAYER_PLATFORM_EXPORT_PATH(cphcltussd.h)
+../inc/CPhCltUssd.h     MW_LAYER_PLATFORM_EXPORT_PATH(CPhCltUssd.h)

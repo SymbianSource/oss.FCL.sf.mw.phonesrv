@@ -21,9 +21,8 @@
 
 // Includes
 
-#include "phclttypes.h" 
-#include "cauivoipextension.h" 
-
+#include "PhCltTypes.h"
+#include "CaUiVoIPExtension.h"
 // Forward declarations
 
 class CCaUiEngine;
@@ -59,16 +58,16 @@ NONSHARABLE_CLASS( CCaUiDialogs )
     
     public:
     
-        /**
+    	/**
         * Two-phased constructor.
         * @return an instance of CCaUiDialogs.
         */
-        static CCaUiDialogs* NewL( CCaUiEngine& aCaUiEngine );
+	    static CCaUiDialogs* NewL( CCaUiEngine& aCaUiEngine );
     
-        /**
-        * Destructor.
-        */
-        virtual ~CCaUiDialogs();
+	    /**
+	    * Destructor.
+	    */
+	    virtual ~CCaUiDialogs();
     
         /**
         * Launch a query whether video call will be created with long 
@@ -76,8 +75,8 @@ NONSHARABLE_CLASS( CCaUiDialogs )
         * 
         * @return The selection user made
         */
-        TInt QueryVideoCallDefaultActionL();
-        
+	    TInt QueryVideoCallDefaultActionL();
+	    
         /**
         * Launch a list query asking what type of call the caller wants
         * to make.

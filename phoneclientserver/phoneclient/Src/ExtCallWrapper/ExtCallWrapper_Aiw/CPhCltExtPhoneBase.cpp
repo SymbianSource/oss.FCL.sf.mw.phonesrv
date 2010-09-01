@@ -18,9 +18,9 @@
 
 
 // INCLUDE FILES
-#include    "cphcltextphonebase.h" 
-#include    "cphcltextphone.h" 
-#include    "phclttypes.h" 
+#include    "CPhCltExtPhoneBase.h"
+#include    "CPhCltExtPhone.h"
+#include    "PhCltTypes.h"
 
 
 // ============================ MEMBER FUNCTIONS ===============================

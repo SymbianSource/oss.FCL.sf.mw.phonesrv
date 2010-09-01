@@ -17,7 +17,7 @@
 */
 
 #include <platform_paths.hrh>
-#include "../logger/phonesettingsloggingconf.h" 
+#include "../Logger/PhoneSettingsLoggingConf.h"
 
 // Capability assignment.
 CAPABILITY CAP_GENERAL_DLL
@@ -28,41 +28,39 @@ TARGETTYPE dll
 UID 0x1000008d 0x100058e3
 
 SOURCEPATH ../src
-SOURCE psetcallwaiting.cpp 
-SOURCE psetcontainer.cpp 
-SOURCE psetcallbarring.cpp 
-SOURCE psetcalldiverting.cpp 
-SOURCE psettelephony.cpp 
-SOURCE psetcli.cpp 
-SOURCE psetvariationproxy.cpp 
-SOURCE psetnetwork.cpp 
-SOURCE psetsaobserver.cpp 
-SOURCE psetcsp.cpp 
-SOURCE psetutility.cpp 
-SOURCE psetrefreshhandlerimpl.cpp 
-SOURCE psetcalldivertingbase.cpp 
-SOURCE psetsubscriberidcheck.cpp 
-SOURCE psetcalldivertingbasicimpl.cpp 
-SOURCE psetcalldivertingcreator.cpp 
-SOURCE psetcalldivertingdualaffectimpl.cpp 
+SOURCE CNetworkResetHandler.cpp
+SOURCE PsetCallWaiting.cpp
+SOURCE PsetContainer.cpp
+SOURCE PsetCallBarring.cpp    
+SOURCE PsetCallDiverting.cpp
+SOURCE PsetTelephony.cpp         
+SOURCE PsetCli.cpp
+SOURCE PsetVariationProxy.cpp
+SOURCE PsetNetwork.cpp
+SOURCE PsetSAObserver.cpp
+SOURCE PsetCSP.cpp
+SOURCE PSetUtility.cpp
+SOURCE PSetRefreshHandlerImpl.cpp
+SOURCE PSetCallDivertingBase.cpp 
+SOURCE PSetSubscriberIdCheck.cpp 
+SOURCE PSetCallDivertingBasicImpl.cpp
+SOURCE PSetCallDivertingCreator.cpp 
+SOURCE PSetCallDivertingDualAffectImpl.cpp
 
 USERINCLUDE     ../inc
-USERINCLUDE     ../logger 
-SYSTEMINCLUDE   ../../../inc
+USERINCLUDE     ../Logger
+SYSTEMINCLUDE	../../../inc
 // APP include needed because telephonysettings 
 // uses vmbx headers from APP layer.
-// <-- QT PHONE START -->
-MW_LAYER_SYSTEMINCLUDE
-// <-- QT PHONE END -->
+APP_LAYER_SYSTEMINCLUDE
+
 LIBRARY euser.lib
 LIBRARY etel.lib
 LIBRARY etelmm.lib
 LIBRARY customapi.lib
 LIBRARY bafl.lib         
 LIBRARY sssettings.lib
-// <-- QT PHONE START -->
-//LIBRARY vmbx.lib
-// <-- QT PHONE END -->
+LIBRARY vmbx.lib
 LIBRARY featmgr.lib
 
 LIBRARY centralrepository.lib

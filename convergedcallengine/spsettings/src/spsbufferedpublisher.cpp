@@ -142,7 +142,7 @@ void CSpsBufferedPublisher::GetL( RArray<TUint32>& aData )
         }
     
     // Start reading
-    while( lastModified != iIndex ) 
+    while( lastModified != iIndex )
         {
         iIndex++;
         
@@ -151,7 +151,8 @@ void CSpsBufferedPublisher::GetL( RArray<TUint32>& aData )
             // Skip index if real index is same as KRealGlobalIndex
             iIndex++;
             }
-        aData.AppendL( At(data, iIndex) );
+
+        aData.Append( At(data, iIndex) );
         }
 
     }

@@ -165,13 +165,13 @@ private:
     class TStateTransition
         {
     public:
-        TStateTransition() 
-            {
-            iState = CCPCall::EStateIdle;
-            iInband = EFalse;
-            }
-            
-        CCPCall::TCallState iState;
+    	TStateTransition() 
+    		{
+    		iState = CCPCall::EStateIdle;
+    		iInband = EFalse;
+    		}
+    		
+    	CCPCall::TCallState iState;
         TBool iInband;
         };
     /**

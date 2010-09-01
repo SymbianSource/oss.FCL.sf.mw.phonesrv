@@ -57,11 +57,13 @@ CSsConnectionHandler* CSsConnectionHandler::NewL()
 //
 void CSsConnectionHandler::ConstructL()
     {
+    iCch = CCch::NewL(); 
     }
 
 // Destructor
 CSsConnectionHandler::~CSsConnectionHandler()
     {
+    delete iCch;
     }
 
 // -----------------------------------------------------------------------------
@@ -71,11 +73,24 @@ CSsConnectionHandler::~CSsConnectionHandler()
 //
 TBool CSsConnectionHandler::IsVoipServiceRegistered
         ( 
-        TUint /*aServiceId */
+        TUint aServiceId 
         ) const
     {
-   
-    TBool registered( EFalse );     
+    TCchServiceStatus serviceStatus;
+    TBool registered( EFalse );
+    CCchService* service = iCch->GetService( aServiceId );
+    if ( service )
+        {
+        service->GetStatus( ECCHVoIPSub, serviceStatus );
+        registered = ( KErrNone == serviceStatus.Error() ) && 
+                     ( ECCHEnabled == serviceStatus.State() );
+        }
+    
+    CSSLOGSTRING4("CSSelector::IsRegistered: id:%d ,enabled:%d ,error:%d",
+                (TInt) aServiceId,
+                (TInt) ECCHEnabled == serviceStatus.State(),
+                (TInt) serviceStatus.Error());
+     
     return registered;        
     }
 

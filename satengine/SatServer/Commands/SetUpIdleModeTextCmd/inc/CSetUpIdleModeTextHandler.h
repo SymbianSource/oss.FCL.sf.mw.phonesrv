@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -118,6 +118,9 @@ class CSetUpIdleModeTextHandler : public CSatCommandHandler
 
         // Response package.
         RSat::TSetUpIdleModeTextRspV1Pckg iSetUpIdleModeTextRspPckg;
+
+        // Indicates are we waiting for response
+        TBool iWaitingForResponse;
 
         // Store for restoring last valid idle mode text.
         TBool iSimResetExecuting;

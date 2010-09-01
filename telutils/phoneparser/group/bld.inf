@@ -23,11 +23,11 @@ DEFAULT
 PRJ_EXPORTS
 
 
-../group/phoneparser_stub.sis\
-    /epoc32/data/z/system/install/phoneparser_stub.sis
+../group/phoneparser_stub.SIS\
+    /epoc32/data/z/system/install/phoneparser_stub.SIS
     
 // IBY file exports
-../rom/phoneparser.iby                  CORE_MW_LAYER_IBY_EXPORT_PATH(phoneparser.iby)
+../rom/Phoneparser.iby                  CORE_MW_LAYER_IBY_EXPORT_PATH(Phoneparser.iby)
 
 PRJ_MMPFILES
 ../group/phoneparser.mmp

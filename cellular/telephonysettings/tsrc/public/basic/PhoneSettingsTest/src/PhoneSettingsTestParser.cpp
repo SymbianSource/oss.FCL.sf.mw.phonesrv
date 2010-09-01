@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include <StifLogger.h>
 #include <StifTestModule.h>
-#include <rsssettings.h> 
+#include <RSSSettings.h> 
 #include "MPhoneSettingsTestMessageHandler.h"
 #include "PhoneSettingsTestParser.h"
 

@@ -17,11 +17,11 @@
 
 
 // INCLUDE FILES
-#include    "phonehandlerresponse.h" 
-#include    "phonehandlercontrol.h" 
-#include    "phonehandleractive.h" 
-#include    "phonehandlerdebug.h" 
-#include    <RemConCallHandlingTarget.h> 
+#include    "PhoneHandlerResponse.h"
+#include 	"PhoneHandlerControl.h"
+#include 	"PhoneHandlerActive.h"
+#include 	"PhoneHandlerDebug.h"
+#include 	<RemConCallHandlingTarget.h>
 
 // EXTERNAL DATA STRUCTURES
 
@@ -62,11 +62,11 @@ CPhoneHandlerResponse::CPhoneHandlerResponse( CPhoneHandlerControl& aControl )
 void CPhoneHandlerResponse::ConstructL()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::ConstructL() start" );
-        
+	    
     iActive = CPhoneHandlerActive::NewL( *this );
     
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::ConstructL() end" );
-    }
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerResponse::NewL
@@ -74,19 +74,19 @@ void CPhoneHandlerResponse::ConstructL()
 // -----------------------------------------------------------------------------
 //
 CPhoneHandlerResponse* CPhoneHandlerResponse::NewL( 
-        CPhoneHandlerControl& aControl )
+		CPhoneHandlerControl& aControl )
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::NewL() start" );
-        
+	    
     CPhoneHandlerResponse* self = 
-        new( ELeave ) CPhoneHandlerResponse( aControl );
+    	new( ELeave ) CPhoneHandlerResponse( aControl );
     
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
 
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::NewL() end" );
-    
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::NewL() end" );
+	
     return self;
     }
 
@@ -94,7 +94,7 @@ CPhoneHandlerResponse* CPhoneHandlerResponse::NewL(
 CPhoneHandlerResponse::~CPhoneHandlerResponse()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::~CPhoneHandlerResponse()" );
-    
+	
     delete iActive;
     }
 
@@ -105,14 +105,14 @@ CPhoneHandlerResponse::~CPhoneHandlerResponse()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerResponse::SetResponse( 
-            TRemConExtCallHandlingApiOperationId aOperation, TInt aError )
-    {
-    COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerResponse::Process(aOperation=%d,aError=%d)",aOperation, aError );
-    
-    iOperation = aOperation;
-    iError = aError;
-    }
-        
+			TRemConExtCallHandlingApiOperationId aOperation, TInt aError )
+	{
+	COM_TRACE_2( "[PHONECMDHANDLER] CPhoneHandlerResponse::Process(aOperation=%d,aError=%d)",aOperation, aError );
+	
+	iOperation = aOperation;
+	iError = aError;
+	}
+	    
 // -----------------------------------------------------------------------------
 // CPhoneHandlerResponse::SendResponse
 // Sends response to RemCon FW.
@@ -120,14 +120,14 @@ void CPhoneHandlerResponse::SetResponse(
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerResponse::Process()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::Process()" );
-    
-    iControl.CommandInitiator().SendResponse( iActive->iStatus, 
-                                              iOperation,
-                                              iError );
-    iActive->SetActive();                       
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::Process()" );
+	
+	iControl.CommandInitiator().SendResponse( iActive->iStatus, 
+											  iOperation,
+											  iError );
+	iActive->SetActive();						
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerLastNumberRedial::Delete
@@ -135,11 +135,11 @@ void CPhoneHandlerResponse::Process()
 // -----------------------------------------------------------------------------
 //
 void CPhoneHandlerResponse::Delete()
-    {
-    COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::Delete()" );
-        
-    delete this;
-    }
+	{
+	COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerResponse::Delete()" );
+		
+	delete this;
+	}
 
 // -----------------------------------------------------------------------------
 // CPhoneHandlerResponse::RequestCompleted
@@ -150,14 +150,14 @@ void CPhoneHandlerResponse::Delete()
 void CPhoneHandlerResponse::RequestCompleted( const TInt aError )
     {
     COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerResponse::RequestCompleted() aError=%d", aError );
-    
-    (void)aError; // avoid warning in WINSCW urel build
-    
-    // Think about adding value to TRemConExtCallHandlingApiOperationId 
-    // in RemConExtensionApi.h like "ERemConExtNoCallHandlingOperation".
-    // In this method iOperation should be set to that value.
-    iError = KErrNone;
-    }
+	
+	(void)aError; // avoid warning in WINSCW urel build
+	
+	// Think about adding value to TRemConExtCallHandlingApiOperationId 
+	// in RemConExtensionApi.h like "ERemConExtNoCallHandlingOperation".
+	// In this method iOperation should be set to that value.
+	iError = KErrNone;
+	}
     
 // ========================== OTHER EXPORTED FUNCTIONS =========================
 

@@ -22,10 +22,10 @@
 
 // INCLUDES
 #include <e32base.h>
-#include "cphsrvsubsessionbase.h" 
-#include "mphsrvobjectinitiators.h" 
-#include "cphsrvsubsessionnotifier.h" 
-#include "mphsrvcomhandinitiators.h" 
+#include "CPhSrvSubSessionBase.h"
+#include "MPhSrvObjectInitiators.h"
+#include "CPhSrvSubSessionNotifier.h"
+#include "MPhSrvComHandInitiators.h"
 
 // CLASS DECLARATION
 

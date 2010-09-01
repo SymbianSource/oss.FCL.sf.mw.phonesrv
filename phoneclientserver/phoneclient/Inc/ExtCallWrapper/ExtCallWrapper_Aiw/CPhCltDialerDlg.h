@@ -21,9 +21,9 @@
 
 //  INCLUDES
 #include    <eikdialg.h>
-#include    "mphcltextphoneobserver.h" 
-#include    "cphcltextphonebase.h" 
-#include    <cphcltextphonedialdata.h> 
+#include    "MPhCltExtPhoneObserver.h"
+#include    "CPhCltExtPhoneBase.h"
+#include    <CPhCltExtPhoneDialData.h>
 
 // FORWARD DECLARATIONS
 class CPhCltExtPhoneBase;

@@ -22,8 +22,8 @@
 //  INCLUDES
 #include <cenrepnotifyhandler.h>
 
-#include "rsssettings.h" 
-#include "csssettingsactiveobject.h" 
+#include "RSSSettings.h"
+#include "CSSSettingsActiveObject.h"
 
 // FORWARD DECLARATIONS
 class CSSSettingsAlsNotifier;

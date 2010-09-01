@@ -45,7 +45,7 @@ class MPhSrvInitiatorCall
         * @param aArgs The call parameters.
         */
         virtual void InitiatorMakeAsynchronousCallL( 
-            CPhCltExtPhoneDialData& aArgs ) =0;
+			CPhCltExtPhoneDialData& aArgs ) =0;
         /**
         * Called by the call manager to find out if there is a registered
         * notification handler.

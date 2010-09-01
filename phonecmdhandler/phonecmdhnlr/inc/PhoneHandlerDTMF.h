@@ -21,8 +21,8 @@
 #define CPHONEHANDLERDTMF_H
 
 //  INCLUDES
-#include "phonehandlercallbase.h" 
-#include <RemConExtensionApi.h> 
+#include "PhoneHandlerCallBase.h"
+#include <RemConExtensionApi.h>
 
 // CONSTANTS
 
@@ -44,7 +44,7 @@ class CPhoneHandlerControl;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerDTMF ) : public CPhoneHandlerCallBase
-                                         
+						  				 
     {
     public:  // Constructors and destructor
         
@@ -52,10 +52,10 @@ NONSHARABLE_CLASS( CPhoneHandlerDTMF ) : public CPhoneHandlerCallBase
         * Two-phased constructor.
         */
         static CPhoneHandlerDTMF* NewL(  
-            CPhoneHandlerControl& aControl,
-            TRemConExtCallHandlingApiOperationId aOperation 
-                = ERemConExtGenerateDTMF
-            );
+        	CPhoneHandlerControl& aControl,
+        	TRemConExtCallHandlingApiOperationId aOperation 
+            	= ERemConExtGenerateDTMF
+        	);
         
         /**
         * Destructor.
@@ -99,7 +99,7 @@ NONSHARABLE_CLASS( CPhoneHandlerDTMF ) : public CPhoneHandlerCallBase
         * C++ default constructor.
         */
         CPhoneHandlerDTMF( CPhoneHandlerControl& aControl,
-                           TRemConExtCallHandlingApiOperationId aOperation );
+        				   TRemConExtCallHandlingApiOperationId aOperation );
 
         /**
         * By default Symbian 2nd phase constructor is private.

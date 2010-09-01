@@ -24,27 +24,27 @@ DEFAULT
 PRJ_EXPORTS
 
 // Private
-../inc/cauiengine/cauidialresultobserver.h |../inc/cauidialresultobserver.h
-../inc/cauiengine/cauilogger.h             |../inc/cauilogger.h
-../inc/cauiengine/cauieng.h                |../inc/cauieng.h
+../Inc/CaUiEngine/CaUiDialResultObserver.h |../inc/cauidialresultobserver.h
+../Inc/CaUiEngine/CaUiLogger.h             |../inc/cauilogger.h
+../Inc/CaUiEngine/CaUiEng.h                |../inc/cauieng.h
 
 // Internal
-../inc/caui.hrh                            |../../../inc/caui.hrh
+../Inc/CaUI.hrh                            |../../../inc/caui.hrh
 
-../group/callui_stub.sis                   /epoc32/data/z/system/install/callui_stub.sis
+../Group/callui_stub.SIS                   /epoc32/data/z/system/install/callui_stub.sis
 
 // LOC files
 ../loc/callui.loc                           MW_LAYER_LOC_EXPORT_PATH(callui.loc)
 
 // IBY files
-../rom/callui.iby                           CORE_MW_LAYER_IBY_EXPORT_PATH(callui.iby)
-../rom/callui_variant.iby                   CUSTOMER_MW_LAYER_IBY_EXPORT_PATH(callui_variant.iby)
-../rom/calluiresources.iby                  LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(calluiresources.iby)
+../Rom/CallUI.iby                           CORE_MW_LAYER_IBY_EXPORT_PATH(CallUI.iby)
+../Rom/CallUI_Variant.iby                   CUSTOMER_MW_LAYER_IBY_EXPORT_PATH(CallUI_Variant.iby)
+../Rom/CallUIResources.iby                  LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(CallUIResources.iby)
 
 
 PRJ_MMPFILES
-../group/cauiengine.mmp
-../group/cauiplugin.mmp
+../Group/CaUiEngine.mmp
+../Group/CaUiPlugin.mmp
 
 
 //  End of File  

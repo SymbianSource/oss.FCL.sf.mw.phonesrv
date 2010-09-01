@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include <cphcltextphonedialdata.h> 
+#include <cphcltextphonedialdata.h>
 #include <cphcltdialdata.h>
 
 
@@ -484,7 +484,7 @@ EXPORT_C TInt CPhCltExtPhoneDialData::CalculatePackageSize() const
     packageSize+=sizeof( iRedialMaximumDuration.Int() );
     if ( iContactLink )
         {
-        packageSize += CalculateDescriptorSize( *iContactLink );
+    	packageSize += CalculateDescriptorSize( *iContactLink );
         }
     packageSize += CalculateDescriptorSize( iSubAddress );
     packageSize += sizeof( iShowNumber);
@@ -628,9 +628,9 @@ EXPORT_C HBufC8* CPhCltExtPhoneDialData::PackLC()
     stream.WriteInt32L( iRedial );
     stream.WriteInt32L( iRedialMaximumDuration.Int() );
     if ( iContactLink )
-        {
-        WriteDescriptorToStreamL( stream, *iContactLink );
-        }
+    	{
+    	WriteDescriptorToStreamL( stream, *iContactLink );
+    	}
     stream << iSubAddress;
     stream.WriteInt32L( iShowNumber );
     stream.WriteInt32L( iAllowMatch );

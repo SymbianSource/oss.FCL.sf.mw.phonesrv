@@ -23,6 +23,8 @@
 // INCLUDES
 #include <e32base.h>
 #include <e32property.h>
+#include <ccallinformation.h>
+#include <mcallinformationobserver.h>
 
 // CONSTANTS
 
@@ -43,74 +45,65 @@ class CPhoneHandlerControl;
 *  @lib RemConAsy
 *  @since S60 3.1
 */
-NONSHARABLE_CLASS( CPhoneHandlerCallState ) : public CActive
-    {
-    public: // Constructors and destructor
-    
-        /**
+NONSHARABLE_CLASS( CPhoneHandlerCallState ) : public CBase, public MCallInformationObserver
+	{
+	public:	// Constructors and destructor
+	
+		/**
         * Two-phased constructor.
         */
-        static CPhoneHandlerCallState* NewL( CPhoneHandlerControl& aControl );
-    
-        /**
+		static CPhoneHandlerCallState* NewL( CPhoneHandlerControl& aControl );
+	
+		/**
         * Destructor.
         */
-        ~CPhoneHandlerCallState();
-    
-    public: // New functions
-                
-    public: // Functions from base classes
-        
-    protected:  // New functions
-    
-    protected:  // Functions from base classes
-    
-        /**
-        * From CActive. Handles S60 start up state change event.
-        */
-        void RunL();
-    
-        /**
-        * From CActive. Implements cancellation of an outstanding Subscibe() 
-        * request.
-        */
-        void DoCancel();
-    
-    private:
-        
-        /**
+		~CPhoneHandlerCallState();
+	
+	private:
+		
+		/**
         * C++ default constructor.
         */
-        CPhoneHandlerCallState( CPhoneHandlerControl& aControl );
-    
-        /**
+		CPhoneHandlerCallState( CPhoneHandlerControl& aControl );
+	
+		/**
         * By default Symbian 2nd phase constructor is private.
         */
-        void ConstructL();
-        
-        /**
-        * Starts to listen change in S60 start up state.
-        **/
-        void Subscribe();
-    
-    public:     // Data
+		void ConstructL();
+
+		/**
+		* Signals that there are changes in ongoing calls.
+		*    
+		* @return void
+		*/
+		void CallInformationChangedL();
+     	
+		// From MCallInformationObserver
+		
+		/**
+		* Signals that there are changes in ongoing calls.
+		*    
+		* @return void
+		*/
+		void CallInformationChanged();
+	
+	public:     // Data
     
     protected:  // Data
     
     private:    // Data
     
-        // Publish and Subscribe handle used to listen changes in call states 
-        RProperty iProperty;
-                        
-        // reference to control
+    	CCallInformation* iInfo;
+
+		// reference to control
         CPhoneHandlerControl& iControl;
-        
-    public:     // Friend classes
+		
+	public:     // Friend classes
 
     protected:  // Friend classes
 
     private:    // Friend classes
-    };
+	};
 
 #endif // CPHONEHANDLERCALLSTATE_H
 

@@ -22,8 +22,8 @@
 
 
 // INCLUDES
-#include    "csosemergencynumberpolicyhandler.h" 
-#include    <rphcltserver.h> 
+#include    "CSOSEmergencyNumberPolicyHandler.h"
+#include    <RPhCltServer.h>
 #include    <cenrepnotifyhandler.h>
 
 // FORWARD DECLARATIONS

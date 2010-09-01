@@ -24,5 +24,5 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/ccbsmessageclient.h     MW_LAYER_PLATFORM_EXPORT_PATH(ccbsmessageclient.h)
-../inc/cbscommontypes.h     MW_LAYER_PLATFORM_EXPORT_PATH(cbscommontypes.h)
+../inc/ccbsmessageclient.h     MW_LAYER_PLATFORM_EXPORT_PATH(CCbsMessageClient.h)
+../inc/cbscommontypes.h     MW_LAYER_PLATFORM_EXPORT_PATH(CbsCommonTypes.h)

@@ -154,11 +154,11 @@ private:
     void MoCallCreated( MCCPCall& aCall );
 
     /** @see MCCPCSObserver::DataPortName */
-    void DataPortName( TName& aPortName );
+	void DataPortName( TName& aPortName );
 
-    /** @see MCCPCSObserver::ConferenceCallCreated */
-    void ConferenceCallCreated( MCCPConferenceCall& aConferenceCall ); 
-    
+	/** @see MCCPCSObserver::ConferenceCallCreated */
+	void ConferenceCallCreated( MCCPConferenceCall& aConferenceCall ); 
+	
 // from base class MCCPObserver
 
     /** @see MCCPObserver::ErrorOccurred */
@@ -176,20 +176,20 @@ private:
 // from base class MCCPObserver
     
     /** @see MCCPSsObserver::BarringEventOccurred */
-    void BarringEventOccurred( const MCCPSsObserver::TCCPSsBarringEvent aBarringEvent );
-                                  
+   	void BarringEventOccurred( const MCCPSsObserver::TCCPSsBarringEvent aBarringEvent );
+								  
      /** @see MCCPSsObserver::CLIEventOccurred */
-    void CLIEventOccurred( const MCCPSsObserver::TCCPSsCLIEvent aCallLineEvent );
-                                  
+	void CLIEventOccurred( const MCCPSsObserver::TCCPSsCLIEvent aCallLineEvent );
+								  
      /** @see MCCPSsObserver::CallForwardEventOccurred */
-    void CallForwardEventOccurred( const MCCPSsObserver::TCCPSsCallForwardEvent aCallForwardEvent,
+	void CallForwardEventOccurred( const MCCPSsObserver::TCCPSsCallForwardEvent aCallForwardEvent,
         const TDesC& aRemoteAddress );
 
     /** @see MCCPSsObserver::CallCugEventOccurred */
-    void CallCugEventOccurred( const MCCPSsObserver::TCCPSsCugEvent aCugEvent );
-    
-    /** @see MCCPSsObserver::NotifyCurrentActiveALSLine */
-    void NotifyCurrentActiveALSLine( TInt aLine );
+	void CallCugEventOccurred( const MCCPSsObserver::TCCPSsCugEvent aCugEvent );
+	
+	/** @see MCCPSsObserver::NotifyCurrentActiveALSLine */
+	void NotifyCurrentActiveALSLine( TInt aLine );
 private:
 
     /** Constructor */
@@ -233,7 +233,7 @@ private: // data
      * Reference to dead observer
      * This will be informed when plugin crashes
      */
-    MCCPPluginDeathObserver& iDeathObserver;
+	MCCPPluginDeathObserver& iDeathObserver;
 
     /**
      * Use handle to ecom plugin.

@@ -42,79 +42,79 @@ class MPhoneHandlerObserver;
 *  @since S60 3.1
 */
 NONSHARABLE_CLASS( CPhoneHandlerActive ) : public CActive
-    {
-    public: // Constructors and destructor
-    
-        /**
+	{
+	public:	// Constructors and destructor
+	
+		/**
         * Two-phased constructor.
         */
-        static CPhoneHandlerActive* NewL( MPhoneHandlerObserver& aObserver );
-    
-        /**
+		static CPhoneHandlerActive* NewL( MPhoneHandlerObserver& aObserver );
+	
+		/**
         * Destructor.
         */
-        ~CPhoneHandlerActive();
-    
-    public: // New functions
-    
-        /**
+		~CPhoneHandlerActive();
+	
+	public: // New functions
+	
+		/**
         * From CActive. Indicates that the active object has issued a request 
         * and that it is now outstanding.  
         * @since S60 3.1
         * @return 
         */
-        void SetActive();
-        
-    public: // Functions from base classes
-        
-    protected:  // New functions
+		void SetActive();
+		
+	public: // Functions from base classes
+		
+	protected:  // New functions
     
     protected:  // Functions from base classes
     
-        /**
+    	/**
         * From CActive. Handles an active object’s request completion event.
         */
-        void RunL();
-    
-        /**
+    	void RunL();
+	
+		/**
         * From CActive. Implements cancellation of an outstanding request.
         */
-        void DoCancel();
-    
-        /**
+		void DoCancel();
+	
+		/**
         * From CActive. Handles a leave occurring in the request completion 
         * event handler RunL().
         */
-        TInt RunError( TInt aError );
+		TInt RunError( TInt aError );
 
-    private:
-        
-        /**
+	private:
+		
+		/**
         * C++ default constructor.
         */
-        CPhoneHandlerActive( MPhoneHandlerObserver& aObserver );
-    
-        /**
+		CPhoneHandlerActive( MPhoneHandlerObserver& aObserver );
+	
+		/**
         * By default Symbian 2nd phase constructor is private.
         */
-        void ConstructL();
-    
-    public:     // Data
+		void ConstructL();
+	
+	public:     // Data
     
     protected:  // Data
     
     private:    // Data
-        
-        // Notifies caller of an asynchronous request when request has been 
-        // completed.  
-        MPhoneHandlerObserver& iObserver;
-        
-    public:     // Friend classes
+		
+		// Notifies caller of an asynchronous request when request has been 
+		// completed.  
+		MPhoneHandlerObserver& iObserver;
+		
+	public:     // Friend classes
 
     protected:  // Friend classes
 
     private:    // Friend classes
-    };
+	};
 
 #endif // CPHONEHANDLERACTIVE_H
 

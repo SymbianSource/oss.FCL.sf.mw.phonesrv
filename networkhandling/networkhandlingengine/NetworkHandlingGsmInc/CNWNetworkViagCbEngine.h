@@ -22,11 +22,11 @@
 
 //  INCLUDES
 #include "MNWNetworkTimer.h"
-#include <nwhandlingengine.h>
+#include "NWHandlingEngine.h"
 #include "CNWGsmMessageHandler.h"
 #include "CNWNetworkHZCbCacheHandler.h"
 #include "MHZCachesInitialisationObserver.h"
-#include <mcbsmcnobserver.h> //For McbsMcnObserver
+#include <MCbsMcnObserver.h> //For McbsMcnObserver
 #include <rmmcustomapi.h>
 #include <e32property.h>
 

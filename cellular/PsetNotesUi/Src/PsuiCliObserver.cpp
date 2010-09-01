@@ -17,13 +17,13 @@
 
 
 // INCLUDE FILES
-#include <psui.rsg> 
+#include <Psui.rsg>
 #include <featmgr.h>
 #include <etelsat.h>
  
-#include "psuicliobserver.h" 
-#include "psuicontainer.h" 
-#include "psuinotecontroller.h" 
+#include "PsuiCliObserver.h"    
+#include "PsuiContainer.h"      
+#include "PsuiNoteController.h"
 
 //  MEMBER FUNCTIONS
 

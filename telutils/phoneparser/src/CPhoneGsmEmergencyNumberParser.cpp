@@ -17,10 +17,10 @@
 
 
 // INCLUDE FILES
-#include    "cphonegsmemergencynumberparser.h" 
-#include    "cphonegsmparserresult.h" 
-#include    "cphonegsmoptioncontainer.h" 
-#include    "cphoneparserfeatures.h" 
+#include    "CPhoneGsmEmergencyNumberParser.h"
+#include    "CPhoneGsmParserResult.h"
+#include    "CPhoneGsmOptionContainer.h"
+#include    "CPhoneParserFeatures.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 

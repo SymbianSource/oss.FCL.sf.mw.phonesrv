@@ -19,7 +19,7 @@
 #include <EUnitMacros.h>
 #include <EUnitDecorators.h>
 
-#include <cphcltemergencycall.h>
+#include <CPhCltEmergencyCall.h>
 
 #include <etelmm.h>
 #include <mmtsy_names.h>

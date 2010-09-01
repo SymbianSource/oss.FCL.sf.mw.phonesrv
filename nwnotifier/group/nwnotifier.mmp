@@ -1,0 +1,58 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Project specification file for nwnotifier.exe
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+MW_LAYER_SYSTEMINCLUDE
+
+TARGET            nwnotifier.exe
+TARGETTYPE        exe
+UID               0x1000008d 0x20026826
+SECUREID          0x20026826
+
+SOURCEPATH		    ../data
+
+// Application Resource
+START RESOURCE    nwnotifier.rss
+HEADER
+TARGET            nwnotifier_0x20026826
+TARGETPATH        APP_RESOURCE_DIR
+LANGUAGE_IDS
+END //RESOURCE
+
+USERINCLUDE    ../inc
+
+LIBRARY        euser.lib
+LIBRARY        aknnotify.lib // conf query
+LIBRARY        eiksrv.lib // conf query
+LIBRARY        bafl.lib
+LIBRARY        efsrv.lib // file
+LIBRARY        etel.lib // 
+LIBRARY        etelmm.lib
+LIBRARY        platformenv.lib
+
+VENDORID       VID_DEFAULT
+
+CAPABILITY     CAP_SERVER
+
+SOURCEPATH     ../src
+SOURCE         networknotifiernotewrapper.cpp 
+SOURCE         nwnotifier.cpp
+SOURCE         nwregistrationstatusmonitor.cpp
+
+// End of File

@@ -1,0 +1,33 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"CbsUI patch"},(0x101F4CD3),10,1,0,TYPE=PU
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+;Files
+"\epoc32\release\armv5\urel\cbsuiapp.exe"-"!:\sys\bin\cbsuiapp.exe"
+"\epoc32\data\z\resource\apps\cbsuiapp.rsc"-"!:\resource\apps\cbsuiapp.rsc"
+"\epoc32\data\z\resource\apps\cbsuiapp_aif.mif"-"!:\resource\apps\cbsuiapp_aif.mif"
+"\epoc32\data\z\resource\apps\cbsuiapp.mif"-"!:\resource\apps\cbsuiapp.mif"
+"\epoc32\data\z\private\10003a3f\apps\cbsuiapp_reg.rsc"-"!:\private\10003a3f\import\apps\cbsuiapp_reg.rsc"

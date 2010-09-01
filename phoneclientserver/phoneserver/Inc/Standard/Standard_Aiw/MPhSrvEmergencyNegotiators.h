@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32base.h>
-#include <phclttypes.h> 
+#include <PhCltTypes.h>
 
 
 // FORWARD DECLARATIONS

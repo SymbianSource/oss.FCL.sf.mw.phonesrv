@@ -20,6 +20,6 @@
 #define __AIWDIALDATA_IBY__
 
 file=ABI_DIR\BUILD_DIR\aiwdialdata.dll       SHARED_LIB_DIR\aiwdialdata.dll
-data=ZSYSTEM\install\aiwdialdata_stub.sis    System\Install\aiwdialdata_stub.sis
+data=ZSYSTEM\install\aiwdialdata_stub.SIS    System\Install\aiwdialdata_stub.SIS
 
 #endif // __AIWDIALDATA_IBY__

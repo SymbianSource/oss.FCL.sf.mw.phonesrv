@@ -27,7 +27,7 @@
 
 /**
 *  Abstract interface for handling the notify events from note controller.
-*  User derives his class from this and implements GlobalWaitNoteHidden().
+*  User derives his class from this and implements GlobalWaitNoteDismissedL().
 *
 *  @lib phoneclient.lib
 *  @since 9.1
@@ -39,11 +39,11 @@ class MPhCltUssdNoteControllerCallBack
     public: // New functions
 
         /**
-        * Called when global wait note is hidden, to background.
+        * Called when global wait note is dismissed.
         * 
         * @param aError Error code.
         */    
-        virtual void GlobalWaitNoteHidden() = 0;
+        virtual void GlobalWaitNoteDismissedL( const TInt aError ) = 0;
     };
 
 

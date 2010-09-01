@@ -20,15 +20,15 @@
 // INCLUDE FILES
 #include <centralrepository.h>
 #include <ctsydomainpskeys.h>
-#include <telservicesinternalcrkeys.h> // telephony service local variation keys. 
+#include <telservicesinternalcrkeys.h> // Telephony service local variation keys.
 #include <telservicesvariant.hrh>
 
-#include "psetsaobserver.h" 
-#include "mpsetnetworkinfoobs.h" 
-#include "mpsetdivertobs.h" 
-#include "phonesettingslogger.h" 
-#include "psetutility.h" 
-#include "psetvariationproxy.h" 
+#include "PsetSAObserver.h"
+#include "MPsetNetworkInfoObs.h"    
+#include "MPsetDivertObs.h"       
+#include "PhoneSettingsLogger.h"
+#include "PSetUtility.h"
+#include "PsetVariationProxy.h"
 
 //CONSTANTS
 const TInt KPsetRequesterUncertain = 0;
@@ -116,7 +116,7 @@ EXPORT_C TInt CPsetSAObserver::IsGPRSConnected()
     __PHSLOGSTRING("[PHS]--> CPsetSAObserver::IsGPRSConnected" );
     TInt connectionStatus = KErrGeneral;
     
-    TInt error = RProperty::Get( KUidSystemCategory,
+	TInt error = RProperty::Get( KUidSystemCategory,
                                  KPSUidGprsStatusValue,
                                  connectionStatus );
                                  
@@ -305,7 +305,7 @@ EXPORT_C void CPsetSAObserver::NotifyDivertChange(
     TInt package = aDivertNotify.iPreviousCfStatus;
     TPckg<TInt> indicatorPckg( package );
     TInt error = iRepository->Set( KCtsyUnconditionalCFStatus, indicatorPckg );
-    __PHSLOGSTRING("[PHS]<-- CPsetSAObserver::NotifyDivertChange" ); 
+	__PHSLOGSTRING("[PHS]<-- CPsetSAObserver::NotifyDivertChange" ); 
     }
     
 // ---------------------------------------------------------------------------

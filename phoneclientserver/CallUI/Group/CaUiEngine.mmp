@@ -26,21 +26,21 @@ TARGET          cauiengine.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x101F868F
 
-SOURCEPATH      ../src/cauiengine
-SOURCE          cauiengfactimpl.cpp
+SOURCEPATH      ../Src/CaUiEngine
+SOURCE          CaUiEngFactImpl.cpp
 
-SOURCE          cauiquery.cpp 
-SOURCE          cauiengine.cpp 
-SOURCE          cauiactiveobject.cpp 
-SOURCE          cauimessagesender.cpp 
-SOURCE          cauidialogs.cpp 
+SOURCE          CaUiQuery.cpp
+SOURCE          CaUiEngine.cpp
+SOURCE          CaUiActiveObject.cpp
+SOURCE          CaUiMessageSender.cpp
+SOURCE          CaUiDialogs.cpp
 
-SOURCE          cauivoipextension.cpp 
+SOURCE          CaUiVoIPExtension.cpp
 SOURCE          ccauireconnectquery.cpp
 SOURCE          ccauireconnectqueryimpl.cpp
 
-SOURCEPATH      ../data 
-START RESOURCE  callui.rss 
+SOURCEPATH      ../Data
+START RESOURCE  CallUI.rss
 HEADER
 TARGETPATH      RESOURCE_FILES_DIR
 END
@@ -48,9 +48,9 @@ END
 // TEMPORARY DEFINITION FOR CONTACT FINDER HEADERS
 SYSTEMINCLUDE    ../../../../../app/phone/inc
 
-USERINCLUDE     ../inc 
-USERINCLUDE     ../inc/cauiengine 
-USERINCLUDE     ../data 
+USERINCLUDE     ../Inc
+USERINCLUDE     ../Inc/CaUiEngine
+USERINCLUDE     ../Data
 USERINCLUDE     ../loc
 
 APP_LAYER_SYSTEMINCLUDE

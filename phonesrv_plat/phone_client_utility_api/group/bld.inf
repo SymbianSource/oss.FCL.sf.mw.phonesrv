@@ -24,4 +24,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/phcltutils.h     MW_LAYER_PLATFORM_EXPORT_PATH(phcltutils.h)
+../inc/PhCltUtils.h     MW_LAYER_PLATFORM_EXPORT_PATH(PhCltUtils.h)

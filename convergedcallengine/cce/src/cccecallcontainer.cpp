@@ -61,7 +61,7 @@ CCCECallContainer::CCCECallContainer( MCCEObserver& aObserver ): iMCCEObserver(&
 //
 void CCCECallContainer::ConstructL()
     {
-    FeatureManager::InitializeLibL();
+	FeatureManager::InitializeLibL();
     iCallStateMediator = CCCECallInfoMediator::NewL( *this );
     
     CreateCallDataArraysL();
@@ -170,7 +170,7 @@ void CCCECallContainer::CreateCallDataArraysL()
 //
 void CCCECallContainer::AirTimeDurationSwap(
                            const CCPCall::TCallType aNewCallType)
-    {
+	{
     CCELOGSTRING("CCCECallContainer::AirTimeDurationSwap(): IN");
     
     CCCECall* call = NULL;
@@ -191,29 +191,29 @@ void CCCECallContainer::AirTimeDurationSwap(
         }
     
     if( 1 == calls )
-        {
-        // After handover we will have only one active call
-        // If we have more or less, timer swapping will not happend
-        if (aNewCallType == CCPCall::ECallTypePS )
-            {
-            CCELOGSTRING2("CCCECallContainer::AirTimeDurationSwap(): CS Stops, PS restarts from %d",
-                    iCSDuration->NumberOfBeats() );
-            iCSDuration->Stop();
-            iPSDuration->RestartAirTimeDuration(iCSDuration->NumberOfBeats());
-            iCSDuration->Reset();
-            }
-        else
-            {
-            CCELOGSTRING2("CCCECallContainer::AirTimeDurationSwap(): PS Stops, CS restarts from %d",
-                    iPSDuration->NumberOfBeats() );
-            iPSDuration->Stop();
-            iCSDuration->RestartAirTimeDuration(iPSDuration->NumberOfBeats());
-            iPSDuration->Reset();
-            }
-        }
+    	{
+    	// After handover we will have only one active call
+    	// If we have more or less, timer swapping will not happend
+	    if (aNewCallType == CCPCall::ECallTypePS )
+	    	{
+	    	CCELOGSTRING2("CCCECallContainer::AirTimeDurationSwap(): CS Stops, PS restarts from %d",
+	    			iCSDuration->NumberOfBeats() );
+	    	iCSDuration->Stop();
+	    	iPSDuration->RestartAirTimeDuration(iCSDuration->NumberOfBeats());
+	    	iCSDuration->Reset();
+	    	}
+	    else
+	    	{
+	    	CCELOGSTRING2("CCCECallContainer::AirTimeDurationSwap(): PS Stops, CS restarts from %d",
+	    			iPSDuration->NumberOfBeats() );
+	    	iPSDuration->Stop();
+	    	iCSDuration->RestartAirTimeDuration(iPSDuration->NumberOfBeats());
+	    	iPSDuration->Reset();
+	    	}
+    	}
     CCELOGSTRING("CCCECallContainer::AirTimeDurationSwap(): OUT");
-    }
-    
+	}
+	
 // ---------------------------------------------------------------------------
 // AirTimeDurationStop()
 // ---------------------------------------------------------------------------
@@ -294,7 +294,7 @@ void CCCECallContainer::AirTimeDurationStart( CCCECall* /*aCall*/ ) const
         call = GetCall( i );
         if ( call->State() == CCPCall::EStateConnected ||
              call->State() == CCPCall::EStateHold  )
-            {      
+            { 	   
             if ( IsCsPlugin( call, EFalse ) )
                 {
                 csCalls++;
@@ -370,7 +370,7 @@ void CCCECallContainer::ScheduleReleaseCall( MCCPCall& aCalltoRemove, const TUid
     TCallReleaseEntry entry;
     entry.iCallToRelease = &aCalltoRemove;
     entry.iUid = aUid;
-    iCallstoRelease.Append(entry); 
+    iCallstoRelease.Append(entry);
     if (!iIdle->IsActive())
         {
         iIdle->Start( TCallBack(ReleaseCalls,this) );
@@ -699,9 +699,7 @@ TInt CCCECallContainer::GetCall( TUid aImplementationUid,
             {
             if( call->ImplementationUid() == aImplementationUid )
                 {
-                // return value ignored. Ownership of the call object is not 
-                // transferred to array. 
-                aCallArray.Append(call); 
+                aCallArray.Append(call);
                 }
             }
         }
@@ -731,10 +729,8 @@ TInt CCCECallContainer::GetActiveOrConnectingCalls(
                  callState == CCPCall::EStateConnecting ||
                  callState == CCPCall::EStateConnected )
                 {
-                // Ownership of the call object is not 
-                // transferred to array.
-                err = aCallArray.Append( call );
-                
+                aCallArray.Append( call );
+                err = KErrNone;
                 }
             }
         }
@@ -746,8 +742,8 @@ TInt CCCECallContainer::GetActiveOrConnectingCalls(
              callState == CCPCall::EStateConnecting ||
              callState == CCPCall::EStateConnected )
             {
-            // Ownership of the iEmergencyCall object is not transfered.
-            err = aCallArray.Append( iEmergencyCall );
+            aCallArray.Append( iEmergencyCall );
+            err = KErrNone;
             }
         }
         
@@ -989,8 +985,8 @@ void CCCECallContainer::HandleCallStatusChange(
                 // Do nothing when there is only cscalls
 
                 if ( IsCsPlugin( aCall, ETrue ) )
-                    {
-                    
+                	{
+                	
                     break;
                     }
                     
@@ -1292,24 +1288,24 @@ MCCESsObserver* CCCECallContainer::SsObserver()
 // -----------------------------------------------------------------------------
 // 
 TBool CCCECallContainer::GetLifeTime( TDes8& aLifeTimeInfo )
-    {
+	{
     CCELOGSTRING("CCCE::GetLifeTime()");
     
-    CConvergedCallProvider* plugin = NULL;
-    
+	CConvergedCallProvider* plugin = NULL;
+	
     TRAP_IGNORE( plugin = iPluginManager->GetPluginL(KCSServiceId));
     
     if( plugin )
-        {
-        plugin->GetLifeTime(aLifeTimeInfo);
-        }
-    else
-        {
-        CCELOGSTRING("CCCE::GetLifeTime() - CS plugin not found!");
-        return EFalse;
-        }
+    	{
+    	plugin->GetLifeTime(aLifeTimeInfo);
+    	}
+	else
+		{
+    	CCELOGSTRING("CCCE::GetLifeTime() - CS plugin not found!");
+    	return EFalse;
+		}
 
-    return ETrue;
+   	return ETrue;
     }
 
 // -----------------------------------------------------------------------------
@@ -1317,26 +1313,26 @@ TBool CCCECallContainer::GetLifeTime( TDes8& aLifeTimeInfo )
 // -----------------------------------------------------------------------------
 // 
 TBool CCCECallContainer::GetCSInfo( CSInfo& aCSInfo )
-    {
+	{
     CCELOGSTRING("CCCE::GetCSInfo()");
 
-    CConvergedCallProvider* plugin = NULL;
-    
-    TRAP_IGNORE( plugin = iPluginManager->GetPluginL(KCSServiceId));
+	CConvergedCallProvider* plugin = NULL;
+	
+	TRAP_IGNORE( plugin = iPluginManager->GetPluginL(KCSServiceId));
         
     
     if( plugin )
-        {
-        plugin->GetCSInfo(aCSInfo);
-        }
-    else
-        {
-        CCELOGSTRING("CCCE::GetCSInfo() - CS plugin not found!");
-        return EFalse;
-        }
+    	{
+    	plugin->GetCSInfo(aCSInfo);
+    	}
+	else
+		{
+    	CCELOGSTRING("CCCE::GetCSInfo() - CS plugin not found!");
+    	return EFalse;
+		}
 
-    return ETrue;
-    }
+   	return ETrue;
+	}
 
 // ---------------------------------------------------------------------------
 // CCCECallContainer::IsCsPlugin

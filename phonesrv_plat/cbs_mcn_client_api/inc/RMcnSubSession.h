@@ -23,7 +23,7 @@
 #define RMCNSUBSESSION_H
 
 // INCLUDES
-#include "cbsmcncommon.h"
+#include "CbsMcnCommon.h"
 
 //  FORWARD DECLARATIONS
 class CMcnTopicArray;

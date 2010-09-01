@@ -20,7 +20,7 @@
 #define CCCECALLINFOMEDIATORUPDATER_H
 
 #include <e32base.h>
-#include <MediatorCommandResponder.h> 
+#include <MediatorCommandResponder.h>
 
 class MCCECallInfoMediator;
 class MCCECallArray;

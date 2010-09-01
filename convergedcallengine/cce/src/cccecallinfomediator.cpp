@@ -18,10 +18,10 @@
 
 #include "cccecallinfomediator.h"
 
-#include <MediatorDomainUIDs.h> 
+#include <MediatorDomainUIDs.h>
 #include <callinformation.h>
-#include <MediatorCommandResponder.h> 
-#include <MediatorEventProvider.h> 
+#include <MediatorCommandResponder.h>
+#include <MediatorEventProvider.h>
 
 #include "cccecallinfomediatorupdater.h"
 #include "cccecallinfoconverter.h"

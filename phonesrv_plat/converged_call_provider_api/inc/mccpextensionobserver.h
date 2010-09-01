@@ -48,8 +48,8 @@ public:
     * @return none
     */
     virtual void HandleExtensionEvents( TUint32 aServiceId,
-                                        TInt aEvent,
-                                        TInt aStatus ) = 0;
+    									TInt aEvent,
+	                                    TInt aStatus ) = 0;
     };
 
 #endif // MCCPEXTENSIONOBSERVER_H

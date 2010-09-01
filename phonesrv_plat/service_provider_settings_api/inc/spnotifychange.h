@@ -36,78 +36,78 @@ class CSpsBufferedPublisher;
  *  @since S60 3.2
  */
 NONSHARABLE_CLASS( CSPNotifyChange ): public CActive
-    {
-    public: // Constructor and destructor
-    
-        /**
-        * Two-phased constructor.
-        */
-        IMPORT_C static CSPNotifyChange* NewL( MSPNotifyChangeObserver& aObserver );
+	{
+	public: // Constructor and destructor
+	
+	    /**
+	    * Two-phased constructor.
+	    */
+	    IMPORT_C static CSPNotifyChange* NewL( MSPNotifyChangeObserver& aObserver );
 
-        /**
-        * Destructors.
-        */
-        IMPORT_C virtual ~CSPNotifyChange();
+	    /**
+	    * Destructors.
+	    */
+	    IMPORT_C virtual ~CSPNotifyChange();
 
-    public: 
-        /**
-         * Issue notify service change rquest.
-         *
-         * @since S60 V3.2
-         * @param aServiceIds The service ID array of monitored service entries
-         */
-        IMPORT_C void NotifyChangeL( const RIdArray& aServiceIds );
+	public: 
+	    /**
+	     * Issue notify service change rquest.
+	     *
+	     * @since S60 V3.2
+	     * @param aServiceIds The service ID array of monitored service entries
+	     */
+	    IMPORT_C void NotifyChangeL( const RIdArray& aServiceIds );
 
-        /**
-         * Cancel notify change.
-         *
-         * @since S60 V3.2
-         */
-        IMPORT_C void NotifyChangeCancel();
+	    /**
+	     * Cancel notify change.
+	     *
+	     * @since S60 V3.2
+	     */
+	    IMPORT_C void NotifyChangeCancel();
 
-    protected: // from CActive
+	protected: // from CActive
 
-        void DoCancel();
+	    void DoCancel();
 
-        void RunL();
-        
-        TInt RunError( TInt aError );
+	    void RunL();
+	    
+	    TInt RunError( TInt aError );
 
-        void Subscribe();
-    private:
+	    void Subscribe();
+	private:
 
-        /**
-        * C++ default constructor.
-        */
-        CSPNotifyChange( MSPNotifyChangeObserver& aObserver );
+	    /**
+	    * C++ default constructor.
+	    */
+	    CSPNotifyChange( MSPNotifyChangeObserver& aObserver );
 
-        /**
-        * By default Symbian 2nd phase constructor is private.
-        */
-        void ConstructL();
+	    /**
+	    * By default Symbian 2nd phase constructor is private.
+	    */
+	    void ConstructL();
 
-    private:
+	private:
 
-        /**
-         * Publish & Subscribe connection
-         */
-        RProperty       iProperty;
+	    /**
+	     * Publish & Subscribe connection
+	     */
+	    RProperty       iProperty;
 
-        /**
-         * Observer object
-         */
-        MSPNotifyChangeObserver& iObserver;
-        
-        /**
-         * Id array
-         */
-        RIdArray        iIdArray;
-        
-        /**
-         * Contains buffered P&S data
-         */
-        CSpsBufferedPublisher* iData;
-    };
+	    /**
+	     * Observer object
+	     */
+	    MSPNotifyChangeObserver& iObserver;
+	    
+	    /**
+	     * Id array
+	     */
+	    RIdArray		iIdArray;
+	    
+	    /**
+	     * Contains buffered P&S data
+	     */
+	    CSpsBufferedPublisher* iData;
+	};
 
 #endif // CSPNOTIFYCHANGE_H
 

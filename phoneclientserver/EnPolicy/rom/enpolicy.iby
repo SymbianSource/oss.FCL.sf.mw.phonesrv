@@ -20,11 +20,11 @@
 #define __ENPOLICY_IBY__
 
 #ifdef __EN_POLICY_DOS
-file = ABI_DIR\BUILD_DIR\dosenpolicy.dll                SHARED_LIB_DIR\dosenpolicy.dll
-data=ZSYSTEM\install\dosenpolicy_stub.sis               system\install\dosenpolicy_stub.sis
+file = ABI_DIR\BUILD_DIR\DOSENPOLICY.DLL                SHARED_LIB_DIR\DOSENPOLICY.DLL
+data=ZSYSTEM\install\DosEnPolicy_stub.sis               system\install\DosEnPolicy_stub.sis
 #else
-file = ABI_DIR\BUILD_DIR\sosenpolicy.dll                SHARED_LIB_DIR\sosenpolicy.dll
-data=ZSYSTEM\install\sosenpolicy_stub.sis               system\install\sosenpolicy_stub.sis
+file = ABI_DIR\BUILD_DIR\SOSENPOLICY.DLL                SHARED_LIB_DIR\SOSENPOLICY.DLL
+data=ZSYSTEM\install\SosEnPolicy_stub.sis               system\install\SosEnPolicy_stub.sis
 #endif
 
 #endif // __ENPOLICY_IBY__

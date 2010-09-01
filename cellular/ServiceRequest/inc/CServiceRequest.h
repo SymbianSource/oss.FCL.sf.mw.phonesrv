@@ -23,7 +23,7 @@
 //  INCLUDES
 #include <e32std.h>
 #include <e32base.h>
-#include <AknProgressDialog.h> 
+#include <AknProgressDialog.h>
 
 // FORWARD DECLARATIONS
 class MServiceRequestObserver;

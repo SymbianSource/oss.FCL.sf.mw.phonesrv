@@ -18,10 +18,10 @@
 
 
 // INCLUDES
-#include "cphsrvcomhandrequestmanager.h" 
-#include "cphsrvcomhandrequest.h" 
-#include "cphsrvsubsessionbase.h" 
-#include "phsrvutils.h" 
+#include "CPhSrvComHandRequestManager.h"
+#include "CPhSrvComHandRequest.h"
+#include "CPhSrvSubSessionBase.h"
+#include "PhSrvUtils.h"
 
 
 

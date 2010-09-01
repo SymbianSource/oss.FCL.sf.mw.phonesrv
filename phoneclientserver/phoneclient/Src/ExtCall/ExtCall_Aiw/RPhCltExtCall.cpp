@@ -18,10 +18,10 @@
 
 
 // INCLUDE FILES
-#include    "rphcltserver.h" 
-#include    "rphcltextcall.h" 
-#include    "cphcltextphonedialdata.h" 
-#include    "phcltclientserver.h" 
+#include    "RPhCltServer.h"
+#include    "RPhCltExtCall.h"
+#include    "CPhCltExtPhoneDialData.h"
+#include    "PhCltClientServer.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 

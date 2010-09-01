@@ -26,7 +26,7 @@
 
 #include <featmgr.h>
 #include <centralrepository.h>
-#include <settingsinternalcrkeys.h> 
+#include <settingsinternalcrkeys.h>
 
 #include "spsapilogger.h" // For logging
 
@@ -124,8 +124,8 @@ EXPORT_C TBool CSPSettingsVoIPUtils::VoIPProfilesExistL() const
             }
             
         err = iSettingsEngine->FindPropertyL( id,
-                                              EPropertyVoIPSubServicePluginId,
-                                              *property );
+	                                          EPropertyVoIPSubServicePluginId,
+	                                          *property );
 
         profileExists = ( KErrNone == err ? ETrue : EFalse );
         }

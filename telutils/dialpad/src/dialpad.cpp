@@ -37,17 +37,15 @@
 #include "dialpadbackground.h"
 #include "dialpadbutton.h"
 
-static const QLatin1String backgroundGraphics("qtg_fr_input_v_bg");
+static const QLatin1String backgroundGraphicsV("qtg_fr_input_v_bg");
 static const QLatin1String backgroundGraphicsH("qtg_fr_input_h_bg");
-static const QLatin1String minimizeIcon("qtg_graf_input_v_swipe");
+static const QLatin1String minimizeIconV("qtg_graf_input_v_swipe");
 static const QLatin1String minimizeIconH("qtg_graf_input_h_swipe");
 static const int DialpadCloseAnimDuration = 200; // ms
 static const int DialpadOpenAnimDuration = 200; // ms
 static const qreal DialpadComponentMargin = 0.75; // units
 static const qreal DialpadCloseHandleHeight = 2.23; // units
 static const qreal DialpadCloseHandleWidth = 18.8; // units
-static const qreal DialpadCallButtonHeight = 8.75; // units, same as numeric buttons
-static const qreal DialpadCallButtonHeightH = 7.25; // units
 
 static const QLatin1String handsetIcon("qtg_mono_call");
 static const QLatin1String vmbxIcon("qtg_mono_voice_mailbox");
@@ -84,24 +82,22 @@ Dialpad::Dialpad(const HbMainWindow& mainWindow) :
 
 void Dialpad::initialize()
 {
+    setObjectName(QLatin1String("dialpad"));
     setFocusPolicy(Qt::StrongFocus);
     setFlag(QGraphicsItem::ItemIsFocusable,true);
     setFlag(QGraphicsItem::ItemHasNoContents, false);
 
     // create input field
-    mInputField = new DialpadInputField(this);
+    mInputField = new DialpadInputField(mMainWindow,this);
 
     // create keypad
     mKeypad = new DialpadKeypad(mMainWindow,*mInputField,this);
 
     // layouting params
-    qreal unit = HbDeviceProfile::current().unitValue();
+    qreal unit = HbDeviceProfile::profile(&mMainWindow).unitValue();
     qreal margin = DialpadComponentMargin * unit;
     mCloseHandleHeight = DialpadCloseHandleHeight * unit;
     mCloseHandleWidth = DialpadCloseHandleWidth * unit;
-
-    mKeypad->callButton().setPreferredHeight(DialpadCallButtonHeight*unit);
-    mKeypad->callButton().setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     // create popup background
     mBackgroundDrawer = new HbFrameDrawer();
@@ -112,7 +108,6 @@ void Dialpad::initialize()
         new QGraphicsLinearLayout(Qt::Vertical);
     popupLayout->addItem(mInputField);
     popupLayout->addItem(mKeypad);
-    popupLayout->addItem(&mKeypad->callButton());
     popupLayout->setContentsMargins(margin, mCloseHandleHeight, margin, margin);
     popupLayout->setSpacing(0);
     popupLayout->setItemSpacing(0,margin);
@@ -179,8 +174,8 @@ void Dialpad::paint(
 
     // paint popup background
     if ( mOrientation == Qt::Vertical ) {
-        mBackgroundDrawer->setFrameGraphicsName(backgroundGraphics);
-        mIconDrawer->setFrameGraphicsName(minimizeIcon);
+        mBackgroundDrawer->setFrameGraphicsName(backgroundGraphicsV);
+        mIconDrawer->setFrameGraphicsName(minimizeIconV);
         mBackgroundDrawer->setFrameType(HbFrameDrawer::ThreePiecesVertical);
         mBackgroundDrawer->setBorderWidths(0.0, mCloseHandleHeight, 0.0, 0.0);
     } else {
@@ -227,7 +222,7 @@ bool Dialpad::isOpen() const
 
 bool Dialpad::isCallButtonEnabled() const
 {
-    return mKeypad->callButton().isEnabled();
+    return mKeypad->isCallButtonEnabled();
 }
 
 void Dialpad::openDialpad()
@@ -258,6 +253,7 @@ void Dialpad::openDialpad()
 
     if (mOrientation!=previousOrientation) {
         updateLayout((Qt::Orientation)mOrientation);
+        mInputField->updateLayout((Qt::Orientation)mOrientation);
     }
 
     show();
@@ -410,6 +406,7 @@ void Dialpad::orientationChangeStarted()
 void Dialpad::orientationChangeFinished(Qt::Orientation current)
 {
     updateLayout(current);
+    mInputField->updateLayout(current);
 
     show();
 
@@ -441,7 +438,7 @@ void Dialpad::updateLayout(Qt::Orientation orientation)
 {
     Q_ASSERT(layout());
 
-    qreal unit = HbDeviceProfile::current().unitValue();
+    qreal unit = HbDeviceProfile::profile(&mMainWindow).unitValue();
     qreal margin = DialpadComponentMargin * unit;
 
     QGraphicsLinearLayout* mainLayout =
@@ -453,13 +450,11 @@ void Dialpad::updateLayout(Qt::Orientation orientation)
                                        mCloseHandleHeight,
                                        margin,
                                        margin);
-        mKeypad->callButton().setPreferredHeight(DialpadCallButtonHeight*unit);
     } else {
         mainLayout->setContentsMargins(mCloseHandleHeight,
                                        margin,
                                        margin,
                                        margin);
-        mKeypad->callButton().setPreferredHeight(DialpadCallButtonHeightH*unit);
     }
 }
 

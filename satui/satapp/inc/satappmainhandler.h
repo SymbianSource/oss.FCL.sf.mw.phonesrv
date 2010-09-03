@@ -30,6 +30,7 @@ class SatAppInputProvider;
 class SatAppToneProvider;
 class SatAppPopupProvider;
 class SatAppConfirmProvider;
+class AfActivityStorage;
 
 class SatAppMainHandler : public QObject
 {
@@ -59,6 +60,7 @@ private: // data
     SatAppPopupProvider* mPopup;
     SatAppConfirmProvider *mConfirm;
     QVariantHash mActivity;
+    AfActivityStorage *mActivityStorage;
     
     HbMessageBox *mOfflineWarningDlg;
 };

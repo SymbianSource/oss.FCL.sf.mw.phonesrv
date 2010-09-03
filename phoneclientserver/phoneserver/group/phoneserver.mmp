@@ -113,15 +113,10 @@ USERINCLUDE     ../inc/imagehandler
 
 USERINCLUDE     ../../phoneclient/inc/sharedclientserver 
 
-// <-- QT PHONE START-->
 MW_LAYER_SYSTEMINCLUDE
-// <-- QT PHONE END-->
 
 SYSTEMINCLUDE   ../../../inc
 SYSTEMINCLUDE    ../../inc // for RPhCltEmergencyCall.h, CPhCltExtPhoneDialData.h
-
-// TEMPORARY DEFINITION FOR TELEPHONY VARIATION HEADERS
-SYSTEMINCLUDE   ../../../../../app/phone/inc
 
 // TEMPORARY DEFINITION FOR Orbit Device Dialog
 SYSTEMINCLUDE /epoc32/include/mw/hb/hbwidgets

@@ -23,18 +23,22 @@
 class HbLineEdit;
 class DialpadButtonStyle;
 class DialpadButton;
+class HbMainWindow;
 
 class DialpadInputField : public HbWidget
 {
     Q_OBJECT
 
 public:
-    DialpadInputField(QGraphicsItem* parent=0);
+    DialpadInputField(const HbMainWindow& mainWindow,
+                      QGraphicsItem* parent=0);
     ~DialpadInputField();
 
     HbLineEdit& editor() const;
 
     DialpadButton& backspaceButton() const;
+
+    void updateLayout(Qt::Orientation orientation);
 
 protected:
     QSizeF sizeHint(Qt::SizeHint which,
@@ -44,9 +48,10 @@ private slots:
     void onEditorContentChanged();
 
 private:
+    const HbMainWindow& mMainWindow;
     HbLineEdit* mNumberEditor;
     DialpadButton* mBackspace;
-    int mHeight;
+    qreal mHeight;
 };
 
 #endif // DIALPADINPUTFIELD_H

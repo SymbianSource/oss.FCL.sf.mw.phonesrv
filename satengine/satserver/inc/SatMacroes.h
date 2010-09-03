@@ -29,9 +29,11 @@
 // MACRO MODULE_TESTING_LB
 // #define MODULE_TESTING_LB
 
+#ifdef _DEBUG
 // Use this macro to enable logging.
 // Must be disabled on released version.
-// MACRO ENABLE_SAT_LOGGING
-// #define ENABLE_SAT_LOGGING
+MACRO ENABLE_SAT_LOGGING
+#define ENABLE_SAT_LOGGING
+#endif
 
 #endif      // SATMACROES_H

@@ -26,13 +26,15 @@
 #include <hblistwidgetitem.h>
 #include <hblineedit.h>
 #include <hbmessagebox.h>
+#include <hbinputsettingproxy.h>
+#include <hbextendedlocale.h>
 
 #include "dialpadtestview.h"
 #include "dialpad.h"
 #include "dialpadkeyhandler.h"
 
 DialpadTestView::DialpadTestView( HbMainWindow& mainWindow ) :
-    mMainWindow(mainWindow), mTapOutsideDismiss(0)
+    mMainWindow(mainWindow), mTapOutsideDismiss(0), mArabicMode(0), mArabicDigit(0)
 {
     setTitle("DialpadTest");
 
@@ -55,6 +57,10 @@ DialpadTestView::DialpadTestView( HbMainWindow& mainWindow ) :
 
     menu()->addAction("Tap outside dismiss",this,SLOT(setTapOutsideDismiss()));
 
+    menu()->addAction("Arabic mode",this,SLOT(setArabicMode()));
+
+    menu()->addAction("Arabic digit",this,SLOT(setArabicDigit()));
+
     // create view widget (recent calls list mockup)
     createListWidget();
 
@@ -70,8 +76,7 @@ DialpadTestView::DialpadTestView( HbMainWindow& mainWindow ) :
     mLongPressTimer->setSingleShot(true);
     connect(mLongPressTimer,SIGNAL(timeout()),this,SLOT(handleLongKeyPress()));
     
-    mKeyhandler = new DialpadKeyHandler(mDialpad, mMainWindow, this);
-    
+    // mKeyhandler = new DialpadKeyHandler(mDialpad, mMainWindow, this);
     mMainWindow.installEventFilter(this);
 }
 
@@ -225,3 +230,28 @@ void DialpadTestView::setTapOutsideDismiss()
     mTapOutsideDismiss = !mTapOutsideDismiss;
     mDialpad->setTapOutsideDismiss(mTapOutsideDismiss);
 }
+
+void DialpadTestView::setArabicMode()
+{
+    mArabicMode = !mArabicMode;
+
+    if (mArabicMode) {
+        HbInputLanguage lang(QLocale::Arabic);
+        HbInputSettingProxy::instance()->setGlobalInputLanguage(lang);
+    } else {
+        HbInputLanguage lang(QLocale::English, QLocale::UnitedKingdom);
+        HbInputSettingProxy::instance()->setGlobalInputLanguage(lang);
+    }
+}
+
+void DialpadTestView::setArabicDigit()
+{
+    mArabicDigit = !mArabicDigit;
+
+    if (mArabicDigit) {
+        HbExtendedLocale::system().setZeroDigit(ArabicIndicDigit);
+    } else {
+        HbExtendedLocale::system().setZeroDigit(WesternDigit);
+    }
+}
+

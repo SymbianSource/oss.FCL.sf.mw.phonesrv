@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+ * Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
  * All rights reserved.
  * This component and the accompanying materials are made available
  * under the terms of "Eclipse Public License v1.0"
@@ -414,7 +414,7 @@ void PsUiNotes::formatActiveDivertsNoteText(
     const QList<PSCallDivertingStatus*> &divertingStatusList,
     QString &text)
 {
-    text.append(hbTrId("Active for:") + "\n\n"); //txt_phone_title_active_for
+    text.append(hbTrId("txt_phone_title_active_for") + "\n\n"); 
              
     int entries = divertingStatusList.count(); 
     DPRINT << ": entries " << entries;
@@ -427,24 +427,23 @@ void PsUiNotes::formatActiveDivertsNoteText(
            ((entry->iServiceGroup & ServiceGroupData)) && !dataSet) {   
            if ((entry->iServiceGroup & ServiceGroupVoice) && !voiceSet) {
                voiceSet = true;
-               text.append(hbTrId("Voice calls") + "\n"); //txt_phone_info_voice_calls  
+               text.append(hbTrId("txt_phone_info_voice_calls") + "\n"); 
               
            }
            else if ((entry->iServiceGroup & ServiceGroupData) && !dataSet) {
                dataSet = true;
-               text.append(hbTrId("Video calls") + "\n"); //txt_phone_info_video_calls
+               text.append(hbTrId("txt_phone_info_video_calls") + "\n"); 
            }
                 
            QString phoneNumber = formatPhoneNumber(divertingStatusList.at(i)->iNumber);
-           text.append(hbTrId("To number:\n%L1").arg(phoneNumber) +"\n"); //txt_phone_info_to_numbernl1
+           text.append(hbTrId("txt_phone_info_to_numbernl1").arg(phoneNumber) +"\n");
            if (0 < entry->iTimeout) {
-               text.append(hbTrId("Delay time:\n%L1 seconds").
-                   arg(entry->iTimeout) +"\n\n"); // txt_phone_info_delay_timenln_seconds    
+               text.append(hbTrId("txt_phone_info_delay_timenln_seconds",
+                   entry->iTimeout) + "\n\n");     
            }
            else {
                text.append("\n");
            }
-          
        }
     }
     // Convert plain text to html 
@@ -457,7 +456,8 @@ void PsUiNotes::formatActiveDivertsNoteText(
 void PsUiNotes::activeNoteAboutToClose()
 {
     DPRINT << ": IN";
-    
+
+
     if (m_isNoteShowingOngoing) {
         m_isNoteShowingOngoing = false;
         QObject* note(NULL);
@@ -473,7 +473,7 @@ void PsUiNotes::activeNoteAboutToClose()
             note->deleteLater();
         }
     }
-    
+
     DPRINT << ": OUT";
 }
 
@@ -483,9 +483,9 @@ void PsUiNotes::activeNoteAboutToClose()
 void PsUiNotes::handleProgressNoteCanceled()
 {
     DPRINT << ": IN";
-    
+
     emit progressNoteCanceled();
-    
+
     DPRINT << ": OUT";
 }
 
@@ -496,7 +496,7 @@ void PsUiNotes::passwordTextChanged()
 {
     DPRINT << ": IN";
     Q_ASSERT(m_passwordDialog && m_passwordValidator);
-    
+
     HbLineEdit *hbLineEdit = m_passwordDialog->lineEdit();
     int position = 0;
     QString password = hbLineEdit->text();
@@ -504,7 +504,7 @@ void PsUiNotes::passwordTextChanged()
         (QValidator::Acceptable == m_passwordValidator->validate(
             password, position));
     m_passwordDialog->actions().at(0)->setEnabled(isPasswordValid);
-        
+
     DPRINT << ": OUT";
 }
 
@@ -515,12 +515,12 @@ void PsUiNotes::passwordTextChanged()
 void PsUiNotes::showNotificationDialog(const QString& text)
 {
     DPRINT << ": IN";
-    
+
     HbNotificationDialog *notifDialog = new HbNotificationDialog();
     
     notifDialog->setDismissPolicy(HbPopup::TapAnywhere);
     notifDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-    notifDialog->setText(text);
+    notifDialog->setTitle(text);
     notifDialog->show();
 
     DPRINT << ": OUT";
@@ -534,10 +534,10 @@ void PsUiNotes::showGlobalNotificationDialog(const QString& text)
     DPRINT << ": IN";
         
     HbDeviceNotificationDialog notifDialog;
-      
-    notifDialog.setText(text);
+
+    notifDialog.setTitle(text);
     notifDialog.show();
-    
+
     DPRINT << ": OUT";    
 }
 

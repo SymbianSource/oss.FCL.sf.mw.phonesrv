@@ -38,10 +38,14 @@ public:
     void setSecondaryText(const QString& text);
     QString secondaryText() const;
 
+    void setSecondary2ndRowText(const QString& text);
+    QString secondary2ndRowText() const;
+
 private:
     HbIcon mIcon;
     QString mText;
     QString mSecondaryText;
+    QString mSecondaryTextRow2;
 };
 
 #endif // DIALPADNUMERICBUTTON_H

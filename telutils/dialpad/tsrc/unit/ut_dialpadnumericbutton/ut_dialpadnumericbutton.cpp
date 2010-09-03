@@ -33,6 +33,7 @@ private slots:
 
     void testSetText();
     void testSetSecondaryText();
+    void testSetSecondary2ndRowText();
     void testSetIcon();
 
 private:
@@ -72,6 +73,13 @@ void ut_DialpadNumericButton::testSetIcon()
     mButton->icon().setColor(Qt::white);
     QVERIFY(mButton->icon().iconName() == QLatin1String("dummy.svg"));
     QVERIFY(mButton->icon().color() == Qt::white);
+}
+
+void ut_DialpadNumericButton::testSetSecondary2ndRowText()
+{
+    QVERIFY(mButton->secondary2ndRowText().isNull());
+    mButton->setSecondary2ndRowText(QLatin1String("Secondary 2nd row text"));
+    QVERIFY(mButton->secondary2ndRowText() == QLatin1String("Secondary 2nd row text"));
 }
 
 DIALPAD_TEST_MAIN(ut_DialpadNumericButton)

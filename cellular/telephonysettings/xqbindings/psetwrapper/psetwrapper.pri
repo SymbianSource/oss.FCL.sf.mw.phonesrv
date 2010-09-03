@@ -14,13 +14,13 @@
 # Description: 
 #
 
-HEADERS += ../../../../phonesrv_plat/\phone_settings_api/inc/psetcallbarringwrapper.h \
-           ../../../../phonesrv_plat/\phone_settings_api/inc/psetcalldivertingwrapper.h \
-           ../../../../phonesrv_plat/\phone_settings_api/inc/psetcallwaitingwrapper.h \
-           ../../../../phonesrv_plat/\phone_settings_api/inc/psetcliwrapper.h \
-           ../../../../phonesrv_plat/\phone_settings_api/inc/psetnetworkwrapper.h \
-           ../../../../phonesrv_plat/\phone_settings_api/inc/psetwrapper.h \
-           ../../../../phonesrv_plat/\phone_settings_api/inc/psetwrappertypes.h \
+HEADERS += ../../../../phonesrv_plat/phone_settings_api/inc/psetcallbarringwrapper.h \
+           ../../../../phonesrv_plat/phone_settings_api/inc/psetcalldivertingwrapper.h \
+           ../../../../phonesrv_plat/phone_settings_api/inc/psetcallwaitingwrapper.h \
+           ../../../../phonesrv_plat/phone_settings_api/inc/psetcliwrapper.h \
+           ../../../../phonesrv_plat/phone_settings_api/inc/psetnetworkwrapper.h \
+           ../../../../phonesrv_plat/phone_settings_api/inc/psetwrapper.h \
+           ../../../../phonesrv_plat/phone_settings_api/inc/psetwrappertypes.h \
            ./src/psetcallbarringwrapper_p.h \
            ./src/psetcalldivertingwrapper_p.h \
            ./src/psetcallwaitingwrapper_p.h \

@@ -17,9 +17,10 @@
 */
 //Qt
 #include <HbApplication>
-#include <HbActivityManager>
 #include <hbapplication.h>
 #include <hbmessagebox.h>
+#include <afactivitystorage.h>
+#include <afstorageglobals.h>
 
 // symbian
 #include <centralrepository.h>
@@ -62,6 +63,8 @@ mOfflineWarningDlg(NULL)
     else{
         showOfflineWarning();
     }
+    
+    mActivityStorage = new AfActivityStorage(this);
     removeActivity();
     
     qDebug("SATAPP: SatAppMainHandler::SatAppMainHandler <");
@@ -211,7 +214,8 @@ void SatAppMainHandler::initConnections()
 void SatAppMainHandler::updateActivity()
 {
     qDebug("SATAPP: SatAppMainHandler::updateActivity >");
-    mActivity.insert("screenshot", mMenu->takeScreenShot());
+    mActivity.insert(ActivityScreenshotKeyword, 
+        mMenu->takeScreenShot());
     qDebug("SATAPP: SatAppMainHandler::updateActivity <");
 }
 
@@ -224,8 +228,8 @@ void SatAppMainHandler::saveActivity()
     qDebug("SATAPP: SatAppMainHandler::saveActivity >");
 
     // Add the activity to the activity manager
-    const bool ok = qobject_cast<HbApplication*>(qApp)->activityManager()->
-        addActivity(SATAPP_ACTIVITY_ID, QVariant(), mActivity);
+    const bool ok = mActivityStorage->saveActivity(
+        SATAPP_ACTIVITY_ID, QVariant(), mActivity);
     
     qDebug("SATAPP: SatAppMainHandler::saveActivity < %d", ok);
 }
@@ -238,20 +242,13 @@ void SatAppMainHandler::removeActivity()
 {
     qDebug("SATAPP: SatAppMainHandler::removeActivity >");
         
-    QList<QVariantHash> activityList = 
-        qobject_cast<HbApplication*>(qApp)->activityManager()->activities();
-    qDebug("SATAPP: SatAppMenuProvider::removeActivity count=%d",
-        activityList.count());
-    foreach (QVariantHash activity, activityList){
-        if (activity.keys().contains(SATAPP_ACTIVITY_ID)){
-            mActivity = activity;
-            qDebug("SATAPP: SatAppMenuProvider::removeActivity store");
-            break;
-        }
-    }    
-
-    const bool ok = qobject_cast<HbApplication*>(qApp)->activityManager()->
-        removeActivity(SATAPP_ACTIVITY_ID);
+   
+    QVariantHash activity = mActivityStorage->activityMetaData(SATAPP_ACTIVITY_ID);
+    if(activity.keys().contains(SATAPP_ACTIVITY_ID)) {
+        mActivity = activity;
+        qDebug("SATAPP: SatAppMenuProvider::removeActivity store");
+    }
+    const bool ok = mActivityStorage->removeActivity(SATAPP_ACTIVITY_ID);
     
     qDebug("SATAPP: SatAppMainHandler::removeActivity < %d", ok);
 }

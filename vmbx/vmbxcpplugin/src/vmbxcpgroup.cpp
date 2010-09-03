@@ -163,7 +163,6 @@ void VmbxCpGroup::queryCsVoiceNumber()
     if (KErrNone == result) {
         _DBGLOG2("VmbxCpGroup::queryCsVoiceNumber >, number=", number) 
         mUiEngine->setCsVoiceNumber(number);
-        UpdateWidgetContent(mCsVoice1Index, number);
     }
     mCsVoice1Editor->setEnabled(true);
     _DBGLOG("VmbxCpGroup::queryCsVoiceNumber <")
@@ -182,7 +181,6 @@ void VmbxCpGroup::queryCsVideoNumber()
     if (KErrNone == result) {
         _DBGLOG2("VmbxCpGroup::queryCsVideoNumber >, number=", number)
         mUiEngine->setCsVideoNumber(number);
-        UpdateWidgetContent(mCsVideo1Index, number);
     }
     mCsVideo1Editor->setEnabled(true);
     _DBGLOG("VmbxCpGroup::queryCsVideoNumber <")

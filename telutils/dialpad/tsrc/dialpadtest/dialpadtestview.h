@@ -50,6 +50,8 @@ private slots:
     void onEditorContentChanged();
     void handleLongKeyPress();
     void setTapOutsideDismiss();
+    void setArabicMode();
+    void setArabicDigit();
 
 private:
     HbMainWindow& mMainWindow;
@@ -59,6 +61,8 @@ private:
     QTimer* mLongPressTimer;
     QString mPressedKey;
     bool mTapOutsideDismiss;
+    bool mArabicMode;
+    bool mArabicDigit;
 };
 
 #endif // DIALPADTESTVIEW_H

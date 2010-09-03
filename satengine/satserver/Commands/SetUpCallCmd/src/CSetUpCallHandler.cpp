@@ -765,6 +765,15 @@ void CSetUpCallHandler::CompleteSetupCallWithStatus(
                 CompleteSetupCall( RSat::KModifiedByCallControl );
                 break;
                 }
+            case KErrSatBusy:
+                {
+                LOG( SIMPLE, 
+                "SETUPCALL: CSetUpCallHandler::CompleteSetupCallWithStatus \
+                KInteractionWithCCTemporaryError" )
+                // Call control some time can case this error.
+                CompleteSetupCall( RSat::KInteractionWithCCTemporaryError );
+                break;
+                }
                 
             default:
                 {

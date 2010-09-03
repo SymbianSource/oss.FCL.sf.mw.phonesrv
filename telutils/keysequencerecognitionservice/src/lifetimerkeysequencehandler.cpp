@@ -137,10 +137,6 @@ QString LifeTimerKeySequenceHandler::constructLifeTimerData()
         lifeTimerText.append(locale.timeSeparator(KMinuteSeparatorInd));
         lifeTimerText.append(
             QString::number(static_cast<int>(lifeTimeData.iMinutes)));
-        // pad hour field to a length of 6 digits
-        const int KLifeTimerDataFieldLength = 9;
-        lifeTimerText = lifeTimerText.rightJustified(
-            KLifeTimerDataFieldLength, QChar('0'));
     }
     
     return lifeTimerText;

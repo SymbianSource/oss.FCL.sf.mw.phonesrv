@@ -828,7 +828,22 @@ void CVoiceMailboxImpl::NotifyChangedL( TVmbxType aType )
         iVmbxFactory->CreateEngineL( vmbxEngine, aType );
         CleanupStack::PushL( vmbxEngine );
         CVoiceMailboxEntry* entry( NULL );
-        vmbxEngine->GetL( entry );
+        TRAPD(err,vmbxEngine->GetL( entry ));
+        VMBLOGSTRING2( "VMBX: CVoiceMailboxImpl::NotifyChangedL err=%d",err );
+        if(err == KErrNotFound)
+            {
+            delete entry;
+            entry = NULL;
+            entry = CVoiceMailboxEntry::NewL();
+            // get als line info
+            entry->SetVmbxAlsLineType( VmbxUtilities::AlsLine() );
+            entry->SetVoiceMailboxType( aType );
+            entry->SetVmbxNumber( KNullDesC());
+            }
+        else
+            {
+            User::LeaveIfError(err);
+            }
         CleanupStack::PushL( entry );
         iNotifyCallBack->HandleNotifyL( *entry );
         CleanupStack::PopAndDestroy( entry );           

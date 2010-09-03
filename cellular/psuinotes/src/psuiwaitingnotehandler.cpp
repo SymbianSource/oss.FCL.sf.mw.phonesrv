@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+ * Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
  * All rights reserved.
  * This component and the accompanying materials are made available
  * under the terms of "Eclipse Public License v1.0"
@@ -29,9 +29,9 @@ PsUiWaitingNoteHandler::PsUiWaitingNoteHandler(PSetCallWaitingWrapper& callWaiti
     m_callWaitingWrapper(callWaitingWrapper)
 {
     DPRINT << ": IN";
-    
+
     m_settingsWrapper = new PsUiSettingsWrapper();
-    
+
     QObject::connect(
         &m_callWaitingWrapper, 
         SIGNAL(handleCallWaitingGetStatus(
@@ -81,21 +81,28 @@ void PsUiWaitingNoteHandler::handleCallWaitingGetStatus(
 
     PsUiNotes::instance()->cancelNote(m_activeNoteId);
     
+    bool alsCaseOnly = false;
+    if (1 == basicServiceGroupIds.count() &&
+        PsUiUtils::AltTele == static_cast<PsUiUtils::BasicServiceGroups>(basicServiceGroupIds.at(0))) {
+        DPRINT << "Status is only for als";
+        alsCaseOnly = true;
+    }
+
     if (PSetCallWaitingWrapper::StatusNotProvisioned == status && 
         m_settingsWrapper->isFeatureCallWaitingDistiquishNotProvisionedEnabled()) {
         DPRINT << ": not provisioned";
-        PsUiNotes::instance()->showGlobalNotificationDialog(hbTrId("txt_phone_info_request_not_completed"));
-    }
-    
-    else if (PSetCallWaitingWrapper::StatusActive == status) {
+        PsUiNotes::instance()->
+            showGlobalNotificationDialog(hbTrId("txt_phone_info_request_not_completed"));
+    }  
+    else if (PSetCallWaitingWrapper::StatusActive == status && !alsCaseOnly ) {
         DPRINT << ": status active";
         PsUiNotes::instance()->showGlobalNotificationDialog(
-            hbTrId("Call waiting active")); //txt_phone_dpopinfo_call_waiting_active 
+            hbTrId("txt_phone_dpopinfo_call_waiting_active")); 
     }
     else {
         DPRINT << ": status not active";
         PsUiNotes::instance()->showGlobalNotificationDialog(
-            hbTrId("Call waiting not active")); //txt_phone_dpopinfo_call_waiting_not_active      
+            hbTrId("txt_phone_dpopinfo_call_waiting_not_active"));  
     }
 
     DPRINT << ": OUT";   
@@ -130,7 +137,7 @@ void PsUiWaitingNoteHandler::handleCallWaitingChanged(
              break;
         }
       }
-        
+
     DPRINT << ": OUT";
 }
 
@@ -141,16 +148,16 @@ void PsUiWaitingNoteHandler::handleCallWaitingRequesting( bool ongoing, bool int
 {
     DPRINT << ": IN";
     DPRINT << "ongoing:" << ongoing << ", interrupted:" << interrupted;
-   
+
     if (ongoing) {
-        PsUiNotes::instance()->showGlobalProgressNote(m_activeNoteId, hbTrId("txt_common_info_requesting"));
+        PsUiNotes::instance()->showGlobalProgressNote(m_activeNoteId, 
+            hbTrId("txt_common_info_requesting"));
     }
-      
+
     if (interrupted) {
         PsUiNotes::instance()->cancelNote(m_activeNoteId);
     }
-    
-     
+
     DPRINT << ": OUT";
 }
 
@@ -161,7 +168,7 @@ void PsUiWaitingNoteHandler::handleCallWaitingError( int error )
 {
     DPRINT << ": IN";
     DPRINT << "errorCode:" << error;
-    PsUiNotes::instance()->cancelNote(m_activeNoteId);     
+    PsUiNotes::instance()->cancelNote(m_activeNoteId);
     PsUiNotes::instance()->showGlobalErrorNote(m_activeNoteId, error);
 
     DPRINT << ": OUT";

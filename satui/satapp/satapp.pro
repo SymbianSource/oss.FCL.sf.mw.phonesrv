@@ -47,7 +47,8 @@ LIBS += -lSatClient \
         -lCdlEngine \
         -lmediaclientaudio \
         -lprofileeng \
-        -lbafl 
+        -lbafl \
+        -lafservice
 
 HEADERS += inc/satappmainhandler.h \
            inc/satappserverdispatcher.h \

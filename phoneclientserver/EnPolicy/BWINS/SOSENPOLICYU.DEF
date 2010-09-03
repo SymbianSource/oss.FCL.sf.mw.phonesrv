@@ -1,3 +1,0 @@
-EXPORTS
-	?NewEnPolicyL@@YAPAVCEmergencyNumberPolicy@@XZ @ 1 NONAME ; class CEmergencyNumberPolicy * NewEnPolicyL(void)
-

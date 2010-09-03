@@ -57,3 +57,13 @@ QString DialpadNumericButton::secondaryText() const
 {
     return mSecondaryText;
 }
+
+void DialpadNumericButton::setSecondary2ndRowText(const QString& text)
+{
+    mSecondaryTextRow2 = text;
+}
+
+QString DialpadNumericButton::secondary2ndRowText() const
+{
+    return mSecondaryTextRow2;
+}

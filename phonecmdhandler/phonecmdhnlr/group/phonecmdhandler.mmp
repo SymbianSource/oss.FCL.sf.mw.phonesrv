@@ -51,9 +51,6 @@ LIBRARY     remconextensionapi.lib
 LIBRARY     phoneclient.lib
 LIBRARY     logcli.lib
 LIBRARY     efsrv.lib
-// <-- QT PHONE START -->
-//LIBRARY       pbkeng.lib
-// <-- QT PHONE END -->
 
 MACRO       API_TRACE_FLAG
 MACRO       COMPONENT_TRACE_FLAG

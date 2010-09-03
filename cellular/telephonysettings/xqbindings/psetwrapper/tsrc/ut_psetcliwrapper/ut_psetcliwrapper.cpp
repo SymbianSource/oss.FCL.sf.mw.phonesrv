@@ -19,7 +19,6 @@
 #include <mpsetcliobserver.h>
 #include <psetwrappertypes.h>
 #include <PsetCli.h>
-#include <psuiconstants.h>
 #include "ut_psetcliwrapper.h"
 #include "testutilities.h"
 #define private public

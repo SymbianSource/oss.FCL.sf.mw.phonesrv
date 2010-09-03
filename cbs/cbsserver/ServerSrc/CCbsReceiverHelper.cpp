@@ -27,7 +27,7 @@
 #include <barsc.h>              // Resource access
 #include <barsread.h>           // Resource access
 
-#include <CbsServer.rsg>
+#include <cbsserver.rsg>
 
 #include "CbsCommon.h"
 #include "CbsUtils.h"

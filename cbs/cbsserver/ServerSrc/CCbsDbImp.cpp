@@ -33,7 +33,7 @@
 #include <e32svr.h>
 #include <bautils.h>
 
-#include <CbsServer.rsg>
+#include <cbsserver.rsg>
 
 #include "CbsUtils.h"
 #include "CbsServerPanic.h"

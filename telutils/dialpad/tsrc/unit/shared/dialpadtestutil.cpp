@@ -26,20 +26,20 @@ const int WAIT_TIME = 300;
 DialpadTestUtil::DialpadTestUtil(HbMainWindow& mainWindow, QObject* parent) :
     QObject(parent), mMainWindow(mainWindow)
 {
-    mKeyNames.insert(Qt::Key_1,"keypad");
-    mKeyNames.insert(Qt::Key_2,"keypad");
-    mKeyNames.insert(Qt::Key_3,"keypad");
-    mKeyNames.insert(Qt::Key_4,"keypad");
-    mKeyNames.insert(Qt::Key_5,"keypad");
-    mKeyNames.insert(Qt::Key_6,"keypad");
-    mKeyNames.insert(Qt::Key_7,"keypad");
-    mKeyNames.insert(Qt::Key_8,"keypad");
-    mKeyNames.insert(Qt::Key_9,"keypad");
-    mKeyNames.insert(Qt::Key_Asterisk,"keypad");
-    mKeyNames.insert(Qt::Key_0,"keypad");
-    mKeyNames.insert(Qt::Key_NumberSign,"keypad");
-    mKeyNames.insert(Qt::Key_Backspace,"16777219");
-    mKeyNames.insert(Qt::Key_Yes,"16842753");
+    mKeyNames.insert(Qt::Key_1,"numericButtons");
+    mKeyNames.insert(Qt::Key_2,"numericButtons");
+    mKeyNames.insert(Qt::Key_3,"numericButtons");
+    mKeyNames.insert(Qt::Key_4,"numericButtons");
+    mKeyNames.insert(Qt::Key_5,"numericButtons");
+    mKeyNames.insert(Qt::Key_6,"numericButtons");
+    mKeyNames.insert(Qt::Key_7,"numericButtons");
+    mKeyNames.insert(Qt::Key_8,"numericButtons");
+    mKeyNames.insert(Qt::Key_9,"numericButtons");
+    mKeyNames.insert(Qt::Key_Asterisk,"numericButtons");
+    mKeyNames.insert(Qt::Key_0,"numericButtons");
+    mKeyNames.insert(Qt::Key_NumberSign,"numericButtons");
+    mKeyNames.insert(Qt::Key_Backspace,"backspaceButton");
+    mKeyNames.insert(Qt::Key_Yes,"callButton");
 }
 
 DialpadTestUtil::~DialpadTestUtil()
@@ -100,7 +100,7 @@ void DialpadTestUtil::mouseClickDialpad(int key, MouseEventType type, bool pause
     if ( widget ) {
         QPointF widgetPos;
 
-        if (name=="keypad") {
+        if (name=="numericButtons") {
             widgetPos = widget->scenePos() +
                         keyPosition(widget, key);
         } else {

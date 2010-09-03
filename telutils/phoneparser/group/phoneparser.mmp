@@ -54,10 +54,9 @@ SOURCE          cphonevoipnumberhandler.cpp
 
 USERINCLUDE     ../inc 
 
-// <-- QT PHONE START-->
 // Default system include paths for MW layer modules.
 MW_LAYER_SYSTEMINCLUDE  
-// <-- QT PHONE END-->
+
 SYSTEMINCLUDE   ../../../inc // telephonyservices internal headers 
 
 LIBRARY         euser.lib

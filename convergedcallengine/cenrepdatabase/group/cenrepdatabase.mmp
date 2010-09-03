@@ -33,9 +33,7 @@ SOURCE                  cenrepdatabaseutil.cpp
 
 USERINCLUDE             ../inc
 
-// <-- QT PHONE START -->
 MW_LAYER_SYSTEMINCLUDE 
-// <-- QT PHONE END -->
 
 LIBRARY                 euser.lib
 LIBRARY                 centralrepository.lib

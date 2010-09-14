@@ -21,9 +21,9 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-..\inc\ussd\ussdinterfaceconstants.hrh		MW_LAYER_PLATFORM_EXPORT_PATH(ussdinterfaceconstants.hrh)
-..\inc\ussd\CUssdExtensionInterface.h		MW_LAYER_PLATFORM_EXPORT_PATH(CUssdExtensionInterface.h)
-..\inc\ussd\CUssdExtensionInterface.inl 	MW_LAYER_PLATFORM_EXPORT_PATH(CUssdExtensionInterface.inl)
+../inc/Ussd/ussdinterfaceconstants.hrh		MW_LAYER_PLATFORM_EXPORT_PATH(ussdinterfaceconstants.hrh)
+../inc/Ussd/CUssdExtensionInterface.h		MW_LAYER_PLATFORM_EXPORT_PATH(CUssdExtensionInterface.h)
+../inc/Ussd/CUssdExtensionInterface.inl 	MW_LAYER_PLATFORM_EXPORT_PATH(CUssdExtensionInterface.inl)
 
 backup_registration.xml  z:/private/10000850/backup_registration.xml
 

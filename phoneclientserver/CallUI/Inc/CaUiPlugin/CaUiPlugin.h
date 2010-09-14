@@ -125,12 +125,15 @@ class CCaUiPlugin
         * @param aType The type of item being added
         * @param aServiceId The service ID of VoIP call item, needed when 
         *        getting the service name
+        * @param aHideCallSubmenu ETrue if the call submenu items should be 
+        *        in main level of the menu, otherwise EFalse
         */
         void AddAiwMenuItemL(
             CAiwMenuPane& aMenuPane,
             TInt aIndex,
             EMenuItemType aType,
-            TServiceId aServiceId = 0 );
+            TServiceId aServiceId = 0,
+            TBool aHideCallSubmenu = EFalse ); 
 
     private:    // Data
 

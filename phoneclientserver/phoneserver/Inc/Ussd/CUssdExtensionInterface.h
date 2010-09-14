@@ -19,9 +19,9 @@
 
 // INCLUDES
 
-#include<ecom\ecom.h>
-#include<etelmm.h>
-#include<ussdinterfaceconstants.hrh>
+#include <ecom/ecom.h>
+#include <etelmm.h>
+#include <ussdinterfaceconstants.hrh>
 // FORWARD DECLARATIONS
 
 // CONSTANTS

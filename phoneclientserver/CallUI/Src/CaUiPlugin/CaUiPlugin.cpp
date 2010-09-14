@@ -31,6 +31,9 @@
 #include    <CallUI.rsg>
 #include    <featmgr.h>      // FeatureManager.
 
+#include    <eikon.hrh> //EEikMenuItemSpecific
+
+
 // CONSTANTS
 
 // Empty filename for initialization.
@@ -214,6 +217,8 @@ void CCaUiPlugin::InitializeMenuPaneL(
     TBool csVideoMenuItemAvailable( ETrue );
     TBool voipMenuItemAvailable( ETrue );
     
+    TBool hideCallSubmenu( EFalse );
+    
     // If there is PhoneNumber parameter given, then only voice call 
     // resource is wanted.
     TInt count = aInParamList.Count();
@@ -246,7 +251,35 @@ void CCaUiPlugin::InitializeMenuPaneL(
                 csVideoMenuItemAvailable = EFalse;
                 }
             }
-        }
+
+        index = 0;
+        aInParamList.FindFirst(
+            index,
+            EGenericParamHideCallSubmenu,
+            EVariantTypeAny );
+
+        if ( index >= 0 )
+            {
+            // The call items (voice, video and VoIP) are located in the main level
+            // of the menu
+            hideCallSubmenu = ETrue;
+            
+            TInt32 variantValue = aInParamList[ index ].Value().AsTInt32();
+                        
+            if ( variantValue == EGenericParamVoiceCall )
+                {
+                csVoiceMenuItemAvailable = EFalse;
+                }
+            else if ( variantValue == EGenericParamVideoCall )
+                {
+                csVideoMenuItemAvailable = EFalse;
+                }
+            else if ( variantValue == EGenericParamVoIPCall )
+                {
+                voipMenuItemAvailable = EFalse;
+                }
+            }
+        } 
     
     if ( csVideoMenuItemAvailable && 
     		!FeatureManager::FeatureSupported( KFeatureIdCsVideoTelephony ) )
@@ -260,13 +293,13 @@ void CCaUiPlugin::InitializeMenuPaneL(
 
     if ( csVoiceMenuItemAvailable )
          {
-         AddAiwMenuItemL( aMenuPane, menuIndex, ECSVoice );
+         AddAiwMenuItemL( aMenuPane, menuIndex, ECSVoice, 0, hideCallSubmenu );
          menuIndex++;
          }
     
     if ( csVideoMenuItemAvailable )
         {
-        AddAiwMenuItemL( aMenuPane, menuIndex, ECSVideo );
+        AddAiwMenuItemL( aMenuPane, menuIndex, ECSVideo, 0, hideCallSubmenu ); 
         menuIndex++;
         }
     
@@ -280,13 +313,13 @@ void CCaUiPlugin::InitializeMenuPaneL(
         if ( 1 == numberOfVoipServices )
             {
             // Single VoIP service, use service name in menu item
-             AddAiwMenuItemL( aMenuPane, menuIndex, EInternetWithName, voipServiceIds[0] );
+             AddAiwMenuItemL( aMenuPane, menuIndex, EInternetWithName, voipServiceIds[0], hideCallSubmenu );
              menuIndex++;
             }
         else if ( numberOfVoipServices > 1 )
             {
             // Regular internet call menu
-            AddAiwMenuItemL( aMenuPane, menuIndex, EInternet );
+            AddAiwMenuItemL( aMenuPane, menuIndex, EInternet, 0, hideCallSubmenu );
             menuIndex++;
             }    
 
@@ -383,13 +416,23 @@ void CCaUiPlugin::HandleDialResultL( const TInt aStatus )
 // 
 // -----------------------------------------------------------------------------
 //
-void CCaUiPlugin::AddAiwMenuItemL( CAiwMenuPane& aMenuPane, TInt aIndex, EMenuItemType aType, TServiceId aServiceId )
+void CCaUiPlugin::AddAiwMenuItemL( 
+    CAiwMenuPane& aMenuPane, 
+    TInt aIndex, 
+    EMenuItemType aType, 
+    TServiceId aServiceId, 
+    TBool aHideCallSubmenu )
     {
     CEikMenuPaneItem::SData data;
     data.iCascadeId = 0;
     data.iFlags = 0;
     data.iExtraText = KNullDesC();
-
+    
+    if ( aHideCallSubmenu )
+        {
+        data.iFlags = EEikMenuItemSpecific;
+        }
+    
     HBufC* menuItemText = NULL;
     
     switch ( aType )

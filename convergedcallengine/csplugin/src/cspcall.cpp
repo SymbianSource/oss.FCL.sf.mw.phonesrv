@@ -1730,7 +1730,8 @@ void CSPCall::CheckAndNotifyTerminationError()
             }
         else if ( iDontReportTerm 
                 && (  termErr == KErrGsmCCNormalUnspecified 
-                   || termErr == KErrGsmCCCallRejected ) )
+                   || termErr == KErrGsmCCCallRejected
+                   || termErr == KErrGsmCCRecoveryOnTimerExpiry ) )
             {
             // Not an error, since this happens on normal 
             // call termination situation after connected call.

@@ -161,10 +161,20 @@ void CPhoneHandlerLastNumberRedial::RequestCompleted( const TInt aError )
 			NextState();
 			
 			const TDesC& number = iLogViewRecentPtr->Event().Number();
-    		COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() phone number is %S", &number );
-			// make a call with last dialed phone number
-			iCommandHandler->Atd( GetStatus(), number );
+			COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() phone number is %S", &number );
 
+            const TDesC& remoteParty = iLogViewRecentPtr->Event().RemoteParty();
+            COM_TRACE_1( "[PHONECMDHANDLER] CPhoneHandlerLastNumberRedial::RequestCompleted() remote party is %S", &remoteParty );
+
+            // make a call with last dialed phone number    
+            if ( KNullDesC() != number )
+                {
+                iCommandHandler->Atd( GetStatus(), number );
+                }
+            else 
+                {
+                iCommandHandler->Atd( GetStatus(), remoteParty );
+                }
 			Activate(); 
 			break;
 			}

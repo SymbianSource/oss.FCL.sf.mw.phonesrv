@@ -16,7 +16,7 @@
 */
 
 #include <e32def.h>
-#include <ecom\ecom.h>
+#include <ecom/ecom.h>
 
 // ---------------------------------------------------------------------------
 // CUssdExtensionInterface::NewL

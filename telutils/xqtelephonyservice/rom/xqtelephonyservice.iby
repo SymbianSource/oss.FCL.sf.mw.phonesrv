@@ -18,7 +18,8 @@
 #ifndef __XQTELEPHONYSERVICE_IBY__
 #define __XQTELEPHONYSERVICE_IBY__
 
-file=ABI_DIR\BUILD_DIR\xqtelephonyservice.dll      System\libs\xqtelephonyservice.dll
+file=ABI_DIR\BUILD_DIR\xqtelephonyservice.dll       System\libs\xqtelephonyservice.dll
+data=ZSYSTEM\install\xqtelephonyservice_stub.sis    System\Install\xqtelephonyservice_stub.sis
 
 #endif // __XQTELEPHONYSERVICE_IBY__
 

@@ -26,7 +26,7 @@ PRJ_MMPFILES
 PRJ_EXPORTS
 
 
-../group/phonesettings_stub.sis  /epoc32/data/z/system/install/phonesettings_stub.sis
+../rom/phonesettings_stub.sis  /epoc32/data/z/system/install/phonesettings_stub.sis
 
 // IBY files
 ../rom/phonesettings.iby      CORE_APP_LAYER_IBY_EXPORT_PATH(phonesettings.iby)

@@ -19,10 +19,8 @@
 #ifndef PHONECMDHANDLER_IBY
 #define PHONECMDHANDLER_IBY
 
-file=ABI_DIR\BUILD_DIR\phonecmdhandler.dll       SHARED_LIB_DIR\phonecmdhandler.dll
+file=ABI_DIR\BUILD_DIR\phonecmdhandler.dll      SHARED_LIB_DIR\phonecmdhandler.dll
+data=ZSYSTEM\install\phonecmdhandler_stub.sis   System\Install\phonecmdhandler_stub.sis
 
 #endif // PHONECMDHANDLER
-
-//  End of File  
-
 

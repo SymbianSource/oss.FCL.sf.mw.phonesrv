@@ -22,8 +22,10 @@
 #include <data_caging_paths_for_iby.hrh>
 
 file = ABI_DIR/BUILD_DIR/keysequencerecognitionservice.exe \
-           PROGRAMS_DIR/keysequencerecognitionservice.exe
+            PROGRAMS_DIR/keysequencerecognitionservice.exe
 data = DATAZ_/private/10003a3f/import/apps/keysequencerecognitionservice_reg.rsc \
-           private/10003a3f/import/apps/keysequencerecognitionservice_reg.rsc
+            private/10003a3f/import/apps/keysequencerecognitionservice_reg.rsc
+data=ZSYSTEM\install\keysequencerecognitionservice_stub.sis \
+            System\Install\keysequencerecognitionservice_stub.sis
 
 #endif // __KEYSEQUENCERECOGNITIONSERVICE_IBY__

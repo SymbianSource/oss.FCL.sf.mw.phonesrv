@@ -20,7 +20,8 @@
 #define __CALLUI_VARIANT_IBY__
 
 #ifdef __JAPAN_PREFIX_CHANGE
-file=ABI_DIR\BUILD_DIR\dialutils.dll                        SHARED_LIB_DIR\dialutils.dll
+file=ABI_DIR\BUILD_DIR\dialutils.dll    SHARED_LIB_DIR\dialutils.dll
+data=ZSYSTEM\install\dialutils_stub.sis System\Install\dialutils_stub.sis
 #endif //  __JAPAN_PREFIX_CHANGE
 
 #endif

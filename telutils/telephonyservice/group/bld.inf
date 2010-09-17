@@ -21,9 +21,9 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-
+../rom/telephonyservice_stub.sis    /epoc32/data/z/system/install/telephonyservice_stub.sis
 // IBY file exports
-../rom/telephonyservice.iby                  CORE_MW_LAYER_IBY_EXPORT_PATH(telephonyservice.iby)
+../rom/telephonyservice.iby         CORE_MW_LAYER_IBY_EXPORT_PATH(telephonyservice.iby)
 
 // SIS stubs
 

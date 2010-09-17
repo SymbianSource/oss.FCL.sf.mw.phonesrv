@@ -54,7 +54,6 @@ symbian: {
                inc/mvmbxsimstoreobserver.h \
                inc/mvmbxuihandler.h \
                inc/mvmbxuiutilities.h \
-               inc/vmbshandler.h \
                inc/vmbxcenrephandler.h \
                inc/vmbxcenrepobserver.h \
                inc/vmbxcsvideoengine.h \
@@ -85,7 +84,6 @@ symbian: {
                src/vmbxcsvoiceengine.cpp \
                src/vmbxcsvideoengine.cpp \
                src/vmbxcenrephandler.cpp \
-               src/vmbshandler.cpp \
                src/cvoicemailboxentry.cpp \
                src/cvoicemailbox.cpp \
                src/voicemailboximpl.cpp \

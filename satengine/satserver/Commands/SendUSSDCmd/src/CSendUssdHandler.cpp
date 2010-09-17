@@ -17,12 +17,16 @@
 
 
 #include    <cphcltussdsatclient.h>
-#include	<cphcltussd.h>
+#include    <cphcltussd.h>
 #include    <exterror.h>
+#include    <centralrepository.h>
+#include    <SATPrivateCRKeys.h>
+#include    <hbdevicemessageboxsymbian.h>
 
 #include    "MSatSystemState.h"
 #include    "MSatApi.h"
 #include    "MSatUtils.h"
+#include    "msatmultimodeapi.h"
 #include    "MSatUiSession.h"
 #include    "SatSOpcodes.h"
 #include    "MSatSUiClientHandler.h"
@@ -30,13 +34,11 @@
 #include    "TSatExtErrorUtils.h"
 #include    "SatLog.h"
 
-const TUint8 KQuarterShift( 2 );
-const TUint8 KHighNibbleShift( 4 );
-const TUint8 KDcsCharacterSet7Bit( 0x00 );
-const TUint8 KDcsCharacterSet8Bit( 0x01 );
-const TUint8 KDcsCharacterSet16Bit( 0x02 );
-const TUint8 KDcsCharacterSet7Bit2( 0x00 );
-const TUint8 KDcsCharacterSet16Bit2( 0x01 );
+ /** 
+  * USSD messages coded as a packed string within 160 octets, as defined for a 
+  * ussd-String within GSM 04.80 and GSM 03.38. if the Dcs is 7 bit, a ussd 
+  * string can have 182 charactor
+  */
 const TInt   KSatMaxUSSDString( 182 );
 
 // USSD DCS coding.
@@ -309,7 +311,8 @@ TBool CSendUssdHandler::CommandAllowed()
             {
             LOG( SIMPLE, "SENDUSSD:  dataValid true" )
             // Validate Data Coding Scheme.
-            dataValid = DcsValid( iSendUssdData.iUssdString.iDcs );
+            dataValid = iUtils->MultiModeApi().IsValidUssdDcs(
+                iSendUssdData.iUssdString.iDcs );
             if ( !dataValid )
                 {
                 LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::CommandAllowed Dcs \
@@ -564,10 +567,17 @@ CSendUssdHandler::CSendUssdHandler() :
     iNotificationRsp(),
     iNotificationRspPckg( iNotificationRsp ),
     // To be removed when icons are allowed in this command
-    iIconCommand( EFalse )
+    iIconCommand( EFalse ),
+    iIsSatDisplayUssdResult( EFalse )
     {
     LOG( SIMPLE,
-        "SENDUSSD: CSendUssdHandler::CSendUssdHandler calling - exiting" )
+        "SENDUSSD: CSendUssdHandler::CSendUssdHandler calling" )
+    TRAPD( result, iIsSatDisplayUssdResult = SatDisplayUssdResultL(); )
+    LOG2( NORMAL, "SENDUSSD: CSendUssdHandler::CSendUssdHandler \
+            get CRepository key failed result: %d", result )
+
+    LOG( SIMPLE,
+        "SENDUSSD: CSendUssdHandler::CSendUssdHandler exiting" )
     }
 
 
@@ -594,6 +604,15 @@ void CSendUssdHandler::SendUssdString()
         iSendUssdRsp.iUssdString.iDcs ) );
 
     iSendUssdRsp.iUssdString.iUssdString.Copy( receiveMessage );
+
+    if ( ( RSat::EAlphaIdProvided != iSendUssdData.iAlphaId.iStatus )
+        && iIsSatDisplayUssdResult )
+        {
+        // if no Alpha ID provided, show the text note.
+        LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SendUssdString Show Note" )
+        TRAP_IGNORE(
+        ShowUssdResponseNoteL( iSendUssdRsp.iUssdString.iUssdString ) );
+        }
 
     HandleSendUssdResult( error );
 
@@ -668,6 +687,23 @@ void CSendUssdHandler::SendUssdStringL(
     User::LeaveIfError( error );
 
     LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SendUssdStringL exiting" )
+    }
+    
+// -----------------------------------------------------------------------------
+// Show the ussd response note.
+// -----------------------------------------------------------------------------
+//
+void CSendUssdHandler::ShowUssdResponseNoteL( const TDesC& aText )
+    {
+    LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::ShowUssdResponseNoteL calling" )
+    CHbDeviceMessageBoxSymbian::InformationL( aText );
+
+    CHbDeviceMessageBoxSymbian* messageNote = CHbDeviceMessageBoxSymbian::NewL();
+    CleanupStack::PushL( messageNote );
+    messageNote->SetButton( CHbDeviceMessageBoxSymbian::ERejectButton, EFalse );
+    CleanupStack::PopAndDestroy(); // messageNote
+
+    LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::ShowUssdResponseNoteL exiting" )
     }
     
 // -----------------------------------------------------------------------------
@@ -902,71 +938,6 @@ void CSendUssdHandler::SendTerminalResponse()
     LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SendTerminalResponse exiting" )
     }
 
-// -----------------------------------------------------------------------------
-// Check validity of a given Data Coding Cheme (Dcs).
-// -----------------------------------------------------------------------------
-//
-TBool CSendUssdHandler::DcsValid( const TUint8 aDcs ) const
-    {
-    LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::DcsValid calling" )
-
-    TBool isDcsValid( EFalse );
-                                                               //      76543210
-    TUint8 codingGroup  = ( aDcs & 0xF0 ) >> KHighNibbleShift; // bits XXXX____
-    TUint8 characterSet = ( aDcs & 0x0C ) >> KQuarterShift;    // bits ____XX__
-    TUint8 lowQuartet   = ( aDcs & 0x0F );                     // bits ____XXXX
-    LOG2( SIMPLE, 
-    "SENDUSSD: CSendUssdHandler::DcsValid codingGroup: %x", codingGroup)
-    switch ( codingGroup )
-        {
-        case 0x00:
-        case 0x02:
-        case 0x03:
-        case 0x0F:
-            {
-            isDcsValid = ETrue;
-            break;
-            }
-
-        case 0x01:
-            {
-            if ( ( KDcsCharacterSet7Bit2 == lowQuartet ) ||
-                 ( KDcsCharacterSet16Bit2 == lowQuartet ) )
-                {
-                LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::DcsValid valid" )
-                isDcsValid = ETrue;
-                }
-            break;
-            }
-
-        case 0x04:
-        case 0x05:
-        case 0x06:
-        case 0x07:
-        case 0x09:
-            {
-            if ( ( KDcsCharacterSet7Bit == characterSet ) ||
-                 ( KDcsCharacterSet8Bit == characterSet ) ||
-                 ( KDcsCharacterSet16Bit == characterSet ) )
-                {
-                LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::DcsValid isDcsValid" )
-                isDcsValid = ETrue;
-                }
-            break;
-            }
-
-        default:
-            {
-            LOG2( SIMPLE, "SENDUSSD:   Reserved Dcs found: %x", aDcs )
-            }
-        }
-
-    LOG2(
-        SIMPLE,
-        "SENDUSSD: CSendUssdHandler::DcsValid exiting, valid = %d",
-        isDcsValid )
-    return isDcsValid;
-    }
 
 // -----------------------------------------------------------------------------
 // USSD sending should be transparent if alpha identifier is provided but it's
@@ -1000,5 +971,34 @@ TBool CSendUssdHandler::TransparentUssdSending()
     LOG2( SIMPLE, 
     "SENDUSSD: CSendUssdHandler::TransparentUssdSending exiting: %i", result )
     return result;
+    }
+
+// -----------------------------------------------------------------------------
+// Check whether the ussd sending result is displayed
+// -----------------------------------------------------------------------------
+//
+TInt CSendUssdHandler::SatDisplayUssdResultL()
+    {
+    LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SatDisplayUssdResultL calling" )
+    TInt result( KErrNone );
+    TInt ussdDisplayResult( KErrNone );
+
+    CRepository* repository = NULL;
+    repository = CRepository::NewL( KCRUidSatServer );
+    
+    if ( repository )
+        {
+        result = repository->Get( KSatDisplayUssdResult, ussdDisplayResult );
+        LOG3( NORMAL,
+        "SENDUSSD: CSendUssdHandler::CSendUssdHandler \
+        get CRepository key DisplayResult: %d, result: %d ", 
+        ussdDisplayResult, result )
+        }
+
+    delete repository;
+    repository = NULL;
+    
+    LOG( SIMPLE, "SENDUSSD: CSendUssdHandler::SatDisplayUssdResultL exiting" )
+    return ussdDisplayResult;
     }
 

@@ -21,6 +21,7 @@
 
 #include <data_caging_paths_for_iby.hrh>
 
-file=ABI_DIR\BUILD_DIR\dialpad.dll       SHARED_LIB_DIR\dialpad.dll
+file=ABI_DIR\BUILD_DIR\dialpad.dll          SHARED_LIB_DIR\dialpad.dll
+data=ZSYSTEM\install\dialpad_stub.sis       System\Install\dialpad_stub.sis
 
 #endif // __DIALPAD_IBY__

@@ -26,6 +26,8 @@ TARGETTYPE      PLUGIN
 
 UID             0x10009D8D 0x101F868E
 
+VERSION         10.0
+
 SOURCEPATH      ../src/cauiplugin 
 SOURCE          cauiplugin.cpp 
 SOURCE          cauimain.cpp 

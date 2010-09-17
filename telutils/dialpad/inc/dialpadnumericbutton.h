@@ -25,27 +25,34 @@ class DialpadNumericButton : public HbInputButton
 {
     Q_OBJECT
 
+    // use label instead of text to override input button properties
+    Q_PROPERTY(QString iconName READ iconName)
+    Q_PROPERTY(QString primaryLabel READ primaryLabel WRITE setPrimaryLabel)
+    Q_PROPERTY(QString secondaryLabel READ secondaryLabel WRITE setSecondaryLabel)
+    Q_PROPERTY(QString secondaryLabelRow2 READ secondaryLabelRow2 WRITE setSecondaryLabelRow2)
+
 public:
     explicit DialpadNumericButton(int keyCode, const QPoint &position, const QSize &size = QSize(1, 1));
     virtual ~DialpadNumericButton();
 
     void setIcon(const HbIcon& icon);
     HbIcon& icon();
+    QString iconName() const;
 
-    void setText(const QString& text);
-    QString text() const;
+    void setPrimaryLabel(const QString& value);
+    QString primaryLabel() const;
 
-    void setSecondaryText(const QString& text);
-    QString secondaryText() const;
+    void setSecondaryLabel(const QString& value);
+    QString secondaryLabel() const;
 
-    void setSecondary2ndRowText(const QString& text);
-    QString secondary2ndRowText() const;
+    void setSecondaryLabelRow2(const QString& value);
+    QString secondaryLabelRow2() const;
 
 private:
     HbIcon mIcon;
-    QString mText;
-    QString mSecondaryText;
-    QString mSecondaryTextRow2;
+    QString mPrimaryLabel;
+    QString mSecondaryLabel;
+    QString mSecondaryLabelRow2;
 };
 
 #endif // DIALPADNUMERICBUTTON_H

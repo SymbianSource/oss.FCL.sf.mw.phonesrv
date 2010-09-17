@@ -26,6 +26,7 @@ VENDORID VID_DEFAULT
 TARGET          dosenpolicy.dll
 TARGETTYPE      DLL
 UID             0x101F86D1 0x101F86D2
+VERSION         10.0
 
 SOURCEPATH      ../src/dosenpolicy 
 SOURCE          cdosemergencynumberpolicy.cpp 

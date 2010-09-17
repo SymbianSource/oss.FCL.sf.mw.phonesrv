@@ -42,11 +42,14 @@ MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE           /epoc32/include/ecom
 SYSTEMINCLUDE           ../../../../../inc      // Domain telephony
 SYSTEMINCLUDE           ../../../../inc         // Subsystem satengine
+SYSTEMINCLUDE           /epoc32/include/mw/hb/hbwidgets
 
 LIBRARY                 euser.lib
 LIBRARY                 etelsat.lib
 LIBRARY                 SatEngine.lib
 LIBRARY                 phoneclient.lib         // Ussd sender
+LIBRARY                 hbwidgets.lib
+LIBRARY                 centralrepository.lib   // CRepository
 
 #ifdef ENABLE_SAT_LOGGING
 LIBRARY                 flogger.lib

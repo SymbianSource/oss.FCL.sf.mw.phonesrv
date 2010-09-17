@@ -359,12 +359,12 @@ void VmbxQtUiHandler::showInformationNote(const TVmbxNoteType aType)
     VMBLOGSTRING2("VmbxQtUiHandler::showInformationNote type =%d", aType)
     switch (aType) {
     case EInvalidNumber:
-        // Need to comfirm with ui designer
-        noteText = hbTrId("Invalid phone number.");
+        // Invalid nubmer
+        noteText = hbTrId("txt_vmbx_dpopinfo_invalid_number");
         break;
     case ENotAllowUserEditing:
         //User not allow to edit.
-        noteText = hbTrId("Number not provisioned");
+        noteText = hbTrId("txt_vmbx_dpopinfo_voice_mailbox_not_provisioned");
         break;
     case ESavedToPhoneMemory:
     case ESavedToSimMemory:	

@@ -23,6 +23,7 @@
 CAPABILITY CAP_SERVER NetworkControl
 // Assign Vendor ID.
 VENDORID VID_DEFAULT
+VERSION 10.0
 
 TARGET          phoneserver.exe
 EPOCSTACKSIZE   0x5000

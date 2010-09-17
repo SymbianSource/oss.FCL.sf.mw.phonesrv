@@ -90,11 +90,13 @@ public:
      * Enables specified barring. Result is signaled with 
      * enableBarringRequestCompleted.
      * 
+     * @param   basicServiceGroup   Basic service group concerned.
      * @param   serviceGroup    Service group concerned.
      * @param   barringType     Barring type.
      * @param   barringPassword Barring password.
      */
     void enableBarring(
+        int basicServiceGroup,
         PsServiceGroup serviceGroup,
         BarringType barringType,
         QString barringPassword);
@@ -103,11 +105,13 @@ public:
      * Disables specified barring. Result is signaled with 
      * disableBarringRequestCompleted.
      * 
+     * @param   basicServiceGroup   Basic service group concerned.
      * @param   serviceGroup    Service group concerned.
      * @param   barringType     Barring type.
      * @param   barringPassword Barring password.
      */
     void disableBarring(
+        int basicServiceGroup,
         PsServiceGroup serviceGroup,
         BarringType barringType,
         QString barringPassword);

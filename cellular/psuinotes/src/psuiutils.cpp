@@ -51,6 +51,7 @@ bool PsUiUtils::errorCodeTextMapping(const int errorcode, QString &errorText)
         case KErrGsmSSIllegalEquipment:
         case KErrGsmSSCallBarred:
         case KErrGsmSSDataMissing:
+        case KErrAccessDenied:
             errorText = hbTrId("txt_phone_info_not_allowed");
             break;
         case KErrGsmSSIncompatibility:
@@ -65,37 +66,24 @@ bool PsUiUtils::errorCodeTextMapping(const int errorcode, QString &errorText)
             break;
         case KErrGsmSSNegativePasswordCheck:
         case KErrGsmSSPasswordRegistrationFailure:
-            errorText = hbTrId("Password error");
+            errorText = hbTrId("txt_phone_info_password_error");
             break;
         case KErrGsmSSPasswordAttemptsViolation:
             errorText = hbTrId("txt_phone_info_barring_password_blocked");
             break;
         case KErrGsmSMSNoNetworkService:
         case KErrGsmNoService:
-            errorText = hbTrId("No network coverage");
+            errorText = hbTrId("txt_phone_info_no_network_coverage");
             break;
         case KErrSsActivationDataLost:
-            errorText = hbTrId("Check network services");
+            errorText = hbTrId("txt_phone_info_check_network_services");
             break;
         case KErrGsmOfflineOpNotAllowed:
             if(XQSysInfo::isSupported(KFeatureIdOfflineMode)){
-                XQSettingsManager *xqsettingsManager = new XQSettingsManager();
-                XQSettingsKey key(XQSettingsKey::TargetPublishAndSubscribe,
-                        KPSUidBluetoothSapConnectionState.iUid,
-                        KBTSapConnectionState);
-                QVariant startupValue = xqsettingsManager->readItemValue(key);
-                int value = startupValue.toInt();
-                delete xqsettingsManager;
-                xqsettingsManager = NULL;
-                if (value == EBTSapConnected){
-                    errorText = hbTrId("Operation not possible in SIM access profile mode");
-                } else {
-                    errorText = hbTrId("Operation not possible in Off-line mode");
-                }
+               errorText = hbTrId("txt_phone_info_offline_not_allowed");
             } else {
                 errorText = hbTrId("txt_phone_info_request_not_completed");
             }
-
             break;
         case KErrGsmSSUnknownAlphabet:
             errorText = hbTrId("txt_phone_info_invalid_phone_number");

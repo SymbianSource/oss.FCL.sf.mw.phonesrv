@@ -31,7 +31,7 @@ PRJ_EXPORTS
   ../inc/extcallwrapper/extcallwrapper_aiw/cphcltextphonebase.h  |../../inc/cphcltextphonebase.h
   ../inc/extcallwrapper/extcallwrapper_aiw/cphcltdialer.h  |../../inc/cphcltdialer.h
 
-../data/phoneclient_stub.sis                 /epoc32/data/z/system/install/phoneclient_stub.sis
+../rom/phoneclient_stub.sis                 /epoc32/data/z/system/install/phoneclient_stub.sis
 
 // IBY files
 ../rom/phoneclient.iby                      CORE_MW_LAYER_IBY_EXPORT_PATH(phoneclient.iby)

@@ -27,6 +27,11 @@ class DialpadBluetoothEventFilter;
 class DialpadKeySequenceEventFilter;
 class DialpadEmergencyCallEventFilter;
 class DialpadHashEventFilter;
+#ifdef _DEBUG
+ #ifdef __WINSCW__
+  class DialpadInternalEventFilter;
+ #endif
+#endif
 class HbMainWindow;
 
 #ifdef BUILD_DIALPADKEYHANDLER
@@ -96,6 +101,11 @@ private:
     QScopedPointer<DialpadKeySequenceEventFilter> mKeySequenceFilter;
     QScopedPointer<DialpadEmergencyCallEventFilter> mEmergencyCallFilter;
     QScopedPointer<DialpadHashEventFilter> mHashFilter;
+#ifdef _DEBUG
+ #ifdef __WINSCW__
+    QScopedPointer<DialpadInternalEventFilter> mInternalFilter;  
+ #endif
+#endif
 };
 
 #endif // DIALPADKEYHANDLER_H

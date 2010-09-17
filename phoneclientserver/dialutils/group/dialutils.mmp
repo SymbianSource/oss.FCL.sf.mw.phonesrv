@@ -22,6 +22,7 @@ CAPABILITY CAP_GENERAL_DLL
 TARGET          dialutils.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x101F8747
+VERSION         10.0
 
 SOURCEPATH      ../src
 SOURCE          dialutilsimpl.cpp 

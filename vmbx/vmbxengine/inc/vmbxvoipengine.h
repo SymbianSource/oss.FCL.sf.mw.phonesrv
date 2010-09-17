@@ -28,7 +28,6 @@
 class CVmbxEngineBase;
 //class CGulIcon;
 class CVmSPSHandler;
-class CVmBSHandler;
 class TVmbxServiceInfo;
 //class CFbsBitmap;
 
@@ -168,11 +167,6 @@ private: // data
      * Handles Service proviver Settings, Own.
      */
     CVmSPSHandler* iVmSpsHandler;
-    
-    /**
-     * Handles Branding Server, Own.
-     */
-    CVmBSHandler* iVmBsHandler;
     };
 
 #endif  // C_VMBXVOIPENGINE_H

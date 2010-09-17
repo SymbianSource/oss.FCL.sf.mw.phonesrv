@@ -23,7 +23,7 @@ DEFAULT
 PRJ_EXPORTS
 ../inc/cservicerequest.h            |../../../inc/cservicerequest.h
 ../inc/mservicerequestobserver.h    |../../../inc/mservicerequestobserver.h
-../data/servicerequest_stub.sis     /epoc32/data/z/system/install/servicerequest_stub.sis
+../rom/servicerequest_stub.sis     /epoc32/data/z/system/install/servicerequest_stub.sis
 ../rom/servicerequest.iby           CORE_APP_LAYER_IBY_EXPORT_PATH(servicerequest.iby)
 ../rom/servicerequestresources.iby  LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(servicerequestresources.iby)
 

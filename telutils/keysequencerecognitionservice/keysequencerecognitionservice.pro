@@ -26,6 +26,7 @@ symbian {
     TARGET.VID = VID_DEFAULT
     TARGET.CAPABILITY = CAP_APPLICATION
     TARGET.EPOCALLOWDLLDATA = 1
+    VERSION = 10.0
     
     INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE
     INCLUDEPATH += ../../inc 
@@ -51,4 +52,7 @@ symbian {
             -letel -letelmm -lcustomapi \
             -lcentralrepository -lQtSystemInfo -lsecui \
             -ltstaskmonitorclient
+    BLD_INF_RULES.prj_exports += \
+    "./rom/keysequencerecognitionservice_stub.sis /epoc32/data/z/system/install/keysequencerecognitionservice_stub.sis"
+            
 }

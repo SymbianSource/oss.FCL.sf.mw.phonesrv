@@ -23,6 +23,7 @@ symbian {
     TARGET.EPOCALLOWDLLDATA = 1
     TARGET.UID3 = 0x20029F04
     DEFINES += BUILD_XQCALLINFO
+    VERSION = 10.0
     
     INCLUDEPATH += ../../inc
     INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE
@@ -46,6 +47,9 @@ symbian {
     headers.sources = inc/qtphonesrvlog.h
     headers.path = |../../inc
     for(header, headers.sources):BLD_INF_RULES.prj_exports += "$$header $$headers.path/$$basename(header)"       
+    
+    BLD_INF_RULES.prj_exports += \
+    "./rom/xqtelephonyservice_stub.sis /epoc32/data/z/system/install/xqtelephonyservice_stub.sis
 }
 
 # Input

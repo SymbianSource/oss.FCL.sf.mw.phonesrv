@@ -24,6 +24,7 @@ CAPABILITY CAP_GENERAL_DLL
 TARGET          servicerequest.dll
 TARGETTYPE      DLL
 UID             0x1000008d 0x10005A3D
+VERSION         10.0
 
 SOURCEPATH      ../src
 SOURCE          cservicerequest.cpp 

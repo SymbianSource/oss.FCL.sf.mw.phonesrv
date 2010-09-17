@@ -20,6 +20,7 @@
 
 #include <bldvariant.hrh>
 
-file=ABI_DIR/BUILD_DIR/psuinotes.dll             SHARED_LIB_DIR/psuinotes.dll
+file=ABI_DIR/BUILD_DIR/psuinotes.dll    SHARED_LIB_DIR/psuinotes.dll
+data=ZSYSTEM\install\psuinotes_stub.sis System\Install\psuinotes_stub.sis
 
 #endif

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -29,6 +29,13 @@
 
 // USSD DCS coding.
 const TUint8 KSatDcs7Bit( 0x40 );
+
+ /** 
+  * USSD messages coded as a packed string within 160 octets, as defined for a 
+  * ussd-String within GSM 04.80 and GSM 03.38. if the Dcs is 7 bit, a ussd 
+  * string can have 182 charactor
+  */
+const TInt   KSatMaxUSSDString( 182 );
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -541,17 +548,22 @@ TInt CCallControlHandler::SendUssd()
     TInt err( KErrNone );
     RSat::TUssdString ussdString;
     err = iCallControlData.GetSendUssdDetails ( ussdString );
+    //If the Dcs or string length is not valid we should not send the ussd.
+    if( !err )
+        {
+        if( !( iUtils->MultiModeApi().IsValidUssdDcs( ussdString.iDcs ) )
+            || ( KSatMaxUSSDString < ussdString.iUssdString.Length() ) )
+            {   
+            err = KErrArgument;
+            }
+        }
+    
     if ( !err )
         {
         LOG2( NORMAL, "CALLCONTROL: CCallControlHandler::SendUssd string %S",
             &ussdString.iUssdString )
          
-        LOG2( NORMAL, "CALLCONTROL: CCallControlHandler::SendUssd schema %d",
-            ussdString.iDcs )
-
         RMobileUssdMessaging::TMobileUssdAttributesV1 ussdAttr;
-        
-        
         if ( KSatDcs7Bit == ussdString.iDcs )
             {
             ussdAttr.iFormat= RMobileUssdMessaging::EFormatPackedString;
@@ -583,12 +595,11 @@ TInt CCallControlHandler::SendUssd()
             err = KErrNoMemory;
             }    
         }
-
+    
     LOG2( NORMAL, "CALLCONTROL: CCallControlHandler::SendUssd exiting %d",
           err)
     return err;
     }
-
 
 // -----------------------------------------------------------------------------
 // CCallControlHandler::DispatchCcRequestComplete

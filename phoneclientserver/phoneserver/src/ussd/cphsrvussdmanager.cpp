@@ -87,6 +87,11 @@ const TInt KPhSrvUssdPopupDismissPolicy = 0;
 // The time out only for testing, from CPhSrvUssdReplyTimer.cpp
 const TUint KPhSrvUssdTimeout = 300000000;
 
+//Refers to HbMessageBox::Yes
+const TUint KHbMsgBoxBtnYes = 0x00002000;
+//Refers to HbMessageBox::No
+const TUint KHbMsgBoxBtnNo = 0x00010000;
+
 // Use QT style localization
 _LIT(KUssdLocFilename, "ussd_");
 _LIT(KCommonLocFilename, "common_");
@@ -390,7 +395,8 @@ CPhSrvUssdManager::CPhSrvUssdManager(
      iDeviceDialog( NULL ),
      iDCS ( KPhCltDcsUnknown ),
      iReturnResultPckg ( iReturnResult ),
-     iTextBuffer ( NULL )
+     iTextBuffer ( NULL ),
+     iDialogType ( EInvalidType )
     {
     CActiveScheduler::Add( this );
     }
@@ -878,6 +884,7 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
                 CHbDeviceMessageBoxSymbian::ERejectButton, 
                 LoadDefaultString( KUssdExit ) );
             _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Exit" );             
+            iDialogType = EOnlyExit;
         }
       
         if ( iNotifyMessage || iMsgTypeReply )
@@ -913,6 +920,7 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
             iDeviceDialog->SetButton( 
                 CHbDeviceMessageBoxSymbian::EAcceptButton, EFalse );
             _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NoAnswer" ); 
+            iDialogType = EOnlyExit;
             }
         // Show Reply key
         else
@@ -922,7 +930,13 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
             iDeviceDialog->SetButtonTextL(
                 CHbDeviceMessageBoxSymbian::EAcceptButton, 
                 LoadDefaultString( KUssdReply ) ); 
+            iDeviceDialog->SetButton( 
+                CHbDeviceMessageBoxSymbian::ERejectButton, ETrue );              
+            iDeviceDialog->SetButtonTextL(
+                CHbDeviceMessageBoxSymbian::ERejectButton, 
+                LoadDefaultString( KUssdExit ) );
             _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.WithAnswer" ); 
+            iDialogType = EReplyExit;
             }
 
  
@@ -1290,15 +1304,13 @@ void CPhSrvUssdManager::MessageBoxClosed(
     {
     _DPRINT( 4, "PhSrv.MsgClose.Start" );
     // ussd device dialog observer callback function
-    TPtrC leftBtn = aMessageBox->ButtonText( 
-        CHbDeviceMessageBoxSymbian::EAcceptButton );
-    TPtrC rightBtn = aMessageBox->ButtonText( 
-        CHbDeviceMessageBoxSymbian::ERejectButton );    
 
+    _DDPRINT( 4, "PhSrv.MsgClose.iDialogType=", iDialogType );
+    _DDPRINT( 4, "PhSrv.MsgClose.aBtn=", aButton );
+    
     TInt err = KErrNone;
     // Click Yes on Confirmation note (Yes, No) 
-    if ( !leftBtn.Compare( 
-          LoadDefaultString( KUssdYes ) ) && 
+    if ( EYesNo == iDialogType && 
           ( CHbDeviceMessageBoxSymbian::EAcceptButton == aButton ) )
         {
         _DPRINT( 4, "PhSrv.MsgClose.SK.Yes" );
@@ -1307,8 +1319,7 @@ void CPhSrvUssdManager::MessageBoxClosed(
         TryCloseSession();
         }
     // Click "No" on Confirmation note (Yes, No) 
-    else if ( !rightBtn.Compare( 
-               LoadDefaultString( KUssdNo ) ) && 
+    else if ( EYesNo == iDialogType && 
               ( CHbDeviceMessageBoxSymbian::ERejectButton == aButton ) )
         {
         _DPRINT( 4, "PhSrv.MsgClose.SK.No" );
@@ -1318,8 +1329,7 @@ void CPhSrvUssdManager::MessageBoxClosed(
         TryCloseSession();
         }
     // Click "Next" on Notification note (Next, Exit) 
-    else if ( !leftBtn.Compare( 
-               LoadDefaultString( KUssdNext ) ) && 
+    else if ( ENextExit == iDialogType && 
                ( CHbDeviceMessageBoxSymbian::EAcceptButton == aButton ) )
         {
         _DPRINT( 4, "PhSrv.MsgClose.SK.Next" ); 
@@ -1327,8 +1337,9 @@ void CPhSrvUssdManager::MessageBoxClosed(
         TryCloseSession();
         }
     // Click "Exit" on Notification note (Next, Exit or only Exit) 
-    else if ( !rightBtn.Compare( 
-               LoadDefaultString( KUssdExit ) ) && 
+    else if ( (EOnlyExit == iDialogType 
+            || ENextExit == iDialogType 
+            || EReplyExit == iDialogType ) && 
                ( CHbDeviceMessageBoxSymbian::ERejectButton == aButton ) )
         {
         TRAP( err, ClearArrayL() );
@@ -1337,8 +1348,7 @@ void CPhSrvUssdManager::MessageBoxClosed(
         _DPRINT( 4, "PhSrv.MsgClose.SK.Exit" ); 
         }
     // Click "Reply" on Message note (Reply, Exit) 
-    else if ( !leftBtn.Compare( 
-               LoadDefaultString( KUssdReply ) ) && 
+    else if ( EReplyExit == iDialogType && 
                ( CHbDeviceMessageBoxSymbian::EAcceptButton == aButton ) )
         {
         // Answer
@@ -1410,6 +1420,7 @@ void CPhSrvUssdManager::LaunchGlobalMessageQueryL()
                 CHbDeviceMessageBoxSymbian::ERejectButton, 
                 LoadDefaultString( KUssdExit ) );  
             _DPRINT( 4, "PhSrv.LGMQ.Next&Exit" );
+            iDialogType = ENextExit;
             }
         else
             {
@@ -1422,25 +1433,25 @@ void CPhSrvUssdManager::LaunchGlobalMessageQueryL()
                 CHbDeviceMessageBoxSymbian::ERejectButton, 
                 LoadDefaultString( KUssdExit ) );   
             _DPRINT( 4, "PhSrv.LGMQ.onlyExit" );
+            iDialogType = EOnlyExit;
             }
         if ( iClearArray )
             {
             HbTextResolverSymbian::Init( KCommonLocFilename, KLocPath );
             _DPRINT( 4, "PhSrv.LGMQ.use common loc file" );
             // Yes, No
-            iDeviceDialog->SetButton(
-                CHbDeviceMessageBoxSymbian::EAcceptButton, ETrue );               
+            iDeviceDialog->SetStandardButtons(KHbMsgBoxBtnYes
+                |KHbMsgBoxBtnNo);
             iDeviceDialog->SetButtonTextL(
                 CHbDeviceMessageBoxSymbian::EAcceptButton, 
                 LoadDefaultString( KUssdYes ) );
-            iDeviceDialog->SetButton(
-                CHbDeviceMessageBoxSymbian::ERejectButton, ETrue );              
             iDeviceDialog->SetButtonTextL(
                 CHbDeviceMessageBoxSymbian::ERejectButton, 
                 LoadDefaultString( KUssdNo ) );  
             _DPRINT( 4, "PhSrv.LGMQ.Yes&No" );
             HbTextResolverSymbian::Init( KUssdLocFilename, KLocPath );
             _DPRINT( 4, "PhSrv.LGMQ.back up to use ussd loc file" );
+            iDialogType = EYesNo;
             }
         iReceivedMessage.Zero();
         iReceivedMessage = (*iNotifyArray)[0];
@@ -1668,6 +1679,7 @@ TInt CPhSrvUssdManager:: NotifyCount()
         iDeviceDialog->SetButtonTextL(
             CHbDeviceMessageBoxSymbian::EAcceptButton, 
             LoadDefaultString( KUssdNext ) );
+        iDialogType = ENextExit;
         }
     // Remove left softkey
     else

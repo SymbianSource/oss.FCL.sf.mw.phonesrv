@@ -20,6 +20,7 @@
 
 #include <bldvariant.hrh>
 
-file=ABI_DIR\BUILD_DIR\psetwrapper.dll                 SHARED_LIB_DIR\psetwrapper.dll
+file=ABI_DIR\BUILD_DIR\psetwrapper.dll      SHARED_LIB_DIR\psetwrapper.dll
+data=ZSYSTEM\install\psetwrapper_stub.sis   System\Install\psetwrapper_stub.sis
 
 #endif

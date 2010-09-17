@@ -58,26 +58,30 @@ void PSetCallBarringWrapper::barringStatus(
   PSetCallBarringWrapper::enableBarring
  */
 void PSetCallBarringWrapper::enableBarring(
+    int basicServiceGroup,
     PsServiceGroup serviceGroup,
     BarringType barringType,
-    QString barringPassword)
+    QString barringPassword )
 {
     DPRINT;
     
-    m_privateImpl->enableBarring(serviceGroup, barringType, barringPassword);
+    m_privateImpl->enableBarring(
+        basicServiceGroup, serviceGroup, barringType, barringPassword);
 }
 
 /*!
   PSetCallBarringWrapper::disableBarring
  */
 void PSetCallBarringWrapper::disableBarring(
+    int basicServiceGroup,
     PsServiceGroup serviceGroup,
     BarringType barringType,
     QString barringPassword)
 {
     DPRINT;
     
-    m_privateImpl->disableBarring(serviceGroup, barringType, barringPassword);
+    m_privateImpl->disableBarring(
+        basicServiceGroup, serviceGroup, barringType, barringPassword);
 }
 
 /*!

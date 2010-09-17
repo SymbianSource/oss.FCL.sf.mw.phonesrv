@@ -23,6 +23,7 @@ TARGET          cce.dll
 TARGETTYPE      DLL
 UID             0x1000008D 0x102828BA
 VENDORID        VID_DEFAULT
+VERSION         10.0
 
 SOURCEPATH      ../src
 

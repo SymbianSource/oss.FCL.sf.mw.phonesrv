@@ -25,6 +25,7 @@ CAPABILITY CAP_GENERAL_DLL
 TARGET          cauiengine.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x101F868F
+VERSION         10.0
 
 SOURCEPATH      ../src/cauiengine
 SOURCE          cauiengfactimpl.cpp

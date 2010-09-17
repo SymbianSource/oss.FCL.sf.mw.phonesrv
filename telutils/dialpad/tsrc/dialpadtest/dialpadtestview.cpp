@@ -16,6 +16,15 @@
 */
 
 #include <QtGui>
+
+//#define DIALPAD_ENABLE_TESTABILITY
+#ifdef DIALPAD_ENABLE_TESTABILITY
+    #include <QtPlugin>
+    #include <QPluginLoader>
+    #include <QLibraryInfo>
+    #include "testabilityinterface.h"
+#endif
+
 #include <hbtoolbar.h>
 #include <hbaction.h>
 #include <hblabel.h>
@@ -83,6 +92,9 @@ DialpadTestView::DialpadTestView( HbMainWindow& mainWindow ) :
 DialpadTestView::~DialpadTestView()
 {
     delete mDialpad;
+#ifdef DIALPAD_ENABLE_TESTABILITY
+    delete mTestabilityInterface;
+#endif
 }
 
 void DialpadTestView::openDialpad()
@@ -253,5 +265,36 @@ void DialpadTestView::setArabicDigit()
     } else {
         HbExtendedLocale::system().setZeroDigit(WesternDigit);
     }
+}
+
+void DialpadTestView::loadTestabilityPlugin()
+{
+#ifdef DIALPAD_ENABLE_TESTABILITY
+    QString testabilityPlugin = "testability/testability";
+    QString testabilityPluginPostfix = ".dll";
+
+    testabilityPlugin = QLibraryInfo::location(QLibraryInfo::PluginsPath) +
+                                               QObject::tr("/") + testabilityPlugin +
+                                               testabilityPluginPostfix;
+
+    QPluginLoader loader(testabilityPlugin.toLatin1().data());
+
+    QObject *plugin = loader.instance();
+    if (plugin) {
+            qDebug("Testability plugin loaded successfully!");
+            mTestabilityInterface = qobject_cast<TestabilityInterface *>(plugin);
+
+            if (mTestabilityInterface) {
+                    qDebug("Testability interface obtained!");
+                    mTestabilityInterface->Initialize();
+            } else {
+                    qDebug("Failed to get testability interface!");
+            }
+    } else {
+            qDebug("Testability plugin %s load failed with error:%s",
+                   testabilityPlugin.toLatin1().data(),
+                   loader.errorString().toLatin1().data());
+    }
+#endif
 }
 

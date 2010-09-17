@@ -180,6 +180,14 @@ public:
      */
     virtual void DialEmergencyCall(TRequestStatus& aReqStatus, 
                 const TDesC& aNumber);
+
+    /**
+     * Check validity of a given Data Coding Cheme (Dcs).
+     * used by call control handler and send ussd handler
+     * @param aDcs Data Coding Cheme to be validated.
+     * @return TBool indicating Dcs validity.
+     */           
+    virtual TBool IsValidUssdDcs( const TUint8 aDcs );
             
 private:
 

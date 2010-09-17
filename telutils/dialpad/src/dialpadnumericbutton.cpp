@@ -38,32 +38,37 @@ HbIcon& DialpadNumericButton::icon()
     return mIcon;
 }
 
-void DialpadNumericButton::setText(const QString& text)
+QString DialpadNumericButton::iconName() const
 {
-    mText = text;
+    return mIcon.iconName();
 }
 
-QString DialpadNumericButton::text() const
+void DialpadNumericButton::setPrimaryLabel(const QString& value)
 {
-    return mText;
+    mPrimaryLabel = value;
 }
 
-void DialpadNumericButton::setSecondaryText(const QString& text)
+QString DialpadNumericButton::primaryLabel() const
 {
-    mSecondaryText = text;
+    return mPrimaryLabel;
 }
 
-QString DialpadNumericButton::secondaryText() const
+void DialpadNumericButton::setSecondaryLabel(const QString& value)
 {
-    return mSecondaryText;
+    mSecondaryLabel = value;
 }
 
-void DialpadNumericButton::setSecondary2ndRowText(const QString& text)
+QString DialpadNumericButton::secondaryLabel() const
 {
-    mSecondaryTextRow2 = text;
+    return mSecondaryLabel;
 }
 
-QString DialpadNumericButton::secondary2ndRowText() const
+void DialpadNumericButton::setSecondaryLabelRow2(const QString& value)
 {
-    return mSecondaryTextRow2;
+    mSecondaryLabelRow2 = value;
+}
+
+QString DialpadNumericButton::secondaryLabelRow2() const
+{
+    return mSecondaryLabelRow2;
 }

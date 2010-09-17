@@ -24,6 +24,7 @@ TARGET                  cenrepdatabase.dll
 TARGETTYPE              DLL
 UID                     0x1000008d 0x200159D1
 
+VERSION                 10.0
 CAPABILITY              CAP_GENERAL_DLL
 VENDORID                VID_DEFAULT
 

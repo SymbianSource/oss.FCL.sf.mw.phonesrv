@@ -21,6 +21,8 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
+../rom/cenrepdatabase_stub.sis     /epoc32/data/z/system/install/cenrepdatabase_stub.sis
+
 #if defined CORE_MW_LAYER_IBY_EXPORT_PATH
 ../rom/cenrepdatabase.iby                        CORE_MW_LAYER_IBY_EXPORT_PATH(cenrepdatabase.iby)
 #endif // CORE_MW_LAYER_IBY_EXPORT_PATH

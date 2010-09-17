@@ -31,7 +31,7 @@ PRJ_EXPORTS
 // Internal
 ../inc/caui.hrh                            |../../../inc/caui.hrh
 
-../group/callui_stub.sis                   /epoc32/data/z/system/install/callui_stub.sis
+../rom/callui_stub.sis                   /epoc32/data/z/system/install/callui_stub.sis
 
 // LOC files
 ../loc/callui.loc                           MW_LAYER_LOC_EXPORT_PATH(callui.loc)

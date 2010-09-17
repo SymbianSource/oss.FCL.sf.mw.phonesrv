@@ -96,6 +96,9 @@ void UT_PsUiUtils::t_errorCodeTextMapping()
     PsUiUtils::errorCodeTextMapping(KErrGsmSSDataMissing, text);
     QCOMPARE( text, QString(
             "txt_phone_info_not_allowed"));
+    PsUiUtils::errorCodeTextMapping(KErrAccessDenied, text);
+    QCOMPARE( text, QString(
+            "txt_phone_info_not_allowed"));
     PsUiUtils::errorCodeTextMapping(KErrGsmSSIncompatibility, text);
     QCOMPARE( text, QString(
             "txt_phone_info_conflict_error"));
@@ -110,22 +113,22 @@ void UT_PsUiUtils::t_errorCodeTextMapping()
             "txt_phone_info_request_rejected"));
     PsUiUtils::errorCodeTextMapping(KErrGsmSSNegativePasswordCheck, text);
     QCOMPARE( text, QString(
-            "Password error"));
+            "txt_phone_info_password_error"));
     PsUiUtils::errorCodeTextMapping(KErrGsmSSPasswordRegistrationFailure, text);
     QCOMPARE( text, QString(
-            "Password error"));
+            "txt_phone_info_password_error"));
     PsUiUtils::errorCodeTextMapping(KErrGsmSSPasswordAttemptsViolation, text);
     QCOMPARE( text, QString(
             "txt_phone_info_barring_password_blocked"));
     PsUiUtils::errorCodeTextMapping(KErrGsmSMSNoNetworkService, text);
     QCOMPARE( text, QString(
-            "No network coverage"));
+            "txt_phone_info_no_network_coverage"));
     PsUiUtils::errorCodeTextMapping(KErrGsmNoService, text);
     QCOMPARE( text, QString(
-            "No network coverage"));
+            "txt_phone_info_no_network_coverage"));
     PsUiUtils::errorCodeTextMapping(KErrSsActivationDataLost, text);
     QCOMPARE( text, QString(
-            "Check network services"));
+            "txt_phone_info_check_network_services"));
     PsUiUtils::errorCodeTextMapping(KErrGsmSSUnknownAlphabet, text);
     QCOMPARE( text, QString("txt_phone_info_invalid_phone_number"));
     
@@ -136,18 +139,11 @@ void UT_PsUiUtils::t_errorCodeTextMapping()
     QVERIFY( verify() );
     
     expect("XQSysInfo::isSupported").returns(true);
-    expect("XQSettingsManager::readItemValue").returns(QVariant(EBTSapConnected));
     PsUiUtils::errorCodeTextMapping(KErrGsmOfflineOpNotAllowed, text);
     QCOMPARE( text, QString(
-            "Operation not possible in SIM access profile mode"));
-    QVERIFY( verify() );
-    
-    expect("XQSysInfo::isSupported").returns(true);
-    expect("XQSettingsManager::readItemValue").returns(QVariant(EBTSapNotConnected));
-    PsUiUtils::errorCodeTextMapping(KErrGsmOfflineOpNotAllowed, text);
-    QCOMPARE( text, QString(
-            "Operation not possible in Off-line mode"));
-    
+            "txt_phone_info_offline_not_allowed"));
+     QVERIFY( verify() );
+	 
     PsUiUtils::errorCodeTextMapping(-1, text);
     QCOMPARE( text, QString(
             "txt_phone_info_request_not_completed"));

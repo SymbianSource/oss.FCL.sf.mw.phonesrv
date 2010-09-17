@@ -26,7 +26,7 @@ PRJ_EXPORTS
 // IBY files
 ../rom/callprovider.iby          CORE_MW_LAYER_IBY_EXPORT_PATH(callprovider.iby)
 
-../data/callprovider_stub.sis       /epoc32/data/z/system/install/callprovider_stub.sis
+../rom/callprovider_stub.sis     /epoc32/data/z/system/install/callprovider_stub.sis
 
 PRJ_MMPFILES
 callprovider.mmp

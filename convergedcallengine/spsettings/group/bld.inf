@@ -21,9 +21,9 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
+../rom/spsettings_stub.sis    /epoc32/data/z/system/install/spsettings_stub.sis
 
 // Public headers
-
 ../data/backup_registration.xml     z:/private/10282e7e/backup_registration.xml
 
 #if defined CORE_MW_LAYER_IBY_EXPORT_PATH
@@ -31,8 +31,8 @@ PRJ_EXPORTS
 #endif // CORE_MW_LAYER_IBY_EXPORT_PATH
 
 // Generic configuration interface for component cenrep settings  
-../conf/spsettings.confml                       MW_LAYER_CONFML(spsettings.confml)
-../conf/spsettings_10282E7F.crml            MW_LAYER_CRML(spsettings_10282E7F.crml)
+../conf/spsettings.confml           MW_LAYER_CONFML(spsettings.confml)
+../conf/spsettings_10282E7F.crml    MW_LAYER_CRML(spsettings_10282E7F.crml)
 
 PRJ_MMPFILES
 serviceprovidersettings.mmp

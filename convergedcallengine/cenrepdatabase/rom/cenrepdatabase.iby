@@ -18,7 +18,8 @@
 #ifndef CENREPDATABASE_IBY
 #define CENREPDATABASE_IBY
 
-file=ABI_DIR\BUILD_DIR\cenrepdatabase.dll  SHARED_LIB_DIR\cenrepdatabase.dll
+file=ABI_DIR\BUILD_DIR\cenrepdatabase.dll       SHARED_LIB_DIR\cenrepdatabase.dll
+data=ZSYSTEM\install\cenrepdatabase_stub.sis    System\Install\cenrepdatabase_stub.sis
 
 #endif // CENREPDATABASE_IBY
 

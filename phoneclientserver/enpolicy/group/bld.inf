@@ -24,9 +24,9 @@ PRJ_EXPORTS
 
 ../inc/cemergencynumberpolicy.h         |../../../inc/cemergencynumberpolicy.h
 #ifdef __EN_POLICY_DOS
-dosenpolicy_stub.sis                 /epoc32/data/z/system/install/dosenpolicy_stub.sis
+../rom/dosenpolicy_stub.sis                 /epoc32/data/z/system/install/dosenpolicy_stub.sis
 #else
-sosenpolicy_stub.sis                 /epoc32/data/z/system/install/sosenpolicy_stub.sis
+../rom/sosenpolicy_stub.sis                 /epoc32/data/z/system/install/sosenpolicy_stub.sis
 #endif
 
 // IBY files

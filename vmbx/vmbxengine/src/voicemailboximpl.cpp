@@ -31,7 +31,10 @@
 #include "voicemailboximpl.h"
 
 // phone application uid
-const TInt KPhoneApplicationUid          = 0x100058B3;
+// In TB9.2 phone application use 0x100058B3
+// In TB10.1 we get this value 101F4CD5 by testing.
+// So use the value by testing
+const TUint KPhoneApplicationUid = 0x101F4CD5;
 
 // ============================ MEMBER FUNCTIONS =============================
 
@@ -883,13 +886,12 @@ void CVoiceMailboxImpl::CheckNumberProvisionedL(
         const TVoiceMailboxParams& aParams )
     {
     VMBLOGSTRING( "VMBX: CVoiceMailboxImpl::CheckNumberProvisionedL =>" );
-    if ( ( EVmbxVoice == aParams.iType 
-            && EVmbxSimMemory == iCenRepHandler->StoreType() )
+    if ( ( EVmbxVoice == aParams.iType )
          || ( EVmbxVideo == aParams.iType ) )
         {
         // get current active process
         RProcess curProcess;
-        TInt curProcessId( curProcess.SecureId().iId );
+        TUint curProcessId( curProcess.SecureId().iId );
         VMBLOGSTRING2( "VMBX: CVoiceMailboxImpl::CheckNumberProvisionedL \
             Get cur process id: curProcessId = %I", curProcessId );
         // User press 1+send key or long press 1

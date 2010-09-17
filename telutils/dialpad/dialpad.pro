@@ -66,6 +66,7 @@ symbian {
     TARGET.EPOCALLOWDLLDATA = 1
     TARGET.CAPABILITY = ALL -TCB
     TARGET.UID3 = 0x102078ED
+    VERSION = 10.0
     
     defFiles = \
         "$${LITERAL_HASH}ifdef WINS" \
@@ -89,7 +90,18 @@ symbian {
             -lfeatmgr \
             -lphoneclient \
             -lcentralrepository \
-            -lxqsettingsmanager
+            -lxqsettingsmanager 
+
+     contains(SYMBIAN_PLATFORMS, "WINSCW") {
+        HEADERS += inc/dialpadinternaleventfilter.h
+        SOURCES += src/dialpadinternaleventfilter.cpp
+        LIBS += -lcone \
+                -lapgrfx \
+                -lapparc
+    
+    BLD_INF_RULES.prj_exports += \
+    "./rom/dialpad_stub.sis /epoc32/data/z/system/install/dialpad_stub.sis"
+    }
 }
 else:win32 { 
     HEADERS += inc/dialpadsymbianwrapper_p_stub.h

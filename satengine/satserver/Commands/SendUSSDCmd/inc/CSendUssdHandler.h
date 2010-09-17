@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -140,6 +140,13 @@ private:
         TUint8& aReceivedDcs );
 
     /**
+     * Show the ussd response note.
+     *
+     * @param aText The USSD response string to be shown.
+     */
+     void ShowUssdResponseNoteL( const TDesC& aText );
+
+    /**
      * Handles the result of Ussd sending
      *
      * @param aError Result of Ussd sending
@@ -161,18 +168,16 @@ private:
     void SendTerminalResponse();
 
     /**
-     * Check validity of a given Data Coding Cheme (Dcs).
-     *
-     * @param aDcs Data Coding Cheme to be validated.
-     * @return TBool indicating Dcs validity.
-     */
-    TBool DcsValid( const TUint8 aDcs ) const;
-
-    /**
      * Checks is the command transparent or not
      *
      */
     TBool TransparentUssdSending();
+    
+    /**
+     * Check whether the ussd sending result is displayed
+     * @return 1 indicating the result is displayed
+     */
+    TInt SatDisplayUssdResultL();
 
 private: // data
 
@@ -282,6 +287,10 @@ private: // data
      */
     TBool iIconCommand;
 
+    /**
+     * Indicates whether the result of sending USSD is displayed
+     */
+    TBool iIsSatDisplayUssdResult;
     };
 
 #endif      // CSENDUSSDHANDLER_H

@@ -24,6 +24,7 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
+../rom/cce_stub.sis     /epoc32/data/z/system/install/cce_stub.sis
 
 #if defined CORE_MW_LAYER_IBY_EXPORT_PATH
 ../rom/cce.iby                          CORE_MW_LAYER_IBY_EXPORT_PATH(cce.iby)

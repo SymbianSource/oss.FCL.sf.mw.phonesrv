@@ -25,6 +25,10 @@ class HbListWidget;
 class Dialpad;
 class DialpadKeyHandler;
 
+QT_BEGIN_NAMESPACE
+class TestabilityInterface;
+QT_END_NAMESPACE
+
 class DialpadTestView : public HbView
 {
     Q_OBJECT
@@ -41,6 +45,7 @@ private:
     void createListWidget();
     void setDialpadPosition();
     void handleDial();
+    void loadTestabilityPlugin();
 
 private slots:
     void openDialpad();
@@ -63,6 +68,8 @@ private:
     bool mTapOutsideDismiss;
     bool mArabicMode;
     bool mArabicDigit;
+
+    TestabilityInterface* mTestabilityInterface;
 };
 
 #endif // DIALPADTESTVIEW_H

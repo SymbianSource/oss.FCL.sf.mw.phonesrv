@@ -24,6 +24,8 @@ DEFAULT
 
 PRJ_EXPORTS
 ../rom/phonecmdhandler.iby CORE_MW_LAYER_IBY_EXPORT_PATH(phonecmdhandler.iby)
+../rom/phonecmdhandler_stub.sis\
+    /epoc32/data/z/system/install/phonecmdhandler_stub.sis
 
 PRJ_MMPFILES
 phonecmdhandler.mmp

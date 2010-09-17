@@ -38,6 +38,7 @@ symbian: {
     TARGET.EPOCALLOWDLLDATA = 1
     TARGET.CAPABILITY = CAP_GENERAL_DLL
     TARGET.UID3 = 0X200315B9
+    VERSION = 10.0
     
     defFiles = \
     "$${LITERAL_HASH}ifdef WINS" \
@@ -55,8 +56,10 @@ symbian: {
     BLD_INF_RULES.prj_exports +=  \
     "$${LITERAL_HASH}include <platform_paths.hrh>" \
     "./rom/psuinotes.iby    CORE_MW_LAYER_IBY_EXPORT_PATH(psuinotes.iby)"   
+     BLD_INF_RULES.prj_exports += \
+     "./rom/psuinotes_stub.sis /epoc32/data/z/system/install/psuinotes_stub.sis"
 } else: { 
-	INCLUDEPATH += ../../../../../mw/phonesrv/phonesrv_plat/phone_settings_api/inc
+    INCLUDEPATH += ../../../../../mw/phonesrv/phonesrv_plat/phone_settings_api/inc
     INCLUDEPATH += ../../../../../mw/gsprofilesrv/controlpanel/controlpanel_plat/inc
     DESTDIR = c:\hb\lib
     DLLDESTDIR = c:\hb\bin

@@ -25,7 +25,7 @@ PRJ_EXPORTS
 
 backup_registration.xml  z:/private/10000850/backup_registration.xml
 
-phoneserver_stub.sis                /epoc32/data/z/system/install/phoneserver_stub.sis
+../rom/phoneserver_stub.sis         /epoc32/data/z/system/install/phoneserver_stub.sis
 
 // IBY files
 ../rom/phoneserver.iby              CORE_MW_LAYER_IBY_EXPORT_PATH(phoneserver.iby)

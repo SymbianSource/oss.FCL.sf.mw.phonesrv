@@ -27,6 +27,7 @@ VENDORID VID_DEFAULT
 TARGET          phoneclient.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x1000084F
+VERSION         10.0
 
 SOURCEPATH      ../src/notifier/notifier_aiw 
 SOURCE          cphcltcallnotify.cpp 

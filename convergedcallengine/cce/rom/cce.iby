@@ -19,7 +19,8 @@
 #ifndef CCE_IBY
 #define CCE_IBY
 
-file=ABI_DIR\BUILD_DIR\cce.dll SHARED_LIB_DIR\cce.dll
+file=ABI_DIR\BUILD_DIR\cce.dll      SHARED_LIB_DIR\cce.dll
+data=ZSYSTEM\install\cce_stub.sis   System\Install\cce_stub.sis
 
 #endif // CCE_IBY
 

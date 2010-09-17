@@ -29,6 +29,14 @@
 const TInt KLoopMaxTryouts = 5;
 const TInt KLoopTimeout = 3000000;
 
+const TUint8 KQuarterShift( 2 );
+const TUint8 KHighNibbleShift( 4 );
+const TUint8 KDcsCharacterSet7Bit( 0x00 );
+const TUint8 KDcsCharacterSet8Bit( 0x01 );
+const TUint8 KDcsCharacterSet16Bit( 0x02 );
+const TUint8 KDcsCharacterSet7Bit2( 0x00 );
+const TUint8 KDcsCharacterSet16Bit2( 0x01 );
+
 // ================= MEMBER FUNCTIONS ==========================================
 
 // -----------------------------------------------------------------------------
@@ -420,6 +428,79 @@ void CSatMultiModeApi::DialEmergencyCall(TRequestStatus& aReqStatus,
     LOG2( SIMPLE, "SATENGINE: CSatMultiModeApi::DialEmergencyCall err %d", err )
     iCall.DialEmergencyCall( aReqStatus, aNumber );
     LOG( SIMPLE, "SATENGINE: CSatMultiModeApi::DialEmergencyCall exiting" )
+    }
+
+// -----------------------------------------------------------------------------
+// Check validity of a given Data Coding Scheme (Dcs).
+// For the details how the DCS is validated please check TS_123038
+// -----------------------------------------------------------------------------
+//
+TBool CSatMultiModeApi::IsValidUssdDcs( const TUint8 aDcs )
+    {
+    LOG2( SIMPLE, 
+    "SATENGINE: CSatMultiModeApi::IsValidUssdDcs calling dcs = %x", aDcs)
+
+    TBool isDcsValid( EFalse );
+                                                               //      76543210
+    TUint8 codingGroup  = ( aDcs & 0xF0 ) >> KHighNibbleShift; // bits XXXX____
+    TUint8 characterSet = ( aDcs & 0x0C ) >> KQuarterShift;    // bits ____XX__
+    TUint8 lowQuartet   = ( aDcs & 0x0F );                     // bits ____XXXX
+
+    LOG2( SIMPLE, 
+    "SATENGINE: CSatMultiModeApi::IsValidUssdDcs codingGroup: %x", codingGroup)
+    LOG2( SIMPLE, 
+    "SATENGINE: CSatMultiModeApi::IsValidUssdDcs charSet: %x", characterSet)
+    LOG2( SIMPLE, 
+        "SATENGINE: CSatMultiModeApi::IsValidUssdDcs lowQuartet: %x", lowQuartet)
+
+    switch ( codingGroup )
+        {
+        case 0x00:
+        case 0x02:
+        case 0x03:
+        case 0x0F:
+            {
+            isDcsValid = ETrue;
+            break;
+            }
+
+        case 0x01:
+            {
+            if ( ( KDcsCharacterSet7Bit2 == lowQuartet ) ||
+                 ( KDcsCharacterSet16Bit2 == lowQuartet ) )
+                {
+                isDcsValid = ETrue;
+                }
+            break;
+            }
+
+        case 0x04:
+        case 0x05:
+        case 0x06:
+        case 0x07:
+        case 0x09:
+            {
+            if ( ( KDcsCharacterSet7Bit == characterSet ) ||
+                 ( KDcsCharacterSet8Bit == characterSet ) ||
+                 ( KDcsCharacterSet16Bit == characterSet ) )
+                {
+                isDcsValid = ETrue;
+                }
+            break;
+            }
+
+        default:
+            {
+            LOG2( SIMPLE, "SATENGINE: CSatMultiModeApi::IsValidUssdDcs \
+                    Reserved Dcs found: %x", aDcs )
+            }
+        }
+
+    LOG2(
+        SIMPLE,
+        "SATENGINE: CSatMultiModeApi::IsValidUssdDcs exiting, valid = %d",
+        isDcsValid )
+    return isDcsValid;
     }
 
 // -----------------------------------------------------------------------------

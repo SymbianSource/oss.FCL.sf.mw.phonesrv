@@ -21,6 +21,7 @@
 TARGET          phoneparser.dll
 TARGETTYPE      dll
 UID             0x1000008d 0x100058E4
+VERSION         10.0
 
 CAPABILITY CAP_GENERAL_DLL
 

@@ -26,6 +26,7 @@ UID                     0x1000008D 0x102078F4
 
 CAPABILITY              CAP_GENERAL_DLL
 VENDORID                VID_DEFAULT
+VERSION                 10.0
 
 SOURCEPATH              ../src
 SOURCE                  ccallinformation.cpp

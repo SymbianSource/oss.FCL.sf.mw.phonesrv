@@ -55,11 +55,13 @@ public:
         PSetCallBarringWrapper::BarringType barringType);
     
     void enableBarring(
+        int basicServiceGroup,
         PsServiceGroup serviceGroup,
         PSetCallBarringWrapper::BarringType barringType,
         QString barringPassword);
     
     void disableBarring(
+        int basicServiceGroup,
         PsServiceGroup serviceGroup,
         PSetCallBarringWrapper::BarringType barringType,
         QString barringPassword);

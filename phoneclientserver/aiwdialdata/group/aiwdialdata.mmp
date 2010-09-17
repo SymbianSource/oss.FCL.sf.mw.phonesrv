@@ -22,6 +22,7 @@
 CAPABILITY CAP_GENERAL_DLL
 // Assign Vendor ID.
 VENDORID VID_DEFAULT
+VERSION 10.0
 
 TARGET          aiwdialdata.dll
 TARGETTYPE      dll

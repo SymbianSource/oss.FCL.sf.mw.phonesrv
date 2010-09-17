@@ -20,6 +20,7 @@
 
 #include <bldvariant.hrh>
 
-file=ABI_DIR\BUILD_DIR\sssettingswrapper.dll                 SHARED_LIB_DIR\sssettingswrapper.dll
+file=ABI_DIR\BUILD_DIR\sssettingswrapper.dll        SHARED_LIB_DIR\sssettingswrapper.dll
+data=ZSYSTEM\install\sssettingswrapper_stub.sis     System\Install\sssettingswrapper_stub.sis
 
 #endif

@@ -34,7 +34,7 @@ PRJ_EXPORTS
 ../rom/serviceselectorresources.iby    LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(serviceselectorresources.iby)
 
 // Stub sis file
-../srcdata/serviceselector_stub.sis    /epoc32/data/z/system/install/serviceselector_stub.sis
+../rom/serviceselector_stub.sis    /epoc32/data/z/system/install/serviceselector_stub.sis
  
 PRJ_MMPFILES
 serviceselector.mmp

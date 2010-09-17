@@ -135,8 +135,8 @@ void DialpadNumericButtonGrid::setButtonTexts()
             if (keyCode == Qt::Key_Asterisk) {
                 // asterisk is not localized
                 QChar asterisk('*');
-                button(i)->setText(asterisk);
-                button(i)->setSecondaryText(QLatin1String("+"));
+                button(i)->setPrimaryLabel(asterisk);
+                button(i)->setSecondaryLabel(QLatin1String("+"));
                 mGeneratedChar.insert(Qt::Key_Asterisk, asterisk);
                 continue;
             }
@@ -144,7 +144,7 @@ void DialpadNumericButtonGrid::setButtonTexts()
             if (keyCode == Qt::Key_NumberSign) {
                 // number sign is not localized
                 QChar numberSign('#');
-                button(i)->setText(numberSign);
+                button(i)->setPrimaryLabel(numberSign);
                 mGeneratedChar.insert(Qt::Key_NumberSign, numberSign);
                 continue;
             }
@@ -172,18 +172,18 @@ void DialpadNumericButtonGrid::setButtonTexts()
                 numberChar = QChar(keyCode);
             }
 
-            button(i)->setText(numberChar);
+            button(i)->setPrimaryLabel(numberChar);
             mGeneratedChar.insert(keyCode,numberChar);
 
             //
             // set alphabets
             //
             if (keyLabels && keyLabels->chars.count()>=2) {
-                button(i)->setSecondaryText(keyLabels->chars.at(1));
+                button(i)->setSecondaryLabel(keyLabels->chars.at(1));
                 if (keyLabels->chars.count()>=4) {
-                    button(i)->setSecondary2ndRowText(keyLabels->chars.at(3));
+                    button(i)->setSecondaryLabelRow2(keyLabels->chars.at(3));
                 } else {
-                    button(i)->setSecondary2ndRowText(QString());
+                    button(i)->setSecondaryLabelRow2(QString());
                 }
             }
         }
@@ -360,31 +360,31 @@ void DialpadNumericButtonGrid::resolveTextContent(
     for (int i = 0; i < (DialpadRowCount*DialpadColumnCount); i++) {
         DialpadNumericButton *item = button(i);
         if (item->state()==HbInputButton::ButtonStatePressed) {
-            if (item->text().length()) {
-                pressedState.append(item->text());
+            if (item->primaryLabel().length()) {
+                pressedState.append(item->primaryLabel());
                 pressedState.append(QChar(QChar::LineSeparator));
             }
 
-            if (item->secondaryText().length()) {
-                pressedStateSecondary.append(item->secondaryText());
+            if (item->secondaryLabel().length()) {
+                pressedStateSecondary.append(item->secondaryLabel());
                 pressedStateSecondary.append(QChar(QChar::LineSeparator));
-                if (item->secondary2ndRowText().length()) {
-                    pressedStateSecondary.append(item->secondary2ndRowText());
+                if (item->secondaryLabelRow2().length()) {
+                    pressedStateSecondary.append(item->secondaryLabelRow2());
                     pressedStateSecondary.append(QChar(QChar::LineSeparator));
                     useTwoRows = true;
                 }
             }
         } else { // ButtonStateNormal
-            if (item->text().length()) {
-                normalState.append(item->text());
+            if (item->primaryLabel().length()) {
+                normalState.append(item->primaryLabel());
                 normalState.append(QChar(QChar::LineSeparator));
             }
 
-            if (item->secondaryText().length()) {
-                normalStateSecondary.append(item->secondaryText());
+            if (item->secondaryLabel().length()) {
+                normalStateSecondary.append(item->secondaryLabel());
                 normalStateSecondary.append(QChar(QChar::LineSeparator));
-                if (item->secondary2ndRowText().length()) {
-                    normalStateSecondary.append(item->secondary2ndRowText());
+                if (item->secondaryLabelRow2().length()) {
+                    normalStateSecondary.append(item->secondaryLabelRow2());
                     normalStateSecondary.append(QChar(QChar::LineSeparator));
                     useTwoRows = true;
                 }
@@ -476,8 +476,8 @@ void DialpadNumericButtonGrid::layoutTextLines(
     for (int j = 0; j < (DialpadRowCount*DialpadColumnCount); j++) {
         DialpadNumericButton *item = button(j);
 
-        if ((type==PrimaryText && item->text().isNull()) ||
-            (type==SecondaryText && item->secondaryText().isNull())) {
+        if ((type==PrimaryText && item->primaryLabel().isNull()) ||
+            (type==SecondaryText && item->secondaryLabel().isNull())) {
             continue; // no text for this button -> next button
         }
 
@@ -495,7 +495,7 @@ void DialpadNumericButtonGrid::layoutTextLines(
                                   cellHeight,textHeight);
 
                 // store line width, for drawing secondary text
-                qreal lineWidth = fontMetrics.width(item->text());
+                qreal lineWidth = fontMetrics.width(item->primaryLabel());
                 if (mMaxPrimaryLineWidth == 0 && (j>0 && j<10) &&
                     lineWidth > maxLineWidth) {
                     maxLineWidth = lineWidth;
@@ -518,7 +518,7 @@ void DialpadNumericButtonGrid::layoutPrimaryText(
     qreal textHeight) const
 {
     QTextLine line = layout.createLine();
-    line.setNumColumns(button.text().length());
+    line.setNumColumns(button.primaryLabel().length());
     qreal textPositionX = (button.position().x() * cellWidth) +
                     (DialpadPrimaryTextLeftMargin * mUnit)
                     + buttonBorderSize();
@@ -543,7 +543,7 @@ void DialpadNumericButtonGrid::layoutSecondaryText(
     QTextLine line = layout.createLine();
 
     if (useTwoRows) {
-        line.setNumColumns(button.secondaryText().length());
+        line.setNumColumns(button.secondaryLabel().length());
 
         textPositionX = (button.position().x() * cellWidth) +
                         (DialpadPrimaryTextLeftMargin * mUnit) +
@@ -551,13 +551,13 @@ void DialpadNumericButtonGrid::layoutSecondaryText(
                         (DialpadPrimarySecondaryMargin * mUnit)
                         + buttonBorderSize();
 
-        if (button.secondary2ndRowText().length()) {
+        if (button.secondaryLabelRow2().length()) {
             textPositionY = (button.position().y() +
                             (0.5 * button.size().height())) *
                             cellHeight;
 
             QTextLine line2 = layout.createLine();
-            line2.setNumColumns(button.secondary2ndRowText().length());
+            line2.setNumColumns(button.secondaryLabelRow2().length());
             line2.setPosition(QPointF(textPositionX,textPositionY-textHeight));
         } else {
             textPositionY = (button.position().y() +
@@ -565,7 +565,7 @@ void DialpadNumericButtonGrid::layoutSecondaryText(
                             cellHeight - (0.5 * textHeight);
         }
     } else {
-        line.setNumColumns(button.secondaryText().length());
+        line.setNumColumns(button.secondaryLabel().length());
         textPositionX = (button.position().x() * cellWidth) +
                         (DialpadPrimaryTextLeftMargin * mUnit) +
                         mMaxPrimaryLineWidth +

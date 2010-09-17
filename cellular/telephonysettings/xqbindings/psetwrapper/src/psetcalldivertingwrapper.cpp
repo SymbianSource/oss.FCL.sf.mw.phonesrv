@@ -249,7 +249,7 @@ int PSetCallDivertingWrapper::getVoiceMailBoxNumber(
 /*!
  * PSetCallDivertingWrapper::queryVoiceMailBoxNumber
  * @param aNumber empty if not set
- * @return -1 if not supported
+ * @return -1 if not supported or an error code
  */
 int PSetCallDivertingWrapper::queryVoiceMailBoxNumber(
         QString &aNumber, PsService aService)
@@ -289,10 +289,12 @@ int PSetCallDivertingWrapper::queryVoiceMailBoxNumber(
         } else {
             // New number not given.
             DPRINT << "New number error: " << error;
+            ret = error; 
         }
     } else {
         // illegal argument 
         DPRINT << "error: " << error;
+        ret = error; 
     }
 
     delete psetVoiceMailboxEntry; // Entry ownership was transferred

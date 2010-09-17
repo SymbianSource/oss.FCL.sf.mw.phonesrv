@@ -76,7 +76,19 @@ class CPhSrvUssdManager :
         */
         void ConstructL( MPhSrvPhoneInterface& aPhoneInterface );
         
-
+    private:
+        /*
+         * TDialogInfoType is used to identify dialogs with different
+         * buttons.
+         */
+        enum TDialogInfoType{
+                EInvalidType = -1,
+                EYesNo,
+                ENextExit,
+                EReplyExit,
+                EOnlyExit
+            };
+        
     public: // New functions
         
         /**
@@ -427,6 +439,9 @@ class CPhSrvUssdManager :
         CAsyncCallBack* iMoAckCallback;
         
         HBufC* iTextBuffer;
+
+        // The dialogs with different button.
+        TDialogInfoType iDialogType;
 
     };
     

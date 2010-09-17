@@ -297,16 +297,10 @@ void PsUiNotes::showPasswordQueryDialog(
     // configure editor so that only digits can be inputted
     passwordDialog->setPromptText(title);
     passwordDialog->setEchoMode(HbLineEdit::Password);
-    passwordDialog->setInputMethodHints(Qt::ImhDigitsOnly);
     passwordDialog->actions().at(0)->setEnabled(false);
-    
     HbLineEdit *hbLineEdit = passwordDialog->lineEdit();
     hbLineEdit->setMaxLength(maxPasswordLength);
-    
-    HbEditorInterface editorInterface(hbLineEdit);
-    editorInterface.setMode(HbInputModeNumeric);
-    editorInterface.setInputConstraints(HbEditorConstraintFixedInputMode);
-    editorInterface.setFilter(HbDigitsOnlyFilter::instance());
+    hbLineEdit->setInputMethodHints(Qt::ImhDigitsOnly);
     
     m_passwordValidator = &validator;
     

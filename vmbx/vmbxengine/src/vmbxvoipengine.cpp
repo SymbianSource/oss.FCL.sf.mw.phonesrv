@@ -24,7 +24,6 @@
 #include "vmbxuiutilities.h"
 #include "vmbxutilities.h"
 #include "vmspshandler.h"
-#include "vmbshandler.h"
 #include "voicemailboxdefsinternal.h"
 #include "vmbxvoipengine.h"
 
@@ -52,7 +51,6 @@ CVmbxVoIpEngine::~CVmbxVoIpEngine()
     {
     VMBLOGSTRING( "VMBX: CVmbxVoIpEngine::~CVmbxVoIpEngine =>" );
     delete iVmSpsHandler;
-    delete iVmBsHandler;
     VMBLOGSTRING( "VMBX: CVmbxVoIpEngine::~CVmbxVoIpEngine <=" );
     }
 
@@ -90,7 +88,6 @@ void CVmbxVoIpEngine::ConstructL()
         iVmSpsHandler = CVmSPSHandler::NewL();
         }
 
-    iVmBsHandler = CVmBSHandler::NewL();
     VMBLOGSTRING( "VMBX: CVmbxVoIpEngine::ConstructL <=" );
     }
 
@@ -281,9 +278,6 @@ void CVmbxVoIpEngine::GetServiceIdsL( RIdArray& aProfileIds )
     CFbsBitmap*& aBrandedBitmap, CFbsBitmap*& aBrandedBitmapMask )
     {
     VMBLOGSTRING( "VMBX: CVmbxVoIpEngine::GetBrandedIconL: =>" );
-
-    iVmBsHandler->GetBrandedIconL( 
-                aBrandingId, aBrandedBitmap, aBrandedBitmapMask );
     
     VMBLOGSTRING( "VMBX: CVmbxVoIpEngine::GetBrandedIconL: <=" );
     }

@@ -17,10 +17,11 @@
 
 #include <platform_paths.hrh>
 
-TARGET        spsbackuphelper.exe
-TARGETTYPE    exe
-UID 0x100039CE 0x200286D2
-CAPABILITY      WriteDeviceData ReadDeviceData
+TARGET      spsbackuphelper.exe
+TARGETTYPE  exe
+UID         0x100039CE 0x200286D2
+CAPABILITY  WriteDeviceData ReadDeviceData
+VERSION     10.0
 
 MW_LAYER_SYSTEMINCLUDE
 SYSTEMINCLUDE /epoc32/include/connect

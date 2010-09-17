@@ -27,6 +27,11 @@
 #include "dialpadkeysequenceeventfilter.h"
 #include "dialpademergencycalleventfilter.h"
 #include "dialpadhasheventfilter.h"
+#ifdef _DEBUG
+ #ifdef __WINSCW__
+  #include "dialpadinternaleventfilter.h"
+ #endif
+#endif
 #include "qtphonesrvlog.h"
 
 DialpadKeyHandler::DialpadKeyHandler(
@@ -56,6 +61,13 @@ DialpadKeyHandler::DialpadKeyHandler(
     mBtFilter.reset(new DialpadBluetoothEventFilter(dialPad));
     mKeySequenceFilter.reset(new DialpadKeySequenceEventFilter(dialPad));
     mHashFilter.reset(new DialpadHashEventFilter(dialPad));
+    
+#ifdef _DEBUG
+ #ifdef __WINSCW__ 
+    mInternalFilter.reset(new DialpadInternalEventFilter);
+    mMainWindow.installEventFilter(mInternalFilter.data());
+ #endif
+#endif
 
     // Stack different event filters
     mMainWindow.installEventFilter(mVmbxFilter.data());
@@ -127,4 +139,9 @@ DialpadKeyHandler::~DialpadKeyHandler()
     mMainWindow.removeEventFilter(mKeySequenceFilter.data());
     mMainWindow.removeEventFilter(mEmergencyCallFilter.data());
     mMainWindow.removeEventFilter(mHashFilter.data());
+#ifdef _DEBUG
+ #ifdef __WINSCW__
+    mMainWindow.removeEventFilter(mInternalFilter.data());
+ #endif
+#endif
 }

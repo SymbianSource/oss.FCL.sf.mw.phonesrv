@@ -37,8 +37,8 @@ class MSatBrowserWSObserver;
  * @lib EventMonitors.lib
  * @since Series 60 3.1
  */
-class CSatBrowserWSMonitor : public MSatBrowserThreadObserver,
-                             public CActive
+class CSatBrowserWSMonitor : public CActive,
+                             public MSatBrowserThreadObserver
     {
 public:
 

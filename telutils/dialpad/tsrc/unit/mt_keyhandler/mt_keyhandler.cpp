@@ -31,18 +31,6 @@
 #include "dialpadkeyhandler.h"
 #include "dialpadvoicemailboxeventfilter.h"
 
-bool mVmbxFilterConstructed;
-Dialpad* mParameter1;
-QObject* mParameter2;
-
-#ifdef Q_OS_SYMBIAN
-/*DialpadVoiceMailboxEventFilter::DialpadVoiceMailboxEventFilter(Dialpad* dialPad, QObject* parent)
-{
-    mVmbxFilterConstructed = true;
-    mParameter1 = dialPad;
-    mParameter2 = parent;
-}*/
-#endif
 
 // test cases
 class mt_KeyHandler : public QObject
@@ -50,28 +38,33 @@ class mt_KeyHandler : public QObject
     Q_OBJECT
 
 private slots:
-    void init();
-    void cleanup();
+    void initTestCase();
+    void cleanupTestCase();
 
 private:
-    HbMainWindow*  mMainWindow;
-    Dialpad*       mDialpad;
+    HbMainWindow *mMainWindow;
+    Dialpad *mDialpad;
     DialpadKeyHandler *mKeyhandler;
 };
 
-void mt_KeyHandler::init()
+void mt_KeyHandler::initTestCase()
 {
-    mVmbxFilterConstructed = false;
+    mMainWindow = new HbMainWindow();
     mDialpad = new Dialpad(*mMainWindow);
-    mKeyhandler = new DialpadKeyHandler(mDialpad, *hbInstance->allMainWindows().at(0), this);
+    DialpadKeyHandler::DialpadKeyEventFilters filter = 
+        DialpadKeyHandler::VoiceMailbox
+        | DialpadKeyHandler::VideoMailBox
+        | DialpadKeyHandler::Bluetooth
+        | DialpadKeyHandler::KeySequence
+        | DialpadKeyHandler::EmergencyCall
+        | DialpadKeyHandler::Hash;
+    mKeyhandler = new DialpadKeyHandler(mDialpad, filter);
     QVERIFY(mKeyhandler != NULL);
-    //QVERIFY(mVmbxFilterConstructed == true);
-    //QVERIFY(mParameter1 == mDialpad);
-    //QVERIFY(mParameter2 == this);
 }
 
-void mt_KeyHandler::cleanup()
+void mt_KeyHandler::cleanupTestCase()
 {
+    delete mKeyhandler;
     delete mDialpad;
     delete mMainWindow;
 }

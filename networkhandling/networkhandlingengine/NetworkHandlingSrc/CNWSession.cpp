@@ -35,7 +35,7 @@ CNWSession::CNWSession()
 
     
 // Destructor
-CNWSession::~CNWSession()
+EXPORT_C CNWSession::~CNWSession()
     {
     }
 

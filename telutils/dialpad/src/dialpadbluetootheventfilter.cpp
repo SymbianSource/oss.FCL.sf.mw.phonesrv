@@ -17,12 +17,13 @@
 #include <QTimer>
 #include <QKeyEvent>
 #include <hblineedit.h>
+#include <btxqserviceapi.h>
 #include "dialpadbluetootheventfilter.h"
 #include "dialpad.h"
 #include "qtphonesrvlog.h"
 
 #ifdef Q_OS_SYMBIAN
-#include <xqservicerequest.h>
+#include <xqappmgr.h>
 #endif //Q_OS_SYMBIAN
 
 const int DialpadLongKeyPressTimeOut(1000);
@@ -67,8 +68,12 @@ void DialpadBluetoothEventFilter::toggleBluetooth()
     PHONE_TRACE;
     mDialpad->editor().setText(QString(""));
 #ifdef Q_OS_SYMBIAN
-    XQServiceRequest snd("com.nokia.services.btservices.ToggleBluetooth","toggleBluetooth()", false);
-    QVariant retValue;
-    snd.send(retValue);
+    XQApplicationManager appManager;
+    QScopedPointer<XQAiwRequest> request(appManager.create(BluetoothServiceName, BluetoothInterfaceTogglePower,
+                                                           BluetoothTogglePower, false));
+    if (request == NULL) {
+        return;
+    }
+    request->send();
 #endif // Q_OS_SYMBIAN
 }

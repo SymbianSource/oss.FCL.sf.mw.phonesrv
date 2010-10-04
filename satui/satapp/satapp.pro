@@ -24,10 +24,10 @@ MOC_DIR = moc
 
 CONFIG += hb
 
-ICON = resource/qtg_large_sat.svg
 symbian: {
     TARGET.CAPABILITY = CAP_APPLICATION NetworkControl
     TARGET.UID3=0x101f4ce0
+    SKINICON = qtg_large_sat
 }
 
 # enable this for tracing into a file (log/sat/satui.txt)

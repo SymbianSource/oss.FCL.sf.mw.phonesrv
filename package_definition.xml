@@ -39,10 +39,6 @@
     <meta rel="Api" href="phonesrv_plat/sat_configuration_api/sat_configuration_api.metaxml"/>
     <unit bldFile="phonesrv_plat/sat_configuration_api/group"/>
    </component>
-   <component id="dial_utils_api" name="Dial Utils API" class="api" filter="s60">
-    <meta rel="Api" href="phonesrv_plat/dial_utils_api/dial_utils_api.metaxml"/>
-    <unit bldFile="phonesrv_plat/dial_utils_api/group"/>
-   </component>
    <component id="phone_client_image_handler_api" name="Phone Client Image Handler API" class="api" filter="s60">
     <meta rel="Api" href="phonesrv_plat/phone_client_image_handler_api/phone_client_image_handler_api.metaxml"/>
     <unit bldFile="phonesrv_plat/phone_client_image_handler_api/group"/>
@@ -97,10 +93,6 @@
     <meta rel="Api" href="phonesrv_plat/secondary_display_sat_api/secondary_display_sat_api.metaxml"/>
     <unit bldFile="phonesrv_plat/secondary_display_sat_api/group"/>
    </component>
-   <component id="callui_reconnect_query_api" name="CallUI Reconnect Query API" class="api" filter="s60">
-    <meta rel="Api" href="phonesrv_plat/callui_reconnect_query_api/callui_reconnect_query_api.metaxml"/>
-    <unit bldFile="phonesrv_plat/callui_reconnect_query_api/group"/>
-   </component>
    <component id="service_provider_settings_api" name="Service Provider Settings API" class="api" filter="s60">
     <meta rel="Api" href="phonesrv_plat/service_provider_settings_api/service_provider_settings_api.metaxml"/>
     <unit bldFile="phonesrv_plat/service_provider_settings_api/group"/>
@@ -127,10 +119,6 @@
    <component id="phone_settings_observer_api" name="Phone Settings Observer API" class="api" filter="s60">
     <meta rel="Api" href="phonesrv_plat/phone_settings_observer_api/phone_settings_observer_api.metaxml"/>
     <unit bldFile="phonesrv_plat/phone_settings_observer_api/group"/>
-   </component>
-   <component id="phone_settings_notes_ui_api" name="Phone Settings Notes UI API" class="api" filter="s60">
-    <meta rel="Api" href="phonesrv_plat/phone_settings_notes_ui_api/phone_settings_notes_ui_api.metaxml"/>
-    <unit bldFile="phonesrv_plat/phone_settings_notes_ui_api/group"/>
    </component>
    <component id="phone_settings_api" name="Phone Settings API" class="api" filter="s60">
     <meta rel="Api" href="phonesrv_plat/phone_settings_api/phone_settings_api.metaxml"/>
@@ -204,15 +192,8 @@
 	<!-- need to move to own component, not under sssettings -->
     <unit bldFile="cellular/sssettings/xqbindings/sssettingswrapper" qt:proFile="sssettingswrapper.pro"/>
    </component>
-   <component id="psetnotesui" filter="s60" name="Phone Settings Notes UI" purpose="development">
-    <unit bldFile="cellular/psetnotesui/group" filter="!test"/>
-    <unit bldFile="cellular/PsetNotesUi/tsrc/public/basic/group" filter="test,api_test"/>
-   </component>
    <component id="psuinotes" filter="s60" name="Phone Settings Notes UI" introduced="^4">
     <unit bldFile="cellular/psuinotes" qt:proFile="psuinotes.pro"/>
-   </component>
-   <component id="servicerequest" filter="s60" name="Service Request">
-    <unit bldFile="cellular/servicerequest/group"/>
    </component>
   </collection>
   <collection id="convergedcallengine" name="Converged Call Engine" level="framework">
@@ -230,9 +211,6 @@
    <component id="cenrepdatabase" filter="s60" name="CCE Cenrep Database">
     <unit bldFile="convergedcallengine/cenrepdatabase/group"/>
    </component>
-   <component id="serviceselector" filter="s60" name="Service Selector">
-    <unit bldFile="convergedcallengine/serviceselector/group"/>
-   </component>
   </collection>
   <collection id="networkhandling" name="Network Handling" level="framework">
    <component id="networkhandlingengine" filter="s60" name="Network Handling Engine">
@@ -246,10 +224,6 @@
    <component id="aiwdialdata" filter="s60" name="AIW Dial Data">
     <unit bldFile="phoneclientserver/aiwdialdata/group" filter="!test"/>
     <unit filter="test,api_test" bldFile="phoneclientserver/aiwdialdata/tsrc/public/basic/group"/>
-   </component>
-   <component id="dialutils" filter="s60" name="Dial Utils">
-    <unit bldFile="phoneclientserver/dialutils/group" filter="!test"/>
-    <unit filter="test,api_test" bldFile="phoneclientserver/dialutils/tsrc/public/basic/group"/>
    </component>
    <component id="phoneclient" filter="s60" name="Phone Client">
     <unit bldFile="phoneclientserver/phoneclient/group" filter="!test"/>

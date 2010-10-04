@@ -172,7 +172,6 @@ void CPhCltUssdNoteController::ShowGlobalWaitNoteL( )
     //CHbDeviceProgressDialogSymbian
     iGlobalWaitNote = CHbDeviceProgressDialogSymbian::NewL(
             CHbDeviceProgressDialogSymbian::EProgressDialog );
-    CleanupStack::PushL( iGlobalWaitNote );
     HBufC* context = HbTextResolverSymbian::LoadLC( KUssdRequesting );
     iGlobalWaitNote->SetTextL( context->Des() );
     HBufC* bottonText = HbTextResolverSymbian::LoadLC( KUssdHide );
@@ -186,7 +185,6 @@ void CPhCltUssdNoteController::ShowGlobalWaitNoteL( )
     TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL after ShowL")
     CleanupStack::PopAndDestroy( bottonText );
     CleanupStack::PopAndDestroy( context );
-    CleanupStack::Pop( iGlobalWaitNote );
     TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL after setactive")
     TFLOGSTRING("CPhCltUssdNoteController: ShowGlobalWaitNoteL exit")
     }

@@ -572,9 +572,7 @@ CSendUssdHandler::CSendUssdHandler() :
     {
     LOG( SIMPLE,
         "SENDUSSD: CSendUssdHandler::CSendUssdHandler calling" )
-    TRAPD( result, iIsSatDisplayUssdResult = SatDisplayUssdResultL(); )
-    LOG2( NORMAL, "SENDUSSD: CSendUssdHandler::CSendUssdHandler \
-            get CRepository key failed result: %d", result )
+    TRAP_IGNORE( iIsSatDisplayUssdResult = SatDisplayUssdResultL(); )
 
     LOG( SIMPLE,
         "SENDUSSD: CSendUssdHandler::CSendUssdHandler exiting" )
@@ -986,13 +984,12 @@ TInt CSendUssdHandler::SatDisplayUssdResultL()
     CRepository* repository = NULL;
     repository = CRepository::NewL( KCRUidSatServer );
     
-    if ( repository )
+    result = repository->Get( KSatDisplayUssdResult, ussdDisplayResult );
+    if ( result != KErrNone )
         {
-        result = repository->Get( KSatDisplayUssdResult, ussdDisplayResult );
-        LOG3( NORMAL,
-        "SENDUSSD: CSendUssdHandler::CSendUssdHandler \
-        get CRepository key DisplayResult: %d, result: %d ", 
-        ussdDisplayResult, result )
+        LOG2( NORMAL,
+        "SENDUSSD: CSendUssdHandler::CSendUssdHandler "
+        "get CRepository key failed. err=%d", result )
         }
 
     delete repository;

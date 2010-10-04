@@ -64,4 +64,10 @@ EXPORTS
 	_ZTV35CNWGsmNetworkCellReselectionHandler @ 63 NONAME ; #<VT>#
 	_ZTV35CNWNetworkRegistrationStatusMonitor @ 64 NONAME ; #<VT>#
 	_ZTV36CNWNetworkRegistrationStatusReceiver @ 65 NONAME ; #<VT>#
+	_ZN10CNWSessionD0Ev @ 66 NONAME
+	_ZN10CNWSessionD1Ev @ 67 NONAME
+	_ZN10CNWSessionD2Ev @ 68 NONAME
+	_ZN20CNWGsmMessageHandlerD0Ev @ 69 NONAME
+	_ZN20CNWGsmMessageHandlerD1Ev @ 70 NONAME
+	_ZN20CNWGsmMessageHandlerD2Ev @ 71 NONAME
 

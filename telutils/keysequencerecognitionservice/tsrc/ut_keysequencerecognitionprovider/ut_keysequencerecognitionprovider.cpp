@@ -87,7 +87,7 @@ void UT_KeySequenceRecognitionProvider::t_setupLocalization()
 
 void UT_KeySequenceRecognitionProvider::t_keySequenceValidator()
 {
-    QString KExpectedValidator = "1|2|3";
+    QString KExpectedValidator = "1|2|3||";
     EXPECT(KeySequenceHandler, keySequenceValidator)
         .returns(QString("1"));
     EXPECT(KeySequenceHandler, keySequenceValidator)

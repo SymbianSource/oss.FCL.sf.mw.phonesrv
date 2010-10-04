@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -408,7 +408,7 @@ void UT_PSetCallDivertingWrapper::t_queryVoiceMailBoxNumber()
     int ret;
     expect("CVoiceMailbox::GetStoredEntry").returns(-2).times(1);
     ret = mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
-    QCOMPARE(ret, 0);
+    QCOMPARE(ret, -2);
     
     // Fail case #2, Not supported.
     expect("CVoiceMailbox::GetStoredEntry").returns(-5).times(1);
@@ -419,7 +419,7 @@ void UT_PSetCallDivertingWrapper::t_queryVoiceMailBoxNumber()
     expect("CVoiceMailbox::GetStoredEntry").times(1);
     expect("CVoiceMailbox::QueryNewEntry").returns(-5).times(1);
     ret = mWrapper->queryVoiceMailBoxNumber(defNumber, ServiceGroupVoice);
-    QCOMPARE(ret, 0);
+    QCOMPARE(ret, -5);
     
     // Fail case #4, save nok
     expect("CVoiceMailbox::GetStoredEntry").returns(-1).times(1);
@@ -586,8 +586,10 @@ void UT_PSetCallDivertingWrapper::t_handleDivertingStatus()
     spy.clear();
     
     // With list, two entries
-    delete cfList;
     QT_TRAP_THROWING(cfList = CMobilePhoneCFList::NewL());
+    //delete old cfList and put new in the QScopedPointer;
+    cfListDeleter.reset( cfList );
+
     entry.iStatus = RMobilePhone::ECallForwardingStatusNotActive;
     entry.iCondition = RMobilePhone::ECallForwardingBusy;
     cfList->AddEntryL(entry); // Takes copy

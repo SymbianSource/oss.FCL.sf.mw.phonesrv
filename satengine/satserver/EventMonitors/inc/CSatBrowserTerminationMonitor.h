@@ -35,8 +35,8 @@ class CSatBrowserWSMonitor;
 *  @lib EventMonitors.lib
 *  @since Series 60 3.0
 */
-class CSatBrowserTerminationMonitor : public MSatBrowserWSObserver,
-                                      public CSatEventMonitorHandler
+class CSatBrowserTerminationMonitor : public CSatEventMonitorHandler,
+                                      public MSatBrowserWSObserver
     {
     public:  // Constructor and destructor
 

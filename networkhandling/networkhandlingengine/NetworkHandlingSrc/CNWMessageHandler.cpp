@@ -456,7 +456,7 @@ void CNWMessageHandler::HandleSubscriberIdChange()
     }
 
 // ----------------------------------------------------------------------------
-// CNWMessageHandler::SendMessage
+// CNWMessageHandler::SendErrorMessage
 // Reroutes error messages to the Client object.
 // ----------------------------------------------------------------------------
 //

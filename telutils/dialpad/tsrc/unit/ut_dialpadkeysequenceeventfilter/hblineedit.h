@@ -90,11 +90,19 @@ public:
 
     void setCapitalization ( QFont::Capitalization caps );
     QFont::Capitalization capitalization () const;
+    	
+    bool adjustFontSizeToFitHeight() const;
+    void setAdjustFontSizeToFitHeight(bool active);
+
+    bool event(QEvent* event);
+
+    void setAutoCompleteContent(QGraphicsLayoutItem *content);
+
 
 public slots:
     void setText(const QString &text);
 
-signals:
+//signals:
     void editingFinished();
     void textChanged(const QString &text);
     void selectionChanged();
@@ -103,6 +111,7 @@ protected:
     HbLineEdit(HbLineEditPrivate &dd, QGraphicsItem *parent);
 
     void inputMethodEvent(QInputMethodEvent *event);
+    QVariant inputMethodQuery(Qt::InputMethodQuery) const;
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
@@ -113,10 +122,14 @@ protected:
 
     void focusOutEvent ( QFocusEvent * event );
     void focusInEvent ( QFocusEvent * event );
+    
+    bool eventFilter(QObject *, QEvent *);
+
+
 private:
     Q_DISABLE_COPY(HbLineEdit)
-    //Q_DECLARE_PRIVATE_D(d_ptr, HbLineEdit)
-    //Q_PRIVATE_SLOT(d_func(), void _q_textChanged())
+//    Q_DECLARE_PRIVATE_D(d_ptr, HbLineEdit)
+//    Q_PRIVATE_SLOT(d_func(), void _q_textChanged())
 };
 
 #endif // HBLINEEDIT_H

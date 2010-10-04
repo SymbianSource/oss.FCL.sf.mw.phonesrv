@@ -40,10 +40,10 @@ class MSatBIPEventNotifier;
 *  @lib SatServer
 *  @since Series 60 3.0
 */
-class CSatEventMonitorContainer : public MSatEventMonitorContainer,
+class CSatEventMonitorContainer : public CActive,
+                                  public MSatEventMonitorContainer,
                                   public MSatEventMonitorUtils,
-                                  public MSatEventObserver,
-                                  public CActive
+                                  public MSatEventObserver
     {
     public:  // Constructors and destructor
 

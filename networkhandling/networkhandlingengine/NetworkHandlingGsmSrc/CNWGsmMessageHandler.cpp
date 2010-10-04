@@ -121,7 +121,7 @@ CNWGsmMessageHandler* CNWGsmMessageHandler::NewL(
 
     
 // Destructor
-CNWGsmMessageHandler::~CNWGsmMessageHandler()
+EXPORT_C CNWGsmMessageHandler::~CNWGsmMessageHandler()
     {
     NWLOGSTRING( KNWOBJECT, 
         "NW: CNWNetworkViagBaseEngine::~CNWGsmMessageHandler() Begin " );

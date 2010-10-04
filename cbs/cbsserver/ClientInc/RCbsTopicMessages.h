@@ -193,7 +193,7 @@ class RCbsTopicMessages
         *                                   in list
         *    @return 				        Result code
         */
-        IMPORT_C TInt GetNextAndPrevMessageHandle(
+        TInt GetNextAndPrevMessageHandle(
 	        const TCbsMessageHandle& aCurrentMsgHandle,
 	        TCbsMessageHandle& aPrevMsgHandle,
 	        TCbsMessageHandle& aNextMsgHandle,

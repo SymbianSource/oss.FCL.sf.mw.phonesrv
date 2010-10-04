@@ -17,72 +17,34 @@
 
 #include <QtGui>
 #include <QtTest/QtTest>
+#include <mockservice.h>
 
 #include <hbapplication.h>
-#include <hbmainwindow.h>
-#include <hbaction.h>
-#include <hbtoolbar.h>
-#include <hbview.h>
 #include <hblineedit.h>
-#include <hbinstance.h>
-
-#ifdef Q_OS_SYMBIAN
-#include "xqservicerequest.h"
-#endif
+#include <hbstringutil.h>
 
 #include "dialpadtest.h"
-#include "dialpadtestutil.h"
-#include "dialpadvoicemailboxeventfilter.h"
 #include "dialpad.h"
 #include "dialpadsymbianwrapper.h"
+#define protected public
+#include "dialpadvoicemailboxeventfilter.h"
+#include "dialpadmailboxeventfilterbase.h"
 
-const int WAIT_TIME = 300;
-QString mService;
-QString mMessage;
-bool mXQServiceConstructed;
-bool mSendCalled;
 
-DialpadSymbianWrapper::DialpadSymbianWrapper(QObject *parent) : d_ptr(NULL) {}
-DialpadSymbianWrapper::~DialpadSymbianWrapper() {}
-int DialpadSymbianWrapper::getMailboxNumber(QString &vmbxNumber) { vmbxNumber=QString("12345678"); return 0; }
-int DialpadSymbianWrapper::defineMailboxNumber(QString &vmbxNumber) { return 0; }
-
-#ifdef Q_OS_SYMBIAN
-XQServiceRequest::XQServiceRequest(const QString& service, const QString& message, const bool& synchronous) { mService=service; mMessage=message; mXQServiceConstructed=true; }
-XQServiceRequest::~XQServiceRequest() {}
-bool XQServiceRequest::send(QVariant& retValue) { mSendCalled=true; return true; }
-void XQServiceRequest::addArg(const QVariant& v) {}
-#endif
-
-// helper class
-class KeyEventCatcher : public QObject
+void editText(QString &text)
 {
-public:
-    bool eventFilter(QObject* watched, QEvent * event)
-    {
-        Q_UNUSED(watched);
+    text = QString("blah");
+}
 
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            mKeyPresses.append(keyEvent->key());
-            return false;
-        } else if (event->type() == QEvent::KeyRelease) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            mKeyReleases.append(keyEvent->key());
-            return false;
-        }
-        return false;
-    }
-
-public:
-    QList<int> mKeyPresses;
-    QList<int> mKeyReleases;
-};
 
 // test cases
-class ut_DialpadVoiceMailboxEventFilter : public QObject
+class ut_DialpadVoiceMailboxEventFilter : public QObject, MockService
 {
     Q_OBJECT
+
+public:    
+    ut_DialpadVoiceMailboxEventFilter();
+    virtual ~ut_DialpadVoiceMailboxEventFilter();
 
 private slots:
     void initTestCase();
@@ -91,112 +53,192 @@ private slots:
     void cleanup();
 
     // These are actual voice mailbox event filter unit tests
-    void testNumericKeyOneLongPress();
-    void testNumericKeyOneShortPress();
-    void testNumericKeyOneShortThenLongPress();
+    void testEventFilter();
+    void testHandleCallButtonPress();
+    void testHandleMailboxOperation();
+    void testHandleLongKeyPress();
 
 private:
-    HbMainWindow*  mMainWindow;
-    Dialpad*       mDialpad;
     DialpadVoiceMailboxEventFilter *mEventFilter;
-    KeyEventCatcher* mKeyCatcher;
-    DialpadTestUtil* mUtil;
+    Dialpad *mDialpad;
 };
+
+ut_DialpadVoiceMailboxEventFilter::ut_DialpadVoiceMailboxEventFilter()
+{
+}
+
+ut_DialpadVoiceMailboxEventFilter::~ut_DialpadVoiceMailboxEventFilter()
+{
+}
 
 void ut_DialpadVoiceMailboxEventFilter::initTestCase()
 {
-    mMainWindow = new HbMainWindow;
-
-    mKeyCatcher = new KeyEventCatcher;
-    mMainWindow->installEventFilter(mKeyCatcher);
-
-    mUtil = new DialpadTestUtil(*mMainWindow);
-
-    mDialpad = new Dialpad();
-    mEventFilter = new DialpadVoiceMailboxEventFilter(mDialpad, this);
-    hbInstance->allMainWindows().at(0)->installEventFilter(mEventFilter);
-
-    QRectF rect(mMainWindow->contentsRect());
-    rect.setHeight(rect.height()*0.7);
-    rect.moveTop((mMainWindow->contentsRect().height()-rect.height())/2);
-
-    mDialpad->setPreferredSize(360,400);
-    mDialpad->setPos(0,100);
-
-    mMainWindow->show();
-    mDialpad->show();
-    mDialpad->hide();
 }
 
 void ut_DialpadVoiceMailboxEventFilter::init()
 {
-    mService = QString("");
-    mMessage = QString("");
-    mXQServiceConstructed = false;
-    mSendCalled = false;
+    initialize();
+    HbMainWindow *window = 0;
+    mDialpad = new Dialpad(*window);
+    mEventFilter = new DialpadVoiceMailboxEventFilter(mDialpad);
 }
 
 void ut_DialpadVoiceMailboxEventFilter::cleanupTestCase()
 {
-    delete mDialpad;
-    delete mMainWindow;
-    delete mKeyCatcher;
-    delete mUtil;
 }
 
 void ut_DialpadVoiceMailboxEventFilter::cleanup()
 {
-    mKeyCatcher->mKeyPresses.clear();
-    mKeyCatcher->mKeyReleases.clear();
-    mDialpad->editor().setText(QString());
-    QTest::qWait( WAIT_TIME ); // delay between tests
+    delete mEventFilter;
+    delete mDialpad;
+    reset();
 }
 
-void ut_DialpadVoiceMailboxEventFilter::testNumericKeyOneLongPress()
+void ut_DialpadVoiceMailboxEventFilter::testEventFilter()
 {
-    mDialpad->openDialpad();
-    QTest::qWait(WAIT_TIME);
-    mUtil->mouseClickDialpad(Qt::Key_1, DialpadTestUtil::Press);
-    QTest::qWait(2000);
-    mUtil->mouseClickDialpad(Qt::Key_1, DialpadTestUtil::Release);
-    QTest::qWait(1000);
-    QCOMPARE(mDialpad->editor().text(), QString(""));
-    mDialpad->closeDialpad();
+    QObject *obj = 0;
 
-#ifdef Q_OS_SYMBIAN
-    QVERIFY(mXQServiceConstructed == true);
-    QVERIFY(mSendCalled == true);
-    QCOMPARE(mService, QString("com.nokia.symbian.ICallDial"));
-    QCOMPARE(mMessage, QString("dial(QString)"));
-#endif
+    // First test key press functionality (all code branches).
+    QKeyEvent event1(QEvent::KeyPress, 0, Qt::NoModifier);
+    EXPECT(DialpadMailboxEventFilterBase, checkIfSendEventAndConsumeEvent).returns(true);
+
+    bool eaten = mEventFilter->eventFilter(obj, &event1);
+    QVERIFY(verify() && eaten);
+
+    HbLineEdit line;// = new HbLineEdit();
+    EXPECT(DialpadMailboxEventFilterBase, checkIfSendEventAndConsumeEvent).returns(false);
+    EXPECT(DialpadMailboxEventFilterBase, isLongKeyPressSupported).returns(true);
+    EXPECT(Dialpad, editor).returns(&line);
+    EXPECT(HbLineEdit, text).returns(QString(""));
+    EXPECT(QTimer, stop);
+    EXPECT(QTimer ,start);
+    eaten = mEventFilter->eventFilter(obj, &event1);
+    QVERIFY(verify() && !eaten);
+
+    EXPECT(DialpadMailboxEventFilterBase, checkIfSendEventAndConsumeEvent).returns(false);
+    EXPECT(DialpadMailboxEventFilterBase, isLongKeyPressSupported).returns(true);
+    EXPECT(Dialpad, editor).returns(&line);
+    EXPECT(HbLineEdit, text).returns(QString("blaa"));
+    eaten = mEventFilter->eventFilter(obj, &event1);
+    QVERIFY(verify() && !eaten);
+
+    EXPECT(DialpadMailboxEventFilterBase, checkIfSendEventAndConsumeEvent).returns(false);
+    EXPECT(DialpadMailboxEventFilterBase, isLongKeyPressSupported).returns(false);
+    eaten = mEventFilter->eventFilter(obj, &event1);
+    QVERIFY(verify() && !eaten);
+
+    //delete event1;
+
+    // Test key release functionality (all code branches).
+    QKeyEvent event2(QEvent::KeyRelease, 0, Qt::NoModifier);// = new QKeyEvent(QEvent::KeyRelease, 0, Qt::NoModifier);
+    EXPECT(DialpadMailboxEventFilterBase, checkIfSendEventAndConsumeEvent).returns(true);
+    eaten = mEventFilter->eventFilter(obj, &event2);
+    QVERIFY(verify() && eaten);
+
+    EXPECT(DialpadMailboxEventFilterBase, checkIfSendEventAndConsumeEvent).returns(false);
+    EXPECT(DialpadMailboxEventFilterBase, isLongKeyPressSupported).returns(true);
+    EXPECT(QTimer, stop);
+    eaten = mEventFilter->eventFilter(obj, &event2);
+    QVERIFY(verify() && !eaten);
+
+    EXPECT(DialpadMailboxEventFilterBase, checkIfSendEventAndConsumeEvent).returns(false);
+    EXPECT(DialpadMailboxEventFilterBase, isLongKeyPressSupported).returns(false);
+    eaten = mEventFilter->eventFilter(obj, &event2);
+    QVERIFY(verify() && !eaten);
+
+    //delete event2;
+
+    // Test non-supported key type functionality.
+    QKeyEvent event3(QEvent::None, 0, Qt::NoModifier);// = new QKeyEvent(QEvent::None, 0, Qt::NoModifier);
+    eaten = mEventFilter->eventFilter(obj, &event3);
+    QVERIFY(verify() && !eaten);
+    //delete event3;
+
+    //delete line;
 }
 
-void ut_DialpadVoiceMailboxEventFilter::testNumericKeyOneShortPress()
+void ut_DialpadVoiceMailboxEventFilter::testHandleCallButtonPress()
 {
-    mDialpad->openDialpad();
-    QTest::qWait(WAIT_TIME);
-    mUtil->mouseClickDialpad(Qt::Key_1, DialpadTestUtil::Press);
-    QTest::qWait(200);
-    mUtil->mouseClickDialpad(Qt::Key_1, DialpadTestUtil::Release);
-    QTest::qWait(1000);
-    // Check that character '1' is in editor.
-    QCOMPARE(mDialpad->editor().text(), QString("1"));
+    HbLineEdit line;// = new HbLineEdit();
+
+    EXPECT(Dialpad, editor).returns(&line);
+    EXPECT(HbLineEdit, text).returns(QString("1"));
+    EXPECT(Dialpad, editor).returns(&line);
+    EXPECT(HbLineEdit, text).returns(QString("1"));
+    EXPECT(HbStringUtil, convertDigitsTo).returns(QString("1"));
+    EXPECT(DialpadSymbianWrapper, getMailboxNumber).returns(97);
+    bool handled = mEventFilter->handleCallButtonPress();
+    QVERIFY(verify() && handled);
+
+    EXPECT(Dialpad, editor).returns(&line);
+    EXPECT(HbLineEdit, text).returns(QString("a"));
+    EXPECT(Dialpad, editor).returns(&line);
+    EXPECT(HbLineEdit, text).returns(QString("a"));
+    EXPECT(HbStringUtil, convertDigitsTo).returns(QString("a"));
+    handled = mEventFilter->handleCallButtonPress();
+    QVERIFY(verify() && !handled);
+
+    EXPECT(Dialpad, editor).returns(&line);
+    EXPECT(HbLineEdit, text).returns(QString(""));
+    handled = mEventFilter->handleCallButtonPress();
+    QVERIFY(verify() && !handled);
+
+    //delete line;
 }
 
-void ut_DialpadVoiceMailboxEventFilter::testNumericKeyOneShortThenLongPress()
+void ut_DialpadVoiceMailboxEventFilter::testHandleMailboxOperation()
 {
-    // Then one short and one long press
-    mDialpad->openDialpad();
-    QTest::qWait( WAIT_TIME );
-    mUtil->mouseClickDialpad(Qt::Key_1, DialpadTestUtil::Press);
-    mUtil->mouseClickDialpad(Qt::Key_1, DialpadTestUtil::Release);
-    mUtil->mouseClickDialpad(Qt::Key_1, DialpadTestUtil::Press);
-    QTest::qWait(2000);
-    mUtil->mouseClickDialpad(Qt::Key_1, DialpadTestUtil::Release);
-    QTest::qWait(1000);
-    QVERIFY(mDialpad->editor().text()=="11");
-    mDialpad->closeDialpad();
+    EXPECT(DialpadSymbianWrapper, getMailboxNumber).returns(DialpadErrorCancel);
+    EXPECT(Dialpad, closeDialpad);
+    EXPECT(DialpadSymbianWrapper, defineMailboxNumber).returns(DialpadErrorCancel);
+    EXPECT(Dialpad, openDialpad);
+    mEventFilter->handleMailboxOperation();
+    QVERIFY(verify());
+
+    EXPECT(DialpadSymbianWrapper, getMailboxNumber).returns(DialpadErrorNone);
+    EXPECT(Dialpad, closeDialpad);
+    EXPECT(DialpadSymbianWrapper, defineMailboxNumber).returns(DialpadErrorCancel);
+    EXPECT(Dialpad, openDialpad);
+    mEventFilter->handleMailboxOperation();
+    QVERIFY(verify());
+
+    EXPECT(DialpadSymbianWrapper, getMailboxNumber).returns(DialpadErrorCancel);
+    EXPECT(Dialpad, closeDialpad);
+    EXPECT(DialpadSymbianWrapper, defineMailboxNumber).returns(DialpadErrorNone);
+    mEventFilter->handleMailboxOperation();
+    QVERIFY(verify());
+
+    QString text;
+    EXPECT(DialpadSymbianWrapper, getMailboxNumber).with<QString &>(text).
+        willOnce(invoke(editText)).times(1).returns(DialpadErrorCancel);
+    EXPECT(Dialpad, closeDialpad);
+    EXPECT(DialpadSymbianWrapper, defineMailboxNumber).returns(DialpadErrorCancel);
+    EXPECT(Dialpad, openDialpad);
+    mEventFilter->handleMailboxOperation();
+    QVERIFY(verify());
+
+    EXPECT(DialpadSymbianWrapper, getMailboxNumber).with<QString &>(text).
+        willOnce(invoke(editText)).times(1).returns(DialpadErrorNone);
+    EXPECT(DialpadMailboxEventFilterBase, createCall);
+    EXPECT(DialpadMailboxEventFilterBase, clearEditor);
+    EXPECT(Dialpad, openDialpad);
+    mEventFilter->handleMailboxOperation();
+    QVERIFY(verify());
 }
+
+void ut_DialpadVoiceMailboxEventFilter::testHandleLongKeyPress()
+{
+    QString text;
+    mEventFilter->mKeyEvent = Qt::Key_1;
+    EXPECT(DialpadSymbianWrapper, getMailboxNumber).with<QString &>(text).
+        willOnce(invoke(editText)).times(1).returns(DialpadErrorNone);
+    mEventFilter->handleLongKeyPress();
+    QVERIFY(verify());
+
+    mEventFilter->mKeyEvent = Qt::Key_Apostrophe;
+    mEventFilter->handleLongKeyPress();
+}
+
 
 DIALPAD_TEST_MAIN(ut_DialpadVoiceMailboxEventFilter)
 #include "ut_dialpadvoicemailboxeventfilter.moc"

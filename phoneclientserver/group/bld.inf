@@ -18,7 +18,6 @@
 
 #include "../enpolicy/group/bld.inf"
 #include "../aiwdialdata/group/bld.inf"
-#include "../dialutils/group/bld.inf"
 #include "../phoneclient/group/bld.inf"
 #include "../phoneserver/group/bld.inf"
 

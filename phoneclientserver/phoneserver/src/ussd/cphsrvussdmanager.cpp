@@ -1299,7 +1299,7 @@ void CPhSrvUssdManager::UssdReplyTimerObserverHandleExpiredL( TInt aError )
 // -----------------------------------------------------------------------------
 //       
 void CPhSrvUssdManager::MessageBoxClosed(
-    const CHbDeviceMessageBoxSymbian* aMessageBox,
+    const CHbDeviceMessageBoxSymbian* /*aMessageBox*/,
     CHbDeviceMessageBoxSymbian::TButtonId aButton)
     {
     _DPRINT( 4, "PhSrv.MsgClose.Start" );

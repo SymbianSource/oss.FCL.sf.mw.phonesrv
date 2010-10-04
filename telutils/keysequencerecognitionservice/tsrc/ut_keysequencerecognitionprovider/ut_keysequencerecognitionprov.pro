@@ -39,7 +39,8 @@ symbian {
         ../../inc/imeikeysequencehandler.h                \
         ../../inc/lifetimerkeysequencehandler.h           \
         ../../inc/manufacturerkeysequencehandler.h        \
-        ../../inc/simcontrolkeysequencehandler.h
+        ../../inc/simcontrolkeysequencehandler.h          \
+        ../../inc/bluetoothkeysequencehandler.h
     
     SOURCES +=                                            \
         ../shared/mock_qtranslator.cpp                    \
@@ -49,7 +50,8 @@ symbian {
         ../shared/mock_manufacturerkeysequencehandler.cpp \
         ../shared/mock_simcontrolkeysequencehandler.cpp   \
         ../shared/mock_centralrepository.cpp              \
-        ../shared/mock_tstasksettings.cpp
+        ../shared/mock_tstasksettings.cpp                 \
+        ../shared/mock_bluetoothkeysequencehandler.cpp
 
     LIBS += -lmocklib -lsymbianmock -lxqservice -lxqserviceutil
 }

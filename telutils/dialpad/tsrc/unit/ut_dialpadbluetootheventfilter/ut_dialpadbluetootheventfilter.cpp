@@ -25,9 +25,10 @@
 #include <hbview.h>
 #include <hblineedit.h>
 #include <hbinstance.h>
+#include <btxqserviceapi.h>
 
 #ifdef Q_OS_SYMBIAN
-#include "xqservicerequest.h"
+#include "xqappmgr.h"
 #endif
 
 #include "dialpadtest.h"
@@ -37,15 +38,21 @@
 
 const int WAIT_TIME = 300;
 QString mService;
-QString mMessage;
-bool mXQServiceConstructed;
+QString mInterface;
+QString mOperation;
+bool mEmbedded;
 bool mSendCalled;
 
 #ifdef Q_OS_SYMBIAN
-XQServiceRequest::XQServiceRequest(const QString& service, const QString& message, const bool& synchronous) { mService=service; mMessage=message; mXQServiceConstructed=true; }
-XQServiceRequest::~XQServiceRequest() {}
-bool XQServiceRequest::send(QVariant& retValue) { mSendCalled=true; return true; }
-void XQServiceRequest::addArg(const QVariant& v) {}
+XQAiwRequest* XQApplicationManager::create(const QString& service, const QString& interface, const QString& operation, bool embedded)
+{
+    mService = service;
+    mInterface = interface;
+    mOperation = operation;
+    mEmbedded = embedded;
+    return new XQAiwRequest(); 
+}
+void XQAiwRequest::send() { mSendCalled = true; }
 #endif
 
 // helper class
@@ -122,8 +129,9 @@ void ut_DialpadBluetoothEventFilter::initTestCase()
 void ut_DialpadBluetoothEventFilter::init()
 {
     mService = QString("");
-    mMessage = QString("");
-    mXQServiceConstructed = false;
+    mInterface = QString("");
+    mOperation = QString("");
+    mEmbedded = false;
     mSendCalled = false;
 }
 
@@ -156,9 +164,10 @@ void ut_DialpadBluetoothEventFilter::testLongPressAsteriskKey()
     QCOMPARE(mDialpad->editor().text(), QString(""));
     mDialpad->closeDialpad();
     
-    QVERIFY(mXQServiceConstructed == true);
-    QCOMPARE(mService, QString("com.nokia.services.btservices.ToggleBluetooth"));
-    QCOMPARE(mMessage, QString("toggleBluetooth()"));
+    QCOMPARE(mService, BluetoothServiceName);
+    QCOMPARE(mInterface, BluetoothInterfaceTogglePower);
+    QCOMPARE(mOperation, BluetoothTogglePower);
+    QVERIFY(mEmbedded == false);
     QVERIFY(mSendCalled == true);
 }
 

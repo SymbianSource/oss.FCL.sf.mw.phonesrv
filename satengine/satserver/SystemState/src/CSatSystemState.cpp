@@ -43,6 +43,21 @@
 #include    "msatmultimodeapi.h"
 #include    "SatLog.h"
 
+
+// -----------------------------------------------------------------------------
+// Helper function to define a property and log result
+// -----------------------------------------------------------------------------
+//
+TInt DefineProperty(TUid aCategory, TUint aKey, TInt aAttr,
+    const TSecurityPolicy & aReadPolicy, const TSecurityPolicy& aWritePolicy)
+    {
+    TInt err = RProperty::Define( aCategory, aKey, aAttr, aReadPolicy, aWritePolicy );
+    LOG3( SIMPLE, 
+        "SATSYSTEMSTATE: CSatSystemState::ConstructL: property %d defined, err=%d",
+        aKey, err);
+    return err;
+    }
+
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -56,6 +71,7 @@ CSatSystemState::CSatSystemState( MSatMultiModeApi& aPhone ) : iPhone( aPhone )
         "SATSYSTEMSTATE: CSatSystemState::CSatSystemState calling-exiting" )
     }
 
+
 // -----------------------------------------------------------------------------
 // Symbian 2nd phase constructor can leave.
 // -----------------------------------------------------------------------------
@@ -68,47 +84,33 @@ void CSatSystemState::ConstructL( MSatMultiModeApi& aPhone )
     TSecurityPolicy readPolicy( ECapabilityReadUserData );
     TSecurityPolicy writePolicy( ECapabilityWriteUserData );
 
-    TInt err( KErrNone );
-    // Define properties in P&S for SetUpIdleModeTex command
-    err = RProperty::Define( KPSUidSatServerInternal, 
-                             KSatIdleModeText,
-                             RProperty::ELargeText, 
-                             readPolicy, 
-                             writePolicy );
-    LOG2( SIMPLE, 
-          "SATSYSTEMSTATE: CSatSystemState::ConstructL \
-          Define KSatIdleModeText err: %i", err )
+    DefineProperty( KPSUidSatServerInternal, 
+        KSatIdleModeText,
+        RProperty::ELargeText, 
+        readPolicy, 
+        writePolicy );
 
-    err = RProperty::Define( KPSUidSatServerInternal, 
-                             KSatIdleModeTextIconId,
-                             RProperty::EInt, 
-                             readPolicy, 
-                             writePolicy );
-    LOG2( SIMPLE, 
-         "SATSYSTEMSTATE: CSatSystemState::ConstructL \
-         Define KSatIdleModeTextIconId err: %i", err )                       
+    DefineProperty( KPSUidSatServerInternal, 
+        KSatIdleModeTextIconId,
+        RProperty::EInt, 
+        readPolicy, 
+        writePolicy );
 
-    err = RProperty::Define( KPSUidSatServerInternal, 
-                             KSatIdleModeTextIconQualifier,
-                             RProperty::EInt, 
-                             readPolicy, 
-                             writePolicy );
-    LOG2( SIMPLE, 
-          "SATSYSTEMSTATE: CSatSystemState::ConstructL \
-          Define KSatIdleModeTextIconQualifier err: %i", err )                         
+    DefineProperty( KPSUidSatServerInternal, 
+        KSatIdleModeTextIconQualifier,
+        RProperty::EInt, 
+        readPolicy, 
+        writePolicy );
 
     // Set default (empty) values
     WriteSetIdleModeText( KNullDesC, KErrNotFound, RSat::ENoIconId );
 
-    err = RProperty::Define( KPSUidSatServer, 
-                             KSatLanguageSelectionTimeBeforeReboot,
-                             RProperty::EInt, 
-                             readPolicy, 
-                             writePolicy );
-    LOG2( SIMPLE, 
-          "SATSYSTEMSTATE: CSatSystemState::ConstructL \
-          Define KSatLanguageSelectionTimeBeforeReboot err: %i", err )                        
-
+    DefineProperty( KPSUidSatServer, 
+        KSatLanguageSelectionTimeBeforeReboot,
+        RProperty::EInt, 
+        readPolicy, 
+        writePolicy );
+    
     // Create Network Registration Status Monitor.
     iNetworkRegStatusMonitor = CSatNetworkRegStatusMonitor::NewL( aPhone );
 
@@ -276,7 +278,7 @@ TBool CSatSystemState::IsSilentMode()
 TBool CSatSystemState::IsPhoneInIdleStateL()
     {
     LOG( SIMPLE, "SATSYSTEMSTATE: CSatSystemState::IsPhoneInIdleState calling" )
-    TInt idleStatus(EHomeScreenIdleState) ;
+    TInt idleStatus( EHomeScreenWidgetViewForeground );
 
     // Get the idle status from P&S
     User::LeaveIfError( RProperty::Get(
@@ -284,7 +286,7 @@ TBool CSatSystemState::IsPhoneInIdleStateL()
         KHsCategoryStateKey, 
         idleStatus));
     // Returns true if phone in idle state. 
-    const TBool result( EHomeScreenIdleState == idleStatus ); 
+    const TBool result( EHomeScreenWidgetViewForeground == idleStatus );
 
     LOG2( SIMPLE, "SATSYSTEMSTATE: CSatSystemState::IsPhoneInIdleState exiting \
         with value: %d", result )

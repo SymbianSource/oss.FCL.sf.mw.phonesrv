@@ -30,7 +30,7 @@ symbian {
 
 #
 HEADERS += ../../../inc/dialpadbluetootheventfilter.h \
-           xqservicerequest.h \
+           xqappmgr.h \
            dialpadtestutil.h
 SOURCES += ut_dialpadbluetootheventfilter.cpp \
            ../../../src/dialpadbluetootheventfilter.cpp \

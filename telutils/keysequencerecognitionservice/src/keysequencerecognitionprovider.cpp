@@ -25,6 +25,7 @@
 #include "imeikeysequencehandler.h"
 #include "lifetimerkeysequencehandler.h"
 #include "simcontrolkeysequencehandler.h"
+#include "bluetoothkeysequencehandler.h"
 #include "keysequencerecognitionservicelog.h"
 
 /*!
@@ -54,7 +55,6 @@ KeySequenceRecognitionProvider::KeySequenceRecognitionProvider(
     taskSettings.setVisibility(false);
 }
 
-
 /*!
   KeySequenceRecognitionProvider::~KeySequenceRecognitionProvider.
  */
@@ -62,7 +62,6 @@ KeySequenceRecognitionProvider::~KeySequenceRecognitionProvider()
 {
     DPRINT_METHODENTRYEXIT;
 }
-
 
 /*!
   KeySequenceRecognitionProvider::keySequenceValidator.
@@ -77,7 +76,6 @@ QString KeySequenceRecognitionProvider::keySequenceValidator()
     
     return m_keySequenceValidator;
 }
-
 
 /*!
   KeySequenceRecognitionProvider::executeKeySequence.
@@ -96,7 +94,6 @@ bool KeySequenceRecognitionProvider::executeKeySequence(
     
     return handled;
 }
-
 
 /*!
   KeySequenceRecognitionProvider::setupLocalization.
@@ -117,7 +114,6 @@ void KeySequenceRecognitionProvider::setupLocalization()
         translator.take();
     }
 }
-
 
 /*!
   KeySequenceRecognitionProvider::constructKeySequenceHandlers.
@@ -145,8 +141,12 @@ void KeySequenceRecognitionProvider::constructKeySequenceHandlers()
         new SimControlKeySequenceHandler(this));
     m_handlers.append(simControlHandler.data());
     simControlHandler.take();
-}
 
+    QScopedPointer<KeySequenceHandler> bluetoothHandler( 
+        new BluetoothKeySequenceHandler(this));
+    m_handlers.append(bluetoothHandler.data());
+    bluetoothHandler.take();
+}
 
 /*!
   KeySequenceRecognitionProvider::constructKeySequenceValidator.

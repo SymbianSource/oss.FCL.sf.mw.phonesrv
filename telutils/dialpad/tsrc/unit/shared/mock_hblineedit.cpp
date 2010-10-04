@@ -1,8 +1,7 @@
-/*
-* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
+/** Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
-* under the terms of "Eclipse Public License v1.0"
+* under the terms of the License "Eclipse Public License v1.0"
 * which accompanies this distribution, and is available
 * at the URL "http://www.eclipse.org/legal/epl-v10.html".
 *
@@ -11,7 +10,7 @@
 *
 * Contributors:
 *
-* Description: 
+* Description:
 *
 */
 #include <QDebug>
@@ -207,15 +206,6 @@ void HbLineEdit::setSelection(
 
 
 // -----------------------------------------------------------------------------
-// HbLineEdit::cursorPosition
-// -----------------------------------------------------------------------------
-//
-int HbLineEdit::cursorPosition() const
-    {
-    SMC_MOCK_METHOD0( int )
-    }
-
-// -----------------------------------------------------------------------------
 // HbLineEdit::setCursorPosition
 // -----------------------------------------------------------------------------
 //
@@ -268,6 +258,49 @@ QFont::Capitalization HbLineEdit::capitalization(  ) const
 
 
 // -----------------------------------------------------------------------------
+// HbLineEdit::adjustFontSizeToFitHeight
+// -----------------------------------------------------------------------------
+//
+bool HbLineEdit::adjustFontSizeToFitHeight(  ) const
+    {
+    SMC_MOCK_METHOD0( bool )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbLineEdit::setAdjustFontSizeToFitHeight
+// -----------------------------------------------------------------------------
+//
+void HbLineEdit::setAdjustFontSizeToFitHeight( 
+        bool active )
+    {
+    SMC_MOCK_METHOD1( void, bool, active )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbLineEdit::event
+// -----------------------------------------------------------------------------
+//
+bool HbLineEdit::event( 
+        QEvent * event )
+    {
+    SMC_MOCK_METHOD1( bool, QEvent *, event )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbLineEdit::setAutoCompleteContent
+// -----------------------------------------------------------------------------
+//
+void HbLineEdit::setAutoCompleteContent( 
+        QGraphicsLayoutItem * content )
+    {
+    SMC_MOCK_METHOD1( void, QGraphicsLayoutItem *, content )
+    }
+
+
+// -----------------------------------------------------------------------------
 // HbLineEdit::setText
 // -----------------------------------------------------------------------------
 //
@@ -275,6 +308,37 @@ void HbLineEdit::setText(
         const QString & text )
     {
     SMC_MOCK_METHOD1( void, const QString &, text )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbLineEdit::editingFinished
+// -----------------------------------------------------------------------------
+//
+void HbLineEdit::editingFinished(  )
+    {
+    SMC_MOCK_METHOD0( void )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbLineEdit::textChanged
+// -----------------------------------------------------------------------------
+//
+void HbLineEdit::textChanged( 
+        const QString & text )
+    {
+    SMC_MOCK_METHOD1( void, const QString &, text )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbLineEdit::selectionChanged
+// -----------------------------------------------------------------------------
+//
+void HbLineEdit::selectionChanged(  )
+    {
+    SMC_MOCK_METHOD0( void )
     }
 
 
@@ -303,6 +367,17 @@ void HbLineEdit::inputMethodEvent(
 
 
 // -----------------------------------------------------------------------------
+// HbLineEdit::inputMethodQuery
+// -----------------------------------------------------------------------------
+//
+QVariant HbLineEdit::inputMethodQuery( 
+        Qt::InputMethodQuery input) const
+    {
+    SMC_MOCK_METHOD1( QVariant, Qt::InputMethodQuery, input )
+    }
+
+
+// -----------------------------------------------------------------------------
 // HbLineEdit::keyPressEvent
 // -----------------------------------------------------------------------------
 //
@@ -321,17 +396,6 @@ void HbLineEdit::keyReleaseEvent(
         QKeyEvent * event )
     {
     SMC_MOCK_METHOD1( void, QKeyEvent *, event )
-    }
-
-
-// -----------------------------------------------------------------------------
-// HbLineEdit::resizeEvent
-// -----------------------------------------------------------------------------
-//
-void HbLineEdit::resizeEvent( 
-        QGraphicsSceneResizeEvent * event )
-    {
-    SMC_MOCK_METHOD1( void, QGraphicsSceneResizeEvent *, event )
     }
 
 
@@ -376,6 +440,19 @@ void HbLineEdit::focusInEvent(
         QFocusEvent * event )
     {
     SMC_MOCK_METHOD1( void, QFocusEvent *, event )
+    }
+
+
+// -----------------------------------------------------------------------------
+// HbLineEdit::eventFilter
+// -----------------------------------------------------------------------------
+//
+bool HbLineEdit::eventFilter( 
+        QObject *obj,
+        QEvent *ev )
+    {
+    SMC_MOCK_METHOD2( bool, QObject *, obj, 
+        QEvent *, ev )
     }
 
 

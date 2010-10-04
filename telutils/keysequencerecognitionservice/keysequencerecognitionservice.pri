@@ -13,8 +13,9 @@ HEADERS = ./inc/keysequencerecognitionprovider.h        \
           ./inc/keysequencehandler.h                    \
           ./inc/manufacturerkeysequencehandler.h        \
           ./inc/imeikeysequencehandler.h                \
-           ./inc/simcontrolkeysequencehandler.h         \
-          ./inc/lifetimerkeysequencehandler.h
+          ./inc/simcontrolkeysequencehandler.h          \
+          ./inc/lifetimerkeysequencehandler.h           \
+          ./inc/bluetoothkeysequencehandler.h
 
 SOURCES = ./src/main.cpp                                \
           ./src/keysequencerecognitionprovider.cpp      \
@@ -22,4 +23,5 @@ SOURCES = ./src/main.cpp                                \
           ./src/manufacturerkeysequencehandler.cpp      \
           ./src/imeikeysequencehandler.cpp              \
           ./src/simcontrolkeysequencehandler.cpp        \
-          ./src/lifetimerkeysequencehandler.cpp
+          ./src/lifetimerkeysequencehandler.cpp         \
+          ./src/bluetoothkeysequencehandler.cpp

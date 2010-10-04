@@ -800,18 +800,18 @@ void CLaunchBrowserHandler::CloseBrowser()
 // Launches The Browser with URL.
 // --------------------------------------------------------------------------
 //
-void CLaunchBrowserHandler::LaunchWithUrlL( const TDesC& aParam,
-    const TUid& aAccessPointUid )
+void CLaunchBrowserHandler::LaunchWithUrlL( const TDesC& /*aParam*/,
+    const TUid& /*aAccessPointUid*/ )
     {
     LOG( SIMPLE,
         "LAUNCHBROWSER: CLaunchBrowserHandler::LaunchWithUrlL calling" )
-    LOG3( SIMPLE,
-         "LAUNCHBROWSER: CLaunchBrowserHandler::LaunchWithUrlL\
-          url=%s, IAP=%d", &aParam, aAccessPointUid.iUid )        
+//    LOG3( SIMPLE,
+//         "LAUNCHBROWSER: CLaunchBrowserHandler::LaunchWithUrlL\
+//          url=%s, IAP=%d", &aParam, aAccessPointUid.iUid )        
 
     // Browser launching called.
-    //TInt err = iUtils->SatUiHandler().ShellController().LaunchBrowserL(
-    //    aParam, aAccessPointUid );
+//    TInt err = iUtils->SatUiHandler().ShellController().LaunchBrowserL(
+//        aParam, aAccessPointUid );
     TInt err =  KErrNone;
 
     if ( KErrNone == err )
@@ -966,8 +966,11 @@ TUint32 CLaunchBrowserHandler::CreateAccessPointL(
     // We use trap to continue following operations even if leaving from 
     // FulfillConnnectionMethodL.
     TRAPD( errCode, FulfillConnnectionMethodL( cmManager, cm ) );
-    LOG3( SIMPLE, "SATENGINE: CLaunchBrowserHandler::CreateAccessPointL \
-          errCode=%d ad line %d", errCode, __LINE__ )
+    if ( errCode != KErrNone )
+        {
+        LOG3( SIMPLE, "SATENGINE: CLaunchBrowserHandler::CreateAccessPointL"
+            " error %d at line %d", errCode, __LINE__ )
+        }
     // Set attributes of the connection method.
     cm.SetStringAttributeL( CMManager::ECmName, aApName );
     cm.SetIntAttributeL( CMManager::EPacketDataPDPType, aIPvType );

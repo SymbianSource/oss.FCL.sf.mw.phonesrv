@@ -63,7 +63,7 @@ EXPORT_C MSatSystemStateChangeNotifier*
         KHsCategoryUid,
         KHsCategoryStateKey,
         aObserver,
-        EHomeScreenIdleState );
+        EHomeScreenWidgetViewForeground );
 
     LOG( SIMPLE, "SATSYSTEMSTATE: TSatSystemStateFactory::\
         CreateIdleModeChangeNotifierL exiting" )

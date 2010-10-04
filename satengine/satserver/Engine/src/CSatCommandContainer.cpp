@@ -58,7 +58,6 @@ _LIT( KSatLogTitle, "txt_simatk_title_sim_services");
 _LIT( KSatCmccTitle, "txt_simatk_titlw_cmcc_sim_services");
 
 const TUid KSatInterfaceDefinitionUid = { 0x1000f001 };
-const TInt KSizeOfBuf = 50;
 
 
 // Important plugins UIDs. These are started on startup

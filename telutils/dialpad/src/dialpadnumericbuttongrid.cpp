@@ -36,12 +36,14 @@ static const qreal DialpadPrimaryTextSizeV = 5.25;
 static const qreal DialpadPrimaryTextSizeH = 4.5;
 static const qreal DialpadSecondaryTextSizeV = 3.8;
 static const qreal DialpadSecondaryTextSizeH = 3.3;
-static const qreal DialpadSecondaryTextSize2RowsV = 3.0;
+static const qreal DialpadSecondaryTextSize2RowsV = 2.8;
 static const qreal DialpadSecondaryTextSize2RowsH = 2.6;
 static const qreal DialpadIconSizeV = 5.0;
 static const qreal DialpadIconSizeH = 4.25;
 static const qreal DialpadPrimaryTextLeftMargin  = 1.5;
 static const qreal DialpadPrimarySecondaryMargin  = 1.0;
+static const qreal DialpadButtonBorderSize  = 0.5;
+static const qreal DialpadSecondaryTextOpacity = 0.4;
 
 static const QLatin1String vmbxIcon("qtg_mono_voice_mailbox");
 
@@ -66,7 +68,7 @@ DialpadNumericButtonGrid::DialpadNumericButtonGrid(
 
     // create buttons
     setGridSize(QSize(DialpadColumnCount, DialpadRowCount));
-    setButtonBorderSize(0);    
+    setButtonBorderSize(DialpadButtonBorderSize);
 
     QList<HbInputButton*> buttons;
 
@@ -271,7 +273,7 @@ void DialpadNumericButtonGrid::updateColorArray()
     // this is used for alphabets shown dimmed, use alpha until exact color
     // is specified
     QColor disabledColor = HbColorScheme::color("qtc_input_button_normal");
-    disabledColor.setAlpha(128);
+    disabledColor.setAlpha(DialpadSecondaryTextOpacity*256);
     mColors.insert(Pressed+1, disabledColor);
 }
 

@@ -185,28 +185,28 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @since Series 60 3.2
         * @return Returns the allow match setting information.
         */
-        IMPORT_C  TBool AllowMatch() const;
+        TBool AllowMatch() const;
         
         /**
         * Bearer capability.
         * @since Series 60 3.2
         * @return Returns bearer capability.
         */
-        IMPORT_C const TPhCltBearerCapability& Bearer() const;
+        const TPhCltBearerCapability& Bearer() const;
         
         /**
         * Gives the current call type.
         * @since Series 60 3.2
         * @return Current call type.
         */
-        IMPORT_C  TPhCltCallType CallType() const ;   
+        TPhCltCallType CallType() const ;   
          
         /**
         * Contact link field.
         * @since Series 60 3.2
         * @return Returns contack link item.
         */
-        IMPORT_C const TDesC8& ContactLink() const;
+        const TDesC8& ContactLink() const;
         
         
         /**
@@ -215,21 +215,21 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @return Returns ETrue if other calls will be terminated.
         *                 EFalse if calls are not terminated.
         */
-        IMPORT_C TBool EndOtherCalls() const;
+        TBool EndOtherCalls() const;
         
         /**
         * Intiate Call
         * @since Series 60 3.2
         * @return Returns ETrue if call is itiate call EFalse otherwise
         */
-        IMPORT_C  TBool InitiateCall() const;
+        TBool InitiateCall() const;
         
         /**
         * Name.
         * @since Series 60 3.2
         * @return Returns name.
         */
-        IMPORT_C  const TPhCltNameBuffer& Name() const;
+        const TPhCltNameBuffer& Name() const;
         
         
         /**
@@ -237,14 +237,14 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @since Series 60 3.2
         * @return Return the redial status,
         */
-        IMPORT_C  TInt Redial() const;  
+        TInt Redial() const;  
         
         /**
         * Redial maximum duration
         * @since Series 60 3.2
         * @return Returns redial max duration.
         */
-        IMPORT_C const TTimeIntervalSeconds RedialMaximumDuration() const;      
+        const TTimeIntervalSeconds RedialMaximumDuration() const;      
                    
         
         /** 
@@ -259,49 +259,49 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @since Series 60 3.2
         * @return Returns ETrue if SAT call EFalse if not.
         */
-        IMPORT_C  TBool SATCall() const;
+        TBool SATCall() const;
         
         /** 
         * SendKey pressed.
         * @since Series 60 3.2
         * @return Return ETrue if SendKey used.
         */
-        IMPORT_C TBool SendKeyPressed() const;
+        TBool SendKeyPressed() const;
         
         /**
         * Show Number.
         * @since Series 60 3.2
         * @return Returns the number visibility.
         */
-        IMPORT_C TBool ShowNumber() const;
+        TBool ShowNumber() const;
         
         /**
         * Sub address.
         * @since Series 60 3.2
         * @return Returns SAT call sub address.
         */
-        IMPORT_C  const TPhCltSubAddress& SubAddress() const;
+        const TPhCltSubAddress& SubAddress() const;
         
         /**
         * Gives the current phone number.
         * @since Series 60 3.2
         * @return Telephone number.
         */
-        IMPORT_C  const TPhCltTelephoneNumber& TelephoneNumber() const;
+        const TPhCltTelephoneNumber& TelephoneNumber() const;
         
         /**
         * Gives the current window group id.
         * @since Series 60 3.2
         * @return Window group id. 
         */     
-        IMPORT_C  TInt WindowGroup() const; 
+        TInt WindowGroup() const; 
         
         /**
          * Gives the user to user information.
          * @since S60 v3.2
          * @return User to user information.
          */
-        IMPORT_C const TDesC& UUI() const;
+        const TDesC& UUI() const;
         
     public: // Access - Setters
     
@@ -314,7 +314,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         *
         * @param aAllowMatch Whether to allow matches.
         */
-        IMPORT_C  void SetAllowMatch( TBool aAllowMatch );
+        void SetAllowMatch( TBool aAllowMatch );
     
         /**
         * Set the bearer capability.
@@ -322,21 +322,21 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @param aBearer The bearer capabilities as defined in GSM 04.08.
         * @leaves KErrArgument if aBearer's length is longer than KAiwBearerLength
         */
-        IMPORT_C void SetBearerL( const TPhCltBearerCapability& aBearer );
+        void SetBearerL( const TPhCltBearerCapability& aBearer );
         
         /**
         * Sets call type.
         * @since Series 60 3.2
         * @param aCallType calls' type.
         */
-        IMPORT_C void SetCallType( TPhCltCallType aCallType );
+        void SetCallType( TPhCltCallType aCallType );
         
         /**
         * Set contact link.
         * @since Series 60 3.2
         * @param aContactLink Contact link information.
         */
-       IMPORT_C void SetContactLinkL( const TDesC8& aContactLink );
+        void SetContactLinkL( const TDesC8& aContactLink );
         
         
         /**
@@ -346,14 +346,14 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * dial. Default is EFalse.
         * @param aEndCalls Are the other calls ended.
         */
-        IMPORT_C void SetEndOtherCalls( TBool aEndCalls  );
+        void SetEndOtherCalls( TBool aEndCalls  );
         
         /**
         * Set Initiate call Etrue or EFalse
         *@since Series 60 3.2
         * @param aInitCall ETrue if call is intiate call
         */
-        IMPORT_C void SetInitiateCall( TBool aInitCall );
+        void SetInitiateCall( TBool aInitCall );
         
         
         /**
@@ -362,7 +362,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @param aName The name of the person being called.
         * @leaves KErrArgument if aName length is over 50 characters.
         */
-        IMPORT_C void SetNameL( const TPhCltNameBuffer& aName );
+        void SetNameL( const TPhCltNameBuffer& aName );
         
         
         /**
@@ -370,23 +370,21 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @since Series 60 3.2
         * @param aRedial The new redial status
         */
-  
-        IMPORT_C void SetRedial( TInt aRedial );
+        void SetRedial( TInt aRedial );
         
         /**
         * Set redial max duration.
         * @since Series 60 3.2
         * @param aDuration redial max duration.
         */
-        IMPORT_C void SetRedialMaximumDuration( TTimeIntervalSeconds aMaximumRedialDuration );       
-        
+        void SetRedialMaximumDuration( TTimeIntervalSeconds aMaximumRedialDuration );
         
         /**
         * Set whether to return to number entry.
         *
         * @param aReturn Whether to return to the number entry editor.
         */
-        IMPORT_C void SetReturnToNumberEntryOnFailure( TBool aReturn );
+        void SetReturnToNumberEntryOnFailure( TBool aReturn );
                 
         /**
         * Set wheteher this is a SAT originated call or not.
@@ -395,7 +393,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @since Series 60 3.2
         * @param aSATCall ETrue if SAT originated the call, EFalse otherwise.
         */
-        IMPORT_C void SetSATCall( TBool aSATCall );
+        void SetSATCall( TBool aSATCall );
         
         
         /**
@@ -403,7 +401,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         *  @since Series 60 3.2
         * @param aSendKey The value of SendKey.
         */
-        IMPORT_C void SetSendKeyPressed( TBool aSendKey );
+        void SetSendKeyPressed( TBool aSendKey );
         
         /**
         * Set the number visibility in the phone app.
@@ -412,7 +410,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * log event.
         * @param aShowNumber Whether or not to show the number.
         */
-        IMPORT_C void SetShowNumber( TBool aShowNumber );
+        void SetShowNumber( TBool aShowNumber );
         
         /**
         * Set the calling party subaddress.
@@ -422,7 +420,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * @leaves KErrArgument if aSubAddress length is longer than 
         * KAiwSubAddressLength
         */
-        IMPORT_C void SetSubAddressL( const TPhCltSubAddress& aSubAddress );
+        void SetSubAddressL( const TPhCltSubAddress& aSubAddress );
         
         /**
         * Sets the phone number.
@@ -431,14 +429,14 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
         * KMaximumPhoneNumberLength.
         * @leaves KErrArgument if aPhoneNumber length is over KMaximumPhoneNumberLength
         */
-        IMPORT_C void SetTelephoneNumber( const TPhCltTelephoneNumber& aNumber );
+        void SetTelephoneNumber( const TPhCltTelephoneNumber& aNumber );
         
         /**
         * Sets the window group identifier. When call is ended, set window group is actived.
         * @since Series 60 3.2
         * @param aWindowGroup Window group id.
         */
-        IMPORT_C void SetWindowGroup( TInt aWindowGroup );
+        void SetWindowGroup( TInt aWindowGroup );
      
         /**
         * Set the value of xSP Service Id. 
@@ -461,11 +459,7 @@ NONSHARABLE_CLASS( CPhCltExtPhoneDialData ): public CPhCltDialData
          * @param aUUI User to user information.
          * @since S60 v3.2
          */
-        IMPORT_C void SetUUIL( const TDesC& aUUI );
-        
-      
-        
-                
+         void SetUUIL( const TDesC& aUUI );
                       
     // Constructors
     

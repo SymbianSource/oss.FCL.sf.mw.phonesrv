@@ -1,6 +1,0 @@
-EXPORTS
-	?NewL@CConvergedServiceSelector@@SAPAV1@XZ @ 1 NONAME ; class CConvergedServiceSelector * CConvergedServiceSelector::NewL(void)
-	?GetCallingServiceByCallType@CConvergedServiceSelector@@QAEHAAVTSsResult@1@W4TSsCallType@1@IHABVTDesC16@@@Z @ 2 NONAME ; int CConvergedServiceSelector::GetCallingServiceByCallType(class CConvergedServiceSelector::TSsResult &, enum CConvergedServiceSelector::TSsCallType, unsigned int, int, class TDesC16 const &)
-	?CancelSelection@CConvergedServiceSelector@@QAEXXZ @ 3 NONAME ; void CConvergedServiceSelector::CancelSelection(void)
-	??1CConvergedServiceSelector@@UAE@XZ @ 4 NONAME ; CConvergedServiceSelector::~CConvergedServiceSelector(void)
-

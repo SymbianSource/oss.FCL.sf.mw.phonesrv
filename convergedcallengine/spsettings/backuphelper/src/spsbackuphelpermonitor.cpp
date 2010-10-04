@@ -176,15 +176,9 @@ void CSpsBackupHelperMonitor::Subscribe()
 void CSpsBackupHelperMonitor::RunL()
     {
     XSPSLOGSTRING( "CSpsBackupHelperMonitor::RunL IN" );
-    // The P&S flag has changed state, which could mean that the device is
-    // either entering a backup, restore or normal state
-    TInt backupStateValue = 0;  // To store the P&S value
-
     // re-subscribe to the flag to monitor future changes
     Subscribe();
-
     CheckStatusL();
-
     XSPSLOGSTRING( "CSpsBackupHelperMonitor::RunL OUT" );
     }
 

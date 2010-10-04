@@ -44,7 +44,7 @@ static const QLatin1String minimizeIconH("qtg_graf_input_h_swipe");
 static const int DialpadCloseAnimDuration = 200; // ms
 static const int DialpadOpenAnimDuration = 200; // ms
 static const qreal DialpadComponentMargin = 0.75; // units
-static const qreal DialpadCloseHandleHeight = 2.23; // units
+static const qreal DialpadCloseHandleHeight = 3.0; // units
 static const qreal DialpadCloseHandleWidth = 18.8; // units
 
 static const QLatin1String handsetIcon("qtg_mono_call");

@@ -35,8 +35,8 @@ class TSatEventMediator;
 *  @lib SatEngine.lib
 *  @since 3.0
 */
-class CSatSIconSubSession : public MSatIconObserver,
-                            public CSatSSubSession
+class CSatSIconSubSession : public CSatSSubSession,
+                            public MSatIconObserver
     {
     public:  // Constructors and destructor
 

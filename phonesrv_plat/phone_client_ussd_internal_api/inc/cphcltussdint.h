@@ -91,8 +91,8 @@ class CPhCltUssdInt :
         
      protected:
 
-        // CUssdComms can call the protected functions mentioned above.
-        friend class CUssdComms;
+        // UssdComms can call the protected functions mentioned above.
+        friend class UssdComms;
         
     };
 

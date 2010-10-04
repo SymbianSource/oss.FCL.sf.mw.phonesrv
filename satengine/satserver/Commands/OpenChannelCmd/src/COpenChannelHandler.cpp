@@ -690,10 +690,8 @@ void COpenChannelHandler::SetConnectionSettingsL(
                 LOG( NORMAL, "OPENCHANNEL: SetConnectionSettingsL \
                 No APN, using defaults" )
                 // No APN, use default settings
-                TRAPD( err, defaultId = 
-                iUtils->BipUtils().ApnHandler().FindDefaultApL( pdpType ) );
-                LOG2( NORMAL, "OPENCHANNEL: SetConnectionSettingsL \
-                    No APN, using defaults err = %i", err )
+                TRAP_IGNORE( defaultId = 
+                    iUtils->BipUtils().ApnHandler().FindDefaultApL( pdpType ) );
                 SetOverrideSettingsL( defaultId );
                 }
             break;

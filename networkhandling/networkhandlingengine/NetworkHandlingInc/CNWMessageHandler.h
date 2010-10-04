@@ -107,7 +107,7 @@ class CNWMessageHandler : public CBase
         * @param aOperation is failed operation
         * @param aErrorCode is returned Symbion OS Error Code
         */
-        IMPORT_C void SendErrorMessage( 
+        void SendErrorMessage( 
                 MNWMessageObserver::TNWOperation aOperation, 
                 TInt aErrorCode );
         

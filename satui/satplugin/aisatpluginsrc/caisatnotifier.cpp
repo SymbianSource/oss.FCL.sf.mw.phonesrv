@@ -20,7 +20,7 @@
 // INCLUDE FILES
 #include <e32base.h>
 #include <etelsat.h>
-#include <rsatsession.h>
+#include <RSatSession.h>
 #include <rsatservice.h>
 
 #include "caisatnotifier.h"

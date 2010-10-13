@@ -23,7 +23,7 @@
 #define __CCBSADDFROMINDEXDIALOG_H
 
 // INCLUDES
-#include <AknDialog.h>
+#include <akndialog.h>
 #include <CbsCommon.h>
 #include "CbsUiConstants.h"
  

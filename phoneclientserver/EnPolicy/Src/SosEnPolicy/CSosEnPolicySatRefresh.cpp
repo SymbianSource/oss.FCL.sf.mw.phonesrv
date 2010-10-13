@@ -23,8 +23,8 @@
 #include "CSOSEmergencyNumberPolicyHandler.h"
 #include "CSosEnPolicySatRefresh.h"
 
-#include <rsatrefresh.h>
-#include <rsatsession.h>
+#include <RSatRefresh.h>
+#include <RSatSession.h>
 
 #include  <startupdomainpskeys.h> // Property values
 

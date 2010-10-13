@@ -53,18 +53,11 @@ CPsuiQueryDialog::~CPsuiQueryDialog()
 TKeyResponse CPsuiQueryDialog::OfferKeyEventL( const TKeyEvent& aKeyEvent,
     TEventCode aType )
     {
-    const TBool noKeyReleased = 
-        ( aKeyEvent.iScanCode == EStdKeyNo || aKeyEvent.iCode == EKeyNo  ) &&
-          aType == EEventKeyUp;    
-    const TBool escPressed = aKeyEvent.iCode == EKeyEscape;
-    
-    // AknDialogShutter sends esc keys so dismiss dialog 
-	if ( noKeyReleased || escPressed )
+	if ( ( aKeyEvent.iScanCode == EStdKeyNo || aKeyEvent.iCode == EKeyNo  ) &&
+		 aType == EEventKeyUp )
 		{
 		// End -key was pressed, so exit this query dialog
-		TryExitL( EKeyNo ); 
-		RDebug::Printf("PSETNOTESUI: exiting dialog");
-		return EKeyWasConsumed;
+		TryExitL( EKeyNo );
 		}
 
 	return EKeyWasNotConsumed;

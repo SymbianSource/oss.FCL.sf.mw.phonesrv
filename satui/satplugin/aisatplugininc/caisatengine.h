@@ -23,7 +23,7 @@
 
 #include <e32property.h>
 #include <SATInternalPSKeys.h>
-#include <rsatsession.h>          // For idle mode text and icon  
+#include <RSatSession.h>          // For idle mode text and icon  
 #include <rsatservice.h>          // For idle mode text and icon
 #include <tsaticoninfo.h>
 

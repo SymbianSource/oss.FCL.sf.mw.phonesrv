@@ -27,8 +27,8 @@
 #include <MSSSettingsRefreshObserver.h>
 #include <RSSSettings.h>
 #include <RCustomerServiceProfileCache.h>
-#include <rsatrefresh.h>
-#include <rsatsession.h>
+#include <RSatRefresh.h>
+#include <RSatSession.h>
 #include <cenrepnotifyhandler.h>
 #include "CSSSettingsActiveObject.h"
 

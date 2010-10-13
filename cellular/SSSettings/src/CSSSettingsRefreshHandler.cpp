@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include    <centralrepository.h>
-#include    <rsatrefresh.h>
+#include    <RSatRefresh.h>
 #include    <BTSapDomainPSKeys.h>     // BT SAP Central Repository key.
 #include    <featmgr.h>
 

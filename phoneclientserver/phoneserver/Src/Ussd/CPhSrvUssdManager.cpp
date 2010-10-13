@@ -56,8 +56,6 @@
 #include <telservicesinternalcrkeys.h>
 #include <coreapplicationuisdomainpskeys.h>
 
-//RM-RIM 417-66528
-#include <CUssdExtensionInterface.h>
 
 // CONSTANTS
 const TInt KPhSrvDefaultValue = 0x00000000;
@@ -438,10 +436,6 @@ CPhSrvUssdManager::~CPhSrvUssdManager()
     
     delete iMoAckCallback;
 
-    // RM-RIM 417-66528
-    delete iUssdExtnInterface;
-    iUssdExtnInterface = NULL;
-        
     _DPRINT( 4, "PhSrv.~CPhSrvUssdManager.end" );       // debug print
     }
 
@@ -498,10 +492,6 @@ void CPhSrvUssdManager::ConstructL( MPhSrvPhoneInterface& aPhoneInterface )
 	_DDPRINT( 4, "PhSrv.ConstructL.iSatCanceled ", iSatCanceled );
     _DDPRINT( 4, "PhSrv.ConstructL.iShowDone ", iShowDone );
     iNotifyArray = new( ELeave ) CDesCArrayFlat( KPhrUssdNotifyArraySize );
-    
-    // RM-RIM 417-66528
-    TRAP_IGNORE(iUssdExtnInterface = CUssdExtensionInterface::NewL());
-    _DPRINT( 4, "PhSrv.ConstructL.iUssdExtnInterface Created");
     _DPRINT( 4, "PhSrv.ConstructL.End" );       // debug print
     }
 
@@ -559,16 +549,6 @@ void CPhSrvUssdManager::SendUssdL(
     {
     _DPRINT( 4, "PhSrv.SendUssdL.Start ######" );           // debug print
     _DPRINT_FLAGS();
-    
-    //417-66528
-    if (iUssdExtnInterface)
-        {
-        if(!iUssdExtnInterface->ValidateUssdMsgSending(aMsgData,aMsgAttribute))
-            {
-            // invalid attempt to send USSD message. Show the note 
-            User::Leave( KErrAccessDenied );
-            }
-        }
     
     if ( iObserver && iNetworkReleased ) 
         {
@@ -830,14 +810,6 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
         {
         iReceivedMessage = iDecodedMessage;
         }
-    // 4. Invoke UssdExtensionPlugin
-    // 417-66528
-    TBool isResponseValidated = EFalse;
-    if (iUssdExtnInterface)
-        {
-        _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.InvokeExtension" );
-        isResponseValidated = iUssdExtnInterface->ValidateUssdResponse(aMsgData);
-        }
     // 5. Show note.
     // debug print
     _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Note" );
@@ -852,155 +824,109 @@ void CPhSrvUssdManager::UssdHandleReceivedEventL(
             return;
             }
         }
-    //6. Check if the response is valid for the extension
-    //RM-RIM 417-66528
-    if (iUssdExtnInterface && isResponseValidated)
-        PorcessReceivedMessageInExtesnionL(aMsgData, aMsgAttributes);
-    else
-        ProcessReceivedMessageL(aMsgData, aMsgAttributes);
-        
-    _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Editor" );
-    if (aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTRequest
-            && UssdAppTaskExistsL())
-        {
-        iEmptyEditor = ETrue;
-        } _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.End" );
-    }
-// -----------------------------------------------------------------------------
-// CPhSrvUssdManager::ProcessReceivedMessageL
-//
-//
-//
-// -----------------------------------------------------------------------------
-//
-void CPhSrvUssdManager::ProcessReceivedMessageL(const TDes8& /*aMsgData*/,
-        const RMobileUssdMessaging::TMobileUssdAttributesV1& aMsgAttributes)
-    {
+
     // empty string is handled as ok message
-    if (!iDecodedMessage.Length())
+    if ( !iDecodedMessage.Length() )
         {
         TurnLightsOn(); //Ensure lights on
-
         // debug print
         _DPRINT( 4,
-                "PhSrv.UssdHandleReceivedEventL.EmptyString" );
+            "PhSrv.UssdHandleReceivedEventL.EmptyString" );
+        
         ShowDoneNoteL();
+
         // debug print
         _DPRINT( 4,
-                "PhSrv.UssdHandleReceivedEventL.EmptyString.OK" );
+            "PhSrv.UssdHandleReceivedEventL.EmptyString.OK" );
         }
     else
         {
-        _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.String" );
-        iNotifyMessage = (aMsgAttributes.iType
-                == RMobileUssdMessaging::EUssdMTNotify);
-        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage ); 
+       	_DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.String" );
+        iNotifyMessage = ( aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTNotify );
+        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
         _DDPRINT( 4, "PhSrv.UssdNOHREventL.iNotifyMessage: ", iNotifyMessage );
-        iMsgTypeReply = (aMsgAttributes.iType
-                == RMobileUssdMessaging::EUssdMTReply);
+        iMsgTypeReply = ( aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTReply );
         _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iMsgTypeReply: ", iMsgTypeReply );
-
-        if (iNotifyMessage)
+        
+        if ( iNotifyMessage ) 
             {
             // need to send an MO ack
-            iAcksToBeSent++;
+            iAcksToBeSent ++;
             }
+        
+        if ( iNotifyMessage || iMsgTypeReply )
+        	{
+        	//This is for reply message in notifyarray
+        	iNotifyMessage = ETrue;
+        	_DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
 
-        if (iNotifyMessage || iMsgTypeReply)
-            {
-            //This is for reply message in notifyarray
-            iNotifyMessage = ETrue;
-            _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
+	        //Notify added to array
+        	iNotifyArray->AppendL( iReceivedMessage );
 
-            //Notify added to array
-            iNotifyArray->AppendL(iReceivedMessage);
+        	_DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.AppendL" );       // debug print
+        	UpdateNotifyMessage();
 
-            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.AppendL" ); // debug print
-            UpdateNotifyMessage();
-
-            if (!iSendRelease && NotifyCount() <= 1)
-                {
-                _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.!SendRelease.Cancel" ); // debug print
-                Cancel();
-                }
-            }
+        	if ( !iSendRelease && NotifyCount() <= 1 )
+				{
+				_DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.!SendRelease.Cancel" );       // debug print
+				Cancel();
+				}
+        	}
         else
+       		{
+       		// New message deletes old message, i.e. Cancel existing query.
+       		Cancel();
+			_DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NewAnswerable" );       // debug print
+       		}
+
+        if ( !iGlobalMsgQuery )
             {
-            // New message deletes old message, i.e. Cancel existing query.
-            Cancel();
-            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NewAnswerable" ); // debug print
+            iGlobalMsgQuery = CAknGlobalMsgQuery::NewL();
             }
-        CreateGlobalMessageQueryL(aMsgAttributes);
+
+        // Delay after message query so that application execution order will
+        // be correct.
+        iGlobalMsgQuery->SetExitDelay( KPhSrvUssdNoteExitPeriod );
+
+        TInt softkeys = R_AVKON_SOFTKEYS_USSD_ANSWER_EXIT__ANSWER;
+        if( !( aMsgAttributes.iFlags & RMobileUssdMessaging::KUssdMessageType )
+             || aMsgAttributes.iType != RMobileUssdMessaging::EUssdMTRequest )
+            {
+            softkeys = R_AVKON_SOFTKEYS_EXIT;
+            }
+
+        // Set timer that lauches Global MessageQuery after time interval.
+        iSoftkeys = softkeys;
+
+        // debug print
+        _DPRINT( 4,
+            "PhSrv.UssdHandleReceivedEventL.String.Middle" );
+
+        // Play the USSD tone if needed. Logically should be in RunL, but here
+        // to give better balancing with voice and visible message.
+        if ( IsTelephonyFeatureSupported( KTelSrvLVFlagUssdTone ) )
+            {
+            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.PlayTone" );
+            PlayUssdTone();
+            }
+
+        // Launch the new message query
+        if ( !IsActive() )
+            {
+            iLaunchGMQ = ETrue;
+            iTimer.After( iStatus , KPhSrvUssdMessageQueryInterval );
+            SetActive();
+            }
         AsyncProcessMoAcks();
-        } 
-    _DPRINT( 4, "PhSrv.ProcesdReceivedMessageL.End" );
+        }
+    _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Editor" );
+    if( aMsgAttributes.iType == RMobileUssdMessaging::EUssdMTRequest && UssdAppTaskExistsL() )
+        {
+        iEmptyEditor = ETrue;
+        }
+    _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.End" );
     }
 
-// -----------------------------------------------------------------------------
-// CPhSrvUssdManager::PorcessReceivedMessageInExtesnionL
-//
-//
-//
-// -----------------------------------------------------------------------------
-//
-void CPhSrvUssdManager::PorcessReceivedMessageInExtesnionL(
-        const TDes8& /*aMsgData*/,
-        const RMobileUssdMessaging::TMobileUssdAttributesV1& aMsgAttributes)
-    {
-    TInt errfromextension = KErrNone;
-    // empty string is handled as ok message
-    if (!iDecodedMessage.Length())
-        {
-        // debug print
-        _DPRINT( 4,
-                "PhSrv.UssdHandleReceivedEventL.EmptyString" );
-        //RM-RIM 417-66528
-        TRAP_IGNORE(iUssdExtnInterface->ProcessReceivedUssdL(iDecodedMessage, errfromextension));
-        // debug print
-        _DPRINT( 4,
-                "PhSrv.UssdHandleReceivedEventL.EmptyString.OK" );
-        }
-    else
-        {
-        _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.String" );
-        iNotifyMessage = (aMsgAttributes.iType
-                == RMobileUssdMessaging::EUssdMTNotify);
-        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage ); 
-        _DDPRINT( 4, "PhSrv.UssdNOHREventL.iNotifyMessage: ", iNotifyMessage );
-        iMsgTypeReply = (aMsgAttributes.iType
-                == RMobileUssdMessaging::EUssdMTReply);
-        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iMsgTypeReply: ", iMsgTypeReply );
-
-        if (iNotifyMessage)
-            {
-            // need to send an MO ack
-            iAcksToBeSent++;
-            }
-
-        if (iNotifyMessage || iMsgTypeReply)
-            {
-            //This is for reply message in notifyarray
-            iNotifyMessage = ETrue;
-            _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.iNotifyMessage: ", iNotifyMessage );
-            if (!iSendRelease && NotifyCount() <= 1)
-                {
-                _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.!SendRelease.Cancel" ); // debug print
-                Cancel();
-                }
-            }
-        else
-            {
-            // New message deletes old message, i.e. Cancel existing query.
-            Cancel();
-            _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.NewAnswerable" ); // debug print
-            }
-        TInt errfromextension = KErrNone;
-        ProcessMoAcksL();
-        iLaunchGMQ = EFalse;
-        TRAP_IGNORE(iUssdExtnInterface->ProcessReceivedUssdL(iDecodedMessage, errfromextension)); 
-        _DDPRINT( 4, "PhSrv.UssdHandleReceivedEventL.Extn.ProcessReceivedUssdL.ErrCode", errfromextension);
-        }
-    }
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::RestartReplyTimerL
 //
@@ -1070,12 +996,7 @@ TInt aError )
         // if we are sending ack, it can be canceled.
         iUssdSendHandler->Cancel();
         }
-    //417-66528
-    //Notify Extension on NWRelease
-    if(iUssdExtnInterface)
-        {
-        iUssdExtnInterface->NotifyNWError(aError);
-        }
+    
     iSatCanceled = EFalse;
     _DPRINT( 4, "PhSrv.UssdNetworkObserverHandleNotifyNWReleaseL.iSatCanceled.EFalse" );
     iShowDone = EFalse;
@@ -1420,52 +1341,7 @@ void CPhSrvUssdManager::RunL()
         _DPRINT( 4, "PhSrv.RunL.End" );     // debug print
         }
     }
-// RM-RIM 417-66528
-// -----------------------------------------------------------------------------
-// CPhSrvUssdManager::CreateGlobalMessageQueryL
-// -----------------------------------------------------------------------------
-//
-void CPhSrvUssdManager::CreateGlobalMessageQueryL(
-        const RMobileUssdMessaging::TMobileUssdAttributesV1& aMsgAttributes)
-    {
-    if (!iGlobalMsgQuery)
-        {
-        iGlobalMsgQuery = CAknGlobalMsgQuery::NewL();
-        }
 
-    // Delay after message query so that application execution order will
-    // be correct.
-    iGlobalMsgQuery->SetExitDelay(KPhSrvUssdNoteExitPeriod);
-
-    TInt softkeys = R_AVKON_SOFTKEYS_USSD_ANSWER_EXIT__ANSWER;
-    if (!(aMsgAttributes.iFlags & RMobileUssdMessaging::KUssdMessageType)
-            || aMsgAttributes.iType != RMobileUssdMessaging::EUssdMTRequest)
-        {
-        softkeys = R_AVKON_SOFTKEYS_EXIT;
-        }
-
-    // Set timer that lauches Global MessageQuery after time interval.
-    iSoftkeys = softkeys;
-
-    // debug print
-    _DPRINT( 4,
-            "PhSrv.UssdHandleReceivedEventL.String.Middle" );
-
-    // Play the USSD tone if needed. Logically should be in RunL, but here
-    // to give better balancing with voice and visible message.
-    if (IsTelephonyFeatureSupported(KTelSrvLVFlagUssdTone))
-        {
-        _DPRINT( 4, "PhSrv.UssdHandleReceivedEventL.PlayTone" );
-        PlayUssdTone();
-        }
-    // Launch the new message query
-    if (!IsActive())
-        {
-        iLaunchGMQ = ETrue;
-        iTimer.After(iStatus, KPhSrvUssdMessageQueryInterval);
-        SetActive();
-        }
-    }
 // -----------------------------------------------------------------------------
 // CPhSrvUssdManager::LaunchGlobalMessageQueryL
 // -----------------------------------------------------------------------------

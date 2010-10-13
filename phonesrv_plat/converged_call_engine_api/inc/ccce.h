@@ -58,7 +58,7 @@ const TInt KCCEMaxNumberOfCalls = 3;   // = 1 active, 1 onhold, 1 waiting
 #ifndef RMMCUSTOMAPI_H 
 /** defenition for OG, most likely will be deprecated later on */
 ///_LIT(KTerminateAllCalls,"ALL_CALLS");
-#include <rmmcustomapi.h> // Add reference there, cs classes need that too
+#include <RMmCustomAPI.h> // Add reference there, cs classes need that too
 #endif
 
 /**

@@ -114,16 +114,7 @@ bool PsUiSettingsWrapper::isFeatureCallWaitingDistiquishNotProvisionedEnabled()
     return enabled;
 }
 
-bool PsUiSettingsWrapper::isPhoneOffline() const
-{
-    bool offLinesupport(false);
-    if (XQSysInfo::isSupported(KFeatureIdOfflineMode)) {
-        offLinesupport = !readCenrepValue(
-                KCRUidCoreApplicationUIs.iUid, 
-                KCoreAppUIsNetworkConnectionAllowed).toBool();
-    }
-    return offLinesupport;
-}
+
 
 QVariant PsUiSettingsWrapper::readCenrepValue(
     const long int uid, const unsigned long int key) const

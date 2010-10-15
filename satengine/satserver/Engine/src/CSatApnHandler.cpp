@@ -17,9 +17,7 @@
 
 // INCLUDE FILES
 #include <cmmanager.h>
-#include <cmmanagerext.h>
 #include <cmconnectionmethod.h>
-#include <cmconnectionmethodext.h>
 #include <cmconnectionmethoddef.h>
 #include <cmpluginpacketdatadef.h>
 #include <cmdestination.h>
@@ -209,11 +207,11 @@ void CSatApnHandler::DeleteApnL( TUint32 aApnId )
     if ( aApnId )
         { 
         // Create CMManager Session
-        RCmManagerExt cmManager;
+        RCmManager cmManager;
         cmManager.OpenLC();
         
         // Get the connection method
-        RCmConnectionMethodExt cm;
+        RCmConnectionMethod cm;
         cm = cmManager.ConnectionMethodL( aApnId );
         CleanupClosePushL( cm );
 
@@ -247,12 +245,12 @@ void CSatApnHandler::InsertRecordL(
         &aReqApn )
     
     // Create CMManager Session
-    RCmManagerExt cmManager;
+    RCmManager cmManager;
     cmManager.OpenLC();
 
     // Create a connection method without destination. So when we can find 
     // the connection method by going through the connection method list.
-    RCmConnectionMethodExt cm;
+    RCmConnectionMethod cm;
     cm = cmManager.CreateConnectionMethodL( KUidPacketDataBearerType );
     CleanupClosePushL( cm );
     

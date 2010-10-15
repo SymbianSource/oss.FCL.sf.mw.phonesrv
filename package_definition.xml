@@ -195,7 +195,7 @@
    <component id="psuinotes" filter="s60" name="Phone Settings Notes UI" introduced="^4">
     <unit bldFile="cellular/psuinotes" qt:proFile="psuinotes.pro"/>
    </component>
-  </collection>
+  </collection>  
   <collection id="convergedcallengine" name="Converged Call Engine" level="framework">
    <component id="callprovider" filter="s60" name="Call Provider">
     <unit bldFile="convergedcallengine/callprovider/group"/>

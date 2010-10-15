@@ -79,14 +79,14 @@ void SatAppConfirmProvider::confirmCommand(SatAppAction &action)
             showSetUpCallConfirm(action);
             break;
             }
-        // TODO: implemente later   
-        case ESatSRefreshQuery:
-        // TODO: implemente later
         case ESatSLaunchBrowserQuery:
             {
-            action.completeWithNoResponse();
+            showLaunchBrowserConfirm(action);
             break;
             }
+        // Shown only when Confirm SIM services setting enabled, 
+        // setting not supported on this code line.
+        case ESatSRefreshQuery:
         default:
             {
             qDebug("SATAPP: SatAppConfirmProvider::ConfirmCommand:\
@@ -159,6 +159,32 @@ void SatAppConfirmProvider::showSetUpCallConfirm(SatAppAction &action)
     qDebug("SATAPP: SatAppConfirmProvider::showSetUpCallConfirm before open");
     mConfirmQuery->open();
     qDebug("SATAPP: SatAppConfirmProvider::showSetUpCallConfirm <");
+}
+
+// ----------------------------------------------------------------------------
+// SatAppConfirmProvider::showLaunchBrowserConfirm
+// ----------------------------------------------------------------------------
+//
+void SatAppConfirmProvider::showLaunchBrowserConfirm(SatAppAction &action)
+{
+    qDebug("SATAPP: SatAppConfirmProvider::showLaunchBrowserConfirm >");
+    QString text = action.value(KeyText).toString();
+    if (!text.length()){
+        text = hbTrId("txt_simatk_dialog_openbrowser");
+        }
+    mConfirmQuery = new HbMessageBox(HbMessageBox::MessageTypeQuestion);
+    // Sets the "Yes"-action/button
+    mConfirmQuery->setText(text);
+    mConfirmQuery->setStandardButtons(HbMessageBox::Ok | HbMessageBox::Cancel);
+    SAT_ASSERT(connect(mConfirmQuery->actions().at(0), SIGNAL(triggered()),
+        &action, SLOT(completeWithSuccess())));
+    SAT_ASSERT(connect(mConfirmQuery->actions().at(1), SIGNAL(triggered()),
+        &action, SLOT(completeWithBackRequested())));
+    SAT_ASSERT(connect(mAction, SIGNAL(actionCompleted(SatAppAction *)),
+        this, SLOT(resetState())));
+    qDebug("SATAPP: SatAppUiProvider::showLaunchBrowserConfirm before open");
+    mConfirmQuery->open();
+    qDebug("SATAPP: SatAppConfirmProvider::showLaunchBrowserConfirm <");
 }
 
 // ----------------------------------------------------------------------------

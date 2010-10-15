@@ -800,19 +800,18 @@ void CLaunchBrowserHandler::CloseBrowser()
 // Launches The Browser with URL.
 // --------------------------------------------------------------------------
 //
-void CLaunchBrowserHandler::LaunchWithUrlL( const TDesC& /*aParam*/,
-    const TUid& /*aAccessPointUid*/ )
+void CLaunchBrowserHandler::LaunchWithUrlL( const TDesC& aParam,
+    const TUid& aAccessPointUid )
     {
     LOG( SIMPLE,
         "LAUNCHBROWSER: CLaunchBrowserHandler::LaunchWithUrlL calling" )
-//    LOG3( SIMPLE,
-//         "LAUNCHBROWSER: CLaunchBrowserHandler::LaunchWithUrlL\
-//          url=%s, IAP=%d", &aParam, aAccessPointUid.iUid )        
+    LOG3( SIMPLE,
+         "LAUNCHBROWSER: CLaunchBrowserHandler::LaunchWithUrlL\
+          url=%s, IAP=%d", &aParam, aAccessPointUid.iUid )        
 
     // Browser launching called.
-//    TInt err = iUtils->SatUiHandler().ShellController().LaunchBrowserL(
-//        aParam, aAccessPointUid );
-    TInt err =  KErrNone;
+    TInt err = iUtils->SatUiHandler().ShellController().LaunchBrowserL(
+        aParam, aAccessPointUid );
 
     if ( KErrNone == err )
         {

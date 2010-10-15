@@ -35,7 +35,8 @@
 #include <apgtask.h>            // TApaTaskList
 #include <apgwgnam.h>           // CApaWindowGroupName
 #include <MenuSatInterface.h>   // CMenuSATInterface
-#include <DocumentHandler.h>    // KWmlcHandler
+// Legacy symbian browser UID
+const static TInt KWmlcHandler         = 0x10008D39;   // WML Browser
 #include "csatshellcontroller.h"
 
 // Browser Cen Rep Keys.

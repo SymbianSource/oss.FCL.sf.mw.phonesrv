@@ -163,14 +163,5 @@ void UT_PsUiUtils::t_isFeatureCallWaitingDistiquishNotProvisionedEnabled()
     QVERIFY( verify() );
 }
 
-/*!
-  UT_PsUiUtils::::t_isPhoneOffline
- */
-void UT_PsUiUtils::t_isPhoneOffline()
-{
-    expect("XQSysInfo::isSupported");
-    mWrapper->isPhoneOffline();
-    QVERIFY( verify() );
-}
 
 QTEST_MAIN_S60(UT_PsUiUtils)

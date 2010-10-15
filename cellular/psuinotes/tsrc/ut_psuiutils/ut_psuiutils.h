@@ -41,7 +41,6 @@ private slots:
     void t_errorCodeTextMapping();
     
     void t_isFeatureCallWaitingDistiquishNotProvisionedEnabled();
-    void t_isPhoneOffline();
     
 private:
     PsUiSettingsWrapper *mWrapper;

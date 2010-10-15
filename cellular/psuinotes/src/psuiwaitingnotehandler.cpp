@@ -124,17 +124,17 @@ void PsUiWaitingNoteHandler::handleCallWaitingChanged(
     } else {
         switch (setting){
             case PSetCallWaitingWrapper::ActivateCallWaiting:
-                 PsUiNotes::instance()->showGlobalNotificationDialog(
-                 hbTrId("txt_phone_info_call_waiting_activated"));
-             break;
+                PsUiNotes::instance()->showGlobalNotificationDialog(
+                hbTrId("txt_phone_info_call_waiting_activated"));
+                break;
             case PSetCallWaitingWrapper::DeactivateCallWaiting:
-                 PsUiNotes::instance()->showGlobalNotificationDialog(
-                 hbTrId("txt_phone_info_call_waiting_deactivated")); 
-             break;
+                PsUiNotes::instance()->showGlobalNotificationDialog(
+                hbTrId("txt_phone_info_call_waiting_deactivated")); 
+                break;
             default: 
-                 PsUiNotes::instance()->showGlobalNotificationDialog(
-                 hbTrId("txt_phone_info_result_unknown"));
-             break;
+                PsUiNotes::instance()->showGlobalNotificationDialog(
+                hbTrId("txt_phone_info_result_unknown"));
+                break;
         }
       }
 

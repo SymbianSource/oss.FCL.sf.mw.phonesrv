@@ -22,6 +22,7 @@
 
 class QTimer;
 class Dialpad;
+class XQAiwRequest;
 
 /*!
     DialpadBluetoothEventFilter
@@ -46,10 +47,24 @@ private slots:
     */
     void toggleBluetooth();
 
+    /*!
+       \fn void requestCompleted(const QVariant& value)
+
+       XQAiwRequest informs that it has completed bluetooth request succesfully.
+    */
+    void requestOk(const QVariant& value);
+    
+    /*!
+       \fn void requestError(int errorCode, QString errorMessage)
+
+       XQAiwRequest informs that bluetooth request failed.
+    */
+    void requestError(int errorCode, const QString& errorMessage);
 
 private:
     QTimer *mLongPressTimer;
     Dialpad* mDialpad;
+    XQAiwRequest *mRequest;
 };
 
 #endif // DIALPADBLUETOOTHEVENTFILTER_H

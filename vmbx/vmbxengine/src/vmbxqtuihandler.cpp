@@ -138,8 +138,8 @@ void VmbxQtUiHandler::showVmbxQueryDialog(const TVmbxType& aType,
     // Set HbLineEdit  Content 
     iQueryDialog->lineEdit()->setText(aNumber); // default text
     iQueryDialog->lineEdit()->setMaxLength(KVmbxPhoneCharMaxLength);
-    HbEditorInterface inputMode(iQueryDialog->lineEdit());
-    inputMode.setFilter(HbPhoneNumberFilter::instance());
+    iQueryDialog->lineEdit()->setInputMethodHints(
+        Qt::ImhDialableCharactersOnly);
     bool ret = connect(iQueryDialog->lineEdit(), SIGNAL(textChanged(QString)),
         this, SLOT(updatePrimaryAction(QString)));    
     VMBLOGSTRING2( "VmbxQtUiHandler::showVmbxQueryDialog connect textChanged %d", ret)

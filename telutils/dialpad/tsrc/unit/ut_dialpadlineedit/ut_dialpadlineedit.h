@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -15,32 +15,33 @@
 *
 */
 
-#ifndef UT_PSUILOCALISATION_H
-#define UT_PSUILOCALISATION_H
+#ifndef UT_DIALPADLINEEDIT_H
+#define UT_DIALPADLINEEDIT_H
 
 #include <QtTest/QtTest>
 #include <mockservice.h>
 
-class PsUiLocalisation; 
+class TestDialpadLineEdit;
 
-class UT_psuilocalisation : public QObject, MockService
+class UT_dialpadlineedit : public QObject, public MockService
 {
     Q_OBJECT
 
 public:    
-    UT_psuilocalisation();
-    ~UT_psuilocalisation();
+    
+    UT_dialpadlineedit();
+    ~UT_dialpadlineedit();
     
 private slots:
+
     void init();
     void cleanup();
-    void t_memleak();
-    void t_installTranslator();
-    void t_removeTranslators(); 
- 
-private: 
-    QScopedPointer<PsUiLocalisation> m_psuiLocalisation; 
+
+    void t_focusOutEvent();
+    void t_focusInEvent();
     
+private:
+    TestDialpadLineEdit *m_classUt;
 };
 
-#endif
+#endif  // UT_DIALPADLINEEDIT_H

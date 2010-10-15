@@ -17,7 +17,7 @@
 
 #include <QGraphicsLinearLayout>
 
-#include <hblineedit.h>
+#include <dialpadlineedit.h>
 #include <hbinputeditorinterface.h>
 #include <hbinputstandardfilters.h>
 #include <hbdeviceprofile.h>
@@ -43,7 +43,7 @@ DialpadInputField::DialpadInputField(
       mMainWindow(mainWindow)
 {
     // create editor
-    mNumberEditor = new HbLineEdit(this);
+    mNumberEditor = new DialpadLineEdit(this);
     mNumberEditor->setObjectName(QLatin1String("numberEdit"));
     HbEditorInterface editorInterface(mNumberEditor);
     editorInterface.setFilter(HbPhoneNumberFilter::instance());

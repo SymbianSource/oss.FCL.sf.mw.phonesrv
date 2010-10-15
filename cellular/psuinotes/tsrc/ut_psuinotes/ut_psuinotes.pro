@@ -35,13 +35,11 @@ HEADERS += ut_psuinotes.h
 SOURCES += ut_psuinotes.cpp
 
 # code to be tested
-HEADERS += ../../../../phonesrv_plat/phone_settings_ui_notes_api/inc/psuinotes.h	 
+HEADERS += ../../../../phonesrv_plat/phone_settings_ui_notes_api/inc/psuinotes.h
                    
 SOURCES += ../../src/psuinotes.cpp 
 
 # mocks needed for testing
-HEADERS += ../../../../phonesrv_plat/phone_settings_ui_notes_api/inc/psuilocalisation.h \
-		../../inc/psuiutils.h	
+HEADERS += ../../inc/psuiutils.h
 
-SOURCES += ../mocks/mock_psuilocalisation.cpp \
-		../mocks/mock_psuiutils.cpp
+SOURCES += ../mocks/mock_psuiutils.cpp

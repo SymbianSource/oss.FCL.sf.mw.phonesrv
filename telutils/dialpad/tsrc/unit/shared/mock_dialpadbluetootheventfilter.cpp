@@ -66,3 +66,22 @@ void DialpadBluetoothEventFilter::toggleBluetooth()
 {
     SMC_MOCK_METHOD0( void )
 }
+
+// -----------------------------------------------------------------------------
+// DialpadBluetoothEventFilter::requestOk
+// -----------------------------------------------------------------------------
+//
+void DialpadBluetoothEventFilter::requestOk(const QVariant& value)
+{
+    Q_UNUSED(value);
+}
+
+// -----------------------------------------------------------------------------
+// DialpadBluetoothEventFilter::requestError
+// -----------------------------------------------------------------------------
+//
+void DialpadBluetoothEventFilter::requestError(int errorCode, const QString& errorMessage)
+{
+    Q_UNUSED(errorCode);
+    Q_UNUSED(errorMessage);
+}

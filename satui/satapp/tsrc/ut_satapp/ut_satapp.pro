@@ -23,10 +23,6 @@ CONFIG += qtestlib
 HEADERS += $$PUBLIC_HEADERS
 MOC_DIR = moc
 
-symbian {
-    TARGET.CAPABILITY = CAP_APPLICATION
-}
-
 INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE \
                $$MOC_DIR \
                ../../../../inc \
@@ -40,10 +36,10 @@ LIBS += -legul \
         -lbafl \
         -lmediaclientaudio \
         -lprofileeng \
+        -lafservice \
         -lFlogger
 
-HEADERS += ../../inc \
-           ../../inc/satappmainhandler.h \
+HEADERS += ../../inc/satappmainhandler.h \
            ../../inc/satappserverdispatcher.h \
            ../../inc/satappmenuprovider.h \
            ../../inc/satappinputprovider.h \

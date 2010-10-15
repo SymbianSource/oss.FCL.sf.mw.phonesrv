@@ -19,7 +19,8 @@
 // INCLUDE FILES
 #include    <etelsat.h>
 #include    <apgtask.h>
-#include    <DocumentHandler.h>  //KWmlcHandler
+// Legacy symbian browser UID
+const static TInt KWmlcHandler = 0x10008D39;   // WML Browser
 #include    "CSatBrowserThreadMonitor.h"
 #include    "csatbrowserwsmonitor.h"
 #include    "SatLog.h"

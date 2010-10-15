@@ -19,13 +19,13 @@ SOURCEPATH += src
 # Input
 HEADERS += ../../phonesrv_plat/phone_settings_ui_notes_api/inc/psuidivertnotehandler.h \
 	../../phonesrv_plat/phone_settings_ui_notes_api/inc/psuiwaitingnotehandler.h \
+	../../phonesrv_plat/phone_settings_ui_notes_api/inc/psuiclinotehandler.h \
     ../../phonesrv_plat/phone_settings_ui_notes_api/inc/psuinotes.h \
-    ../../phonesrv_plat/phone_settings_ui_notes_api/inc/psuilocalisation.h \
     inc/psuiutils.h 
 SOURCES += src/psuidivertnotehandler.cpp \
 	src/psuiwaitingnotehandler.cpp \
+    src/psuiclinotehandler.cpp \
     src/psuinotes.cpp \
-    src/psuilocalisation.cpp \
     src/psuiutils.cpp 
 DEFINES += BUILD_PSUINOTES
 symbian: { 

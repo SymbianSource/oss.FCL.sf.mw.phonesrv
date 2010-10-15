@@ -27,6 +27,5 @@ PRJ_EXPORTS
 ../inc/mcallremotepartyinfo.h           MW_LAYER_PLATFORM_EXPORT_PATH(mcallremotepartyinfo.h)
 ../inc/mcallremotepartyinfoobserver.h   MW_LAYER_PLATFORM_EXPORT_PATH(mcallremotepartyinfoobserver.h)
 ../inc/ccallremotepartyinfoiter.h       MW_LAYER_PLATFORM_EXPORT_PATH(ccallremotepartyinfoiter.h)
-../inc/xqcallremotepartyinfo.h          MW_LAYER_PLATFORM_EXPORT_PATH(xqcallremotepartyinfo.h)
 
 

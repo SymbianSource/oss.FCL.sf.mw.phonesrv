@@ -132,4 +132,5 @@ EXPORTS
 	_ZTV22PSetCallBarringWrapper @ 131 NONAME
 	_ZTV22PSetCallWaitingWrapper @ 132 NONAME
 	_ZTV24PSetCallDivertingWrapper @ 133 NONAME
+	_ZNK14PSetCliWrapper11getCPsetCliEv @ 134 NONAME
 

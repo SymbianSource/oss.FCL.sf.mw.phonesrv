@@ -211,16 +211,11 @@ void SatAppInputProvider::showGetInkeyQuery(
     // Set PromptText
     inputDialog->setPromptText(heading);
     // Set ContentText
-    HbEditorInterface inputMode(inputDialog->lineEdit());
     inputDialog->lineEdit()->setFocus();
     if (ESatDigitOnly == characterSet) {
         // digit mode, digits only (0 9, *, #, and +)
-        inputMode.setFilter(HbPhoneNumberFilter::instance());
-        inputMode.setMode(HbInputModeNumeric);
-        inputMode.setInputConstraints(HbEditorConstraintFixedInputMode);
-    } else {
-        // char mode
-        inputMode.setUpAsLatinAlphabetOnlyEditor();
+        inputDialog->lineEdit()->setInputMethodHints(
+            Qt::ImhDialableCharactersOnly);
     }
     composeDialog(inputDialog, GetInkey);
     mCurrentAction->set(KeyMinLength, 1); 
@@ -258,12 +253,9 @@ void SatAppInputProvider::showGetImmediateQuery(
     // Set PromptText
     inputDialog->setPromptText(heading);
     // Set ContentText
-    HbEditorInterface inputMode(inputDialog->lineEdit());
     inputDialog->lineEdit()->setFocus();
-
-    inputMode.setFilter(HbPhoneNumberFilter::instance());
-    inputMode.setMode(HbInputModeNumeric);
-    inputMode.setInputConstraints(HbEditorConstraintFixedInputMode);
+    inputDialog->lineEdit()->setInputMethodHints(
+                Qt::ImhDialableCharactersOnly);
     
     composeDialog(inputDialog, GetImmediate);
 
@@ -333,16 +325,11 @@ void SatAppInputProvider::showGetInputQuery(
     mCurrentDialog = inputQuery;
     inputQuery->setPromptText(heading);
     inputQuery->setValue(QVariant(content));
-    HbEditorInterface inputMode(inputQuery->lineEdit());
     inputQuery->lineEdit()->setFocus();
     if (ESatDigitOnly == characterSet) {
         // digit mode, digits only (0 9, *, #, and +)
-        inputMode.setFilter(HbPhoneNumberFilter::instance());
-        inputMode.setMode(HbInputModeNumeric);
-        inputMode.setInputConstraints(HbEditorConstraintFixedInputMode);
-    } else {
-        // char mode
-        inputMode.setUpAsLatinAlphabetOnlyEditor();
+        inputQuery->lineEdit()->setInputMethodHints(
+            Qt::ImhDialableCharactersOnly);
     }
 
     inputQuery->lineEdit()->setMaxLength(maxLength);
@@ -592,7 +579,7 @@ void SatAppInputProvider::transmitStringFromDialog()
     }
     mCurrentAction->completeWithSuccess();
     mCurrentAction = 0;
-    qDebug("SATAPP: SatAppInputProvider::transmitStringFromDialog >");
+    qDebug("SATAPP: SatAppInputProvider::transmitStringFromDialog <");
 }
 
 // ----------------------------------------------------------------------------

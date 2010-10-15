@@ -33,13 +33,11 @@
 #include <hbinputstandardfilters.h>
 #include <xqserviceutil.h>
 #include <QApplication>
-#include <QTranslator>
 #include <Qt>
 
 #include "psuinotes.h"
 #include "psuiutils.h"
 #include "psuilogging.h"
-#include "psuilocalisation.h"
 
 /*!
   PsUiNotes::instance.
@@ -69,17 +67,7 @@ PsUiNotes::PsUiNotes():
     m_notesQueue = new QQueue<QObject*>();
     
     m_psuiSettings = new PsUiSettingsWrapper();
- 
-    // Localization file loading 
-    m_localisation = new PsUiLocalisation(this); 
-       
-    // Install required translations
-    m_localisation->installTranslator(
-           PsUiLocalisation::
-           TranslationFileCommon);
-    m_localisation->installTranslator(
-           PsUiLocalisation::
-           TranslationFileTelephoneCp);
+    
     DPRINT << ": OUT";
     }
 
@@ -89,8 +77,6 @@ PsUiNotes::PsUiNotes():
 PsUiNotes::~PsUiNotes()
 {
     DPRINT << ": IN";
-
-    delete m_localisation;
  
     qDeleteAll(*m_notesQueue);
     

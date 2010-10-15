@@ -46,11 +46,11 @@ HEADERS += ../../../../../phoneserver/inc/ussd/cphsrvussdsessioncancelwaiter.h
 HEADERS += ../../../../../phoneserver/inc/ussd/mphsrvussdmessagesentobserver.h
 HEADERS += ../../../../../phoneserver/inc/ussd/mphsrvussdnetworkobserver.h
 HEADERS += ../../../../../phoneserver/inc/ussd/mphsrvussdreplytimerobserver.h
-HEADERS += ../../../../../phoneserver/inc/Standard/mphsrvphoneinterface.h
-HEADERS += ../../../../../phoneserver/inc/Standard/cphsrvresourcemanager.h
-HEADERS += ../../../../../phoneserver/inc/Standard/phsrvutils.h
-HEADERS += ../../../../../phoneserver/inc/Standard/phsrvdebuginfo.h
-HEADERS += ../../../../../phoneserver/inc/Standard/phsrvconfigure.h
+HEADERS += ../../../../../phoneserver/inc/standard/mphsrvphoneinterface.h
+HEADERS += ../../../../../phoneserver/inc/standard/cphsrvresourcemanager.h
+HEADERS += ../../../../../phoneserver/inc/standard/phsrvutils.h
+HEADERS += ../../../../../phoneserver/inc/standard/phsrvdebuginfo.h
+HEADERS += ../../../../../phoneserver/inc/standard/phsrvconfigure.h
 
 SOURCES += ../../../../../phoneserver/src/ussd/cphsrvussdmanager.cpp
 SOURCES += ../../../../../phoneserver/src/ussd/cphsrvussdnotifynwrelease.cpp
@@ -67,7 +67,7 @@ HEADERS += ../../../../../phoneclient/inc/ussdwrapper/cphcltussdnotecontroller.h
 HEADERS += ../../../../../phoneclient/inc/ussdwrapper/cphcltussdrequesthandler.h
 HEADERS += ../../../../../phoneclient/inc/ussdwrapper/mphcltussdnotecontrollercallback.h
 HEADERS += ../../../../../phoneclient/inc/ussdwrapper/mphcltussdrequesthandler.h
-HEADERS += ../../../../../phoneclient/inc/SharedClientServer/phcltclientserver.h
+HEADERS += ../../../../../phoneclient/inc/sharedclientserver/phcltclientserver.h
 HEADERS += ../../../../../phoneclient/inc/ussdwrapper/cphcltussdcommonconstant.h
 
 SOURCES += ../../../../../phoneclient/src/ussdwrapper/cphcltussdext.cpp
@@ -116,4 +116,7 @@ LIBS += -lCommonEngine
 LIBS += -laknnotify
 LIBS += -leiksrv
 LIBS += -lbafl
-
+LIBS += -lcharconv      # CCnvCharacterSetConverter
+LIBS += -lws32          # RWsSession
+LIBS += -lapparc        # TApaAppInfo,
+LIBS += -lapgrfx        # TApaTaskList,RApaLsSession

@@ -37,8 +37,7 @@ class PSUINOTES_EXPORT PsUiUtils : public QObject
     Q_OBJECT
     
 public:
-    enum BasicServiceGroups
-    {
+    enum BasicServiceGroups {
         Unknown = -1, //this is not part of GSM standard
         // Phone settings updates this automatically to ETelephony or to EAltTele,
         // depending on if ALS is supported, and which line is active.
@@ -96,6 +95,15 @@ public:
     // no ui note support
     };
     
+    // Service status of the Phone ID services (CLIP/CLIR/CNIP).
+    enum PhoneIdServiceStatus {
+        ServiceActivePermanent,
+        ServiceActiveDefaultRestricted,
+        ServiceActiveDefaultAllowed,
+        ServiceNotProvisioned,
+        ServiceUnknown
+    };
+    
 public:
     /*!
       Error code text conversion
@@ -121,12 +129,6 @@ public:
      */
     bool isFeatureCallWaitingDistiquishNotProvisionedEnabled();
     
-    /*!
-     Checks if phone is in offline mode or not.
-     Return true if phone is in offline mode.
-     Return false if phone is not in offline mode.
-     */
-    bool isPhoneOffline() const;
     
     /*!
      Number grouping support

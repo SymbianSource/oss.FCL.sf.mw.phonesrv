@@ -55,8 +55,11 @@ private:
     /** Shows the confirm note about Open Channel */
     void showOpenChannelConfirm(SatAppAction &action);
 
-    /** Shows the confirmation not about SetUpCall*/
+    /** Shows the confirmation note about SetUpCall*/
     void showSetUpCallConfirm(SatAppAction &action);
+    
+    /** Shows the confirmation note about LaunchBrowser*/
+    void showLaunchBrowserConfirm(SatAppAction &action);
 
 private:
 

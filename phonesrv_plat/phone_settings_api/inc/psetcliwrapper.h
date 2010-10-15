@@ -79,6 +79,11 @@ public: // Functions (adaptees):
     * Cancels any (and all) request(s).
     */
     void cancelAll();
+
+    /**
+    * Returns reference to CPSetCli
+    */
+    CPsetCli & getCPsetCli() const;
     
 signals: // Notify via signals     
 

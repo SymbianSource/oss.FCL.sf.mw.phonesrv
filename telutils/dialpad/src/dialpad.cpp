@@ -424,6 +424,7 @@ void Dialpad::orientationChangeFinished(Qt::Orientation current)
     if (mBackgroundItem) {
         layoutBackgroundItem();
     }
+    mInputField->editor().setFocus();    
 }
 
 void Dialpad::layoutBackgroundItem()

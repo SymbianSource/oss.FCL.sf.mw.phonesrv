@@ -74,6 +74,7 @@ void CDosEmergencyNumberPolicy::ConstructL( RTelServer& aETelServer )
     TInt err = KErrNone;
 
     CRepository* variationFlags = CRepository::NewL( KCRUidTelSrvVariation );
+    CleanupStack::PushL(variationFlags);
     err = variationFlags->Get( KTelSrvVariationFlags , variantReadOnlyValues );
 
     if ( err != KErrNotFound )
@@ -90,7 +91,7 @@ void CDosEmergencyNumberPolicy::ConstructL( RTelServer& aETelServer )
         iAdvancedCheck = EFalse;
         }
     
-    delete variationFlags;
+    CleanupStack::PopAndDestroy(variationFlags);
 
     iCenRep = CRepository::NewL( KCRUidDefaultEmergencyNumbers );    
     iListener = CCenRepNotifyHandler::NewL( 

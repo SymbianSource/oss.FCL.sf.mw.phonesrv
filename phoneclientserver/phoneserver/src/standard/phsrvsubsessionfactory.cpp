@@ -78,39 +78,52 @@ CPhSrvSubSessionBase* PhSrvSubSessionFactory::PhSrvSubSessionFactoryCreateLC(
     switch( aFunction )
         {
         case EPhoneServerExtCallSubSessionOpen:
+            {
             subSession = new( ELeave ) CPhSrvSubSessionExtCall( aSession );
             break;
+            }
         case EPhoneServerNotifySubSessionOpen:
+            {
             subSession = new( ELeave ) CPhSrvSubSessionNotifier( aSession );
             break;
+            }
         case EPhoneServerUSSDSubSessionOpen:
+            {
             subSession = new( ELeave ) CPhSrvSubSessionUssd( aSession );
             break;
+            }
         case EPhoneServerEmergencyNumberSubSessionOpen:
-            subSession = new( ELeave ) CPhSrvSubSessionEmergencyNum( aSession );
-            break;
-        case EPhoneServerComHandSubSessionOpen:
+		        {
             subSession = 
-                CPhSrvSubSessionCommandHandler::NewL( aSession );
+			          new( ELeave ) CPhSrvSubSessionEmergencyNum( aSession );
             break;
+			      }
         case EPhoneServerMessengerSubSessionOpen:
-            subSession = 
-                CPhSrvSubSessionMessenger::NewL( aSession );
+            {
+            subSession = CPhSrvSubSessionMessenger::NewL( aSession );
             break;
-
+            }
+        case EPhoneServerComHandSubSessionOpen:
+        	  {
+            subSession = CPhSrvSubSessionCommandHandler::NewL( aSession );
+            break;
+            }
         case EPhoneServerImageHandlerSubSessionOpen:
+            {
             subSession = CPhSrvSubSessionImageHandler::NewL( aSession );
             break;
+            }
         default:
+            {
+        		User::Leave( KErrNotSupported );
             break;
+            }
         }
 
     // Complete construction
-    if ( aFunction != EPhoneServerImageHandlerSubSessionOpen )
-        {
-        CleanupStack::PushL( subSession );        
-        }
+    CleanupStack::PushL( subSession );        
     subSession->ConstructL();
+    
     return subSession;
     }
 

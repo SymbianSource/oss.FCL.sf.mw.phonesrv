@@ -133,21 +133,10 @@ CPhoneHandlerControl* CPhoneHandlerControl::NewL(
 CPhoneHandlerControl::~CPhoneHandlerControl()
     {
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::~CPhoneHandlerControl() start" );
-    
-    if( iInterfaceSelector )
-        {
-        delete iInterfaceSelector;
-        }
-    
-    if( iResponse )
-        {
-        iResponse->Delete();
-        }
-        
-    if( iCallStateObserver )
-        {
-        delete iCallStateObserver;
-        }
+
+    delete iInterfaceSelector; // deletes iTarget
+    delete iResponse;
+    delete iCallStateObserver;
             
     COM_TRACE_( "[PHONECMDHANDLER] CPhoneHandlerControl::~CPhoneHandlerControl() end" );
     }

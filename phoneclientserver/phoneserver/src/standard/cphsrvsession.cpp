@@ -138,10 +138,8 @@ void CPhSrvSession::ProcessRequestL( const RMessage2& aMessage )
 
             // Add to container (takes ownership)
             iContainer->AddL( subSession );
-            if (function != EPhoneServerImageHandlerSubSessionOpen )
-                {
-                CleanupStack::Pop( subSession );    
-                }
+            CleanupStack::Pop( subSession );    
+            
             // Get a handle for the object
             const TInt handle = iObjectIx->AddL( subSession );
 

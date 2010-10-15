@@ -121,5 +121,15 @@ void PSetCliWrapper::cancelAll()
     
     DPRINT << ": OUT ";
 }
+
+/*!
+  PSetCliWrapper::getCPsetCli
+ */
+CPsetCli &  PSetCliWrapper::getCPsetCli() const
+    {
+    DPRINT;
+    
+    return *m_psetCli;
+    }
     
 // End of File. 

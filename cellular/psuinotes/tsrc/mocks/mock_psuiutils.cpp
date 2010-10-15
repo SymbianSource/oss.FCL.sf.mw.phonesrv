@@ -67,16 +67,6 @@ bool PsUiSettingsWrapper::isFeatureCallWaitingDistiquishNotProvisionedEnabled(  
 
 
 // -----------------------------------------------------------------------------
-// PsUiSettingsWrapper::isPhoneOffline
-// -----------------------------------------------------------------------------
-//
-bool PsUiSettingsWrapper::isPhoneOffline(  ) const
-    {
-    SMC_MOCK_METHOD0( bool )
-    }
-
-
-// -----------------------------------------------------------------------------
 // PsUiSettingsWrapper::numberGroupingSupported
 // -----------------------------------------------------------------------------
 //

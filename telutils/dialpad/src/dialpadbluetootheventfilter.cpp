@@ -30,7 +30,7 @@ const int DialpadLongKeyPressTimeOut(1000);
 const QString BluetoothCharacter("*");
 
 DialpadBluetoothEventFilter::DialpadBluetoothEventFilter(Dialpad* dialpad, QObject* parent) :
-    QObject(parent), mDialpad(dialpad)
+    QObject(parent), mDialpad(dialpad), mRequest(0)
 {
     PHONE_TRACE;
     mLongPressTimer = new QTimer(this);
@@ -40,6 +40,8 @@ DialpadBluetoothEventFilter::DialpadBluetoothEventFilter(Dialpad* dialpad, QObje
 
 DialpadBluetoothEventFilter::~DialpadBluetoothEventFilter()
 {
+    delete mRequest;
+    mRequest = 0;
 }
 
 bool DialpadBluetoothEventFilter::eventFilter(QObject *watched, QEvent *event)
@@ -68,12 +70,39 @@ void DialpadBluetoothEventFilter::toggleBluetooth()
     PHONE_TRACE;
     mDialpad->editor().setText(QString(""));
 #ifdef Q_OS_SYMBIAN
-    XQApplicationManager appManager;
-    QScopedPointer<XQAiwRequest> request(appManager.create(BluetoothServiceName, BluetoothInterfaceTogglePower,
-                                                           BluetoothTogglePower, false));
-    if (request == NULL) {
-        return;
+    if(mRequest == NULL) {
+        XQApplicationManager appManager;
+        mRequest = appManager.create(BluetoothServiceName, BluetoothInterfaceTogglePower,
+                                                           BluetoothTogglePower, false);
     }
-    request->send();
+    
+    if (mRequest == NULL) {
+        return;
+    } else {
+        connect(mRequest, SIGNAL(requestOk(const QVariant&)), this, SLOT(requestOk(const QVariant&)));
+        connect(mRequest, SIGNAL(requestError(int, const QString&)), this, SLOT(requestError(int, const QString&)));
+    }
+
+    mRequest->setSynchronous(false);
+    mRequest->send();
 #endif // Q_OS_SYMBIAN
 }
+
+void DialpadBluetoothEventFilter::requestOk(const QVariant& value)
+{
+    PHONE_TRACE;
+    Q_UNUSED(value);
+    delete mRequest;
+    mRequest = 0;
+}
+
+void DialpadBluetoothEventFilter::requestError(int errorCode, const QString& errorMessage)
+{
+    Q_UNUSED(errorCode);
+    Q_UNUSED(errorMessage);
+    PHONE_DEBUG2("DialpadBluetoothEventFilter::requestError - errorCode: ", errorCode);
+    PHONE_DEBUG2("DialpadBluetoothEventFilter::requestError - errorMessage: ", errorMessage);
+    delete mRequest;
+    mRequest = 0;
+}
+

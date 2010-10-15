@@ -39,7 +39,8 @@ HEADERS += ../../phonesrv_plat/dialpad_api/inc/dialpad.h \
            inc/dialpademergencycalleventfilter.h \
            inc/dialpadhasheventfilter.h \
            inc/dialpadnumericbutton.h \
-           inc/dialpadnumericbuttongrid.h
+           inc/dialpadnumericbuttongrid.h \
+           inc/dialpadlineedit.h
 
 SOURCES += src/dialpad.cpp \
            src/dialpadbutton.cpp \
@@ -58,7 +59,8 @@ SOURCES += src/dialpad.cpp \
            src/dialpadvtkeyhandler.cpp \
            src/dialpadhasheventfilter.cpp \
            src/dialpadnumericbutton.cpp \
-           src/dialpadnumericbuttongrid.cpp
+           src/dialpadnumericbuttongrid.cpp \
+           src/dialpadlineedit.cpp
 
 RESOURCES += dialpad.qrc
 

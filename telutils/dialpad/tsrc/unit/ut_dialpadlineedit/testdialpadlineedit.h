@@ -1,0 +1,62 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef TESTDIALPADLINEEDIT_H
+#define TESTDIALPADLINEEDIT_H
+
+// System includes
+
+// User includes
+#include "dialpadlineedit.h"
+
+// Forward declarations
+
+// External data types
+
+// Constants
+
+// Class declaration
+class TestDialpadLineEdit : public DialpadLineEdit
+{
+    Q_OBJECT
+
+public:
+    explicit TestDialpadLineEdit(QGraphicsItem *parent = 0);
+
+    ~TestDialpadLineEdit();
+    
+    void testFocusOutEvent(QFocusEvent * event);
+    void testFocusInEvent(QFocusEvent * event);
+
+signals:
+
+public slots:
+
+protected:
+    
+protected slots:
+
+private:
+
+private slots:
+
+private: // data 
+
+};
+
+#endif // TESTDIALPADLINEEDIT_H

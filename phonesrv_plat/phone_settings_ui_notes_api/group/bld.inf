@@ -25,7 +25,7 @@ DEFAULT
 PRJ_EXPORTS
 
 ../inc/psuinotes.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuinotes.h)
-../inc/psuilocalisation.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuilocalisation.h)
 ../inc/psuiwaitingnotehandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuiwaitingnotehandler.h)
 ../inc/psuidivertnotehandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuidivertnotehandler.h)
+../inc/psuiclinotehandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuiclinotehandler.h)
 ../inc/psuiconstants.h     MW_LAYER_PLATFORM_EXPORT_PATH(psuiconstants.h)

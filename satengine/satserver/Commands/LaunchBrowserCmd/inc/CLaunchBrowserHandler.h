@@ -23,7 +23,8 @@
 #include <etelpckt.h>
 #include <w32std.h>             // WsSession
 #include <apgtask.h>            // TApaTask
-#include <DocumentHandler.h>    // KWmlcHandler
+// Legacy Symbian browser UID
+const static TInt KWmlcHandler = 0x10008D39;   // WML Browser
 
 #include "CSatCommandHandler.h"
 #include "SatSTypes.h"          // TSatQuery

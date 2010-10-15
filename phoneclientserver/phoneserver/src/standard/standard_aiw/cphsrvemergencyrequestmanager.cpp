@@ -127,11 +127,10 @@ void CPhSrvEmergencyRequestManager::DoMakeEmergencyDial( const RMessage2& aMessa
 //
 void CPhSrvEmergencyRequestManager::EmergencyDialCancel()
     {
-    // Clear pending request status 
-    iIsRequestPending = EFalse;
-    
     if ( !iPendingRequestPointer.IsNull() )
         {
+		// Clear pending request status 
+		iIsRequestPending = EFalse;
         iPendingRequestPointer.Complete( KErrCancel );
         }
     }

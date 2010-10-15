@@ -29,6 +29,7 @@
 
 #ifdef Q_OS_SYMBIAN
 #include "xqappmgr.h"
+#include "xqaiwrequest.h"
 #endif
 
 #include "dialpadtest.h"
@@ -42,6 +43,10 @@ QString mInterface;
 QString mOperation;
 bool mEmbedded;
 bool mSendCalled;
+bool mSynchronous;
+bool mSetSynchronousCalled;
+bool mXQAiwRequestDestructorCalled;
+bool mEmitOK;
 
 #ifdef Q_OS_SYMBIAN
 XQAiwRequest* XQApplicationManager::create(const QString& service, const QString& interface, const QString& operation, bool embedded)
@@ -52,7 +57,9 @@ XQAiwRequest* XQApplicationManager::create(const QString& service, const QString
     mEmbedded = embedded;
     return new XQAiwRequest(); 
 }
-void XQAiwRequest::send() { mSendCalled = true; }
+void XQAiwRequest::send() { mSendCalled = true; if(mEmitOK){ QVariant var; emit requestOk(var); }else{ emit requestError(-1, QString("error message")); } }
+void XQAiwRequest::setSynchronous(bool synchronous) { mSynchronous = synchronous; mSetSynchronousCalled = true; }
+XQAiwRequest::~XQAiwRequest() { mXQAiwRequestDestructorCalled = true; };
 #endif
 
 // helper class
@@ -91,6 +98,7 @@ private slots:
     void cleanup();
     void cleanupTestCase();
     void testLongPressAsteriskKey();
+    void testFailingLongPressAsteriskKey();
     void testShortAndLongPressAsteriskKey();
 
 private:
@@ -133,6 +141,10 @@ void ut_DialpadBluetoothEventFilter::init()
     mOperation = QString("");
     mEmbedded = false;
     mSendCalled = false;
+    mSynchronous = true;
+    mSetSynchronousCalled = false;
+    mXQAiwRequestDestructorCalled = false;
+    mEmitOK = true;
 }
 
 void ut_DialpadBluetoothEventFilter::cleanupTestCase()
@@ -153,6 +165,9 @@ void ut_DialpadBluetoothEventFilter::cleanup()
 
 void ut_DialpadBluetoothEventFilter::testLongPressAsteriskKey()
 {
+    // Emit fail from event
+    mEmitOK = false;
+    
     mDialpad->openDialpad();
     QTest::qWait(2*WAIT_TIME);
 
@@ -168,7 +183,38 @@ void ut_DialpadBluetoothEventFilter::testLongPressAsteriskKey()
     QCOMPARE(mInterface, BluetoothInterfaceTogglePower);
     QCOMPARE(mOperation, BluetoothTogglePower);
     QVERIFY(mEmbedded == false);
+    QVERIFY(mSetSynchronousCalled == true);
+    QVERIFY(mSynchronous == false);
     QVERIFY(mSendCalled == true);
+    
+    QTest::qWait(100);
+    QVERIFY(mXQAiwRequestDestructorCalled == true);
+}
+
+void ut_DialpadBluetoothEventFilter::testFailingLongPressAsteriskKey()
+{
+    mDialpad->openDialpad();
+    QTest::qWait(2*WAIT_TIME);
+
+    // Basic long press
+    mUtil->mouseClickDialpad(Qt::Key_Asterisk, DialpadTestUtil::Press);
+    QTest::qWait(2000);
+    mUtil->mouseClickDialpad(Qt::Key_Asterisk, DialpadTestUtil::Release);
+    QTest::qWait(1000);
+    QCOMPARE(mDialpad->editor().text(), QString(""));
+    mDialpad->closeDialpad();
+    
+    QCOMPARE(mService, BluetoothServiceName);
+    QCOMPARE(mInterface, BluetoothInterfaceTogglePower);
+    QCOMPARE(mOperation, BluetoothTogglePower);
+    QVERIFY(mEmbedded == false);
+    QVERIFY(mSetSynchronousCalled == true);
+    QVERIFY(mSynchronous == false);
+    QVERIFY(mSendCalled == true);
+    
+    QTest::qWait(100);
+    QVERIFY(mXQAiwRequestDestructorCalled == true);
+	
 }
 
 void ut_DialpadBluetoothEventFilter::testShortAndLongPressAsteriskKey()

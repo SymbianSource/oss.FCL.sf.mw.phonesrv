@@ -132,4 +132,5 @@ EXPORTS
 	??_EPSetCallWaitingWrapper@@UAE@I@Z @ 131 NONAME ; PSetCallWaitingWrapper::~PSetCallWaitingWrapper(unsigned int)
 	??0PSetCallWaitingWrapper@@QAE@AAVCPsetContainer@@PAVQObject@@@Z @ 132 NONAME ; PSetCallWaitingWrapper::PSetCallWaitingWrapper(class CPsetContainer &, class QObject *)
 	?qt_metacall@PSetCallBarringWrapper@@UAEHW4Call@QMetaObject@@HPAPAX@Z @ 133 NONAME ; int PSetCallBarringWrapper::qt_metacall(enum QMetaObject::Call, int, void * *)
+	?getCPsetCli@PSetCliWrapper@@QBEAAVCPsetCli@@XZ @ 134 NONAME ; class CPsetCli & PSetCliWrapper::getCPsetCli(void) const
 

@@ -31,8 +31,7 @@
 
 class HbInputDialog;
 class QValidator;
-class QTranslator; 
-class PsUiLocalisation;
+
 class PsUiSettingsWrapper;
 
 class PSUINOTES_EXPORT PsUiNotes: public QObject
@@ -211,11 +210,6 @@ private: // Data:
       Password validator. Not own.
      */
     const QValidator *m_passwordValidator;
-    
-    /**
-      Translators.
-     */
-    PsUiLocalisation *m_localisation; 
 
     PsUiSettingsWrapper *m_psuiSettings;
 };

@@ -63,7 +63,8 @@ class CNWGsmNetworkCellReselectionHandler : public CActive
                     RMobilePhone& aPhone, 
                     TNWInfo& aNetworkInfo, 
                     RMmCustomAPI& aCustomAPI,
-                    TNWInterInfo& aInterNetworkInfo );
+                    TNWInterInfo& aInterNetworkInfo,
+                    TBool aCreateViag );
 
         /**
         * Destructor.
@@ -129,7 +130,8 @@ class CNWGsmNetworkCellReselectionHandler : public CActive
                         RMobilePhone& aPhone,
                         TNWInfo& aNetworkInfo,
                         RMmCustomAPI& aCustomAPI,
-                        TNWInterInfo& aInterNetworkInfo );
+                        TNWInterInfo& aInterNetworkInfo,
+                        TBool aCreateViag );
 
 
     private:    // Data
@@ -153,7 +155,8 @@ class CNWGsmNetworkCellReselectionHandler : public CActive
         TBool iMcnState;
         // The interface to Publish And Subscribe.
         RProperty               iProperty;
-
+        // Homezone mode
+        TBool iReceiveHzData;
     };
 
 #endif      // CNWGSMNETWORKCELLRESELECTIONHANDLER_H  

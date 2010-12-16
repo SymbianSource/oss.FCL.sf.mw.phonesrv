@@ -161,6 +161,9 @@ class CNWMessageHandler : public CBase
         TNWInterInfo                iInterNetworkInfo;
         // Previous network status
         TNWStatus iPreviousStatus;
+        // Debug variable for tracing client process ID
+        TInt iClientProcessUid;
+
     };
 
 #endif      // CNWMessageHandler_H   

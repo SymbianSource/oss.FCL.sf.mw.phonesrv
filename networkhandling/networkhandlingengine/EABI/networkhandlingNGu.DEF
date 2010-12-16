@@ -64,4 +64,6 @@ EXPORTS
 	_ZTV35CNWGsmNetworkCellReselectionHandler @ 63 NONAME ; #<VT>#
 	_ZTV35CNWNetworkRegistrationStatusMonitor @ 64 NONAME ; #<VT>#
 	_ZTV36CNWNetworkRegistrationStatusReceiver @ 65 NONAME ; #<VT>#
+	_Z7CreateLR18MNWMessageObserverR7TNWInfoi @ 66 NONAME
+	_ZN27CNWGsmSessionImplementation4NewLER18MNWMessageObserverR7TNWInfoi @ 67 NONAME
 

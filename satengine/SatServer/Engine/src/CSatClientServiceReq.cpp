@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -11,7 +11,15 @@
 *
 * Contributors:
 *
-* Description:  Handles client requests.
+* Description:  Handles client requests. In the design phase we think
+* there is only one request from server to client until the request get
+* the response. Then we found a some special cases releated to call control.
+* For example, SIM or User originated setup call rejected by the call control
+* with an alpha ID. Call control will send a notification to satapp. Before
+* we can get the client response of call control notification, we can recieve
+* other proactive command which will send notification to the satapp.
+* So we need to buffer the second request. But we can only buffer one request,
+* if more request comes, unkown issue happens.  
 *
 */
 
@@ -103,8 +111,6 @@ TBool CSatClientServiceReq::HandleCommand(
         LOG( DETAILED, "SATENGINE: CSatClientServiceReq::HandleCommand \
              request op codes match" )
         // Store the descriptors
-        iCmdData = aCmdData;
-        iCmdRsp = aCmdRsp;
 
         handled = ETrue;
 
@@ -114,6 +120,13 @@ TBool CSatClientServiceReq::HandleCommand(
             LOG( DETAILED, "SATENGINE: CSatClientServiceReq::HandleCommand \
                  RequestPending" )
             // Request is served.
+            iCmdData = aCmdData;
+            iCmdRsp = aCmdRsp;
+            if( iPendingResponseObserver )
+                {
+                iResponseObserver = iPendingResponseObserver;
+                iPendingResponseObserver = NULL;
+                }
             iRequestPending = EFalse;
             SendDataToClient();
             }
@@ -123,6 +136,12 @@ TBool CSatClientServiceReq::HandleCommand(
                  no RequestPending" )
             // Client request was not available, so command is waiting for
             // client request.
+            // There is situation that when call control notification is
+            // running we got second notification request. For this situation
+            // we need to buffer the pointer to the aCmdData and aCmdRep to
+            // avoid the iCmdRsp be overwrite by the new request.
+            iPendingCmdData = aCmdData;
+            iPendingCmdRsp = aCmdRsp;
             iCmdPending = ETrue;
             }
         }
@@ -159,6 +178,15 @@ TBool CSatClientServiceReq::HandleRequest(
             LOG( DETAILED, "SATENGINE: CSatClientServiceReq::HandleRequest \
             iCmdPending" )
             iCmdPending = EFalse;
+            iCmdData = iPendingCmdData;
+            iPendingCmdData = NULL;
+            iCmdRsp = iPendingCmdRsp;
+            iPendingCmdRsp = NULL;
+            if( iPendingResponseObserver )
+                {
+                iResponseObserver = iPendingResponseObserver;
+                iPendingResponseObserver = NULL;
+                }
             SendDataToClient();
             }
         else
@@ -260,8 +288,11 @@ TBool CSatClientServiceReq::IsMyRequest( const TSatServerRequest aRequest )
 void CSatClientServiceReq::SetCommandHandler( MSatCommand* aCommand )
     {
     LOG( SIMPLE, "SATENGINE: CSatClientServiceReq::SetCommandHandler calling" )
-
-    iResponseObserver = aCommand;
+    // There is situation that when call control notification is
+    // running we got second notification request. For this situation
+    // we need to buffer the pointer to call control respones observer
+    // avoid the response observer be overwriten by the new request.
+    iPendingResponseObserver = aCommand;
 
     LOG( SIMPLE, "SATENGINE: CSatClientServiceReq::SetCommandHandler exiting" )
     }
@@ -283,13 +314,20 @@ void CSatClientServiceReq::Reset()
         LOG( NORMAL, " Request is not pending" )
         // Notify command that response is available.
         iResponseObserver->ClientResponse();
+        if( iPendingResponseObserver )
+            {
+            iPendingResponseObserver->ClientResponse();
+            }
         }
 
     // Clean data
     iCmdData = NULL;
     iCmdRsp = NULL;
+    iPendingCmdData = NULL;
+    iPendingCmdRsp = NULL;
     iCmdPending = EFalse;
     iRequestPending = EFalse;
+    iPendingResponseObserver = NULL;
     // We don't reset iResponseObserver
 
     LOG( SIMPLE, "SATENGINE: CSatClientServiceReq::Reset exiting" )

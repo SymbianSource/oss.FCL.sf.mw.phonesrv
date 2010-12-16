@@ -47,18 +47,21 @@ const TInt KNWNetworkFailureMonitor = 3;
 CNWGsmMessageHandler::CNWGsmMessageHandler( 
             CNWGsmSessionImplementation& aNetworkData, 
             MNWMessageObserver& aMessageObserver,
-            TNWInfo& aNWInfo )
+            TNWInfo& aNWInfo,
+            TBool aReceiveHzData )
             : CNWMessageHandler( aNetworkData,
                                  aMessageObserver,
-                                 aNWInfo )
+                                 aNWInfo ),
+            iReceiveHzData( aReceiveHzData )
     {
-    NWLOGSTRING( KNWOBJECT, "NW: CNWNetworkViagBaseEngine::CNWGsmMessageHand\
-        ler() Begin " );
+    NWLOGSTRING2( KNWOBJECT, "NW: CNWGsmMessageHandler::CNWGsmMessageHand\
+        ler() Begin, iReceiveHzData=%d ", 
+        iReceiveHzData );
 
     iNetworkInfo.iViagIndicatorType = ENWViagIndicatorTypeNone;
     iNetworkInfo.iMCNIndicatorType = ENWMCNIndicatorTypeNone;
     
-    NWLOGSTRING( KNWOBJECT, "NW: CNWNetworkViagBaseEngine::CNWGsmMessageHand\
+    NWLOGSTRING( KNWOBJECT, "NW: CNWGsmMessageHandler::CNWGsmMessageHand\
         ler() End " );
     }
 
@@ -70,7 +73,7 @@ CNWGsmMessageHandler::CNWGsmMessageHandler(
 void CNWGsmMessageHandler::ConstructL()
     {
     NWLOGSTRING( KNWOBJECT, 
-        "NW: CNWNetworkViagBaseEngine::ConstructL() Begin " );
+        "NW: CNWGsmMessageHandler::ConstructL() Begin " );
     
     //Initializes base class member variables
     BaseConstructL();
@@ -80,7 +83,8 @@ void CNWGsmMessageHandler::ConstructL()
             iPhone,
             iNetworkInfo,
             iCustomAPI,
-            iInterNetworkInfo );
+            iInterNetworkInfo,
+            iReceiveHzData );
 
     // Create CNWNetworkFailureMonitor object and insert it to monitor container.
     User::LeaveIfError( iMonitorContainer.Insert( 
@@ -88,7 +92,7 @@ void CNWGsmMessageHandler::ConstructL()
         KNWNetworkFailureMonitor ) );
 
     NWLOGSTRING( KNWOBJECT, 
-        "NW: CNWNetworkViagBaseEngine::ConstructL() End " );
+        "NW: CNWGsmMessageHandler::ConstructL() End " );
     }
 
 // ----------------------------------------------------------------------------
@@ -99,22 +103,24 @@ void CNWGsmMessageHandler::ConstructL()
 CNWGsmMessageHandler* CNWGsmMessageHandler::NewL(
             CNWGsmSessionImplementation& aNetworkData,
             MNWMessageObserver& aMessageObserver,
-            TNWInfo& aNWInfo )
+            TNWInfo& aNWInfo,
+            TBool aReceiveHzData )
     {
     NWLOGSTRING( KNWOBJECT, 
-        "NW: CNWNetworkViagBaseEngine::NewL() Begin " );
+        "NW: CNWGsmMessageHandler::NewL() Begin " );
 
     CNWGsmMessageHandler* self = new( ELeave ) CNWGsmMessageHandler(
             aNetworkData,
             aMessageObserver,
-            aNWInfo );
+            aNWInfo,
+            aReceiveHzData );
     
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
 
     NWLOGSTRING( KNWOBJECT, 
-        "NW: CNWNetworkViagBaseEngine::NewL() End " );
+        "NW: CNWGsmMessageHandler::NewL() End " );
 
     return self;
     }
@@ -124,12 +130,12 @@ CNWGsmMessageHandler* CNWGsmMessageHandler::NewL(
 CNWGsmMessageHandler::~CNWGsmMessageHandler()
     {
     NWLOGSTRING( KNWOBJECT, 
-        "NW: CNWNetworkViagBaseEngine::~CNWGsmMessageHandler() Begin " );
+        "NW: CNWGsmMessageHandler::~CNWGsmMessageHandler() Begin " );
 
     delete iCellReselectionHandler;
     
     NWLOGSTRING( KNWOBJECT, 
-        "NW: CNWNetworkViagBaseEngine::~CNWGsmMessageHandler() End " );
+        "NW: CNWGsmMessageHandler::~CNWGsmMessageHandler() End " );
     }
 
 

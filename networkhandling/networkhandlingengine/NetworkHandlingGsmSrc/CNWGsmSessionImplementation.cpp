@@ -35,10 +35,12 @@
 //
 CNWGsmSessionImplementation::CNWGsmSessionImplementation(
     MNWMessageObserver& aMessageObserver,
-    TNWInfo& aNWInfo )
+    TNWInfo& aNWInfo,
+    TBool aReceiveHzData )
     : CNWSession( ),
       iMessageObserver( aMessageObserver ),
-      iNWInfo( aNWInfo )
+      iNWInfo( aNWInfo ),
+      iReceiveHzData( aReceiveHzData )
     {
     NWLOGSTRING( KNWOBJECT, 
         "NET CNWGsmSessionImplementation::\
@@ -52,13 +54,15 @@ CNWGsmSessionImplementation::CNWGsmSessionImplementation(
 //
 void CNWGsmSessionImplementation::ConstructL()
     {
-    NWLOGSTRING( KNWOBJECT, 
-        "NET CNWGsmSessionImplementation::ConstructL() Begin " );
+    NWLOGSTRING2( KNWOBJECT, 
+        "NET CNWGsmSessionImplementation::ConstructL() Begin, aReceiveHzData=%d",
+        iReceiveHzData );
     
     iGsmMessageHandler = CNWGsmMessageHandler::NewL( 
             *this,
             iMessageObserver,
-            iNWInfo );
+            iNWInfo,
+            iReceiveHzData );
     
     NWLOGSTRING( KNWOBJECT, 
         "NET CNWGsmSessionImplementation::ConstructL() End " );
@@ -78,13 +82,41 @@ EXPORT_C CNWGsmSessionImplementation* CNWGsmSessionImplementation::NewL(
     
     CNWGsmSessionImplementation* self = 
             new ( ELeave ) CNWGsmSessionImplementation( aMessageObserver,
-                                                        aNWInfo );
+                                                        aNWInfo,
+                                                        EFalse );
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
     
     NWLOGSTRING( KNWOBJECT, 
-        "NET CNWGsmSessionImplementation::ConstructL() End " );
+        "NET CNWGsmSessionImplementation::NewL End " );
+    return self;
+    }
+    
+// ----------------------------------------------------------------------------
+// CNWGsmSessionImplementation::NewL
+// Two-phased constructor.
+// ----------------------------------------------------------------------------
+//
+EXPORT_C CNWGsmSessionImplementation* CNWGsmSessionImplementation::NewL(
+        MNWMessageObserver& aMessageObserver,
+        TNWInfo& aNWInfo,
+        TBool aReceiveHzData )
+    {
+    NWLOGSTRING2( KNWOBJECT, 
+        "NET CNWGsmSessionImplementation::NewL() Begin, aReceiveHzData=%d ",
+        aReceiveHzData );
+    
+    CNWGsmSessionImplementation* self = 
+            new ( ELeave ) CNWGsmSessionImplementation( aMessageObserver,
+                                                        aNWInfo,
+                                                        aReceiveHzData );
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    CleanupStack::Pop( self );
+    
+    NWLOGSTRING( KNWOBJECT, 
+        "NET CNWGsmSessionImplementation::NewL() End " );
     return self;
     }
 

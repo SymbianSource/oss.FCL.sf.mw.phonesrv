@@ -49,7 +49,8 @@ class CNWGsmMessageHandler : public CNWMessageHandler
         static CNWGsmMessageHandler* NewL( 
                         CNWGsmSessionImplementation& aNetworkData, 
                         MNWMessageObserver& aMessageObserver,
-                        TNWInfo& aNWInfo );
+                        TNWInfo& aNWInfo,
+                        TBool aReceiveHzData );
 
         /**
         * Destructor.
@@ -69,7 +70,8 @@ class CNWGsmMessageHandler : public CNWMessageHandler
         */
         CNWGsmMessageHandler( CNWGsmSessionImplementation& aNetworkData, 
                               MNWMessageObserver& aMessageObserver,
-                              TNWInfo& aNWInfo );
+                              TNWInfo& aNWInfo,
+                              TBool aReceiveHzData );
 
         /**
         * Handle Subscribe ID change
@@ -94,6 +96,9 @@ class CNWGsmMessageHandler : public CNWMessageHandler
     private:    // Data
         //Handles cell reselection message
         CNWGsmNetworkCellReselectionHandler* iCellReselectionHandler;
+        
+        // Homezone mode
+        TBool iReceiveHzData;
     };
 
 #endif      // CNWGsmMessageHandler_H   

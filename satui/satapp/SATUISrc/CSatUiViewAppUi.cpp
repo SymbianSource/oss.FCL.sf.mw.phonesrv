@@ -1923,7 +1923,7 @@ TSatUiResponse CSatUiViewAppUi::CallControlL(
         iCcNote->SetSoftkeys( R_AVKON_SOFTKEYS_OK_EMPTY );
         iCcNoteId = iCcNote->ShowNoteL( 
                                        EAknGlobalInformationNote, aText );
-        CreateCallBackTimerL( K3Seconds, CloseCallControlNoteL );
+        CreateCallBackTimerL( K3Seconds, CloseCallControlNote );
         if ( iWait && !iWait->IsStarted() )
             {
             TFLOGSTRING( "CSatUiViewAppUi::CallControlL iWait starting" )
@@ -2514,6 +2514,13 @@ void CSatUiViewAppUi::CloseDialogs()
         TFLOGSTRING( "CSatUiViewAppUi::CloseDialogs() iPermanentNote" )
         // CAknNoteDialog has already performed deletion when user action.
         iPermanentNote = NULL;
+        }
+    if ( iCcNote )
+        {
+        TFLOGSTRING( "CSatUiViewAppUi::CloseDialogs() iCcNote" )
+        TRAP_IGNORE( iCcNote->CancelNoteL( iCcNoteId ) );
+        delete iCcNote;
+        iCcNote = NULL;
         }
     TFLOGSTRING( "CSatUiViewAppUi::CloseDialogs() exit" )
     }
@@ -3375,34 +3382,37 @@ void CSatUiViewAppUi::PriorityVerifyAndClose( const TWsEvent& aEvent )
 // (other items were commented in a header).
 // ---------------------------------------------------------
 //
-TInt CSatUiViewAppUi::CloseCallControlNoteL( TAny* aPtr )
+TInt CSatUiViewAppUi::CloseCallControlNote( TAny* aPtr )
     {
     TFLOGSTRING( "CSatUiViewAppUi::CloseCallControlNote calling" )
 
+    TInt res( KErrNone );
     if ( !aPtr ) 
         {
-        return KErrArgument;
+        TFLOGSTRING( "CSatUiViewAppUi::CloseCallControlNote error" )
+        res = KErrArgument;
         }
-
-    CSatUiViewAppUi* pAppUi = 
-        reinterpret_cast<CSatUiViewAppUi*>( aPtr );
+    else
+        {
+        CSatUiViewAppUi* pAppUi = 
+            reinterpret_cast<CSatUiViewAppUi*>( aPtr );
     
-    TRAPD( err, pAppUi->iCcNote->CancelNoteL( pAppUi->iCcNoteId ) );
-    if( KErrNone != err )
-        {
-        return err;
-        }
-
-    if ( pAppUi->iWait->IsStarted() ) 
-        {
-        pAppUi->iWait->AsyncStop();
-        }
-    delete pAppUi->iCcNote;
-    pAppUi->iCcNote = NULL;
+        if ( pAppUi->iCcNote )
+            {
+            TRAP_IGNORE( 
+                pAppUi->iCcNote->CancelNoteL( pAppUi->iCcNoteId ) );
+            }
         
-    TFLOGSTRING( "CSatUiViewAppUi::CloseCallControlNote exiting" )
-    
-    return 0;
+        if ( pAppUi->iWait && pAppUi->iWait->IsStarted() ) 
+            {
+            pAppUi->iWait->AsyncStop();
+            }
+        delete pAppUi->iCcNote;
+        pAppUi->iCcNote = NULL;
+        }
+        
+    TFLOGSTRING( "CSatUiViewAppUi::CloseCallControlNote exiting" )    
+    return res;
     }
 
 // ---------------------------------------------------------

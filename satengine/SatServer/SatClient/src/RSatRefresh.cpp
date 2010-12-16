@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -275,8 +275,17 @@ void RSatRefresh::NotifyAllowRefresh(
 //
 void RSatRefresh::AllowRefreshL( TBool aAllow ) const
     {
-    LOG( SIMPLE, "SATCLIENT: RSatRefresh::AllowRefreshL calling" )
+    LOG2( SIMPLE, "SATCLIENT: RSatRefresh::AllowRefreshL calling aAllow %d",
+        aAllow )
 
+    #ifdef ENABLE_SAT_LOGGING
+    RProcess test;
+    LOG2( SIMPLE, 
+    "SATCLIENT: RSatRefresh::AllowRefreshL UID of calling process: 0x%x",
+    test.SecureId().iId )
+    test.Close();
+    #endif    
+    
     TPckg<TBool> allowPckg( aAllow );
     TIpcArgs arguments( &allowPckg );
     User::LeaveIfError( SendReceive( ESatSRefreshAllowed, arguments ) );

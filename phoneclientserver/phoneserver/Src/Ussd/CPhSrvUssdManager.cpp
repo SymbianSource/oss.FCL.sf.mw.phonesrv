@@ -1307,15 +1307,15 @@ void CPhSrvUssdManager::RunL()
                 }
             case EAknSoftkeyCancel:
                 _DPRINT( 4, "PhSrv.RunL.SK.Cancel" ); 
+                // fall through.
+            case EAknSoftkeyExit:
+                _DPRINT( 4, "PhSrv.RunL.SK.Exit" );
                 if ( iHavePendingSatMessagePointer )
                     {
                     iSatCanceled = ETrue;
                     CompleteSatL( &iReceivedMessage, KErrCancel );
                     _DPRINT( 4, "PhSrv.RunL.CompleteSatL" );
                     }
-                // fall through.
-            case EAknSoftkeyExit:
-                _DPRINT( 4, "PhSrv.RunL.SK.Exit" ); 
                 ClearArrayL();
                 TryCloseSession();
                 break;
@@ -1720,6 +1720,13 @@ void CPhSrvUssdManager::InformUssdApplicationTerminatingL(
             // session is not canceled, otherwise it is canceled.
             if ( exitReason != EPhCltSendCompleted )
                 {
+                if ( iHavePendingSatMessagePointer ) 
+                    {
+                    iSatCanceled = ETrue;
+                    CompleteSatL( &iReceivedMessage, KErrCancel );
+                    _DPRINT( 4, "PhSrv.UssdM.InfUssdAppTerminatingL.CompleteSatL" );
+                    }
+                
                 // debug print
                 _DPRINT( 4, "PhSrv.UssdM.InfUssdAppTerminatingL.SendRelease" );
                 CloseSession();

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -133,6 +133,14 @@ void CSatSRefreshSubSession::HandleCommandL( const RMessage2& aMessage )
     {
     LOG( SIMPLE, "SATENGINE: CSatSRefreshSubSession::HandleCommandL calling" )
 
+    LOG2( SIMPLE, 
+    "SATENGINE: CSatSRefreshSubSession::HandleCommandL UID of message: 0x%x",
+    aMessage.SecureId().iId )
+
+    LOG2( SIMPLE, 
+    "SATENGINE: CSatSRefreshSubSession::HandleCommandL VID of message: 0x%x",
+    aMessage.VendorId().iId )
+    
     switch ( aMessage.Function() )
         {
         case ESatSRefreshAllowed:

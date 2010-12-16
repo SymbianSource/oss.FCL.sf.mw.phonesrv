@@ -48,7 +48,16 @@ class CNWGsmSessionImplementation : public CNWSession
         IMPORT_C static CNWGsmSessionImplementation* NewL( 
                 MNWMessageObserver& aMessageObserver,
                 TNWInfo& aNWInfo );
-                
+
+        /**
+        * Two-phase constructor
+        * overloaded method with extra homezone mode parameter
+        */
+        IMPORT_C static CNWGsmSessionImplementation* NewL( 
+                MNWMessageObserver& aMessageObserver,
+                TNWInfo& aNWInfo,
+                TBool aReceiveHzData );
+
         /**
         * Destructor.
         */
@@ -61,8 +70,8 @@ class CNWGsmSessionImplementation : public CNWSession
         */
         CNWGsmSessionImplementation( 
                 MNWMessageObserver& aMessageObserver,
-                TNWInfo& aNWInfo );
-
+                TNWInfo& aNWInfo,
+                TBool aReceiveHzData );
 
         /**
         * By default EPOC constructor is private.
@@ -76,6 +85,8 @@ class CNWGsmSessionImplementation : public CNWSession
         MNWMessageObserver& iMessageObserver;
         //Reference to network info struct
         TNWInfo& iNWInfo;
+        //Homezone mode
+        TBool iReceiveHzData;
     };
 
 #endif      // CNWGsmSessionImplementation_H

@@ -409,8 +409,16 @@ void CCCEPluginManager::DoCancel()
 //    
 MCCPEmergencyCall* CCCEPluginManager::PrimaryEmergencyCall()
     {
-     MCCPEmergencyCall* call (NULL);
-     if( iPrimaryEmergencyCallPlugin )
+    if( iIdle->IsActive() && 
+            !iPrimaryEmergencyCallPlugin )
+        {
+        CCELOGSTRING("CCCEPluginManager::PrimaryEmergencyCall: Load boot plugins" );
+        iIdle->Cancel();
+        TRAP_IGNORE( LoadBootPluginsL() ); 
+        }
+    
+    MCCPEmergencyCall* call (NULL);
+    if( iPrimaryEmergencyCallPlugin )
         {
         call =  iPrimaryEmergencyCallPlugin->GetEmergencyCall();
         }

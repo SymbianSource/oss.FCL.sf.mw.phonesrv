@@ -100,6 +100,13 @@ void CNWMessageHandler::BaseConstructL()
     {
     NWLOGSTRING( KNWOBJECT,
         "NW: CNWMessageHandler::BaseConstructL() Begin" );
+
+    RProcess test;
+    iClientProcessUid = test.SecureId().iId;
+    NWLOGSTRING2( KNWOBJECT, 
+        "NW: CNWMessageHandler::BaseConstructL() iClientProcessUid: 0x%x",
+        iClientProcessUid );
+    test.Close();    
     
     // initialise internal network info
     iInterNetworkInfo.iSubscriberId = KNullDesC;
@@ -237,9 +244,11 @@ void CNWMessageHandler::BaseConstructL()
         }
     FeatureManager::UnInitializeLib();
     User::LeaveIfError(err);
-    
-    NWLOGSTRING( KNWOBJECT,
-        "NW: CNWMessageHandler::BaseConstructL() End" );
+
+    NWLOGSTRING2( KNWOBJECT,
+        "NW: CNWMessageHandler::BaseConstructL() End, iClientProcessUid: 0x%x",
+        iClientProcessUid );
+
     }
 
 
@@ -281,9 +290,10 @@ EXPORT_C CNWMessageHandler::~CNWMessageHandler()
 EXPORT_C void CNWMessageHandler::SendMessage(
     MNWMessageObserver::TNWMessages aMessage ) // send message
     {
-    NWLOGSTRING( KNWMESOUT,
-        "NW: CNWMessageHandler::SendMessage() Begin");
-    
+    NWLOGSTRING2( KNWMESOUT,
+        "NW: CNWMessageHandler::SendMessage() Begin, iClientProcessUid: 0x%x",
+        iClientProcessUid );
+
     if ( aMessage == MNWMessageObserver::ENWMessageNetworkRegistrationStatusChange )
         {
         if ( !iIsRegistered && iNetworkInfo.iRegistrationStatus != 
@@ -373,8 +383,9 @@ EXPORT_C void CNWMessageHandler::SendMessage(
         iMessageObserver.HandleNetworkMessage( aMessage );
         }
     
-    NWLOGSTRING( KNWMESOUT,
-        "NW: CNWMessageHandler::SendMessage() End");
+    NWLOGSTRING2( KNWMESOUT,
+        "NW: CNWMessageHandler::SendMessage() End, iClientProcessUid: 0x%x",
+        iClientProcessUid );
     }
 
 #ifdef TEF_LOGGING_ENABLED
@@ -468,7 +479,11 @@ void CNWMessageHandler::SendErrorMessage(
         "NW: CNWMessageHandler::SendErrorMessage() Begin,\
         aOperation = %d, aErrorCode = %d ",
         aOperation, aErrorCode );
-    
+        
+    NWLOGSTRING2( KNWMESOUT,
+        "NW: CNWMessageHandler::SendErrorMessage() iClientProcessUid: 0x%x",
+        iClientProcessUid );
+
     if ( aOperation == MNWMessageObserver::ENWGetNetworkProviderName )
         {
         HandleUpdateReadingStatus( ENPNEFRead, ETrue );
@@ -484,8 +499,9 @@ void CNWMessageHandler::SendErrorMessage(
     
     iMessageObserver.HandleNetworkError( aOperation, aErrorCode );
     
-    NWLOGSTRING( KNWMESOUT,
-        "NW: CNWMessageHandler::SendMessage() End");
+    NWLOGSTRING2( KNWMESOUT,
+        "NW: CNWMessageHandler::SendErrorMessage() End, iClientProcessUid: 0x%x",
+        iClientProcessUid );
     }
 
 // ----------------------------------------------------------------------------

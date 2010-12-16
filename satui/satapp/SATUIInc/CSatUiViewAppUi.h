@@ -518,7 +518,7 @@ class CSatUiViewAppUi : public CAknViewAppUi,
         * @param Pointer to creator
         * @return whetwer to call function again after an interval
         */
-        static TInt CloseCallControlNoteL( TAny* aPtr );
+        static TInt CloseCallControlNote( TAny* aPtr );
 
         /**
         * Creates a callback timer

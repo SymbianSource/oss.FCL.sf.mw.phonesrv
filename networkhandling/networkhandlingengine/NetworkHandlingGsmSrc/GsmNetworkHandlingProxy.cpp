@@ -36,8 +36,39 @@ EXPORT_C CNWSession* CreateL(
     {
     NWLOGSTRING( KNWOBJECT,
         "NW: CNWSession::CreateL() Called" );
+
+
+#ifdef NW_LOGGING_ENABLED
+    RProcess test;
+    NWLOGSTRING2( KNWOBJECT,
+        "NW: CNWSession::CreateL() process: 0x%x",
+        test.SecureId().iId );
+    test.Close();
+#endif
+
+    return CNWGsmSessionImplementation::NewL( aMessage, aTNWInfo, EFalse );
+    }
     
-    return CNWGsmSessionImplementation::NewL( aMessage, aTNWInfo );
+
+EXPORT_C CNWSession* CreateL(
+        MNWMessageObserver& aMessage,
+        TNWInfo& aTNWInfo,
+        TBool aReceiveHzData )
+    {
+    NWLOGSTRING2( KNWOBJECT,
+        "NW: CNWSession::CreateL() Called, aReceiveHzData=%d",
+        aReceiveHzData );
+
+#ifdef NW_LOGGING_ENABLED
+    RProcess test;
+    NWLOGSTRING2( KNWOBJECT,
+        "NW: CNWSession::CreateL() process: 0x%x",
+        test.SecureId().iId );
+    test.Close();
+#endif
+
+    return CNWGsmSessionImplementation::NewL( 
+        aMessage, aTNWInfo, aReceiveHzData );
     }
 
 //  End of File 

@@ -176,12 +176,13 @@ EXPORT_C RVmbxNumber::RVmbxNumber() : iNotifyCallBack( NULL ),
                                 iAlphaStringFound( EFalse ),
                                 iAlphaStringFromSIM( NULL ),
                                 iNumberFound( EFalse ),
+                                iPhoneBookType( EMBDNPhoneBook ),
                                 iUSimFirstRoundTest( ETrue ),
                                 iCntFetch( NULL ),
                                 iVmSpsHandler( NULL ),
                                 iVmBsHandler( NULL ),
                                 iFeatMgrInitialized( EFalse ),
-                                iSimCardFound( EFalse )              
+                                iSimCardFound( EFalse )
     {
     VMBLOGSTRING( "VMBX: RVmbxNumber::RVmbxNumber =>" );
 
@@ -414,6 +415,12 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
     VMBLOGSTRING2( "simStatus = %d", simStatus );
     if ( simStatus )//Is simCard supproted and it is not removed
         {
+        TInt result( KErrNone );
+        // SAT notification need to be subscribed only SIM card is found
+        TRAP( result, SubscribeSATNotificationsL() );
+        VMBLOGSTRING2( "VMBX: RVmbxNumber::RVmbxNumber : \
+        Subscribe SAT Notifications result %I", result );
+
         iSimCardFound = ETrue;
 
         // Get identifiers from MBI-file
@@ -470,9 +477,12 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
 
         if ( EAlsLine2 == alsline || EVMBXPhoneBook == iPhoneBookType )
             {
-            // the mbdn number is not used when line2 is active
-            // the number is only got from vmbx-phonebook
-            iMbdnPhonebookOk = EFalse;
+            if ( EAlsLine2 == alsline )
+                {
+                // the mbdn number is not used when line2 is active
+                // the number is only got from vmbx-phonebook
+                iMbdnPhonebookOk = EFalse;
+                }
             // try to open vmbx-type phonebook
             result = iPhoneBook.Open( iPhone, KETelIccVoiceMailBox );
             VMBLOGSTRING2( "Vmbx phonebook opening result = %I ", result );
@@ -489,8 +499,8 @@ EXPORT_C TInt RVmbxNumber::Open( RMobilePhone& aPhone )
         if ( iMbdnPhonebookOk && iNoNumberFound )
            {
            VMBLOGSTRING( "reopen mbdn" );
+           // close vmbx-phonebook
            iPhoneBook.Close();
-           // try open vmbx-phonebook next
            iPhoneBookType = EMBDNPhoneBook;
            // try to open mbdn-type phonebook
            result = iPhoneBook.Open( iPhone, KETelIccMbdnPhoneBook );
@@ -1733,7 +1743,6 @@ EXPORT_C void RVmbxNumber::NotifyVmbxNumberChangeL(
                         User::Panic( KVmbxPanicCategory, EVmbxNotConnected ) );
 
     iNotifyCallBack = aHandler;
-    SubscribeSATNotificationsL(); // subscribe SAT notifications
 
     // only issue a new notify request if there isn't one already
     if ( !( iFlags & KVmFlagNotifyRequested ) )
@@ -1761,6 +1770,8 @@ EXPORT_C void RVmbxNumber::NotifyVmbxNumberChangeL(
 // -----------------------------------------------------------------------------
 void RVmbxNumber::SubscribeSATNotificationsL()
     {
+    VMBLOGSTRING2( "VMBX: RVmbxNumber::SubscribeSATNotificationsL: => \
+    Current phone book type, iPhoneBookType is = %d", iPhoneBookType );
     if ( iPhoneBookType == EMBDNPhoneBook )
         {
         iRSatSession.ConnectL();
@@ -1769,6 +1780,7 @@ void RVmbxNumber::SubscribeSATNotificationsL()
         iObservedFileList.Append( KMbiEf );
         iRSatClient.NotifyFileChangeL( iObservedFileList );
         }
+    VMBLOGSTRING( "VMBX: RVmbxNumber::SubscribeSATNotificationsL: <=" );
     }
 
 // -----------------------------------------------------------------------------
@@ -3489,7 +3501,8 @@ TBool RVmbxNumber::AllowRefresh(
         {
         allowRefresh = EFalse;
         }
-    VMBLOGSTRING( "VMBX: RVmbxNumber::AllowRefresh: <=" );
+    VMBLOGSTRING2( "VMBX: RVmbxNumber::AllowRefresh: <= \
+    allowRefresh result is = %d", allowRefresh );
     return allowRefresh;
     }
 
@@ -3514,8 +3527,9 @@ TBool RVmbxNumber::AllowRefresh(
             if ( !error )
                 {
                 TVmbxEntry entry;
-                entry.iIndex = 1;
-                TInt ret = DoPhonebookOperation( EVmbxPhonebookRead, &entry );
+                error = ReOpenPhonebook( entry );
+                VMBLOGSTRING2( "VMBX: RVmbxNumber::Refresh: \
+                Reopen phone book result is = %d", error );
 
                 // Notify SAT Server that refresh initiated file read is done
                 iRSatClient.RefreshEFRead( EFalse );
@@ -4671,4 +4685,89 @@ TBool RVmbxNumber::IsInactiveLineEdited( TInt& aInactiveLineNumber )
 	return result;
 	}
 
+// -----------------------------------------------------------------------------
+// RVmbxNumber::ReOpenPhonebook
+// Recheck which type of phone book is used when "SAT Refresh" is done
+// -----------------------------------------------------------------------------
+//
+TInt RVmbxNumber::ReOpenPhonebook( TVmbxEntry& aEntry )
+    {
+    VMBLOGSTRING( "VMBX: RVmbxNumber::ReOpenPhonebookL: =>" );
+
+    TInt result( KErrNone );
+    TInt lineNumber( EAlsLine1 );
+    // MBDN phonebook is default used
+    iPhoneBookType = EMBDNPhoneBook;
+
+    // close the opened phonebook(MBDN or VMBX)
+    iPhoneBook.Close();
+
+    // get the current ALS line
+    GetAlsLine( lineNumber );
+
+    // MBDN is used only if ALS is disabled.
+    if ( EAlsLine1 == lineNumber )
+        {
+        // reopen MBDN phonebook
+        result = iPhoneBook.Open( iPhone, KETelIccMbdnPhoneBook );
+        VMBLOGSTRING2( "VMBX: RVmbxNumber::ReOpenPhonebookL: \
+        MBDN phonebook reopening result = %I", result );
+        if ( KErrNone != result )
+            {
+            // open MBDN phonebook failed, close it
+            iPhoneBook.Close();
+            iPhoneBookType = EVMBXPhoneBook;
+            }
+        else
+            {
+            // set MBDN entry index
+            aEntry.iIndex = EAlsLine1;
+            // get the number from MBDN phonebook
+            result = DoPhonebookOperation( EVmbxPhonebookRead, &aEntry );
+            VMBLOGSTRING3( "VMBX: RVmbxNumber::ReOpenPhonebookL: MBDN operation \
+            result = %d, number length = %d", result, aEntry.iTelNumber.Length() );
+
+            if ( ( ( KErrNone != result ) && ( KErrNotFound != result ) ) ||
+            ( ( ( KErrNone == result ) || ( KErrNotFound == result ) ) 
+                && !aEntry.iTelNumber.Length() ) )
+                {
+                // MBDN phonebook is unavailable, close it
+                iPhoneBook.Close();
+                iPhoneBookType = EVMBXPhoneBook;
+                }
+            }
+        }
+    else
+        {
+        // ALS2 is active, VMBX phonebook will be used.
+        iPhoneBookType = EVMBXPhoneBook;
+        }
+
+    if ( EVMBXPhoneBook == iPhoneBookType )
+        {
+        // open VMBX phonebook
+        result = iPhoneBook.Open( iPhone, KETelIccVoiceMailBox );
+        VMBLOGSTRING2( "VMBX: RVmbxNumber::ReOpenPhonebookL: \
+        VMBX phonebook reopening result = %I", result );
+
+        if ( KErrNone != result )
+            {
+            // open VMBX phonebook failed, close it
+            iPhoneBook.Close();
+            }
+        else
+            {
+            // set VMBX entry index
+            aEntry.iIndex = lineNumber;
+            // get the number from VMBX phonebook
+            result = DoPhonebookOperation( EVmbxPhonebookRead, &aEntry );
+            VMBLOGSTRING3( "VMBX: RVmbxNumber::ReOpenPhonebookL: VMBX operation \
+            result = %d, number length = %d", result, aEntry.iTelNumber.Length() );
+            }
+        }
+
+    VMBLOGSTRING2( "VMBX: RVmbxNumber::ReOpenPhonebookL: result = %d",
+    result );
+    return result;
+    }
 //  End of File

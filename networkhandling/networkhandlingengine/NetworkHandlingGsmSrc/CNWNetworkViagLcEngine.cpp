@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1296,23 +1296,26 @@ TInt CNWNetworkViagLcEngine::CompareTIntCellIdValues(
     TInt err = tempCellId.Val( cellid );
     err = tempCmpCellId.Val( cmpcellid );
     
+    TInt ret = KErrNone;
     if ( err == KErrNone && cellid == cmpcellid )
         {
         NWLOGSTRING3( KNWOBJECT, 
             "NW: CNWNetworkViagLcEngine::CompareTIntCellIdValues(),\
             err = %d, cellid = %d ", err, cellid );
-        return KErrNone;
+        ret = KErrNone;
         }
     else 
         {
         NWLOGSTRING( KNWOBJECT, 
             "NW: CNWNetworkViagLcEngine::CompareTIntCellIdValues(),\
             values not match " );
-        return KErrNotFound;
+        ret = KErrNotFound;
         }
     
-    NWLOGSTRING( KNWOBJECT, 
-        "NW: CNWNetworkViagLcEngine::CompareTIntCellIdValues() End " );
+    NWLOGSTRING2( KNWOBJECT, 
+        "NW: CNWNetworkViagLcEngine::CompareTIntCellIdValues() End,\
+        ret = %d",ret );
+    return ret;
     }
 
 //  End of File  

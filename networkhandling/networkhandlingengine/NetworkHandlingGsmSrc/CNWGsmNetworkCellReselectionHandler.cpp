@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -42,23 +42,27 @@ CNWGsmNetworkCellReselectionHandler::CNWGsmNetworkCellReselectionHandler(
         RMobilePhone& aPhone,
         TNWInfo& aNetworkInfo,
         RMmCustomAPI& aCustomAPI,
-        TNWInterInfo& aInterNetworkInfo)
+        TNWInterInfo& aInterNetworkInfo,
+        TBool aReceiveHzData )
         : CActive( EPriorityStandard ),
+        iViagEngine( NULL ),
         iOwner( aOwner ),
         iPhone( aPhone ),
         iNWNetworkInfo( aNetworkInfo ),
         iCustomAPI ( aCustomAPI ),
-        iInterNetworkInfo( aInterNetworkInfo )
+        iInterNetworkInfo( aInterNetworkInfo ),
+        iReceiveHzData( aReceiveHzData )
     {
-    NWLOGSTRING( KNWMESOUT, 
-        "NW: CNWGsmMessageHandler::CNWGsmNetworkCellReselectionHandler()\
-        Begin" );
+    NWLOGSTRING2( KNWMESOUT, 
+        "NW: CNWGsmNetworkCellReselectionHandler::CNWGsmNetworkCellReselectionHandler()\
+        Begin, iReceiveHzData=%d",
+        iReceiveHzData );
     
     iMcnState = EFalse;
     CActiveScheduler::Add( this );
     
     NWLOGSTRING( KNWMESOUT, 
-        "NW: CNWGsmMessageHandler::CNWGsmNetworkCellReselectionHandler()\
+        "NW: CNWGsmNetworkCellReselectionHandler::CNWGsmNetworkCellReselectionHandler()\
         End" );
     }
 // ----------------------------------------------------------------------------
@@ -68,7 +72,7 @@ CNWGsmNetworkCellReselectionHandler::CNWGsmNetworkCellReselectionHandler(
 //
 void CNWGsmNetworkCellReselectionHandler::ConstructL()
     {
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::ConstructL() Begin" );
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmNetworkCellReselectionHandler::ConstructL() Begin" );
 
     // Attach to startup property
     User::LeaveIfError( 
@@ -103,14 +107,28 @@ void CNWGsmNetworkCellReselectionHandler::ConstructL()
         {
         NotifyCbsServerStateChanged();
         }
-
-    iViagEngine = CNWNetworkViagBaseEngine::NewL( 
-                        *this,
-                        iOwner,
-                        iCustomAPI,
-                        iNWNetworkInfo,
-                        iInterNetworkInfo
-                        );
+        
+#ifdef NW_LOGGING_ENABLED
+    RProcess thisProcess;
+    NWLOGSTRING2( KNWOBJECT,
+        "NW: NWGsmNetworkCellReselectionHandler::ConstructL() process: 0x%x",
+        thisProcess.SecureId().iId );
+    thisProcess.Close();
+#endif 
+   
+    NWLOGSTRING2( KNWOBJECT,
+        "NW: NWGsmNetworkCellReselectionHandler::ConstructL(): iReceiveHzData=%d",
+        iReceiveHzData );
+    if ( iReceiveHzData ) 
+        {
+        iViagEngine = CNWNetworkViagBaseEngine::NewL( 
+                            *this,
+                            iOwner,
+                            iCustomAPI,
+                            iNWNetworkInfo,
+                            iInterNetworkInfo
+                            );
+        }
              
     iMcnEngine = CNWNetworkMcnEngine::NewL(
                 iOwner,
@@ -119,7 +137,7 @@ void CNWGsmNetworkCellReselectionHandler::ConstructL()
                 *this );
                 
     // Start SatRefresh handler if CBS server is already started.
-    if ( iMcn )
+    if ( iMcn && iViagEngine )
         {
         iViagEngine->StartupReadyL();
         }
@@ -137,22 +155,24 @@ CNWGsmNetworkCellReselectionHandler* CNWGsmNetworkCellReselectionHandler::NewL(
         RMobilePhone& aPhone,
         TNWInfo& aNetworkInfo,
         RMmCustomAPI& aCustomAPI,
-        TNWInterInfo& aInterNetworkInfo )
+        TNWInterInfo& aInterNetworkInfo,
+        TBool aReceiveHzData )
     {
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::NewL() Begin" );
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmNetworkCellReselectionHandler::NewL() Begin" );
     
     CNWGsmNetworkCellReselectionHandler* self = 
         new (ELeave) CNWGsmNetworkCellReselectionHandler ( aOwner,
                                                            aPhone,
                                                            aNetworkInfo,
                                                            aCustomAPI,
-                                                           aInterNetworkInfo );
+                                                           aInterNetworkInfo,
+                                                           aReceiveHzData );
     
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
 
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::NewL() End" );
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmNetworkCellReselectionHandler::NewL() End" );
     return self;
     }
 
@@ -160,7 +180,7 @@ CNWGsmNetworkCellReselectionHandler* CNWGsmNetworkCellReselectionHandler::NewL(
 // Destructor
 CNWGsmNetworkCellReselectionHandler::~CNWGsmNetworkCellReselectionHandler()
     {
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::\
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmNetworkCellReselectionHandler::\
         ~CNWGsmNetworkCellReselectionHandler() Begin " );
     
     Cancel();
@@ -173,7 +193,7 @@ CNWGsmNetworkCellReselectionHandler::~CNWGsmNetworkCellReselectionHandler()
   
     iProperty.Close();
     
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::\
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmNetworkCellReselectionHandler::\
         ~CNWGsmNetworkCellReselectionHandler() End " );
     }
 
@@ -188,7 +208,7 @@ CNWGsmNetworkCellReselectionHandler::~CNWGsmNetworkCellReselectionHandler()
 //
 void CNWGsmNetworkCellReselectionHandler::HandleCellReselection( )
     {
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::\
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmNetworkCellReselectionHandler::\
         HandleCellReselection() Begin " );
 
     if( iViagEngine )
@@ -198,7 +218,7 @@ void CNWGsmNetworkCellReselectionHandler::HandleCellReselection( )
         }
     iMcnEngine->CellReselection();
 
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::\
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmNetworkCellReselectionHandler::\
         HandleCellReselection() End " );
     }
 
@@ -209,11 +229,8 @@ void CNWGsmNetworkCellReselectionHandler::HandleCellReselection( )
 //
 CMcn* CNWGsmNetworkCellReselectionHandler::GetMcnPtr()
     {
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::GetMcnPtr() Begin " );
-    
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::GetMcnPtr()" );
     return iMcn;
-    
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::GetMcnPtr() End " );
     }
 
 // ----------------------------------------------------------------------------
@@ -224,11 +241,8 @@ CMcn* CNWGsmNetworkCellReselectionHandler::GetMcnPtr()
 //
 void CNWGsmNetworkCellReselectionHandler::DoCancel()
     {
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::DoCancel() Begin " );
-    
+    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmNetworkCellReselectionHandler::DoCancel()" );
     iProperty.Cancel();   
-    
-    NWLOGSTRING( KNWMESOUT, "NW: CNWGsmMessageHandler::DoCancel() End " );
     }
 
 // ----------------------------------------------------------------------------
@@ -252,7 +266,11 @@ void CNWGsmNetworkCellReselectionHandler::RunL()
         if ( !iMcn )
             {
             iMcn = CMcn::NewL();
-            iViagEngine->StartupReadyL();
+            
+            if( iViagEngine )
+                {
+                iViagEngine->StartupReadyL();
+                }
             iMcnState = ETrue;
             }
         }
@@ -317,8 +335,10 @@ void CNWGsmNetworkCellReselectionHandler::UpdateReadingStatus(
         UpdateReadingStatus() Begin, aReadStatus = %d ",
         aReadStatus );
     
-    iViagEngine->UpdateEFReadingState( aElementFile, aReadStatus );
-    
+    if( iViagEngine )
+        {
+        iViagEngine->UpdateEFReadingState( aElementFile, aReadStatus );
+        }
     NWLOGSTRING( KNWREQOUT, 
         "NET CNWGsmNetworkCellReselectionHandler::\
         UpdateReadingStatus() End " );

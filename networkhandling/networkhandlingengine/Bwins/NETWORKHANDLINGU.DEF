@@ -10,4 +10,6 @@ EXPORTS
 	?NewL@CNWNetworkRegistrationStatusMonitor@@SAPAV1@AAVCNWMessageHandler@@AAVRMobilePhone@@AAUTNWInfo@@AAVRMmCustomAPI@@@Z @ 9 NONAME ; class CNWNetworkRegistrationStatusMonitor * CNWNetworkRegistrationStatusMonitor::NewL(class CNWMessageHandler &, class RMobilePhone &, struct TNWInfo &, class RMmCustomAPI &)
 	?SendErrorMessage@CNWMessageHandler@@QAEXW4TNWOperation@MNWMessageObserver@@H@Z @ 10 NONAME ; void CNWMessageHandler::SendErrorMessage(enum MNWMessageObserver::TNWOperation, int)
 	?SendMessage@CNWMessageHandler@@UAEXW4TNWMessages@MNWMessageObserver@@@Z @ 11 NONAME ; void CNWMessageHandler::SendMessage(enum MNWMessageObserver::TNWMessages)
+	?NewL@CNWGsmSessionImplementation@@SAPAV1@AAVMNWMessageObserver@@AAUTNWInfo@@H@Z @ 12 NONAME ; class CNWGsmSessionImplementation * CNWGsmSessionImplementation::NewL(class MNWMessageObserver &, struct TNWInfo &, int)
+	?CreateL@@YAPAVCNWSession@@AAVMNWMessageObserver@@AAUTNWInfo@@H@Z @ 13 NONAME ; class CNWSession * CreateL(class MNWMessageObserver &, struct TNWInfo &, int)
 

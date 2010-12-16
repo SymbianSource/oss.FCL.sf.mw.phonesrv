@@ -37,7 +37,7 @@
 #include <rsatsession.h>
 #include <rsatrefresh.h>
 #include <centralrepository.h>
-#include <CenRepNotifyHandler.h>
+#include <cenrepnotifyhandler.h>
 #include <aknappui.h>
 #include <AknQueryDialog.h>
 #include <CPhCltEmergencyCall.h>     // CPhCltEmergencyCall
@@ -1212,6 +1212,13 @@ class RVmbxNumber : public MCenRepNotifyHandlerCallback,
          */
         TBool IsInactiveLineEdited( TInt& aInactiveLineNumber );
 
+        /**
+         * Recheck which type of phone book is used when "SAT Refresh" is done
+         * @since S60 v5.2
+         * @param aEntry Vmbx sim entry data
+         * @return Symbian OS error code (KErrNone is successful) 
+         */
+        TInt ReOpenPhonebook( TVmbxEntry& aEntry );
     private:  // data
 
         // Observer for user action for saved vmbx number

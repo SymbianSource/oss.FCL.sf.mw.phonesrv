@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -133,7 +133,12 @@ class CSatClientServiceReq : public CBase
         const TSatServerRequest iHandledResponse;
 
         // Command from SIM
+        // Not own
         MSatCommand* iResponseObserver;
+
+        // Command from SIM for the pending request.
+        // Not own
+        MSatCommand* iPendingResponseObserver;
 
         // Indicates if the command from SIM is not yet sent to client
         TBool iCmdPending;
@@ -145,10 +150,20 @@ class CSatClientServiceReq : public CBase
         TBool iRequestPending;
 
         // Data from SIM.
+        // Not own
         TDesC8* iCmdData;
 
         // Response from client..
+        // Not own
         TDes8* iCmdRsp;
+
+        // Data from SIM for pending command.
+        // Not own
+        TDesC8* iPendingCmdData;
+
+        // Response from client for pending command.
+        // Not own
+        TDes8* iPendingCmdRsp;
 
         // Utilities class
         MSatUtils& iUtils;

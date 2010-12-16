@@ -200,6 +200,14 @@ void CNWNetworkViagBaseEngine::CellReselection()
     {
     NWLOGSTRING( KNWOBJECT,
         "NW: CNWNetworkViagBaseEngine::CellResection() Begin" );
+        
+#ifdef NW_LOGGING_ENABLED
+    RProcess test;
+    NWLOGSTRING2( KNWOBJECT,
+        "NW: CNWNetworkViagBaseEngine::CellResection() process: 0x%x",
+        test.SecureId().iId );
+    test.Close();
+#endif    
 
     // SIM OK
     // VIAG IMSI OK
@@ -256,6 +264,11 @@ void CNWNetworkViagBaseEngine::CellReselection()
             NWLOGSTRING2( KNWOBJECT, 
                 "NW: CNWNetworkViagBaseEngine::CellReselection(),\
                 iAreaKnown = %d",iInterNetworkInfo.iAreaKnown );
+                
+            NWLOGSTRING2( KNWOBJECT, 
+                "NW: CNWNetworkViagBaseEngine::CellReselection(), iViagActiveAlgo = %d",
+                iViagActiveAlgo );
+
             // Reset  the indications
             WriteViagValues( ENWViagIndicatorTypeNone, KNWzero ); 
             if ( iNWNetworkInfo.iStatus == ENWStatusCurrent 
